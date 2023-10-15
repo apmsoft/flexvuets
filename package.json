@@ -1,0 +1,32 @@
+{
+  "name": "flexvue",
+  "version": "2.5",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "debug": "echo \"Error: no debug specified\" && exit 1",
+    "build": "tsc --build --watch",
+    "release": "cp -fr ./debug/* ./v1",
+
+    "clean": "tsc --build --clean",
+    "clean_release": "rm -fr ./v1/*",
+
+    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./debug/example/css/tailwind.css --watch --minify"
+  },
+  "author": "fancyupsoft.com",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-transform-html-import-to-string": "^2.0.0",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.6",
+    "@types/jquery": "^3.5.22",
+    "@types/node": "^20.8.6",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.3",
+    "ts-node": "^10.5.0"
+  }
+}
