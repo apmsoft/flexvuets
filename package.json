@@ -11,7 +11,7 @@
     "clean": "tsc --build --clean",
     "clean_release": "rm -fr ./v1/*",
 
-    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./debug/example/css/tailwind.css --watch --minify"
+    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./debug/css/tailwind.css --watch --minify"
   },
   "author": "fancyupsoft.com",
   "license": "ISC",

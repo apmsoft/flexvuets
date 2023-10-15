@@ -57,7 +57,7 @@ const random_number = (min:number,max:number) : number =>{
 }
 
 // 이모티콘 변경용 let nm = "dfds (우리립) (/rock) <small>dsafadsfads</small> (/paper)" -> (/rock) -> img icon
-const change_icons = (contents?: string): string | undefined => {
+const change_icons = (contents: string, _icons : {[prepName:string] : any}): string => {
     if (!contents || contents.length < 1) {
         return contents;
     }
@@ -66,7 +66,7 @@ const change_icons = (contents?: string): string | undefined => {
     if (s) {
         s.forEach(em => {
             const em_key: string = em.replace(/[\W]/gi, "");
-            const icon: string = `<img src="images/icons/${em_key}.png" class="inline-block" />`;
+            const icon: string = _icons[em_key]? `<img src="${_icons[em_key]}" class="inline-block" />` : '';
             contents = contents?.replace(em, icon);
         });
     }

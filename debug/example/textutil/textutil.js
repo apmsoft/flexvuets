@@ -23,7 +23,7 @@ const onReady = () => {
     Log.d('random_number : ', random_number);
     $el.insertAdjacentHTML('afterend', `random_number : ${random_number}<br>`);
     // change_icons
-    let change_icons = TextUtil.change_icons('dfds (우리립) (/rock) <small>dsafadsfads</small> (/paper)');
+    let change_icons = TextUtil.change_icons('(가위바위보) (/rock) 주먹 vs 보 (/paper)', { rock: '../images/icons/rock.png', paper: '../images/icons/paper.png' });
     Log.d('change_icons : ', change_icons !== null && change_icons !== void 0 ? change_icons : '-');
     $el.insertAdjacentHTML('afterend', `change_icons : ${change_icons !== null && change_icons !== void 0 ? change_icons : '-'}<br>`);
 };

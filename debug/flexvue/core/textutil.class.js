@@ -49,7 +49,7 @@ const random_number = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 };
 // 이모티콘 변경용 let nm = "dfds (우리립) (/rock) <small>dsafadsfads</small> (/paper)" -> (/rock) -> img icon
-const change_icons = (contents) => {
+const change_icons = (contents, _icons) => {
     if (!contents || contents.length < 1) {
         return contents;
     }
@@ -57,7 +57,7 @@ const change_icons = (contents) => {
     if (s) {
         s.forEach(em => {
             const em_key = em.replace(/[\W]/gi, "");
-            const icon = `<img src="images/icons/${em_key}.png" class="inline-block" />`;
+            const icon = _icons[em_key] ? `<img src="${_icons[em_key]}" class="inline-block" />` : '';
             contents = contents === null || contents === void 0 ? void 0 : contents.replace(em, icon);
         });
     }
