@@ -1,0 +1,83 @@
+ES6+, TypeScript, Tailwind CSS
+
+TypeScript
+
+# install
+npm install -D typescript
+npm install -D ts-node
+npm install @types/node --save-dev
+npm install --save-dev @types/jquery
+npx tsc --init
+
+# tailwind css install
+https://tailwindcss.com/docs/installation
+
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init
+npm install -D @tailwindcss/forms
+npm install -D @tailwindcss/aspect-ratio
+
+# tsconfig.json
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "outDir": "debug",
+    "rootDir": "src",
+    "types": ["node", "jquery"],
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+
+
+# 파일 하나씩 또는 디렉토리 단위로
+tsc src/flexvue/flexvue.ts -outFile ./dist/flexvue/flexvue.js
+tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
+
+# nodejs build setting
+>> package.json
+{
+  "name": "flexvue",
+  "version": "3.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "debug": "echo \"Error: no debug specified\" && exit 1",
+    "build": "tsc --build",
+    "release": "cp -fr ./debug/* ./release",
+    "release_clean": "rm -fr ./release/*",
+    "clean": "tsc --build --clean",
+    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./dist/example/css/tailwind.css --watch --minify"
+  },
+  "author": "fancyupsoft.com",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "ts-node": "^10.5.0"
+  }
+}
+
+>> npm run build
+>> npm run clean
+
+>> npm run release
+>> npm run clean_release
+

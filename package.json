@@ -16,7 +16,6 @@
   "author": "fancyupsoft.com",
   "license": "ISC",
   "dependencies": {
-    "babel-plugin-transform-html-import-to-string": "^2.0.0",
     "typescript": "^4.5.5"
   },
   "devDependencies": {
