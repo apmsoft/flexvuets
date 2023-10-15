@@ -1,8 +1,9 @@
 ES6+, TypeScript, Tailwind CSS
 
-TypeScript
+http://flexvue.fancyupsoft.com
 
-# install
+
+# TypeScript install
 npm install -D typescript
 npm install -D ts-node
 npm install @types/node --save-dev
