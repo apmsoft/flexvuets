@@ -19,17 +19,17 @@
  * @memberof module:object
  */
 function extend(target, objects) {
-  var hasOwnProp = Object.prototype.hasOwnProperty;
-  var source, prop, i, len;
-  for (i = 1, len = arguments.length; i < len; i += 1) {
-    source = arguments[i];
-    for (prop in source) {
-      if (hasOwnProp.call(source, prop)) {
-        target[prop] = source[prop];
-      }
+    var hasOwnProp = Object.prototype.hasOwnProperty;
+    var source, prop, i, len;
+    for (i = 1, len = arguments.length; i < len; i += 1) {
+        source = arguments[i];
+        for (prop in source) {
+            if (hasOwnProp.call(source, prop)) {
+                target[prop] = source[prop];
+            }
+        }
     }
-  }
-  return target;
+    return target;
 }
 var extend_1 = extend;
 /**
@@ -44,7 +44,7 @@ var extend_1 = extend;
  * @memberof module:type
  */
 function isArray$1(obj) {
-  return obj instanceof Array;
+    return obj instanceof Array;
 }
 var isArray_1 = isArray$1;
 /* eslint-disable complexity */
@@ -74,22 +74,22 @@ var isArray = isArray_1;
  * const idx2 = inArray('one', arr); // 0
  */
 function inArray(searchElement, array, startIndex) {
-  var i;
-  var length;
-  startIndex = startIndex || 0;
-  if (!isArray(array)) {
-    return -1;
-  }
-  if (Array.prototype.indexOf) {
-    return Array.prototype.indexOf.call(array, searchElement, startIndex);
-  }
-  length = array.length;
-  for (i = startIndex; startIndex >= 0 && i < length; i += 1) {
-    if (array[i] === searchElement) {
-      return i;
+    var i;
+    var length;
+    startIndex = startIndex || 0;
+    if (!isArray(array)) {
+        return -1;
     }
-  }
-  return -1;
+    if (Array.prototype.indexOf) {
+        return Array.prototype.indexOf.call(array, searchElement, startIndex);
+    }
+    length = array.length;
+    for (i = startIndex; startIndex >= 0 && i < length; i += 1) {
+        if (array[i] === searchElement) {
+            return i;
+        }
+    }
+    return -1;
 }
 var inArray_1 = inArray;
 /**
@@ -97,56 +97,57 @@ var inArray_1 = inArray;
  * @ignore
  * @classdesc ES6 Map
  */
-var Map = /** @class */function () {
-  function Map() {
-    this.keys = [];
-    this.values = [];
-  }
-  Map.prototype.getKeyIndex = function (key) {
-    return inArray_1(key, this.keys);
-  };
-  Map.prototype.get = function (key) {
-    return this.values[this.getKeyIndex(key)];
-  };
-  Map.prototype.set = function (key, value) {
-    var keyIndex = this.getKeyIndex(key);
-    if (keyIndex > -1) {
-      this.values[keyIndex] = value;
-    } else {
-      this.keys.push(key);
-      this.values.push(value);
+var Map = /** @class */ (function () {
+    function Map() {
+        this.keys = [];
+        this.values = [];
     }
-    return this;
-  };
-  Map.prototype.has = function (key) {
-    return this.getKeyIndex(key) > -1;
-  };
-  Map.prototype.delete = function (key) {
-    var keyIndex = this.getKeyIndex(key);
-    if (keyIndex > -1) {
-      this.keys.splice(keyIndex, 1);
-      this.values.splice(keyIndex, 1);
-      return true;
-    }
-    return false;
-  };
-  Map.prototype.forEach = function (callback, thisArg) {
-    var _this = this;
-    if (thisArg === void 0) {
-      thisArg = this;
-    }
-    this.values.forEach(function (value, index) {
-      if (value && _this.keys[index]) {
-        callback.call(thisArg, value, _this.keys[index], _this);
-      }
-    });
-  };
-  Map.prototype.clear = function () {
-    this.keys = [];
-    this.values = [];
-  };
-  return Map;
-}();
+    Map.prototype.getKeyIndex = function (key) {
+        return inArray_1(key, this.keys);
+    };
+    Map.prototype.get = function (key) {
+        return this.values[this.getKeyIndex(key)];
+    };
+    Map.prototype.set = function (key, value) {
+        var keyIndex = this.getKeyIndex(key);
+        if (keyIndex > -1) {
+            this.values[keyIndex] = value;
+        }
+        else {
+            this.keys.push(key);
+            this.values.push(value);
+        }
+        return this;
+    };
+    Map.prototype.has = function (key) {
+        return this.getKeyIndex(key) > -1;
+    };
+    Map.prototype.delete = function (key) {
+        var keyIndex = this.getKeyIndex(key);
+        if (keyIndex > -1) {
+            this.keys.splice(keyIndex, 1);
+            this.values.splice(keyIndex, 1);
+            return true;
+        }
+        return false;
+    };
+    Map.prototype.forEach = function (callback, thisArg) {
+        var _this = this;
+        if (thisArg === void 0) {
+            thisArg = this;
+        }
+        this.values.forEach(function (value, index) {
+            if (value && _this.keys[index]) {
+                callback.call(thisArg, value, _this.keys[index], _this);
+            }
+        });
+    };
+    Map.prototype.clear = function () {
+        this.keys = [];
+        this.values = [];
+    };
+    return Map;
+}());
 /**
  * @fileoverview Implements i18n
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -156,46 +157,47 @@ var DEFAULT_CODE = 'en-US';
  * Class I18n
  * @ignore
  */
-var I18n = /** @class */function () {
-  function I18n() {
-    this.code = DEFAULT_CODE;
-    this.langs = new Map();
-  }
-  I18n.prototype.setCode = function (code) {
-    this.code = code || DEFAULT_CODE;
-  };
-  /**
-   * Set language set
-   * @param {string|string[]} codes locale code
-   * @param {object} data language set
-   */
-  I18n.prototype.setLanguage = function (codes, data) {
-    var _this = this;
-    codes = [].concat(codes);
-    codes.forEach(function (code) {
-      if (!_this.langs.has(code)) {
-        _this.langs.set(code, data);
-      } else {
-        var langData = _this.langs.get(code);
-        _this.langs.set(code, extend_1(langData, data));
-      }
-    });
-  };
-  I18n.prototype.get = function (key, code) {
-    if (!code) {
-      code = this.code;
+var I18n = /** @class */ (function () {
+    function I18n() {
+        this.code = DEFAULT_CODE;
+        this.langs = new Map();
     }
-    var langSet = this.langs.get(code);
-    if (!langSet) {
-      langSet = this.langs.get(DEFAULT_CODE);
-    }
-    var text = langSet[key];
-    if (!text) {
-      throw new Error("There is no text key \"" + key + "\" in " + code);
-    }
-    return text;
-  };
-  return I18n;
-}();
+    I18n.prototype.setCode = function (code) {
+        this.code = code || DEFAULT_CODE;
+    };
+    /**
+     * Set language set
+     * @param {string|string[]} codes locale code
+     * @param {object} data language set
+     */
+    I18n.prototype.setLanguage = function (codes, data) {
+        var _this = this;
+        codes = [].concat(codes);
+        codes.forEach(function (code) {
+            if (!_this.langs.has(code)) {
+                _this.langs.set(code, data);
+            }
+            else {
+                var langData = _this.langs.get(code);
+                _this.langs.set(code, extend_1(langData, data));
+            }
+        });
+    };
+    I18n.prototype.get = function (key, code) {
+        if (!code) {
+            code = this.code;
+        }
+        var langSet = this.langs.get(code);
+        if (!langSet) {
+            langSet = this.langs.get(DEFAULT_CODE);
+        }
+        var text = langSet[key];
+        if (!text) {
+            throw new Error("There is no text key \"" + key + "\" in " + code);
+        }
+        return text;
+    };
+    return I18n;
+}());
 var i18n = new I18n();
 export { I18n, i18n as default };

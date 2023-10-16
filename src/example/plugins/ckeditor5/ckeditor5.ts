@@ -1,9 +1,8 @@
-/** ckeditor5 */
+// @ts-nocheck
 import {} from 'src/flexvue/plugins/ckeditor5/ckeditor.js';
 
 const onReady = () : void =>
 {
-    // editor
     ClassicEditor.create( document.querySelector( '#description' ),{
         toolbar: {
             items: [
@@ -30,16 +29,14 @@ const onReady = () : void =>
             ]
         },
     })
-    // @ts-ignore
     .then(editor => {
         editor = editor;
         editor.editing.view.focus();
 
         // $('.ck-editor').addClass('noSwipe');
     })
-    // @ts-ignore
     .catch( error => {
-        Log.e( error );
+        Log.e( 'ck-editor error' );
     });
 };
 
