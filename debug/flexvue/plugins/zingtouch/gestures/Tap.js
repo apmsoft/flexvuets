@@ -2,15 +2,12 @@
  * @file Tap.js
  * Contains the Tap class
  */
-
-import Gesture from './Gesture.js';
-import util from './../core/util.js';
-
+import Gesture from "./Gesture.js";
+import util from "./../core/util.js";
 const DEFAULT_MIN_DELAY_MS = 0;
 const DEFAULT_MAX_DELAY_MS = 300;
 const DEFAULT_INPUTS = 1;
 const DEFAULT_MOVE_PX_TOLERANCE = 10;
-
 /**
  * A Tap is defined as a touchstart to touchend event in quick succession.
  * @class Tap
@@ -32,13 +29,11 @@ class Tap extends Gesture {
    */
   constructor(options) {
     super();
-
     /**
      * The type of the Gesture.
      * @type {String}
      */
     this.type = 'tap';
-
     /**
      * The minimum amount between a touchstart and a touchend can be configured
      * in milliseconds. The minimum delay starts to count down when the expected
@@ -46,9 +41,7 @@ class Tap extends Gesture {
      * screen.
      * @type {Number}
      */
-    this.minDelay = (options && options.minDelay) ?
-      options.minDelay : DEFAULT_MIN_DELAY_MS;
-
+    this.minDelay = options && options.minDelay ? options.minDelay : DEFAULT_MIN_DELAY_MS;
     /**
      * The maximum delay between a touchstart and touchend can be configured in
      * milliseconds. The maximum delay starts to count down when the expected
@@ -56,35 +49,27 @@ class Tap extends Gesture {
      * screen.
      * @type {Number}
      */
-    this.maxDelay = (options && options.maxDelay) ?
-      options.maxDelay : DEFAULT_MAX_DELAY_MS;
-
+    this.maxDelay = options && options.maxDelay ? options.maxDelay : DEFAULT_MAX_DELAY_MS;
     /**
      * The number of inputs to trigger a Tap can be variable,
      * and the maximum number being a factor of the browser.
      * @type {Number}
      */
-    this.numInputs = (options && options.numInputs) ?
-      options.numInputs : DEFAULT_INPUTS;
-
+    this.numInputs = options && options.numInputs ? options.numInputs : DEFAULT_INPUTS;
     /**
      * A move tolerance in pixels allows some slop between a user's start to end
      * events. This allows the Tap gesture to be triggered more easily.
      * @type {number}
      */
-    this.tolerance = (options && options.tolerance) ?
-      options.tolerance : DEFAULT_MOVE_PX_TOLERANCE;
-
+    this.tolerance = options && options.tolerance ? options.tolerance : DEFAULT_MOVE_PX_TOLERANCE;
     /**
      * The on end callback
      */
     if (options && options.onEnd && typeof options.onEnd === 'function') {
-      this.onEnd = options.onEnd
+      this.onEnd = options.onEnd;
     }
   }
-
   /* constructor*/
-
   /**
    * Event hook for the start of a gesture. Keeps track of when the inputs
    * trigger the start event.
@@ -93,16 +78,14 @@ class Tap extends Gesture {
    */
   start(inputs) {
     if (inputs.length === this.numInputs) {
-      inputs.forEach((input) => {
+      inputs.forEach(input => {
         let progress = input.getGestureProgress(this.getId());
         progress.start = new Date().getTime();
       });
     }
     return null;
   }
-
   /* start*/
-
   /**
    * Event hook for the move of a gesture. The Tap event reaches here if the
    * user starts to move their input before an 'end' event is reached.
@@ -116,26 +99,18 @@ class Tap extends Gesture {
       if (inputs[i].getCurrentEventType() === 'move') {
         let current = inputs[i].current;
         let previous = inputs[i].previous;
-        if (!util.isWithin(
-            current.x,
-            current.y,
-            previous.x,
-            previous.y,
-            this.tolerance)) {
+        if (!util.isWithin(current.x, current.y, previous.x, previous.y, this.tolerance)) {
           let type = this.type;
-          inputs.forEach(function(input) {
+          inputs.forEach(function (input) {
             input.resetProgress(type);
           });
-
           return null;
         }
       }
     }
     return null;
   }
-
   /* move*/
-
   /**
    * Event hook for the end of a gesture.
    * Determines if this the tap event can be fired if the delay and tolerance
@@ -155,37 +130,31 @@ class Tap extends Gesture {
       if (inputs[i].getCurrentEventType() !== 'end') {
         return null;
       }
-
       let progress = inputs[i].getGestureProgress(this.getId());
       if (!progress.start) {
         return null;
       }
-
       // Find the most recent input's startTime
       if (progress.start < startTime) {
         startTime = progress.start;
       }
     }
-
     let interval = new Date().getTime() - startTime;
-    if ((this.minDelay <= interval) && (this.maxDelay >= interval)) {
-
-      const timing = { interval }
-      if(this.onEnd) {
+    if (this.minDelay <= interval && this.maxDelay >= interval) {
+      const timing = {
+        interval
+      };
+      if (this.onEnd) {
         this.onEnd(inputs, timing);
       }
       return timing;
     } else {
       let type = this.type;
-      inputs.forEach(function(input) {
+      inputs.forEach(function (input) {
         input.resetProgress(type);
       });
-
       return null;
     }
   }
-
-  /* end*/
 }
-
 export default Tap;

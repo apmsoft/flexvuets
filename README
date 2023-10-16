@@ -6,7 +6,8 @@ http://flexvue.fancyupsoft.com
 # TypeScript install
 npm install -D typescript
 npm install -D ts-node
-npm install @types/node --save-dev
+npm install --save-dev @babel/cli
+// npm install @types/node --save-dev
 npm install --save-dev @types/jquery
 npx tsc --init
 
@@ -29,20 +30,40 @@ npm install -D @tailwindcss/aspect-ratio
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "strictNullChecks": true,
     "module": "ESNext",
     "outDir": "debug",
     "rootDir": "src",
     "types": ["node", "jquery"],
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "global.d.ts"
   ],
   "exclude": [
     "node_modules"
+  ],
+  "extends": "./tsconfig.paths.json",
+}
+
+>> babel
+.babelrc
+{
+  "plugins": [
+    [ "module-resolver", {
+        "alias": {
+          "src": "./debug"
+        }
+      }
+    ]
   ]
 }
 
@@ -60,7 +81,7 @@ tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
   "main": "index.js",
   "scripts": {
     "debug": "echo \"Error: no debug specified\" && exit 1",
-    "build": "tsc --build",
+    "build": "tsc -P ./tsconfig.json && babel debug -d debug --watch",
     "release": "cp -fr ./debug/* ./release",
     "release_clean": "rm -fr ./release/*",
     "clean": "tsc --build --clean",

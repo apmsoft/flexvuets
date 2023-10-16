@@ -2,7 +2,6 @@
  * @file dispatcher.js
  * Contains logic for the dispatcher
  */
-
 /**
  * Emits data at the target element if available, and bubbles up from
  * the target to the parent until the document has been reached.
@@ -14,15 +13,13 @@
  */
 function dispatcher(binding, data, events) {
   data.events = events;
-
   const newEvent = new CustomEvent(binding.gesture.getId(), {
     detail: data,
     bubbles: true,
-    cancelable: true,
+    cancelable: true
   });
   emitEvent(binding.element, newEvent, binding);
 }
-
 /**
  * Emits the new event. Unbinds the event if the event was registered
  * at bindOnce.
@@ -36,5 +33,4 @@ function emitEvent(target, event, binding) {
     ZingTouch.unbind(binding.element, binding.gesture.getType());
   }
 }
-
 export default dispatcher;

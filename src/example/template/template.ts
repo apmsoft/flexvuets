@@ -1,4 +1,4 @@
-import AsyncTask from '../../flexvue/core/asynctask.class.js';
+import AsyncTask from 'src/flexvue/core/asynctask.class.js';
 import {DataTypeInterface} from './datatype.interface.js';
 
 const onReady = () : void =>

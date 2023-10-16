@@ -1,7 +1,6 @@
 /**
  * @file Binder.js
  */
-
 /**
  * A chainable object that contains a single element to be bound upon.
  * Called from ZingTouch.bind(), and is used to chain over gesture callbacks.
@@ -22,15 +21,12 @@ class Binder {
      * @type {Element}
      */
     this.element = element;
-
-    Object.keys(state.registeredGestures).forEach((key) => {
+    Object.keys(state.registeredGestures).forEach(key => {
       this[key] = (handler, capture) => {
         state.addBinding(this.element, key, handler, capture, bindOnce);
         return this;
       };
     });
   }
-
 }
-
 export default Binder;

@@ -1,4 +1,4 @@
-import Forms from '../../flexvue/core/forms.class.js';
+import Forms from 'src/flexvue/core/forms.class.js';
 
 {
     const onReady = () : void =>

@@ -1,9 +1,7 @@
 /**
  * @file Input.js
  */
-
-import ZingEvent from './ZingEvent.js';
-
+import ZingEvent from "./ZingEvent.js";
 /**
  * Tracks a single input and contains information about the
  * current, previous, and initial events.
@@ -11,7 +9,6 @@ import ZingEvent from './ZingEvent.js';
  * @class Input
  */
 class Input {
-
   /**
    * Constructor function for the Input class.
    * @param {Event} event - The Event object from the window
@@ -20,13 +17,11 @@ class Input {
    */
   constructor(event, identifier) {
     let currentEvent = new ZingEvent(event, identifier);
-
     /**
      * Holds the initial event object. A touchstart/mousedown event.
      * @type {ZingEvent}
      */
     this.initial = currentEvent;
-
     /**
      * Holds the most current event for this Input, disregarding any other past,
      * current, and future events that other Inputs participate in.
@@ -35,19 +30,16 @@ class Input {
      * @type {ZingEvent}
      */
     this.current = currentEvent;
-
     /**
      * Holds the previous event that took place.
      * @type {ZingEvent}
      */
     this.previous = currentEvent;
-
     /**
      * Refers to the event.touches index, or 0 if a simple mouse event occurred.
      * @type {Number}
      */
-    this.identifier = (typeof identifier !== 'undefined') ? identifier : 0;
-
+    this.identifier = typeof identifier !== 'undefined' ? identifier : 0;
     /**
      * Stores internal state between events for
      * each gesture based off of the gesture's id.
@@ -55,7 +47,6 @@ class Input {
      */
     this.progress = {};
   }
-
   /**
    * Receives an input, updates the internal state of what the input has done.
    * @param {Event} event - The event object to wrap with a ZingEvent.
@@ -65,7 +56,6 @@ class Input {
     this.previous = this.current;
     this.current = new ZingEvent(event, touchIdentifier);
   }
-
   /**
    * Returns the progress of the specified gesture.
    * @param {String} id - The identifier for each unique Gesture's progress.
@@ -78,7 +68,6 @@ class Input {
     }
     return this.progress[id];
   }
-
   /**
    * Returns the normalized current Event's type.
    * @return {String} The current event's type ( start | move | end )
@@ -86,7 +75,6 @@ class Input {
   getCurrentEventType() {
     return this.current.type;
   }
-
   /**
    * Resets a progress/state object of the specified gesture.
    * @param {String} id - The identifier of the specified gesture
@@ -94,7 +82,5 @@ class Input {
   resetProgress(id) {
     this.progress[id] = {};
   }
-
 }
-
 export default Input;

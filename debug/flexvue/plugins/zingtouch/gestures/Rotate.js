@@ -2,12 +2,9 @@
  * @file Rotate.js
  * Contains the Rotate class
  */
-
-import Gesture from './Gesture.js';
-import util from './../core/util.js';
-
+import Gesture from "./Gesture.js";
+import util from "./../core/util.js";
 const DEFAULT_INPUTS = 2;
-
 /**
  * A Rotate is defined as two inputs moving about a circle,
  * maintaining a relatively equal radius.
@@ -19,27 +16,23 @@ class Rotate extends Gesture {
    */
   constructor(options = {}) {
     super();
-
     /**
      * The type of the Gesture.
      * @type {String}
      */
     this.type = 'rotate';
-
     /**
      * The number of touches required to emit Rotate events.
      * @type {Number}
      */
     this.numInputs = options.numInputs || DEFAULT_INPUTS;
-
     /**
      * The on move callback
      */
     if (options && options.onMove && typeof options.onMove === 'function') {
-      this.onMove = options.onMove
+      this.onMove = options.onMove;
     }
   }
-
   /**
    * move() - Event hook for the move of a gesture. Obtains the midpoint of two
    * the two inputs and calculates the projection of the right most input along
@@ -60,57 +53,40 @@ class Rotate extends Gesture {
   move(inputs, state, element) {
     const numActiveInputs = state.numActiveInputs();
     if (this.numInputs !== numActiveInputs) return null;
-
     let currentPivot, initialPivot;
     let input;
     if (numActiveInputs === 1) {
       const bRect = element.getBoundingClientRect();
       currentPivot = {
         x: bRect.left + bRect.width / 2,
-        y: bRect.top + bRect.height / 2,
+        y: bRect.top + bRect.height / 2
       };
       initialPivot = currentPivot;
       input = inputs[0];
     } else {
-      currentPivot = util.getMidpoint(
-        inputs[0].current.x,
-        inputs[1].current.x,
-        inputs[0].current.y,
-        inputs[1].current.y);
+      currentPivot = util.getMidpoint(inputs[0].current.x, inputs[1].current.x, inputs[0].current.y, inputs[1].current.y);
       input = util.getRightMostInput(inputs);
     }
-
     // Translate the current pivot point.
-    const currentAngle = util.getAngle(
-      currentPivot.x,
-      currentPivot.y,
-      input.current.x,
-      input.current.y);
-
+    const currentAngle = util.getAngle(currentPivot.x, currentPivot.y, input.current.x, input.current.y);
     const progress = input.getGestureProgress(this.getId());
     if (!progress.initialAngle) {
       progress.initialAngle = progress.previousAngle = currentAngle;
       progress.distance = progress.change = 0;
     } else {
-      progress.change = util.getAngularDistance(
-        progress.previousAngle,
-        currentAngle);
+      progress.change = util.getAngularDistance(progress.previousAngle, currentAngle);
       progress.distance = progress.distance + progress.change;
     }
-
     progress.previousAngle = currentAngle;
     const rotate = {
       angle: currentAngle,
       distanceFromOrigin: progress.distance,
-      distanceFromLast: progress.change,
+      distanceFromLast: progress.change
     };
-    if(this.onMove) {
+    if (this.onMove) {
       this.onMove(inputs, state, element, rotate);
     }
     return rotate;
   }
-
-  /* move*/
 }
-
 export default Rotate;
