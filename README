@@ -7,6 +7,7 @@ http://flexvue.fancyupsoft.com
 npm install -D typescript
 npm install -D ts-node
 // npm install @types/node --save-dev
+// npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
 npm install --save-dev concurrently
 npm install --save-dev @types/jquery
@@ -30,6 +31,7 @@ npm install -D @tailwindcss/aspect-ratio
       "esnext"
     ],
     "allowJs": true,
+    "checkJs": false,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -40,6 +42,7 @@ npm install -D @tailwindcss/aspect-ratio
     "resolveJsonModule": true,
     "isolatedModules": false,
     "strictNullChecks": true,
+    "noImplicitAny" : false,
     "module": "ESNext",
     "outDir": "debug",
     "rootDir": "src",
@@ -50,7 +53,7 @@ npm install -D @tailwindcss/aspect-ratio
     "global.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules","**/*.spec.ts"
   ],
   "extends": "./tsconfig.paths.json",
 }
@@ -66,6 +69,17 @@ npm install -D @tailwindcss/aspect-ratio
       }
     ]
   ]
+}
+
+>> tsconfig.paths.json
+{
+  "compilerOptions": {
+      "baseUrl": ".",
+      "paths" : {
+          "src/*": ["src/*"],
+          "ckeditor": ["src/flexvue/plugins/ckeditor5/ckeditor.d"]
+      }
+  }
 }
 
 

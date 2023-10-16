@@ -12,13 +12,13 @@
  *  corresponding to the inputs on the screen.
  */
 function dispatcher(binding, data, events) {
-    data.events = events;
-    const newEvent = new CustomEvent(binding.gesture.getId(), {
-        detail: data,
-        bubbles: true,
-        cancelable: true,
-    });
-    emitEvent(binding.element, newEvent, binding);
+  data.events = events;
+  const newEvent = new CustomEvent(binding.gesture.getId(), {
+    detail: data,
+    bubbles: true,
+    cancelable: true
+  });
+  emitEvent(binding.element, newEvent, binding);
 }
 /**
  * Emits the new event. Unbinds the event if the event was registered
@@ -28,9 +28,9 @@ function dispatcher(binding, data, events) {
  * @param {Binding} binding - An object of type Binding
  */
 function emitEvent(target, event, binding) {
-    target.dispatchEvent(event);
-    if (binding.bindOnce) {
-        ZingTouch.unbind(binding.element, binding.gesture.getType());
-    }
+  target.dispatchEvent(event);
+  if (binding.bindOnce) {
+    ZingTouch.unbind(binding.element, binding.gesture.getType());
+  }
 }
 export default dispatcher;

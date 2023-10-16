@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -P ./tsconfig.json --watch && babel debug --out-dir debug --watch",
+    "build" : "tsc -P ./tsconfig.json && babel debug -d debug",
+    "start": "tsc -P ./tsconfig.json --watch && babel debug --out-dir debug --watch",
     "release": "cp -fr ./debug/* ./v1",
     "clean": "tsc --build --clean",
     "clean_release": "rm -fr ./v1/*",
@@ -13,7 +14,9 @@
   "author": "fancyupsoft.com",
   "license": "ISC",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^40.0.0",
     "@craco/craco": "^5.9.0",
+    "@types/ckeditor": "^4.9.10",
     "babel-plugin-module-resolver": "^5.0.0",
     "typescript": "^4.5.5"
   },

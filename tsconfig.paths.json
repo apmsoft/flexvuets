@@ -2,7 +2,8 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths" : {
-            "src/*": ["src/*"]
+            "src/*": ["src/*"],
+            "ckeditor": ["src/flexvue/plugins/ckeditor5/ckeditor.d"]
         }
     }
 }

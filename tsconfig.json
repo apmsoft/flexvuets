@@ -29,7 +29,7 @@
     "global.d.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules","**/*.spec.ts"
   ],
   "extends": "./tsconfig.paths.json",
 }

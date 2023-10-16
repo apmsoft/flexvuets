@@ -2,7 +2,8 @@
     "plugins": [
       [ "module-resolver", {
           "alias": {
-            "src": "./debug"
+            "src": "./debug",
+            "ckeditor": "@ckeditor/ckeditor5-editor-classic"
           }
         }
       ]

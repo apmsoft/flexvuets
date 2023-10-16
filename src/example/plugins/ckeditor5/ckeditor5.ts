@@ -1,9 +1,9 @@
-// @ts-nocheck
-import {} from 'src/flexvue/plugins/ckeditor5/ckeditor.js';
+import ClassicEditor from 'ckeditor';
 
 const onReady = () : void =>
 {
-    ClassicEditor.create( document.querySelector( '#description' ),{
+    const editorPlaceholder = document.querySelector( '#editor' ) as HTMLElement;
+    ClassicEditor.create( editorPlaceholder,{
         toolbar: {
             items: [
                 'heading','|',
