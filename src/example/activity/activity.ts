@@ -1,4 +1,4 @@
-import UrlManager from 'src/flexvue/core/urlmanager.class.js';
+import UrlManager from '@flexvue/core/urlmanager.class.js';
 {
     const onReady = () : void =>
     {
@@ -13,31 +13,31 @@ import UrlManager from 'src/flexvue/core/urlmanager.class.js';
         const urlManager = new UrlManager(document.location.toString());
 
         // btn go right
-        document.querySelector<HTMLElement>('#go_right')?.addEventListener('click', function(){
+        const go_right = document.querySelector<HTMLElement>('#go_right')!.addEventListener('click', function(){
             Activity.onStart('#right');
             history.pushState('#right', 'right', '#right/');
         });
 
         // btn go right side
-        document.querySelector<HTMLElement>('#go_rightside')?.addEventListener('click', function(){
+        document.querySelector<HTMLElement>('#go_rightside')!.addEventListener('click', function(){
             Activity.onStart('#rightside');
             history.pushState('#rightside', 'rightside', '#rightside/');
         });
 
         // btn go right third
-        document.querySelector<HTMLElement>('#go_rightthird')?.addEventListener('click', function(){
+        document.querySelector<HTMLElement>('#go_rightthird')!.addEventListener('click', function(){
             Activity.onStart('#rightthird');
             history.pushState('#rightthird', 'rightthird', '#rightthird/');
         });
 
         // btn go bottom
-        document.querySelector<HTMLElement>('#go_bottom')?.addEventListener('click', function(){
+        document.querySelector<HTMLElement>('#go_bottom')!.addEventListener('click', function(){
             Activity.onStart('#bottom');
             history.pushState('#bottom', 'bottom', '#bottom/');
         });
 
         // btn go bottom side
-        document.querySelector<HTMLElement>('#go_bottomside')?.addEventListener('click', function(){
+        document.querySelector<HTMLElement>('#go_bottomside')!.addEventListener('click', function(){
             Activity.onStart('#bottomside');
             history.pushState('#bottomside', 'bottomside', '#bottomside/');
         });

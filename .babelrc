@@ -1,11 +1,13 @@
 {
-    "plugins": [
-      [ "module-resolver", {
-          "alias": {
-            "src": "./debug",
-            "ckeditor": "@ckeditor/ckeditor5-editor-classic"
-          }
+  "plugins": [
+    [ "module-resolver", {
+        "alias": {
+          "src": "./debug"
+          ,"@flexvue":"./debug/flexvue"
+          ,"@ckeditor": "./debug/flexvue/plugins/@ckeditor/ckeditor5-editor-classic/src/index.js"
+
         }
-      ]
+      }
     ]
-  }
+  ]
+}

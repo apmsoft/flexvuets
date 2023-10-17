@@ -3,7 +3,8 @@
         "baseUrl": ".",
         "paths" : {
             "src/*": ["src/*"],
-            "ckeditor": ["src/flexvue/plugins/ckeditor5/ckeditor.d"]
+            "@flexvue/*": ["src/flexvue/*"],
+            "@ckeditor/*": ["src/flexvue/plugins/@ckeditor/ckeditor5-editor-classic/src/classiceditor.js"]
         }
     }
 }

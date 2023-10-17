@@ -76,8 +76,8 @@ npm install -D @tailwindcss/aspect-ratio
   "compilerOptions": {
       "baseUrl": ".",
       "paths" : {
-          "src/*": ["src/*"],
-          "ckeditor": ["src/flexvue/plugins/ckeditor5/ckeditor.d"]
+          "src/*": ["src/*"]
+          // ,"ckeditor": ["src/flexvue/plugins/ckeditor5/ckeditor.d"]
       }
   }
 }

@@ -1,4 +1,4 @@
-import AsyncAjax from 'src/flexvue/core/asyncajax.class.js';
+import AsyncAjax from '@flexvue/core/asyncajax.class.js';
 {
 const onReady = () : void =>
 {

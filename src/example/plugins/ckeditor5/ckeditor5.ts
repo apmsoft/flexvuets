@@ -1,4 +1,4 @@
-import ClassicEditor from 'ckeditor';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const onReady = () : void =>
 {

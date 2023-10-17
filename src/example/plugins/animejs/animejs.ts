@@ -1,4 +1,4 @@
-import anime from 'src/flexvue/plugins/anime/anime.es.min.js';
+import anime from '@flexvue/plugins/anime/anime.es.min.js';
 
 const onReady = () : void =>
 {

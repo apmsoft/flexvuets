@@ -1,4 +1,4 @@
-import AsyncTask from 'src/flexvue/core/asynctask.class.js';
+import AsyncTask from '@flexvue/core/asynctask.class.js';
 
 
 const onReady = () : void =>

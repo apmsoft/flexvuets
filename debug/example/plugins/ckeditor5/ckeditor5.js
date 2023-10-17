@@ -1,4 +1,4 @@
-import ClassicEditor from "@ckeditor/ckeditor5-editor-classic";
+import ClassicEditor from "../../../flexvue/plugins/@ckeditor/ckeditor5-editor-classic/src/index.js/ckeditor5-build-classic";
 const onReady = () => {
   const editorPlaceholder = document.querySelector('#editor');
   ClassicEditor.create(editorPlaceholder, {
