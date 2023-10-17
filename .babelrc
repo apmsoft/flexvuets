@@ -4,9 +4,6 @@
         "alias": {
           "src": "./debug"
           ,"@flexvue":"./debug/flexvue"
-          ,"{ClassicEditor}":"{}"
-          // ,"@ckeditor/ckeditor5-build-classic": "./debug/flexvue/plugins/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"
-
         }
       }
     ]

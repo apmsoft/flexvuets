@@ -7,11 +7,9 @@ http://flexvue.fancyupsoft.com
 npm install -D typescript
 npx tsc --init
 
-npm install -D ts-node
-// npm install @types/node --save-dev
+npm install --save-dev @types/node
 npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
-// npm install --save-dev concurrently
 npm install --save-dev @types/jquery
 
 # tailwind css install
@@ -66,6 +64,7 @@ npm install -D @tailwindcss/aspect-ratio
     [ "module-resolver", {
         "alias": {
           "src": "./debug"
+          ,"@flexvue":"./debug/flexvue"
         }
       }
     ]
@@ -77,8 +76,8 @@ npm install -D @tailwindcss/aspect-ratio
   "compilerOptions": {
       "baseUrl": ".",
       "paths" : {
-          "src/*": ["src/*"]
-          // ,"ckeditor": ["src/flexvue/plugins/ckeditor5/ckeditor.d"]
+          "src/*": ["src/*"],
+          "@flexvue/*": ["src/flexvue/*"],
       }
   }
 }
