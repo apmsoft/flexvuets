@@ -1,10 +1,9 @@
 "use strict";
 
-!function (e) {
-  const t = e.kn = e.kn || {};
+(function (e) {
+  const t = e["kn"] = e["kn"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
-    Accept: "",
     Aquamarine: "",
     Black: "",
     "Block quote": "‍‍‍‍ಗುರುತಿಸಲಾದ ‍‍ಉಲ್ಲೇಖ",
@@ -14,22 +13,18 @@
     "Bulleted List": "‍‍ಬುಲೆಟ್ ಪಟ್ಟಿ",
     "Bulleted list styles toolbar": "",
     Cancel: "ರದ್ದುಮಾಡು",
-    "Cannot upload file:": "",
     "Caption for image: %0": "",
     "Caption for the image": "",
     "Centered image": "",
     "Change image text alternative": "‍ಚಿತ್ರದ ಬದಲಿ ಪಠ್ಯ ಬದಲಾಯಿಸು",
     "Choose heading": "ಶೀರ್ಷಿಕೆ ಆಯ್ಕೆಮಾಡು",
     Circle: "",
-    Clear: "",
-    "Click to edit block": "",
     Code: "",
     Decimal: "",
     "Decimal with leading zero": "",
     "Dim grey": "",
     Disc: "",
     Downloadable: "",
-    "Drag to move": "",
     "Dropdown toolbar": "",
     "Edit block": "",
     "Edit link": "",
@@ -48,7 +43,6 @@
     "Heading 4": "",
     "Heading 5": "",
     "Heading 6": "",
-    HEX: "",
     "Image resize list": "",
     "Image toolbar": "",
     "image widget": "‍ಚಿತ್ರ ವಿಜೆಟ್",
@@ -68,8 +62,6 @@
     "Lower-latin": "",
     "Lower–roman": "",
     Next: "",
-    "No results found": "",
-    "No searchable items": "",
     "Numbered List": "‍ಸಂಖ್ಯೆಯ ಪಟ್ಟಿ‍",
     "Numbered list styles toolbar": "",
     "Open in a new tab": "",
@@ -97,7 +89,6 @@
     "Start index must be greater than 0.": "",
     Strikethrough: "",
     Subscript: "",
-    Superscript: "",
     "Text alternative": "‍ಪಠ್ಯದ ಬದಲಿ",
     "This link has no URL": "",
     "To-do List": "",
@@ -124,7 +115,8 @@
     White: "",
     "Wrap text": "",
     Yellow: ""
-  }), t.getPluralForm = function (e) {
+  });
+  t.getPluralForm = function (e) {
     return e > 1;
   };
-}(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+})(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));

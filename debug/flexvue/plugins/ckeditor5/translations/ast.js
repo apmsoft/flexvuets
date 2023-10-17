@@ -1,10 +1,9 @@
 "use strict";
 
-!function (e) {
-  const t = e.ast = e.ast || {};
+(function (e) {
+  const t = e["ast"] = e["ast"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
-    Accept: "",
     Aquamarine: "",
     Black: "",
     Blue: "",
@@ -13,21 +12,17 @@
     "Bulleted List": "Llista con viñetes",
     "Bulleted list styles toolbar": "",
     Cancel: "Encaboxar",
-    "Cannot upload file:": "",
     "Caption for image: %0": "",
     "Caption for the image": "",
     "Centered image": "",
     "Change image text alternative": "",
     Circle: "",
-    Clear: "",
-    "Click to edit block": "",
     Code: "",
     Decimal: "",
     "Decimal with leading zero": "",
     "Dim grey": "",
     Disc: "",
     Downloadable: "",
-    "Drag to move": "",
     "Dropdown toolbar": "",
     "Edit block": "",
     "Edit link": "",
@@ -39,7 +34,6 @@
     "Full size image": "Imaxen a tamañu completu",
     Green: "",
     Grey: "",
-    HEX: "",
     "Image resize list": "",
     "Image toolbar": "",
     "image widget": "complementu d'imaxen",
@@ -59,8 +53,6 @@
     "Lower-latin": "",
     "Lower–roman": "",
     Next: "",
-    "No results found": "",
-    "No searchable items": "",
     "Numbered List": "Llista numberada",
     "Numbered list styles toolbar": "",
     "Open in a new tab": "",
@@ -87,7 +79,6 @@
     "Start index must be greater than 0.": "",
     Strikethrough: "",
     Subscript: "",
-    Superscript: "",
     "Text alternative": "",
     "This link has no URL": "",
     "To-do List": "",
@@ -112,7 +103,8 @@
     White: "",
     "Wrap text": "",
     Yellow: ""
-  }), t.getPluralForm = function (e) {
-    return 1 != e;
+  });
+  t.getPluralForm = function (e) {
+    return e != 1;
   };
-}(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+})(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));

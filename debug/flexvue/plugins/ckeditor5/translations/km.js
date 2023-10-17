@@ -1,10 +1,9 @@
 "use strict";
 
-!function (e) {
-  const t = e.km = e.km || {};
+(function (e) {
+  const t = e["km"] = e["km"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
-    Accept: "",
     Aquamarine: "",
     Black: "",
     "Block quote": "ប្លុក​ពាក្យ​សម្រង់",
@@ -14,22 +13,18 @@
     "Bulleted List": "បញ្ជី​ជា​ចំណុច",
     "Bulleted list styles toolbar": "",
     Cancel: "បោះបង់",
-    "Cannot upload file:": "មិនអាច​អាប់ឡូត​ឯកសារ៖",
     "Caption for image: %0": "",
     "Caption for the image": "",
     "Centered image": "",
     "Change image text alternative": "",
     "Choose heading": "ជ្រើសរើស​ក្បាលអត្ថបទ",
     Circle: "",
-    Clear: "",
-    "Click to edit block": "",
     Code: "កូដ",
     Decimal: "",
     "Decimal with leading zero": "",
     "Dim grey": "",
     Disc: "",
     Downloadable: "",
-    "Drag to move": "",
     "Dropdown toolbar": "",
     "Edit block": "",
     "Edit link": "",
@@ -48,7 +43,6 @@
     "Heading 4": "",
     "Heading 5": "",
     "Heading 6": "",
-    HEX: "",
     "Image resize list": "",
     "Image toolbar": "",
     "image widget": "វិដជិត​រូបភាព",
@@ -68,8 +62,6 @@
     "Lower-latin": "",
     "Lower–roman": "",
     Next: "",
-    "No results found": "",
-    "No searchable items": "",
     "Numbered List": "បញ្ជី​ជា​លេខ",
     "Numbered list styles toolbar": "",
     "Open in a new tab": "",
@@ -97,7 +89,6 @@
     "Start index must be greater than 0.": "",
     Strikethrough: "ឆូតកណ្ដាល",
     Subscript: "អក្សរ​តូចក្រោម",
-    Superscript: "អក្សរ​តូចលើ",
     "Text alternative": "",
     "This link has no URL": "",
     "To-do List": "",
@@ -124,7 +115,8 @@
     White: "",
     "Wrap text": "",
     Yellow: ""
-  }), t.getPluralForm = function (e) {
+  });
+  t.getPluralForm = function (e) {
     return 0;
   };
-}(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+})(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));

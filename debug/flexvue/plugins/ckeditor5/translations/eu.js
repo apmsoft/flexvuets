@@ -1,10 +1,9 @@
 "use strict";
 
-!function (e) {
-  const t = e.eu = e.eu || {};
+(function (e) {
+  const t = e["eu"] = e["eu"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
-    Accept: "",
     Aquamarine: "",
     Black: "",
     "Block quote": "Aipua",
@@ -14,22 +13,18 @@
     "Bulleted List": "Buletdun zerrenda",
     "Bulleted list styles toolbar": "",
     Cancel: "Utzi",
-    "Cannot upload file:": "Ezin da fitxategia kargatu:",
     "Caption for image: %0": "",
     "Caption for the image": "",
     "Centered image": "Zentratutako irudia",
     "Change image text alternative": "Aldatu irudiaren ordezko testua",
     "Choose heading": "Aukeratu izenburua",
     Circle: "",
-    Clear: "",
-    "Click to edit block": "",
     Code: "Kodea",
     Decimal: "",
     "Decimal with leading zero": "",
     "Dim grey": "",
     Disc: "",
     Downloadable: "",
-    "Drag to move": "",
     "Dropdown toolbar": "",
     "Edit block": "",
     "Edit link": "",
@@ -48,7 +43,6 @@
     "Heading 4": "",
     "Heading 5": "",
     "Heading 6": "",
-    HEX: "",
     "Image resize list": "",
     "Image toolbar": "",
     "image widget": "irudi widgeta",
@@ -68,8 +62,6 @@
     "Lower-latin": "",
     "Lower–roman": "",
     Next: "",
-    "No results found": "",
-    "No searchable items": "",
     "Numbered List": "Zenbakidun zerrenda",
     "Numbered list styles toolbar": "",
     "Open in a new tab": "",
@@ -97,7 +89,6 @@
     "Start index must be greater than 0.": "",
     Strikethrough: "",
     Subscript: "",
-    Superscript: "",
     "Text alternative": "Ordezko testua",
     "This link has no URL": "",
     "To-do List": "",
@@ -124,7 +115,8 @@
     White: "",
     "Wrap text": "",
     Yellow: ""
-  }), t.getPluralForm = function (e) {
-    return 1 != e;
+  });
+  t.getPluralForm = function (e) {
+    return e != 1;
   };
-}(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+})(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));

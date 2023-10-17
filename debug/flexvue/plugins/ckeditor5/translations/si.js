@@ -1,7 +1,7 @@
 "use strict";
 
-!function (e) {
-  const t = e.si = e.si || {};
+(function (e) {
+  const t = e["si"] = e["si"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     Bold: "තදකුරු",
@@ -9,13 +9,11 @@
     "Bulleted List": "බුලටිත ලැයිස්තුව",
     "Bulleted list styles toolbar": "",
     Cancel: "",
-    "Cannot upload file:": "ගොනුව යාවත්කාලීන කළ නොහැක:",
     "Caption for image: %0": "",
     "Caption for the image": "",
     "Centered image": "",
     "Change image text alternative": "",
     Circle: "",
-    Clear: "",
     Code: "",
     Decimal: "",
     "Decimal with leading zero": "",
@@ -53,7 +51,6 @@
     "Start index must be greater than 0.": "",
     Strikethrough: "",
     Subscript: "",
-    Superscript: "",
     "Text alternative": "",
     "To-do List": "",
     "Toggle the circle list style": "",
@@ -73,7 +70,8 @@
     "Upper-latin": "",
     "Upper-roman": "",
     "Wrap text": ""
-  }), t.getPluralForm = function (e) {
-    return 1 != e;
+  });
+  t.getPluralForm = function (e) {
+    return e != 1;
   };
-}(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+})(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));

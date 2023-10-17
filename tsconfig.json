@@ -26,8 +26,7 @@
   },
   "include": [
     "src/**/*",
-    "global.d.ts",
-    "ckeditor.d.ts"
+    "global.d.ts"
   ],
   "exclude": [
     "node_modules","**/*.spec.ts"
