@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../../../css/tailwind.css">
     <link rel="stylesheet" href="../../../css/fontawesome-all.css">
 
+    <link rel="stylesheet" href="../../../flexvue/plugins/cropper/cropper.css">
+
     <script defear src="../../../flexvue/flexvue.js"></script>
 
 </head>
@@ -40,25 +42,22 @@
                 </div>
             </div>
             <div class="fvue--layout--main h-full">
-                콘솔
-                <div class="flex w-full justify-center">
+                <div style="width: 500px; margin:auto; padding: 0 10px; background-color: #000;">
+                    <div class="img-container">
+                        <img id="image" src="https://gi.esmplus.com/loloskinny/1%EC%9E%90%EC%B2%B4%EC%83%81%ED%92%88/%EC%95%84%EC%BF%A0%EC%95%84%EC%8A%88%EC%A6%88%EC%B5%9C%EC%8B%A0/1_02.jpg">
+                    </div>
+                </div>
 
-                    <table>
-                        <tbody>
-                                <tr class='uk-hidden'>
-                                    <td>1</td>
-                                    <td class='price'>100</td>
-                                </tr>
-                                <tr class='uk-hidden'>
-                                    <td>2</td>
-                                    <td class='price'>200</td>
-                                </tr>
-                                <tr class='uk-hidden'>
-                                    <td>3</td>
-                                    <td class='price'>300</td>
-                                </tr>
-                        </tbody>
-                    </table>
+                <div class="container flex flex-row justify-center">
+                    <div>
+                        <h3>Result</h3>
+                        <p>
+                            <button type="button" id="button" class="btn px-3 py-2 mb-2 w-full">Crop</button>
+                        </p>
+                        <div id="result" style="width:200px; height:200px;border:2px;border-color:blue;border-style: solid;">
+                            image
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -95,6 +94,6 @@
 
     </div>
 
-    <script defer type="module" src="./closest.js"></script>
+    <script defer type="module" src="./cropperjs.js"></script>
 </body>
 </html>
