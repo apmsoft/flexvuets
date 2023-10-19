@@ -25,16 +25,42 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
-import { promises as fs } from 'fs';
-import { join } from 'path';
 export default class Template {
   // template 파일 찾기
-  fread(filename, _options = {}, _headers = null) {
+  readFile(filename, _options = {}, _headers = {}) {
     return __awaiter(this, void 0, void 0, function* () {
-      return yield fs.readFile(join(__dirname, filename), 'utf8');
+      const defaultHeaders = Object.assign({
+        'Content-Type': 'text/plain'
+      }, _headers);
+      const options = Object.assign({
+        cache: 'default',
+        headers: defaultHeaders
+      }, _options);
+      const response = yield fetch(filename, options);
+      if (response.ok) {
+        return yield response.text();
+      }
+      throw new Error(response.status.toString());
     });
   }
   /**
+   *
+   * @param <template id="#tpl_test"> : template_id
+   * @returns
+   */
+  include(template_id) {
+    return __awaiter(this, void 0, void 0, function* () {
+      const elem = document.querySelector(template_id);
+      if (elem === null || elem === void 0 ? void 0 : elem.content) {
+        const fragment = elem.content;
+        const tpl = document.importNode(fragment, true);
+        return new XMLSerializer().serializeToString(tpl);
+      }
+      return 'undefined';
+    });
+  }
+  /**
+   *
    * @param {json data} data
    * @returns : rendering html
    */

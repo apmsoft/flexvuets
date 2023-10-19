@@ -5,7 +5,7 @@ const onReady = () : void =>
 {
     ProgressBars.show();
 
-    new AsyncTask().doImport( new URL(`../template/tpl/test.tpl.js`, import.meta.url).href )
+    new AsyncTask().doImport( new URL(`../template_js/tpl/test.tpl.js`, import.meta.url).href )
     .then( (data : any) =>
     {
         // 데이터 설정

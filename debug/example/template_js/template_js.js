@@ -1,7 +1,7 @@
 import AsyncTask from "../../flexvue/core/asynctask.class.js";
 const onReady = () => {
   ProgressBars.show();
-  new AsyncTask().doImport(new URL(`../template/tpl/test.tpl.js`, import.meta.url).href).then(data => {
+  new AsyncTask().doImport(new URL(`../template_js/tpl/test.tpl.js`, import.meta.url).href).then(data => {
     // 데이터 설정
     const resp = {
       name: '홍길동',
