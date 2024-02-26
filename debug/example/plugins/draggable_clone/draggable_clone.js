@@ -1,11 +1,13 @@
-import { Droppable } from "../../../flexvue/plugins/draggable/lib/droppable.js";
-import { Sortable } from "../../../flexvue/plugins/draggable/lib/sortable.js";
-import { Plugins } from "../../../flexvue/plugins/draggable/lib/plugins.js";
+import Draggable from "../../../flexvue/plugins/draggable/lib/draggable.js";
+// import {Droppable} from '@flexvue/plugins/draggable/lib/droppable.js';
+// import {Sortable} from '@flexvue/plugins/draggable/lib/sortable.js';
+// import {Collidable} from '@flexvue/plugins/draggable/lib/plugins/collidable.js';
+// import {Plugins} from '@flexvue/plugins/draggable/lib/plugins.js';
 const onReady = () => {
   const lay_cource = document.querySelector('#lay_cource');
   const lay_train = document.querySelector('#lay_train');
   // sortable
-  const sortable = new Sortable.default(lay_cource, {
+  const sortable = new Draggable.Sortable([lay_cource, lay_train], {
     draggable: '.dragable-sort-item',
     sortAnimation: {
       duration: 200,
@@ -59,10 +61,12 @@ const onReady = () => {
   }
   //<----- end clone */
   // 드랍존
-  const droppable = new Droppable.default(document.querySelectorAll('.drop-container'), {
+  const lay_drop_container = document.querySelectorAll('.drop-container');
+  // Ensure that the elements are HTMLElements
+  const droppable = new Draggable.Droppable([lay_drop_container], {
     draggable: '.draggable-item',
     dropzone: '.dropzone',
-    plugins: [Plugins.Collidable.default, Plugins.ResizeMirror]
+    plugins: [Draggable.Plugins.Collidable, Draggable.Plugins.ResizeMirror]
   });
   // clone --->
   droppable.on("droppable:start", dragStart);

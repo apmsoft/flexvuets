@@ -1,8 +1,8 @@
-import {Draggable} from '@flexvue/plugins/draggable/lib/draggable.js';
-import {Droppable} from '@flexvue/plugins/draggable/lib/droppable.js';
-import {Sortable} from '@flexvue/plugins/draggable/lib/sortable.js';
-import {Collidable} from '@flexvue/plugins/draggable/lib/plugins/collidable.js';
-import {Plugins} from '@flexvue/plugins/draggable/lib/plugins.js';
+import Draggable from '@flexvue/plugins/draggable/lib/draggable.js';
+import Droppable from '@flexvue/plugins/draggable/lib/droppable.js';
+import Sortable from '@flexvue/plugins/draggable/lib/sortable.js';
+import Collidable from '@flexvue/plugins/draggable/lib/plugins/collidable.js';
+import Plugins from '@flexvue/plugins/draggable/lib/plugins.js';
 
 const onReady = () : void =>
 {
@@ -11,7 +11,7 @@ const onReady = () : void =>
 
 
     // sortable
-    const sortable = new Sortable.default(lay_cource, {
+    const sortable = new Sortable([lay_cource], {
         draggable: '.dragable-sort-item',
         sortAnimation: {
             duration: 200,
