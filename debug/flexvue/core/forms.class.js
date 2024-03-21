@@ -39,4 +39,3 @@ export default class Forms {
     });
   }
 }
-//# sourceMappingURL=forms.class.js.map

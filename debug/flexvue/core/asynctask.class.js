@@ -63,4 +63,3 @@ export default class AsyncTask {
     });
   }
 }
-//# sourceMappingURL=asynctask.class.js.map

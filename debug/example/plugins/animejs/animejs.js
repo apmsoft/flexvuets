@@ -58,4 +58,3 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
-//# sourceMappingURL=animejs.js.map

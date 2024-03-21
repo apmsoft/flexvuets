@@ -37,4 +37,3 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: "画像の最小解像度は{minResolution}です",
   imageValidateSizeLabelExpectedMaxResolution: "画像の最大解像度は{minResolution}です"
 };
-//# sourceMappingURL=ja-ja.js.map

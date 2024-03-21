@@ -21,4 +21,3 @@ class Notice {
 }
 ;
 export { Notice };
-//# sourceMappingURL=notice.class.js.map

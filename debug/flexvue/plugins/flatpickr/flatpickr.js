@@ -2689,4 +2689,3 @@
   }
   return flatpickr;
 });
-//# sourceMappingURL=flatpickr.js.map

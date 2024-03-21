@@ -1967,4 +1967,3 @@ Draggable.zIndex = 1000;
 Draggable.version = "3.8.0";
 _getGSAP() && gsap.registerPlugin(Draggable);
 export { Draggable as default };
-//# sourceMappingURL=Draggable.js.map

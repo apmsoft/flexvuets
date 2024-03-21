@@ -200,4 +200,3 @@ ScrollToPlugin.getOffset = _getOffset;
 ScrollToPlugin.buildGetter = _buildGetter;
 _getGSAP() && gsap.registerPlugin(ScrollToPlugin);
 export { ScrollToPlugin as default };
-//# sourceMappingURL=ScrollToPlugin.js.map

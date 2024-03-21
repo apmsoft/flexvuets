@@ -2192,4 +2192,3 @@
     create: initialize
   };
 });
-//# sourceMappingURL=nouislider.js.map

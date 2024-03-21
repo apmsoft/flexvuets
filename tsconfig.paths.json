@@ -15,7 +15,8 @@
             "@editorjs/list": ["node_modules/@editorjs/list"],
             "@editorjs/embed": ["node_modules/@editorjs/embed"],
             "@editorjs/checklist": ["node_modules/@editorjs/checklist"],
-            "@editorjs/quote": ["node_modules/@editorjs/quote"]
+            "@editorjs/quote": ["node_modules/@editorjs/quote"],
+            "swiper/bundle": ["node_modules/swiper"]
         }
     }
 }

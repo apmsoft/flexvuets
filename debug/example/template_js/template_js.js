@@ -20,4 +20,3 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
-//# sourceMappingURL=template_js.js.map

@@ -4326,4 +4326,3 @@
   /******/)]
   );
 });
-//# sourceMappingURL=tui-color-picker.js.map

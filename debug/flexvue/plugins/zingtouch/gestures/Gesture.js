@@ -105,4 +105,3 @@ class Gesture {
   }
 }
 export default Gesture;
-//# sourceMappingURL=Gesture.js.map

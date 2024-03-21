@@ -231,4 +231,3 @@
     return e == 1 ? 0 : e % 100 > 19 || e % 100 == 0 && e != 0 ? 2 : 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
-//# sourceMappingURL=ro.js.map

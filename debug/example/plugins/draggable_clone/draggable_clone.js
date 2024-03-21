@@ -112,4 +112,3 @@ const onReady = () => {
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
 export {};
-//# sourceMappingURL=draggable_clone.js.map

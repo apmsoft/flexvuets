@@ -37,4 +37,3 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: '最小分辨率：{minResolution}',
   imageValidateSizeLabelExpectedMaxResolution: '最大分辨率：{maxResolution}'
 };
-//# sourceMappingURL=zh-cn.js.map

@@ -7673,4 +7673,3 @@ if (supported()) {
   };
 }
 export { FileOrigin$1 as FileOrigin, FileStatus, OptionTypes, Status$1 as Status, create$f as create, destroy, find, getOptions$1 as getOptions, parse, registerPlugin, setOptions$1 as setOptions, supported };
-//# sourceMappingURL=filepond.esm.js.map

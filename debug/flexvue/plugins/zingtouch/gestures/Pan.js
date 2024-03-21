@@ -154,4 +154,3 @@ class Pan extends Gesture {
   }
 }
 export default Pan;
-//# sourceMappingURL=Pan.js.map

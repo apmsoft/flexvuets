@@ -161,4 +161,3 @@ class Tap extends Gesture {
   }
 }
 export default Tap;
-//# sourceMappingURL=Tap.js.map

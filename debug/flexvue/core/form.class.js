@@ -87,4 +87,3 @@ var Forms = exports["default"] = /*#__PURE__*/function () {
     }
   }]);
 }();
-//# sourceMappingURL=form.class.js.map

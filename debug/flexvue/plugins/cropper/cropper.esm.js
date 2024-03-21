@@ -3119,4 +3119,3 @@ var Cropper = /*#__PURE__*/function () {
 }();
 assign(Cropper.prototype, render, preview, events, handlers, change, methods);
 export { Cropper as default };
-//# sourceMappingURL=cropper.esm.js.map

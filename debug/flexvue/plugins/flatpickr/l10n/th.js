@@ -68,4 +68,3 @@
   exports.default = th;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=th.js.map

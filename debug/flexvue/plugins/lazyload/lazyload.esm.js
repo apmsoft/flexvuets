@@ -567,4 +567,3 @@ if (runningOnBrowser) {
   autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 export default LazyLoad;
-//# sourceMappingURL=lazyload.esm.js.map

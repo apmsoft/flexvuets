@@ -99,4 +99,3 @@ class Distance extends Gesture {
   }
 }
 export default Distance;
-//# sourceMappingURL=Distance.js.map

@@ -190,4 +190,3 @@ class Region {
   }
 }
 export default Region;
-//# sourceMappingURL=Region.js.map

@@ -2921,4 +2921,3 @@
   }
   return plugin;
 });
-//# sourceMappingURL=filepond-plugin-image-preview.js.map

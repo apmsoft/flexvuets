@@ -20,4 +20,3 @@
     return o > 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
-//# sourceMappingURL=oc.js.map

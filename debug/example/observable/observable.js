@@ -19,4 +19,3 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
-//# sourceMappingURL=observable.js.map

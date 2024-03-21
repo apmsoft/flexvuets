@@ -25,4 +25,3 @@ function interpreter(bindings, event, state) {
   return candidates;
 }
 export default interpreter;
-//# sourceMappingURL=interpreter.js.map

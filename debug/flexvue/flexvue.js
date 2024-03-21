@@ -577,4 +577,3 @@ class Router {
     return pathinfo;
   }
 }
-//# sourceMappingURL=flexvue.js.map

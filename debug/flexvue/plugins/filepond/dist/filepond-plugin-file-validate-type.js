@@ -178,4 +178,3 @@
   }
   return plugin;
 });
-//# sourceMappingURL=filepond-plugin-file-validate-type.js.map

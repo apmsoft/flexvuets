@@ -438,4 +438,3 @@
   };
   return Rellax;
 });
-//# sourceMappingURL=rellax.js.map

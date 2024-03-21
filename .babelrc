@@ -1,5 +1,5 @@
 {
-  "sourceMaps": true,
+  "sourceMaps": false,
   "retainLines": true,
   "plugins": [
     [ "module-resolver", {
@@ -17,6 +17,7 @@
           ,"@editorjs/embed": "./node_modules/@editorjs/embed/dist/embed.mjs"
           ,"@editorjs/checklist": "./node_modules/@editorjs/checklist/dist/checklist.mjs"
           ,"@editorjs/quote": "./node_modules/@editorjs/quote/dist/quote.mjs"
+          ,"swiper/bundle": "./node_modules/swiper/swiper-bundle.min.mjs"
         }
       }
     ]

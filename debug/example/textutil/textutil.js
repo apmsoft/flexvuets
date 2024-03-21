@@ -29,4 +29,3 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
-//# sourceMappingURL=textutil.js.map

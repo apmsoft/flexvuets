@@ -63,4 +63,3 @@
   exports.default = srCyr;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=sr-cyr.js.map

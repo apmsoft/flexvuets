@@ -119,4 +119,3 @@ TextPlugin.emojiSafeSplit = emojiSafeSplit;
 TextPlugin.getText = getText;
 _getGSAP() && gsap.registerPlugin(TextPlugin);
 export { TextPlugin as default };
-//# sourceMappingURL=TextPlugin.js.map

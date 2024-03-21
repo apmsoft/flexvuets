@@ -1000,4 +1000,3 @@ _forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,p
 });
 gsap.registerPlugin(CSSPlugin);
 export { CSSPlugin as default, _getBBox, _createElement, _checkPropPrefix as checkPrefix };
-//# sourceMappingURL=CSSPlugin.js.map

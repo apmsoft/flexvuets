@@ -231,4 +231,3 @@
     return e % 1 == 0 && e == 1 ? 0 : e % 1 == 0 && e >= 2 && e <= 4 ? 1 : e % 1 != 0 ? 2 : 3;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
-//# sourceMappingURL=sk.js.map

@@ -228,4 +228,3 @@
     "Yellow marker": "Yellow marker"
   });
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
-//# sourceMappingURL=en.js.map

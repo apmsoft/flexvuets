@@ -8,4 +8,3 @@ if (typeof window !== 'undefined') {
   window.ZingTouch = ZingTouch;
 }
 export default ZingTouch;
-//# sourceMappingURL=main.js.map

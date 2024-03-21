@@ -158,4 +158,3 @@ for (var p in EasePack) {
 }
 _getGSAP() && gsap.registerPlugin(SlowMo);
 export { EasePack as default };
-//# sourceMappingURL=EasePack.js.map

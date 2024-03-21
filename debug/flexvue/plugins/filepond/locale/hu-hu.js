@@ -37,4 +37,3 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: 'Minimáis felbontás: {minResolution}',
   imageValidateSizeLabelExpectedMaxResolution: 'Maximális felbontás: {maxResolution}'
 };
-//# sourceMappingURL=hu-hu.js.map

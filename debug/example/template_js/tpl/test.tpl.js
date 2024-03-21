@@ -17,4 +17,3 @@ class Template {
   }
 }
 export { Template };
-//# sourceMappingURL=test.tpl.js.map

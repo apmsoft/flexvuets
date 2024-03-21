@@ -71,4 +71,3 @@
   exports.default = uz_latn;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=uz_latn.js.map

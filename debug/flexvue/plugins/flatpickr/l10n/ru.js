@@ -71,4 +71,3 @@
   exports.default = ru;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=ru.js.map

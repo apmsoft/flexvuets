@@ -118,4 +118,3 @@ document.addEventListener('click', function (e) {
 
     // console.log(error)
   }});
-//# sourceMappingURL=sortable.js.map

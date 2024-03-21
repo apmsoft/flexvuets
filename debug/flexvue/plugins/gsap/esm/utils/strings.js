@@ -82,4 +82,3 @@ export function emojiSafeSplit(text, delimiter, trim, preserveSpaces) {
   }
   return result;
 }
-//# sourceMappingURL=strings.js.map

@@ -31,4 +31,3 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
-//# sourceMappingURL=log.js.map

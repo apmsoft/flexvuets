@@ -128,4 +128,3 @@ console.log('Saving failed: ',error);
 };
 // document ready
 document.addEventListener("DOMContentLoaded",onReady);
-//# sourceMappingURL=editorjs.js.map

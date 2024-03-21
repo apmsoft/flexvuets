@@ -46,4 +46,3 @@ export default class Template {
     return func(...Object.values(data));
   }
 }
-//# sourceMappingURL=template.class.js.map

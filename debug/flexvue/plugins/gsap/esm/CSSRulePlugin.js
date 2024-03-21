@@ -96,4 +96,3 @@ export var CSSRulePlugin = {
 };
 _getGSAP() && gsap.registerPlugin(CSSRulePlugin);
 export { CSSRulePlugin as default };
-//# sourceMappingURL=CSSRulePlugin.js.map

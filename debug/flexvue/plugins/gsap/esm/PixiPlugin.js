@@ -336,4 +336,3 @@ export var PixiPlugin = {
 };
 _getGSAP() && gsap.registerPlugin(PixiPlugin);
 export { PixiPlugin as default };
-//# sourceMappingURL=PixiPlugin.js.map

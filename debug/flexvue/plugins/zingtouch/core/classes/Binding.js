@@ -50,4 +50,3 @@ class Binding {
   }
 }
 export default Binding;
-//# sourceMappingURL=Binding.js.map

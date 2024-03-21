@@ -172,4 +172,3 @@ export default class ScrollAgent {
     }
   }
 }
-//# sourceMappingURL=scrollagent.class.js.map

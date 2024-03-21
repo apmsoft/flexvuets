@@ -30,4 +30,3 @@ import AsyncAjax from "../../flexvue/core/asyncajax.class.js";
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
-//# sourceMappingURL=asyncajax.js.map

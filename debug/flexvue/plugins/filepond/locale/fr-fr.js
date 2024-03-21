@@ -37,4 +37,3 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: "La résolution minimale est {minResolution}",
   imageValidateSizeLabelExpectedMaxResolution: "La résolution maximale est {maxResolution}"
 };
-//# sourceMappingURL=fr-fr.js.map

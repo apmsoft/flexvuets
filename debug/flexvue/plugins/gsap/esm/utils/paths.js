@@ -1032,4 +1032,3 @@ export function pointToScreen(svgElement, point) {
 }
 
 */
-//# sourceMappingURL=paths.js.map

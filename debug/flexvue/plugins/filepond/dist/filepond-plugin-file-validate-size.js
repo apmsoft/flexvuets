@@ -134,4 +134,3 @@
   }
   return plugin;
 });
-//# sourceMappingURL=filepond-plugin-file-validate-size.js.map

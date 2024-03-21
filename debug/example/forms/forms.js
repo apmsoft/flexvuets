@@ -9,4 +9,3 @@ import Forms from "../../flexvue/core/forms.class.js";
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
-//# sourceMappingURL=forms.js.map

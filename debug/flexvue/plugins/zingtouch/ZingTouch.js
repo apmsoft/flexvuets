@@ -32,4 +32,3 @@ let ZingTouch = {
   }
 };
 export default ZingTouch;
-//# sourceMappingURL=ZingTouch.js.map

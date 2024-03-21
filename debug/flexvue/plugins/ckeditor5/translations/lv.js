@@ -231,4 +231,3 @@
     return t % 10 == 1 && t % 100 != 11 ? 0 : t != 0 ? 1 : 2;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
-//# sourceMappingURL=lv.js.map

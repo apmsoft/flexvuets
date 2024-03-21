@@ -13,4 +13,3 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
-//# sourceMappingURL=progressbars.js.map

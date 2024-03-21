@@ -21,4 +21,3 @@ class Faq {
 }
 ;
 export { Faq };
-//# sourceMappingURL=faq.class.js.map

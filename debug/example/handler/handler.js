@@ -17,4 +17,3 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
-//# sourceMappingURL=handler.js.map

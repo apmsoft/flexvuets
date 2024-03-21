@@ -27,4 +27,3 @@ export { TweenLite, TimelineMax, TimelineLite, Power0, Power1, Power2, Power3, P
 //export * from "./MorphSVGPlugin.js";
 //export * from "./MotionPathHelper.js";
 //export * from "./SplitText.js";
-//# sourceMappingURL=all.js.map

@@ -190,4 +190,3 @@ class Swipe extends Gesture {
   }
 }
 export default Swipe;
-//# sourceMappingURL=Swipe.js.map

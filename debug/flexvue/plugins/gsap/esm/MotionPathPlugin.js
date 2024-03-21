@@ -263,4 +263,3 @@ export var MotionPathPlugin = {
 };
 _getGSAP() && gsap.registerPlugin(MotionPathPlugin);
 export { MotionPathPlugin as default };
-//# sourceMappingURL=MotionPathPlugin.js.map

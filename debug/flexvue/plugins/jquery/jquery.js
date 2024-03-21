@@ -853,4 +853,3 @@
   var Vt = C.jQuery,Gt = C.$;
   return S.noConflict = function (e) {return C.$ === S && (C.$ = Gt), e && C.jQuery === S && (C.jQuery = Vt), S;}, "undefined" == typeof e && (C.jQuery = C.$ = S), S;
 });
-//# sourceMappingURL=jquery.js.map

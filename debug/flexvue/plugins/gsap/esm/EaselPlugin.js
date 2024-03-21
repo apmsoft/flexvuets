@@ -243,4 +243,3 @@ EaselPlugin.registerCreateJS = function (createjs) {
 };
 _getGSAP() && gsap.registerPlugin(EaselPlugin);
 export { EaselPlugin as default };
-//# sourceMappingURL=EaselPlugin.js.map

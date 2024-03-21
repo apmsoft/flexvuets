@@ -66,4 +66,3 @@
   exports.default = es;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=es.js.map

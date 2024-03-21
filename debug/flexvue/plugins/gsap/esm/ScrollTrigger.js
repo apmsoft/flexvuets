@@ -1308,4 +1308,3 @@ ScrollTrigger.sort = function (func) {
 };
 _getGSAP() && gsap.registerPlugin(ScrollTrigger);
 export { ScrollTrigger as default };
-//# sourceMappingURL=ScrollTrigger.js.map

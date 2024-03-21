@@ -108,4 +108,3 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
-//# sourceMappingURL=ast.js.map

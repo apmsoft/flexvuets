@@ -37,4 +37,3 @@ export default class Template {
     });
   }
 }
-//# sourceMappingURL=daumpostmap.tpl.js.map

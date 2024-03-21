@@ -54,4 +54,3 @@ export default class UrlManager extends URL {
     window.history.pushState(id, title, url);
   }
 }
-//# sourceMappingURL=urlmanager.class.js.map

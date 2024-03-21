@@ -93,4 +93,3 @@ class Rotate extends Gesture {
   }
 }
 export default Rotate;
-//# sourceMappingURL=Rotate.js.map

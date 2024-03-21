@@ -62,4 +62,3 @@
   exports.default = vn;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=vn.js.map

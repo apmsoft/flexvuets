@@ -84,4 +84,3 @@ function arbiter(event, region) {
   }
 }
 export default arbiter;
-//# sourceMappingURL=arbiter.js.map

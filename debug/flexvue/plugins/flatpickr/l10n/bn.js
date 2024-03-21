@@ -60,4 +60,3 @@
   exports.default = bn;
   Object.defineProperty(exports, '__esModule', { value: true });
 });
-//# sourceMappingURL=bn.js.map

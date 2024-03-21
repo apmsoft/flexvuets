@@ -37,4 +37,3 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: 'Мінімальні розміри: {minResolution}',
   imageValidateSizeLabelExpectedMaxResolution: 'Максимальні розміри: {maxResolution}'
 };
-//# sourceMappingURL=uk-ua.js.map

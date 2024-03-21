@@ -30,4 +30,3 @@ class Binder {
   }
 }
 export default Binder;
-//# sourceMappingURL=Binder.js.map

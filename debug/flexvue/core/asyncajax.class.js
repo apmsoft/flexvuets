@@ -65,4 +65,3 @@ export default class AsyncAjax {
     });
   }
 }
-//# sourceMappingURL=asyncajax.class.js.map

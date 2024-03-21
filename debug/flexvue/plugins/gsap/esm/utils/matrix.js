@@ -276,4 +276,3 @@ export { _getDocScrollTop, _getDocScrollLeft, _setDoc, _isFixed, _getCTM }; // e
 // 		is2D = m && m.length === 6;
 // 	return !m || m.length < 6 ? new Matrix2D() : new Matrix2D(+m[0], +m[1], +m[is2D ? 2 : 4], +m[is2D ? 3 : 5], +m[is2D ? 4 : 12], +m[is2D ? 5 : 13]);
 // }
-//# sourceMappingURL=matrix.js.map

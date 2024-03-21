@@ -58,4 +58,3 @@ class ZingEvent {
   }
 }
 export default ZingEvent;
-//# sourceMappingURL=ZingEvent.js.map

@@ -2968,4 +2968,3 @@ var Viewer = /*#__PURE__*/function () {
 }();
 assign(Viewer.prototype, render, events, handlers, methods, others);
 export default Viewer;
-//# sourceMappingURL=viewer.esm.js.map
