@@ -1,5 +1,6 @@
 const runningOnBrowser = typeof window !== "undefined";
-const isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
+const isBot = runningOnBrowser && !("onscroll" in window) ||
+typeof navigator !== "undefined" && /(gle|ing|ro)bot|crawl|spider/i.test(navigator.userAgent);
 const supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
 const supportsClassList = runningOnBrowser && "classList" in document.createElement("p");
 const isHiDpi = runningOnBrowser && window.devicePixelRatio > 1;
@@ -35,7 +36,7 @@ const defaultSettings = {
   callback_cancel: null,
   use_native: false
 };
-const getExtendedSettings = customSettings => {
+const getExtendedSettings = (customSettings) => {
   return Object.assign({}, defaultSettings, customSettings);
 };
 /* Creates instance and notifies it through the window element */
@@ -45,17 +46,12 @@ const createInstance = function (classObj, options) {
   let instance = new classObj(options);
   try {
     // Works in modern browsers
-    event = new CustomEvent(eventString, {
-      detail: {
-        instance
-      }
-    });
-  } catch (err) {
+    event = new CustomEvent(eventString, { detail: { instance } });
+  }
+  catch (err) {
     // Works in Internet Explorer (all versions)
     event = document.createEvent("CustomEvent");
-    event.initCustomEvent(eventString, false, false, {
-      instance
-    });
+    event.initCustomEvent(eventString, false, false, { instance });
   }
   window.dispatchEvent(event);
 };
@@ -68,7 +64,8 @@ const autoInitialize = (classObj, options) => {
   if (!options.length) {
     // Plain object
     createInstance(classObj, options);
-  } else {
+  } else
+  {
     // Array of objects
     for (let i = 0, optionsItem; optionsItem = options[i]; i += 1) {
       createInstance(classObj, optionsItem);
@@ -94,15 +91,15 @@ const setData = (element, attribute, value) => {
   }
   element.setAttribute(attrName, value);
 };
-const getStatus = element => getData(element, statusDataName);
+const getStatus = (element) => getData(element, statusDataName);
 const setStatus = (element, status) => setData(element, statusDataName, status);
-const resetStatus = element => setStatus(element, null);
-const hasEmptyStatus = element => getStatus(element) === null;
-const hasStatusLoading = element => getStatus(element) === statusLoading;
-const hasStatusError = element => getStatus(element) === statusError;
-const hasStatusNative = element => getStatus(element) === statusNative;
+const resetStatus = (element) => setStatus(element, null);
+const hasEmptyStatus = (element) => getStatus(element) === null;
+const hasStatusLoading = (element) => getStatus(element) === statusLoading;
+const hasStatusError = (element) => getStatus(element) === statusError;
+const hasStatusNative = (element) => getStatus(element) === statusNative;
 const statusesAfterLoading = [statusLoading, statusLoaded, statusApplied, statusError];
-const hadStartedLoading = element => statusesAfterLoading.indexOf(getStatus(element)) >= 0;
+const hadStartedLoading = (element) => statusesAfterLoading.indexOf(getStatus(element)) >= 0;
 const safeCallback = (callback, arg1, arg2, arg3) => {
   if (!callback) {
     return;
@@ -129,42 +126,51 @@ const removeClass = (element, className) => {
     element.classList.remove(className);
     return;
   }
-  element.className = element.className.replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").replace(/^\s+/, "").replace(/\s+$/, "");
+  element.className = element.className.
+  replace(new RegExp("(^|\\s+)" + className + "(\\s+|$)"), " ").
+  replace(/^\s+/, "").
+  replace(/\s+$/, "");
 };
-const addTempImage = element => {
+const addTempImage = (element) => {
   element.llTempImage = document.createElement("IMG");
 };
-const deleteTempImage = element => {
+const deleteTempImage = (element) => {
   delete element.llTempImage;
 };
-const getTempImage = element => element.llTempImage;
+const getTempImage = (element) => element.llTempImage;
 const unobserve = (element, instance) => {
-  if (!instance) return;
+  if (!instance)
+  return;
   const observer = instance._observer;
-  if (!observer) return;
+  if (!observer)
+  return;
   observer.unobserve(element);
 };
-const resetObserver = observer => {
+const resetObserver = (observer) => {
   observer.disconnect();
 };
 const unobserveEntered = (element, settings, instance) => {
-  if (settings.unobserve_entered) unobserve(element, instance);
+  if (settings.unobserve_entered)
+  unobserve(element, instance);
 };
 const updateLoadingCount = (instance, delta) => {
-  if (!instance) return;
+  if (!instance)
+  return;
   instance.loadingCount += delta;
 };
-const decreaseToLoadCount = instance => {
-  if (!instance) return;
+const decreaseToLoadCount = (instance) => {
+  if (!instance)
+  return;
   instance.toLoadCount -= 1;
 };
 const setToLoadCount = (instance, value) => {
-  if (!instance) return;
+  if (!instance)
+  return;
   instance.toLoadCount = value;
 };
-const isSomethingLoading = instance => instance.loadingCount > 0;
-const haveElementsToLoad = instance => instance.toLoadCount > 0;
-const getSourceTags = parentTag => {
+const isSomethingLoading = (instance) => instance.loadingCount > 0;
+const haveElementsToLoad = (instance) => instance.toLoadCount > 0;
+const getSourceTags = (parentTag) => {
   let sourceTags = [];
   for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
     if (childTag.tagName === "SOURCE") {
@@ -182,10 +188,10 @@ const setAttributeIfValue = (element, attrName, value) => {
 const resetAttribute = (element, attrName) => {
   element.removeAttribute(attrName);
 };
-const hasOriginalAttributes = element => {
+const hasOriginalAttributes = (element) => {
   return !!element.llOriginalAttrs;
 };
-const saveOriginalImageAttributes = element => {
+const saveOriginalImageAttributes = (element) => {
   if (hasOriginalAttributes(element)) {
     return;
   }
@@ -195,7 +201,7 @@ const saveOriginalImageAttributes = element => {
   originalAttributes["sizes"] = element.getAttribute("sizes");
   element.llOriginalAttrs = originalAttributes;
 };
-const restoreOriginalImageAttributes = element => {
+const restoreOriginalImageAttributes = (element) => {
   if (!hasOriginalAttributes(element)) {
     return;
   }
@@ -209,7 +215,7 @@ const setImageAttributes = (element, settings) => {
   setAttributeIfValue(element, "srcset", getData(element, settings.data_srcset));
   setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
-const resetImageAttributes = element => {
+const resetImageAttributes = (element) => {
   resetAttribute(element, "src");
   resetAttribute(element, "srcset");
   resetAttribute(element, "sizes");
@@ -226,22 +232,22 @@ const forEachVideoSource = (element, fn) => {
   let sourceTags = getSourceTags(element);
   sourceTags.forEach(fn);
 };
-const restoreOriginalAttributesImg = element => {
-  forEachPictureSource(element, sourceTag => {
+const restoreOriginalAttributesImg = (element) => {
+  forEachPictureSource(element, (sourceTag) => {
     restoreOriginalImageAttributes(sourceTag);
   });
   restoreOriginalImageAttributes(element);
 };
 const setSourcesImg = (element, settings) => {
-  forEachPictureSource(element, sourceTag => {
+  forEachPictureSource(element, (sourceTag) => {
     saveOriginalImageAttributes(sourceTag);
     setImageAttributes(sourceTag, settings);
   });
   saveOriginalImageAttributes(element);
   setImageAttributes(element, settings);
 };
-const resetSourcesImg = element => {
-  forEachPictureSource(element, sourceTag => {
+const resetSourcesImg = (element) => {
+  forEachPictureSource(element, (sourceTag) => {
     resetImageAttributes(sourceTag);
   });
   resetImageAttributes(element);
@@ -250,7 +256,7 @@ const setSourcesIframe = (element, settings) => {
   setAttributeIfValue(element, "src", getData(element, settings.data_src));
 };
 const setSourcesVideo = (element, settings) => {
-  forEachVideoSource(element, sourceTag => {
+  forEachVideoSource(element, (sourceTag) => {
     setAttributeIfValue(sourceTag, "src", getData(sourceTag, settings.data_src));
   });
   setAttributeIfValue(element, "poster", getData(element, settings.data_poster));
@@ -266,7 +272,8 @@ const setBackground = (element, settings, instance) => {
   const bg1xValue = getData(element, settings.data_bg);
   const bgHiDpiValue = getData(element, settings.data_bg_hidpi);
   const bgDataValue = isHiDpi && bgHiDpiValue ? bgHiDpiValue : bg1xValue;
-  if (!bgDataValue) return;
+  if (!bgDataValue)
+  return;
   element.style.backgroundImage = `url("${bgDataValue}")`;
   getTempImage(element).setAttribute("src", bgDataValue);
   manageLoading(element, settings, instance);
@@ -307,7 +314,7 @@ const manageLoading = (element, settings, instance) => {
   safeCallback(settings.callback_loading, element, instance);
 };
 const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO"];
-const hasLoadEvent = element => elementsWithLoadEvent.indexOf(element.tagName) > -1;
+const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
 const checkFinish = (settings, instance) => {
   if (instance && !isSomethingLoading(instance) && !haveElementsToLoad(instance)) {
     safeCallback(settings.callback_finish, instance);
@@ -320,16 +327,17 @@ const addEventListener = (element, eventName, handler) => {
 const removeEventListener = (element, eventName, handler) => {
   element.removeEventListener(eventName, handler);
 };
-const hasEventListeners = element => {
+const hasEventListeners = (element) => {
   return !!element.llEvLisnrs;
 };
 const addEventListeners = (element, loadHandler, errorHandler) => {
-  if (!hasEventListeners(element)) element.llEvLisnrs = {};
+  if (!hasEventListeners(element))
+  element.llEvLisnrs = {};
   const loadEventName = element.tagName === "VIDEO" ? "loadeddata" : "load";
   addEventListener(element, loadEventName, loadHandler);
   addEventListener(element, "error", errorHandler);
 };
-const removeEventListeners = element => {
+const removeEventListeners = (element) => {
   if (!hasEventListeners(element)) {
     return;
   }
@@ -355,7 +363,8 @@ const loadHandler = (event, element, settings, instance) => {
   addClass(element, settings.class_loaded);
   setStatus(element, statusLoaded);
   safeCallback(settings.callback_loaded, element, instance);
-  if (!goingNative) checkFinish(settings, instance);
+  if (!goingNative)
+  checkFinish(settings, instance);
 };
 const errorHandler = (event, element, settings, instance) => {
   const goingNative = hasStatusNative(element);
@@ -363,7 +372,8 @@ const errorHandler = (event, element, settings, instance) => {
   addClass(element, settings.class_error);
   setStatus(element, statusError);
   safeCallback(settings.callback_error, element, instance);
-  if (!goingNative) checkFinish(settings, instance);
+  if (!goingNative)
+  checkFinish(settings, instance);
 };
 const addOneShotEventListeners = (element, settings, instance) => {
   const elementToListenTo = getTempImage(element) || element;
@@ -371,11 +381,11 @@ const addOneShotEventListeners = (element, settings, instance) => {
     // This happens when loading is retried twice
     return;
   }
-  const _loadHandler = event => {
+  const _loadHandler = (event) => {
     loadHandler(event, element, settings, instance);
     removeEventListeners(elementToListenTo);
   };
-  const _errorHandler = event => {
+  const _errorHandler = (event) => {
     errorHandler(event, element, settings, instance);
     removeEventListeners(elementToListenTo);
   };
@@ -395,7 +405,8 @@ const loadRegular = (element, settings, instance) => {
 const load = (element, settings, instance) => {
   if (hasLoadEvent(element)) {
     loadRegular(element, settings, instance);
-  } else {
+  } else
+  {
     loadBackground(element, settings, instance);
   }
 };
@@ -405,9 +416,12 @@ const loadNative = (element, settings, instance) => {
   setStatus(element, statusNative);
 };
 const cancelLoading = (element, entry, settings, instance) => {
-  if (!settings.cancel_on_exit) return;
-  if (!hasStatusLoading(element)) return;
-  if (element.tagName !== "IMG") return; //Works only on images
+  if (!settings.cancel_on_exit)
+  return;
+  if (!hasStatusLoading(element))
+  return;
+  if (element.tagName !== "IMG")
+  return; //Works only on images
   removeEventListeners(element);
   resetSourcesImg(element);
   restoreOriginalAttributesImg(element);
@@ -422,19 +436,21 @@ const onEnter = (element, entry, settings, instance) => {
   removeClass(element, settings.class_exited);
   unobserveEntered(element, settings, instance);
   safeCallback(settings.callback_enter, element, entry, instance);
-  if (hadStartedLoading(element)) return; //Prevent loading it again
+  if (hadStartedLoading(element))
+  return; //Prevent loading it again
   load(element, settings, instance);
 };
 const onExit = (element, entry, settings, instance) => {
-  if (hasEmptyStatus(element)) return; //Ignore the first pass, at landing
+  if (hasEmptyStatus(element))
+  return; //Ignore the first pass, at landing
   addClass(element, settings.class_exited);
   cancelLoading(element, entry, settings, instance);
   safeCallback(settings.callback_exit, element, entry, instance);
 };
 const tagsWithNativeLazy = ["IMG", "IFRAME"];
-const shouldUseNative = settings => settings.use_native && "loading" in HTMLImageElement.prototype;
+const shouldUseNative = (settings) => settings.use_native && "loading" in HTMLImageElement.prototype;
 const loadAllNative = (elements, settings, instance) => {
-  elements.forEach(element => {
+  elements.forEach((element) => {
     if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
       return;
     }
@@ -443,16 +459,18 @@ const loadAllNative = (elements, settings, instance) => {
   });
   setToLoadCount(instance, 0);
 };
-const isIntersecting = entry => entry.isIntersecting || entry.intersectionRatio > 0;
-const getObserverSettings = settings => ({
+const isIntersecting = (entry) => entry.isIntersecting || entry.intersectionRatio > 0;
+const getObserverSettings = (settings) => ({
   root: settings.container === document ? null : settings.container,
   rootMargin: settings.thresholds || settings.threshold + "px"
 });
 const intersectionHandler = (entries, settings, instance) => {
-  entries.forEach(entry => isIntersecting(entry) ? onEnter(entry.target, entry, settings, instance) : onExit(entry.target, entry, settings, instance));
+  entries.forEach((entry) => isIntersecting(entry) ?
+  onEnter(entry.target, entry, settings, instance) :
+  onExit(entry.target, entry, settings, instance));
 };
 const observeElements = (observer, elements) => {
-  elements.forEach(element => {
+  elements.forEach((element) => {
     observer.observe(element);
   });
 };
@@ -464,19 +482,19 @@ const setObserver = (settings, instance) => {
   if (!supportsIntersectionObserver || shouldUseNative(settings)) {
     return;
   }
-  instance._observer = new IntersectionObserver(entries => {
+  instance._observer = new IntersectionObserver((entries) => {
     intersectionHandler(entries, settings, instance);
   }, getObserverSettings(settings));
 };
-const toArray = nodeSet => Array.prototype.slice.call(nodeSet);
-const queryElements = settings => settings.container.querySelectorAll(settings.elements_selector);
-const excludeManagedElements = elements => toArray(elements).filter(hasEmptyStatus);
-const hasError = element => hasStatusError(element);
-const filterErrorElements = elements => toArray(elements).filter(hasError);
+const toArray = (nodeSet) => Array.prototype.slice.call(nodeSet);
+const queryElements = (settings) => settings.container.querySelectorAll(settings.elements_selector);
+const excludeManagedElements = (elements) => toArray(elements).filter(hasEmptyStatus);
+const hasError = (element) => hasStatusError(element);
+const filterErrorElements = (elements) => toArray(elements).filter(hasError);
 const getElementsToLoad = (elements, settings) => excludeManagedElements(elements || queryElements(settings));
 const retryLazyLoad = (settings, instance) => {
   const errorElements = filterErrorElements(queryElements(settings));
-  errorElements.forEach(element => {
+  errorElements.forEach((element) => {
     removeClass(element, settings.class_error);
     resetStatus(element);
   });
@@ -519,7 +537,7 @@ LazyLoad.prototype = {
       this._observer.disconnect();
     }
     // Clean custom attributes on elements
-    queryElements(this._settings).forEach(element => {
+    queryElements(this._settings).forEach((element) => {
       delete element.llOriginalAttrs;
     });
     // Delete all internal props
@@ -531,7 +549,7 @@ LazyLoad.prototype = {
   loadAll: function (elements) {
     const settings = this._settings;
     const elementsToLoad = getElementsToLoad(elements, settings);
-    elementsToLoad.forEach(element => {
+    elementsToLoad.forEach((element) => {
       unobserve(element, this);
       load(element, settings, this);
     });
@@ -541,7 +559,7 @@ LazyLoad.load = (element, customSettings) => {
   const settings = getExtendedSettings(customSettings);
   load(element, settings);
 };
-LazyLoad.resetStatus = element => {
+LazyLoad.resetStatus = (element) => {
   resetStatus(element);
 };
 // Automatic instances creation if required (useful for async script loading)
@@ -549,3 +567,4 @@ if (runningOnBrowser) {
   autoInitialize(LazyLoad, window.lazyLoadOptions);
 }
 export default LazyLoad;
+//# sourceMappingURL=lazyload.esm.js.map

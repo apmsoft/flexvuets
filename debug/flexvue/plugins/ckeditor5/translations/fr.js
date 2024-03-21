@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["fr"] = e["fr"] || {};
+  var t = e["fr"] = e["fr"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 sur %1",
     "Align cell text to the bottom": "Aligner le texte en bas",
@@ -231,3 +231,4 @@
     return e == 0 || e == 1 ? 0 : e != 0 && e % 1e6 == 0 ? 1 : 2;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=fr.js.map

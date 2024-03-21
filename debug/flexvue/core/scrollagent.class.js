@@ -5,12 +5,7 @@ export default class ScrollAgent {
     this.channel = channel;
     this.scrollerVertical = null;
     this.scrollerHorizontal = null;
-    this.keys = {
-      37: 1,
-      38: 1,
-      39: 1,
-      40: 1
-    };
+    this.keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
     this.supportsPassive = false;
     this.wheelOpt = false;
     this.wheelEvent = 'mousewheel';
@@ -39,7 +34,8 @@ export default class ScrollAgent {
         this.scrollerVertical.dataset.scrollch = this.channel;
         this.startVertical();
       }
-    } else if (mode === 'horizontal') {
+    } else
+    if (mode === 'horizontal') {
       this.scrollerHorizontal = document.querySelector(scrollTarget);
       if (this.scrollerHorizontal) {
         this.scrollerHorizontal.dataset.scrollch = this.channel;
@@ -50,7 +46,7 @@ export default class ScrollAgent {
   startVertical() {
     // 스크롤 캡쳐
     if (this.scrollerVertical) {
-      this.scrollerVertical.addEventListener("scroll", event => {
+      this.scrollerVertical.addEventListener("scroll", (event) => {
         const target = event.target;
         const _ch = target.dataset.scrollch;
         let tpos = target.scrollTop;
@@ -63,7 +59,8 @@ export default class ScrollAgent {
             if (!this.floatEl.classList.contains('hidden')) {
               this.floatEl.classList.add('hidden');
             }
-          } else {
+          } else
+          {
             if (this.floatEl.classList.contains('hidden')) {
               this.floatEl.classList.remove('hidden');
             }
@@ -75,16 +72,14 @@ export default class ScrollAgent {
       //         get: () => { this.supportsPassive = true; }
       //     }));
       // } catch (e) { }
-      this.wheelOpt = this.supportsPassive ? {
-        passive: false
-      } : false;
+      this.wheelOpt = this.supportsPassive ? { passive: false } : false;
       this.wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
     }
   }
   startHorizontal() {
     const self = this;
     if (this.scrollerHorizontal) {
-      this.scrollerHorizontal.addEventListener("scroll", event => {
+      this.scrollerHorizontal.addEventListener("scroll", (event) => {
         const target = event.target;
         const _ch = target.dataset.scrollch;
         if (_ch === self.channel) {
@@ -98,7 +93,8 @@ export default class ScrollAgent {
     let pos = 0;
     try {
       pos = ScrollObserver._getPos(this.channel);
-    } catch (e) {
+    }
+    catch (e) {
       Log.d(e);
     }
     return pos;
@@ -139,9 +135,7 @@ export default class ScrollAgent {
       Handler.post(function () {
         var _a, _b;
         const pos = (_a = self.scrollerVertical) === null || _a === void 0 ? void 0 : _a.scrollHeight;
-        (_b = self.scrollerVertical) === null || _b === void 0 ? void 0 : _b.scrollTo({
-          top: pos
-        });
+        (_b = self.scrollerVertical) === null || _b === void 0 ? void 0 : _b.scrollTo({ top: pos });
       }, dtime);
     }
   }
@@ -149,7 +143,9 @@ export default class ScrollAgent {
     try {
       e.stopImmediatePropagation();
       e.preventDefault();
-    } catch (e) {}
+    }
+    catch (e) {
+    }
   }
   preventDefaultForScrollKeys(e) {
     if (this.keys[e.keyCode]) {
@@ -176,3 +172,4 @@ export default class ScrollAgent {
     }
   }
 }
+//# sourceMappingURL=scrollagent.class.js.map

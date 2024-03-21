@@ -2,7 +2,7 @@ import UrlManager from "../../flexvue/core/urlmanager.class.js";
 const onReady = () => {
   new App();
   Log.i(App.browser, App.version, App.os, App.lang);
-  new Activity().onBackPressed(state => {
+  new Activity().onBackPressed((state) => {
     Log.d('onBackPressed : ------>', state);
   });
   // #docs/start : hash 경로가 바뀔때 마다 호출 됩니다
@@ -40,3 +40,4 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=activity.js.map

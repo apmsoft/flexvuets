@@ -1,7 +1,7 @@
 "use strict";
 
 (function (o) {
-  const e = o["gu"] = o["gu"] || {};
+  var e = o["gu"] = o["gu"] || {};
   e.dictionary = Object.assign(e.dictionary || {}, {
     "%0 of %1": "",
     "Block quote": " વિચાર ટાંકો",
@@ -21,3 +21,4 @@
     return o != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=gu.js.map

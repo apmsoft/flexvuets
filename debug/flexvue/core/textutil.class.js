@@ -1,7 +1,6 @@
 "use strict";
-
 // 01011112222 -> 010-1111-2222, 15881234 -> 1588-1234
-const phone_format = str => {
+const phone_format = (str) => {
   let result = ('' + str).replace(/\D/g, '');
   let match1 = /^(\d{3})(\d{4})(\d{4})$/;
   let match2 = /^(\d{4})(\d{4})$/;
@@ -9,7 +8,8 @@ const phone_format = str => {
   const m2 = result.match(match2);
   if (m1) {
     result = [m1[1], m1[2], m1[3]].join('-');
-  } else if (m2) {
+  } else
+  if (m2) {
     result = [m2[1], m2[2]].join('-');
   }
   return result;
@@ -25,8 +25,9 @@ const number_format = (num, locale = 'ko-KR') => {
   return result;
 };
 // 8000 -> 8 KB
-const filesize_format = bytes => {
-  if (bytes == 0) return '0 Byte';
+const filesize_format = (bytes) => {
+  if (bytes == 0)
+  return '0 Byte';
   let k = 1000;
   let dm = 3;
   let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -34,7 +35,7 @@ const filesize_format = bytes => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 // youtube url 주소에서 id 추출
-const find_youtube_id = url => {
+const find_youtube_id = (url) => {
   let result = '';
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   let match = url.match(regExp);
@@ -54,7 +55,7 @@ const change_icons = (contents, _icons) => {
   }
   const s = contents.match(/\(\/\w+\)/gi);
   if (s) {
-    s.forEach(em => {
+    s.forEach((em) => {
       const em_key = em.replace(/[\W]/gi, "");
       const icon = _icons[em_key] ? `<img src="${_icons[em_key]}" class="inline-block" />` : '';
       contents = contents === null || contents === void 0 ? void 0 : contents.replace(em, icon);
@@ -63,3 +64,4 @@ const change_icons = (contents, _icons) => {
   return contents;
 };
 export { phone_format, number_format, filesize_format, find_youtube_id, random_number, change_icons };
+//# sourceMappingURL=textutil.class.js.map

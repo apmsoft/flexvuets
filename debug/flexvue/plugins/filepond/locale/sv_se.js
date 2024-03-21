@@ -37,3 +37,4 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: 'Minsta tillåtna upplösning är {minResolution}',
   imageValidateSizeLabelExpectedMaxResolution: 'Högsta tillåtna upplösning är {maxResolution}'
 };
+//# sourceMappingURL=sv_se.js.map

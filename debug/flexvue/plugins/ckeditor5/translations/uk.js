@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["uk"] = e["uk"] || {};
+  var t = e["uk"] = e["uk"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 із %1",
     "Align cell text to the bottom": "Вирівняти текст комірки по низу",
@@ -231,3 +231,4 @@
     return e % 1 == 0 && e % 10 == 1 && e % 100 != 11 ? 0 : e % 1 == 0 && e % 10 >= 2 && e % 10 <= 4 && (e % 100 < 12 || e % 100 > 14) ? 1 : e % 1 == 0 && (e % 10 == 0 || e % 10 >= 5 && e % 10 <= 9 || e % 100 >= 11 && e % 100 <= 14) ? 2 : 3;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=uk.js.map

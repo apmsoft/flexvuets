@@ -10,7 +10,7 @@ const onReady = () => {
   window.observable.subscribe('public', _f);
   window.observable.notify('public', 'PUBLIC message 테스트');
   window.observable.notify('public', 'SUB message 테스트');
-  new Forms('#theMessageForm').doSubmit(form_params => {
+  new Forms('#theMessageForm').doSubmit((form_params) => {
     var _a;
     Log.clear();
     Log.d(form_params);
@@ -19,3 +19,4 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=observable.js.map

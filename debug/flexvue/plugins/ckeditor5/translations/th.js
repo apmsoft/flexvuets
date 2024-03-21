@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["th"] = e["th"] || {};
+  var t = e["th"] = e["th"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 จาก %1",
     "Align cell text to the bottom": "จัดตำแหน่งข้อความของเซลล์ชิดด้านล่าง",
@@ -231,3 +231,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=th.js.map

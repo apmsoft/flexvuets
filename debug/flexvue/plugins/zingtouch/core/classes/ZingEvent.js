@@ -42,10 +42,11 @@ class ZingEvent {
     this.y = INITIAL_COORDINATE;
     let eventObj;
     if (event.touches && event.changedTouches) {
-      eventObj = Array.from(event.changedTouches).find(t => {
+      eventObj = Array.from(event.changedTouches).find((t) => {
         return t.identifier === touchIdentifier;
       });
-    } else {
+    } else
+    {
       eventObj = event;
     }
     this.x = this.clientX = eventObj.clientX;
@@ -57,3 +58,4 @@ class ZingEvent {
   }
 }
 export default ZingEvent;
+//# sourceMappingURL=ZingEvent.js.map

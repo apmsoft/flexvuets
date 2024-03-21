@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["bn"] = e["bn"] || {};
+  var t = e["bn"] = e["bn"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 এর %1",
     "Align cell text to the bottom": "নীচে সেল টেক্সট সারিবদ্ধ করুন",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=bn.js.map

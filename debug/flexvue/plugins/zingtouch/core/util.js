@@ -38,7 +38,8 @@ let util = {
    * within the tolerance, false otherwise
    */
   isWithin(currentX, currentY, previousX, previousY, tolerance) {
-    return Math.abs(currentY - previousY) <= tolerance && Math.abs(currentX - previousX) <= tolerance;
+    return Math.abs(currentY - previousY) <= tolerance &&
+    Math.abs(currentX - previousX) <= tolerance;
   },
   /* isWithin*/
   /**
@@ -117,7 +118,7 @@ let util = {
   getRightMostInput(inputs) {
     let rightMost = null;
     let distance = Number.MIN_VALUE;
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       if (input.initial.x > distance) {
         rightMost = input;
       }
@@ -141,7 +142,8 @@ let util = {
    */
   isInside(x, y, target) {
     const rect = target.getBoundingClientRect();
-    return x > rect.left && x < rect.left + rect.width && y > rect.top && y < rect.top + rect.height;
+    return x > rect.left && x < rect.left + rect.width &&
+    y > rect.top && y < rect.top + rect.height;
   },
   /**
    * Polyfill for event.propagationPath
@@ -151,7 +153,8 @@ let util = {
   getPropagationPath(event) {
     if (event.path) {
       return event.path;
-    } else {
+    } else
+    {
       let path = [];
       let node = event.target;
       while (node != document) {
@@ -187,9 +190,11 @@ let util = {
   preventDefault(event) {
     if (event.preventDefault) {
       event.preventDefault();
-    } else {
+    } else
+    {
       event.returnValue = false;
     }
   }
 };
 export default util;
+//# sourceMappingURL=util.js.map

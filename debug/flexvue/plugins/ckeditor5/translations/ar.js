@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["ar"] = e["ar"] || {};
+  var t = e["ar"] = e["ar"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 من %1",
     "Align cell text to the bottom": "قم بمحاذاة نص الخلية للاسفل",
@@ -231,3 +231,4 @@
     return e == 0 ? 0 : e == 1 ? 1 : e == 2 ? 2 : e % 100 >= 3 && e % 100 <= 10 ? 3 : e % 100 >= 11 && e % 100 <= 99 ? 4 : 5;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ar.js.map

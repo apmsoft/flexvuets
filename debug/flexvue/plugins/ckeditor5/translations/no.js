@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["no"] = e["no"] || {};
+  var t = e["no"] = e["no"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 av %1",
     "Align cell text to the bottom": "Juster celletekst til bunn ",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=no.js.map

@@ -4,10 +4,12 @@ const onReady = () => {
     const countUp = new CountUp('mypoint', 10000);
     if (!countUp.error) {
       countUp.start();
-    } else {
+    } else
+    {
       throw countUp.error;
     }
   }, 1000);
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=countup.js.map

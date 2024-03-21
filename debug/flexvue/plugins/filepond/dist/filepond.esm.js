@@ -5,14 +5,17 @@
  */
 var __rest = this && this.__rest || function (s, e) {
   var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+  t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+  for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+    t[p[i]] = s[p[i]];
   }
   return t;
 };
 /* eslint-disable */
-const isNode = value => value instanceof HTMLElement;
+const isNode = (value) => value instanceof HTMLElement;
 const createStore = (initialState, queries = [], actions = []) => {
   // internal state
   const state = Object.assign({}, initialState);
@@ -36,10 +39,7 @@ const createStore = (initialState, queries = [], actions = []) => {
     // clear actions queue (we don't want no double actions)
     dispatchQueue.length = 0;
     // now dispatch these actions
-    queue.forEach(({
-      type,
-      data
-    }) => {
+    queue.forEach(({ type, data }) => {
       dispatch(type, data);
     });
   };
@@ -47,10 +47,7 @@ const createStore = (initialState, queries = [], actions = []) => {
   const dispatch = (type, data, isBlocking) => {
     // is blocking action (should never block if document is hidden)
     if (isBlocking && !document.hidden) {
-      dispatchQueue.push({
-        type,
-        data
-      });
+      dispatchQueue.push({ type, data });
       return;
     }
     // if this action has a handler, handle the action
@@ -72,11 +69,11 @@ const createStore = (initialState, queries = [], actions = []) => {
     query
   };
   let queryHandles = {};
-  queries.forEach(query => {
+  queries.forEach((query) => {
     queryHandles = Object.assign(Object.assign({}, query(state)), queryHandles);
   });
   let actionHandlers = {};
-  actions.forEach(action => {
+  actions.forEach((action) => {
     actionHandlers = Object.assign(Object.assign({}, action(dispatch, query, state)), actionHandlers);
   });
   return api;
@@ -96,9 +93,9 @@ const forin = (obj, cb) => {
     cb(key, obj[key]);
   }
 };
-const createObject = definition => {
+const createObject = (definition) => {
   const obj = {};
-  forin(definition, property => {
+  forin(definition, (property) => {
     defineProperty(obj, property, definition[property]);
   });
   return obj;
@@ -111,17 +108,20 @@ const attr = (node, name, value = null) => {
 };
 const ns = 'http://www.w3.org/2000/svg';
 const svgElements = ['svg', 'path']; // only svg elements used
-const isSVGElement = tag => svgElements.includes(tag);
+const isSVGElement = (tag) => svgElements.includes(tag);
 const createElement = (tag, className, attributes = {}) => {
   if (typeof className === 'object') {
     attributes = className;
     className = null;
   }
-  const element = isSVGElement(tag) ? document.createElementNS(ns, tag) : document.createElement(tag);
+  const element = isSVGElement(tag) ?
+  document.createElementNS(ns, tag) :
+  document.createElement(tag);
   if (className) {
     if (isSVGElement(tag)) {
       attr(element, 'class', className);
-    } else {
+    } else
+    {
       element.className = className;
     }
   }
@@ -130,22 +130,24 @@ const createElement = (tag, className, attributes = {}) => {
   });
   return element;
 };
-const appendChild = parent => (child, index) => {
+const appendChild = (parent) => (child, index) => {
   if (typeof index !== 'undefined' && parent.children[index]) {
     parent.insertBefore(child, parent.children[index]);
-  } else {
+  } else
+  {
     parent.appendChild(child);
   }
 };
 const appendChildView = (parent, childViews) => (view, index) => {
   if (typeof index !== 'undefined') {
     childViews.splice(index, 0, view);
-  } else {
+  } else
+  {
     childViews.push(view);
   }
   return view;
 };
-const removeChildView = (parent, childViews) => view => {
+const removeChildView = (parent, childViews) => (view) => {
   // remove from child views
   childViews.splice(childViews.indexOf(view), 1);
   // remove the element
@@ -157,7 +159,9 @@ const removeChildView = (parent, childViews) => view => {
 const IS_BROWSER = (() => typeof window !== 'undefined' && typeof window.document !== 'undefined')();
 const isBrowser = () => IS_BROWSER;
 const testElement = isBrowser() ? createElement('svg') : {};
-const getChildCount = 'children' in testElement ? el => el.children.length : el => el.childNodes.length;
+const getChildCount = 'children' in testElement ?
+(el) => el.children.length :
+(el) => el.childNodes.length;
 const getViewRect = (elementRect, childViews, offset, scale) => {
   const left = offset[0] || elementRect.left;
   const top = offset[1] || elementRect.top;
@@ -183,7 +187,10 @@ const getViewRect = (elementRect, childViews, offset, scale) => {
     }
   };
   // expand rect to fit all child rectangles
-  childViews.filter(childView => !childView.isRectIgnored()).map(childView => childView.rect).forEach(childViewRect => {
+  childViews.
+  filter((childView) => !childView.isRectIgnored()).
+  map((childView) => childView.rect).
+  forEach((childViewRect) => {
     expandRect(rect.inner, Object.assign({}, childViewRect.inner));
     expandRect(rect.outer, Object.assign({}, childViewRect.outer));
   });
@@ -209,11 +216,11 @@ const expandRect = (parent, child) => {
     parent.right = child.right;
   }
 };
-const calculateRectSize = rect => {
+const calculateRectSize = (rect) => {
   rect.width = rect.right - rect.left;
   rect.height = rect.bottom - rect.top;
 };
-const isNumber = value => typeof value === 'number';
+const isNumber = (value) => typeof value === 'number';
 /**
  * Determines if position is at destination
  * @param position
@@ -223,18 +230,15 @@ const isNumber = value => typeof value === 'number';
  * @returns {boolean}
  */
 const thereYet = (position, destination, velocity, errorMargin = 0.001) => {
-  return Math.abs(position - destination) < errorMargin && Math.abs(velocity) < errorMargin;
+  return Math.abs(position - destination) < errorMargin &&
+  Math.abs(velocity) < errorMargin;
 };
 /**
  * Spring animation
  */
 const spring =
 // default options
-({
-  stiffness = 0.5,
-  damping = 0.75,
-  mass = 10
-} = {}) => {
+({ stiffness = 0.5, damping = 0.75, mass = 10 } = {}) => {
   let target = null;
   let position = null;
   let velocity = 0;
@@ -242,7 +246,8 @@ const spring =
   // updates spring state
   const interpolate = (ts, skipToEndState) => {
     // in rest, don't animate
-    if (resting) return;
+    if (resting)
+    return;
     // need at least a target or position to do springy things
     if (!(isNumber(target) && isNumber(position))) {
       resting = true;
@@ -265,7 +270,8 @@ const spring =
       // we done
       api.onupdate(position);
       api.oncomplete(position);
-    } else {
+    } else
+    {
       // progress update
       api.onupdate(position);
     }
@@ -274,7 +280,7 @@ const spring =
    * Set new target value
    * @param value
    */
-  const setTarget = value => {
+  const setTarget = (value) => {
     // if currently has no position, set target and position to this value
     if (isNumber(value) && !isNumber(position)) {
       position = value;
@@ -308,20 +314,16 @@ const spring =
     resting: {
       get: () => resting
     },
-    onupdate: value => {},
-    oncomplete: value => {}
+    onupdate: (value) => {},
+    oncomplete: (value) => {}
   });
   return api;
 };
-const easeLinear = t => t;
-const easeInOutQuad = t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+const easeLinear = (t) => t;
+const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 const tween =
 // default values
-({
-  duration = 500,
-  easing = easeInOutQuad,
-  delay = 0
-} = {}) => {
+({ duration = 500, easing = easeInOutQuad, delay = 0 } = {}) => {
   let start = null;
   let t;
   let p;
@@ -329,11 +331,13 @@ const tween =
   let reverse = false;
   let target = null;
   const interpolate = (ts, skipToEndState) => {
-    if (resting || target === null) return;
+    if (resting || target === null)
+    return;
     if (start === null) {
       start = ts;
     }
-    if (ts - start < delay) return;
+    if (ts - start < delay)
+    return;
     t = ts - start - delay;
     if (t >= duration || skipToEndState) {
       t = 1;
@@ -341,7 +345,8 @@ const tween =
       api.onupdate(p * target);
       api.oncomplete(p * target);
       resting = true;
-    } else {
+    } else
+    {
       p = t / duration;
       api.onupdate((t >= 0 ? easing(reverse ? 1 - p : p) : 0) * target);
     }
@@ -351,7 +356,7 @@ const tween =
     interpolate,
     target: {
       get: () => reverse ? 0 : target,
-      set: value => {
+      set: (value) => {
         // is initial value
         if (target === null) {
           target = value;
@@ -363,7 +368,8 @@ const tween =
         if (value < target) {
           target = 1;
           reverse = true;
-        } else {
+        } else
+        {
           // not tweening to a smaller value
           reverse = false;
           target = value;
@@ -376,8 +382,8 @@ const tween =
     resting: {
       get: () => resting
     },
-    onupdate: value => {},
-    oncomplete: value => {}
+    onupdate: (value) => {},
+    oncomplete: (value) => {}
   });
   return api;
 };
@@ -393,18 +399,20 @@ const animator = {
 const createAnimator = (definition, category, property) => {
   // default is single definition
   // we check if transform is set, if so, we check if property is set
-  const def = definition[category] && typeof definition[category][property] === 'object' ? definition[category][property] : definition[category] || definition;
+  const def = definition[category] && typeof definition[category][property] === 'object' ?
+  definition[category][property] :
+  definition[category] || definition;
   const type = typeof def === 'string' ? def : def.type;
   const props = typeof def === 'object' ? Object.assign({}, def) : {};
   return animator[type] ? animator[type](props) : null;
 };
 const addGetSet = (keys, obj, props, overwrite = false) => {
   obj = Array.isArray(obj) ? obj : [obj];
-  obj.forEach(o => {
-    keys.forEach(key => {
+  obj.forEach((o) => {
+    keys.forEach((key) => {
       let name = key;
       let getter = () => props[key];
-      let setter = value => props[key] = value;
+      let setter = (value) => props[key] = value;
       if (typeof key === 'object') {
         name = key.key;
         getter = key.getter || getter;
@@ -423,12 +431,7 @@ const addGetSet = (keys, obj, props, overwrite = false) => {
 // add to state,
 // add getters and setters to internal and external api (if not set)
 // setup animators
-const animations = ({
-  mixinConfig,
-  viewProps,
-  viewInternalAPI,
-  viewExternalAPI
-}) => {
+const animations = ({ mixinConfig, viewProps, viewInternalAPI, viewExternalAPI }) => {
   // initial properties
   const initialProps = Object.assign({}, viewProps);
   // list of all active animations
@@ -440,7 +443,7 @@ const animations = ({
       return;
     }
     // when the animator updates, update the view state value
-    animator.onupdate = value => {
+    animator.onupdate = (value) => {
       viewProps[property] = value;
     };
     // set animator target
@@ -448,7 +451,7 @@ const animations = ({
     // when value is set, set the animator target value
     const prop = {
       key: property,
-      setter: value => {
+      setter: (value) => {
         // if already at target, we done!
         if (animator.target === value) {
           return;
@@ -464,11 +467,12 @@ const animations = ({
   });
   // expose internal write api
   return {
-    write: ts => {
+    write: (ts) => {
       let skipToEndState = document.hidden;
       let resting = true;
-      animations.forEach(animation => {
-        if (!animation.resting) resting = false;
+      animations.forEach((animation) => {
+        if (!animation.resting)
+        resting = false;
         animation.interpolate(ts, skipToEndState);
       });
       return resting;
@@ -476,21 +480,14 @@ const animations = ({
     destroy: () => {}
   };
 };
-const addEvent = element => (type, fn) => {
+const addEvent = (element) => (type, fn) => {
   element.addEventListener(type, fn);
 };
-const removeEvent = element => (type, fn) => {
+const removeEvent = (element) => (type, fn) => {
   element.removeEventListener(type, fn);
 };
 // mixin
-const listeners = ({
-  mixinConfig,
-  viewProps,
-  viewInternalAPI,
-  viewExternalAPI,
-  viewState,
-  view
-}) => {
+const listeners = ({ mixinConfig, viewProps, viewInternalAPI, viewExternalAPI, viewState, view }) => {
   const events = [];
   const add = addEvent(view.element);
   const remove = removeEvent(view.element);
@@ -502,7 +499,7 @@ const listeners = ({
     add(type, fn);
   };
   viewExternalAPI.off = (type, fn) => {
-    events.splice(events.findIndex(event => event.type === type && event.fn === fn), 1);
+    events.splice(events.findIndex((event) => event.type === type && event.fn === fn), 1);
     remove(type, fn);
   };
   return {
@@ -511,21 +508,17 @@ const listeners = ({
       return true;
     },
     destroy: () => {
-      events.forEach(event => {
+      events.forEach((event) => {
         remove(event.type, event.fn);
       });
     }
   };
 };
 // add to external api and link to props
-const apis = ({
-  mixinConfig,
-  viewProps,
-  viewExternalAPI
-}) => {
+const apis = ({ mixinConfig, viewProps, viewExternalAPI }) => {
   addGetSet(mixinConfig, viewExternalAPI, viewProps);
 };
-const isDefined = value => value != null;
+const isDefined = (value) => value != null;
 // add to state,
 // add getters and setters to internal and external api (if not set)
 // set initial state based on props in viewProps
@@ -542,13 +535,7 @@ const defaults = {
   originX: 0,
   originY: 0
 };
-const styles = ({
-  mixinConfig,
-  viewProps,
-  viewInternalAPI,
-  viewExternalAPI,
-  view
-}) => {
+const styles = ({ mixinConfig, viewProps, viewInternalAPI, viewExternalAPI, view }) => {
   // initial props
   const initialProps = Object.assign({}, viewProps);
   // current props
@@ -556,18 +543,22 @@ const styles = ({
   // we will add those properties to the external API and link them to the viewState
   addGetSet(mixinConfig, [viewInternalAPI, viewExternalAPI], viewProps);
   // override rect on internal and external rect getter so it takes in account transforms
-  const getOffset = () => [viewProps['translateX'] || 0, viewProps['translateY'] || 0];
+  const getOffset = () => [
+  viewProps['translateX'] || 0,
+  viewProps['translateY'] || 0];
+
   const getScale = () => [viewProps['scaleX'] || 0, viewProps['scaleY'] || 0];
-  const getRect = () => view.rect ? getViewRect(view.rect, view.childViews, getOffset(), getScale()) : null;
-  viewInternalAPI.rect = {
-    get: getRect
-  };
-  viewExternalAPI.rect = {
-    get: getRect
-  };
+  const getRect = () => view.rect ?
+  getViewRect(view.rect, view.childViews, getOffset(), getScale()) :
+  null;
+  viewInternalAPI.rect = { get: getRect };
+  viewExternalAPI.rect = { get: getRect };
   // apply view props
-  mixinConfig.forEach(key => {
-    viewProps[key] = typeof initialProps[key] === 'undefined' ? defaults[key] : initialProps[key];
+  mixinConfig.forEach((key) => {
+    viewProps[key] =
+    typeof initialProps[key] === 'undefined' ?
+    defaults[key] :
+    initialProps[key];
   });
   // expose api
   return {
@@ -599,21 +590,7 @@ const propsHaveChanged = (currentProps, newProps) => {
   }
   return false;
 };
-const applyStyles = (element, {
-  opacity,
-  perspective,
-  translateX,
-  translateY,
-  scaleX,
-  scaleY,
-  rotateX,
-  rotateY,
-  rotateZ,
-  originX,
-  originY,
-  width,
-  height
-}) => {
+const applyStyles = (element, { opacity, perspective, translateX, translateY, scaleX, scaleY, rotateX, rotateY, rotateZ, originX, originY, width, height }) => {
   let transforms = '';
   let styles = '';
   // handle transform origin
@@ -670,7 +647,8 @@ const applyStyles = (element, {
   // apply styles
   const elementCurrentStyle = element.elementCurrentStyle || '';
   // if new styles does not match current styles, lets update!
-  if (styles.length !== elementCurrentStyle.length || styles !== elementCurrentStyle) {
+  if (styles.length !== elementCurrentStyle.length ||
+  styles !== elementCurrentStyle) {
     element.style.cssText = styles;
     // store current styles so we can compare them to new styles later on
     // _not_ getting the style value is faster
@@ -706,24 +684,15 @@ const createView =
 // default view definition
 ({
   // element definition
-  tag = 'div',
-  name = null,
-  attributes = {},
+  tag = 'div', name = null, attributes = {},
   // view interaction
-  read = () => {},
-  write = () => {},
-  create = () => {},
-  destroy = () => {},
+  read = () => {}, write = () => {}, create = () => {}, destroy = () => {},
   // hooks
-  filterFrameActionsForChild = (child, actions) => actions,
-  didCreateView = () => {},
-  didWriteView = () => {},
+  filterFrameActionsForChild = (child, actions) => actions, didCreateView = () => {}, didWriteView = () => {},
   // rect related
-  ignoreRect = false,
-  ignoreRectUpdate = false,
+  ignoreRect = false, ignoreRectUpdate = false,
   // mixins
-  mixins = []
-} = {}) => (
+  mixins = [] } = {}) => (
 // each view requires reference to store
 store,
 // specific properties for this view
@@ -746,19 +715,20 @@ props = {}) => {
   // state used for each instance
   const state = {};
   // list of writers that will be called to update this view
-  const writers = [write // default writer
+  const writers = [
+  write // default writer
   ];
-
-  const readers = [read // default reader
+  const readers = [
+  read // default reader
   ];
-
-  const destroyers = [destroy // default destroy
+  const destroyers = [
+  destroy // default destroy
   ];
   // core view methods
   const getElement = () => element;
   const getChildViews = () => childViews.concat();
   const getReference = () => ref;
-  const createChildView = store => (view, props) => view(store, props);
+  const createChildView = (store) => (view, props) => view(store, props);
   const getRect = () => {
     if (frameRect) {
       return frameRect;
@@ -774,18 +744,14 @@ props = {}) => {
   const _read = () => {
     frameRect = null;
     // read child views
-    childViews.forEach(child => child._read());
+    childViews.forEach((child) => child._read());
     const shouldUpdate = !(ignoreRectUpdate && rect.width && rect.height);
     if (shouldUpdate) {
       updateRect(rect, element, style);
     }
     // readers
-    const api = {
-      root: internalAPI,
-      props,
-      rect
-    };
-    readers.forEach(reader => reader(api));
+    const api = { root: internalAPI, props, rect };
+    readers.forEach((reader) => reader(api));
   };
   /**
    * Write data to DOM
@@ -795,7 +761,7 @@ props = {}) => {
     // if no actions, we assume that the view is resting
     let resting = frameActions.length === 0;
     // writers
-    writers.forEach(writer => {
+    writers.forEach((writer) => {
       const writerResting = writer({
         props,
         root: internalAPI,
@@ -808,7 +774,7 @@ props = {}) => {
       }
     });
     // run mixins
-    activeMixins.forEach(mixin => {
+    activeMixins.forEach((mixin) => {
       // if one of the mixins is still busy after write operation, we are not resting
       const mixinResting = mixin.write(ts);
       if (mixinResting === false) {
@@ -816,7 +782,9 @@ props = {}) => {
       }
     });
     // updates child views that are currently attached to the DOM
-    childViews.filter(child => !!child.element.parentNode).forEach(child => {
+    childViews.
+    filter((child) => !!child.element.parentNode).
+    forEach((child) => {
       // if a child view is not resting, we are not resting
       const childResting = child._write(ts, filterFrameActionsForChild(child, frameActions), shouldOptimize);
       if (!childResting) {
@@ -852,14 +820,11 @@ props = {}) => {
     return resting;
   };
   const _destroy = () => {
-    activeMixins.forEach(mixin => mixin.destroy());
-    destroyers.forEach(destroyer => {
-      destroyer({
-        root: internalAPI,
-        props
-      });
+    activeMixins.forEach((mixin) => mixin.destroy());
+    destroyers.forEach((destroyer) => {
+      destroyer({ root: internalAPI, props });
     });
-    childViews.forEach(child => child._destroy());
+    childViews.forEach((child) => child._destroy());
   };
   // sharedAPI
   const sharedAPIDefinition = {
@@ -874,8 +839,7 @@ props = {}) => {
     }
   };
   // private API definition
-  const internalAPIDefinition = Object.assign(Object.assign({}, sharedAPIDefinition), {
-    rect: {
+  const internalAPIDefinition = Object.assign(Object.assign({}, sharedAPIDefinition), { rect: {
       get: getRect
     },
     // access to custom children references
@@ -883,26 +847,14 @@ props = {}) => {
       get: getReference
     },
     // dom modifiers
-    is: needle => name === needle,
-    appendChild: appendChild(element),
-    createChildView: createChildView(store),
-    linkView: view => {
+    is: (needle) => name === needle, appendChild: appendChild(element), createChildView: createChildView(store), linkView: (view) => {
       childViews.push(view);
       return view;
-    },
-    unlinkView: view => {
+    }, unlinkView: (view) => {
       childViews.splice(childViews.indexOf(view), 1);
-    },
-    appendChildView: appendChildView(element, childViews),
-    removeChildView: removeChildView(element, childViews),
-    registerWriter: writer => writers.push(writer),
-    registerReader: reader => readers.push(reader),
-    registerDestroyer: destroyer => destroyers.push(destroyer),
-    invalidateLayout: () => element.layoutCalculated = false,
+    }, appendChildView: appendChildView(element, childViews), removeChildView: removeChildView(element, childViews), registerWriter: (writer) => writers.push(writer), registerReader: (reader) => readers.push(reader), registerDestroyer: (destroyer) => destroyers.push(destroyer), invalidateLayout: () => element.layoutCalculated = false,
     // access to data store
-    dispatch: store.dispatch,
-    query: store.query
-  });
+    dispatch: store.dispatch, query: store.query });
   // public view API methods
   const externalAPIDefinition = {
     element: {
@@ -923,21 +875,22 @@ props = {}) => {
     _destroy
   };
   // mixin API methods
-  const mixinAPIDefinition = Object.assign(Object.assign({}, sharedAPIDefinition), {
-    rect: {
+  const mixinAPIDefinition = Object.assign(Object.assign({}, sharedAPIDefinition), { rect: {
       get: () => rect
-    }
-  });
+    } });
   // add mixin functionality
-  Object.keys(mixins).sort((a, b) => {
+  Object.keys(mixins).
+  sort((a, b) => {
     // move styles to the back of the mixin list (so adjustments of other mixins are applied to the props correctly)
     if (a === 'styles') {
       return 1;
-    } else if (b === 'styles') {
+    } else
+    if (b === 'styles') {
       return -1;
     }
     return 0;
-  }).forEach(key => {
+  }).
+  forEach((key) => {
     const mixinAPI = Mixins[key]({
       mixinConfig: mixins[key],
       viewProps: props,
@@ -989,17 +942,19 @@ const createPainter = (read, write, fps = 60) => {
     if (document.hidden) {
       requestTick = () => window.setTimeout(() => tick(performance.now()), interval);
       cancelTick = () => window.clearTimeout(id);
-    } else {
+    } else
+    {
       requestTick = () => window.requestAnimationFrame(tick);
       cancelTick = () => window.cancelAnimationFrame(id);
     }
   };
   document.addEventListener('visibilitychange', () => {
-    if (cancelTick) cancelTick();
+    if (cancelTick)
+    cancelTick();
     setTimerType();
     tick(performance.now());
   });
-  const tick = ts => {
+  const tick = (ts) => {
     // queue next tick
     id = requestTick(tick);
     // limit fps
@@ -1014,8 +969,8 @@ const createPainter = (read, write, fps = 60) => {
     // align next frame
     last = ts - delta % interval;
     // update view
-    painter.readers.forEach(read => read());
-    painter.writers.forEach(write => write(ts));
+    painter.readers.forEach((read) => read());
+    painter.writers.forEach((write) => write(ts));
   };
   setTimerType();
   tick(performance.now());
@@ -1025,14 +980,10 @@ const createPainter = (read, write, fps = 60) => {
     }
   };
 };
-const createRoute = (routes, fn) => ({
-  root,
-  props,
-  actions = [],
-  timestamp,
-  shouldOptimize
-}) => {
-  actions.filter(action => routes[action.type]).forEach(action => routes[action.type]({
+const createRoute = (routes, fn) => ({ root, props, actions = [], timestamp, shouldOptimize }) => {
+  actions.
+  filter((action) => routes[action.type]).
+  forEach((action) => routes[action.type]({
     root,
     props,
     action: action.data,
@@ -1040,23 +991,17 @@ const createRoute = (routes, fn) => ({
     shouldOptimize
   }));
   if (fn) {
-    fn({
-      root,
-      props,
-      actions,
-      timestamp,
-      shouldOptimize
-    });
+    fn({ root, props, actions, timestamp, shouldOptimize });
   }
 };
 const insertBefore = (newNode, referenceNode) => referenceNode.parentNode.insertBefore(newNode, referenceNode);
 const insertAfter = (newNode, referenceNode) => {
   return referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 };
-const isArray = value => Array.isArray(value);
-const isEmpty = value => value == null;
-const trim = str => str.trim();
-const toString = value => '' + value;
+const isArray = (value) => Array.isArray(value);
+const isEmpty = (value) => value == null;
+const trim = (str) => str.trim();
+const toString = (value) => '' + value;
 const toArray = (value, splitter = ',') => {
   if (isEmpty(value)) {
     return [];
@@ -1064,15 +1009,22 @@ const toArray = (value, splitter = ',') => {
   if (isArray(value)) {
     return value;
   }
-  return toString(value).split(splitter).map(trim).filter(str => str.length);
+  return toString(value).
+  split(splitter).
+  map(trim).
+  filter((str) => str.length);
 };
-const isBoolean = value => typeof value === 'boolean';
-const toBoolean = value => isBoolean(value) ? value : value === 'true';
-const isString = value => typeof value === 'string';
-const toNumber = value => isNumber(value) ? value : isString(value) ? toString(value).replace(/[a-z]+/gi, '') : 0;
-const toInt = value => parseInt(toNumber(value), 10);
-const toFloat = value => parseFloat(toNumber(value));
-const isInt = value => isNumber(value) && isFinite(value) && Math.floor(value) === value;
+const isBoolean = (value) => typeof value === 'boolean';
+const toBoolean = (value) => isBoolean(value) ? value : value === 'true';
+const isString = (value) => typeof value === 'string';
+const toNumber = (value) => isNumber(value) ?
+value :
+isString(value) ?
+toString(value).replace(/[a-z]+/gi, '') :
+0;
+const toInt = (value) => parseInt(toNumber(value), 10);
+const toFloat = (value) => parseFloat(toNumber(value));
+const isInt = (value) => isNumber(value) && isFinite(value) && Math.floor(value) === value;
 const toBytes = (value, base = 1000) => {
   // is in bytes
   if (isInt(value)) {
@@ -1092,8 +1044,8 @@ const toBytes = (value, base = 1000) => {
   }
   return toInt(naturalFileSize);
 };
-const isFunction = value => typeof value === 'function';
-const toFunctionReference = string => {
+const isFunction = (value) => typeof value === 'function';
+const toFunctionReference = (string) => {
   let ref = self;
   let levels = string.split('.');
   let level = null;
@@ -1113,12 +1065,12 @@ const methods = {
   restore: 'GET',
   load: 'GET'
 };
-const createServerAPI = outline => {
+const createServerAPI = (outline) => {
   const api = {};
   api.url = isString(outline) ? outline : outline.url || '';
   api.timeout = outline.timeout ? parseInt(outline.timeout, 10) : 0;
   api.headers = outline.headers ? outline.headers : {};
-  forin(methods, key => {
+  forin(methods, (key) => {
     api[key] = createAction(key, outline[key], methods[key], api.timeout, api.headers);
   });
   // special treatment for remove
@@ -1166,13 +1118,18 @@ const createAction = (name, outline, method, timeout, headers) => {
   action.withCredentials = toBoolean(action.withCredentials);
   return action;
 };
-const toServerAPI = value => createServerAPI(value);
-const isNull = value => value === null;
-const isObject = value => typeof value === 'object' && value !== null;
-const isAPI = value => {
-  return isObject(value) && isString(value.url) && isObject(value.process) && isObject(value.revert) && isObject(value.restore) && isObject(value.fetch);
+const toServerAPI = (value) => createServerAPI(value);
+const isNull = (value) => value === null;
+const isObject = (value) => typeof value === 'object' && value !== null;
+const isAPI = (value) => {
+  return isObject(value) &&
+  isString(value.url) &&
+  isObject(value.process) &&
+  isObject(value.revert) &&
+  isObject(value.restore) &&
+  isObject(value.fetch);
 };
-const getType = value => {
+const getType = (value) => {
   if (isArray(value)) {
     return 'array';
   }
@@ -1190,21 +1147,28 @@ const getType = value => {
   }
   return typeof value;
 };
-const replaceSingleQuotes = str => str.replace(/{\s*'/g, '{"').replace(/'\s*}/g, '"}').replace(/'\s*:/g, '":').replace(/:\s*'/g, ':"').replace(/,\s*'/g, ',"').replace(/'\s*,/g, '",');
+const replaceSingleQuotes = (str) => str.
+replace(/{\s*'/g, '{"').
+replace(/'\s*}/g, '"}').
+replace(/'\s*:/g, '":').
+replace(/:\s*'/g, ':"').
+replace(/,\s*'/g, ',"').
+replace(/'\s*,/g, '",');
 const conversionTable = {
   array: toArray,
   boolean: toBoolean,
-  int: value => getType(value) === 'bytes' ? toBytes(value) : toInt(value),
+  int: (value) => getType(value) === 'bytes' ? toBytes(value) : toInt(value),
   number: toFloat,
   float: toFloat,
   bytes: toBytes,
-  string: value => isFunction(value) ? value : toString(value),
-  function: value => toFunctionReference(value),
+  string: (value) => isFunction(value) ? value : toString(value),
+  function: (value) => toFunctionReference(value),
   serverapi: toServerAPI,
-  object: value => {
+  object: (value) => {
     try {
       return JSON.parse(replaceSingleQuotes(value));
-    } catch (e) {
+    }
+    catch (e) {
       return null;
     }
   }
@@ -1226,7 +1190,8 @@ const getValueByType = (newValue, defaultValue, valueType) => {
     // no valid conversions found
     if (convertedValue === null) {
       throw `Trying to assign value with incorrect type to "${option}", allowed type: "${valueType}"`;
-    } else {
+    } else
+    {
       newValue = convertedValue;
     }
   }
@@ -1238,20 +1203,20 @@ const createOption = (defaultValue, valueType) => {
   return {
     enumerable: true,
     get: () => currentValue,
-    set: newValue => {
+    set: (newValue) => {
       currentValue = getValueByType(newValue, defaultValue, valueType);
     }
   };
 };
-const createOptions = options => {
+const createOptions = (options) => {
   const obj = {};
-  forin(options, prop => {
+  forin(options, (prop) => {
     const optionDefinition = options[prop];
     obj[prop] = createOption(optionDefinition[0], optionDefinition[1]);
   });
   return createObject(obj);
 };
-const createInitialState = options => ({
+const createInitialState = (options) => ({
   // model
   items: [],
   // timeout used for calling update items
@@ -1263,13 +1228,16 @@ const createInitialState = options => ({
   // options
   options: createOptions(options)
 });
-const fromCamels = (string, separator = '-') => string.split(/(?=[A-Z])/).map(part => part.toLowerCase()).join(separator);
+const fromCamels = (string, separator = '-') => string.
+split(/(?=[A-Z])/).
+map((part) => part.toLowerCase()).
+join(separator);
 const createOptionAPI = (store, options) => {
   const obj = {};
-  forin(options, key => {
+  forin(options, (key) => {
     obj[key] = {
       get: () => store.getState().options[key],
-      set: value => {
+      set: (value) => {
         store.dispatch(`SET_${fromCamels(key, '_').toUpperCase()}`, {
           value
         });
@@ -1278,28 +1246,27 @@ const createOptionAPI = (store, options) => {
   });
   return obj;
 };
-const createOptionActions = options => (dispatch, query, state) => {
+const createOptionActions = (options) => (dispatch, query, state) => {
   const obj = {};
-  forin(options, key => {
+  forin(options, (key) => {
     const name = fromCamels(key, '_').toUpperCase();
-    obj[`SET_${name}`] = action => {
+    obj[`SET_${name}`] = (action) => {
       try {
         state.options[key] = action.value;
-      } catch (e) {
-        // nope, failed
       }
-      // we successfully set the value of this option
-      dispatch(`DID_SET_${name}`, {
-        value: state.options[key]
-      });
+      catch (e) {
+
+        // nope, failed
+      } // we successfully set the value of this option
+      dispatch(`DID_SET_${name}`, { value: state.options[key] });
     };
   });
   return obj;
 };
-const createOptionQueries = options => state => {
+const createOptionQueries = (options) => (state) => {
   const obj = {};
-  forin(options, key => {
-    obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = action => state.options[key];
+  forin(options, (key) => {
+    obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];
   });
   return obj;
 };
@@ -1310,24 +1277,31 @@ const InteractionMethod = {
   PASTE: 4,
   NONE: 5
 };
-const getUniqueId = () => Math.random().toString(36).substr(2, 9);
+const getUniqueId = () => Math.random().
+toString(36).
+substr(2, 9);
 const arrayRemove = (arr, index) => arr.splice(index, 1);
 const run = (cb, sync) => {
   if (sync) {
     cb();
-  } else if (document.hidden) {
+  } else
+  if (document.hidden) {
     Promise.resolve(1).then(cb);
-  } else {
+  } else
+  {
     setTimeout(cb, 0);
   }
 };
 const on = () => {
   const listeners = [];
   const off = (event, cb) => {
-    arrayRemove(listeners, listeners.findIndex(listener => listener.event === event && (listener.cb === cb || !cb)));
+    arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));
   };
   const fire = (event, args, sync) => {
-    listeners.filter(listener => listener.event === event).map(listener => listener.cb).forEach(cb => run(() => cb(...args), sync));
+    listeners.
+    filter((listener) => listener.event === event).
+    map((listener) => listener.cb).
+    forEach((cb) => run(() => cb(...args), sync));
   };
   return {
     fireSync: (event, ...args) => {
@@ -1337,10 +1311,7 @@ const on = () => {
       fire(event, args, false);
     },
     on: (event, cb) => {
-      listeners.push({
-        event,
-        cb
-      });
+      listeners.push({ event, cb });
     },
     onOnce: (event, cb) => {
       listeners.push({
@@ -1355,15 +1326,33 @@ const on = () => {
   };
 };
 const copyObjectPropertiesToObject = (src, target, excluded) => {
-  Object.getOwnPropertyNames(src).filter(property => !excluded.includes(property)).forEach(key => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));
+  Object.getOwnPropertyNames(src).
+  filter((property) => !excluded.includes(property)).
+  forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));
 };
-const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];
-const createItemAPI = item => {
+const PRIVATE = [
+'fire',
+'process',
+'revert',
+'load',
+'on',
+'off',
+'onOnce',
+'retryLoad',
+'extend',
+'archive',
+'archived',
+'release',
+'released',
+'requestProcessing',
+'freeze'];
+
+const createItemAPI = (item) => {
   const api = {};
   copyObjectPropertiesToObject(item, api, PRIVATE);
   return api;
 };
-const removeReleasedItems = items => {
+const removeReleasedItems = (items) => {
   items.forEach((item, index) => {
     if (item.released) {
       arrayRemove(items, index);
@@ -1386,7 +1375,7 @@ const FileOrigin = {
   LIMBO: 2,
   LOCAL: 3
 };
-const getNonNumeric = str => /[^0-9]+/.exec(str);
+const getNonNumeric = (str) => /[^0-9]+/.exec(str);
 const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];
 const getThousandsSeparator = () => {
   // Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1416,7 +1405,7 @@ const filters = [];
 // loops over matching filters and passes options to each filter, returning the mapped results
 const applyFilterChain = (key, value, utils) => new Promise((resolve, reject) => {
   // find matching filters for this key
-  const matchingFilters = filters.filter(f => f.key === key).map(f => f.cb);
+  const matchingFilters = filters.filter((f) => f.key === key).map((f) => f.cb);
   // resolve now
   if (matchingFilters.length === 0) {
     resolve(value);
@@ -1425,23 +1414,23 @@ const applyFilterChain = (key, value, utils) => new Promise((resolve, reject) =>
   // first filter to kick things of
   const initialFilter = matchingFilters.shift();
   // chain filters
-  matchingFilters.reduce(
-  // loop over promises passing value to next promise
-  (current, next) => current.then(value => next(value, utils)),
-  // call initial filter, will return a promise
-  initialFilter(value, utils)
-  // all executed
-  ).then(value => resolve(value)).catch(error => reject(error));
+  matchingFilters.
+  reduce(
+    // loop over promises passing value to next promise
+    (current, next) => current.then((value) => next(value, utils)),
+    // call initial filter, will return a promise
+    initialFilter(value, utils)
+    // all executed
+  ).
+  then((value) => resolve(value)).
+  catch((error) => reject(error));
 });
-const applyFilters = (key, value, utils) => filters.filter(f => f.key === key).map(f => f.cb(value, utils));
+const applyFilters = (key, value, utils) => filters.filter((f) => f.key === key).map((f) => f.cb(value, utils));
 // adds a new filter to the list
-const addFilter = (key, cb) => filters.push({
-  key,
-  cb
-});
-const extendDefaultOptions = additionalOptions => Object.assign(defaultOptions, additionalOptions);
+const addFilter = (key, cb) => filters.push({ key, cb });
+const extendDefaultOptions = (additionalOptions) => Object.assign(defaultOptions, additionalOptions);
 const getOptions = () => Object.assign({}, defaultOptions);
-const setOptions = opts => {
+const setOptions = (opts) => {
   forin(opts, (key, value) => {
     // key does not exist, so this option cannot be set
     if (!defaultOptions[key]) {
@@ -1509,7 +1498,10 @@ const defaultOptions = {
   // Labels and status messages
   labelDecimalSeparator: [getDecimalSeparator(), Type.STRING],
   labelThousandsSeparator: [getThousandsSeparator(), Type.STRING],
-  labelIdle: ['Drag & Drop your files or <span class="filepond--label-action">Browse</span>', Type.STRING],
+  labelIdle: [
+  'Drag & Drop your files or <span class="filepond--label-action">Browse</span>',
+  Type.STRING],
+
   labelInvalidField: ['Field contains invalid files', Type.STRING],
   labelFileWaitingForSize: ['Waiting for size', Type.STRING],
   labelFileSizeNotAvailable: ['Size not available', Type.STRING],
@@ -1536,11 +1528,26 @@ const defaultOptions = {
   labelButtonRetryItemProcessing: ['Retry', Type.STRING],
   labelButtonProcessItem: ['Upload', Type.STRING],
   // make sure width and height plus viewpox are even numbers so icons are nicely centered
-  iconRemove: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
-  iconProcess: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>', Type.STRING],
-  iconRetry: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
-  iconUndo: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
-  iconDone: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
+  iconRemove: [
+  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>',
+  Type.STRING],
+
+  iconProcess: [
+  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>',
+  Type.STRING],
+
+  iconRetry: [
+  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>',
+  Type.STRING],
+
+  iconUndo: [
+  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>',
+  Type.STRING],
+
+  iconDone: [
+  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>',
+  Type.STRING],
+
   // event handlers
   oninit: [null, Type.FUNCTION],
   onwarning: [null, Type.FUNCTION],
@@ -1593,9 +1600,9 @@ const getItemByQuery = (items, query) => {
     query = query.id;
   }
   // assume query is a string and return item by id
-  return items.find(item => item.id === query) || null;
+  return items.find((item) => item.id === query) || null;
 };
-const getNumericAspectRatioFromString = aspectRatio => {
+const getNumericAspectRatioFromString = (aspectRatio) => {
   if (isEmpty(aspectRatio)) {
     return aspectRatio;
   }
@@ -1605,7 +1612,7 @@ const getNumericAspectRatioFromString = aspectRatio => {
   }
   return parseFloat(aspectRatio);
 };
-const getActiveItems = items => items.filter(item => !item.archived);
+const getActiveItems = (items) => items.filter((item) => !item.archived);
 const Status = {
   EMPTY: 0,
   IDLE: 1,
@@ -1613,56 +1620,68 @@ const Status = {
   BUSY: 3,
   READY: 4 // all files uploaded
 };
+const ITEM_ERROR = [
+ItemStatus.LOAD_ERROR,
+ItemStatus.PROCESSING_ERROR,
+ItemStatus.PROCESSING_REVERT_ERROR];
 
-const ITEM_ERROR = [ItemStatus.LOAD_ERROR, ItemStatus.PROCESSING_ERROR, ItemStatus.PROCESSING_REVERT_ERROR];
-const ITEM_BUSY = [ItemStatus.LOADING, ItemStatus.PROCESSING, ItemStatus.PROCESSING_QUEUED, ItemStatus.INIT];
+const ITEM_BUSY = [
+ItemStatus.LOADING,
+ItemStatus.PROCESSING,
+ItemStatus.PROCESSING_QUEUED,
+ItemStatus.INIT];
+
 const ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];
-const isItemInErrorState = item => ITEM_ERROR.includes(item.status);
-const isItemInBusyState = item => ITEM_BUSY.includes(item.status);
-const isItemInReadyState = item => ITEM_READY.includes(item.status);
-const queries = state => ({
+const isItemInErrorState = (item) => ITEM_ERROR.includes(item.status);
+const isItemInBusyState = (item) => ITEM_BUSY.includes(item.status);
+const isItemInReadyState = (item) => ITEM_READY.includes(item.status);
+const queries = (state) => ({
   GET_STATUS: () => {
     const items = getActiveItems(state.items);
-    const {
-      EMPTY,
-      ERROR,
-      BUSY,
-      IDLE,
-      READY
-    } = Status;
-    if (items.length === 0) return EMPTY;
-    if (items.some(isItemInErrorState)) return ERROR;
-    if (items.some(isItemInBusyState)) return BUSY;
-    if (items.some(isItemInReadyState)) return READY;
+    const { EMPTY, ERROR, BUSY, IDLE, READY } = Status;
+    if (items.length === 0)
+    return EMPTY;
+    if (items.some(isItemInErrorState))
+    return ERROR;
+    if (items.some(isItemInBusyState))
+    return BUSY;
+    if (items.some(isItemInReadyState))
+    return READY;
     return IDLE;
   },
-  GET_ITEM: query => getItemByQuery(state.items, query),
-  GET_ACTIVE_ITEM: query => getItemByQuery(getActiveItems(state.items), query),
+  GET_ITEM: (query) => getItemByQuery(state.items, query),
+  GET_ACTIVE_ITEM: (query) => getItemByQuery(getActiveItems(state.items), query),
   GET_ACTIVE_ITEMS: () => getActiveItems(state.items),
   GET_ITEMS: () => state.items,
-  GET_ITEM_NAME: query => {
+  GET_ITEM_NAME: (query) => {
     const item = getItemByQuery(state.items, query);
     return item ? item.filename : null;
   },
-  GET_ITEM_SIZE: query => {
+  GET_ITEM_SIZE: (query) => {
     const item = getItemByQuery(state.items, query);
     return item ? item.fileSize : null;
   },
-  GET_STYLES: () => Object.keys(state.options).filter(key => /^style/.test(key)).map(option => ({
+  GET_STYLES: () => Object.keys(state.options).
+  filter((key) => /^style/.test(key)).
+  map((option) => ({
     name: option,
     value: state.options[option]
   })),
   GET_PANEL_ASPECT_RATIO: () => {
     const isShapeCircle = /circle/.test(state.options.stylePanelLayout);
-    const aspectRatio = isShapeCircle ? 1 : getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);
+    const aspectRatio = isShapeCircle ?
+    1 :
+    getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);
     return aspectRatio;
   },
   GET_ITEM_PANEL_ASPECT_RATIO: () => state.options.styleItemPanelAspectRatio,
-  GET_ITEMS_BY_STATUS: status => getActiveItems(state.items).filter(item => item.status === status),
+  GET_ITEMS_BY_STATUS: (status) => getActiveItems(state.items).filter((item) => item.status === status),
   GET_TOTAL_ITEMS: () => getActiveItems(state.items).length,
-  IS_ASYNC: () => isObject(state.options.server) && (isObject(state.options.server.process) || isFunction(state.options.server.process))
+  IS_ASYNC: () => isObject(state.options.server) && (
+  isObject(state.options.server.process) ||
+  isFunction(state.options.server.process))
 });
-const hasRoomForItem = state => {
+const hasRoomForItem = (state) => {
   const count = getActiveItems(state.items).length;
   // if cannot have multiple items, to add one item it should currently not contain items
   if (!state.options.allowMultiple) {
@@ -1698,10 +1717,14 @@ const insertItem = (items, item, index) => {
   // expose
   return item;
 };
-const isBase64DataURI = str => /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(str);
-const getFilenameFromURL = url => url.split('/').pop().split('?').shift();
-const getExtensionFromFilename = name => name.split('.').pop();
-const guesstimateExtension = type => {
+const isBase64DataURI = (str) => /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(str);
+const getFilenameFromURL = (url) => url.
+split('/').
+pop().
+split('?').
+shift();
+const getExtensionFromFilename = (name) => name.split('.').pop();
+const guesstimateExtension = (type) => {
   // if no extension supplied, exit here
   if (typeof type !== 'string') {
     return '';
@@ -1735,10 +1758,13 @@ const guesstimateExtension = type => {
 const leftPad = (value, padding = '') => (padding + value).slice(-padding.length);
 const getDateString = (date = new Date()) => `${date.getFullYear()}-${leftPad(date.getMonth() + 1, '00')}-${leftPad(date.getDate(), '00')}_${leftPad(date.getHours(), '00')}-${leftPad(date.getMinutes(), '00')}-${leftPad(date.getSeconds(), '00')}`;
 const getFileFromBlob = (blob, filename, type = null, extension = null) => {
-  const file = typeof type === 'string' ? blob.slice(0, blob.size, type) : blob.slice(0, blob.size, blob.type);
+  const file = typeof type === 'string' ?
+  blob.slice(0, blob.size, type) :
+  blob.slice(0, blob.size, blob.type);
   file.lastModifiedDate = new Date();
   // copy relative path
-  if (blob._relativePath) file._relativePath = blob._relativePath;
+  if (blob._relativePath)
+  file._relativePath = blob._relativePath;
   // if blob has name property, use as filename if no filename supplied
   if (!isString(filename)) {
     filename = getDateString();
@@ -1746,14 +1772,19 @@ const getFileFromBlob = (blob, filename, type = null, extension = null) => {
   // if filename supplied but no extension and filename has extension
   if (filename && extension === null && getExtensionFromFilename(filename)) {
     file.name = filename;
-  } else {
+  } else
+  {
     extension = extension || guesstimateExtension(file.type);
     file.name = filename + (extension ? '.' + extension : '');
   }
   return file;
 };
 const getBlobBuilder = () => {
-  return window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+  return window.BlobBuilder =
+  window.BlobBuilder ||
+  window.WebKitBlobBuilder ||
+  window.MozBlobBuilder ||
+  window.MSBlobBuilder;
 };
 const createBlob = (arrayBuffer, mimeType) => {
   const BB = getBlobBuilder();
@@ -1774,19 +1805,19 @@ const getBlobFromByteStringWithMimeType = (byteString, mimeType) => {
   }
   return createBlob(ab, mimeType);
 };
-const getMimeTypeFromBase64DataURI = dataURI => {
+const getMimeTypeFromBase64DataURI = (dataURI) => {
   return (/^data:(.+);/.exec(dataURI) || [])[1] || null;
 };
-const getBase64DataFromBase64DataURI = dataURI => {
+const getBase64DataFromBase64DataURI = (dataURI) => {
   // get data part of string (remove data:image/jpeg...,)
   const data = dataURI.split(',')[1];
   // remove any whitespace as that causes InvalidCharacterError in IE
   return data.replace(/\s/g, '');
 };
-const getByteStringFromBase64DataURI = dataURI => {
+const getByteStringFromBase64DataURI = (dataURI) => {
   return atob(getBase64DataFromBase64DataURI(dataURI));
 };
-const getBlobFromBase64DataURI = dataURI => {
+const getBlobFromBase64DataURI = (dataURI) => {
   const mimeType = getMimeTypeFromBase64DataURI(dataURI);
   const byteString = getByteStringFromBase64DataURI(dataURI);
   return getBlobFromByteStringWithMimeType(byteString, mimeType);
@@ -1794,28 +1825,33 @@ const getBlobFromBase64DataURI = dataURI => {
 const getFileFromBase64DataURI = (dataURI, filename, extension) => {
   return getFileFromBlob(getBlobFromBase64DataURI(dataURI), filename, null, extension);
 };
-const getFileNameFromHeader = header => {
+const getFileNameFromHeader = (header) => {
   // test if is content disposition header, if not exit
-  if (!/^content-disposition:/i.test(header)) return null;
+  if (!/^content-disposition:/i.test(header))
+  return null;
   // get filename parts
-  const matches = header.split(/filename=|filename\*=.+''/).splice(1).map(name => name.trim().replace(/^["']|[;"']{0,2}$/g, '')).filter(name => name.length);
+  const matches = header.
+  split(/filename=|filename\*=.+''/).
+  splice(1).
+  map((name) => name.trim().replace(/^["']|[;"']{0,2}$/g, '')).
+  filter((name) => name.length);
   return matches.length ? decodeURI(matches[matches.length - 1]) : null;
 };
-const getFileSizeFromHeader = header => {
+const getFileSizeFromHeader = (header) => {
   if (/content-length:/i.test(header)) {
     const size = header.match(/[0-9]+/)[0];
     return size ? parseInt(size, 10) : null;
   }
   return null;
 };
-const getTranfserIdFromHeader = header => {
+const getTranfserIdFromHeader = (header) => {
   if (/x-content-transfer-id:/i.test(header)) {
     const id = (header.split(':')[1] || '').trim();
     return id || null;
   }
   return null;
 };
-const getFileInfoFromHeaders = headers => {
+const getFileInfoFromHeaders = (headers) => {
   const info = {
     source: null,
     name: null,
@@ -1841,7 +1877,7 @@ const getFileInfoFromHeaders = headers => {
   }
   return info;
 };
-const createFileLoader = fetchFn => {
+const createFileLoader = (fetchFn) => {
   const state = {
     source: null,
     complete: false,
@@ -1865,19 +1901,22 @@ const createFileLoader = fetchFn => {
     // Load Files
     if (source instanceof File) {
       api.fire('load', source);
-    } else if (source instanceof Blob) {
+    } else
+    if (source instanceof Blob) {
       // Load blobs, set default name to current date
       api.fire('load', getFileFromBlob(source, source.name));
-    } else if (isBase64DataURI(source)) {
+    } else
+    if (isBase64DataURI(source)) {
       // Load base 64, set default name to current date
       api.fire('load', getFileFromBase64DataURI(source));
-    } else {
+    } else
+    {
       // Deal as if is external URL, let's load it!
       loadURL(source);
     }
   };
   // loads a url
-  const loadURL = url => {
+  const loadURL = (url) => {
     // is remote url and no fetch method supplied
     if (!fetchFn) {
       api.fire('error', {
@@ -1890,7 +1929,7 @@ const createFileLoader = fetchFn => {
     // set request start
     state.timestamp = Date.now();
     // load file
-    state.request = fetchFn(url, response => {
+    state.request = fetchFn(url, (response) => {
       // update duration
       state.duration = Date.now() - state.timestamp;
       // done!
@@ -1902,12 +1941,14 @@ const createFileLoader = fetchFn => {
       api.fire('load',
       // if has received blob, we go with blob, if no response, we return null
       response instanceof Blob ? response : response ? response.body : null);
-    }, error => {
-      api.fire('error', typeof error === 'string' ? {
+    }, (error) => {
+      api.fire('error', typeof error === 'string' ?
+      {
         type: 'error',
         code: 0,
         body: error
-      } : error);
+      } :
+      error);
     }, (computable, current, total) => {
       // collected some meta data already
       if (total) {
@@ -1926,7 +1967,7 @@ const createFileLoader = fetchFn => {
       api.fire('progress', state.progress);
     }, () => {
       api.fire('abort');
-    }, response => {
+    }, (response) => {
       const fileinfo = getFileInfoFromHeaders(typeof response === 'string' ? response : response.headers);
       api.fire('meta', {
         size: state.size || fileinfo.size,
@@ -1935,16 +1976,13 @@ const createFileLoader = fetchFn => {
       });
     });
   };
-  const api = Object.assign(Object.assign({}, on()), {
-    setSource: source => state.source = source,
-    getProgress,
+  const api = Object.assign(Object.assign({}, on()), { setSource: (source) => state.source = source, getProgress,
     abort,
     load // start load
   });
-
   return api;
 };
-const isGet = method => /GET|HEAD/.test(method);
+const isGet = (method) => /GET|HEAD/.test(method);
 const sendRequest = (data, url, options) => {
   const api = {
     onheaders: () => {},
@@ -1962,11 +2000,7 @@ const sendRequest = (data, url, options) => {
   let aborted = false;
   let headersReceived = false;
   // set default options
-  options = Object.assign({
-    method: 'POST',
-    headers: {},
-    withCredentials: false
-  }, options);
+  options = Object.assign({ method: 'POST', headers: {}, withCredentials: false }, options);
   // encode url
   url = encodeURI(url);
   // if method is GET, add any received data to url
@@ -1977,7 +2011,7 @@ const sendRequest = (data, url, options) => {
   const xhr = new XMLHttpRequest();
   // progress of load
   const process = isGet(options.method) ? xhr : xhr.upload;
-  process.onprogress = e => {
+  process.onprogress = (e) => {
     // no progress event when aborted ( onprogress is called once after abort() )
     if (aborted) {
       return;
@@ -2006,7 +2040,8 @@ const sendRequest = (data, url, options) => {
     // is classified as valid response
     if (xhr.status >= 200 && xhr.status < 300) {
       api.onload(xhr);
-    } else {
+    } else
+    {
       api.onerror(xhr);
     }
   };
@@ -2026,7 +2061,7 @@ const sendRequest = (data, url, options) => {
     xhr.timeout = options.timeout;
   }
   // add headers
-  Object.keys(options.headers).forEach(key => {
+  Object.keys(options.headers).forEach((key) => {
     const value = unescape(encodeURIComponent(options.headers[key]));
     xhr.setRequestHeader(key, value);
   });
@@ -2048,13 +2083,13 @@ const createResponse = (type, code, body, headers) => ({
   body,
   headers
 });
-const createTimeoutResponse = cb => xhr => {
+const createTimeoutResponse = (cb) => (xhr) => {
   cb(createResponse('error', 0, 'Timeout', xhr.getAllResponseHeaders()));
 };
-const hasQS = str => /\?/.test(str);
+const hasQS = (str) => /\?/.test(str);
 const buildURL = (...parts) => {
   let url = '';
-  parts.forEach(part => {
+  parts.forEach((part) => {
     url += hasQS(url) && hasQS(part) ? part.replace(/\?/, '&') : part;
   });
   return url;
@@ -2069,26 +2104,26 @@ const createFetchFunction = (apiUrl = '', action) => {
     return null;
   }
   // set onload hanlder
-  const onload = action.onload || (res => res);
-  const onerror = action.onerror || (res => null);
+  const onload = action.onload || ((res) => res);
+  const onerror = action.onerror || ((res) => null);
   // internal handler
   return (url, load, error, progress, abort, headers) => {
     // do local or remote request based on if the url is external
-    const request = sendRequest(url, buildURL(apiUrl, action.url), Object.assign(Object.assign({}, action), {
-      responseType: 'blob'
-    }));
-    request.onload = xhr => {
+    const request = sendRequest(url, buildURL(apiUrl, action.url), Object.assign(Object.assign({}, action), { responseType: 'blob' }));
+    request.onload = (xhr) => {
       // get headers
       const headers = xhr.getAllResponseHeaders();
       // get filename
       const filename = getFileInfoFromHeaders(headers).name || getFilenameFromURL(url);
       // create response
-      load(createResponse('load', xhr.status, action.method === 'HEAD' ? null : getFileFromBlob(onload(xhr.response), filename), headers));
+      load(createResponse('load', xhr.status, action.method === 'HEAD' ?
+      null :
+      getFileFromBlob(onload(xhr.response), filename), headers));
     };
-    request.onerror = xhr => {
+    request.onerror = (xhr) => {
       error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
     };
-    request.onheaders = xhr => {
+    request.onheaders = (xhr) => {
       headers(createResponse('headers', xhr.status, null, xhr.getAllResponseHeaders()));
     };
     request.ontimeout = createTimeoutResponse(error);
@@ -2117,48 +2152,47 @@ function signature:
 const processFileChunked = (apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options) => {
   // all chunks
   const chunks = [];
-  const {
-    chunkTransferId,
-    chunkServer,
-    chunkSize,
-    chunkRetryDelays
-  } = options;
+  const { chunkTransferId, chunkServer, chunkSize, chunkRetryDelays } = options;
   // default state
   const state = {
     serverId: chunkTransferId,
     aborted: false
   };
   // set onload handlers
-  const ondata = action.ondata || (fd => fd);
-  const onload = action.onload || ((xhr, method) => method === 'HEAD' ? xhr.getResponseHeader('Upload-Offset') : xhr.response);
-  const onerror = action.onerror || (res => null);
+  const ondata = action.ondata || ((fd) => fd);
+  const onload = action.onload || (
+  (xhr, method) => method === 'HEAD' ?
+  xhr.getResponseHeader('Upload-Offset') :
+  xhr.response);
+  const onerror = action.onerror || ((res) => null);
   // create server hook
-  const requestTransferId = cb => {
+  const requestTransferId = (cb) => {
     const formData = new FormData();
     // add metadata under same name
-    if (isObject(metadata)) formData.append(name, JSON.stringify(metadata));
-    const headers = typeof action.headers === 'function' ? action.headers(file, metadata) : Object.assign(Object.assign({}, action.headers), {
-      'Upload-Length': file.size
-    });
-    const requestParams = Object.assign(Object.assign({}, action), {
-      headers
-    });
+    if (isObject(metadata))
+    formData.append(name, JSON.stringify(metadata));
+    const headers = typeof action.headers === 'function' ?
+    action.headers(file, metadata) :
+    Object.assign(Object.assign({}, action.headers), { 'Upload-Length': file.size });
+    const requestParams = Object.assign(Object.assign({}, action), { headers });
     // send request object
     const request = sendRequest(ondata(formData), buildURL(apiUrl, action.url), requestParams);
-    request.onload = xhr => cb(onload(xhr, requestParams.method));
-    request.onerror = xhr => error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
+    request.onload = (xhr) => cb(onload(xhr, requestParams.method));
+    request.onerror = (xhr) => error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
     request.ontimeout = createTimeoutResponse(error);
   };
-  const requestTransferOffset = cb => {
+  const requestTransferOffset = (cb) => {
     const requestUrl = buildURL(apiUrl, chunkServer.url, state.serverId);
-    const headers = typeof action.headers === 'function' ? action.headers(state.serverId) : Object.assign({}, action.headers);
+    const headers = typeof action.headers === 'function' ?
+    action.headers(state.serverId) :
+    Object.assign({}, action.headers);
     const requestParams = {
       headers,
       method: 'HEAD'
     };
     const request = sendRequest(null, requestUrl, requestParams);
-    request.onload = xhr => cb(onload(xhr, requestParams.method));
-    request.onerror = xhr => error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
+    request.onload = (xhr) => cb(onload(xhr, requestParams.method));
+    request.onerror = (xhr) => error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
     request.ontimeout = createTimeoutResponse(error);
   };
   // create chunks
@@ -2181,16 +2215,17 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
     };
   }
   const completeProcessingChunks = () => load(state.serverId);
-  const canProcessChunk = chunk => chunk.status === ChunkStatus.QUEUED || chunk.status === ChunkStatus.ERROR;
-  const processChunk = chunk => {
+  const canProcessChunk = (chunk) => chunk.status === ChunkStatus.QUEUED || chunk.status === ChunkStatus.ERROR;
+  const processChunk = (chunk) => {
     // processing is paused, wait here
-    if (state.aborted) return;
+    if (state.aborted)
+    return;
     // get next chunk to process
     chunk = chunk || chunks.find(canProcessChunk);
     // no more chunks to process
     if (!chunk) {
       // all done?
-      if (chunks.every(chunk => chunk.status === ChunkStatus.COMPLETE)) {
+      if (chunks.every((chunk) => chunk.status === ChunkStatus.COMPLETE)) {
         completeProcessingChunks();
       }
       // no chunk to handle
@@ -2200,19 +2235,14 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
     chunk.status = ChunkStatus.PROCESSING;
     chunk.progress = null;
     // allow parsing of formdata
-    const ondata = chunkServer.ondata || (fd => fd);
-    const onerror = chunkServer.onerror || (res => null);
+    const ondata = chunkServer.ondata || ((fd) => fd);
+    const onerror = chunkServer.onerror || ((res) => null);
     // send request object
     const requestUrl = buildURL(apiUrl, chunkServer.url, state.serverId);
-    const headers = typeof chunkServer.headers === 'function' ? chunkServer.headers(chunk) : Object.assign(Object.assign({}, chunkServer.headers), {
-      'Content-Type': 'application/offset+octet-stream',
-      'Upload-Offset': chunk.offset,
-      'Upload-Length': file.size,
-      'Upload-Name': file.name
-    });
-    const request = chunk.request = sendRequest(ondata(chunk.data), requestUrl, Object.assign(Object.assign({}, chunkServer), {
-      headers
-    }));
+    const headers = typeof chunkServer.headers === 'function' ?
+    chunkServer.headers(chunk) :
+    Object.assign(Object.assign({}, chunkServer.headers), { 'Content-Type': 'application/offset+octet-stream', 'Upload-Offset': chunk.offset, 'Upload-Length': file.size, 'Upload-Name': file.name });
+    const request = chunk.request = sendRequest(ondata(chunk.data), requestUrl, Object.assign(Object.assign({}, chunkServer), { headers }));
     request.onload = () => {
       // done!
       chunk.status = ChunkStatus.COMPLETE;
@@ -2225,7 +2255,7 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
       chunk.progress = lengthComputable ? loaded : null;
       updateTotalProgress();
     };
-    request.onerror = xhr => {
+    request.onerror = (xhr) => {
       chunk.status = ChunkStatus.ERROR;
       chunk.request = null;
       chunk.error = onerror(xhr.response) || xhr.statusText;
@@ -2233,7 +2263,7 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
         error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
       }
     };
-    request.ontimeout = xhr => {
+    request.ontimeout = (xhr) => {
       chunk.status = ChunkStatus.ERROR;
       chunk.request = null;
       if (!retryProcessChunk(chunk)) {
@@ -2246,9 +2276,10 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
       abort();
     };
   };
-  const retryProcessChunk = chunk => {
+  const retryProcessChunk = (chunk) => {
     // no more retries left
-    if (chunk.retries.length === 0) return false;
+    if (chunk.retries.length === 0)
+    return false;
     // new retry
     chunk.status = ChunkStatus.WAITING;
     clearTimeout(chunk.timeout);
@@ -2261,11 +2292,13 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
   const updateTotalProgress = () => {
     // calculate total progress fraction
     const totalBytesTransfered = chunks.reduce((p, chunk) => {
-      if (p === null || chunk.progress === null) return null;
+      if (p === null || chunk.progress === null)
+      return null;
       return p + chunk.progress;
     }, 0);
     // can't compute progress
-    if (totalBytesTransfered === null) return progress(false, 0, 0);
+    if (totalBytesTransfered === null)
+    return progress(false, 0, 0);
     // calculate progress values
     const totalSize = chunks.reduce((total, chunk) => total + chunk.size, 0);
     // can update progress indicator
@@ -2273,12 +2306,13 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
   };
   // process new chunks
   const processChunks = () => {
-    const totalProcessing = chunks.filter(chunk => chunk.status === ChunkStatus.PROCESSING).length;
-    if (totalProcessing >= 1) return;
+    const totalProcessing = chunks.filter((chunk) => chunk.status === ChunkStatus.PROCESSING).length;
+    if (totalProcessing >= 1)
+    return;
     processChunk();
   };
   const abortChunks = () => {
-    chunks.forEach(chunk => {
+    chunks.forEach((chunk) => {
       clearTimeout(chunk.timeout);
       if (chunk.request) {
         chunk.request.abort();
@@ -2287,21 +2321,26 @@ const processFileChunked = (apiUrl, action, name, file, metadata, load, error, p
   };
   // let's go!
   if (!state.serverId) {
-    requestTransferId(serverId => {
+    requestTransferId((serverId) => {
       // stop here if aborted, might have happened in between request and callback
-      if (state.aborted) return;
+      if (state.aborted)
+      return;
       // pass back to item so we can use it if something goes wrong
       transfer(serverId);
       // store internally
       state.serverId = serverId;
       processChunks();
     });
-  } else {
-    requestTransferOffset(offset => {
+  } else
+  {
+    requestTransferOffset((offset) => {
       // stop here if aborted, might have happened in between request and callback
-      if (state.aborted) return;
+      if (state.aborted)
+      return;
       // mark chunks with lower offset as complete
-      chunks.filter(chunk => chunk.offset < offset).forEach(chunk => {
+      chunks.
+      filter((chunk) => chunk.offset < offset).
+      forEach((chunk) => {
         chunk.status = ChunkStatus.COMPLETE;
         chunk.progress = chunk.size;
       });
@@ -2326,16 +2365,18 @@ function signature:
 */
 const createFileProcessorFunction = (apiUrl, action, name, options) => (file, metadata, load, error, progress, abort, transfer) => {
   // no file received
-  if (!file) return;
+  if (!file)
+  return;
   // if was passed a file, and we can chunk it, exit here
   const canChunkUpload = options.chunkUploads;
   const shouldChunkUpload = canChunkUpload && file.size > options.chunkSize;
   const willChunkUpload = canChunkUpload && (shouldChunkUpload || options.chunkForce);
-  if (file instanceof Blob && willChunkUpload) return processFileChunked(apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options);
+  if (file instanceof Blob && willChunkUpload)
+  return processFileChunked(apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options);
   // set handlers
-  const ondata = action.ondata || (fd => fd);
-  const onload = action.onload || (res => res);
-  const onerror = action.onerror || (res => null);
+  const ondata = action.ondata || ((fd) => fd);
+  const onload = action.onload || ((res) => res);
+  const onerror = action.onerror || ((res) => null);
   // create formdata object
   var formData = new FormData();
   // add metadata under same name
@@ -2343,18 +2384,15 @@ const createFileProcessorFunction = (apiUrl, action, name, options) => (file, me
     formData.append(name, JSON.stringify(metadata));
   }
   // Turn into an array of objects so no matter what the input, we can handle it the same way
-  (file instanceof Blob ? [{
-    name: null,
-    file
-  }] : file).forEach(item => {
+  (file instanceof Blob ? [{ name: null, file }] : file).forEach((item) => {
     formData.append(name, item.file, item.name === null ? item.file.name : `${item.name}${item.file.name}`);
   });
   // send request object
   const request = sendRequest(ondata(formData), buildURL(apiUrl, action.url), action);
-  request.onload = xhr => {
+  request.onload = (xhr) => {
     load(createResponse('load', xhr.status, onload(xhr.response), xhr.getAllResponseHeaders()));
   };
-  request.onerror = xhr => {
+  request.onerror = (xhr) => {
     error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
   };
   request.ontimeout = createTimeoutResponse(error);
@@ -2365,9 +2403,11 @@ const createFileProcessorFunction = (apiUrl, action, name, options) => (file, me
 };
 const createProcessorFunction = (apiUrl = '', action, name, options) => {
   // custom handler (should also handle file, load, error, progress and abort)
-  if (typeof action === 'function') return (...params) => action(name, ...params, options);
+  if (typeof action === 'function')
+  return (...params) => action(name, ...params, options);
   // no action supplied
-  if (!action || !isString(action.url)) return null;
+  if (!action || !isString(action.url))
+  return null;
   // internal handler
   return createFileProcessorFunction(apiUrl, action, name, options);
 };
@@ -2385,17 +2425,16 @@ const createRevertFunction = (apiUrl = '', action) => {
     return (uniqueFileId, load) => load();
   }
   // set onload hanlder
-  const onload = action.onload || (res => res);
-  const onerror = action.onerror || (res => null);
+  const onload = action.onload || ((res) => res);
+  const onerror = action.onerror || ((res) => null);
   // internal implementation
   return (uniqueFileId, load, error) => {
     const request = sendRequest(uniqueFileId, apiUrl + action.url, action // contains method, headers and withCredentials properties
     );
-
-    request.onload = xhr => {
+    request.onload = (xhr) => {
       load(createResponse('load', xhr.status, onload(xhr.response), xhr.getAllResponseHeaders()));
     };
-    request.onerror = xhr => {
+    request.onerror = (xhr) => {
       error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
     };
     request.ontimeout = createTimeoutResponse(error);
@@ -2427,7 +2466,7 @@ const createPerceivedPerformanceUpdater = (cb, duration = 1000, offset = 0, tick
     }
   };
 };
-const createFileProcessor = processFn => {
+const createFileProcessor = (processFn) => {
   const state = {
     complete: false,
     perceivedProgress: 0,
@@ -2444,7 +2483,8 @@ const createFileProcessor = processFn => {
       // we've not yet started the real download, stop here
       // the request might not go through, for instance, there might be some server trouble
       // if state.progress is null, the server does not allow computing progress and we show the spinner instead
-      if (state.duration === 0 || state.progress === null) return;
+      if (state.duration === 0 || state.progress === null)
+      return;
       // as we're now processing, fire the progress event
       api.fire('progress', api.getProgress());
     };
@@ -2457,13 +2497,15 @@ const createFileProcessor = processFn => {
     // set request start
     state.timestamp = Date.now();
     // create perceived performance progress indicator
-    state.perceivedPerformanceUpdater = createPerceivedPerformanceUpdater(progress => {
+    state.perceivedPerformanceUpdater = createPerceivedPerformanceUpdater((progress) => {
       state.perceivedProgress = progress;
       state.perceivedDuration = Date.now() - state.timestamp;
       progressFn();
       // if fake progress is done, and a response has been received,
       // and we've not yet called the complete method
-      if (state.response && state.perceivedProgress === 1 && !state.complete) {
+      if (state.response &&
+      state.perceivedProgress === 1 &&
+      !state.complete) {
         // we done!
         completeFn();
       }
@@ -2473,73 +2515,79 @@ const createFileProcessor = processFn => {
     getRandomNumber(750, 1500));
     // remember request so we can abort it later
     state.request = processFn(
-    // the file to process
-    file,
-    // the metadata to send along
-    metadata,
-    // callbacks (load, error, progress, abort, transfer)
-    // load expects the body to be a server id if
-    // you want to make use of revert
-    response => {
-      // we put the response in state so we can access
-      // it outside of this method
-      state.response = isObject(response) ? response : {
-        type: 'load',
-        code: 200,
-        body: `${response}`,
-        headers: {}
-      };
-      // update duration
-      state.duration = Date.now() - state.timestamp;
-      // force progress to 1 as we're now done
-      state.progress = 1;
-      // actual load is done let's share results
-      api.fire('load', state.response.body);
-      // we are really done
-      // if perceived progress is 1 ( wait for perceived progress to complete )
-      // or if server does not support progress ( null )
-      if (state.perceivedProgress === 1) {
-        completeFn();
-      }
-    },
-    // error is expected to be an object with type, code, body
-    error => {
-      // cancel updater
-      state.perceivedPerformanceUpdater.clear();
-      // update others about this error
-      api.fire('error', isObject(error) ? error : {
-        type: 'error',
-        code: 0,
-        body: `${error}`
+      // the file to process
+      file,
+      // the metadata to send along
+      metadata,
+      // callbacks (load, error, progress, abort, transfer)
+      // load expects the body to be a server id if
+      // you want to make use of revert
+      (response) => {
+        // we put the response in state so we can access
+        // it outside of this method
+        state.response = isObject(response) ?
+        response :
+        {
+          type: 'load',
+          code: 200,
+          body: `${response}`,
+          headers: {}
+        };
+        // update duration
+        state.duration = Date.now() - state.timestamp;
+        // force progress to 1 as we're now done
+        state.progress = 1;
+        // actual load is done let's share results
+        api.fire('load', state.response.body);
+        // we are really done
+        // if perceived progress is 1 ( wait for perceived progress to complete )
+        // or if server does not support progress ( null )
+        if (state.perceivedProgress === 1) {
+          completeFn();
+        }
+      },
+      // error is expected to be an object with type, code, body
+      (error) => {
+        // cancel updater
+        state.perceivedPerformanceUpdater.clear();
+        // update others about this error
+        api.fire('error', isObject(error) ?
+        error :
+        {
+          type: 'error',
+          code: 0,
+          body: `${error}`
+        });
+      },
+      // actual processing progress
+      (computable, current, total) => {
+        // update actual duration
+        state.duration = Date.now() - state.timestamp;
+        // update actual progress
+        state.progress = computable ? current / total : null;
+        progressFn();
+      },
+      // abort does not expect a value
+      () => {
+        // stop updater
+        state.perceivedPerformanceUpdater.clear();
+        // fire the abort event so we can switch visuals
+        api.fire('abort', state.response ? state.response.body : null);
+      },
+      // register the id for this transfer
+      (transferId) => {
+        api.fire('transfer', transferId);
       });
-    },
-    // actual processing progress
-    (computable, current, total) => {
-      // update actual duration
-      state.duration = Date.now() - state.timestamp;
-      // update actual progress
-      state.progress = computable ? current / total : null;
-      progressFn();
-    },
-    // abort does not expect a value
-    () => {
-      // stop updater
-      state.perceivedPerformanceUpdater.clear();
-      // fire the abort event so we can switch visuals
-      api.fire('abort', state.response ? state.response.body : null);
-    },
-    // register the id for this transfer
-    transferId => {
-      api.fire('transfer', transferId);
-    });
   };
   const abort = () => {
     // no request running, can't abort
-    if (!state.request) return;
+    if (!state.request)
+    return;
     // stop updater
     state.perceivedPerformanceUpdater.clear();
     // abort actual request
-    if (state.request.abort) state.request.abort();
+    if (state.request.abort)
+    state.request.abort();
     // if has response object, we've completed the request
     state.complete = true;
   };
@@ -2556,26 +2604,26 @@ const createFileProcessor = processFn => {
   };
   const getProgress = () => state.progress ? Math.min(state.progress, state.perceivedProgress) : null;
   const getDuration = () => Math.min(state.duration, state.perceivedDuration);
-  const api = Object.assign(Object.assign({}, on()), {
-    process,
+  const api = Object.assign(Object.assign({}, on()), { process,
     abort,
     getProgress,
     getDuration,
-    reset
-  });
+    reset });
   return api;
 };
-const getFilenameWithoutExtension = name => name.substr(0, name.lastIndexOf('.')) || name;
-const createFileStub = source => {
+const getFilenameWithoutExtension = (name) => name.substr(0, name.lastIndexOf('.')) || name;
+const createFileStub = (source) => {
   let data = [source.name, source.size, source.type];
   // is blob or base64, then we need to set the name
   if (source instanceof Blob || isBase64DataURI(source)) {
     data[0] = source.name || getDateString();
-  } else if (isBase64DataURI(source)) {
+  } else
+  if (isBase64DataURI(source)) {
     // if is base64 data uri we need to determine the average size and type
     data[1] = source.length;
     data[2] = getMimeTypeFromBase64DataURI(source);
-  } else if (isString(source)) {
+  } else
+  if (isString(source)) {
     // url
     data[0] = getFilenameFromURL(source);
     data[1] = 0;
@@ -2587,12 +2635,14 @@ const createFileStub = source => {
     type: data[2]
   };
 };
-const isFile = value => !!(value instanceof File || value instanceof Blob && value.name);
-const deepCloneObject = src => {
-  if (!isObject(src)) return src;
+const isFile = (value) => !!(value instanceof File || value instanceof Blob && value.name);
+const deepCloneObject = (src) => {
+  if (!isObject(src))
+  return src;
   const target = isArray(src) ? [] : {};
   for (const key in src) {
-    if (!src.hasOwnProperty(key)) continue;
+    if (!src.hasOwnProperty(key))
+    continue;
     const v = src[key];
     target[key] = v && isObject(v) ? deepCloneObject(v) : v;
   }
@@ -2622,7 +2672,9 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
     // is aborted
     processingAborted: false,
     // current item status
-    status: serverFileReference ? ItemStatus.PROCESSING_COMPLETE : ItemStatus.INIT,
+    status: serverFileReference ?
+    ItemStatus.PROCESSING_COMPLETE :
+    ItemStatus.INIT,
     // active processes
     activeLoader: null,
     activeProcessor: null
@@ -2634,10 +2686,11 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
    */
   const metadata = {};
   // item data
-  const setStatus = status => state.status = status;
+  const setStatus = (status) => state.status = status;
   // fire event unless the item has been archived
   const fire = (event, ...params) => {
-    if (state.released || state.frozen) return;
+    if (state.released || state.frozen)
+    return;
     api.fire(event, ...params);
   };
   // file data
@@ -2665,7 +2718,7 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
       fire('load-init');
     });
     // we'eve received a size indication, let's update the stub
-    loader.on('meta', meta => {
+    loader.on('meta', (meta) => {
       // set size of file stub
       state.file.size = meta.size;
       // set name of file stub
@@ -2680,12 +2733,12 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
       fire('load-meta');
     });
     // the file is now loading we need to update the progress indicators
-    loader.on('progress', progress => {
+    loader.on('progress', (progress) => {
       setStatus(ItemStatus.LOADING);
       fire('load-progress', progress);
     });
     // an error was thrown while loading the file, we need to switch to error state
-    loader.on('error', error => {
+    loader.on('error', (error) => {
       setStatus(ItemStatus.LOAD_ERROR);
       fire('load-request-error', error);
     });
@@ -2695,22 +2748,23 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
       fire('load-abort');
     });
     // done loading
-    loader.on('load', file => {
+    loader.on('load', (file) => {
       // as we've now loaded the file the loader is no longer required
       state.activeLoader = null;
       // called when file has loaded succesfully
-      const success = result => {
+      const success = (result) => {
         // set (possibly) transformed file
         state.file = isFile(result) ? result : state.file;
         // file received
         if (origin === FileOrigin.LIMBO && state.serverFileReference) {
           setStatus(ItemStatus.PROCESSING_COMPLETE);
-        } else {
+        } else
+        {
           setStatus(ItemStatus.IDLE);
         }
         fire('load');
       };
-      const error = result => {
+      const error = (result) => {
         // set original file
         state.file = file;
         fire('load-meta');
@@ -2767,17 +2821,17 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
       return;
     }
     // setup processor
-    processor.on('load', serverFileReference => {
+    processor.on('load', (serverFileReference) => {
       // need this id to be able to revert the upload
       state.transferId = null;
       state.serverFileReference = serverFileReference;
     });
     // register transfer id
-    processor.on('transfer', transferId => {
+    processor.on('transfer', (transferId) => {
       // need this id to be able to revert the upload
       state.transferId = transferId;
     });
-    processor.on('load-perceived', serverFileReference => {
+    processor.on('load-perceived', (serverFileReference) => {
       // no longer required
       state.activeProcessor = null;
       // need this id to be able to rever the upload
@@ -2789,12 +2843,12 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
     processor.on('start', () => {
       fire('process-start');
     });
-    processor.on('error', error => {
+    processor.on('error', (error) => {
       state.activeProcessor = null;
       setStatus(ItemStatus.PROCESSING_ERROR);
       fire('process-error', error);
     });
-    processor.on('abort', serverFileReference => {
+    processor.on('abort', (serverFileReference) => {
       state.activeProcessor = null;
       // if file was uploaded but processing was cancelled during perceived processor time store file reference
       state.transferId = null;
@@ -2806,13 +2860,14 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
         abortProcessingRequestComplete();
       }
     });
-    processor.on('progress', progress => {
+    processor.on('progress', (progress) => {
       fire('process-progress', progress);
     });
     // when successfully transformed
-    const success = file => {
+    const success = (file) => {
       // if was archived in the mean time, don't process
-      if (state.archived) return;
+      if (state.archived)
+      return;
       // process file!
       processor.process(file, Object.assign({}, metadata));
     };
@@ -2827,7 +2882,7 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
     state.processingAborted = false;
     setStatus(ItemStatus.PROCESSING_QUEUED);
   };
-  const abortProcessing = () => new Promise(resolve => {
+  const abortProcessing = () => new Promise((resolve) => {
     if (!state.activeProcessor) {
       state.processingAborted = true;
       setStatus(ItemStatus.IDLE);
@@ -2854,7 +2909,7 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
       // reset file server id as now it's no available on the server
       state.serverFileReference = null;
       resolve();
-    }, error => {
+    }, (error) => {
       // don't set error state when reverting is optional, it will always resolve
       if (!forceRevert) {
         resolve();
@@ -2875,91 +2930,41 @@ const createItem = (origin = null, serverFileReference = null, file = null) => {
     const root = keys[0];
     const last = keys.pop();
     let data = metadata;
-    keys.forEach(key => data = data[key]);
+    keys.forEach((key) => data = data[key]);
     // compare old value against new value, if they're the same, we're not updating
-    if (JSON.stringify(data[last]) === JSON.stringify(value)) return;
+    if (JSON.stringify(data[last]) === JSON.stringify(value))
+    return;
     // update value
     data[last] = value;
     // don't fire update
-    if (silent) return;
+    if (silent)
+    return;
     // fire update
     fire('metadata-update', {
       key: root,
       value: metadata[root]
     });
   };
-  const getMetadata = key => deepCloneObject(key ? metadata[key] : metadata);
-  const api = Object.assign(Object.assign({
-    id: {
-      get: () => id
-    },
-    origin: {
-      get: () => origin
-    },
-    serverId: {
-      get: () => state.serverFileReference
-    },
-    transferId: {
-      get: () => state.transferId
-    },
-    status: {
-      get: () => state.status
-    },
-    filename: {
-      get: () => state.file.name
-    },
-    filenameWithoutExtension: {
+  const getMetadata = (key) => deepCloneObject(key ? metadata[key] : metadata);
+  const api = Object.assign(Object.assign({ id: { get: () => id }, origin: { get: () => origin }, serverId: { get: () => state.serverFileReference }, transferId: { get: () => state.transferId }, status: { get: () => state.status }, filename: { get: () => state.file.name }, filenameWithoutExtension: {
       get: () => getFilenameWithoutExtension(state.file.name)
-    },
-    fileExtension: {
-      get: getFileExtension
-    },
-    fileType: {
-      get: getFileType
-    },
-    fileSize: {
-      get: getFileSize
-    },
-    file: {
-      get: getFile
-    },
-    relativePath: {
-      get: () => state.file._relativePath
-    },
-    source: {
-      get: () => state.source
-    },
-    getMetadata,
-    setMetadata: (key, value, silent) => {
+    }, fileExtension: { get: getFileExtension }, fileType: { get: getFileType }, fileSize: { get: getFileSize }, file: { get: getFile }, relativePath: { get: () => state.file._relativePath }, source: { get: () => state.source }, getMetadata, setMetadata: (key, value, silent) => {
       if (isObject(key)) {
         const data = key;
-        Object.keys(data).forEach(key => {
+        Object.keys(data).forEach((key) => {
           setMetadata(key, data[key], value);
         });
         return key;
       }
       setMetadata(key, value, silent);
       return value;
-    },
-    extend: (name, handler) => itemAPI[name] = handler,
-    abortLoad,
+    }, extend: (name, handler) => itemAPI[name] = handler, abortLoad,
     retryLoad,
     requestProcessing,
     abortProcessing,
     load,
     process,
-    revert
-  }, on()), {
-    freeze: () => state.frozen = true,
-    release: () => state.released = true,
-    released: {
-      get: () => state.released
-    },
-    archive: () => state.archived = true,
-    archived: {
-      get: () => state.archived
-    }
-  });
+    revert }, on()), { freeze: () => state.frozen = true, release: () => state.released = true, released: { get: () => state.released }, archive: () => state.archived = true, archived: { get: () => state.archived } });
   // create it here instead of returning it instantly so we can extend it later
   const itemAPI = createObject(api);
   return itemAPI;
@@ -2974,7 +2979,7 @@ const getItemIndexByQuery = (items, query) => {
     return -1;
   }
   // return item by id (or -1 if not found)
-  return items.findIndex(item => item.id === query);
+  return items.findIndex((item) => item.id === query);
 };
 const getItemById = (items, itemId) => {
   const index = getItemIndexByQuery(items, itemId);
@@ -2988,7 +2993,7 @@ const fetchBlob = (url, load, error, progress, abort, headers) => {
     method: 'GET',
     responseType: 'blob'
   });
-  request.onload = xhr => {
+  request.onload = (xhr) => {
     // get headers
     const headers = xhr.getAllResponseHeaders();
     // get filename
@@ -2996,10 +3001,10 @@ const fetchBlob = (url, load, error, progress, abort, headers) => {
     // create response
     load(createResponse('load', xhr.status, getFileFromBlob(xhr.response, filename), headers));
   };
-  request.onerror = xhr => {
+  request.onerror = (xhr) => {
     error(createResponse('error', xhr.status, xhr.statusText, xhr.getAllResponseHeaders()));
   };
-  request.onheaders = xhr => {
+  request.onheaders = (xhr) => {
     headers(createResponse('headers', xhr.status, null, xhr.getAllResponseHeaders()));
   };
   request.ontimeout = createTimeoutResponse(error);
@@ -3008,24 +3013,27 @@ const fetchBlob = (url, load, error, progress, abort, headers) => {
   // should return request
   return request;
 };
-const getDomainFromURL = url => {
+const getDomainFromURL = (url) => {
   if (url.indexOf('//') === 0) {
     url = location.protocol + url;
   }
-  return url.toLowerCase().replace('blob:', '').replace(/([a-z])?:\/\//, '$1').split('/')[0];
+  return url.
+  toLowerCase().
+  replace('blob:', '').
+  replace(/([a-z])?:\/\//, '$1').
+  split('/')[0];
 };
-const isExternalURL = url => (url.indexOf(':') > -1 || url.indexOf('//') > -1) && getDomainFromURL(location.href) !== getDomainFromURL(url);
-const dynamicLabel = label => (...params) => isFunction(label) ? label(...params) : label;
-const isMockItem = item => !isFile(item.file);
+const isExternalURL = (url) => (url.indexOf(':') > -1 || url.indexOf('//') > -1) &&
+getDomainFromURL(location.href) !== getDomainFromURL(url);
+const dynamicLabel = (label) => (...params) => isFunction(label) ? label(...params) : label;
+const isMockItem = (item) => !isFile(item.file);
 const listUpdated = (dispatch, state) => {
   clearTimeout(state.listUpdateTimeout);
   state.listUpdateTimeout = setTimeout(() => {
-    dispatch('DID_UPDATE_ITEMS', {
-      items: getActiveItems(state.items)
-    });
+    dispatch('DID_UPDATE_ITEMS', { items: getActiveItems(state.items) });
   }, 0);
 };
-const optionalPromise = (fn, ...params) => new Promise(resolve => {
+const optionalPromise = (fn, ...params) => new Promise((resolve) => {
   if (!fn) {
     return resolve(true);
   }
@@ -3045,12 +3053,7 @@ const sortItems = (state, compare) => {
 };
 // returns item based on state
 const getItemByQueryFromState = (state, itemHandler) => (_a = {}) => {
-  var {
-      query,
-      success = () => {},
-      failure = () => {}
-    } = _a,
-    options = __rest(_a, ["query", "success", "failure"]);
+  var { query, success = () => {}, failure = () => {} } = _a,options = __rest(_a, ["query", "success", "failure"]);
   const item = getItemByQuery(state.items, query);
   if (!item) {
     failure({
@@ -3066,7 +3069,7 @@ const actions = (dispatch, query, state) => ({
    * Aborts all ongoing processes
    */
   ABORT_ALL: () => {
-    getActiveItems(state.items).forEach(item => {
+    getActiveItems(state.items).forEach((item) => {
       item.freeze();
       item.abortLoad();
       item.abortProcessing();
@@ -3075,42 +3078,32 @@ const actions = (dispatch, query, state) => ({
   /**
    * Sets initial files
    */
-  DID_SET_FILES: ({
-    value = []
-  }) => {
+  DID_SET_FILES: ({ value = [] }) => {
     // map values to file objects
-    const files = value.map(file => ({
+    const files = value.map((file) => ({
       source: file.source ? file.source : file,
       options: file.options
     }));
     // loop over files, if file is in list, leave it be, if not, remove
     // test if items should be moved
     let activeItems = getActiveItems(state.items);
-    activeItems.forEach(item => {
+    activeItems.forEach((item) => {
       // if item not is in new value, remove
-      if (!files.find(file => file.source === item.source || file.source === item.file)) {
-        dispatch('REMOVE_ITEM', {
-          query: item,
-          remove: false
-        });
+      if (!files.find((file) => file.source === item.source || file.source === item.file)) {
+        dispatch('REMOVE_ITEM', { query: item, remove: false });
       }
     });
     // add new files
     activeItems = getActiveItems(state.items);
     files.forEach((file, index) => {
       // if file is already in list
-      if (activeItems.find(item => item.source === file.source || item.file === file.source)) return;
+      if (activeItems.find((item) => item.source === file.source || item.file === file.source))
+      return;
       // not in list, add
-      dispatch('ADD_ITEM', Object.assign(Object.assign({}, file), {
-        interactionMethod: InteractionMethod.NONE,
-        index
-      }));
+      dispatch('ADD_ITEM', Object.assign(Object.assign({}, file), { interactionMethod: InteractionMethod.NONE, index }));
     });
   },
-  DID_UPDATE_ITEM_METADATA: ({
-    id,
-    action
-  }) => {
+  DID_UPDATE_ITEM_METADATA: ({ id, action }) => {
     // if is called multiple times in close succession we combined all calls together to save resources
     clearTimeout(state.itemUpdateTimeout);
     state.itemUpdateTimeout = setTimeout(() => {
@@ -3122,19 +3115,18 @@ const actions = (dispatch, query, state) => ({
           item,
           query,
           action
-        }).then(shouldPrepareOutput => {
+        }).then((shouldPrepareOutput) => {
           // plugins determined the output data should be prepared (or not), can be adjusted with beforePrepareOutput hook
           const beforePrepareFile = query('GET_BEFORE_PREPARE_FILE');
-          if (beforePrepareFile) shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
-          if (!shouldPrepareOutput) return;
+          if (beforePrepareFile)
+          shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
+          if (!shouldPrepareOutput)
+          return;
           dispatch('REQUEST_PREPARE_OUTPUT', {
             query: id,
             item,
-            success: file => {
-              dispatch('DID_PREPARE_OUTPUT', {
-                id,
-                file
-              });
+            success: (file) => {
+              dispatch('DID_PREPARE_OUTPUT', { id, file });
             }
           }, true);
         });
@@ -3144,15 +3136,16 @@ const actions = (dispatch, query, state) => ({
       const upload = () => {
         // we push this forward a bit so the interface is updated correctly
         setTimeout(() => {
-          dispatch('REQUEST_ITEM_PROCESSING', {
-            query: id
-          });
+          dispatch('REQUEST_ITEM_PROCESSING', { query: id });
         }, 32);
       };
-      const revert = doUpload => {
-        item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).then(doUpload ? upload : () => {}).catch(() => {});
+      const revert = (doUpload) => {
+        item.
+        revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).
+        then(doUpload ? upload : () => {}).
+        catch(() => {});
       };
-      const abort = doUpload => {
+      const abort = (doUpload) => {
         item.abortProcessing().then(doUpload ? upload : () => {});
       };
       // if we should re-upload the file immediately
@@ -3168,32 +3161,23 @@ const actions = (dispatch, query, state) => ({
       }
     }, 0);
   },
-  MOVE_ITEM: ({
-    query,
-    index
-  }) => {
+  MOVE_ITEM: ({ query, index }) => {
     const item = getItemByQuery(state.items, query);
-    if (!item) return;
+    if (!item)
+    return;
     const currentIndex = state.items.indexOf(item);
     index = limit(index, 0, state.items.length - 1);
-    if (currentIndex === index) return;
+    if (currentIndex === index)
+    return;
     state.items.splice(index, 0, state.items.splice(currentIndex, 1)[0]);
   },
-  SORT: ({
-    compare
-  }) => {
+  SORT: ({ compare }) => {
     sortItems(state, compare);
     dispatch('DID_SORT_ITEMS', {
       items: query('GET_ACTIVE_ITEMS')
     });
   },
-  ADD_ITEMS: ({
-    items,
-    index,
-    interactionMethod,
-    success = () => {},
-    failure = () => {}
-  }) => {
+  ADD_ITEMS: ({ items, index, interactionMethod, success = () => {}, failure = () => {} }) => {
     let currentIndex = index;
     if (index === -1 || typeof index === 'undefined') {
       const insertLocation = query('GET_ITEM_INSERT_LOCATION');
@@ -3201,9 +3185,11 @@ const actions = (dispatch, query, state) => ({
       currentIndex = insertLocation === 'before' ? 0 : totalItems;
     }
     const ignoredFiles = query('GET_IGNORED_FILES');
-    const isValidFile = source => isFile(source) ? !ignoredFiles.includes(source.name.toLowerCase()) : !isEmpty(source);
+    const isValidFile = (source) => isFile(source) ?
+    !ignoredFiles.includes(source.name.toLowerCase()) :
+    !isEmpty(source);
     const validItems = items.filter(isValidFile);
-    const promises = validItems.map(source => new Promise((resolve, reject) => {
+    const promises = validItems.map((source) => new Promise((resolve, reject) => {
       dispatch('ADD_ITEM', {
         interactionMethod,
         source: source.source || source,
@@ -3213,21 +3199,16 @@ const actions = (dispatch, query, state) => ({
         options: source.options || {}
       });
     }));
-    Promise.all(promises).then(success).catch(failure);
+    Promise.all(promises).
+    then(success).
+    catch(failure);
   },
   /**
    * @param source
    * @param index
    * @param interactionMethod
    */
-  ADD_ITEM: ({
-    source,
-    index = -1,
-    interactionMethod,
-    success = () => {},
-    failure = () => {},
-    options = {}
-  }) => {
+  ADD_ITEM: ({ source, index = -1, interactionMethod, success = () => {}, failure = () => {}, options = {} }) => {
     // if no source supplied
     if (isEmpty(source)) {
       failure({
@@ -3237,7 +3218,8 @@ const actions = (dispatch, query, state) => ({
       return;
     }
     // filter out invalid file items, used to filter dropped directory contents
-    if (isFile(source) && state.options.ignoredFiles.includes(source.name.toLowerCase())) {
+    if (isFile(source) &&
+    state.options.ignoredFiles.includes(source.name.toLowerCase())) {
       // fail silently
       return;
     }
@@ -3245,26 +3227,28 @@ const actions = (dispatch, query, state) => ({
     if (!hasRoomForItem(state)) {
       // if multiple allowed, we can't replace
       // or if only a single item is allowed but we're not allowed to replace it we exit
-      if (state.options.allowMultiple || !state.options.allowMultiple && !state.options.allowReplace) {
+      if (state.options.allowMultiple ||
+      !state.options.allowMultiple && !state.options.allowReplace) {
         const error = createResponse('warning', 0, 'Max files');
         dispatch('DID_THROW_MAX_FILES', {
           source,
           error
         });
-        failure({
-          error,
-          file: null
-        });
+        failure({ error, file: null });
         return;
       }
       // let's replace the item
       // id of first item we're about to remove
       const item = getActiveItems(state.items)[0];
       // if has been processed remove it from the server as well
-      if (item.status === ItemStatus.PROCESSING_COMPLETE || item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
+      if (item.status === ItemStatus.PROCESSING_COMPLETE ||
+      item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
         const forceRevert = query('GET_FORCE_REVERT');
-        item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), forceRevert).then(() => {
-          if (!forceRevert) return;
+        item.
+        revert(createRevertFunction(state.options.server.url, state.options.server.revert), forceRevert).
+        then(() => {
+          if (!forceRevert)
+          return;
           // try to add now
           dispatch('ADD_ITEM', {
             source,
@@ -3274,33 +3258,34 @@ const actions = (dispatch, query, state) => ({
             failure,
             options
           });
-        }).catch(() => {}); // no need to handle this catch state for now
-        if (forceRevert) return;
+        }).
+        catch(() => {}); // no need to handle this catch state for now
+        if (forceRevert)
+        return;
       }
       // remove first item as it will be replaced by this item
-      dispatch('REMOVE_ITEM', {
-        query: item.id
-      });
+      dispatch('REMOVE_ITEM', { query: item.id });
     }
     // where did the file originate
-    const origin = options.type === 'local' ? FileOrigin.LOCAL : options.type === 'limbo' ? FileOrigin.LIMBO : FileOrigin.INPUT;
+    const origin = options.type === 'local' ?
+    FileOrigin.LOCAL :
+    options.type === 'limbo' ?
+    FileOrigin.LIMBO :
+    FileOrigin.INPUT;
     // create a new blank item
     const item = createItem(
-    // where did this file come from
-    origin,
-    // an input file never has a server file reference
-    origin === FileOrigin.INPUT ? null : source,
-    // file mock data, if defined
-    options.file);
+      // where did this file come from
+      origin,
+      // an input file never has a server file reference
+      origin === FileOrigin.INPUT ? null : source,
+      // file mock data, if defined
+      options.file);
     // set initial meta data
-    Object.keys(options.metadata || {}).forEach(key => {
+    Object.keys(options.metadata || {}).forEach((key) => {
       item.setMetadata(key, options.metadata[key]);
     });
     // created the item, let plugins add methods
-    applyFilters('DID_CREATE_ITEM', item, {
-      query,
-      dispatch
-    });
+    applyFilters('DID_CREATE_ITEM', item, { query, dispatch });
     // where to insert new items
     const itemInsertLocation = query('GET_ITEM_INSERT_LOCATION');
     // adjust index if is not allowed to pick location
@@ -3317,27 +3302,18 @@ const actions = (dispatch, query, state) => ({
     const id = item.id;
     // observe item events
     item.on('init', () => {
-      dispatch('DID_INIT_ITEM', {
-        id
-      });
+      dispatch('DID_INIT_ITEM', { id });
     });
     item.on('load-init', () => {
-      dispatch('DID_START_ITEM_LOAD', {
-        id
-      });
+      dispatch('DID_START_ITEM_LOAD', { id });
     });
     item.on('load-meta', () => {
-      dispatch('DID_UPDATE_ITEM_META', {
-        id
-      });
+      dispatch('DID_UPDATE_ITEM_META', { id });
     });
-    item.on('load-progress', progress => {
-      dispatch('DID_UPDATE_ITEM_LOAD_PROGRESS', {
-        id,
-        progress
-      });
+    item.on('load-progress', (progress) => {
+      dispatch('DID_UPDATE_ITEM_LOAD_PROGRESS', { id, progress });
     });
-    item.on('load-request-error', error => {
+    item.on('load-request-error', (error) => {
       const mainStatus = dynamicLabel(state.options.labelFileLoadError)(error);
       // is client error, no way to recover
       if (error.code >= 400 && error.code < 500) {
@@ -3350,10 +3326,7 @@ const actions = (dispatch, query, state) => ({
           }
         });
         // reject the file so can be dealt with through API
-        failure({
-          error,
-          file: createItemAPI(item)
-        });
+        failure({ error, file: createItemAPI(item) });
         return;
       }
       // is possible server error, so might be possible to retry
@@ -3366,21 +3339,16 @@ const actions = (dispatch, query, state) => ({
         }
       });
     });
-    item.on('load-file-error', error => {
+    item.on('load-file-error', (error) => {
       dispatch('DID_THROW_ITEM_INVALID', {
         id,
         error: error.status,
         status: error.status
       });
-      failure({
-        error: error.status,
-        file: createItemAPI(item)
-      });
+      failure({ error: error.status, file: createItemAPI(item) });
     });
     item.on('load-abort', () => {
-      dispatch('REMOVE_ITEM', {
-        query: id
-      });
+      dispatch('REMOVE_ITEM', { query: id });
     });
     item.on('load-skip', () => {
       dispatch('COMPLETE_LOAD_ITEM', {
@@ -3393,7 +3361,7 @@ const actions = (dispatch, query, state) => ({
       });
     });
     item.on('load', () => {
-      const handleAdd = shouldAdd => {
+      const handleAdd = (shouldAdd) => {
         // no should not add this file
         if (!shouldAdd) {
           dispatch('REMOVE_ITEM', {
@@ -3402,21 +3370,16 @@ const actions = (dispatch, query, state) => ({
           return;
         }
         // now interested in metadata updates
-        item.on('metadata-update', change => {
-          dispatch('DID_UPDATE_ITEM_METADATA', {
-            id,
-            change
-          });
+        item.on('metadata-update', (change) => {
+          dispatch('DID_UPDATE_ITEM_METADATA', { id, change });
         });
         // let plugins decide if the output data should be prepared at this point
         // means we'll do this and wait for idle state
-        applyFilterChain('SHOULD_PREPARE_OUTPUT', false, {
-          item,
-          query
-        }).then(shouldPrepareOutput => {
+        applyFilterChain('SHOULD_PREPARE_OUTPUT', false, { item, query }).then((shouldPrepareOutput) => {
           // plugins determined the output data should be prepared (or not), can be adjusted with beforePrepareOutput hook
           const beforePrepareFile = query('GET_BEFORE_PREPARE_FILE');
-          if (beforePrepareFile) shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
+          if (beforePrepareFile)
+          shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
           const loadComplete = () => {
             dispatch('COMPLETE_LOAD_ITEM', {
               query: id,
@@ -3434,11 +3397,8 @@ const actions = (dispatch, query, state) => ({
             dispatch('REQUEST_PREPARE_OUTPUT', {
               query: id,
               item,
-              success: file => {
-                dispatch('DID_PREPARE_OUTPUT', {
-                  id,
-                  file
-                });
+              success: (file) => {
+                dispatch('DID_PREPARE_OUTPUT', { id, file });
                 loadComplete();
               }
             }, true);
@@ -3450,27 +3410,21 @@ const actions = (dispatch, query, state) => ({
       // item loaded, allow plugins to
       // - read data (quickly)
       // - add metadata
-      applyFilterChain('DID_LOAD_ITEM', item, {
-        query,
-        dispatch
-      }).then(() => {
+      applyFilterChain('DID_LOAD_ITEM', item, { query, dispatch }).
+      then(() => {
         optionalPromise(query('GET_BEFORE_ADD_FILE'), createItemAPI(item)).then(handleAdd);
-      }).catch(() => {
+      }).
+      catch(() => {
         handleAdd(false);
       });
     });
     item.on('process-start', () => {
-      dispatch('DID_START_ITEM_PROCESSING', {
-        id
-      });
+      dispatch('DID_START_ITEM_PROCESSING', { id });
     });
-    item.on('process-progress', progress => {
-      dispatch('DID_UPDATE_ITEM_PROCESS_PROGRESS', {
-        id,
-        progress
-      });
+    item.on('process-progress', (progress) => {
+      dispatch('DID_UPDATE_ITEM_PROCESS_PROGRESS', { id, progress });
     });
-    item.on('process-error', error => {
+    item.on('process-error', (error) => {
       dispatch('DID_THROW_ITEM_PROCESSING_ERROR', {
         id,
         error,
@@ -3480,7 +3434,7 @@ const actions = (dispatch, query, state) => ({
         }
       });
     });
-    item.on('process-revert-error', error => {
+    item.on('process-revert-error', (error) => {
       dispatch('DID_THROW_ITEM_PROCESSING_REVERT_ERROR', {
         id,
         error,
@@ -3490,100 +3444,73 @@ const actions = (dispatch, query, state) => ({
         }
       });
     });
-    item.on('process-complete', serverFileReference => {
+    item.on('process-complete', (serverFileReference) => {
       dispatch('DID_COMPLETE_ITEM_PROCESSING', {
         id,
         error: null,
         serverFileReference
       });
-      dispatch('DID_DEFINE_VALUE', {
-        id,
-        value: serverFileReference
-      });
+      dispatch('DID_DEFINE_VALUE', { id, value: serverFileReference });
     });
     item.on('process-abort', () => {
-      dispatch('DID_ABORT_ITEM_PROCESSING', {
-        id
-      });
+      dispatch('DID_ABORT_ITEM_PROCESSING', { id });
     });
     item.on('process-revert', () => {
-      dispatch('DID_REVERT_ITEM_PROCESSING', {
-        id
-      });
-      dispatch('DID_DEFINE_VALUE', {
-        id,
-        value: null
-      });
+      dispatch('DID_REVERT_ITEM_PROCESSING', { id });
+      dispatch('DID_DEFINE_VALUE', { id, value: null });
     });
     // let view know the item has been inserted
-    dispatch('DID_ADD_ITEM', {
-      id,
-      index,
-      interactionMethod
-    });
+    dispatch('DID_ADD_ITEM', { id, index, interactionMethod });
     listUpdated(dispatch, state);
     // start loading the source
-    const {
-      url,
-      load,
-      restore,
-      fetch
-    } = state.options.server || {};
+    const { url, load, restore, fetch } = state.options.server || {};
     item.load(source,
     // this creates a function that loads the file based on the type of file (string, base64, blob, file) and location of file (local, remote, limbo)
     createFileLoader(origin === FileOrigin.INPUT ?
     // input, if is remote, see if should use custom fetch, else use default fetchBlob
-    isString(source) && isExternalURL(source) ? fetch ? createFetchFunction(url, fetch) : fetchBlob // remote url
+    isString(source) && isExternalURL(source) ?
+    fetch ?
+    createFetchFunction(url, fetch) :
+    fetchBlob // remote url
     : fetchBlob // try to fetch url
-    :
-    // limbo or local
-    origin === FileOrigin.LIMBO ? createFetchFunction(url, restore) // limbo
+    : // limbo or local
+    origin === FileOrigin.LIMBO ?
+    createFetchFunction(url, restore) // limbo
     : createFetchFunction(url, load) // local
     ),
     // called when the file is loaded so it can be piped through the filters
     (file, success, error) => {
       // let's process the file
-      applyFilterChain('LOAD_FILE', file, {
-        query
-      }).then(success).catch(error);
+      applyFilterChain('LOAD_FILE', file, { query }).
+      then(success).
+      catch(error);
     });
   },
-  REQUEST_PREPARE_OUTPUT: ({
-    item,
-    success,
-    failure = () => {}
-  }) => {
+  REQUEST_PREPARE_OUTPUT: ({ item, success, failure = () => {} }) => {
     // error response if item archived
     const err = {
       error: createResponse('error', 0, 'Item not found'),
       file: null
     };
     // don't handle archived items, an item could have been archived (load aborted) while waiting to be prepared
-    if (item.archived) return failure(err);
+    if (item.archived)
+    return failure(err);
     // allow plugins to alter the file data
-    applyFilterChain('PREPARE_OUTPUT', item.file, {
-      query,
-      item
-    }).then(result => {
+    applyFilterChain('PREPARE_OUTPUT', item.file, { query, item }).then((result) => {
       applyFilterChain('COMPLETE_PREPARE_OUTPUT', result, {
         query,
         item
-      }).then(result => {
+      }).then((result) => {
         // don't handle archived items, an item could have been archived (load aborted) while being prepared
-        if (item.archived) return failure(err);
+        if (item.archived)
+        return failure(err);
         // we done!
         success(result);
       });
     });
   },
-  COMPLETE_LOAD_ITEM: ({
-    item,
-    data
-  }) => {
-    const {
-      success,
-      source
-    } = data;
+  COMPLETE_LOAD_ITEM: ({ item, data }) => {
+    const { success, source } = data;
     // sort items in list
     const itemInsertLocation = query('GET_ITEM_INSERT_LOCATION');
     if (isFunction(itemInsertLocation) && source) {
@@ -3600,9 +3527,7 @@ const actions = (dispatch, query, state) => ({
     success(createItemAPI(item));
     // if this is a local server file we need to show a different state
     if (item.origin === FileOrigin.LOCAL) {
-      dispatch('DID_LOAD_LOCAL_ITEM', {
-        id: item.id
-      });
+      dispatch('DID_LOAD_LOCAL_ITEM', { id: item.id });
       return;
     }
     // if is a temp server file we prevent async upload call here (as the file is already on the server)
@@ -3620,12 +3545,10 @@ const actions = (dispatch, query, state) => ({
     }
     // id we are allowed to upload the file immediately, lets do it
     if (query('IS_ASYNC') && state.options.instantUpload) {
-      dispatch('REQUEST_ITEM_PROCESSING', {
-        query: item.id
-      });
+      dispatch('REQUEST_ITEM_PROCESSING', { query: item.id });
     }
   },
-  RETRY_ITEM_LOAD: getItemByQueryFromState(state, item => {
+  RETRY_ITEM_LOAD: getItemByQueryFromState(state, (item) => {
     // try loading the source one more time
     item.retryLoad();
   }),
@@ -3633,11 +3556,8 @@ const actions = (dispatch, query, state) => ({
     dispatch('REQUEST_PREPARE_OUTPUT', {
       query: item.id,
       item,
-      success: file => {
-        dispatch('DID_PREPARE_OUTPUT', {
-          id: item.id,
-          file
-        });
+      success: (file) => {
+        dispatch('DID_PREPARE_OUTPUT', { id: item.id, file });
         success({
           file: item,
           output: file
@@ -3662,24 +3582,24 @@ const actions = (dispatch, query, state) => ({
       });
       const process = () => document.hidden ? processNow() : setTimeout(processNow, 32);
       // if already done processing or tried to revert but didn't work, try again
-      if (item.status === ItemStatus.PROCESSING_COMPLETE || item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
-        item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).then(process).catch(() => {}); // don't continue with processing if something went wrong
-      } else if (item.status === ItemStatus.PROCESSING) {
+      if (item.status === ItemStatus.PROCESSING_COMPLETE ||
+      item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
+        item.
+        revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).
+        then(process).
+        catch(() => {}); // don't continue with processing if something went wrong
+      } else
+      if (item.status === ItemStatus.PROCESSING) {
         item.abortProcessing().then(process);
       }
       return;
     }
     // already queued for processing
-    if (item.status === ItemStatus.PROCESSING_QUEUED) return;
+    if (item.status === ItemStatus.PROCESSING_QUEUED)
+    return;
     item.requestProcessing();
-    dispatch('DID_REQUEST_ITEM_PROCESSING', {
-      id: item.id
-    });
-    dispatch('PROCESS_ITEM', {
-      query: item,
-      success,
-      failure
-    }, true);
+    dispatch('DID_REQUEST_ITEM_PROCESSING', { id: item.id });
+    dispatch('PROCESS_ITEM', { query: item, success, failure }, true);
   }),
   PROCESS_ITEM: getItemByQueryFromState(state, (item, success, failure) => {
     const maxParallelUploads = query('GET_MAX_PARALLEL_UPLOADS');
@@ -3696,18 +3616,16 @@ const actions = (dispatch, query, state) => ({
       return;
     }
     // if was not queued or is already processing exit here
-    if (item.status === ItemStatus.PROCESSING) return;
+    if (item.status === ItemStatus.PROCESSING)
+    return;
     const processNext = () => {
       // process queueud items
       const queueEntry = state.processingQueue.shift();
       // no items left
-      if (!queueEntry) return;
+      if (!queueEntry)
+      return;
       // get item reference
-      const {
-        id,
-        success,
-        failure
-      } = queueEntry;
+      const { id, success, failure } = queueEntry;
       const itemReference = getItemByQuery(state.items, id);
       // if item was archived while in queue, jump to next
       if (!itemReference || itemReference.archived) {
@@ -3715,28 +3633,22 @@ const actions = (dispatch, query, state) => ({
         return;
       }
       // process queued item
-      dispatch('PROCESS_ITEM', {
-        query: id,
-        success,
-        failure
-      }, true);
+      dispatch('PROCESS_ITEM', { query: id, success, failure }, true);
     };
     // we done function
     item.onOnce('process-complete', () => {
       success(createItemAPI(item));
       processNext();
       // All items processed? No errors?
-      const allItemsProcessed = query('GET_ITEMS_BY_STATUS', ItemStatus.PROCESSING_COMPLETE).length === state.items.length;
+      const allItemsProcessed = query('GET_ITEMS_BY_STATUS', ItemStatus.PROCESSING_COMPLETE).length ===
+      state.items.length;
       if (allItemsProcessed) {
         dispatch('DID_COMPLETE_ITEM_PROCESSING_ALL');
       }
     });
     // we error function
-    item.onOnce('process-error', error => {
-      failure({
-        error,
-        file: createItemAPI(item)
-      });
+    item.onOnce('process-error', (error) => {
+      failure({ error, file: createItemAPI(item) });
       processNext();
     });
     // start file processing
@@ -3752,34 +3664,26 @@ const actions = (dispatch, query, state) => ({
     // called when the file is about to be processed so it can be piped through the transform filters
     (file, success, error) => {
       // allow plugins to alter the file data
-      applyFilterChain('PREPARE_OUTPUT', file, {
-        query,
-        item
-      }).then(file => {
-        dispatch('DID_PREPARE_OUTPUT', {
-          id: item.id,
-          file
-        });
+      applyFilterChain('PREPARE_OUTPUT', file, { query, item }).
+      then((file) => {
+        dispatch('DID_PREPARE_OUTPUT', { id: item.id, file });
         success(file);
-      }).catch(error);
+      }).
+      catch(error);
     });
   }),
-  RETRY_ITEM_PROCESSING: getItemByQueryFromState(state, item => {
-    dispatch('REQUEST_ITEM_PROCESSING', {
-      query: item
-    });
+  RETRY_ITEM_PROCESSING: getItemByQueryFromState(state, (item) => {
+    dispatch('REQUEST_ITEM_PROCESSING', { query: item });
   }),
-  REQUEST_REMOVE_ITEM: getItemByQueryFromState(state, item => {
-    optionalPromise(query('GET_BEFORE_REMOVE_FILE'), createItemAPI(item)).then(shouldRemove => {
+  REQUEST_REMOVE_ITEM: getItemByQueryFromState(state, (item) => {
+    optionalPromise(query('GET_BEFORE_REMOVE_FILE'), createItemAPI(item)).then((shouldRemove) => {
       if (!shouldRemove) {
         return;
       }
-      dispatch('REMOVE_ITEM', {
-        query: item
-      });
+      dispatch('REMOVE_ITEM', { query: item });
     });
   }),
-  RELEASE_ITEM: getItemByQueryFromState(state, item => {
+  RELEASE_ITEM: getItemByQueryFromState(state, (item) => {
     item.release();
   }),
   REMOVE_ITEM: getItemByQueryFromState(state, (item, success, failure, options) => {
@@ -3789,11 +3693,7 @@ const actions = (dispatch, query, state) => ({
       // archive the item, this does not remove it from the list
       getItemById(state.items, id).archive();
       // tell the view the item has been removed
-      dispatch('DID_REMOVE_ITEM', {
-        error: null,
-        id,
-        item
-      });
+      dispatch('DID_REMOVE_ITEM', { error: null, id, item });
       // now the list has been modified
       listUpdated(dispatch, state);
       // correctly removed
@@ -3801,11 +3701,12 @@ const actions = (dispatch, query, state) => ({
     };
     // if this is a local file and the server.remove function has been configured, send source there so dev can remove file from server
     const server = state.options.server;
-    if (item.origin === FileOrigin.LOCAL && server && isFunction(server.remove) && options.remove !== false) {
-      dispatch('DID_START_ITEM_REMOVE', {
-        id: item.id
-      });
-      server.remove(item.source, () => removeFromView(), status => {
+    if (item.origin === FileOrigin.LOCAL &&
+    server &&
+    isFunction(server.remove) &&
+    options.remove !== false) {
+      dispatch('DID_START_ITEM_REMOVE', { id: item.id });
+      server.remove(item.source, () => removeFromView(), (status) => {
         dispatch('DID_THROW_ITEM_REMOVE_ERROR', {
           id: item.id,
           error: createResponse('error', 0, status, null),
@@ -3815,51 +3716,47 @@ const actions = (dispatch, query, state) => ({
           }
         });
       });
-    } else {
+    } else
+    {
       // if is requesting revert and can revert need to call revert handler (not calling request_ because that would also trigger beforeRemoveHook)
-      if (options.revert && item.origin !== FileOrigin.LOCAL && item.serverId !== null) {
+      if (options.revert &&
+      item.origin !== FileOrigin.LOCAL &&
+      item.serverId !== null) {
         item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT'));
       }
       // can now safely remove from view
       removeFromView();
     }
   }),
-  ABORT_ITEM_LOAD: getItemByQueryFromState(state, item => {
+  ABORT_ITEM_LOAD: getItemByQueryFromState(state, (item) => {
     item.abortLoad();
   }),
-  ABORT_ITEM_PROCESSING: getItemByQueryFromState(state, item => {
+  ABORT_ITEM_PROCESSING: getItemByQueryFromState(state, (item) => {
     // test if is already processed
     if (item.serverId) {
-      dispatch('REVERT_ITEM_PROCESSING', {
-        id: item.id
-      });
+      dispatch('REVERT_ITEM_PROCESSING', { id: item.id });
       return;
     }
     // abort
     item.abortProcessing().then(() => {
       const shouldRemove = state.options.instantUpload;
       if (shouldRemove) {
-        dispatch('REMOVE_ITEM', {
-          query: item.id
-        });
+        dispatch('REMOVE_ITEM', { query: item.id });
       }
     });
   }),
-  REQUEST_REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, item => {
+  REQUEST_REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, (item) => {
     // not instant uploading, revert immediately
     if (!state.options.instantUpload) {
-      dispatch('REVERT_ITEM_PROCESSING', {
-        query: item
-      });
+      dispatch('REVERT_ITEM_PROCESSING', { query: item });
       return;
     }
     // if we're instant uploading the file will also be removed if we revert,
     // so if a before remove file hook is defined we need to run it now
-    const handleRevert = shouldRevert => {
-      if (!shouldRevert) return;
-      dispatch('REVERT_ITEM_PROCESSING', {
-        query: item
-      });
+    const handleRevert = (shouldRevert) => {
+      if (!shouldRevert)
+      return;
+      dispatch('REVERT_ITEM_PROCESSING', { query: item });
     };
     const fn = query('GET_BEFORE_REMOVE_FILE');
     if (!fn) {
@@ -3877,28 +3774,25 @@ const actions = (dispatch, query, state) => ({
       requestRemoveResult.then(handleRevert);
     }
   }),
-  REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, item => {
-    item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).then(() => {
+  REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, (item) => {
+    item.
+    revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).
+    then(() => {
       const shouldRemove = state.options.instantUpload || isMockItem(item);
       if (shouldRemove) {
-        dispatch('REMOVE_ITEM', {
-          query: item.id
-        });
+        dispatch('REMOVE_ITEM', { query: item.id });
       }
-    }).catch(() => {});
+    }).
+    catch(() => {});
   }),
-  SET_OPTIONS: ({
-    options
-  }) => {
+  SET_OPTIONS: ({ options }) => {
     forin(options, (key, value) => {
-      dispatch(`SET_${fromCamels(key, '_').toUpperCase()}`, {
-        value
-      });
+      dispatch(`SET_${fromCamels(key, '_').toUpperCase()}`, { value });
     });
   }
 });
-const formatFilename = name => name;
-const createElement$1 = tagName => {
+const formatFilename = (name) => name;
+const createElement$1 = (tagName) => {
   return document.createElement(tagName);
 };
 const text = (node, value) => {
@@ -3906,7 +3800,8 @@ const text = (node, value) => {
   if (!textNode) {
     textNode = document.createTextNode(value);
     node.appendChild(textNode);
-  } else if (value !== textNode.nodeValue) {
+  } else
+  if (value !== textNode.nodeValue) {
     textNode.nodeValue = value;
   }
 };
@@ -3920,7 +3815,19 @@ const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
 const describeArc = (x, y, radius, startAngle, endAngle, arcSweep) => {
   const start = polarToCartesian(x, y, radius, endAngle);
   const end = polarToCartesian(x, y, radius, startAngle);
-  return ['M', start.x, start.y, 'A', radius, radius, 0, arcSweep, 0, end.x, end.y].join(' ');
+  return [
+  'M',
+  start.x,
+  start.y,
+  'A',
+  radius,
+  radius,
+  0,
+  arcSweep,
+  0,
+  end.x,
+  end.y].
+  join(' ');
 };
 const percentageArc = (x, y, radius, from, to) => {
   let arcSweep = 1;
@@ -3932,10 +3839,7 @@ const percentageArc = (x, y, radius, from, to) => {
   }
   return describeArc(x, y, radius, Math.min(0.9999, from) * 360, Math.min(0.9999, to) * 360, arcSweep);
 };
-const create = ({
-  root,
-  props
-}) => {
+const create = ({ root, props }) => {
   // start at 0
   props.spin = false;
   props.progress = 0;
@@ -3950,10 +3854,7 @@ const create = ({
   root.ref.svg = svg;
   root.appendChild(svg);
 };
-const write = ({
-  root,
-  props
-}) => {
+const write = ({ root, props }) => {
   if (props.opacity === 0) {
     return;
   }
@@ -3971,7 +3872,8 @@ const write = ({
   if (props.spin) {
     ringFrom = 0;
     ringTo = 0.5;
-  } else {
+  } else
+  {
     ringFrom = 0;
     ringTo = props.progress;
   }
@@ -3993,10 +3895,7 @@ const progressIndicator = createView({
     apis: ['progress', 'spin', 'align'],
     styles: ['opacity'],
     animations: {
-      opacity: {
-        type: 'tween',
-        duration: 500
-      },
+      opacity: { type: 'tween', duration: 500 },
       progress: {
         type: 'spring',
         stiffness: 0.95,
@@ -4006,25 +3905,18 @@ const progressIndicator = createView({
     }
   }
 });
-const create$1 = ({
-  root,
-  props
-}) => {
+const create$1 = ({ root, props }) => {
   root.element.innerHTML = (props.icon || '') + `<span>${props.label}</span>`;
   props.isDisabled = false;
 };
-const write$1 = ({
-  root,
-  props
-}) => {
-  const {
-    isDisabled
-  } = props;
+const write$1 = ({ root, props }) => {
+  const { isDisabled } = props;
   const shouldDisable = root.query('GET_DISABLED') || props.opacity === 0;
   if (shouldDisable && !isDisabled) {
     props.isDisabled = true;
     attr(root.element, 'disabled', 'disabled');
-  } else if (!shouldDisable && isDisabled) {
+  } else
+  if (!shouldDisable && isDisabled) {
     props.isDisabled = false;
     root.element.removeAttribute('disabled');
   }
@@ -4045,10 +3937,7 @@ const fileActionButton = createView({
       scaleY: 'spring',
       translateX: 'spring',
       translateY: 'spring',
-      opacity: {
-        type: 'tween',
-        duration: 250
-      }
+      opacity: { type: 'tween', duration: 250 }
     },
     listeners: true
   },
@@ -4077,12 +3966,13 @@ const toNaturalFileSize = (bytes, decimalSeparator = '.', base = 1000) => {
   return `${removeDecimalsWhenZero(bytes / GB, 2, decimalSeparator)} GB`;
 };
 const removeDecimalsWhenZero = (value, decimalCount, separator) => {
-  return value.toFixed(decimalCount).split('.').filter(part => part !== '0').join(separator);
+  return value.
+  toFixed(decimalCount).
+  split('.').
+  filter((part) => part !== '0').
+  join(separator);
 };
-const create$2 = ({
-  root,
-  props
-}) => {
+const create$2 = ({ root, props }) => {
   // filename
   const fileName = createElement$1('span');
   fileName.className = 'filepond--file-info-main';
@@ -4101,17 +3991,11 @@ const create$2 = ({
   text(fileSize, root.query('GET_LABEL_FILE_WAITING_FOR_SIZE'));
   text(fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
 };
-const updateFile = ({
-  root,
-  props
-}) => {
+const updateFile = ({ root, props }) => {
   text(root.ref.fileSize, toNaturalFileSize(root.query('GET_ITEM_SIZE', props.id), '.', root.query('GET_FILE_SIZE_BASE')));
   text(root.ref.fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
 };
-const updateFileSizeOnError = ({
-  root,
-  props
-}) => {
+const updateFileSizeOnError = ({ root, props }) => {
   // if size is available don't fallback to unknown size message
   if (isInt(root.query('GET_ITEM_SIZE', props.id))) {
     return;
@@ -4128,10 +4012,8 @@ const fileInfo = createView({
     DID_THROW_ITEM_LOAD_ERROR: updateFileSizeOnError,
     DID_THROW_ITEM_INVALID: updateFileSizeOnError
   }),
-  didCreateView: root => {
-    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), {
-      view: root
-    }));
+  didCreateView: (root) => {
+    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), { view: root }));
   },
   create: create$2,
   mixins: {
@@ -4142,10 +4024,8 @@ const fileInfo = createView({
     }
   }
 });
-const toPercentage = value => Math.round(value * 100);
-const create$3 = ({
-  root
-}) => {
+const toPercentage = (value) => Math.round(value * 100);
+const create$3 = ({ root }) => {
   // main status
   const main = createElement$1('span');
   main.className = 'filepond--file-status-main';
@@ -4156,57 +4036,39 @@ const create$3 = ({
   sub.className = 'filepond--file-status-sub';
   root.appendChild(sub);
   root.ref.sub = sub;
-  didSetItemLoadProgress({
-    root,
-    action: {
-      progress: null
-    }
-  });
+  didSetItemLoadProgress({ root, action: { progress: null } });
 };
-const didSetItemLoadProgress = ({
-  root,
-  action
-}) => {
-  const title = action.progress === null ? root.query('GET_LABEL_FILE_LOADING') : `${root.query('GET_LABEL_FILE_LOADING')} ${toPercentage(action.progress)}%`;
+const didSetItemLoadProgress = ({ root, action }) => {
+  const title = action.progress === null ?
+  root.query('GET_LABEL_FILE_LOADING') :
+  `${root.query('GET_LABEL_FILE_LOADING')} ${toPercentage(action.progress)}%`;
   text(root.ref.main, title);
   text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
 };
-const didSetItemProcessProgress = ({
-  root,
-  action
-}) => {
-  const title = action.progress === null ? root.query('GET_LABEL_FILE_PROCESSING') : `${root.query('GET_LABEL_FILE_PROCESSING')} ${toPercentage(action.progress)}%`;
+const didSetItemProcessProgress = ({ root, action }) => {
+  const title = action.progress === null ?
+  root.query('GET_LABEL_FILE_PROCESSING') :
+  `${root.query('GET_LABEL_FILE_PROCESSING')} ${toPercentage(action.progress)}%`;
   text(root.ref.main, title);
   text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
 };
-const didRequestItemProcessing = ({
-  root
-}) => {
+const didRequestItemProcessing = ({ root }) => {
   text(root.ref.main, root.query('GET_LABEL_FILE_PROCESSING'));
   text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
 };
-const didAbortItemProcessing = ({
-  root
-}) => {
+const didAbortItemProcessing = ({ root }) => {
   text(root.ref.main, root.query('GET_LABEL_FILE_PROCESSING_ABORTED'));
   text(root.ref.sub, root.query('GET_LABEL_TAP_TO_RETRY'));
 };
-const didCompleteItemProcessing = ({
-  root
-}) => {
+const didCompleteItemProcessing = ({ root }) => {
   text(root.ref.main, root.query('GET_LABEL_FILE_PROCESSING_COMPLETE'));
   text(root.ref.sub, root.query('GET_LABEL_TAP_TO_UNDO'));
 };
-const clear = ({
-  root
-}) => {
+const clear = ({ root }) => {
   text(root.ref.main, '');
   text(root.ref.sub, '');
 };
-const error = ({
-  root,
-  action
-}) => {
+const error = ({ root, action }) => {
   text(root.ref.main, action.status.main);
   text(root.ref.sub, action.status.sub);
 };
@@ -4228,19 +4090,14 @@ const fileStatus = createView({
     DID_THROW_ITEM_PROCESSING_REVERT_ERROR: error,
     DID_THROW_ITEM_REMOVE_ERROR: error
   }),
-  didCreateView: root => {
-    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), {
-      view: root
-    }));
+  didCreateView: (root) => {
+    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), { view: root }));
   },
   create: create$3,
   mixins: {
     styles: ['translateX', 'translateY', 'opacity'],
     animations: {
-      opacity: {
-        type: 'tween',
-        duration: 250
-      },
+      opacity: { type: 'tween', duration: 250 },
       translateX: 'spring',
       translateY: 'spring'
     }
@@ -4256,7 +4113,6 @@ const Buttons = {
     className: 'filepond--action-abort-item-load',
     align: 'LOAD_INDICATOR_POSITION' // right
   },
-
   RetryItemLoad: {
     label: 'GET_LABEL_BUTTON_RETRY_ITEM_LOAD',
     action: 'RETRY_ITEM_LOAD',
@@ -4264,7 +4120,6 @@ const Buttons = {
     className: 'filepond--action-retry-item-load',
     align: 'BUTTON_PROCESS_ITEM_POSITION' // right
   },
-
   RemoveItem: {
     label: 'GET_LABEL_BUTTON_REMOVE_ITEM',
     action: 'REQUEST_REMOVE_ITEM',
@@ -4272,7 +4127,6 @@ const Buttons = {
     className: 'filepond--action-remove-item',
     align: 'BUTTON_REMOVE_ITEM_POSITION' // left
   },
-
   ProcessItem: {
     label: 'GET_LABEL_BUTTON_PROCESS_ITEM',
     action: 'REQUEST_ITEM_PROCESSING',
@@ -4280,14 +4134,12 @@ const Buttons = {
     className: 'filepond--action-process-item',
     align: 'BUTTON_PROCESS_ITEM_POSITION' // right
   },
-
   AbortItemProcessing: {
     label: 'GET_LABEL_BUTTON_ABORT_ITEM_PROCESSING',
     action: 'ABORT_ITEM_PROCESSING',
     className: 'filepond--action-abort-item-processing',
     align: 'BUTTON_PROCESS_ITEM_POSITION' // right
   },
-
   RetryItemProcessing: {
     label: 'GET_LABEL_BUTTON_RETRY_ITEM_PROCESSING',
     action: 'RETRY_ITEM_PROCESSING',
@@ -4295,7 +4147,6 @@ const Buttons = {
     className: 'filepond--action-retry-item-processing',
     align: 'BUTTON_PROCESS_ITEM_POSITION' // right
   },
-
   RevertItemProcessing: {
     label: 'GET_LABEL_BUTTON_UNDO_ITEM_PROCESSING',
     action: 'REQUEST_REVERT_ITEM_PROCESSING',
@@ -4306,232 +4157,112 @@ const Buttons = {
 };
 // make a list of buttons, we can then remove buttons from this list if they're disabled
 const ButtonKeys = [];
-forin(Buttons, key => {
+forin(Buttons, (key) => {
   ButtonKeys.push(key);
 });
-const calculateFileInfoOffset = root => {
+const calculateFileInfoOffset = (root) => {
   const buttonRect = root.ref.buttonRemoveItem.rect.element;
   return buttonRect.hidden ? null : buttonRect.width + buttonRect.left;
 };
-const calculateButtonWidth = root => {
+const calculateButtonWidth = (root) => {
   const buttonRect = root.ref.buttonAbortItemLoad.rect.element;
   return buttonRect.width;
 };
 // Force on full pixels so text stays crips
-const calculateFileVerticalCenterOffset = root => Math.floor(root.ref.buttonRemoveItem.rect.element.height / 4);
-const calculateFileHorizontalCenterOffset = root => Math.floor(root.ref.buttonRemoveItem.rect.element.left / 2);
-const getLoadIndicatorAlignment = root => root.query('GET_STYLE_LOAD_INDICATOR_POSITION');
-const getProcessIndicatorAlignment = root => root.query('GET_STYLE_PROGRESS_INDICATOR_POSITION');
-const getRemoveIndicatorAligment = root => root.query('GET_STYLE_BUTTON_REMOVE_ITEM_POSITION');
+const calculateFileVerticalCenterOffset = (root) => Math.floor(root.ref.buttonRemoveItem.rect.element.height / 4);
+const calculateFileHorizontalCenterOffset = (root) => Math.floor(root.ref.buttonRemoveItem.rect.element.left / 2);
+const getLoadIndicatorAlignment = (root) => root.query('GET_STYLE_LOAD_INDICATOR_POSITION');
+const getProcessIndicatorAlignment = (root) => root.query('GET_STYLE_PROGRESS_INDICATOR_POSITION');
+const getRemoveIndicatorAligment = (root) => root.query('GET_STYLE_BUTTON_REMOVE_ITEM_POSITION');
 const DefaultStyle = {
-  buttonAbortItemLoad: {
-    opacity: 0
-  },
-  buttonRetryItemLoad: {
-    opacity: 0
-  },
-  buttonRemoveItem: {
-    opacity: 0
-  },
-  buttonProcessItem: {
-    opacity: 0
-  },
-  buttonAbortItemProcessing: {
-    opacity: 0
-  },
-  buttonRetryItemProcessing: {
-    opacity: 0
-  },
-  buttonRevertItemProcessing: {
-    opacity: 0
-  },
-  loadProgressIndicator: {
-    opacity: 0,
-    align: getLoadIndicatorAlignment
-  },
-  processProgressIndicator: {
-    opacity: 0,
-    align: getProcessIndicatorAlignment
-  },
-  processingCompleteIndicator: {
-    opacity: 0,
-    scaleX: 0.75,
-    scaleY: 0.75
-  },
-  info: {
-    translateX: 0,
-    translateY: 0,
-    opacity: 0
-  },
-  status: {
-    translateX: 0,
-    translateY: 0,
-    opacity: 0
-  }
+  buttonAbortItemLoad: { opacity: 0 },
+  buttonRetryItemLoad: { opacity: 0 },
+  buttonRemoveItem: { opacity: 0 },
+  buttonProcessItem: { opacity: 0 },
+  buttonAbortItemProcessing: { opacity: 0 },
+  buttonRetryItemProcessing: { opacity: 0 },
+  buttonRevertItemProcessing: { opacity: 0 },
+  loadProgressIndicator: { opacity: 0, align: getLoadIndicatorAlignment },
+  processProgressIndicator: { opacity: 0, align: getProcessIndicatorAlignment },
+  processingCompleteIndicator: { opacity: 0, scaleX: 0.75, scaleY: 0.75 },
+  info: { translateX: 0, translateY: 0, opacity: 0 },
+  status: { translateX: 0, translateY: 0, opacity: 0 }
 };
 const IdleStyle = {
-  buttonRemoveItem: {
-    opacity: 1
-  },
-  buttonProcessItem: {
-    opacity: 1
-  },
-  info: {
-    translateX: calculateFileInfoOffset
-  },
-  status: {
-    translateX: calculateFileInfoOffset
-  }
+  buttonRemoveItem: { opacity: 1 },
+  buttonProcessItem: { opacity: 1 },
+  info: { translateX: calculateFileInfoOffset },
+  status: { translateX: calculateFileInfoOffset }
 };
 const ProcessingStyle = {
-  buttonAbortItemProcessing: {
-    opacity: 1
-  },
-  processProgressIndicator: {
-    opacity: 1
-  },
-  status: {
-    opacity: 1
-  }
+  buttonAbortItemProcessing: { opacity: 1 },
+  processProgressIndicator: { opacity: 1 },
+  status: { opacity: 1 }
 };
 const StyleMap = {
   DID_THROW_ITEM_INVALID: {
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      translateX: calculateFileInfoOffset,
-      opacity: 1
-    }
+    buttonRemoveItem: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset },
+    status: { translateX: calculateFileInfoOffset, opacity: 1 }
   },
   DID_START_ITEM_LOAD: {
-    buttonAbortItemLoad: {
-      opacity: 1
-    },
-    loadProgressIndicator: {
-      opacity: 1
-    },
-    status: {
-      opacity: 1
-    }
+    buttonAbortItemLoad: { opacity: 1 },
+    loadProgressIndicator: { opacity: 1 },
+    status: { opacity: 1 }
   },
   DID_THROW_ITEM_LOAD_ERROR: {
-    buttonRetryItemLoad: {
-      opacity: 1
-    },
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      opacity: 1
-    }
+    buttonRetryItemLoad: { opacity: 1 },
+    buttonRemoveItem: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset },
+    status: { opacity: 1 }
   },
   DID_START_ITEM_REMOVE: {
-    processProgressIndicator: {
-      opacity: 1,
-      align: getRemoveIndicatorAligment
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      opacity: 0
-    }
+    processProgressIndicator: { opacity: 1, align: getRemoveIndicatorAligment },
+    info: { translateX: calculateFileInfoOffset },
+    status: { opacity: 0 }
   },
   DID_THROW_ITEM_REMOVE_ERROR: {
-    processProgressIndicator: {
-      opacity: 0,
-      align: getRemoveIndicatorAligment
-    },
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      opacity: 1,
-      translateX: calculateFileInfoOffset
-    }
+    processProgressIndicator: { opacity: 0, align: getRemoveIndicatorAligment },
+    buttonRemoveItem: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset },
+    status: { opacity: 1, translateX: calculateFileInfoOffset }
   },
   DID_LOAD_ITEM: IdleStyle,
   DID_LOAD_LOCAL_ITEM: {
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      translateX: calculateFileInfoOffset
-    }
+    buttonRemoveItem: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset },
+    status: { translateX: calculateFileInfoOffset }
   },
   DID_START_ITEM_PROCESSING: ProcessingStyle,
   DID_REQUEST_ITEM_PROCESSING: ProcessingStyle,
   DID_UPDATE_ITEM_PROCESS_PROGRESS: ProcessingStyle,
   DID_COMPLETE_ITEM_PROCESSING: {
-    buttonRevertItemProcessing: {
-      opacity: 1
-    },
-    info: {
-      opacity: 1
-    },
-    status: {
-      opacity: 1
-    }
+    buttonRevertItemProcessing: { opacity: 1 },
+    info: { opacity: 1 },
+    status: { opacity: 1 }
   },
   DID_THROW_ITEM_PROCESSING_ERROR: {
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    buttonRetryItemProcessing: {
-      opacity: 1
-    },
-    status: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    }
+    buttonRemoveItem: { opacity: 1 },
+    buttonRetryItemProcessing: { opacity: 1 },
+    status: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset }
   },
   DID_THROW_ITEM_PROCESSING_REVERT_ERROR: {
-    buttonRevertItemProcessing: {
-      opacity: 1
-    },
-    status: {
-      opacity: 1
-    },
-    info: {
-      opacity: 1
-    }
+    buttonRevertItemProcessing: { opacity: 1 },
+    status: { opacity: 1 },
+    info: { opacity: 1 }
   },
   DID_ABORT_ITEM_PROCESSING: {
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    buttonProcessItem: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      opacity: 1
-    }
+    buttonRemoveItem: { opacity: 1 },
+    buttonProcessItem: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset },
+    status: { opacity: 1 }
   },
   DID_REVERT_ITEM_PROCESSING: IdleStyle
 };
 // complete indicator view
 const processingCompleteIndicatorView = createView({
-  create: ({
-    root
-  }) => {
+  create: ({ root }) => {
     root.element.innerHTML = root.query('GET_ICON_DONE');
   },
   name: 'processing-complete-indicator',
@@ -4541,23 +4272,15 @@ const processingCompleteIndicatorView = createView({
     animations: {
       scaleX: 'spring',
       scaleY: 'spring',
-      opacity: {
-        type: 'tween',
-        duration: 250
-      }
+      opacity: { type: 'tween', duration: 250 }
     }
   }
 });
 /**
  * Creates the file view
  */
-const create$4 = ({
-  root,
-  props
-}) => {
-  const {
-    id
-  } = props;
+const create$4 = ({ root, props }) => {
+  const { id } = props;
   // allow reverting upload
   const allowRevert = root.query('GET_ALLOW_REVERT');
   // allow remove file
@@ -4575,19 +4298,24 @@ const create$4 = ({
   if (isAsync) {
     if (allowProcess && !allowRevert) {
       // only remove revert button
-      buttonFilter = key => !/RevertItemProcessing/.test(key);
-    } else if (!allowProcess && allowRevert) {
+      buttonFilter = (key) => !/RevertItemProcessing/.test(key);
+    } else
+    if (!allowProcess && allowRevert) {
       // only remove process button
-      buttonFilter = key => !/ProcessItem|RetryItemProcessing|AbortItemProcessing/.test(key);
-    } else if (!allowProcess && !allowRevert) {
+      buttonFilter = (key) => !/ProcessItem|RetryItemProcessing|AbortItemProcessing/.test(key);
+    } else
+    if (!allowProcess && !allowRevert) {
       // remove all process buttons
-      buttonFilter = key => !/Process/.test(key);
+      buttonFilter = (key) => !/Process/.test(key);
     }
-  } else {
+  } else
+  {
     // no process controls available
-    buttonFilter = key => !/Process/.test(key);
+    buttonFilter = (key) => !/Process/.test(key);
   }
-  const enabledButtons = buttonFilter ? ButtonKeys.filter(buttonFilter) : ButtonKeys.concat();
+  const enabledButtons = buttonFilter ?
+  ButtonKeys.filter(buttonFilter) :
+  ButtonKeys.concat();
   // update icon and label for revert button when instant uploading
   if (instantUpload && allowRevert) {
     Buttons['RevertItemProcessing'].label = 'GET_LABEL_BUTTON_REMOVE_ITEM';
@@ -4599,15 +4327,16 @@ const create$4 = ({
     map.info.translateX = calculateFileHorizontalCenterOffset;
     map.info.translateY = calculateFileVerticalCenterOffset;
     map.status.translateY = calculateFileVerticalCenterOffset;
-    map.processingCompleteIndicator = {
-      opacity: 1,
-      scaleX: 1,
-      scaleY: 1
-    };
+    map.processingCompleteIndicator = { opacity: 1, scaleX: 1, scaleY: 1 };
   }
   // should align center
   if (isAsync && !allowProcess) {
-    ['DID_START_ITEM_PROCESSING', 'DID_REQUEST_ITEM_PROCESSING', 'DID_UPDATE_ITEM_PROCESS_PROGRESS', 'DID_THROW_ITEM_PROCESSING_ERROR'].forEach(key => {
+    [
+    'DID_START_ITEM_PROCESSING',
+    'DID_REQUEST_ITEM_PROCESSING',
+    'DID_UPDATE_ITEM_PROCESS_PROGRESS',
+    'DID_THROW_ITEM_PROCESSING_ERROR'].
+    forEach((key) => {
       StyleMap[key].status.translateY = calculateFileVerticalCenterOffset;
     });
     StyleMap['DID_THROW_ITEM_PROCESSING_ERROR'].status.translateX = calculateButtonWidth;
@@ -4618,11 +4347,7 @@ const create$4 = ({
     const map = StyleMap['DID_COMPLETE_ITEM_PROCESSING'];
     map.info.translateX = calculateFileInfoOffset;
     map.status.translateY = calculateFileVerticalCenterOffset;
-    map.processingCompleteIndicator = {
-      opacity: 1,
-      scaleX: 1,
-      scaleY: 1
-    };
+    map.processingCompleteIndicator = { opacity: 1, scaleX: 1, scaleY: 1 };
   }
   if (!allowRemove) {
     Buttons['RemoveItem'].disabled = true;
@@ -4649,12 +4374,11 @@ const create$4 = ({
     // add class
     buttonView.element.classList.add(definition.className);
     // handle interactions
-    buttonView.on('click', e => {
+    buttonView.on('click', (e) => {
       e.stopPropagation();
-      if (definition.disabled) return;
-      root.dispatch(definition.action, {
-        query: id
-      });
+      if (definition.disabled)
+      return;
+      root.dispatch(definition.action, { query: id });
     });
     // set reference
     root.ref[`button${key}`] = buttonView;
@@ -4663,13 +4387,9 @@ const create$4 = ({
   root.ref.processingCompleteIndicator = root.appendChildView(root.createChildView(processingCompleteIndicatorView));
   root.ref.processingCompleteIndicator.element.dataset.align = root.query(`GET_STYLE_BUTTON_PROCESS_ITEM_POSITION`);
   // create file info view
-  root.ref.info = root.appendChildView(root.createChildView(fileInfo, {
-    id
-  }));
+  root.ref.info = root.appendChildView(root.createChildView(fileInfo, { id }));
   // create file status view
-  root.ref.status = root.appendChildView(root.createChildView(fileStatus, {
-    id
-  }));
+  root.ref.status = root.appendChildView(root.createChildView(fileStatus, { id }));
   // add progress indicators
   const loadIndicatorView = root.appendChildView(root.createChildView(progressIndicator, {
     opacity: 0,
@@ -4686,19 +4406,15 @@ const create$4 = ({
   // current active styles
   root.ref.activeStyles = [];
 };
-const write$2 = ({
-  root,
-  actions,
-  props
-}) => {
+const write$2 = ({ root, actions, props }) => {
   // route actions
-  route({
-    root,
-    actions,
-    props
-  });
+  route({ root, actions, props });
   // select last state change action
-  let action = actions.concat().filter(action => /^DID_/.test(action.type)).reverse().find(action => StyleMap[action.type]);
+  let action = actions.
+  concat().
+  filter((action) => /^DID_/.test(action.type)).
+  reverse().
+  find((action) => StyleMap[action.type]);
   // a new action happened, let's get the matching styles
   if (action) {
     // define new active styles
@@ -4709,72 +4425,45 @@ const write$2 = ({
       const control = root.ref[name];
       // loop over all styles for this control
       forin(defaultStyles, (key, defaultValue) => {
-        const value = stylesToApply[name] && typeof stylesToApply[name][key] !== 'undefined' ? stylesToApply[name][key] : defaultValue;
-        root.ref.activeStyles.push({
-          control,
-          key,
-          value
-        });
+        const value = stylesToApply[name] && typeof stylesToApply[name][key] !== 'undefined' ?
+        stylesToApply[name][key] :
+        defaultValue;
+        root.ref.activeStyles.push({ control, key, value });
       });
     });
   }
   // apply active styles to element
-  root.ref.activeStyles.forEach(({
-    control,
-    key,
-    value
-  }) => {
+  root.ref.activeStyles.forEach(({ control, key, value }) => {
     control[key] = typeof value === 'function' ? value(root) : value;
   });
 };
 const route = createRoute({
-  DID_SET_LABEL_BUTTON_ABORT_ITEM_PROCESSING: ({
-    root,
-    action
-  }) => {
+  DID_SET_LABEL_BUTTON_ABORT_ITEM_PROCESSING: ({ root, action }) => {
     root.ref.buttonAbortItemProcessing.label = action.value;
   },
-  DID_SET_LABEL_BUTTON_ABORT_ITEM_LOAD: ({
-    root,
-    action
-  }) => {
+  DID_SET_LABEL_BUTTON_ABORT_ITEM_LOAD: ({ root, action }) => {
     root.ref.buttonAbortItemLoad.label = action.value;
   },
-  DID_SET_LABEL_BUTTON_ABORT_ITEM_REMOVAL: ({
-    root,
-    action
-  }) => {
+  DID_SET_LABEL_BUTTON_ABORT_ITEM_REMOVAL: ({ root, action }) => {
     root.ref.buttonAbortItemRemoval.label = action.value;
   },
-  DID_REQUEST_ITEM_PROCESSING: ({
-    root
-  }) => {
+  DID_REQUEST_ITEM_PROCESSING: ({ root }) => {
     root.ref.processProgressIndicator.spin = true;
     root.ref.processProgressIndicator.progress = 0;
   },
-  DID_START_ITEM_LOAD: ({
-    root
-  }) => {
+  DID_START_ITEM_LOAD: ({ root }) => {
     root.ref.loadProgressIndicator.spin = true;
     root.ref.loadProgressIndicator.progress = 0;
   },
-  DID_START_ITEM_REMOVE: ({
-    root
-  }) => {
+  DID_START_ITEM_REMOVE: ({ root }) => {
     root.ref.processProgressIndicator.spin = true;
     root.ref.processProgressIndicator.progress = 0;
   },
-  DID_UPDATE_ITEM_LOAD_PROGRESS: ({
-    root,
-    action
-  }) => {
+  DID_UPDATE_ITEM_LOAD_PROGRESS: ({ root, action }) => {
     root.ref.loadProgressIndicator.spin = false;
     root.ref.loadProgressIndicator.progress = action.progress;
   },
-  DID_UPDATE_ITEM_PROCESS_PROGRESS: ({
-    root,
-    action
-  }) => {
+  DID_UPDATE_ITEM_PROCESS_PROGRESS: ({ root, action }) => {
     root.ref.processProgressIndicator.spin = false;
     root.ref.processProgressIndicator.progress = action.progress;
   }
@@ -4782,37 +4471,27 @@ const route = createRoute({
 const file = createView({
   create: create$4,
   write: write$2,
-  didCreateView: root => {
-    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), {
-      view: root
-    }));
+  didCreateView: (root) => {
+    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), { view: root }));
   },
   name: 'file'
 });
 /**
  * Creates the file view
  */
-const create$5 = ({
-  root,
-  props
-}) => {
+const create$5 = ({ root, props }) => {
   // filename
   root.ref.fileName = createElement$1('legend');
   root.appendChild(root.ref.fileName);
   // file appended
-  root.ref.file = root.appendChildView(root.createChildView(file, {
-    id: props.id
-  }));
+  root.ref.file = root.appendChildView(root.createChildView(file, { id: props.id }));
   // data has moved to data.js
   root.ref.data = false;
 };
 /**
  * Data storage
  */
-const didLoadItem = ({
-  root,
-  props
-}) => {
+const didLoadItem = ({ root, props }) => {
   // updates the legend of the fieldset so screenreaders can better group buttons
   text(root.ref.fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
 };
@@ -4822,26 +4501,19 @@ const fileWrapper = createView({
   write: createRoute({
     DID_LOAD_ITEM: didLoadItem
   }),
-  didCreateView: root => {
-    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), {
-      view: root
-    }));
+  didCreateView: (root) => {
+    applyFilters('CREATE_VIEW', Object.assign(Object.assign({}, root), { view: root }));
   },
   tag: 'fieldset',
   name: 'file-wrapper'
 });
-const PANEL_SPRING_PROPS = {
-  type: 'spring',
-  damping: 0.6,
-  mass: 7
-};
-const create$6 = ({
-  root,
-  props
-}) => {
-  [{
+const PANEL_SPRING_PROPS = { type: 'spring', damping: 0.6, mass: 7 };
+const create$6 = ({ root, props }) => {
+  [
+  {
     name: 'top'
-  }, {
+  },
+  {
     name: 'center',
     props: {
       translateY: null,
@@ -4853,7 +4525,8 @@ const create$6 = ({
       },
       styles: ['translateY', 'scaleY']
     }
-  }, {
+  },
+  {
     name: 'bottom',
     props: {
       translateY: null
@@ -4864,7 +4537,8 @@ const create$6 = ({
       },
       styles: ['translateY']
     }
-  }].forEach(section => {
+  }].
+  forEach((section) => {
     createSection(root, section, props.name);
   });
   root.element.classList.add(`filepond--${props.name}`);
@@ -4879,17 +4553,15 @@ const createSection = (root, section, className) => {
   const view = root.createChildView(viewConstructor, section.props);
   root.ref[section.name] = root.appendChildView(view);
 };
-const write$3 = ({
-  root,
-  props
-}) => {
+const write$3 = ({ root, props }) => {
   // update scalable state
   if (root.ref.scalable === null || props.scalable !== root.ref.scalable) {
     root.ref.scalable = isBoolean(props.scalable) ? props.scalable : true;
     root.element.dataset.scalable = root.ref.scalable;
   }
   // no height, can't set
-  if (!props.height) return;
+  if (!props.height)
+  return;
   // get child rects
   const topRect = root.ref.top.rect.element;
   const bottomRect = root.ref.bottom.rect.element;
@@ -4905,10 +4577,7 @@ const write$3 = ({
 };
 const panel = createView({
   name: 'panel',
-  read: ({
-    root,
-    props
-  }) => props.heightCurrent = root.ref.bottom.translateY,
+  read: ({ root, props }) => props.heightCurrent = root.ref.bottom.translateY,
   write: write$3,
   create: create$6,
   ignoreRect: true,
@@ -4916,15 +4585,15 @@ const panel = createView({
     apis: ['height', 'heightCurrent', 'scalable']
   }
 });
-const createDragHelper = items => {
-  const itemIds = items.map(item => item.id);
+const createDragHelper = (items) => {
+  const itemIds = items.map((item) => item.id);
   let prevIndex = undefined;
   return {
-    setIndex: index => {
+    setIndex: (index) => {
       prevIndex = index;
     },
     getIndex: () => prevIndex,
-    getItemIndex: item => itemIds.indexOf(item.id)
+    getItemIndex: (item) => itemIds.indexOf(item.id)
   };
 };
 const ITEM_TRANSLATE_SPRING = {
@@ -4954,35 +4623,28 @@ const StateMap = {
 /**
  * Creates the file view
  */
-const create$7 = ({
-  root,
-  props
-}) => {
+const create$7 = ({ root, props }) => {
   // select
-  root.ref.handleClick = e => root.dispatch('DID_ACTIVATE_ITEM', {
-    id: props.id
-  });
+  root.ref.handleClick = (e) => root.dispatch('DID_ACTIVATE_ITEM', { id: props.id });
   // set id
   root.element.id = `filepond--item-${props.id}`;
   root.element.addEventListener('click', root.ref.handleClick);
   // file view
-  root.ref.container = root.appendChildView(root.createChildView(fileWrapper, {
-    id: props.id
-  }));
+  root.ref.container = root.appendChildView(root.createChildView(fileWrapper, { id: props.id }));
   // file panel
-  root.ref.panel = root.appendChildView(root.createChildView(panel, {
-    name: 'item-panel'
-  }));
+  root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'item-panel' }));
   // default start height
   root.ref.panel.height = null;
   // by default not marked for removal
   props.markedForRemoval = false;
   // if not allowed to reorder file items, exit here
-  if (!root.query('GET_ALLOW_REORDER')) return;
+  if (!root.query('GET_ALLOW_REORDER'))
+  return;
   // set to idle so shows grab cursor
   root.element.dataset.dragState = 'idle';
-  const grab = e => {
-    if (!e.isPrimary) return;
+  const grab = (e) => {
+    if (!e.isPrimary)
+    return;
     let removedActivateListener = false;
     const origin = {
       x: e.pageX,
@@ -4997,12 +4659,10 @@ const create$7 = ({
       y: e.offsetY
     };
     const dragState = createDragHelper(root.query('GET_ACTIVE_ITEMS'));
-    root.dispatch('DID_GRAB_ITEM', {
-      id: props.id,
-      dragState
-    });
-    const drag = e => {
-      if (!e.isPrimary) return;
+    root.dispatch('DID_GRAB_ITEM', { id: props.id, dragState });
+    const drag = (e) => {
+      if (!e.isPrimary)
+      return;
       e.stopPropagation();
       e.preventDefault();
       props.dragOffset = {
@@ -5010,28 +4670,24 @@ const create$7 = ({
         y: e.pageY - origin.y
       };
       // if dragged stop listening to clicks, will re-add when done dragging
-      const dist = props.dragOffset.x * props.dragOffset.x + props.dragOffset.y * props.dragOffset.y;
+      const dist = props.dragOffset.x * props.dragOffset.x +
+      props.dragOffset.y * props.dragOffset.y;
       if (dist > 16 && !removedActivateListener) {
         removedActivateListener = true;
         root.element.removeEventListener('click', root.ref.handleClick);
       }
-      root.dispatch('DID_DRAG_ITEM', {
-        id: props.id,
-        dragState
-      });
+      root.dispatch('DID_DRAG_ITEM', { id: props.id, dragState });
     };
-    const drop = e => {
-      if (!e.isPrimary) return;
+    const drop = (e) => {
+      if (!e.isPrimary)
+      return;
       document.removeEventListener('pointermove', drag);
       document.removeEventListener('pointerup', drop);
       props.dragOffset = {
         x: e.pageX - origin.x,
         y: e.pageY - origin.y
       };
-      root.dispatch('DID_DROP_ITEM', {
-        id: props.id,
-        dragState
-      });
+      root.dispatch('DID_DROP_ITEM', { id: props.id, dragState });
       // start listening to clicks again
       if (removedActivateListener) {
         setTimeout(() => root.element.addEventListener('click', root.ref.handleClick), 0);
@@ -5043,68 +4699,55 @@ const create$7 = ({
   root.element.addEventListener('pointerdown', grab);
 };
 const route$1 = createRoute({
-  DID_UPDATE_PANEL_HEIGHT: ({
-    root,
-    action
-  }) => {
+  DID_UPDATE_PANEL_HEIGHT: ({ root, action }) => {
     root.height = action.height;
   }
 });
 const write$4 = createRoute({
-  DID_GRAB_ITEM: ({
-    root,
-    props
-  }) => {
+  DID_GRAB_ITEM: ({ root, props }) => {
     props.dragOrigin = {
       x: root.translateX,
       y: root.translateY
     };
   },
-  DID_DRAG_ITEM: ({
-    root
-  }) => {
+  DID_DRAG_ITEM: ({ root }) => {
     root.element.dataset.dragState = 'drag';
   },
-  DID_DROP_ITEM: ({
-    root,
-    props
-  }) => {
+  DID_DROP_ITEM: ({ root, props }) => {
     props.dragOffset = null;
     props.dragOrigin = null;
     root.element.dataset.dragState = 'drop';
   }
-}, ({
-  root,
-  actions,
-  props,
-  shouldOptimize
-}) => {
+}, ({ root, actions, props, shouldOptimize }) => {
   if (root.element.dataset.dragState === 'drop') {
     if (root.scaleX <= 1) {
       root.element.dataset.dragState = 'idle';
     }
   }
   // select last state change action
-  let action = actions.concat().filter(action => /^DID_/.test(action.type)).reverse().find(action => StateMap[action.type]);
+  let action = actions.
+  concat().
+  filter((action) => /^DID_/.test(action.type)).
+  reverse().
+  find((action) => StateMap[action.type]);
   // no need to set same state twice
   if (action && action.type !== props.currentState) {
     // set current state
     props.currentState = action.type;
     // set state
-    root.element.dataset.filepondItemState = StateMap[props.currentState] || '';
+    root.element.dataset.filepondItemState =
+    StateMap[props.currentState] || '';
   }
   // route actions
-  const aspectRatio = root.query('GET_ITEM_PANEL_ASPECT_RATIO') || root.query('GET_PANEL_ASPECT_RATIO');
+  const aspectRatio = root.query('GET_ITEM_PANEL_ASPECT_RATIO') ||
+  root.query('GET_PANEL_ASPECT_RATIO');
   if (!aspectRatio) {
-    route$1({
-      root,
-      actions,
-      props
-    });
+    route$1({ root, actions, props });
     if (!root.height && root.ref.container.rect.element.height > 0) {
       root.height = root.ref.container.rect.element.height;
     }
-  } else if (!shouldOptimize) {
+  } else
+  if (!shouldOptimize) {
     root.height = root.rect.element.width * aspectRatio;
   }
   // sync panel height with item height
@@ -5116,40 +4759,49 @@ const write$4 = createRoute({
 const item = createView({
   create: create$7,
   write: write$4,
-  destroy: ({
-    root,
-    props
-  }) => {
+  destroy: ({ root, props }) => {
     root.element.removeEventListener('click', root.ref.handleClick);
-    root.dispatch('RELEASE_ITEM', {
-      query: props.id
-    });
+    root.dispatch('RELEASE_ITEM', { query: props.id });
   },
   tag: 'li',
   name: 'item',
   mixins: {
-    apis: ['id', 'interactionMethod', 'markedForRemoval', 'spawnDate', 'dragCenter', 'dragOrigin', 'dragOffset'],
-    styles: ['translateX', 'translateY', 'scaleX', 'scaleY', 'opacity', 'height'],
+    apis: [
+    'id',
+    'interactionMethod',
+    'markedForRemoval',
+    'spawnDate',
+    'dragCenter',
+    'dragOrigin',
+    'dragOffset'],
+
+    styles: [
+    'translateX',
+    'translateY',
+    'scaleX',
+    'scaleY',
+    'opacity',
+    'height'],
+
     animations: {
       scaleX: ITEM_SCALE_SPRING,
       scaleY: ITEM_SCALE_SPRING,
       translateX: ITEM_TRANSLATE_SPRING,
       translateY: ITEM_TRANSLATE_SPRING,
-      opacity: {
-        type: 'tween',
-        duration: 150
-      }
+      opacity: { type: 'tween', duration: 150 }
     }
   }
 });
 const getItemIndexByPosition = (view, children, positionInView) => {
-  if (!positionInView) return;
+  if (!positionInView)
+  return;
   const horizontalSpace = view.rect.element.width;
   // const children = view.childViews;
   const l = children.length;
   let last = null;
   // -1, don't move items to accomodate (either add to top or bottom)
-  if (l === 0 || positionInView.top < children[0].rect.element.top) return -1;
+  if (l === 0 || positionInView.top < children[0].rect.element.top)
+  return -1;
   // let's get the item width
   const item = children[0];
   const itemRect = item.rect.element;
@@ -5181,9 +4833,11 @@ const getItemIndexByPosition = (view, children, positionInView) => {
     if (positionInView.top < itemBottom && positionInView.top > itemTop) {
       if (positionInView.left < itemRight) {
         return index;
-      } else if (index !== l - 1) {
+      } else
+      if (index !== l - 1) {
         last = index;
-      } else {
+      } else
+      {
         last = null;
       }
     }
@@ -5200,22 +4854,24 @@ const dropAreaDimensions = {
     return this.height;
   },
   set setHeight(val) {
-    if (this.height === 0 || val === 0) this.height = val;
+    if (this.height === 0 || val === 0)
+    this.height = val;
   },
   get getWidth() {
     return this.width;
   },
   set setWidth(val) {
-    if (this.width === 0 || val === 0) this.width = val;
+    if (this.width === 0 || val === 0)
+    this.width = val;
   },
   setDimensions: function (height, width) {
-    if (this.height === 0 || height === 0) this.height = height;
-    if (this.width === 0 || width === 0) this.width = width;
+    if (this.height === 0 || height === 0)
+    this.height = height;
+    if (this.width === 0 || width === 0)
+    this.width = width;
   }
 };
-const create$8 = ({
-  root
-}) => {
+const create$8 = ({ root }) => {
   // need to set role to list as otherwise it won't be read as a list by VoiceOver
   attr(root.element, 'role', 'list');
   root.ref.lastItemSpanwDate = Date.now();
@@ -5225,15 +4881,8 @@ const create$8 = ({
  * @param root
  * @param action
  */
-const addItemView = ({
-  root,
-  action
-}) => {
-  const {
-    id,
-    index,
-    interactionMethod
-  } = action;
+const addItemView = ({ root, action }) => {
+  const { id, index, interactionMethod } = action;
   root.ref.addIndex = index;
   const now = Date.now();
   let spawnDate = now;
@@ -5246,15 +4895,15 @@ const addItemView = ({
   }
   root.ref.lastItemSpanwDate = spawnDate;
   root.appendChildView(root.createChildView(
-  // view type
-  item,
-  // props
-  {
-    spawnDate,
-    id,
-    opacity,
-    interactionMethod
-  }), index);
+    // view type
+    item,
+    // props
+    {
+      spawnDate,
+      id,
+      opacity,
+      interactionMethod
+    }), index);
 };
 const moveItem = (item, x, y, vx = 0, vy = 1) => {
   // set to null to remove animation while dragging
@@ -5265,7 +4914,8 @@ const moveItem = (item, x, y, vx = 0, vy = 1) => {
     item.translateY = item.dragOrigin.y + item.dragOffset.y;
     item.scaleX = 1.025;
     item.scaleY = 1.025;
-  } else {
+  } else
+  {
     item.translateX = x;
     item.translateY = y;
     if (Date.now() > item.spawnDate) {
@@ -5286,17 +4936,20 @@ const introItemView = (item, x, y, vx, vy) => {
     item.translateX = x;
     item.translateY = null;
     item.translateY = y;
-  } else if (item.interactionMethod === InteractionMethod.DROP) {
+  } else
+  if (item.interactionMethod === InteractionMethod.DROP) {
     item.translateX = null;
     item.translateX = x - vx * 20;
     item.translateY = null;
     item.translateY = y - vy * 10;
     item.scaleX = 0.8;
     item.scaleY = 0.8;
-  } else if (item.interactionMethod === InteractionMethod.BROWSE) {
+  } else
+  if (item.interactionMethod === InteractionMethod.BROWSE) {
     item.translateY = null;
     item.translateY = y - 30;
-  } else if (item.interactionMethod === InteractionMethod.API) {
+  } else
+  if (item.interactionMethod === InteractionMethod.API) {
     item.translateX = null;
     item.translateX = x - 30;
     item.translateY = null;
@@ -5307,15 +4960,10 @@ const introItemView = (item, x, y, vx, vy) => {
  * @param root
  * @param action
  */
-const removeItemView = ({
-  root,
-  action
-}) => {
-  const {
-    id
-  } = action;
+const removeItemView = ({ root, action }) => {
+  const { id } = action;
   // get the view matching the given id
-  const view = root.childViews.find(child => child.id === id);
+  const view = root.childViews.find((child) => child.id === id);
   // if no view found, exit
   if (!view) {
     return;
@@ -5327,26 +4975,23 @@ const removeItemView = ({
   // mark for removal
   view.markedForRemoval = true;
 };
-const getItemHeight = child => child.rect.element.height + child.rect.element.marginBottom * 0.5 + child.rect.element.marginTop * 0.5;
-const getItemWidth = child => child.rect.element.width + child.rect.element.marginLeft * 0.5 + child.rect.element.marginRight * 0.5;
-const dragItem = ({
-  root,
-  action
-}) => {
-  const {
-    id,
-    dragState
-  } = action;
+const getItemHeight = (child) => child.rect.element.height +
+child.rect.element.marginBottom * 0.5 +
+child.rect.element.marginTop * 0.5;
+const getItemWidth = (child) => child.rect.element.width +
+child.rect.element.marginLeft * 0.5 +
+child.rect.element.marginRight * 0.5;
+const dragItem = ({ root, action }) => {
+  const { id, dragState } = action;
   // reference to item
-  const item = root.query('GET_ITEM', {
-    id
-  });
+  const item = root.query('GET_ITEM', { id });
   // get the view matching the given id
-  const view = root.childViews.find(child => child.id === id);
+  const view = root.childViews.find((child) => child.id === id);
   const numItems = root.childViews.length;
   const oldIndex = dragState.getItemIndex(item);
   // if no view found, exit
-  if (!view) return;
+  if (!view)
+  return;
   const dragPosition = {
     x: view.dragOrigin.x + view.dragOffset.x + view.dragCenter.x,
     y: view.dragOrigin.y + view.dragOffset.y + view.dragCenter.y
@@ -5356,7 +5001,8 @@ const dragItem = ({
   const dragWidth = getItemWidth(view);
   // get rows and columns (There will always be at least one row and one column if a file is present)
   let cols = Math.floor(root.rect.outer.width / dragWidth);
-  if (cols > numItems) cols = numItems;
+  if (cols > numItems)
+  cols = numItems;
   // rows are used to find when we have left the preview area bounding box
   const rows = Math.floor(numItems / cols + 1);
   dropAreaDimensions.setHeight = dragHeight * rows;
@@ -5366,14 +5012,18 @@ const dragItem = ({
     y: Math.floor(dragPosition.y / dragHeight),
     x: Math.floor(dragPosition.x / dragWidth),
     getGridIndex: function getGridIndex() {
-      if (dragPosition.y > dropAreaDimensions.getHeight || dragPosition.y < 0 || dragPosition.x > dropAreaDimensions.getWidth || dragPosition.x < 0) return oldIndex;
+      if (dragPosition.y > dropAreaDimensions.getHeight ||
+      dragPosition.y < 0 ||
+      dragPosition.x > dropAreaDimensions.getWidth ||
+      dragPosition.x < 0)
+      return oldIndex;
       return this.y * cols + this.x;
     },
     getColIndex: function getColIndex() {
       const items = root.query('GET_ACTIVE_ITEMS');
-      const visibleChildren = root.childViews.filter(child => child.rect.element.height);
-      const children = items.map(item => visibleChildren.find(childView => childView.id === item.id));
-      const currentIndex = children.findIndex(child => child === view);
+      const visibleChildren = root.childViews.filter((child) => child.rect.element.height);
+      const children = items.map((item) => visibleChildren.find((childView) => childView.id === item.id));
+      const currentIndex = children.findIndex((child) => child === view);
       const dragHeight = getItemHeight(view);
       const l = children.length;
       let idx = l;
@@ -5401,15 +5051,13 @@ const dragItem = ({
   };
   // get new index
   const index = cols > 1 ? location.getGridIndex() : location.getColIndex();
-  root.dispatch('MOVE_ITEM', {
-    query: view,
-    index
-  });
+  root.dispatch('MOVE_ITEM', { query: view, index });
   // if the index of the item changed, dispatch reorder action
   const currentIndex = dragState.getIndex();
   if (currentIndex === undefined || currentIndex !== index) {
     dragState.setIndex(index);
-    if (currentIndex === undefined) return;
+    if (currentIndex === undefined)
+    return;
     root.dispatch('DID_REORDER_ITEMS', {
       items: root.query('GET_ACTIVE_ITEMS'),
       origin: oldIndex,
@@ -5431,29 +5079,23 @@ const route$2 = createRoute({
  * @param actions
  * @param props
  */
-const write$5 = ({
-  root,
-  props,
-  actions,
-  shouldOptimize
-}) => {
+const write$5 = ({ root, props, actions, shouldOptimize }) => {
   // route actions
-  route$2({
-    root,
-    props,
-    actions
-  });
-  const {
-    dragCoordinates
-  } = props;
+  route$2({ root, props, actions });
+  const { dragCoordinates } = props;
   // available space on horizontal axis
   const horizontalSpace = root.rect.element.width;
   // only draw children that have dimensions
-  const visibleChildren = root.childViews.filter(child => child.rect.element.height);
+  const visibleChildren = root.childViews.filter((child) => child.rect.element.height);
   // sort based on current active items
-  const children = root.query('GET_ACTIVE_ITEMS').map(item => visibleChildren.find(child => child.id === item.id)).filter(item => item);
+  const children = root.
+  query('GET_ACTIVE_ITEMS').
+  map((item) => visibleChildren.find((child) => child.id === item.id)).
+  filter((item) => item);
   // get index
-  const dragIndex = dragCoordinates ? getItemIndexByPosition(root, children, dragCoordinates) : null;
+  const dragIndex = dragCoordinates ?
+  getItemIndexByPosition(root, children, dragCoordinates) :
+  null;
   // add index is used to reserve the dropped/added item index till the actual item is rendered
   const addIndex = root.ref.addIndex || null;
   // add index no longer needed till possibly next draw
@@ -5461,7 +5103,8 @@ const write$5 = ({
   let dragIndexOffset = 0;
   let removeIndexOffset = 0;
   let addIndexOffset = 0;
-  if (children.length === 0) return;
+  if (children.length === 0)
+  return;
   const childRect = children[0].rect.element;
   const itemVerticalMargin = childRect.marginTop + childRect.marginBottom;
   const itemHorizontalMargin = childRect.marginLeft + childRect.marginRight;
@@ -5477,13 +5120,17 @@ const write$5 = ({
         let dist = index - dragIndex;
         if (dist === -2) {
           dragOffset = -itemVerticalMargin * 0.25;
-        } else if (dist === -1) {
+        } else
+        if (dist === -1) {
           dragOffset = -itemVerticalMargin * 0.75;
-        } else if (dist === 0) {
+        } else
+        if (dist === 0) {
           dragOffset = itemVerticalMargin * 0.75;
-        } else if (dist === 1) {
+        } else
+        if (dist === 1) {
           dragOffset = itemVerticalMargin * 0.25;
-        } else {
+        } else
+        {
           dragOffset = 0;
         }
       }
@@ -5522,7 +5169,8 @@ const write$5 = ({
       const vectorY = Math.sign(offsetY - prevY);
       prevX = offsetX;
       prevY = offsetY;
-      if (child.markedForRemoval) return;
+      if (child.markedForRemoval)
+      return;
       if (shouldOptimize) {
         child.translateX = null;
         child.translateY = null;
@@ -5536,7 +5184,7 @@ const write$5 = ({
  * @param child
  * @param actions
  */
-const filterSetItemActions = (child, actions) => actions.filter(action => {
+const filterSetItemActions = (child, actions) => actions.filter((action) => {
   // if action has an id, filter out actions that don't have this child id
   if (action.data && action.data.id) {
     return child.id === action.data.id;
@@ -5549,10 +5197,10 @@ const list = createView({
   write: write$5,
   tag: 'ul',
   name: 'list',
-  didWriteView: ({
-    root
-  }) => {
-    root.childViews.filter(view => view.markedForRemoval && view.opacity === 0 && view.resting).forEach(view => {
+  didWriteView: ({ root }) => {
+    root.childViews.
+    filter((view) => view.markedForRemoval && view.opacity === 0 && view.resting).
+    forEach((view) => {
       view._destroy();
       root.removeChildView(view);
     });
@@ -5562,45 +5210,32 @@ const list = createView({
     apis: ['dragCoordinates']
   }
 });
-const create$9 = ({
-  root,
-  props
-}) => {
+const create$9 = ({ root, props }) => {
   root.ref.list = root.appendChildView(root.createChildView(list));
   props.dragCoordinates = null;
   props.overflowing = false;
 };
-const storeDragCoordinates = ({
-  root,
-  props,
-  action
-}) => {
-  if (!root.query('GET_ITEM_INSERT_LOCATION_FREEDOM')) return;
+const storeDragCoordinates = ({ root, props, action }) => {
+  if (!root.query('GET_ITEM_INSERT_LOCATION_FREEDOM'))
+  return;
   props.dragCoordinates = {
     left: action.position.scopeLeft - root.ref.list.rect.element.left,
-    top: action.position.scopeTop - (root.rect.outer.top + root.rect.element.marginTop + root.rect.element.scrollTop)
+    top: action.position.scopeTop - (
+    root.rect.outer.top +
+    root.rect.element.marginTop +
+    root.rect.element.scrollTop)
   };
 };
-const clearDragCoordinates = ({
-  props
-}) => {
+const clearDragCoordinates = ({ props }) => {
   props.dragCoordinates = null;
 };
 const route$3 = createRoute({
   DID_DRAG: storeDragCoordinates,
   DID_END_DRAG: clearDragCoordinates
 });
-const write$6 = ({
-  root,
-  props,
-  actions
-}) => {
+const write$6 = ({ root, props, actions }) => {
   // route actions
-  route$3({
-    root,
-    props,
-    actions
-  });
+  route$3({ root, props, actions });
   // current drag position
   root.ref.list.dragCoordinates = props.dragCoordinates;
   // if currently overflowing but no longer received overflow
@@ -5635,11 +5270,12 @@ const listScroller = createView({
 const attrToggle = (element, name, state, enabledValue = '') => {
   if (state) {
     attr(element, name, enabledValue);
-  } else {
+  } else
+  {
     element.removeAttribute(name);
   }
 };
-const resetFileInput = input => {
+const resetFileInput = (input) => {
   // no value, no need to reset
   if (!input || input.value === '') {
     return;
@@ -5647,7 +5283,8 @@ const resetFileInput = input => {
   try {
     // for modern browsers
     input.value = '';
-  } catch (err) {}
+  }
+  catch (err) {}
   // for IE10
   if (input.value) {
     // quickly append input to temp form and reset form
@@ -5659,15 +5296,13 @@ const resetFileInput = input => {
     // re-inject input where it originally was
     if (ref) {
       parentNode.insertBefore(input, ref);
-    } else {
+    } else
+    {
       parentNode.appendChild(input);
     }
   }
 };
-const create$a = ({
-  root,
-  props
-}) => {
+const create$a = ({ root, props }) => {
   // set id so can be referenced from outside labels
   root.element.id = `filepond--browser-${props.id}`;
   // set name of element (is removed when a value is set)
@@ -5679,44 +5314,29 @@ const create$a = ({
   // set configurable props
   setAcceptedFileTypes({
     root,
-    action: {
-      value: root.query('GET_ACCEPTED_FILE_TYPES')
-    }
+    action: { value: root.query('GET_ACCEPTED_FILE_TYPES') }
   });
   toggleAllowMultiple({
     root,
-    action: {
-      value: root.query('GET_ALLOW_MULTIPLE')
-    }
+    action: { value: root.query('GET_ALLOW_MULTIPLE') }
   });
   toggleDirectoryFilter({
     root,
-    action: {
-      value: root.query('GET_ALLOW_DIRECTORIES_ONLY')
-    }
+    action: { value: root.query('GET_ALLOW_DIRECTORIES_ONLY') }
   });
-  toggleDisabled({
-    root
-  });
-  toggleRequired({
-    root,
-    action: {
-      value: root.query('GET_REQUIRED')
-    }
-  });
+  toggleDisabled({ root });
+  toggleRequired({ root, action: { value: root.query('GET_REQUIRED') } });
   setCaptureMethod({
     root,
-    action: {
-      value: root.query('GET_CAPTURE_METHOD')
-    }
+    action: { value: root.query('GET_CAPTURE_METHOD') }
   });
   // handle changes to the input field
-  root.ref.handleChange = e => {
+  root.ref.handleChange = (e) => {
     if (!root.element.value) {
       return;
     }
     // extract files and move value of webkitRelativePath path to _relativePath
-    const files = Array.from(root.element.files).map(file => {
+    const files = Array.from(root.element.files).map((file) => {
       file._relativePath = file.webkitRelativePath;
       return file;
     });
@@ -5730,37 +5350,24 @@ const create$a = ({
   };
   root.element.addEventListener('change', root.ref.handleChange);
 };
-const setAcceptedFileTypes = ({
-  root,
-  action
-}) => {
-  if (!root.query('GET_ALLOW_SYNC_ACCEPT_ATTRIBUTE')) return;
+const setAcceptedFileTypes = ({ root, action }) => {
+  if (!root.query('GET_ALLOW_SYNC_ACCEPT_ATTRIBUTE'))
+  return;
   attrToggle(root.element, 'accept', !!action.value, action.value ? action.value.join(',') : '');
 };
-const toggleAllowMultiple = ({
-  root,
-  action
-}) => {
+const toggleAllowMultiple = ({ root, action }) => {
   attrToggle(root.element, 'multiple', action.value);
 };
-const toggleDirectoryFilter = ({
-  root,
-  action
-}) => {
+const toggleDirectoryFilter = ({ root, action }) => {
   attrToggle(root.element, 'webkitdirectory', action.value);
 };
-const toggleDisabled = ({
-  root
-}) => {
+const toggleDisabled = ({ root }) => {
   const isDisabled = root.query('GET_DISABLED');
   const doesAllowBrowse = root.query('GET_ALLOW_BROWSE');
   const disableField = isDisabled || !doesAllowBrowse;
   attrToggle(root.element, 'disabled', disableField);
 };
-const toggleRequired = ({
-  root,
-  action
-}) => {
+const toggleRequired = ({ root, action }) => {
   // want to remove required, always possible
   if (!action.value) {
     attrToggle(root.element, 'required', false);
@@ -5770,23 +5377,17 @@ const toggleRequired = ({
     attrToggle(root.element, 'required', true);
   }
 };
-const setCaptureMethod = ({
-  root,
-  action
-}) => {
+const setCaptureMethod = ({ root, action }) => {
   attrToggle(root.element, 'capture', !!action.value, action.value === true ? '' : action.value);
 };
-const updateRequiredStatus = ({
-  root
-}) => {
-  const {
-    element
-  } = root;
+const updateRequiredStatus = ({ root }) => {
+  const { element } = root;
   // always remove the required attribute when more than zero items
   if (root.query('GET_TOTAL_ITEMS') > 0) {
     attrToggle(element, 'required', false);
     attrToggle(element, 'name', false);
-  } else {
+  } else
+  {
     // add name attribute
     attrToggle(element, 'name', true, root.query('GET_NAME'));
     // remove any validation messages
@@ -5800,11 +5401,10 @@ const updateRequiredStatus = ({
     }
   }
 };
-const updateFieldValidityStatus = ({
-  root
-}) => {
+const updateFieldValidityStatus = ({ root }) => {
   const shouldCheckValidity = root.query('GET_CHECK_VALIDITY');
-  if (!shouldCheckValidity) return;
+  if (!shouldCheckValidity)
+  return;
   root.element.setCustomValidity(root.query('GET_LABEL_INVALID_FIELD'));
 };
 const browser = createView({
@@ -5816,9 +5416,7 @@ const browser = createView({
     type: 'file'
   },
   create: create$a,
-  destroy: ({
-    root
-  }) => {
+  destroy: ({ root }) => {
     root.element.removeEventListener('change', root.ref.handleChange);
   },
   write: createRoute({
@@ -5838,10 +5436,7 @@ const Key = {
   ENTER: 13,
   SPACE: 32
 };
-const create$b = ({
-  root,
-  props
-}) => {
+const create$b = ({ root, props }) => {
   // create the label and link it to the file browser
   const label = createElement$1('label');
   attr(label, 'for', `filepond--browser-${props.id}`);
@@ -5850,18 +5445,20 @@ const create$b = ({
   // hide the label for screenreaders, the input element will read the contents of the label when it's focussed. If we don't set aria-hidden the screenreader will also navigate the contents of the label separately from the input.
   attr(label, 'aria-hidden', 'true');
   // handle keys
-  root.ref.handleKeyDown = e => {
+  root.ref.handleKeyDown = (e) => {
     const isActivationKey = e.keyCode === Key.ENTER || e.keyCode === Key.SPACE;
-    if (!isActivationKey) return;
+    if (!isActivationKey)
+    return;
     // stops from triggering the element a second time
     e.preventDefault();
     // click link (will then in turn activate file input)
     root.ref.label.click();
   };
-  root.ref.handleClick = e => {
+  root.ref.handleClick = (e) => {
     const isLabelClick = e.target === label || label.contains(e.target);
     // don't want to click twice
-    if (isLabelClick) return;
+    if (isLabelClick)
+    return;
     // click link (will then in turn activate file input)
     root.ref.label.click();
   };
@@ -5886,27 +5483,19 @@ const dropLabel = createView({
   name: 'drop-label',
   ignoreRect: true,
   create: create$b,
-  destroy: ({
-    root
-  }) => {
+  destroy: ({ root }) => {
     root.ref.label.addEventListener('keydown', root.ref.handleKeyDown);
     root.element.removeEventListener('click', root.ref.handleClick);
   },
   write: createRoute({
-    DID_SET_LABEL_IDLE: ({
-      root,
-      action
-    }) => {
+    DID_SET_LABEL_IDLE: ({ root, action }) => {
       updateLabelValue(root.ref.label, action.value);
     }
   }),
   mixins: {
     styles: ['opacity', 'translateX', 'translateY'],
     animations: {
-      opacity: {
-        type: 'tween',
-        duration: 150
-      },
+      opacity: { type: 'tween', duration: 150 },
       translateX: 'spring',
       translateY: 'spring'
     }
@@ -5922,16 +5511,11 @@ const blob = createView({
       scaleY: 'spring',
       translateX: 'spring',
       translateY: 'spring',
-      opacity: {
-        type: 'tween',
-        duration: 250
-      }
+      opacity: { type: 'tween', duration: 250 }
     }
   }
 });
-const addBlob = ({
-  root
-}) => {
+const addBlob = ({ root }) => {
   const centerX = root.rect.element.width * 0.5;
   const centerY = root.rect.element.height * 0.5;
   root.ref.blob = root.appendChildView(root.createChildView(blob, {
@@ -5942,14 +5526,9 @@ const addBlob = ({
     translateY: centerY
   }));
 };
-const moveBlob = ({
-  root,
-  action
-}) => {
+const moveBlob = ({ root, action }) => {
   if (!root.ref.blob) {
-    addBlob({
-      root
-    });
+    addBlob({ root });
     return;
   }
   root.ref.blob.translateX = action.position.scopeLeft;
@@ -5958,17 +5537,13 @@ const moveBlob = ({
   root.ref.blob.scaleY = 1;
   root.ref.blob.opacity = 1;
 };
-const hideBlob = ({
-  root
-}) => {
+const hideBlob = ({ root }) => {
   if (!root.ref.blob) {
     return;
   }
   root.ref.blob.opacity = 0;
 };
-const explodeBlob = ({
-  root
-}) => {
+const explodeBlob = ({ root }) => {
   if (!root.ref.blob) {
     return;
   }
@@ -5976,19 +5551,9 @@ const explodeBlob = ({
   root.ref.blob.scaleY = 2.5;
   root.ref.blob.opacity = 0;
 };
-const write$7 = ({
-  root,
-  props,
-  actions
-}) => {
-  route$4({
-    root,
-    props,
-    actions
-  });
-  const {
-    blob
-  } = root.ref;
+const write$7 = ({ root, props, actions }) => {
+  route$4({ root, props, actions });
+  const { blob } = root.ref;
   if (actions.length === 0 && blob && blob.opacity === 0) {
     root.removeChildView(blob);
     root.ref.blob = null;
@@ -6005,23 +5570,17 @@ const drip = createView({
   name: 'drip',
   write: write$7
 });
-const create$c = ({
-  root
-}) => root.ref.fields = {};
+const create$c = ({ root }) => root.ref.fields = {};
 const getField = (root, id) => root.ref.fields[id];
-const syncFieldPositionsWithItems = root => {
-  root.query('GET_ACTIVE_ITEMS').forEach(item => {
-    if (!root.ref.fields[item.id]) return;
+const syncFieldPositionsWithItems = (root) => {
+  root.query('GET_ACTIVE_ITEMS').forEach((item) => {
+    if (!root.ref.fields[item.id])
+    return;
     root.element.appendChild(root.ref.fields[item.id]);
   });
 };
-const didReorderItems = ({
-  root
-}) => syncFieldPositionsWithItems(root);
-const didAddItem = ({
-  root,
-  action
-}) => {
+const didReorderItems = ({ root }) => syncFieldPositionsWithItems(root);
+const didAddItem = ({ root, action }) => {
   const dataContainer = createElement$1('input');
   dataContainer.type = 'hidden';
   dataContainer.name = root.query('GET_NAME');
@@ -6029,37 +5588,31 @@ const didAddItem = ({
   root.ref.fields[action.id] = dataContainer;
   syncFieldPositionsWithItems(root);
 };
-const didLoadItem$1 = ({
-  root,
-  action
-}) => {
+const didLoadItem$1 = ({ root, action }) => {
   const field = getField(root, action.id);
-  if (!field || action.serverFileReference === null) return;
+  if (!field || action.serverFileReference === null)
+  return;
   field.value = action.serverFileReference;
 };
-const didSetDisabled = ({
-  root
-}) => {
+const didSetDisabled = ({ root }) => {
   root.element.disabled = root.query('GET_DISABLED');
 };
-const didRemoveItem = ({
-  root,
-  action
-}) => {
+const didRemoveItem = ({ root, action }) => {
   const field = getField(root, action.id);
-  if (!field) return;
-  if (field.parentNode) field.parentNode.removeChild(field);
+  if (!field)
+  return;
+  if (field.parentNode)
+  field.parentNode.removeChild(field);
   delete root.ref.fields[action.id];
 };
-const didDefineValue = ({
-  root,
-  action
-}) => {
+const didDefineValue = ({ root, action }) => {
   const field = getField(root, action.id);
-  if (!field) return;
+  if (!field)
+  return;
   if (action.value === null) {
     field.removeAttribute('value');
-  } else {
+  } else
+  {
     field.value = action.value;
   }
   syncFieldPositionsWithItems(root);
@@ -6080,7 +5633,7 @@ const data = createView({
   write: write$8,
   ignoreRect: true
 });
-const getRootNode = element => 'getRootNode' in element ? element.getRootNode() : document;
+const getRootNode = (element) => 'getRootNode' in element ? element.getRootNode() : document;
 const images = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'tiff'];
 const text$1 = ['css', 'csv', 'html', 'txt'];
 const map = {
@@ -6090,14 +5643,19 @@ const map = {
 const guesstimateMimeType = (extension = '') => {
   extension = extension.toLowerCase();
   if (images.includes(extension)) {
-    return 'image/' + (extension === 'jpg' ? 'jpeg' : extension === 'svg' ? 'svg+xml' : extension);
+    return 'image/' + (
+    extension === 'jpg' ?
+    'jpeg' :
+    extension === 'svg' ?
+    'svg+xml' :
+    extension);
   }
   if (text$1.includes(extension)) {
     return 'text/' + extension;
   }
   return map[extension] || '';
 };
-const requestDataTransferItems = dataTransfer => new Promise((resolve, reject) => {
+const requestDataTransferItems = (dataTransfer) => new Promise((resolve, reject) => {
   // try to get links from transfer, if found we'll exit immediately (unless a file is in the dataTransfer as well, this is because Firefox could represent the file as a URL and a file object at the same time)
   const links = getLinks(dataTransfer);
   if (links.length && !hasFiles(dataTransfer)) {
@@ -6109,20 +5667,23 @@ const requestDataTransferItems = dataTransfer => new Promise((resolve, reject) =
 /**
  * Test if datatransfer has files
  */
-const hasFiles = dataTransfer => {
-  if (dataTransfer.files) return dataTransfer.files.length > 0;
+const hasFiles = (dataTransfer) => {
+  if (dataTransfer.files)
+  return dataTransfer.files.length > 0;
   return false;
 };
 /**
  * Extracts files from a DataTransfer object
  */
-const getFiles = dataTransfer => new Promise((resolve, reject) => {
+const getFiles = (dataTransfer) => new Promise((resolve, reject) => {
   // get the transfer items as promises
-  const promisedFiles = (dataTransfer.items ? Array.from(dataTransfer.items) : []
+  const promisedFiles = (dataTransfer.items ?
+  Array.from(dataTransfer.items) :
+  []
   // only keep file system items (files and directories)
-  ).filter(item => isFileSystemItem(item))
+  ).filter((item) => isFileSystemItem(item))
   // map each item to promise
-  .map(item => getFilesFromItem(item));
+  .map((item) => getFilesFromItem(item));
   // if is empty, see if we can extract some info from the files property as a fallback
   if (!promisedFiles.length) {
     // TODO: test for directories (should not be allowed)
@@ -6131,20 +5692,25 @@ const getFiles = dataTransfer => new Promise((resolve, reject) => {
     return;
   }
   // done!
-  Promise.all(promisedFiles).then(returnedFileGroups => {
+  Promise.all(promisedFiles).
+  then((returnedFileGroups) => {
     // flatten groups
     const files = [];
-    returnedFileGroups.forEach(group => {
+    returnedFileGroups.forEach((group) => {
       files.push.apply(files, group);
     });
     // done (filter out empty files)!
-    resolve(files.filter(file => file).map(file => {
-      if (!file._relativePath) file._relativePath = file.webkitRelativePath;
+    resolve(files.
+    filter((file) => file).
+    map((file) => {
+      if (!file._relativePath)
+      file._relativePath = file.webkitRelativePath;
       return file;
     }));
-  }).catch(console.error);
+  }).
+  catch(console.error);
 });
-const isFileSystemItem = item => {
+const isFileSystemItem = (item) => {
   if (isEntry(item)) {
     const entry = getAsEntry(item);
     if (entry) {
@@ -6153,14 +5719,16 @@ const isFileSystemItem = item => {
   }
   return item.kind === 'file';
 };
-const getFilesFromItem = item => new Promise((resolve, reject) => {
+const getFilesFromItem = (item) => new Promise((resolve, reject) => {
   if (isDirectoryEntry(item)) {
-    getFilesInDirectory(getAsEntry(item)).then(resolve).catch(reject);
+    getFilesInDirectory(getAsEntry(item)).
+    then(resolve).
+    catch(reject);
     return;
   }
   resolve([item.getAsFile()]);
 });
-const getFilesInDirectory = entry => new Promise((resolve, reject) => {
+const getFilesInDirectory = (entry) => new Promise((resolve, reject) => {
   const files = [];
   // the total entries to read
   let dirCounter = 0;
@@ -6171,27 +5739,29 @@ const getFilesInDirectory = entry => new Promise((resolve, reject) => {
     }
   };
   // the recursive function
-  const readEntries = dirEntry => {
+  const readEntries = (dirEntry) => {
     dirCounter++;
     const directoryReader = dirEntry.createReader();
     // directories are returned in batches, we need to process all batches before we're done
     const readBatch = () => {
-      directoryReader.readEntries(entries => {
+      directoryReader.readEntries((entries) => {
         if (entries.length === 0) {
           dirCounter--;
           resolveIfDone();
           return;
         }
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           // recursively read more directories
           if (entry.isDirectory) {
             readEntries(entry);
-          } else {
+          } else
+          {
             // read as file
             fileCounter++;
-            entry.file(file => {
+            entry.file((file) => {
               const correctedFile = correctMissingFileType(file);
-              if (entry.fullPath) correctedFile._relativePath = entry.fullPath;
+              if (entry.fullPath)
+              correctedFile._relativePath = entry.fullPath;
               files.push(correctedFile);
               fileCounter--;
               resolveIfDone();
@@ -6208,24 +5778,26 @@ const getFilesInDirectory = entry => new Promise((resolve, reject) => {
   // go!
   readEntries(entry);
 });
-const correctMissingFileType = file => {
-  if (file.type.length) return file;
+const correctMissingFileType = (file) => {
+  if (file.type.length)
+  return file;
   const date = file.lastModifiedDate;
   const name = file.name;
   const type = guesstimateMimeType(getExtensionFromFilename(file.name));
-  if (!type.length) return file;
+  if (!type.length)
+  return file;
   file = file.slice(0, file.size, type);
   file.name = name;
   file.lastModifiedDate = date;
   return file;
 };
-const isDirectoryEntry = item => isEntry(item) && (getAsEntry(item) || {}).isDirectory;
-const isEntry = item => 'webkitGetAsEntry' in item;
-const getAsEntry = item => item.webkitGetAsEntry();
+const isDirectoryEntry = (item) => isEntry(item) && (getAsEntry(item) || {}).isDirectory;
+const isEntry = (item) => 'webkitGetAsEntry' in item;
+const getAsEntry = (item) => item.webkitGetAsEntry();
 /**
  * Extracts links from a DataTransfer object
  */
-const getLinks = dataTransfer => {
+const getLinks = (dataTransfer) => {
   let links = [];
   try {
     // look in meta data property
@@ -6234,19 +5806,20 @@ const getLinks = dataTransfer => {
       return links;
     }
     links = getLinksFromTransferURLData(dataTransfer);
-  } catch (e) {
-    // nope nope nope (probably IE trouble)
   }
-  return links;
+  catch (e) {
+
+    // nope nope nope (probably IE trouble)
+  }return links;
 };
-const getLinksFromTransferURLData = dataTransfer => {
+const getLinksFromTransferURLData = (dataTransfer) => {
   let data = dataTransfer.getData('url');
   if (typeof data === 'string' && data.length) {
     return [data];
   }
   return [];
 };
-const getLinksFromTransferMetaData = dataTransfer => {
+const getLinksFromTransferMetaData = (dataTransfer) => {
   let data = dataTransfer.getData('text/html');
   if (typeof data === 'string' && data.length) {
     const matches = data.match(/src\s*=\s*"(.+?)"/);
@@ -6257,7 +5830,7 @@ const getLinksFromTransferMetaData = dataTransfer => {
   return [];
 };
 const dragNDropObservers = [];
-const eventPosition = e => ({
+const eventPosition = (e) => ({
   pageLeft: e.pageX,
   pageTop: e.pageY,
   scopeLeft: e.offsetX || e.layerX,
@@ -6279,9 +5852,9 @@ const createDragNDropClient = (element, scopeToObserve, filterElement) => {
   client.destroy = observer.addListener(client);
   return client;
 };
-const getDragNDropObserver = element => {
+const getDragNDropObserver = (element) => {
   // see if already exists, if so, return
-  const observer = dragNDropObservers.find(item => item.element === element);
+  const observer = dragNDropObservers.find((item) => item.element === element);
   if (observer) {
     return observer;
   }
@@ -6290,7 +5863,7 @@ const getDragNDropObserver = element => {
   dragNDropObservers.push(newObserver);
   return newObserver;
 };
-const createDragNDropObserver = element => {
+const createDragNDropObserver = (element) => {
   const clients = [];
   const routes = {
     dragenter,
@@ -6305,7 +5878,7 @@ const createDragNDropObserver = element => {
   });
   const observer = {
     element,
-    addListener: client => {
+    addListener: (client) => {
       // add as client
       clients.push(client);
       // return removeListener function
@@ -6315,7 +5888,7 @@ const createDragNDropObserver = element => {
         // if no more clients, clean up observer
         if (clients.length === 0) {
           dragNDropObservers.splice(dragNDropObservers.indexOf(observer), 1);
-          forin(routes, event => {
+          forin(routes, (event) => {
             element.removeEventListener(event, handlers[event], false);
           });
         }
@@ -6347,16 +5920,14 @@ const setDropEffect = (dataTransfer, effect) => {
   // is in try catch as IE11 will throw error if not
   try {
     dataTransfer.dropEffect = effect;
-  } catch (e) {}
+  }
+  catch (e) {}
 };
-const dragenter = (root, clients) => e => {
+const dragenter = (root, clients) => (e) => {
   e.preventDefault();
   initialTarget = e.target;
-  clients.forEach(client => {
-    const {
-      element,
-      onenter
-    } = client;
+  clients.forEach((client) => {
+    const { element, onenter } = client;
     if (isEventTarget(e, element)) {
       client.state = 'enter';
       // fire enter event
@@ -6364,20 +5935,13 @@ const dragenter = (root, clients) => e => {
     }
   });
 };
-const dragover = (root, clients) => e => {
+const dragover = (root, clients) => (e) => {
   e.preventDefault();
   const dataTransfer = e.dataTransfer;
-  requestDataTransferItems(dataTransfer).then(items => {
+  requestDataTransferItems(dataTransfer).then((items) => {
     let overDropTarget = false;
-    clients.some(client => {
-      const {
-        filterElement,
-        element,
-        onenter,
-        onexit,
-        ondrag,
-        allowdrop
-      } = client;
+    clients.some((client) => {
+      const { filterElement, element, onenter, onexit, ondrag, allowdrop } = client;
       // by default we can drop
       setDropEffect(dataTransfer, 'copy');
       // allow transfer of these items
@@ -6405,7 +5969,8 @@ const dragover = (root, clients) => e => {
         }
         // dragging
         ondrag(eventPosition(e));
-      } else {
+      } else
+      {
         // should be over an element to drop
         if (filterElement && !overDropTarget) {
           setDropEffect(dataTransfer, 'none');
@@ -6419,36 +5984,30 @@ const dragover = (root, clients) => e => {
     });
   });
 };
-const drop = (root, clients) => e => {
+const drop = (root, clients) => (e) => {
   e.preventDefault();
   const dataTransfer = e.dataTransfer;
-  requestDataTransferItems(dataTransfer).then(items => {
-    clients.forEach(client => {
-      const {
-        filterElement,
-        element,
-        ondrop,
-        onexit,
-        allowdrop
-      } = client;
+  requestDataTransferItems(dataTransfer).then((items) => {
+    clients.forEach((client) => {
+      const { filterElement, element, ondrop, onexit, allowdrop } = client;
       client.state = null;
       // if we're filtering on element we need to be over the element to drop
-      if (filterElement && !isEventTarget(e, element)) return;
+      if (filterElement && !isEventTarget(e, element))
+      return;
       // no transfer for this client
-      if (!allowdrop(items)) return onexit(eventPosition(e));
+      if (!allowdrop(items))
+      return onexit(eventPosition(e));
       // we can drop these items on this client
       ondrop(eventPosition(e), items);
     });
   });
 };
-const dragleave = (root, clients) => e => {
+const dragleave = (root, clients) => (e) => {
   if (initialTarget !== e.target) {
     return;
   }
-  clients.forEach(client => {
-    const {
-      onexit
-    } = client;
+  clients.forEach((client) => {
+    const { onexit } = client;
     client.state = null;
     onexit(eventPosition(e));
   });
@@ -6457,18 +6016,14 @@ const createHopper = (scope, validateItems, options) => {
   // is now hopper scope
   scope.classList.add('filepond--hopper');
   // shortcuts
-  const {
-    catchesDropsOnPage,
-    requiresDropOnElement,
-    filterItems = items => items
-  } = options;
+  const { catchesDropsOnPage, requiresDropOnElement, filterItems = (items) => items } = options;
   // create a dnd client
   const client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement);
   // current client state
   let lastState = '';
   let currentState = '';
   // determines if a file may be dropped
-  client.allowdrop = items => {
+  client.allowdrop = (items) => {
     // TODO: if we can, throw error to indicate the items cannot by dropped
     return validateItems(filterItems(items));
   };
@@ -6481,14 +6036,14 @@ const createHopper = (scope, validateItems, options) => {
     currentState = 'drag-drop';
     api.onload(filteredItems, position);
   };
-  client.ondrag = position => {
+  client.ondrag = (position) => {
     api.ondrag(position);
   };
-  client.onenter = position => {
+  client.onenter = (position) => {
     currentState = 'drag-over';
     api.ondragstart(position);
   };
-  client.onexit = position => {
+  client.onexit = (position) => {
     currentState = 'drag-exit';
     api.ondragend(position);
   };
@@ -6512,7 +6067,7 @@ const createHopper = (scope, validateItems, options) => {
 };
 let listening = false;
 const listeners$1 = [];
-const handlePaste = e => {
+const handlePaste = (e) => {
   // if is pasting in input or textarea and the target is outside of a filepond scope, ignore
   const activeEl = document.activeElement;
   if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {
@@ -6526,18 +6081,19 @@ const handlePaste = e => {
       }
       element = element.parentNode;
     }
-    if (!inScope) return;
+    if (!inScope)
+    return;
   }
-  requestDataTransferItems(e.clipboardData).then(files => {
+  requestDataTransferItems(e.clipboardData).then((files) => {
     // no files received
     if (!files.length) {
       return;
     }
     // notify listeners of received files
-    listeners$1.forEach(listener => listener(files));
+    listeners$1.forEach((listener) => listener(files));
   });
 };
-const listen = cb => {
+const listen = (cb) => {
   // can't add twice
   if (listeners$1.includes(cb)) {
     return;
@@ -6551,7 +6107,7 @@ const listen = cb => {
   listening = true;
   document.addEventListener('paste', handlePaste);
 };
-const unlisten = listener => {
+const unlisten = (listener) => {
   arrayRemove(listeners$1, listeners$1.indexOf(listener));
   // clean up
   if (listeners$1.length === 0) {
@@ -6560,7 +6116,7 @@ const unlisten = listener => {
   }
 };
 const createPaster = () => {
-  const cb = files => {
+  const cb = (files) => {
     api.onload(files);
   };
   const api = {
@@ -6575,10 +6131,7 @@ const createPaster = () => {
 /**
  * Creates the file view
  */
-const create$d = ({
-  root,
-  props
-}) => {
+const create$d = ({ root, props }) => {
   root.element.id = `filepond--assistant-${props.id}`;
   attr(root.element, 'role', 'status');
   attr(root.element, 'aria-live', 'polite');
@@ -6590,23 +6143,22 @@ const filenames = [];
 const assist = (root, message) => {
   root.element.textContent = message;
 };
-const clear$1 = root => {
+const clear$1 = (root) => {
   root.element.textContent = '';
 };
 const listModified = (root, filename, label) => {
   const total = root.query('GET_TOTAL_ITEMS');
-  assist(root, `${label} ${filename}, ${total} ${total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL')}`);
+  assist(root, `${label} ${filename}, ${total} ${total === 1 ?
+  root.query('GET_LABEL_FILE_COUNT_SINGULAR') :
+  root.query('GET_LABEL_FILE_COUNT_PLURAL')}`);
   // clear group after set amount of time so the status is not read twice
   clearTimeout(notificationClearTimeout);
   notificationClearTimeout = setTimeout(() => {
     clear$1(root);
   }, 1500);
 };
-const isUsingFilePond = root => root.element.parentNode.contains(document.activeElement);
-const itemAdded = ({
-  root,
-  action
-}) => {
+const isUsingFilePond = (root) => root.element.parentNode.contains(document.activeElement);
+const itemAdded = ({ root, action }) => {
   if (!isUsingFilePond(root)) {
     return;
   }
@@ -6619,39 +6171,27 @@ const itemAdded = ({
     filenames.length = 0;
   }, 750);
 };
-const itemRemoved = ({
-  root,
-  action
-}) => {
+const itemRemoved = ({ root, action }) => {
   if (!isUsingFilePond(root)) {
     return;
   }
   const item = action.item;
   listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));
 };
-const itemProcessed = ({
-  root,
-  action
-}) => {
+const itemProcessed = ({ root, action }) => {
   // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
   const item = root.query('GET_ITEM', action.id);
   const filename = item.filename;
   const label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');
   assist(root, `${filename} ${label}`);
 };
-const itemProcessedUndo = ({
-  root,
-  action
-}) => {
+const itemProcessedUndo = ({ root, action }) => {
   const item = root.query('GET_ITEM', action.id);
   const filename = item.filename;
   const label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');
   assist(root, `${filename} ${label}`);
 };
-const itemError = ({
-  root,
-  action
-}) => {
+const itemError = ({ root, action }) => {
   const item = root.query('GET_ITEM', action.id);
   const filename = item.filename;
   // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
@@ -6675,7 +6215,7 @@ const assistant = createView({
   tag: 'span',
   name: 'assistant'
 });
-const toCamels = (string, separator = '-') => string.replace(new RegExp(`${separator}.`, 'g'), sub => sub.charAt(1).toUpperCase());
+const toCamels = (string, separator = '-') => string.replace(new RegExp(`${separator}.`, 'g'), (sub) => sub.charAt(1).toUpperCase());
 const debounce = (func, interval = 16, immidiateOnly = true) => {
   let last = Date.now();
   let timeout = null;
@@ -6693,18 +6233,16 @@ const debounce = (func, interval = 16, immidiateOnly = true) => {
       if (!immidiateOnly) {
         timeout = setTimeout(fn, interval - dist);
       }
-    } else {
+    } else
+    {
       // go!
       fn();
     }
   };
 };
 const MAX_FILES_LIMIT = 1000000;
-const prevent = e => e.preventDefault();
-const create$e = ({
-  root,
-  props
-}) => {
+const prevent = (e) => e.preventDefault();
+const create$e = ({ root, props }) => {
   // Add id
   const id = root.query('GET_ID');
   if (id) {
@@ -6713,23 +6251,19 @@ const create$e = ({
   // Add className
   const className = root.query('GET_CLASS_NAME');
   if (className) {
-    className.split(' ').filter(name => name.length).forEach(name => {
+    className.
+    split(' ').
+    filter((name) => name.length).
+    forEach((name) => {
       root.element.classList.add(name);
     });
   }
   // Field label
-  root.ref.label = root.appendChildView(root.createChildView(dropLabel, Object.assign(Object.assign({}, props), {
-    translateY: null,
-    caption: root.query('GET_LABEL_IDLE')
-  })));
+  root.ref.label = root.appendChildView(root.createChildView(dropLabel, Object.assign(Object.assign({}, props), { translateY: null, caption: root.query('GET_LABEL_IDLE') })));
   // List of items
-  root.ref.list = root.appendChildView(root.createChildView(listScroller, {
-    translateY: null
-  }));
+  root.ref.list = root.appendChildView(root.createChildView(listScroller, { translateY: null }));
   // Background panel
-  root.ref.panel = root.appendChildView(root.createChildView(panel, {
-    name: 'panel-root'
-  }));
+  root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' }));
   // Assistant notifies assistive tech when content changes
   root.ref.assistant = root.appendChildView(root.createChildView(assistant, Object.assign({}, props)));
   // Data
@@ -6742,10 +6276,10 @@ const create$e = ({
   // information on the root height or fixed height status
   root.ref.bounds = null;
   // apply initial style properties
-  root.query('GET_STYLES').filter(style => !isEmpty(style.value)).map(({
-    name,
-    value
-  }) => {
+  root.
+  query('GET_STYLES').
+  filter((style) => !isEmpty(style.value)).
+  map(({ name, value }) => {
     root.element.dataset[name] = value;
   });
   // determine if width changed
@@ -6758,12 +6292,11 @@ const create$e = ({
   root.ref.previousAspectRatio = null;
   root.ref.updateHistory = [];
   // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
-  const canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;
+  const canHover = window.matchMedia('(pointer: fine) and (hover: hover)').
+  matches;
   const hasPointerEvents = ('PointerEvent' in window);
   if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {
-    root.element.addEventListener('touchmove', prevent, {
-      passive: false
-    });
+    root.element.addEventListener('touchmove', prevent, { passive: false });
     root.element.addEventListener('gesturestart', prevent);
   }
   // add credits
@@ -6782,27 +6315,20 @@ const create$e = ({
     root.ref.credits = frag;
   }
 };
-const write$9 = ({
-  root,
-  props,
-  actions
-}) => {
+const write$9 = ({ root, props, actions }) => {
   // route actions
-  route$5({
-    root,
-    props,
-    actions
-  });
+  route$5({ root, props, actions });
   // apply style properties
-  actions.filter(action => /^DID_SET_STYLE_/.test(action.type)).filter(action => !isEmpty(action.data.value)).map(({
-    type,
-    data
-  }) => {
+  actions.
+  filter((action) => /^DID_SET_STYLE_/.test(action.type)).
+  filter((action) => !isEmpty(action.data.value)).
+  map(({ type, data }) => {
     const name = toCamels(type.substr(8).toLowerCase(), '_');
     root.element.dataset[name] = data.value;
     root.invalidateLayout();
   });
-  if (root.rect.element.hidden) return;
+  if (root.rect.element.hidden)
+  return;
   if (root.rect.element.width !== root.ref.widthPrevious) {
     root.ref.widthPrevious = root.rect.element.width;
     root.ref.widthUpdated();
@@ -6816,12 +6342,7 @@ const write$9 = ({
     root.ref.measure = null;
   }
   // get quick references to various high level parts of the upload tool
-  const {
-    hopper,
-    label,
-    list,
-    panel
-  } = root.ref;
+  const { hopper, label, list, panel } = root.ref;
   // sets correct state to hopper scope
   if (hopper) {
     hopper.updateHopperState();
@@ -6830,10 +6351,12 @@ const write$9 = ({
   const aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
   const isMultiItem = root.query('GET_ALLOW_MULTIPLE');
   const totalItems = root.query('GET_TOTAL_ITEMS');
-  const maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;
+  const maxItems = isMultiItem ?
+  root.query('GET_MAX_FILES') || MAX_FILES_LIMIT :
+  1;
   const atMaxCapacity = totalItems === maxItems;
   // action used to add item
-  const addAction = actions.find(action => action.type === 'DID_ADD_ITEM');
+  const addAction = actions.find((action) => action.type === 'DID_ADD_ITEM');
   // if reached max capacity and we've just reached it
   if (atMaxCapacity && addAction) {
     // get interaction type
@@ -6842,16 +6365,20 @@ const write$9 = ({
     label.opacity = 0;
     if (isMultiItem) {
       label.translateY = -40;
-    } else {
+    } else
+    {
       if (interactionMethod === InteractionMethod.API) {
         label.translateX = 40;
-      } else if (interactionMethod === InteractionMethod.BROWSE) {
+      } else
+      if (interactionMethod === InteractionMethod.BROWSE) {
         label.translateY = 40;
-      } else {
+      } else
+      {
         label.translateY = 30;
       }
     }
-  } else if (!atMaxCapacity) {
+  } else
+  if (!atMaxCapacity) {
     label.opacity = 1;
     label.translateX = 0;
     label.translateY = 0;
@@ -6865,7 +6392,9 @@ const write$9 = ({
   const visualHeight = currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;
   const boundsHeight = currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom;
   // link list to label bottom position
-  list.translateY = Math.max(0, currentLabelHeight - list.rect.element.marginTop) - listItemMargin.top;
+  list.translateY =
+  Math.max(0, currentLabelHeight - list.rect.element.marginTop) -
+  listItemMargin.top;
   if (aspectRatio) {
     // fixed aspect ratio
     // calculate height based on width
@@ -6900,26 +6429,30 @@ const write$9 = ({
     // available height for list
     const listAvailableHeight =
     // the height of the panel minus the label height
-    height - currentLabelHeight - (
+    height -
+    currentLabelHeight - (
     // the room we leave open between the end of the list and the panel bottom
     listMarginBottom - listItemMargin.bottom) - (
     // if we're full we need to leave some room between the top of the panel and the list
     atMaxCapacity ? listMarginTop : 0);
     if (listHeight.visual > listAvailableHeight) {
       list.overflow = listAvailableHeight;
-    } else {
+    } else
+    {
       list.overflow = null;
     }
     // set container bounds (so pushes siblings downwards)
     root.height = height;
-  } else if (bounds.fixedHeight) {
+  } else
+  if (bounds.fixedHeight) {
     // fixed height
     // fix height of panel
     panel.scalable = false;
     // available height for list
     const listAvailableHeight =
     // the height of the panel minus the label height
-    bounds.fixedHeight - currentLabelHeight - (
+    bounds.fixedHeight -
+    currentLabelHeight - (
     // the room we leave open between the end of the list and the panel bottom
     listMarginBottom - listItemMargin.bottom) - (
     // if we're full we need to leave some room between the top of the panel and the list
@@ -6927,34 +6460,42 @@ const write$9 = ({
     // set list height
     if (listHeight.visual > listAvailableHeight) {
       list.overflow = listAvailableHeight;
-    } else {
+    } else
+    {
       list.overflow = null;
     }
     // no need to set container bounds as these are handles by CSS fixed height
-  } else if (bounds.cappedHeight) {
+  } else
+  if (bounds.cappedHeight) {
     // max-height
     // not a fixed height panel
     const isCappedHeight = visualHeight >= bounds.cappedHeight;
     const panelHeight = Math.min(bounds.cappedHeight, visualHeight);
     panel.scalable = true;
-    panel.height = isCappedHeight ? panelHeight : panelHeight - listItemMargin.top - listItemMargin.bottom;
+    panel.height = isCappedHeight ?
+    panelHeight :
+    panelHeight - listItemMargin.top - listItemMargin.bottom;
     // available height for list
     const listAvailableHeight =
     // the height of the panel minus the label height
-    panelHeight - currentLabelHeight - (
+    panelHeight -
+    currentLabelHeight - (
     // the room we leave open between the end of the list and the panel bottom
     listMarginBottom - listItemMargin.bottom) - (
     // if we're full we need to leave some room between the top of the panel and the list
     atMaxCapacity ? listMarginTop : 0);
     // set list height (if is overflowing)
-    if (visualHeight > bounds.cappedHeight && listHeight.visual > listAvailableHeight) {
+    if (visualHeight > bounds.cappedHeight &&
+    listHeight.visual > listAvailableHeight) {
       list.overflow = listAvailableHeight;
-    } else {
+    } else
+    {
       list.overflow = null;
     }
     // set container bounds (so pushes siblings downwards)
     root.height = Math.min(bounds.cappedHeight, boundsHeight - listItemMargin.top - listItemMargin.bottom);
-  } else {
+  } else
+  {
     // flexible height
     // not a fixed height panel
     const itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;
@@ -6964,31 +6505,35 @@ const write$9 = ({
     root.height = Math.max(labelHeight, boundsHeight - itemMargin);
   }
   // move credits to bottom
-  if (root.ref.credits && panel.heightCurrent) root.ref.credits.style.transform = `translateY(${panel.heightCurrent}px)`;
+  if (root.ref.credits && panel.heightCurrent)
+  root.ref.credits.style.transform = `translateY(${panel.heightCurrent}px)`;
 };
-const calculateListItemMargin = root => {
+const calculateListItemMargin = (root) => {
   const item = root.ref.list.childViews[0].childViews[0];
-  return item ? {
+  return item ?
+  {
     top: item.rect.element.marginTop,
     bottom: item.rect.element.marginBottom
-  } : {
+  } :
+  {
     top: 0,
     bottom: 0
   };
 };
-const calculateListHeight = root => {
+const calculateListHeight = (root) => {
   let visual = 0;
   let bounds = 0;
   // get file list reference
   const scrollList = root.ref.list;
   const itemList = scrollList.childViews[0];
-  const visibleChildren = itemList.childViews.filter(child => child.rect.element.height);
-  const children = root.query('GET_ACTIVE_ITEMS').map(item => visibleChildren.find(child => child.id === item.id)).filter(item => item);
+  const visibleChildren = itemList.childViews.filter((child) => child.rect.element.height);
+  const children = root.
+  query('GET_ACTIVE_ITEMS').
+  map((item) => visibleChildren.find((child) => child.id === item.id)).
+  filter((item) => item);
   // no children, done!
-  if (children.length === 0) return {
-    visual,
-    bounds
-  };
+  if (children.length === 0)
+  return { visual, bounds };
   const horizontalSpace = itemList.rect.element.width;
   const dragIndex = getItemIndexByPosition(itemList, children, scrollList.dragCoordinates);
   const childRect = children[0].rect.element;
@@ -6997,12 +6542,14 @@ const calculateListHeight = root => {
   const itemWidth = childRect.width + itemHorizontalMargin;
   const itemHeight = childRect.height + itemVerticalMargin;
   const newItem = typeof dragIndex !== 'undefined' && dragIndex >= 0 ? 1 : 0;
-  const removedItem = children.find(child => child.markedForRemoval && child.opacity < 0.45) ? -1 : 0;
+  const removedItem = children.find((child) => child.markedForRemoval && child.opacity < 0.45) ?
+  -1 :
+  0;
   const verticalItemCount = children.length + newItem + removedItem;
   const itemsPerRow = Math.round(horizontalSpace / itemWidth);
   // stack
   if (itemsPerRow === 1) {
-    children.forEach(item => {
+    children.forEach((item) => {
       const height = item.rect.element.height + itemVerticalMargin;
       bounds += height;
       visual += height * item.opacity;
@@ -7013,12 +6560,9 @@ const calculateListHeight = root => {
     bounds = Math.ceil(verticalItemCount / itemsPerRow) * itemHeight;
     visual = bounds;
   }
-  return {
-    visual,
-    bounds
-  };
+  return { visual, bounds };
 };
-const calculateRootBoundingBoxHeight = root => {
+const calculateRootBoundingBoxHeight = (root) => {
   const height = root.ref.measureHeight || null;
   const cappedHeight = parseInt(root.style.maxHeight, 10) || null;
   const fixedHeight = height === 0 ? null : height;
@@ -7055,29 +6599,34 @@ const getDragIndex = (list, children, position) => {
   const itemList = list.childViews[0];
   return getItemIndexByPosition(itemList, children, {
     left: position.scopeLeft - itemList.rect.element.left,
-    top: position.scopeTop - (list.rect.outer.top + list.rect.element.marginTop + list.rect.element.scrollTop)
+    top: position.scopeTop - (
+    list.rect.outer.top +
+    list.rect.element.marginTop +
+    list.rect.element.scrollTop)
   });
 };
 /**
  * Enable or disable file drop functionality
  */
-const toggleDrop = root => {
+const toggleDrop = (root) => {
   const isAllowed = root.query('GET_ALLOW_DROP');
   const isDisabled = root.query('GET_DISABLED');
   const enabled = isAllowed && !isDisabled;
   if (enabled && !root.ref.hopper) {
-    const hopper = createHopper(root.element, items => {
+    const hopper = createHopper(root.element, (items) => {
       // allow quick validation of dropped items
       const beforeDropFile = root.query('GET_BEFORE_DROP_FILE') || (() => true);
       // all items should be validated by all filters as valid
       const dropValidation = root.query('GET_DROP_VALIDATION');
-      return dropValidation ? items.every(item => applyFilters('ALLOW_HOPPER_ITEM', item, {
+      return dropValidation ?
+      items.every((item) => applyFilters('ALLOW_HOPPER_ITEM', item, {
         query: root.query
-      }).every(result => result === true) && beforeDropFile(item)) : true;
+      }).every((result) => result === true) && beforeDropFile(item)) :
+      true;
     }, {
-      filterItems: items => {
+      filterItems: (items) => {
         const ignoredFiles = root.query('GET_IGNORED_FILES');
-        return items.filter(item => {
+        return items.filter((item) => {
           if (isFile(item)) {
             return !ignoredFiles.includes(item.name.toLowerCase());
           }
@@ -7090,13 +6639,15 @@ const toggleDrop = root => {
     hopper.onload = (items, position) => {
       // get item children elements and sort based on list sort
       const list = root.ref.list.childViews[0];
-      const visibleChildren = list.childViews.filter(child => child.rect.element.height);
-      const children = root.query('GET_ACTIVE_ITEMS').map(item => visibleChildren.find(child => child.id === item.id)).filter(item => item);
-      applyFilterChain('ADD_ITEMS', items, {
-        dispatch: root.dispatch
-      }).then(queue => {
+      const visibleChildren = list.childViews.filter((child) => child.rect.element.height);
+      const children = root.
+      query('GET_ACTIVE_ITEMS').
+      map((item) => visibleChildren.find((child) => child.id === item.id)).
+      filter((item) => item);
+      applyFilterChain('ADD_ITEMS', items, { dispatch: root.dispatch }).then((queue) => {
         // these files don't fit so stop here
-        if (exceedsMaxFiles(root, queue)) return false;
+        if (exceedsMaxFiles(root, queue))
+        return false;
         // go
         root.dispatch('ADD_ITEMS', {
           items: queue,
@@ -7104,31 +6655,22 @@ const toggleDrop = root => {
           interactionMethod: InteractionMethod.DROP
         });
       });
-      root.dispatch('DID_DROP', {
-        position
-      });
-      root.dispatch('DID_END_DRAG', {
-        position
-      });
+      root.dispatch('DID_DROP', { position });
+      root.dispatch('DID_END_DRAG', { position });
     };
-    hopper.ondragstart = position => {
-      root.dispatch('DID_START_DRAG', {
-        position
-      });
+    hopper.ondragstart = (position) => {
+      root.dispatch('DID_START_DRAG', { position });
     };
-    hopper.ondrag = debounce(position => {
-      root.dispatch('DID_DRAG', {
-        position
-      });
+    hopper.ondrag = debounce((position) => {
+      root.dispatch('DID_DRAG', { position });
     });
-    hopper.ondragend = position => {
-      root.dispatch('DID_END_DRAG', {
-        position
-      });
+    hopper.ondragend = (position) => {
+      root.dispatch('DID_END_DRAG', { position });
     };
     root.ref.hopper = hopper;
     root.ref.drip = root.appendChildView(root.createChildView(drip));
-  } else if (!enabled && root.ref.hopper) {
+  } else
+  if (!enabled && root.ref.hopper) {
     root.ref.hopper.destroy();
     root.ref.hopper = null;
     root.removeChildView(root.ref.drip);
@@ -7142,13 +6684,13 @@ const toggleBrowse = (root, props) => {
   const isDisabled = root.query('GET_DISABLED');
   const enabled = isAllowed && !isDisabled;
   if (enabled && !root.ref.browser) {
-    root.ref.browser = root.appendChildView(root.createChildView(browser, Object.assign(Object.assign({}, props), {
-      onload: items => {
+    root.ref.browser = root.appendChildView(root.createChildView(browser, Object.assign(Object.assign({}, props), { onload: (items) => {
         applyFilterChain('ADD_ITEMS', items, {
           dispatch: root.dispatch
-        }).then(queue => {
+        }).then((queue) => {
           // these files don't fit so stop here
-          if (exceedsMaxFiles(root, queue)) return false;
+          if (exceedsMaxFiles(root, queue))
+          return false;
           // add items!
           root.dispatch('ADD_ITEMS', {
             items: queue,
@@ -7156,9 +6698,9 @@ const toggleBrowse = (root, props) => {
             interactionMethod: InteractionMethod.BROWSE
           });
         });
-      }
-    })), 0);
-  } else if (!enabled && root.ref.browser) {
+      } })), 0);
+  } else
+  if (!enabled && root.ref.browser) {
     root.removeChildView(root.ref.browser);
     root.ref.browser = null;
   }
@@ -7166,18 +6708,17 @@ const toggleBrowse = (root, props) => {
 /**
  * Enable or disable paste functionality
  */
-const togglePaste = root => {
+const togglePaste = (root) => {
   const isAllowed = root.query('GET_ALLOW_PASTE');
   const isDisabled = root.query('GET_DISABLED');
   const enabled = isAllowed && !isDisabled;
   if (enabled && !root.ref.paster) {
     root.ref.paster = createPaster();
-    root.ref.paster.onload = items => {
-      applyFilterChain('ADD_ITEMS', items, {
-        dispatch: root.dispatch
-      }).then(queue => {
+    root.ref.paster.onload = (items) => {
+      applyFilterChain('ADD_ITEMS', items, { dispatch: root.dispatch }).then((queue) => {
         // these files don't fit so stop here
-        if (exceedsMaxFiles(root, queue)) return false;
+        if (exceedsMaxFiles(root, queue))
+        return false;
         // add items!
         root.dispatch('ADD_ITEMS', {
           items: queue,
@@ -7186,7 +6727,8 @@ const togglePaste = root => {
         });
       });
     };
-  } else if (!enabled && root.ref.paster) {
+  } else
+  if (!enabled && root.ref.paster) {
     root.ref.paster.destroy();
     root.ref.paster = null;
   }
@@ -7195,33 +6737,24 @@ const togglePaste = root => {
  * Route actions
  */
 const route$5 = createRoute({
-  DID_SET_ALLOW_BROWSE: ({
-    root,
-    props
-  }) => {
+  DID_SET_ALLOW_BROWSE: ({ root, props }) => {
     toggleBrowse(root, props);
   },
-  DID_SET_ALLOW_DROP: ({
-    root
-  }) => {
+  DID_SET_ALLOW_DROP: ({ root }) => {
     toggleDrop(root);
   },
-  DID_SET_ALLOW_PASTE: ({
-    root
-  }) => {
+  DID_SET_ALLOW_PASTE: ({ root }) => {
     togglePaste(root);
   },
-  DID_SET_DISABLED: ({
-    root,
-    props
-  }) => {
+  DID_SET_DISABLED: ({ root, props }) => {
     toggleDrop(root);
     togglePaste(root);
     toggleBrowse(root, props);
     const isDisabled = root.query('GET_DISABLED');
     if (isDisabled) {
       root.element.dataset.disabled = 'disabled';
-    } else {
+    } else
+    {
       // delete root.element.dataset.disabled; <= this does not work on iOS 10
       root.element.removeAttribute('data-disabled');
     }
@@ -7229,18 +6762,14 @@ const route$5 = createRoute({
 });
 const root = createView({
   name: 'root',
-  read: ({
-    root
-  }) => {
+  read: ({ root }) => {
     if (root.ref.measure) {
       root.ref.measureHeight = root.ref.measure.offsetHeight;
     }
   },
   create: create$e,
   write: write$9,
-  destroy: ({
-    root
-  }) => {
+  destroy: ({ root }) => {
     if (root.ref.paster) {
       root.ref.paster.destroy();
     }
@@ -7262,19 +6791,18 @@ const createApp = (initialOptions = {}) => {
   const defaultOptions = getOptions();
   // create the data store, this will contain all our app info
   const store = createStore(
-  // initial state (should be serializable)
-  createInitialState(defaultOptions),
-  // queries
-  [queries, createOptionQueries(defaultOptions)],
-  // action handlers
-  [actions, createOptionActions(defaultOptions)]);
+    // initial state (should be serializable)
+    createInitialState(defaultOptions),
+    // queries
+    [queries, createOptionQueries(defaultOptions)],
+    // action handlers
+    [actions, createOptionActions(defaultOptions)]);
   // set initial options
-  store.dispatch('SET_OPTIONS', {
-    options: initialOptions
-  });
+  store.dispatch('SET_OPTIONS', { options: initialOptions });
   // kick thread if visibility changes
   const visibilityHandler = () => {
-    if (document.hidden) return;
+    if (document.hidden)
+    return;
     store.dispatch('KICK');
   };
   document.addEventListener('visibilitychange', visibilityHandler);
@@ -7301,9 +6829,7 @@ const createApp = (initialOptions = {}) => {
   };
   window.addEventListener('resize', resizeHandler);
   // render initial view
-  const view = root(store, {
-    id: getUniqueId()
-  });
+  const view = root(store, { id: getUniqueId() });
   //
   // PRIVATE API -------------------------------------------------------------------------------------
   //
@@ -7323,7 +6849,8 @@ const createApp = (initialOptions = {}) => {
         if (!initialWindowWidth) {
           initialWindowWidth = currentWindowWidth;
         }
-        if (!isResizingHorizontally && currentWindowWidth !== initialWindowWidth) {
+        if (!isResizingHorizontally &&
+        currentWindowWidth !== initialWindowWidth) {
           store.dispatch('DID_START_RESIZE');
           isResizingHorizontally = true;
         }
@@ -7333,7 +6860,8 @@ const createApp = (initialOptions = {}) => {
         isResting = view.element.offsetParent === null;
       }
       // if resting, no need to read as numbers will still all be correct
-      if (isResting) return;
+      if (isResting)
+      return;
       // read view data
       view._read();
       // if is hidden we need to know so we exit rest mode when revealed
@@ -7343,13 +6871,15 @@ const createApp = (initialOptions = {}) => {
      * Writes to dom (never call manually)
      * @private
      */
-    _write: ts => {
+    _write: (ts) => {
       // get all actions from store
-      const actions = store.processActionQueue()
+      const actions = store.
+      processActionQueue()
       // filter out set actions (these will automatically trigger DID_SET)
-      .filter(action => !/^SET_/.test(action.type));
+      .filter((action) => !/^SET_/.test(action.type));
       // if was idling and no actions stop here
-      if (isResting && !actions.length) return;
+      if (isResting && !actions.length)
+      return;
       // some actions might trigger events
       routeActionsToEvents(actions);
       // update the view
@@ -7365,7 +6895,7 @@ const createApp = (initialOptions = {}) => {
   //
   // EXPOSE EVENTS -------------------------------------------------------------------------------------
   //
-  const createEvent = name => data => {
+  const createEvent = (name) => (data) => {
     // create default event
     const event = {
       type: name
@@ -7387,7 +6917,8 @@ const createApp = (initialOptions = {}) => {
     // only source is available, else add item if possible
     if (data.source) {
       event.file = data.source;
-    } else if (data.item || data.id) {
+    } else
+    if (data.item || data.id) {
       const item = data.item ? data.item : store.query('GET_ITEM', data.id);
       event.file = item ? createItemAPI(item) : null;
     }
@@ -7416,7 +6947,10 @@ const createApp = (initialOptions = {}) => {
     DID_LOAD_ITEM: createEvent('addfile'),
     DID_THROW_ITEM_INVALID: [createEvent('error'), createEvent('addfile')],
     DID_THROW_ITEM_LOAD_ERROR: [createEvent('error'), createEvent('addfile')],
-    DID_THROW_ITEM_REMOVE_ERROR: [createEvent('error'), createEvent('removefile')],
+    DID_THROW_ITEM_REMOVE_ERROR: [
+    createEvent('error'),
+    createEvent('removefile')],
+
     DID_PREPARE_OUTPUT: createEvent('preparefile'),
     DID_START_ITEM_PROCESSING: createEvent('processfilestart'),
     DID_UPDATE_ITEM_PROCESS_PROGRESS: createEvent('processfileprogress'),
@@ -7424,17 +6958,18 @@ const createApp = (initialOptions = {}) => {
     DID_COMPLETE_ITEM_PROCESSING: createEvent('processfile'),
     DID_COMPLETE_ITEM_PROCESSING_ALL: createEvent('processfiles'),
     DID_REVERT_ITEM_PROCESSING: createEvent('processfilerevert'),
-    DID_THROW_ITEM_PROCESSING_ERROR: [createEvent('error'), createEvent('processfile')],
+    DID_THROW_ITEM_PROCESSING_ERROR: [
+    createEvent('error'),
+    createEvent('processfile')],
+
     DID_REMOVE_ITEM: createEvent('removefile'),
     DID_UPDATE_ITEMS: createEvent('updatefiles'),
     DID_ACTIVATE_ITEM: createEvent('activatefile'),
     DID_REORDER_ITEMS: createEvent('reorderfiles')
   };
-  const exposeEvent = event => {
+  const exposeEvent = (event) => {
     // create event object to be dispatched
-    const detail = Object.assign({
-      pond: exports
-    }, event);
+    const detail = Object.assign({ pond: exports }, event);
     delete detail.type;
     view.element.dispatchEvent(new CustomEvent(`FilePond:${event.type}`, {
       // event info
@@ -7456,7 +6991,9 @@ const createApp = (initialOptions = {}) => {
     }
     // append other props
     const filtered = ['type', 'error', 'file'];
-    Object.keys(event).filter(key => !filtered.includes(key)).forEach(key => params.push(event[key]));
+    Object.keys(event).
+    filter((key) => !filtered.includes(key)).
+    forEach((key) => params.push(event[key]));
     // on(type, () => { })
     exports.fire(event.type, ...params);
     // oninit = () => {}
@@ -7465,15 +7002,19 @@ const createApp = (initialOptions = {}) => {
       handler(...params);
     }
   };
-  const routeActionsToEvents = actions => {
-    if (!actions.length) return;
-    actions.filter(action => eventRoutes[action.type]).forEach(action => {
+  const routeActionsToEvents = (actions) => {
+    if (!actions.length)
+    return;
+    actions.
+    filter((action) => eventRoutes[action.type]).
+    forEach((action) => {
       const routes = eventRoutes[action.type];
-      (Array.isArray(routes) ? routes : [routes]).forEach(route => {
+      (Array.isArray(routes) ? routes : [routes]).forEach((route) => {
         // this isn't fantastic, but because of the stacking of settimeouts plugins can handle the did_load before the did_init
         if (action.type === 'DID_INIT_ITEM') {
           exposeEvent(route(action.data));
-        } else {
+        } else
+        {
           setTimeout(() => {
             exposeEvent(route(action.data));
           }, 0);
@@ -7484,30 +7025,25 @@ const createApp = (initialOptions = {}) => {
   //
   // PUBLIC API -------------------------------------------------------------------------------------
   //
-  const setOptions = options => store.dispatch('SET_OPTIONS', {
-    options
-  });
-  const getFile = query => store.query('GET_ACTIVE_ITEM', query);
-  const prepareFile = query => new Promise((resolve, reject) => {
+  const setOptions = (options) => store.dispatch('SET_OPTIONS', { options });
+  const getFile = (query) => store.query('GET_ACTIVE_ITEM', query);
+  const prepareFile = (query) => new Promise((resolve, reject) => {
     store.dispatch('REQUEST_ITEM_PREPARE', {
       query,
-      success: item => {
+      success: (item) => {
         resolve(item);
       },
-      failure: error => {
+      failure: (error) => {
         reject(error);
       }
     });
   });
   const addFile = (source, options = {}) => new Promise((resolve, reject) => {
-    addFiles([{
-      source,
-      options
-    }], {
-      index: options.index
-    }).then(items => resolve(items && items[0])).catch(reject);
+    addFiles([{ source, options }], { index: options.index }).
+    then((items) => resolve(items && items[0])).
+    catch(reject);
   });
-  const isFilePondFile = obj => obj.file && obj.id;
+  const isFilePondFile = (obj) => obj.file && obj.id;
   const removeFile = (query, options) => {
     // if only passed options
     if (typeof query === 'object' && !isFilePondFile(query) && !options) {
@@ -7515,9 +7051,7 @@ const createApp = (initialOptions = {}) => {
       query = undefined;
     }
     // request item removal
-    store.dispatch('REMOVE_ITEM', Object.assign(Object.assign({}, options), {
-      query
-    }));
+    store.dispatch('REMOVE_ITEM', Object.assign(Object.assign({}, options), { query }));
     // see if item has been removed
     return store.query('GET_ACTIVE_ITEM', query) === null;
   };
@@ -7528,10 +7062,12 @@ const createApp = (initialOptions = {}) => {
     if (isArray(args[0])) {
       sources.push.apply(sources, args[0]);
       Object.assign(options, args[1] || {});
-    } else {
+    } else
+    {
       // user passed sources as arguments, last one might be options object
       const lastArgument = args[args.length - 1];
-      if (typeof lastArgument === 'object' && !(lastArgument instanceof Blob)) {
+      if (typeof lastArgument === 'object' &&
+      !(lastArgument instanceof Blob)) {
         Object.assign(options, args.pop());
       }
       // add rest to sources
@@ -7546,13 +7082,13 @@ const createApp = (initialOptions = {}) => {
     });
   });
   const getFiles = () => store.query('GET_ACTIVE_ITEMS');
-  const processFile = query => new Promise((resolve, reject) => {
+  const processFile = (query) => new Promise((resolve, reject) => {
     store.dispatch('REQUEST_ITEM_PROCESSING', {
       query,
-      success: item => {
+      success: (item) => {
         resolve(item);
       },
-      failure: error => {
+      failure: (error) => {
         reject(error);
       }
     });
@@ -7565,7 +7101,10 @@ const createApp = (initialOptions = {}) => {
   const processFiles = (...args) => {
     const queries = Array.isArray(args[0]) ? args[0] : args;
     if (!queries.length) {
-      const files = getFiles().filter(item => !(item.status === ItemStatus.IDLE && item.origin === FileOrigin.LOCAL) && item.status !== ItemStatus.PROCESSING && item.status !== ItemStatus.PROCESSING_COMPLETE && item.status !== ItemStatus.PROCESSING_REVERT_ERROR);
+      const files = getFiles().filter((item) => !(item.status === ItemStatus.IDLE && item.origin === FileOrigin.LOCAL) &&
+      item.status !== ItemStatus.PROCESSING &&
+      item.status !== ItemStatus.PROCESSING_COMPLETE &&
+      item.status !== ItemStatus.PROCESSING_REVERT_ERROR);
       return Promise.all(files.map(processFile));
     }
     return Promise.all(queries.map(processFile));
@@ -7575,14 +7114,18 @@ const createApp = (initialOptions = {}) => {
     let options;
     if (typeof queries[queries.length - 1] === 'object') {
       options = queries.pop();
-    } else if (Array.isArray(args[0])) {
+    } else
+    if (Array.isArray(args[0])) {
       options = args[1];
     }
     const files = getFiles();
-    if (!queries.length) return Promise.all(files.map(file => removeFile(file, options)));
+    if (!queries.length)
+    return Promise.all(files.map((file) => removeFile(file, options)));
     // when removing by index the indexes shift after each file removal so we need to convert indexes to ids
-    const mappedQueries = queries.map(query => isNumber(query) ? files[query] ? files[query].id : null : query).filter(query => query);
-    return mappedQueries.map(q => removeFile(q, options));
+    const mappedQueries = queries.
+    map((query) => isNumber(query) ? files[query] ? files[query].id : null : query).
+    filter((query) => query);
+    return mappedQueries.map((q) => removeFile(q, options));
   };
   const exports = Object.assign(Object.assign(Object.assign(Object.assign({}, on()), readWriteApi), createOptionAPI(store, defaultOptions)), {
     /**
@@ -7625,10 +7168,7 @@ const createApp = (initialOptions = {}) => {
     /**
      * Moves a file to a new location in the files list
      */
-    moveFile: (query, index) => store.dispatch('MOVE_ITEM', {
-      query,
-      index
-    }),
+    moveFile: (query, index) => store.dispatch('MOVE_ITEM', { query, index }),
     /**
      * Returns all files (wrapped in public api)
      */
@@ -7648,9 +7188,7 @@ const createApp = (initialOptions = {}) => {
     /**
      * Sort list of files
      */
-    sort: compare => store.dispatch('SORT', {
-      compare
-    }),
+    sort: (compare) => store.dispatch('SORT', { compare }),
     /**
      * Browse the file system for a file
      */
@@ -7682,19 +7220,19 @@ const createApp = (initialOptions = {}) => {
     /**
      * Inserts the plugin before the target element
      */
-    insertBefore: element => insertBefore(view.element, element),
+    insertBefore: (element) => insertBefore(view.element, element),
     /**
      * Inserts the plugin after the target element
      */
-    insertAfter: element => insertAfter(view.element, element),
+    insertAfter: (element) => insertAfter(view.element, element),
     /**
      * Appends the plugin to the target element
      */
-    appendTo: element => element.appendChild(view.element),
+    appendTo: (element) => element.appendChild(view.element),
     /**
      * Replaces an element with the app
      */
-    replaceElement: element => {
+    replaceElement: (element) => {
       // insert the app before the element
       insertBefore(view.element, element);
       // remove the original element
@@ -7720,7 +7258,7 @@ const createApp = (initialOptions = {}) => {
      * Returns true if the app root is attached to given element
      * @param element
      */
-    isAttachedTo: element => view.element === element || originalElement === element,
+    isAttachedTo: (element) => view.element === element || originalElement === element,
     /**
      * Returns the root element
      */
@@ -7732,8 +7270,7 @@ const createApp = (initialOptions = {}) => {
      */
     status: {
       get: () => store.query('GET_STATUS')
-    }
-  });
+    } });
   // Done!
   store.dispatch('DID_INIT');
   // create actual api object
@@ -7750,8 +7287,8 @@ const createAppObject = (customOptions = {}) => {
   // return the plugin instance
   return app;
 };
-const lowerCaseFirstLetter = string => string.charAt(0).toLowerCase() + string.slice(1);
-const attributeNameToPropertyName = attributeName => toCamels(attributeName.replace(/^data-/, ''));
+const lowerCaseFirstLetter = (string) => string.charAt(0).toLowerCase() + string.slice(1);
+const attributeNameToPropertyName = (attributeName) => toCamels(attributeName.replace(/^data-/, ''));
 const mapObject = (object, propertyMap) => {
   // remove unwanted
   forin(propertyMap, (selector, mapping) => {
@@ -7791,12 +7328,15 @@ const mapObject = (object, propertyMap) => {
 const getAttributesAsObject = (node, attributeMapping = {}) => {
   // turn attributes into object
   const attributes = [];
-  forin(node.attributes, index => {
+  forin(node.attributes, (index) => {
     attributes.push(node.attributes[index]);
   });
-  const output = attributes.filter(attribute => attribute.name).reduce((obj, attribute) => {
+  const output = attributes.
+  filter((attribute) => attribute.name).
+  reduce((obj, attribute) => {
     const value = attr(node, attribute.name);
-    obj[attributeNameToPropertyName(attribute.name)] = value === attribute.name ? true : value;
+    obj[attributeNameToPropertyName(attribute.name)] =
+    value === attribute.name ? true : value;
     return obj;
   }, {});
   // do mapping of object properties
@@ -7840,21 +7380,24 @@ const createAppAtElement = (element, options = {}) => {
   applyFilters('SET_ATTRIBUTE_TO_OPTION_MAP', attributeMapping);
   // create final options object by setting options object and then overriding options supplied on element
   const mergedOptions = Object.assign({}, options);
-  const attributeOptions = getAttributesAsObject(element.nodeName === 'FIELDSET' ? element.querySelector('input[type=file]') : element, attributeMapping);
+  const attributeOptions = getAttributesAsObject(element.nodeName === 'FIELDSET' ?
+  element.querySelector('input[type=file]') :
+  element, attributeMapping);
   // merge with options object
-  Object.keys(attributeOptions).forEach(key => {
+  Object.keys(attributeOptions).forEach((key) => {
     if (isObject(attributeOptions[key])) {
       if (!isObject(mergedOptions[key])) {
         mergedOptions[key] = {};
       }
       Object.assign(mergedOptions[key], attributeOptions[key]);
-    } else {
+    } else
+    {
       mergedOptions[key] = attributeOptions[key];
     }
   });
   // if parent is a fieldset, get files from parent by selecting all input fields that are not file upload fields
   // these will then be automatically set to the initial files
-  mergedOptions.files = (options.files || []).concat(Array.from(element.querySelectorAll('input:not([type=file])')).map(input => ({
+  mergedOptions.files = (options.files || []).concat(Array.from(element.querySelectorAll('input:not([type=file])')).map((input) => ({
     source: input.value,
     options: {
       type: input.dataset.type
@@ -7864,7 +7407,7 @@ const createAppAtElement = (element, options = {}) => {
   const app = createAppObject(mergedOptions);
   // add already selected files
   if (element.files) {
-    Array.from(element.files).forEach(file => {
+    Array.from(element.files).forEach((file) => {
       app.addFile(file);
     });
   }
@@ -7876,7 +7419,7 @@ const createAppAtElement = (element, options = {}) => {
 // if an element is passed, we create the instance at that element, if not, we just create an up object
 const createApp$1 = (...args) => isNode(args[0]) ? createAppAtElement(...args) : createAppObject(...args);
 const PRIVATE_METHODS = ['fire', '_read', '_write'];
-const createAppAPI = app => {
+const createAppAPI = (app) => {
   const api = {};
   copyObjectPropertiesToObject(app, api, PRIVATE_METHODS);
   return api;
@@ -7887,7 +7430,7 @@ const createAppAPI = app => {
  * @param replacements - { "bar": 10 }
  */
 const replaceInString = (string, replacements) => string.replace(/(?:{([a-zA-Z]+)})/g, (match, group) => replacements[group]);
-const createWorker = fn => {
+const createWorker = (fn) => {
   const workerBlob = new Blob(['(', fn.toString(), ')()'], {
     type: 'application/javascript'
   });
@@ -7897,7 +7440,7 @@ const createWorker = fn => {
     transfer: (message, cb) => {},
     post: (message, cb, transferList) => {
       const id = getUniqueId();
-      worker.onmessage = e => {
+      worker.onmessage = (e) => {
         if (e.data.id === id) {
           cb(e.data.message);
         }
@@ -7913,12 +7456,12 @@ const createWorker = fn => {
     }
   };
 };
-const loadImage = url => new Promise((resolve, reject) => {
+const loadImage = (url) => new Promise((resolve, reject) => {
   const img = new Image();
   img.onload = () => {
     resolve(img);
   };
-  img.onerror = e => {
+  img.onerror = (e) => {
     reject(e);
   };
   img.src = url;
@@ -7929,11 +7472,11 @@ const renameFile = (file, name) => {
   renamedFile.name = name;
   return renamedFile;
 };
-const copyFile = file => renameFile(file, file.name);
+const copyFile = (file) => renameFile(file, file.name);
 // already registered plugins (can't register twice)
 const registeredPlugins = [];
 // pass utils to plugin
-const createAppPlugin = plugin => {
+const createAppPlugin = (plugin) => {
   // already registered
   if (registeredPlugins.includes(plugin)) {
     return;
@@ -7991,7 +7534,11 @@ const supported = (() => {
   // Can't run on Opera Mini due to lack of everything
   !isOperaMini() &&
   // Require these APIs to feature detect a modern browser
-  hasVisibility() && hasPromises() && hasBlobSlice() && hasCreateObjectURL() && hasTiming() && (
+  hasVisibility() &&
+  hasPromises() &&
+  hasBlobSlice() &&
+  hasCreateObjectURL() &&
+  hasTiming() && (
   // doesn't need CSSSupports but is a good way to detect Safari 9+ (we do want to support IE11 though)
   hasCSSSupports() || isIE11());
   return () => isSupported;
@@ -8024,9 +7571,9 @@ let setOptions$1 = fn;
 if (supported()) {
   // start painter and fire load event
   createPainter(() => {
-    state.apps.forEach(app => app._read());
-  }, ts => {
-    state.apps.forEach(app => app._write(ts));
+    state.apps.forEach((app) => app._read());
+  }, (ts) => {
+    state.apps.forEach((app) => app._write(ts));
   });
   // fire loaded event so we know when FilePond is available
   const dispatch = () => {
@@ -8048,7 +7595,8 @@ if (supported()) {
   if (document.readyState !== 'loading') {
     // move to back of execution queue, FilePond should have been exported by then
     setTimeout(() => dispatch(), 0);
-  } else {
+  } else
+  {
     document.addEventListener('DOMContentLoaded', dispatch);
   }
   // updates the OptionTypes object based on the current options
@@ -8068,9 +7616,9 @@ if (supported()) {
     return createAppAPI(app);
   };
   // destroys apps and removes them from the app array
-  destroy = hook => {
+  destroy = (hook) => {
     // returns true if the app was destroyed successfully
-    const indexToRemove = state.apps.findIndex(app => app.isAttachedTo(hook));
+    const indexToRemove = state.apps.findIndex((app) => app.isAttachedTo(hook));
     if (indexToRemove >= 0) {
       // remove from apps
       const app = state.apps.splice(indexToRemove, 1)[0];
@@ -8081,17 +7629,17 @@ if (supported()) {
     return false;
   };
   // parses the given context for plugins (does not include the context element itself)
-  parse = context => {
+  parse = (context) => {
     // get all possible hooks
     const matchedHooks = Array.from(context.querySelectorAll(`.${name}`));
     // filter out already active hooks
-    const newHooks = matchedHooks.filter(newHook => !state.apps.find(app => app.isAttachedTo(newHook)));
+    const newHooks = matchedHooks.filter((newHook) => !state.apps.find((app) => app.isAttachedTo(newHook)));
     // create new instance for each hook
-    return newHooks.map(hook => create$f(hook));
+    return newHooks.map((hook) => create$f(hook));
   };
   // returns an app based on the given element hook
-  find = hook => {
-    const app = state.apps.find(app => app.isAttachedTo(hook));
+  find = (hook) => {
+    const app = state.apps.find((app) => app.isAttachedTo(hook));
     if (!app) {
       return null;
     }
@@ -8111,10 +7659,10 @@ if (supported()) {
     });
     return opts;
   };
-  setOptions$1 = opts => {
+  setOptions$1 = (opts) => {
     if (isObject(opts)) {
       // update existing plugins
-      state.apps.forEach(app => {
+      state.apps.forEach((app) => {
         app.setOptions(opts);
       });
       // override defaults
@@ -8125,3 +7673,4 @@ if (supported()) {
   };
 }
 export { FileOrigin$1 as FileOrigin, FileStatus, OptionTypes, Status$1 as Status, create$f as create, destroy, find, getOptions$1 as getOptions, parse, registerPlugin, setOptions$1 as setOptions, supported };
+//# sourceMappingURL=filepond.esm.js.map

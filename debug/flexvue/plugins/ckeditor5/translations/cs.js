@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["cs"] = e["cs"] || {};
+  var t = e["cs"] = e["cs"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 z %1",
     "Align cell text to the bottom": "Zarovnat text buňky dolů",
@@ -231,3 +231,4 @@
     return e == 1 && e % 1 == 0 ? 0 : e >= 2 && e <= 4 && e % 1 == 0 ? 1 : e % 1 != 0 ? 2 : 3;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=cs.js.map

@@ -78,14 +78,17 @@ class State {
     if (typeof handler !== 'function') {
       throw new Error('Parameter handler is invalid.');
     }
-    if (typeof gesture === 'string' && Object.keys(this.registeredGestures).indexOf(gesture) === -1) {
+    if (typeof gesture === 'string' &&
+    Object.keys(this.registeredGestures).indexOf(gesture) === -1) {
       throw new Error('Parameter ' + gesture + ' is not a registered gesture');
-    } else if (typeof gesture === 'object' && !(gesture instanceof Gesture)) {
+    } else
+    if (typeof gesture === 'object' && !(gesture instanceof Gesture)) {
       throw new Error('Parameter for the gesture is not of a Gesture type');
     }
     if (typeof gesture === 'string') {
       boundGesture = this.registeredGestures[gesture];
-    } else {
+    } else
+    {
       boundGesture = gesture;
       if (boundGesture.id === '') {
         this.assignGestureId(boundGesture);
@@ -100,7 +103,7 @@ class State {
    * @return {Array} - An array of Bindings to which that element is bound
    */
   retrieveBindingsByElement(element) {
-    return this.bindings.filter(b => b.element === element);
+    return this.bindings.filter((b) => b.element === element);
   }
   /**
    * Retrieves all bindings based upon the initial X/Y position of the inputs.
@@ -109,8 +112,8 @@ class State {
    * @return {Array} - An array of Bindings to which that element is bound
    */
   retrieveBindingsByInitialPos() {
-    return this.bindings.filter(binding => {
-      return this.inputs.some(input => {
+    return this.bindings.filter((binding) => {
+      return this.inputs.some((input) => {
         return util.isInside(input.initial.x, input.initial.y, binding.element);
       });
     });
@@ -124,10 +127,11 @@ class State {
    *  false if the event is invalid.
    */
   updateInputs(event, regionElement) {
-    let eventType = event.touches ? 'TouchEvent' : event.pointerType ? 'PointerEvent' : 'MouseEvent';
+    let eventType = event.touches ?
+    'TouchEvent' : event.pointerType ? 'PointerEvent' : 'MouseEvent';
     switch (eventType) {
       case 'TouchEvent':
-        Array.from(event.changedTouches).forEach(touch => {
+        Array.from(event.changedTouches).forEach((touch) => {
           update(event, this, touch.identifier, regionElement);
         });
         break;
@@ -149,7 +153,9 @@ class State {
         return;
       }
       // An input has moved outside the region.
-      if (eventType !== 'start' && input && !util.isInside(input.current.x, input.current.y, regionElement)) {
+      if (eventType !== 'start' &&
+      input &&
+      !util.isInside(input.current.x, input.current.y, regionElement)) {
         state.resetInputs();
         return;
       }
@@ -159,7 +165,8 @@ class State {
       }
       if (eventType === 'start') {
         state.inputs.push(new Input(event, identifier));
-      } else {
+      } else
+      {
         input.update(event, identifier);
       }
     }
@@ -175,7 +182,7 @@ class State {
    * @return {Number} - The number of active inputs.
    */
   numActiveInputs() {
-    const endType = this.inputs.filter(input => {
+    const endType = this.inputs.filter((input) => {
       return input.current.type !== 'end';
     });
     return endType.length;
@@ -207,6 +214,7 @@ class State {
  *  null if it did not find any.
  */
 function findInputById(inputs, identifier) {
-  return inputs.find(i => i.identifier === identifier);
+  return inputs.find((i) => i.identifier === identifier);
 }
 export default State;
+//# sourceMappingURL=State.js.map

@@ -31,7 +31,9 @@ function arbiter(event, region) {
    (e.g. a pan goes off screen/off region.)
    Does not affect mobile devices.
    */
-  if (typeof event.buttons !== 'undefined' && eventType !== 'end' && event.buttons === 0) {
+  if (typeof event.buttons !== 'undefined' &&
+  eventType !== 'end' &&
+  event.buttons === 0) {
     state.resetInputs();
     return;
   }
@@ -45,7 +47,8 @@ function arbiter(event, region) {
     if (region.preventDefault) {
       util.setMSPreventDefault(region.element);
       util.preventDefault(event);
-    } else {
+    } else
+    {
       util.removeMSPreventDefault(region.element);
     }
     const toBeDispatched = {};
@@ -53,23 +56,25 @@ function arbiter(event, region) {
     /* Determine the deepest path index to emit the event
      from, to avoid duplicate events being fired. */
     const path = util.getPropagationPath(event);
-    gestures.forEach(gesture => {
+    gestures.forEach((gesture) => {
       const id = gesture.binding.gesture.getId();
       if (toBeDispatched[id]) {
-        if (util.getPathIndex(path, gesture.binding.element) < util.getPathIndex(path, toBeDispatched[id].binding.element)) {
+        if (util.getPathIndex(path, gesture.binding.element) <
+        util.getPathIndex(path, toBeDispatched[id].binding.element)) {
           toBeDispatched[id] = gesture;
         }
-      } else {
+      } else
+      {
         toBeDispatched[id] = gesture;
       }
     });
-    Object.keys(toBeDispatched).forEach(index => {
+    Object.keys(toBeDispatched).forEach((index) => {
       const gesture = toBeDispatched[index];
       dispatcher(gesture.binding, gesture.data, gesture.events);
     });
   }
   let endCount = 0;
-  state.inputs.forEach(input => {
+  state.inputs.forEach((input) => {
     if (input.getCurrentEventType() === 'end') {
       endCount++;
     }
@@ -79,3 +84,4 @@ function arbiter(event, region) {
   }
 }
 export default arbiter;
+//# sourceMappingURL=arbiter.js.map

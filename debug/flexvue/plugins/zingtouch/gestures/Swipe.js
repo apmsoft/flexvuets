@@ -44,20 +44,23 @@ class Swipe extends Gesture {
      * and the maximum number being a factor of the browser.
      * @type {Number}
      */
-    this.numInputs = options && options.numInputs ? options.numInputs : DEFAULT_INPUTS;
+    this.numInputs = options && options.numInputs ?
+    options.numInputs : DEFAULT_INPUTS;
     /**
      * The maximum resting time a point has between it's last move and
      * current move events.
      * @type {Number}
      */
-    this.maxRestTime = options && options.maxRestTime ? options.maxRestTime : DEFAULT_MAX_REST_TIME;
+    this.maxRestTime = options && options.maxRestTime ?
+    options.maxRestTime : DEFAULT_MAX_REST_TIME;
     /**
      * The minimum velocity the input has to be at to emit a swipe.
      * This is useful for determining the difference between
      * a swipe and a pan gesture.
      * @type {number}
      */
-    this.escapeVelocity = options && options.escapeVelocity ? options.escapeVelocity : DEFAULT_ESCAPE_VELOCITY;
+    this.escapeVelocity = options && options.escapeVelocity ?
+    options.escapeVelocity : DEFAULT_ESCAPE_VELOCITY;
     /**
      * (EXPERIMENTAL) A value of time in milliseconds to distort between events.
      * Browsers do not accurately measure time with the Date constructor in
@@ -66,13 +69,15 @@ class Swipe extends Gesture {
      * in such cases by the timeDistortion's value.
      * @type {number}
      */
-    this.timeDistortion = options && options.timeDistortion ? options.timeDistortion : DEFAULT_TIME_DISTORTION;
+    this.timeDistortion = options && options.timeDistortion ?
+    options.timeDistortion : DEFAULT_TIME_DISTORTION;
     /**
      * (EXPERIMENTAL) The maximum amount of move events to keep track of for a
      * swipe. This helps give a more accurate estimate of the user's velocity.
      * @type {number}
      */
-    this.maxProgressStack = options && options.maxProgressStack ? options.maxProgressStack : DEFAULT_MAX_PROGRESS_STACK;
+    this.maxProgressStack = options && options.maxProgressStack ?
+    options.maxProgressStack : DEFAULT_MAX_PROGRESS_STACK;
     /**
      * The on move callback
      */
@@ -185,3 +190,4 @@ class Swipe extends Gesture {
   }
 }
 export default Swipe;
+//# sourceMappingURL=Swipe.js.map

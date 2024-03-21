@@ -1,7 +1,7 @@
 "use strict";
 
 (function (t) {
-  const e = t["lv"] = t["lv"] || {};
+  var e = t["lv"] = t["lv"] || {};
   e.dictionary = Object.assign(e.dictionary || {}, {
     "%0 of %1": "%0 no %1",
     "Align cell text to the bottom": "Līdzināt šūnas tekstu pie apakšas",
@@ -231,3 +231,4 @@
     return t % 10 == 1 && t % 100 != 11 ? 0 : t != 0 ? 1 : 2;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=lv.js.map

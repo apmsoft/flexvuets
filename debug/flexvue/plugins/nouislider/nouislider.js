@@ -1,20 +1,20 @@
 "use strict";
-
 /*! nouislider - 14.6.4 - 3/18/2021 */
 (function (factory) {
   if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
     define([], factory);
-  } else if (typeof exports === "object") {
+  } else
+  if (typeof exports === "object") {
     // Node/CommonJS
     module.exports = factory();
-  } else {
+  } else
+  {
     // Browser globals
     window.noUiSlider = factory();
   }
 })(function () {
   "use strict";
-
   var VERSION = "14.6.4";
   //region Helper Methods
   function isValidFormatter(entry) {
@@ -52,7 +52,9 @@
     if (/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)) {
       pageOffset.x = 0;
     }
-    return orientation ? rect.top + pageOffset.y - docElem.clientTop : rect.left + pageOffset.x - docElem.clientLeft;
+    return orientation ?
+    rect.top + pageOffset.y - docElem.clientTop :
+    rect.left + pageOffset.x - docElem.clientLeft;
   }
   // Checks whether a value is numerical.
   function isNumeric(a) {
@@ -86,7 +88,8 @@
   function addClass(el, className) {
     if (el.classList && !/\s/.test(className)) {
       el.classList.add(className);
-    } else {
+    } else
+    {
       el.className += " " + className;
     }
   }
@@ -94,20 +97,31 @@
   function removeClass(el, className) {
     if (el.classList && !/\s/.test(className)) {
       el.classList.remove(className);
-    } else {
+    } else
+    {
       el.className = el.className.replace(new RegExp("(^|\\b)" + className.split(" ").join("|") + "(\\b|$)", "gi"), " ");
     }
   }
   // https://plainjs.com/javascript/attributes/adding-removing-and-testing-for-classes-9/
   function hasClass(el, className) {
-    return el.classList ? el.classList.contains(className) : new RegExp("\\b" + className + "\\b").test(el.className);
+    return el.classList ?
+    el.classList.contains(className) :
+    new RegExp("\\b" + className + "\\b").test(el.className);
   }
   // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
   function getPageOffset(doc) {
     var supportPageOffset = window.pageXOffset !== undefined;
     var isCSS1Compat = (doc.compatMode || "") === "CSS1Compat";
-    var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? doc.documentElement.scrollLeft : doc.body.scrollLeft;
-    var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? doc.documentElement.scrollTop : doc.body.scrollTop;
+    var x = supportPageOffset ?
+    window.pageXOffset :
+    isCSS1Compat ?
+    doc.documentElement.scrollLeft :
+    doc.body.scrollLeft;
+    var y = supportPageOffset ?
+    window.pageYOffset :
+    isCSS1Compat ?
+    doc.documentElement.scrollTop :
+    doc.body.scrollTop;
     return {
       x: x,
       y: y
@@ -119,15 +133,19 @@
   function getActions() {
     // Determine the events to bind. IE11 implements pointerEvents without
     // a prefix, which breaks compatibility with the IE10 implementation.
-    return window.navigator.pointerEnabled ? {
+    return window.navigator.pointerEnabled ?
+    {
       start: "pointerdown",
       move: "pointermove",
       end: "pointerup"
-    } : window.navigator.msPointerEnabled ? {
+    } :
+    window.navigator.msPointerEnabled ?
+    {
       start: "MSPointerDown",
       move: "MSPointerMove",
       end: "MSPointerUp"
-    } : {
+    } :
+    {
       start: "mousedown touchstart",
       move: "mousemove touchmove",
       end: "mouseup touchend"
@@ -145,7 +163,8 @@
         }
       });
       window.addEventListener("test", null, opts);
-    } catch (e) {}
+    }
+    catch (e) {}
     /* eslint-enable */
     return supportsPassive;
   }
@@ -236,9 +255,11 @@
     // Covert min/max syntax to 0 and 100.
     if (index === "min") {
       percentage = 0;
-    } else if (index === "max") {
+    } else
+    if (index === "max") {
       percentage = 100;
-    } else {
+    } else
+    {
       percentage = parseFloat(index);
     }
     // Check for correct input.
@@ -255,7 +276,8 @@
       if (!isNaN(value[1])) {
         that.xSteps[0] = value[1];
       }
-    } else {
+    } else
+    {
       that.xSteps.push(isNaN(value[1]) ? false : value[1]);
     }
     that.xHighestCompleteStep.push(0);
@@ -271,7 +293,8 @@
       return;
     }
     // Factor to range ratio
-    that.xSteps[i] = fromPercentage([that.xVal[i], that.xVal[i + 1]], n, 0) / subRangeRatio(that.xPct[i], that.xPct[i + 1]);
+    that.xSteps[i] =
+    fromPercentage([that.xVal[i], that.xVal[i + 1]], n, 0) / subRangeRatio(that.xPct[i], that.xPct[i + 1]);
     var totalSteps = (that.xVal[i + 1] - that.xVal[i]) / that.xNumSteps[i];
     var highestStep = Math.ceil(Number(totalSteps.toFixed(3)) - 1);
     var step = that.xVal[i] + that.xNumSteps[i] * highestStep;
@@ -299,7 +322,8 @@
       ordered.sort(function (a, b) {
         return a[0][0] - b[0][0];
       });
-    } else {
+    } else
+    {
       ordered.sort(function (a, b) {
         return a[0] - b[0];
       });
@@ -323,7 +347,11 @@
       // last "range" can't contain step size as it is purely an endpoint.
       var step = this.xNumSteps[index];
       if (step && value / step % 1 !== 0) {
-        throw new Error("noUiSlider (" + VERSION + "): 'limit', 'margin' and 'padding' of " + this.xPct[index] + "% range must be divisible by step.");
+        throw new Error("noUiSlider (" +
+        VERSION +
+        "): 'limit', 'margin' and 'padding' of " +
+        this.xPct[index] +
+        "% range must be divisible by step.");
       }
       // Calculate percentual distance in current range of limit, margin or padding
       distances[index] = fromPercentage(this.xVal, value, index);
@@ -339,7 +367,8 @@
       while (value > this.xPct[xPct_index + 1]) {
         xPct_index++;
       }
-    } else if (value === this.xPct[this.xPct.length - 1]) {
+    } else
+    if (value === this.xPct[this.xPct.length - 1]) {
       xPct_index = this.xPct.length - 2;
     }
     // If looking backwards and the value is exactly at a range separator then look one range further
@@ -356,7 +385,8 @@
     // Calculate what part of the start range the value is
     if (direction) {
       start_factor = (value - this.xPct[xPct_index]) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
-    } else {
+    } else
+    {
       start_factor = (this.xPct[xPct_index + 1] - value) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
     }
     // Do until the complete distance across ranges is calculated
@@ -371,7 +401,8 @@
         rest_factor = (rest_rel_distance - 100 * start_factor) / distances[xPct_index + range_counter];
         // Set start factor to 1 as for next range it does not apply.
         start_factor = 1;
-      } else {
+      } else
+      {
         // If smaller or equal then take the percentual distance of the calculate percentual part of that range
         rel_range_distance = distances[xPct_index + range_counter] * range_pct / 100 * rest_factor;
         // No rest left as the rest fits in current range
@@ -383,7 +414,8 @@
         if (this.xPct.length + range_counter >= 1) {
           range_counter--;
         }
-      } else {
+      } else
+      {
         abs_distance_counter = abs_distance_counter + rel_range_distance;
         // Limit range to last range when distance becomes outside of maximum range
         if (this.xPct.length - range_counter >= 1) {
@@ -455,6 +487,7 @@
        The testing function returns false when an error is detected,
       or true when everything is OK. It can also modify the option
       object, to make sure all values can be correctly looped elsewhere. */
+
   //region Defaults
   var defaultFormatter = {
     to: function (value) {
@@ -587,7 +620,8 @@
     // Map legacy options
     if (entry === "lower") {
       entry = [true, false];
-    } else if (entry === "upper") {
+    } else
+    if (entry === "upper") {
       entry = [false, true];
     }
     // Handle boolean options
@@ -600,7 +634,8 @@
     // Reject invalid input
     else if (!Array.isArray(entry) || !entry.length || entry.length !== parsed.handles + 1) {
       throw new Error("noUiSlider (" + VERSION + "): 'connect' option doesn't match handle count.");
-    } else {
+    } else
+    {
       connect = entry;
     }
     parsed.connect = connect;
@@ -635,7 +670,9 @@
     }
     parsed.limit = parsed.spectrum.getDistance(entry);
     if (!parsed.limit || parsed.handles < 2) {
-      throw new Error("noUiSlider (" + VERSION + "): 'limit' option is only supported on linear sliders with 2 or more handles.");
+      throw new Error("noUiSlider (" +
+      VERSION +
+      "): 'limit' option is only supported on linear sliders with 2 or more handles.");
     }
   }
   function testPadding(parsed, entry) {
@@ -723,13 +760,15 @@
       for (var i = 0; i < parsed.handles; i++) {
         parsed.tooltips.push(true);
       }
-    } else {
+    } else
+    {
       parsed.tooltips = asArray(entry);
       if (parsed.tooltips.length !== parsed.handles) {
         throw new Error("noUiSlider (" + VERSION + "): must pass a formatter for all handles.");
       }
       parsed.tooltips.forEach(function (formatter) {
-        if (typeof formatter !== "boolean" && (typeof formatter !== "object" || typeof formatter.to !== "function")) {
+        if (typeof formatter !== "boolean" && (
+        typeof formatter !== "object" || typeof formatter.to !== "function")) {
           throw new Error("noUiSlider (" + VERSION + "): 'tooltips' must be passed a formatter or 'false'.");
         }
       });
@@ -771,7 +810,8 @@
         }
         parsed.cssClasses[key] = parsed.cssPrefix + entry[key];
       }
-    } else {
+    } else
+    {
       parsed.cssClasses = entry;
     }
   }
@@ -791,94 +831,28 @@
     };
     // Tests are executed in the order they are presented here.
     var tests = {
-      step: {
-        r: false,
-        t: testStep
-      },
-      keyboardPageMultiplier: {
-        r: false,
-        t: testKeyboardPageMultiplier
-      },
-      keyboardDefaultStep: {
-        r: false,
-        t: testKeyboardDefaultStep
-      },
-      start: {
-        r: true,
-        t: testStart
-      },
-      connect: {
-        r: true,
-        t: testConnect
-      },
-      direction: {
-        r: true,
-        t: testDirection
-      },
-      snap: {
-        r: false,
-        t: testSnap
-      },
-      animate: {
-        r: false,
-        t: testAnimate
-      },
-      animationDuration: {
-        r: false,
-        t: testAnimationDuration
-      },
-      range: {
-        r: true,
-        t: testRange
-      },
-      orientation: {
-        r: false,
-        t: testOrientation
-      },
-      margin: {
-        r: false,
-        t: testMargin
-      },
-      limit: {
-        r: false,
-        t: testLimit
-      },
-      padding: {
-        r: false,
-        t: testPadding
-      },
-      behaviour: {
-        r: true,
-        t: testBehaviour
-      },
-      ariaFormat: {
-        r: false,
-        t: testAriaFormat
-      },
-      format: {
-        r: false,
-        t: testFormat
-      },
-      tooltips: {
-        r: false,
-        t: testTooltips
-      },
-      keyboardSupport: {
-        r: true,
-        t: testKeyboardSupport
-      },
-      documentElement: {
-        r: false,
-        t: testDocumentElement
-      },
-      cssPrefix: {
-        r: true,
-        t: testCssPrefix
-      },
-      cssClasses: {
-        r: true,
-        t: testCssClasses
-      }
+      step: { r: false, t: testStep },
+      keyboardPageMultiplier: { r: false, t: testKeyboardPageMultiplier },
+      keyboardDefaultStep: { r: false, t: testKeyboardDefaultStep },
+      start: { r: true, t: testStart },
+      connect: { r: true, t: testConnect },
+      direction: { r: true, t: testDirection },
+      snap: { r: false, t: testSnap },
+      animate: { r: false, t: testAnimate },
+      animationDuration: { r: false, t: testAnimationDuration },
+      range: { r: true, t: testRange },
+      orientation: { r: false, t: testOrientation },
+      margin: { r: false, t: testMargin },
+      limit: { r: false, t: testLimit },
+      padding: { r: false, t: testPadding },
+      behaviour: { r: true, t: testBehaviour },
+      ariaFormat: { r: false, t: testAriaFormat },
+      format: { r: false, t: testFormat },
+      tooltips: { r: false, t: testTooltips },
+      keyboardSupport: { r: true, t: testKeyboardSupport },
+      documentElement: { r: false, t: testDocumentElement },
+      cssPrefix: { r: true, t: testCssPrefix },
+      cssClasses: { r: true, t: testCssClasses }
     };
     var defaults = {
       connect: false,
@@ -984,7 +958,8 @@
       handle.setAttribute("aria-orientation", options.ort ? "vertical" : "horizontal");
       if (handleNumber === 0) {
         addClass(handle, options.cssClasses.handleLower);
-      } else if (handleNumber === options.handles - 1) {
+      } else
+      if (handleNumber === options.handles - 1) {
         addClass(handle, options.cssClasses.handleUpper);
       }
       return origin;
@@ -1017,18 +992,21 @@
       addClass(addTarget, options.cssClasses.target);
       if (options.dir === 0) {
         addClass(addTarget, options.cssClasses.ltr);
-      } else {
+      } else
+      {
         addClass(addTarget, options.cssClasses.rtl);
       }
       if (options.ort === 0) {
         addClass(addTarget, options.cssClasses.horizontal);
-      } else {
+      } else
+      {
         addClass(addTarget, options.cssClasses.vertical);
       }
       var textDirection = getComputedStyle(addTarget).direction;
       if (textDirection === "rtl") {
         addClass(addTarget, options.cssClasses.textDirectionRtl);
-      } else {
+      } else
+      {
         addClass(addTarget, options.cssClasses.textDirectionLtr);
       }
       return addNodeTo(addTarget, options.cssClasses.base);
@@ -1348,9 +1326,7 @@
       var methods = [];
       // Bind a closure on the target for every event type.
       events.split(" ").forEach(function (eventName) {
-        element.addEventListener(eventName, method, supportsPassive ? {
-          passive: true
-        } : false);
+        element.addEventListener(eventName, method, supportsPassive ? { passive: true } : false);
         methods.push([eventName, method]);
       });
       return methods;
@@ -1379,7 +1355,9 @@
       if (touch) {
         // Returns true if a touch originated on the target.
         var isTouchOnTarget = function (checkTouch) {
-          return checkTouch.target === eventTarget || eventTarget.contains(checkTouch.target) || checkTouch.target.shadowRoot && checkTouch.target.shadowRoot.contains(eventTarget);
+          return checkTouch.target === eventTarget ||
+          eventTarget.contains(checkTouch.target) ||
+          checkTouch.target.shadowRoot && checkTouch.target.shadowRoot.contains(eventTarget);
         };
         // In the case of touchstart events, we need to make sure there is still no more than one
         // touch on the target so we look amongst all touches.
@@ -1391,7 +1369,8 @@
           }
           x = targetTouches[0].pageX;
           y = targetTouches[0].pageY;
-        } else {
+        } else
+        {
           // In the other cases, find on changedTouches is enough.
           var targetTouch = Array.prototype.find.call(e.changedTouches, isTouchOnTarget);
           // Cancel if the target touch has not moved.
@@ -1586,9 +1565,7 @@
       fireEvent("change", handleNumber, true);
       fireEvent("set", handleNumber, true);
       if (options.events.snap) {
-        eventStart(event, {
-          handleNumbers: [handleNumber]
-        });
+        eventStart(event, { handleNumbers: [handleNumber] });
       }
     }
     // Fires a 'hover' event for a hovered mouse/pen position.
@@ -1617,7 +1594,8 @@
       if (options.dir && !options.ort) {
         // On an right-to-left slider, the left and right keys act inverted
         horizontalKeys.reverse();
-      } else if (options.ort && !options.dir) {
+      } else
+      if (options.ort && !options.dir) {
         // On a top-to-bottom slider, the up and down keys act inverted
         verticalKeys.reverse();
         largeStepKeys.reverse();
@@ -1656,10 +1634,12 @@
         // Decrement for down steps
         step = (isDown ? -1 : 1) * step;
         to = scope_Values[handleNumber] + step;
-      } else if (isMax) {
+      } else
+      if (isMax) {
         // End key
         to = options.spectrum.xVal[options.spectrum.xVal.length - 1];
-      } else {
+      } else
+      {
         // Home key
         to = options.spectrum.xVal[0];
       }
@@ -1755,20 +1735,20 @@
         if (eventName === eventType) {
           scope_Events[targetEvent].forEach(function (callback) {
             callback.call(
-            // Use the slider public API as the scope ('this')
-            scope_Self,
-            // Return values as array, so arg_1[arg_2] is always valid.
-            scope_Values.map(options.format.to),
-            // Handle index, 0 or 1
-            handleNumber,
-            // Un-formatted slider values
-            scope_Values.slice(),
-            // Event is fired by tap, true or false
-            tap || false,
-            // Left offset of the handle, in relation to the slider
-            scope_Locations.slice(),
-            // add the slider public API to an accessible parameter when this is unavailable
-            scope_Self);
+              // Use the slider public API as the scope ('this')
+              scope_Self,
+              // Return values as array, so arg_1[arg_2] is always valid.
+              scope_Values.map(options.format.to),
+              // Handle index, 0 or 1
+              handleNumber,
+              // Un-formatted slider values
+              scope_Values.slice(),
+              // Event is fired by tap, true or false
+              tap || false,
+              // Left offset of the handle, in relation to the slider
+              scope_Locations.slice(),
+              // add the slider public API to an accessible parameter when this is unavailable
+              scope_Self);
           });
         }
       });
@@ -1847,7 +1827,8 @@
           // Stop if one of the handles can't move.
           if (to === false) {
             proposal = 0;
-          } else {
+          } else
+          {
             proposal = to - proposals[handleNumber];
             proposals[handleNumber] = to;
           }
@@ -2037,7 +2018,10 @@
       var decrement = null;
       // If snapped, directly use defined step value
       if (options.snap) {
-        return [value - nearbySteps.stepBefore.startValue || null, nearbySteps.stepAfter.startValue - value || null];
+        return [
+        value - nearbySteps.stepBefore.startValue || null,
+        nearbySteps.stepAfter.startValue - value || null];
+
       }
       // If the next value in this step moves into the next step,
       // the increment is the start of the next step - the current value
@@ -2049,7 +2033,8 @@
       // If the value is beyond the starting point
       if (value > nearbySteps.thisStep.startValue) {
         decrement = nearbySteps.thisStep.step;
-      } else if (nearbySteps.stepBefore.step === false) {
+      } else
+      if (nearbySteps.stepBefore.step === false) {
         decrement = false;
       }
       // If a handle is at the start of a step, it always steps back into the previous step first
@@ -2059,7 +2044,8 @@
       // Now, if at the slider edges, there is no in/decrement
       if (location === 100) {
         increment = null;
-      } else if (location === 0) {
+      } else
+      if (location === 0) {
         decrement = null;
       }
       // As per #391, the comparison for the decrement step can have some rounding issues.
@@ -2083,7 +2069,18 @@
       // 'snap' and 'step' can be updated.
       // If 'snap' and 'step' are not passed, they should remain unchanged.
       var v = valueGet();
-      var updateAble = ["margin", "limit", "padding", "range", "animate", "snap", "step", "format", "pips", "tooltips"];
+      var updateAble = [
+      "margin",
+      "limit",
+      "padding",
+      "range",
+      "animate",
+      "snap",
+      "step",
+      "format",
+      "pips",
+      "tooltips"];
+
       // Only change options that we're actually passed to update.
       updateAble.forEach(function (name) {
         // Check for undefined. null removes the value.
@@ -2106,13 +2103,15 @@
       // Update pips, removes existing.
       if (options.pips) {
         pips(options.pips);
-      } else {
+      } else
+      {
         removePips();
       }
       // Update tooltips, removes existing.
       if (options.tooltips) {
         tooltips();
-      } else {
+      } else
+      {
         removeTooltips();
       }
       // Invalidate the current positioning so valueSet forces an update.
@@ -2165,7 +2164,6 @@
       },
       pips: pips // Issue #594
     };
-
     return scope_Self;
   }
   // Run the standard initializer
@@ -2194,3 +2192,4 @@
     create: initialize
   };
 });
+//# sourceMappingURL=nouislider.js.map

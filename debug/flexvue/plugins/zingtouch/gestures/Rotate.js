@@ -52,7 +52,8 @@ class Rotate extends Gesture {
    */
   move(inputs, state, element) {
     const numActiveInputs = state.numActiveInputs();
-    if (this.numInputs !== numActiveInputs) return null;
+    if (this.numInputs !== numActiveInputs)
+    return null;
     let currentPivot, initialPivot;
     let input;
     if (numActiveInputs === 1) {
@@ -63,7 +64,8 @@ class Rotate extends Gesture {
       };
       initialPivot = currentPivot;
       input = inputs[0];
-    } else {
+    } else
+    {
       currentPivot = util.getMidpoint(inputs[0].current.x, inputs[1].current.x, inputs[0].current.y, inputs[1].current.y);
       input = util.getRightMostInput(inputs);
     }
@@ -73,7 +75,8 @@ class Rotate extends Gesture {
     if (!progress.initialAngle) {
       progress.initialAngle = progress.previousAngle = currentAngle;
       progress.distance = progress.change = 0;
-    } else {
+    } else
+    {
       progress.change = util.getAngularDistance(progress.previousAngle, currentAngle);
       progress.distance = progress.distance + progress.change;
     }
@@ -90,3 +93,4 @@ class Rotate extends Gesture {
   }
 }
 export default Rotate;
+//# sourceMappingURL=Rotate.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["nl"] = e["nl"] || {};
+  var t = e["nl"] = e["nl"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 van %1",
     "Align cell text to the bottom": "Celtekst onder uitlijnen",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=nl.js.map

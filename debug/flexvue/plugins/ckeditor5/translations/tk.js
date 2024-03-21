@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["tk"] = e["tk"] || {};
+  var a = e["tk"] = e["tk"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "%1-iň %0-i",
     "Align cell text to the bottom": "Öýjük tekstini aşagyna deňleşdiriň",
@@ -218,3 +218,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=tk.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["da"] = e["da"] || {};
+  var t = e["da"] = e["da"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 af %1",
     "Align cell text to the bottom": "Justér tekstcelle til bunden",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=da.js.map

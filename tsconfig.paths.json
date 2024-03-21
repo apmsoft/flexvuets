@@ -1,10 +1,21 @@
 {
     "compilerOptions": {
+        "types": ["node", "jquery", "@ckeditor/ckeditor5-build-classic"],
         "baseUrl": ".",
         "paths" : {
             "src/*": ["src/*"],
             "@flexvue/*": ["src/flexvue/*"],
-            "@ckeditor/*": ["src/flexvue/plugins/@ckeditor/ckeditor5-editor-classic/src/classiceditor.js"]
+            "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
+            "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
+            "@editorjs/header": ["node_modules/@editorjs/header"],
+            "@editorjs/link": ["node_modules/@editorjs/link"],
+            "@editorjs/image": ["node_modules/@editorjs/image"],
+            "@editorjs/table": ["node_modules/@editorjs/table"],
+            "@editorjs/code": ["node_modules/@editorjs/code"],
+            "@editorjs/list": ["node_modules/@editorjs/list"],
+            "@editorjs/embed": ["node_modules/@editorjs/embed"],
+            "@editorjs/checklist": ["node_modules/@editorjs/checklist"],
+            "@editorjs/quote": ["node_modules/@editorjs/quote"]
         }
     }
 }

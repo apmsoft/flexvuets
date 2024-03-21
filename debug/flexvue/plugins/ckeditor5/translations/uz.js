@@ -1,7 +1,7 @@
 "use strict";
 
 (function (a) {
-  const i = a["uz"] = a["uz"] || {};
+  var i = a["uz"] = a["uz"] || {};
   i.dictionary = Object.assign(i.dictionary || {}, {
     "%0 of %1": "",
     "Align cell text to the bottom": "Hujayra matnini pastga tekislash",
@@ -225,3 +225,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=uz.js.map

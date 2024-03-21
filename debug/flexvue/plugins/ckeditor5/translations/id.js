@@ -1,7 +1,7 @@
 "use strict";
 
 (function (a) {
-  const e = a["id"] = a["id"] || {};
+  var e = a["id"] = a["id"] || {};
   e.dictionary = Object.assign(e.dictionary || {}, {
     "%0 of %1": "%0 dari %1",
     "Align cell text to the bottom": "Sejajarkan teks sel ke bawah",
@@ -231,3 +231,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=id.js.map

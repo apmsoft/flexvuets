@@ -1,5 +1,4 @@
 "use strict";
-
 const config = {
   app_name: 'flexvue',
   version: '3.0',
@@ -46,7 +45,7 @@ class Observable {
   subscribe(channel, o) {
     const _channel = this._findChannel(channel);
     if (_channel) {
-      const even = _o => _o.constructor.name === o.constructor.name;
+      const even = (_o) => _o.constructor.name === o.constructor.name;
       let is_o_found = this.observers[_channel].some(even);
       if (!is_o_found) {
         this.observers[_channel].push(o);
@@ -54,15 +53,15 @@ class Observable {
     }
   }
   _findChannel(channel) {
-    return Object.keys(this.observers).find(element => element === channel) || 'public';
+    return Object.keys(this.observers).find((element) => element === channel) || 'public';
   }
   unsubscribe(channel, o) {
     const _channel = this._findChannel(channel);
-    this.observers[_channel] = this.observers[_channel].filter(subscriber => subscriber !== o);
+    this.observers[_channel] = this.observers[_channel].filter((subscriber) => subscriber !== o);
   }
   notify(channel, message) {
     const _channel = this._findChannel(channel);
-    this.observers[_channel].forEach(observer => observer.update(message));
+    this.observers[_channel].forEach((observer) => observer.update(message));
   }
 }
 class ScrollObserver {
@@ -71,14 +70,14 @@ class ScrollObserver {
   }
   _makeChannel(channel) {
     let ch = {};
-    channel.forEach(k => {
+    channel.forEach((k) => {
       ch[k] = 0;
     });
     return ch;
   }
   static _findChannel(channel) {
     const keys = Object.keys(ScrollObserver.channels);
-    let found = keys.find(element => element == channel);
+    let found = keys.find((element) => element == channel);
     return found || '';
   }
   static _setPos(channel, pos) {
@@ -94,41 +93,51 @@ class ScrollObserver {
     return pos;
   }
 }
-const OS = [{
+const OS = [
+{
   agent: window.navigator.platform,
   subagent: /Win/i,
   identity: "Windows"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /IEMobile/i,
   identity: "IEMobile"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /Android/i,
   identity: "Android"
-}, {
+},
+{
   agent: window.navigator.platform,
   subagent: /Mac/i,
   identity: "Mac"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /iPhone/i,
   identity: "iPhone"
-}, {
+},
+{
   agent: window.navigator.platform,
   subagent: /Linux/i,
   identity: "Linux"
 }];
-const browsers = [{
+
+const browsers = [
+{
   agent: window.navigator.userAgent,
   subagent: /Chrome/i,
   identity: "Chrome"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /OmniWeb/i,
   versionSearch: "OmniWeb/",
   identity: "OmniWeb"
-}, {
+},
+{
   agent: window.navigator.vendor,
   subagent: /Apple/i,
   identity: "Safari",
@@ -143,44 +152,54 @@ const browsers = [{
   agent: window.navigator.vendor,
   subagent: /iCab/i,
   identity: "iCab"
-}, {
+},
+{
   agent: window.navigator.vendor,
   subagent: /KDE/i,
   identity: "Konqueror"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /Firefox/i,
   identity: "Firefox"
-}, {
+},
+{
   agent: window.navigator.vendor,
   subagent: /Camino/i,
   identity: "Camino"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /Netscape/i,
   identity: "Netscape"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /MSIE/i,
   identity: "Explorer",
   versionSearch: "MSIE"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /Gecko/i,
   identity: "Mozilla",
   versionSearch: "rv"
-}, {
+},
+{
   agent: window.navigator.userAgent,
   subagent: /Mozilla/i,
   identity: "Netscape",
   versionSearch: "Mozilla"
 }];
+
 // application
 class App {
   constructor() {
     this.versionSearchString = '';
     App.browser = this.findPlatform(browsers) || "unknown";
-    App.version = this.getPlatformVersion(navigator.userAgent) || this.getPlatformVersion(navigator.appVersion) || "unknown";
+    App.version = this.getPlatformVersion(navigator.userAgent) ||
+    this.getPlatformVersion(navigator.appVersion) ||
+    "unknown";
     App.os = this.findPlatform(OS) || "unknown";
     App.lang = this.getLanguage() || '';
   }
@@ -195,7 +214,8 @@ class App {
       this.versionSearchString = data[i].versionSearch || data[i].identity;
       if (dataString && data[i].subagent.test(dataString)) {
         return data[i].identity;
-      } else if (dataProp) {
+      } else
+      if (dataProp) {
         return data[i].identity;
       }
     }
@@ -203,7 +223,8 @@ class App {
   }
   getPlatformVersion(data) {
     const index = data.indexOf(this.versionSearchString);
-    if (index == -1) return;
+    if (index == -1)
+    return;
     return parseFloat(data.substring(index + this.versionSearchString.length + 1));
   }
   getLanguage() {
@@ -213,7 +234,6 @@ class App {
     if (['cn', 'tw', 'zh'].includes(language)) {
       language = 'cn'; // Assuming you want to default to 'cn' if any of these are the language
     }
-
     return language;
   }
 }
@@ -235,8 +255,8 @@ class Log {
     this.print_('e', args);
   }
   static print_(log_type, args) {
-    if (config.debug.some(el => el == log_type)) {
-      const logs = args.map(arg => {
+    if (config.debug.some((el) => el == log_type)) {
+      const logs = args.map((arg) => {
         if (typeof arg === 'object') {
           return JSON.stringify(arg);
         }
@@ -253,7 +273,8 @@ class ProgressBars {
   constructor(load = '') {
     var _a;
     const loading = load || '<svg width="40px"  height="40px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-rolling" style="background: none;"><circle cx="50" cy="50" fill="none" ng-attr-stroke="{{config.color}}" ng-attr-stroke-width="{{config.width}}" ng-attr-r="{{config.radius}}" ng-attr-stroke-dasharray="{{config.dasharray}}" stroke="#55ad15" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138" transform="rotate(347.727 50.0001 50.0001)"><animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animateTransform></circle></svg>';
-    Promise.resolve((_a = document.querySelector('body')) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML('afterend', `<div id="loading" class="loading" style="display:none;">${loading}</div>`)).then(() => {
+    Promise.resolve((_a = document.querySelector('body')) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML('afterend', `<div id="loading" class="loading" style="display:none;">${loading}</div>`)).
+    then(() => {
       ProgressBars.progressObj = document.querySelector('#loading');
     });
   }
@@ -294,7 +315,8 @@ const Runnable = function (callback) {
   const reqAnimFrame = window.requestAnimationFrame;
   if (reqAnimFrame) {
     return reqAnimFrame(callback);
-  } else {
+  } else
+  {
     if (typeof callback === 'function') {
       return window.setTimeout(callback, 0);
     }
@@ -361,9 +383,9 @@ class Activity {
     };
   }
   onCreateView() {
+
     // Implement this method
-  }
-  static inentView(url, delaytime = 0) {
+  }static inentView(url, delaytime = 0) {
     Handler.post(() => {
       window.location.href = url;
     }, delaytime);
@@ -431,7 +453,8 @@ class Activity {
       let is_Trusted = false;
       if (typeof event.isTrusted !== 'undefined' && event.isTrusted) {
         is_Trusted = true;
-      } else if (typeof event.state !== 'undefined' && event.state !== 'null') {
+      } else
+      if (typeof event.state !== 'undefined' && event.state !== 'null') {
         is_Trusted = true;
       }
       if (is_Trusted) {
@@ -443,31 +466,38 @@ class Activity {
           config_history_state.id = '#bottomthird';
           config_history_state.state = Activity.history_state.bottomthird ? Activity.history_state.bottomthird : Activity.history_state[Activity.push_state];
           Activity.bottomthird.classList.toggle('bottomthird_transitioned');
-        } else if (Activity.bottomside && Activity.bottomside.classList.contains('bottomside_transitioned')) {
+        } else
+        if (Activity.bottomside && Activity.bottomside.classList.contains('bottomside_transitioned')) {
           config_history_state.id = '#bottomside';
           config_history_state.state = Activity.history_state.bottomside ? Activity.history_state.bottomside : Activity.history_state[Activity.push_state];
           Activity.bottomside.classList.toggle('bottomside_transitioned');
-        } else if (Activity.bottom && Activity.bottom.classList.contains('bottom_transitioned')) {
+        } else
+        if (Activity.bottom && Activity.bottom.classList.contains('bottom_transitioned')) {
           config_history_state.id = '#bottom';
           config_history_state.state = Activity.history_state.bottom ? Activity.history_state.bottom : Activity.history_state[Activity.push_state];
           Activity.bottom.classList.toggle('bottom_transitioned');
-        } else if (Activity.rightthird && Activity.rightthird.classList.contains('rightthird_transitioned')) {
+        } else
+        if (Activity.rightthird && Activity.rightthird.classList.contains('rightthird_transitioned')) {
           config_history_state.id = '#rightthird';
           config_history_state.state = Activity.history_state.rightthird ? Activity.history_state.rightthird : Activity.history_state[Activity.push_state];
           Activity.rightthird.classList.toggle('rightthird_transitioned');
-        } else if (Activity.rightside && Activity.rightside.classList.contains('rightside_transitioned')) {
+        } else
+        if (Activity.rightside && Activity.rightside.classList.contains('rightside_transitioned')) {
           config_history_state.id = '#rightside';
           config_history_state.state = Activity.history_state.rightside ? Activity.history_state.rightside : Activity.history_state[Activity.push_state];
           Activity.rightside.classList.toggle('rightside_transitioned');
-        } else if (Activity.right && Activity.right.classList.contains('transitioned')) {
+        } else
+        if (Activity.right && Activity.right.classList.contains('transitioned')) {
           config_history_state.id = '#right';
           config_history_state.state = Activity.history_state.right ? Activity.history_state.right : Activity.history_state[Activity.push_state];
           Activity.right.classList.toggle('transitioned');
-        } else if (Activity.drawer_menu && Activity.drawer_menu.classList.contains('drawer_transitioned')) {
+        } else
+        if (Activity.drawer_menu && Activity.drawer_menu.classList.contains('drawer_transitioned')) {
           config_history_state.id = '#drawer_menu';
           config_history_state.state = Activity.history_state.drawer_menu ? Activity.history_state.drawer_menu : Activity.history_state[Activity.push_state];
           Activity.drawer_menu.classList.toggle('drawer_transitioned');
-        } else {
+        } else
+        {
           config_history_state.id = '#left';
           config_history_state.state = Activity.history_state.left ? Activity.history_state.left : Activity.history_state[Activity.push_state];
         }
@@ -482,7 +512,8 @@ class Activity {
         e.preventDefault();
         if (callback) {
           callback(new URL(window.location.href));
-        } else {
+        } else
+        {
           history.go(-1);
         }
       });
@@ -506,7 +537,7 @@ class Router {
     this.hash = hash;
   }
   filter(callback) {
-    window.addEventListener('hashchange', evt => {
+    window.addEventListener('hashchange', (evt) => {
       const pathinfo = this.pathinfo(window.location.hash.replace('#', ''));
       callback(pathinfo);
     });
@@ -530,7 +561,7 @@ class Router {
     const path_pattern = /[\/](\w+)/gi;
     if (path_pattern.test(hash)) {
       let path = hash.match(path_pattern) || [];
-      const parse_path = path.map(h => {
+      const parse_path = path.map((h) => {
         const pathname = h.replace(/\/$/, '');
         pathinfo.parse_path.push(pathname);
         return pathname;
@@ -546,3 +577,4 @@ class Router {
     return pathinfo;
   }
 }
+//# sourceMappingURL=flexvue.js.map

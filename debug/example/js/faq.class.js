@@ -20,3 +20,4 @@ class ComponentActivity {
 }
 ;
 export { ComponentActivity };
+//# sourceMappingURL=faq.class.js.map

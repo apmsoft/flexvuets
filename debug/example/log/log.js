@@ -1,9 +1,8 @@
 "use strict";
-
 {
   const onReady = () => {
     new App();
-    const fn = debug => {
+    const fn = (debug) => {
       console.log(debug);
       config.debug = debug;
       Log.i(App.browser);
@@ -32,3 +31,4 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
+//# sourceMappingURL=log.js.map

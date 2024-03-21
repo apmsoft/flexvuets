@@ -8,18 +8,11 @@
  * @author: Jack Doyle, jack@greensock.com
 */
 /* eslint-disable */
-var gsap,
-  _coreInitted,
-  _win,
-  _doc,
-  CSSPlugin,
-  _windowExists = function _windowExists() {
+var gsap,_coreInitted,_win,_doc,CSSPlugin,_windowExists = function _windowExists() {
     return typeof window !== "undefined";
-  },
-  _getGSAP = function _getGSAP() {
+  },_getGSAP = function _getGSAP() {
     return gsap || _windowExists() && (gsap = window.gsap) && gsap.registerPlugin && gsap;
-  },
-  _checkRegister = function _checkRegister() {
+  },_checkRegister = function _checkRegister() {
     if (!_coreInitted) {
       _initCore();
       if (!CSSPlugin) {
@@ -27,8 +20,7 @@ var gsap,
       }
     }
     return _coreInitted;
-  },
-  _initCore = function _initCore(core) {
+  },_initCore = function _initCore(core) {
     gsap = core || _getGSAP();
     if (_windowExists()) {
       _win = window;
@@ -54,12 +46,8 @@ export var CSSRulePlugin = {
     div.style.cssText = target.cssText;
     CSSPlugin.prototype.init.call(this, div, value, tween, index, targets); //we just offload all the work to the regular CSSPlugin and then copy the cssText back over to the rule in the render() method. This allows us to have all of the updates to CSSPlugin automatically flow through to CSSRulePlugin instead of having to maintain both
   },
-
   render: function render(ratio, data) {
-    var pt = data._pt,
-      style = data.style,
-      ss = data.ss,
-      i;
+    var pt = data._pt,style = data.style,ss = data.ss,i;
     while (pt) {
       pt.r(ratio, pt.d);
       pt = pt._next;
@@ -71,14 +59,7 @@ export var CSSRulePlugin = {
   },
   getRule: function getRule(selector) {
     _checkRegister();
-    var ruleProp = _doc.all ? "rules" : "cssRules",
-      styleSheets = _doc.styleSheets,
-      i = styleSheets.length,
-      pseudo = selector.charAt(0) === ":",
-      j,
-      curSS,
-      cs,
-      a;
+    var ruleProp = _doc.all ? "rules" : "cssRules",styleSheets = _doc.styleSheets,i = styleSheets.length,pseudo = selector.charAt(0) === ":",j,curSS,cs,a;
     selector = (pseudo ? "" : ",") + selector.split("::").join(":").toLowerCase() + ","; //note: old versions of IE report tag name selectors as upper case, so we just change everything to lowercase.
     if (pseudo) {
       a = [];
@@ -91,7 +72,8 @@ export var CSSRulePlugin = {
           continue;
         }
         j = curSS.length;
-      } catch (e) {
+      }
+      catch (e) {
         console.warn(e);
         continue;
       }
@@ -101,7 +83,8 @@ export var CSSRulePlugin = {
           //note: IE adds an extra ":" to pseudo selectors, so .myClass:after becomes .myClass::after, so we need to strip the extra one out.
           if (pseudo) {
             a.push(cs.style);
-          } else {
+          } else
+          {
             return cs.style;
           }
         }
@@ -113,3 +96,4 @@ export var CSSRulePlugin = {
 };
 _getGSAP() && gsap.registerPlugin(CSSRulePlugin);
 export { CSSRulePlugin as default };
+//# sourceMappingURL=CSSRulePlugin.js.map

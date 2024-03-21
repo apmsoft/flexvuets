@@ -10,36 +10,21 @@
 /* eslint-disable */
 import { getRawPath, cacheRawPathMeasurements, getPositionOnPath, pointsToSegment, flatPointsToSegment, sliceRawPath, stringToRawPath, rawPathToString, transformRawPath, convertToPath as _convertToPath } from "./utils/paths.min.js";
 import { getGlobalMatrix } from "./utils/matrix.min.js";
-var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),
-  _yProps = "y,translateY,top,marginTop,yPercent".split(","),
-  _DEG2RAD = Math.PI / 180,
-  gsap,
-  PropTween,
-  _getUnit,
-  _toArray,
-  _getGSAP = function _getGSAP() {
+var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),_yProps = "y,translateY,top,marginTop,yPercent".split(","),_DEG2RAD = Math.PI / 180,gsap,PropTween,_getUnit,_toArray,_getGSAP = function _getGSAP() {
     return gsap || typeof window !== "undefined" && (gsap = window.gsap) && gsap.registerPlugin && gsap;
-  },
-  _populateSegmentFromArray = function _populateSegmentFromArray(segment, values, property, mode) {
+  },_populateSegmentFromArray = function _populateSegmentFromArray(segment, values, property, mode) {
     //mode: 0 = x but don't fill y yet, 1 = y, 2 = x and fill y with 0.
-    var l = values.length,
-      si = mode === 2 ? 0 : mode,
-      i = 0,
-      v;
+    var l = values.length,si = mode === 2 ? 0 : mode,i = 0,v;
     for (; i < l; i++) {
       segment[si] = v = parseFloat(values[i][property]);
       mode === 2 && (segment[si + 1] = 0);
       si += 2;
     }
     return segment;
-  },
-  _getPropNum = function _getPropNum(target, prop, unit) {
+  },_getPropNum = function _getPropNum(target, prop, unit) {
     return parseFloat(target._gsap.get(target, prop, unit || "px")) || 0;
-  },
-  _relativize = function _relativize(segment) {
-    var x = segment[0],
-      y = segment[1],
-      i;
+  },_relativize = function _relativize(segment) {
+    var x = segment[0],y = segment[1],i;
     for (i = 2; i < segment.length; i += 2) {
       x = segment[i] += x;
       y = segment[i + 1] += y;
@@ -63,7 +48,8 @@ var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),
   _segmentToRawPath = function _segmentToRawPath(plugin, segment, target, x, y, slicer, vars, unitX, unitY) {
     if (vars.type === "cubic") {
       segment = [segment];
-    } else {
+    } else
+    {
       vars.fromCurrent !== false && segment.unshift(_getPropNum(target, x, unitX), y ? _getPropNum(target, y, unitY) : 0);
       vars.relative && _relativize(segment);
       var pointFunc = y ? pointsToSegment : flatPointsToSegment;
@@ -73,24 +59,19 @@ var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),
     _addDimensionalPropTween(plugin, target, x, segment, "x", unitX);
     y && _addDimensionalPropTween(plugin, target, y, segment, "y", unitY);
     return cacheRawPathMeasurements(segment, vars.resolution || (vars.curviness === 0 ? 20 : 12)); //when curviness is 0, it creates control points right on top of the anchors which makes it more sensitive to resolution, thus we change the default accordingly.
-  },
-  _emptyFunc = function _emptyFunc(v) {
+  },_emptyFunc = function _emptyFunc(v) {
     return v;
-  },
-  _numExp = /[-+\.]*\d+\.?(?:e-|e\+)?\d*/g,
-  _originToPoint = function _originToPoint(element, origin, parentMatrix) {
+  },_numExp = /[-+\.]*\d+\.?(?:e-|e\+)?\d*/g,_originToPoint = function _originToPoint(element, origin, parentMatrix) {
     // origin is an array of normalized values (0-1) in relation to the width/height, so [0.5, 0.5] would be the center. It can also be "auto" in which case it will be the top left unless it's a <path>, when it will start at the beginning of the path itself.
-    var m = getGlobalMatrix(element),
-      x = 0,
-      y = 0,
-      svg;
+    var m = getGlobalMatrix(element),x = 0,y = 0,svg;
     if ((element.tagName + "").toLowerCase() === "svg") {
       svg = element.viewBox.baseVal;
       svg.width || (svg = {
         width: +element.getAttribute("width"),
         height: +element.getAttribute("height")
       });
-    } else {
+    } else
+    {
       svg = origin && element.getBBox && element.getBBox();
     }
     if (origin && origin !== "auto") {
@@ -104,15 +85,8 @@ var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),
       x: m.e,
       y: m.f
     });
-  },
-  _getAlignMatrix = function _getAlignMatrix(fromElement, toElement, fromOrigin, toOrigin) {
-    var parentMatrix = getGlobalMatrix(fromElement.parentNode, true, true),
-      m = parentMatrix.clone().multiply(getGlobalMatrix(toElement)),
-      fromPoint = _originToPoint(fromElement, fromOrigin, parentMatrix),
-      _originToPoint2 = _originToPoint(toElement, toOrigin, parentMatrix),
-      x = _originToPoint2.x,
-      y = _originToPoint2.y,
-      p;
+  },_getAlignMatrix = function _getAlignMatrix(fromElement, toElement, fromOrigin, toOrigin) {
+    var parentMatrix = getGlobalMatrix(fromElement.parentNode, true, true),m = parentMatrix.clone().multiply(getGlobalMatrix(toElement)),fromPoint = _originToPoint(fromElement, fromOrigin, parentMatrix),_originToPoint2 = _originToPoint(toElement, toOrigin, parentMatrix),x = _originToPoint2.x,y = _originToPoint2.y,p;
     m.e = m.f = 0;
     if (toOrigin === "auto" && toElement.getTotalLength && toElement.tagName.toLowerCase() === "path") {
       p = toElement.getAttribute("d").match(_numExp) || [];
@@ -131,32 +105,23 @@ var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),
     m.e = x - fromPoint.x;
     m.f = y - fromPoint.y;
     return m;
-  },
-  _align = function _align(rawPath, target, _ref) {
-    var align = _ref.align,
-      matrix = _ref.matrix,
-      offsetX = _ref.offsetX,
-      offsetY = _ref.offsetY,
-      alignOrigin = _ref.alignOrigin;
-    var x = rawPath[0][0],
-      y = rawPath[0][1],
-      curX = _getPropNum(target, "x"),
-      curY = _getPropNum(target, "y"),
-      alignTarget,
-      m,
-      p;
+  },_align = function _align(rawPath, target, _ref) {
+    var align = _ref.align,matrix = _ref.matrix,offsetX = _ref.offsetX,offsetY = _ref.offsetY,alignOrigin = _ref.alignOrigin;
+    var x = rawPath[0][0],y = rawPath[0][1],curX = _getPropNum(target, "x"),curY = _getPropNum(target, "y"),alignTarget,m,p;
     if (!rawPath || !rawPath.length) {
       return getRawPath("M0,0L0,0");
     }
     if (align) {
       if (align === "self" || (alignTarget = _toArray(align)[0] || target) === target) {
         transformRawPath(rawPath, 1, 0, 0, 1, curX - x, curY - y);
-      } else {
+      } else
+      {
         if (alignOrigin && alignOrigin[2] !== false) {
           gsap.set(target, {
             transformOrigin: alignOrigin[0] * 100 + "% " + alignOrigin[1] * 100 + "%"
           });
-        } else {
+        } else
+        {
           alignOrigin = [_getPropNum(target, "xPercent") / -100, _getPropNum(target, "yPercent") / -100];
         }
         m = _getAlignMatrix(target, alignTarget, alignOrigin, "auto");
@@ -169,23 +134,18 @@ var _xProps = "x,translateX,left,marginLeft,xPercent".split(","),
     }
     if (matrix) {
       transformRawPath(rawPath, matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
-    } else if (offsetX || offsetY) {
+    } else
+    if (offsetX || offsetY) {
       transformRawPath(rawPath, 1, 0, 0, 1, offsetX || 0, offsetY || 0);
     }
     return rawPath;
-  },
-  _addDimensionalPropTween = function _addDimensionalPropTween(plugin, target, property, rawPath, pathProperty, forceUnit) {
-    var cache = target._gsap,
-      harness = cache.harness,
-      alias = harness && harness.aliases && harness.aliases[property],
-      prop = alias && alias.indexOf(",") < 0 ? alias : property,
-      pt = plugin._pt = new PropTween(plugin._pt, target, prop, 0, 0, _emptyFunc, 0, cache.set(target, prop, plugin));
+  },_addDimensionalPropTween = function _addDimensionalPropTween(plugin, target, property, rawPath, pathProperty, forceUnit) {
+    var cache = target._gsap,harness = cache.harness,alias = harness && harness.aliases && harness.aliases[property],prop = alias && alias.indexOf(",") < 0 ? alias : property,pt = plugin._pt = new PropTween(plugin._pt, target, prop, 0, 0, _emptyFunc, 0, cache.set(target, prop, plugin));
     pt.u = _getUnit(cache.get(target, prop, forceUnit)) || 0;
     pt.path = rawPath;
     pt.pp = pathProperty;
     plugin._props.push(prop);
-  },
-  _sliceModifier = function _sliceModifier(start, end) {
+  },_sliceModifier = function _sliceModifier(start, end) {
     return function (rawPath) {
       return start || end !== 1 ? sliceRawPath(rawPath, start, end) : rawPath;
     };
@@ -209,18 +169,7 @@ export var MotionPathPlugin = {
         path: vars
       };
     }
-    var rawPaths = [],
-      _vars = vars,
-      path = _vars.path,
-      autoRotate = _vars.autoRotate,
-      unitX = _vars.unitX,
-      unitY = _vars.unitY,
-      x = _vars.x,
-      y = _vars.y,
-      firstObj = path[0],
-      slicer = _sliceModifier(vars.start, "end" in vars ? vars.end : 1),
-      rawPath,
-      p;
+    var rawPaths = [],_vars = vars,path = _vars.path,autoRotate = _vars.autoRotate,unitX = _vars.unitX,unitY = _vars.unitY,x = _vars.x,y = _vars.y,firstObj = path[0],slicer = _sliceModifier(vars.start, "end" in vars ? vars.end : 1),rawPath,p;
     this.rawPaths = rawPaths;
     this.target = target;
     if (this.rotate = autoRotate || autoRotate === 0) {
@@ -231,25 +180,27 @@ export var MotionPathPlugin = {
       this.rSet = target._gsap.set(target, this.rProp, this); // rotation setter
       this.ru = _getUnit(target._gsap.get(target, this.rProp)) || 0; // rotation units
     }
-
     if (Array.isArray(path) && !("closed" in path) && typeof firstObj !== "number") {
       for (p in firstObj) {
         if (!x && ~_xProps.indexOf(p)) {
           x = p;
-        } else if (!y && ~_yProps.indexOf(p)) {
+        } else
+        if (!y && ~_yProps.indexOf(p)) {
           y = p;
         }
       }
       if (x && y) {
         //correlated values
         rawPaths.push(_segmentToRawPath(this, _populateSegmentFromArray(_populateSegmentFromArray([], path, x, 0), path, y, 1), target, x, y, slicer, vars, unitX || _getUnit(path[0][x]), unitY || _getUnit(path[0][y])));
-      } else {
+      } else
+      {
         x = y = 0;
       }
       for (p in firstObj) {
         p !== x && p !== y && rawPaths.push(_segmentToRawPath(this, _populateSegmentFromArray([], path, p, 2), target, p, 0, slicer, vars, _getUnit(path[0][p])));
       }
-    } else {
+    } else
+    {
       rawPath = slicer(_align(getRawPath(vars.path), target, vars));
       cacheRawPathMeasurements(rawPath, vars.resolution);
       rawPaths.push(rawPath);
@@ -258,12 +209,11 @@ export var MotionPathPlugin = {
     }
   },
   render: function render(ratio, data) {
-    var rawPaths = data.rawPaths,
-      i = rawPaths.length,
-      pt = data._pt;
+    var rawPaths = data.rawPaths,i = rawPaths.length,pt = data._pt;
     if (ratio > 1) {
       ratio = 1;
-    } else if (ratio < 0) {
+    } else
+    if (ratio < 0) {
       ratio = 0;
     }
     while (i--) {
@@ -313,3 +263,4 @@ export var MotionPathPlugin = {
 };
 _getGSAP() && gsap.registerPlugin(MotionPathPlugin);
 export { MotionPathPlugin as default };
+//# sourceMappingURL=MotionPathPlugin.js.map

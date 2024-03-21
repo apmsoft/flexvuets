@@ -18,10 +18,11 @@ import AsyncAjax from "../../flexvue/core/asyncajax.class.js";
         xhr.setRequestHeader('Access-Control-Allow-Methods', '*');
         xhr.setRequestHeader('Authorization-Access-Token', 'Y29tZmFu');
       }
-    }).then(resp => {
+    }).
+    then((resp) => {
       Log.d('resp >>> ', resp);
       document.querySelector('#echo_contents').innerHTML = JSON.stringify(resp, null, 2);
-    }).catch(e => {
+    }).catch((e) => {
       Log.e('error =>', e);
     });
     ;
@@ -29,3 +30,4 @@ import AsyncAjax from "../../flexvue/core/asyncajax.class.js";
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
+//# sourceMappingURL=asyncajax.js.map

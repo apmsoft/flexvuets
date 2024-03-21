@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["gl"] = e["gl"] || {};
+  var a = e["gl"] = e["gl"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "%0 de %1",
     "Align cell text to the bottom": "Aliñar o texto da cela á base",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=gl.js.map

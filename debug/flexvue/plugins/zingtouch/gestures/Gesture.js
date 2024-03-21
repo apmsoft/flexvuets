@@ -59,7 +59,7 @@ class Gesture {
    * @param {Object} object
    */
   update(object) {
-    Object.keys(object).forEach(key => {
+    Object.keys(object).forEach((key) => {
       this[key] = object[key];
     });
   }
@@ -99,9 +99,10 @@ class Gesture {
   * @return {boolean} - If the gesture is valid
   */
   isValid(inputs, state, element) {
-    return inputs.every(input => {
+    return inputs.every((input) => {
       return util.isInside(input.initial.x, input.initial.y, element);
     });
   }
 }
 export default Gesture;
+//# sourceMappingURL=Gesture.js.map

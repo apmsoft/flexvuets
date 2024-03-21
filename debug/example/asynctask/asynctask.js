@@ -19,12 +19,15 @@ const onReady = () => {
     'Content-Type': 'application/json',
     // 'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization-Access-Token': 'Y29tZmFuY3l1cHN'
-  }).then(resp => {
+  }).
+  then((resp) => {
     Log.d('resp >>> ', resp);
     document.querySelector('#echo_contents').innerHTML = JSON.stringify(resp, null, 2);
-  }).catch(e => {
+  }).
+  catch((e) => {
     Log.e(e);
   });
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=asynctask.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const i = e["tr"] = e["tr"] || {};
+  var i = e["tr"] = e["tr"] || {};
   i.dictionary = Object.assign(i.dictionary || {}, {
     "%0 of %1": "%0/%1",
     "Align cell text to the bottom": "Hücre içindeki metni alta hizala",
@@ -231,3 +231,4 @@
     return e > 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=tr.js.map

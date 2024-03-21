@@ -1,5 +1,4 @@
 "use strict";
-
 // ------------------------------------------
 // Rellax.js
 // Buttery smooth parallax library
@@ -13,19 +12,20 @@
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define([], factory);
-  } else if (typeof module === 'object' && module.exports) {
+  } else
+  if (typeof module === 'object' && module.exports) {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
     module.exports = factory();
-  } else {
+  } else
+  {
     // Browser globals (root is window)
     root.Rellax = factory();
   }
 })(typeof window !== "undefined" ? window : global, function () {
   var Rellax = function (el, options) {
     "use strict";
-
     var self = Object.create(Rellax.prototype);
     var posY = 0;
     var screenY = 0;
@@ -35,9 +35,12 @@
     var pause = true;
     // check what requestAnimationFrame to use, and if
     // it's not supported, use the onscroll event
-    var loop = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function (callback) {
-      return setTimeout(callback, 1000 / 60);
-    };
+    var loop = window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    function (callback) {return setTimeout(callback, 1000 / 60);};
     // store the id for later use
     var loopId = null;
     // Test via a getter in the options object to see if the passive property is accessed
@@ -50,7 +53,8 @@
       });
       window.addEventListener("testPassive", null, opts);
       window.removeEventListener("testPassive", null, opts);
-    } catch (e) {}
+    }
+    catch (e) {}
     // check what cancelAnimation method to use
     var clearLoop = window.cancelAnimationFrame || window.mozCancelAnimationFrame || clearTimeout;
     // check which transform property to use
@@ -94,13 +98,16 @@
         var isNumerical = true;
         var lastVal;
         self.options.breakpoints.forEach(function (i) {
-          if (typeof i !== 'number') isNumerical = false;
+          if (typeof i !== 'number')
+          isNumerical = false;
           if (lastVal !== null) {
-            if (i < lastVal) isAscending = false;
+            if (i < lastVal)
+            isAscending = false;
           }
           lastVal = i;
         });
-        if (isAscending && isNumerical) return;
+        if (isAscending && isNumerical)
+        return;
       }
       // revert defaults if set incorrectly
       self.options.breakpoints = [576, 768, 1201];
@@ -130,7 +137,8 @@
         var wrapper = document.querySelector(self.options.wrapper);
         if (wrapper) {
           self.options.wrapper = wrapper;
-        } else {
+        } else
+        {
           console.warn("Rellax: The wrapper you're trying to use doesn't exist.");
           return;
         }
@@ -141,9 +149,12 @@
     // helper to determine current breakpoint
     var getCurrentBreakpoint = function (w) {
       var bp = self.options.breakpoints;
-      if (w < bp[0]) return 'xs';
-      if (w >= bp[0] && w < bp[1]) return 'sm';
-      if (w >= bp[1] && w < bp[2]) return 'md';
+      if (w < bp[0])
+      return 'xs';
+      if (w >= bp[0] && w < bp[1])
+      return 'sm';
+      if (w >= bp[1] && w < bp[2])
+      return 'md';
       return 'lg';
     };
     // Get and cache initial position of all elements
@@ -199,7 +210,8 @@
       var breakpoints = true;
       if (!dataXsSpeed && !dataMobileSpeed && !dataTabletSpeed && !dataDesktopSpeed) {
         breakpoints = false;
-      } else {
+      } else
+      {
         mapBreakpoints = {
           'xs': dataXsSpeed,
           'sm': dataMobileSpeed,
@@ -254,7 +266,8 @@
         // Remove "transform" string and save the attribute
         if (delimiter) {
           transform = " " + trimmedStyle.slice(11, delimiter).replace(/\s/g, '');
-        } else {
+        } else
+        {
           transform = " " + trimmedStyle.slice(11).replace(/\s/g, '');
         }
       }
@@ -331,17 +344,14 @@
         animate();
         // loop again
         loopId = loop(update);
-      } else {
+      } else
+      {
         loopId = null;
         // Don't animate until we get a position updating event
         window.addEventListener('resize', deferredUpdate);
         window.addEventListener('orientationchange', deferredUpdate);
-        (self.options.wrapper ? self.options.wrapper : window).addEventListener('scroll', deferredUpdate, supportsPassive ? {
-          passive: true
-        } : false);
-        (self.options.wrapper ? self.options.wrapper : document).addEventListener('touchmove', deferredUpdate, supportsPassive ? {
-          passive: true
-        } : false);
+        (self.options.wrapper ? self.options.wrapper : window).addEventListener('scroll', deferredUpdate, supportsPassive ? { passive: true } : false);
+        (self.options.wrapper ? self.options.wrapper : document).addEventListener('touchmove', deferredUpdate, supportsPassive ? { passive: true } : false);
       }
     };
     // Transform3d on parallax element
@@ -428,3 +438,4 @@
   };
   return Rellax;
 });
+//# sourceMappingURL=rellax.js.map

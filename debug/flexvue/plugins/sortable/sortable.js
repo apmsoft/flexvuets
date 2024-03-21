@@ -1,5 +1,4 @@
 "use strict";
-
 /**
  * sortable v2.2.0
  *
@@ -57,15 +56,16 @@ document.addEventListener('click', function (e) {
     function reClassify(element, dir) {
       element.classList.remove(descending_th_class_1);
       element.classList.remove(ascending_th_class_1);
-      if (dir) element.classList.add(dir);
+      if (dir)
+      element.classList.add(dir);
     }
     function getValue(element) {
       var value = alt_sort_1 && element.dataset.sortAlt || element.dataset.sort || element.textContent;
       return value;
     }
-    if (thead.nodeName === 'THEAD' &&
-    // sortable only triggered in `thead`
-    table.classList.contains(table_class_name) && !element.classList.contains(no_sort_class) // .no-sort is now core functionality, no longer handled in CSS
+    if (thead.nodeName === 'THEAD' && // sortable only triggered in `thead`
+    table.classList.contains(table_class_name) &&
+    !element.classList.contains(no_sort_class) // .no-sort is now core functionality, no longer handled in CSS
     ) {
       var column_index_1;
       var nodes = tr.cells;
@@ -74,13 +74,15 @@ document.addEventListener('click', function (e) {
       for (var i = 0; i < nodes.length; i++) {
         if (nodes[i] === element) {
           column_index_1 = parseInt(element.dataset.sortCol) || i;
-        } else {
+        } else
+        {
           reClassify(nodes[i], '');
         }
       }
       var dir = descending_th_class_1;
       // Check if we're sorting ascending or descending
-      if (element.classList.contains(descending_th_class_1) || table.classList.contains(ascending_table_sort_class) && !element.classList.contains(ascending_th_class_1)) {
+      if (element.classList.contains(descending_th_class_1) ||
+      table.classList.contains(ascending_table_sort_class) && !element.classList.contains(ascending_th_class_1)) {
         dir = ascending_th_class_1;
       }
       // Update the `th` class accordingly
@@ -111,7 +113,9 @@ document.addEventListener('click', function (e) {
         table.replaceChild(clone_tbody, org_tbody);
       }
     }
-  } catch (error) {
-    // console.log(error)
   }
-});
+  catch (error) {
+
+    // console.log(error)
+  }});
+//# sourceMappingURL=sortable.js.map

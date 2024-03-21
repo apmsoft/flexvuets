@@ -15,16 +15,14 @@ import util from "./util.js";
  */
 function interpreter(bindings, event, state) {
   const evType = util.normalizeEvent[event.type];
-  const events = state.inputs.map(input => input.current);
+  const events = state.inputs.map((input) => input.current);
   const candidates = bindings.reduce((accumulator, binding) => {
     const data = binding.gesture[evType](state.inputs, state, binding.element);
-    if (data) accumulator.push({
-      binding,
-      data,
-      events
-    });
+    if (data)
+    accumulator.push({ binding, data, events });
     return accumulator;
   }, []);
   return candidates;
 }
 export default interpreter;
+//# sourceMappingURL=interpreter.js.map

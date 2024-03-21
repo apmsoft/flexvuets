@@ -6327,7 +6327,6 @@ var InlineParser = /** @class */function () {
           if (!opener.image) {
             opener.active = false; // deactivate this opener
           }
-
           opener = opener.previous;
         }
       }
@@ -6697,7 +6696,6 @@ var table = {
   continue: function () {
     return 0 /* Go */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t === 'tableHead' || t === 'tableBody';
@@ -6708,7 +6706,6 @@ var tableBody$1 = {
   continue: function () {
     return 0 /* Go */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t === 'tableRow';
@@ -6719,7 +6716,6 @@ var tableHead$1 = {
   continue: function () {
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t === 'tableRow' || t === 'tableDelimRow';
@@ -6730,7 +6726,6 @@ var tableDelimRow = {
   continue: function () {
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t === 'tableDelimCell';
@@ -6741,7 +6736,6 @@ var tableDelimCell = {
   continue: function () {
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function () {
     return false;
@@ -6752,7 +6746,6 @@ var tableRow = {
   continue: function () {
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t === 'tableCell';
@@ -6763,7 +6756,6 @@ var tableCell = {
   continue: function () {
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function () {
     return false;
@@ -6829,7 +6821,6 @@ var customBlock$1 = {
     }
     return 0 /* Go */;
   },
-
   finalize: function (_, block) {
     if (block.stringContent === null) {
       return;
@@ -6853,7 +6844,6 @@ var noop = {
   continue: function () {
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function () {
     return false;
@@ -6864,7 +6854,6 @@ var document$1 = {
   continue: function () {
     return 0 /* Go */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t !== 'item';
@@ -6875,7 +6864,6 @@ var list = {
   continue: function () {
     return 0 /* Go */;
   },
-
   finalize: function (_, block) {
     var item = block.firstChild;
     while (item) {
@@ -6914,10 +6902,8 @@ var blockQuote$1 = {
     } else {
       return 1 /* Stop */;
     }
-
     return 0 /* Go */;
   },
-
   finalize: function () {},
   canContain: function (t) {
     return t !== 'item';
@@ -6931,17 +6917,14 @@ var item = {
         // Blank line after empty list item
         return 1 /* Stop */;
       }
-
       parser.advanceNextNonspace();
     } else if (parser.indent >= container.listData.markerOffset + container.listData.padding) {
       parser.advanceOffset(container.listData.markerOffset + container.listData.padding, true);
     } else {
       return 1 /* Stop */;
     }
-
     return 0 /* Go */;
   },
-
   finalize: taskListItemFinalize,
   canContain: function (t) {
     return t !== 'item';
@@ -6953,7 +6936,6 @@ var heading = {
     // a heading can never container > 1 line, so fail to match:
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function () {
     return false;
@@ -6965,7 +6947,6 @@ var thematicBreak$1 = {
     // a thematic break can never container > 1 line, so fail to match:
     return 1 /* Stop */;
   },
-
   finalize: function () {},
   canContain: function () {
     return false;
@@ -7001,10 +6982,8 @@ var codeBlock = {
         return 1 /* Stop */;
       }
     }
-
     return 0 /* Go */;
   },
-
   finalize: function (_, block) {
     var _a;
     if (block.stringContent === null) {
@@ -7027,7 +7006,6 @@ var codeBlock = {
     }
     block.stringContent = null; // allow GC
   },
-
   canContain: function () {
     return false;
   },
@@ -7037,13 +7015,11 @@ var htmlBlock$1 = {
   continue: function (parser, container) {
     return parser.blank && (container.htmlBlockType === 6 || container.htmlBlockType === 7) ? 1 /* Stop */ : 0 /* Go */;
   },
-
   finalize: function (_, block) {
     var _a;
     block.literal = ((_a = block.stringContent) === null || _a === void 0 ? void 0 : _a.replace(/(\n *)+$/, '')) || null;
     block.stringContent = null; // allow GC
   },
-
   canContain: function () {
     return false;
   },
@@ -7053,7 +7029,6 @@ var paragraph = {
   continue: function (parser) {
     return parser.blank ? 1 /* Stop */ : 0 /* Go */;
   },
-
   finalize: function (parser, block) {
     if (block.stringContent === null) {
       return;
@@ -7188,7 +7163,6 @@ var tableHead = function (parser, container) {
     delimCells.length === 1 && delimContent.indexOf('|') !== 0) {
       return 0 /* None */;
     }
-
     var lineOffsets = container.lineOffsets;
     var firstLineNum = parser.lineNumber - 1;
     var firstLineStart = last$1(lineOffsets) + 1;
@@ -7227,15 +7201,12 @@ var tableHead = function (parser, container) {
     parser.tip = table;
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var tableBody = function (parser, container) {
   if (container.type !== 'table' && container.type !== 'tableBody' || !parser.blank && parser.currentLine.indexOf('|') === -1) {
     return 0 /* None */;
   }
-
   parser.advanceOffset(parser.currentLine.length - parser.offset, false);
   if (parser.blank) {
     var table_1 = container;
@@ -7246,7 +7217,6 @@ var tableBody = function (parser, container) {
     parser.finalize(table_1, parser.lineNumber - 1);
     return 0 /* None */;
   }
-
   var tableBody = container;
   if (container.type === 'table') {
     tableBody = parser.addChild('tableBody', parser.nextNonspace);
@@ -7267,7 +7237,6 @@ var tableBody = function (parser, container) {
   });
   return 2 /* Leaf */;
 };
-
 var reCustomBlock = /^(\$\$)(\s*[a-zA-Z])+/;
 var reCanBeCustomInline = /^(\$\$)(\s*[a-zA-Z])+.*(\$\$)/;
 var customBlock = function (parser) {
@@ -7282,10 +7251,8 @@ var customBlock = function (parser) {
     parser.advanceOffset(syntaxLength, false);
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var reCodeFence = /^`{3,}(?!.*`)|^~{3,}/;
 var reHtmlBlockOpen = [/./, /^<(?:script|pre|style)(?:\s|>|$)/i, /^<!--/, /^<[?]/, /^<![A-Z]/, /^<!\[CDATA\[/, /^<[/]?(?:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[123456]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)(?:\s|[/]?[>]|$)/i, new RegExp("^(?:" + OPENTAG + "|" + CLOSETAG + ")\\s*$", 'i')];
 var reSetextHeadingLine = /^(?:=+|-+)[ \t]*$/;
@@ -7377,10 +7344,8 @@ var blockQuote = function (parser) {
     parser.addChild('blockQuote', parser.nextNonspace);
     return 1 /* Container */;
   }
-
   return 0 /* None */;
 };
-
 var atxHeading = function (parser, container) {
   var match;
   if (!parser.indented &&
@@ -7397,10 +7362,8 @@ var atxHeading = function (parser, container) {
     parser.advanceOffset(parser.currentLine.length - parser.offset);
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var fencedCodeBlock = function (parser) {
   var match;
   if (!parser.indented && (match = parser.currentLine.slice(parser.nextNonspace).match(reCodeFence))) {
@@ -7415,10 +7378,8 @@ var fencedCodeBlock = function (parser) {
     parser.advanceOffset(fenceLength, false);
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var htmlBlock = function (parser, container) {
   if (!parser.indented && peek(parser.currentLine, parser.nextNonspace) === C_LESSTHAN) {
     var s = parser.currentLine.slice(parser.nextNonspace);
@@ -7431,7 +7392,6 @@ var htmlBlock = function (parser, container) {
           if (container.type === 'paragraph') {
             return 0 /* None */;
           }
-
           if (disallowedTags.length > 0) {
             var reDisallowedTags = new RegExp("</?(?:" + disallowedTags.join('|') + ")", 'i');
             if (reDisallowedTags.test(matched[0])) {
@@ -7439,7 +7399,6 @@ var htmlBlock = function (parser, container) {
             }
           }
         }
-
         parser.closeUnmatchedBlocks();
         // We don't adjust parser.offset;
         // spaces are part of the HTML block:
@@ -7449,10 +7408,8 @@ var htmlBlock = function (parser, container) {
       }
     }
   }
-
   return 0 /* None */;
 };
-
 var seTextHeading = function (parser, container) {
   var match;
   if (container.stringContent !== null && !parser.indented && container.type === 'paragraph' &&
@@ -7475,13 +7432,10 @@ var seTextHeading = function (parser, container) {
       parser.advanceOffset(parser.currentLine.length - parser.offset, false);
       return 2 /* Leaf */;
     }
-
     return 0 /* None */;
   }
-
   return 0 /* None */;
 };
-
 var thematicBreak = function (parser) {
   if (!parser.indented && reThematicBreak.test(parser.currentLine.slice(parser.nextNonspace))) {
     parser.closeUnmatchedBlocks();
@@ -7489,10 +7443,8 @@ var thematicBreak = function (parser) {
     parser.advanceOffset(parser.currentLine.length - parser.offset, false);
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var listItem = function (parser, container) {
   var data;
   var currNode = container;
@@ -7508,7 +7460,6 @@ var listItem = function (parser, container) {
     currNode.listData = data;
     return 1 /* Container */;
   }
-
   return 0 /* None */;
 };
 // indented code block
@@ -7520,10 +7471,8 @@ var indentedCodeBlock = function (parser) {
     parser.addChild('codeBlock', parser.offset);
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var blockStarts = [blockQuote, atxHeading, fencedCodeBlock, htmlBlock, seTextHeading, thematicBreak, listItem, indentedCodeBlock, tableHead, tableBody, customBlock];
 // `---` for YAML, `+++` for TOML, `;;;` for JSON
 var reFrontMatter = /^(-{3}|\+{3}|;{3})$/;
@@ -7539,10 +7488,8 @@ var frontMatter$1 = function (parser, container) {
     parser.advanceOffset(currentLine.length, false);
     return 2 /* Leaf */;
   }
-
   return 0 /* None */;
 };
-
 var frontMatter = {
   continue: function (parser, container) {
     var line = parser.currentLine;
@@ -7553,10 +7500,8 @@ var frontMatter = {
       parser.finalize(container, parser.lineNumber);
       return 2 /* Finished */;
     }
-
     return 0 /* Go */;
   },
-
   finalize: function (_, block) {
     if (block.stringContent === null) {
       return;
@@ -7939,36 +7884,28 @@ function comparePos(p1, p2) {
   if (p1[0] < p2[0]) {
     return 1 /* LT */;
   }
-
   if (p1[0] > p2[0]) {
     return -1 /* GT */;
   }
-
   if (p1[1] < p2[1]) {
     return 1 /* LT */;
   }
-
   if (p1[1] > p2[1]) {
     return -1 /* GT */;
   }
-
   return 0 /* EQ */;
 }
-
 function compareRangeAndPos(_a, pos) {
   var startPos = _a[0],
     endPos = _a[1];
   if (comparePos(endPos, pos) === 1 /* LT */) {
     return 1 /* LT */;
   }
-
   if (comparePos(startPos, pos) === -1 /* GT */) {
     return -1 /* GT */;
   }
-
   return 0 /* EQ */;
 }
-
 function removeNextUntil(node, last) {
   if (node.parent !== last.parent || node === last) {
     return;
@@ -8034,14 +7971,11 @@ function compareRangeAndLine(_a, line) {
   if (endPos[0] < line) {
     return 1 /* LT */;
   }
-
   if (startPos[0] > line) {
     return -1 /* GT */;
   }
-
   return 0 /* EQ */;
 }
-
 function findChildNodeAtLine(parent, line) {
   var node = parent.firstChild;
   while (node) {
@@ -9010,7 +8944,6 @@ var Renderer = /** @class */function () {
       // no-default-case
     }
   };
-
   Renderer.prototype.generateOpenTagString = function (node) {
     var _this = this;
     var tagName = node.tagName,
@@ -9536,7 +9469,6 @@ var inArray_1 = inArray$3;
 function isUndefined$3(obj) {
   return obj === undefined; // eslint-disable-line no-undefined
 }
-
 var isUndefined_1 = isUndefined$3;
 /**
  * @fileoverview Get HTML element's design classes.
@@ -10172,11 +10104,9 @@ var DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]/); // eslint-disable-line no-us
 var ARIA_ATTR = seal(/^aria-[\-\w]+$/); // eslint-disable-line no-useless-escape
 var IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
 );
-
 var IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
 var ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
 );
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {

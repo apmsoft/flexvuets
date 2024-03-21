@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const i = e["et"] = e["et"] || {};
+  var i = e["et"] = e["et"] || {};
   i.dictionary = Object.assign(i.dictionary || {}, {
     "%0 of %1": "%0 / %1",
     "Align cell text to the bottom": "Lahtri tekst all",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=et.js.map

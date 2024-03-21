@@ -35,12 +35,14 @@ class Pan extends Gesture {
      * and the maximum number being a factor of the browser.
      * @type {Number}
      */
-    this.numInputs = options && options.numInputs ? options.numInputs : DEFAULT_INPUTS;
+    this.numInputs = options && options.numInputs ?
+    options.numInputs : DEFAULT_INPUTS;
     /**
      * The minimum amount in pixels the pan must move until it is fired.
      * @type {Number}
      */
-    this.threshold = options && options.threshold ? options.threshold : DEFAULT_MIN_THRESHOLD;
+    this.threshold = options && options.threshold ?
+    options.threshold : DEFAULT_MIN_THRESHOLD;
     /**
      * The on start callback
      */
@@ -66,7 +68,7 @@ class Pan extends Gesture {
    * @param {Array} inputs
    */
   start(inputs) {
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       const progress = input.getGestureProgress(this.getId());
       progress.active = true;
       progress.lastEmitted = {
@@ -88,7 +90,8 @@ class Pan extends Gesture {
    * @return {Object} - Returns the distance in pixels between the two inputs.
    */
   move(inputs, state, element) {
-    if (this.numInputs !== inputs.length) return null;
+    if (this.numInputs !== inputs.length)
+    return null;
     const output = {
       data: []
     };
@@ -140,7 +143,7 @@ class Pan extends Gesture {
    *  Object with information otherwise.
    */
   end(inputs) {
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
       const progress = input.getGestureProgress(this.getId());
       progress.active = false;
     });
@@ -151,3 +154,4 @@ class Pan extends Gesture {
   }
 }
 export default Pan;
+//# sourceMappingURL=Pan.js.map

@@ -34,3 +34,4 @@ function emitEvent(target, event, binding) {
   }
 }
 export default dispatcher;
+//# sourceMappingURL=dispatcher.js.map

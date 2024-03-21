@@ -1,5 +1,4 @@
 "use strict";
-
 import UrlManager from "../../core/urlmanager.class.min.js";
 // import Template from '../../core/template.class.min.js';
 import Template from "../../plugins/daumpostmap/daumpostmap.tpl.js";
@@ -19,8 +18,7 @@ class DaumPostMap {
     if (typeof params.lon !== 'undefined') {
       self.map_x = params.lon;
     }
-    var mapContainer = document.getElementById('map'),
-      mapOption = {
+    var mapContainer = document.getElementById('map'),mapOption = {
         center: new daum.maps.LatLng(self.map_y, self.map_x),
         level: 2 // 지도의 확대 레벨
       };
@@ -41,15 +39,15 @@ class DaumPostMap {
       Activity.onStart('#bottomthird');
       // url
       const urlManager = new UrlManager(document.location);
-      urlManager.pushState('postcode', 'postcode', `${urlManager.pathname}?${urlManager.makeJSON2URL({
-        mode: 'postcode'
-      })}`);
+      urlManager.pushState('postcode', 'postcode', `${urlManager.pathname}?${urlManager.makeJSON2URL({ mode: 'postcode' })}`);
       // 템플릿 파일 가지고 오기
-      new Template().render({}).then(tpl => {
+      new Template().render({}).
+      then((tpl) => {
         const outhtml_el = document.querySelector('#bottomthird');
         outhtml_el.innerHTML = tpl;
         return true;
-      }).then(() => {
+      }).
+      then(() => {
         // target_id
         var postcode_layer = document.getElementById('bottomthird_daumpostmap');
         //load함수를 이용하여 core스크립트의 로딩이 완료된 후, 우편번호 서비스를 실행합니다.
@@ -104,7 +102,8 @@ class DaumPostMap {
               if (jubun_address !== null && jubun_address != '') {
                 if (typeof data.jibunAddress !== 'undefined') {
                   document.querySelector(jubun_address).value = `${data.jibunAddress} ${fullAddr}`;
-                } else {
+                } else
+                {
                   document.querySelector(jubun_address).value = `${data.sido} ${data.sigungu} ${data.query} ${fullAddr}`;
                 }
               }
@@ -130,7 +129,6 @@ class DaumPostMap {
               Activity.onStop('#bottomthird');
               // history.go(-2);
             },
-
             width: '100%',
             height: '500px',
             maxSuggestItems: 5
@@ -141,3 +139,4 @@ class DaumPostMap {
   }
 }
 export { DaumPostMap };
+//# sourceMappingURL=daumpostmap.js.map

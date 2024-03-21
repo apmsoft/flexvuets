@@ -1,7 +1,7 @@
 "use strict";
 
 (function (n) {
-  const t = n["vi"] = n["vi"] || {};
+  var t = n["vi"] = n["vi"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 đến %1",
     "Align cell text to the bottom": "Căn chỉnh văn bản trong ô xuống dưới cùng",
@@ -231,3 +231,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=vi.js.map

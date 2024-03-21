@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const i = e["eo"] = e["eo"] || {};
+  var i = e["eo"] = e["eo"] || {};
   i.dictionary = Object.assign(i.dictionary || {}, {
     "%0 of %1": "",
     Aquamarine: "",
@@ -119,3 +119,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=eo.js.map

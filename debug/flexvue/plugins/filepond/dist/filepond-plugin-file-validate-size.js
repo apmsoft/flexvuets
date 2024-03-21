@@ -1,5 +1,4 @@
 "use strict";
-
 /*!
  * FilePondPluginFileValidateSize 2.2.1
  * Licensed under MIT, https://opensource.org/licenses/MIT/
@@ -7,17 +6,18 @@
  */
 /* eslint-disable */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.FilePondPluginFileValidateSize = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ?
+  module.exports = factory() :
+  typeof define === 'function' && define.amd ?
+  define(factory) : (
+  global = global || self,
+  global.FilePondPluginFileValidateSize = factory());
 })(this, function () {
   'use strict';
-
   var plugin = function plugin(_ref) {
-    var addFilter = _ref.addFilter,
-      utils = _ref.utils;
+    var addFilter = _ref.addFilter,utils = _ref.utils;
     // get quick reference to Type utils
-    var Type = utils.Type,
-      replaceInString = utils.replaceInString,
-      toNaturalFileSize = utils.toNaturalFileSize;
+    var Type = utils.Type,replaceInString = utils.replaceInString,toNaturalFileSize = utils.toNaturalFileSize;
     // filtering if an item is allowed in hopper
     addFilter('ALLOW_HOPPER_ITEM', function (file, _ref2) {
       var query = _ref2.query;
@@ -116,17 +116,22 @@
         labelMinFileSize: ['Minimum file size is {filesize}', Type.STRING],
         labelMaxFileSizeExceeded: ['File is too large', Type.STRING],
         labelMaxFileSize: ['Maximum file size is {filesize}', Type.STRING],
-        labelMaxTotalFileSizeExceeded: ['Maximum total size exceeded', Type.STRING],
-        labelMaxTotalFileSize: ['Maximum total file size is {filesize}', Type.STRING]
+        labelMaxTotalFileSizeExceeded: [
+        'Maximum total size exceeded',
+        Type.STRING],
+
+        labelMaxTotalFileSize: [
+        'Maximum total file size is {filesize}',
+        Type.STRING]
+
       }
     };
   };
   // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
   var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   if (isBrowser) {
-    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', {
-      detail: plugin
-    }));
+    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', { detail: plugin }));
   }
   return plugin;
 });
+//# sourceMappingURL=filepond-plugin-file-validate-size.js.map

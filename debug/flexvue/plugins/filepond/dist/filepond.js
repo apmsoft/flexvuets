@@ -1,5 +1,4 @@
 "use strict";
-
 /*!
  * FilePond 4.25.1
  * Licensed under MIT, https://opensource.org/licenses/MIT/
@@ -7,10 +6,13 @@
  */
 /* eslint-disable */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : (global = global || self, factory(global.FilePond = {}));
+  typeof exports === 'object' && typeof module !== 'undefined' ?
+  factory(exports) :
+  typeof define === 'function' && define.amd ?
+  define(['exports'], factory) : (
+  global = global || self, factory(global.FilePond = {}));
 })(this, function (exports) {
   'use strict';
-
   var isNode = function isNode(value) {
     return value instanceof HTMLElement;
   };
@@ -42,8 +44,7 @@
       dispatchQueue.length = 0;
       // now dispatch these actions
       queue.forEach(function (_ref) {
-        var type = _ref.type,
-          data = _ref.data;
+        var type = _ref.type,data = _ref.data;
         dispatch(type, data);
       });
     };
@@ -51,10 +52,7 @@
     var dispatch = function dispatch(type, data, isBlocking) {
       // is blocking action (should never block if document is hidden)
       if (isBlocking && !document.hidden) {
-        dispatchQueue.push({
-          type: type,
-          data: data
-        });
+        dispatchQueue.push({ type: type, data: data });
         return;
       }
       // if this action has a handler, handle the action
@@ -72,7 +70,9 @@
       for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
-      return queryHandles[str] ? (_queryHandles = queryHandles)[str].apply(_queryHandles, args) : null;
+      return queryHandles[str] ?
+      (_queryHandles = queryHandles)[str].apply(_queryHandles, args) :
+      null;
     };
     var api = {
       getState: getState,
@@ -131,11 +131,14 @@
       attributes = className;
       className = null;
     }
-    var element = isSVGElement(tag) ? document.createElementNS(ns, tag) : document.createElement(tag);
+    var element = isSVGElement(tag) ?
+    document.createElementNS(ns, tag) :
+    document.createElement(tag);
     if (className) {
       if (isSVGElement(tag)) {
         attr(element, 'class', className);
-      } else {
+      } else
+      {
         element.className = className;
       }
     }
@@ -148,7 +151,8 @@
     return function (child, index) {
       if (typeof index !== 'undefined' && parent.children[index]) {
         parent.insertBefore(child, parent.children[index]);
-      } else {
+      } else
+      {
         parent.appendChild(child);
       }
     };
@@ -157,7 +161,8 @@
     return function (view, index) {
       if (typeof index !== 'undefined') {
         childViews.splice(index, 0, view);
-      } else {
+      } else
+      {
         childViews.push(view);
       }
       return view;
@@ -181,9 +186,11 @@
     return IS_BROWSER;
   };
   var testElement = isBrowser() ? createElement('svg') : {};
-  var getChildCount = 'children' in testElement ? function (el) {
+  var getChildCount = 'children' in testElement ?
+  function (el) {
     return el.children.length;
-  } : function (el) {
+  } :
+  function (el) {
     return el.childNodes.length;
   };
   var getViewRect = function getViewRect(elementRect, childViews, offset, scale) {
@@ -211,11 +218,14 @@
       }
     };
     // expand rect to fit all child rectangles
-    childViews.filter(function (childView) {
+    childViews.
+    filter(function (childView) {
       return !childView.isRectIgnored();
-    }).map(function (childView) {
+    }).
+    map(function (childView) {
       return childView.rect;
-    }).forEach(function (childViewRect) {
+    }).
+    forEach(function (childViewRect) {
       expandRect(rect.inner, Object.assign({}, childViewRect.inner));
       expandRect(rect.outer, Object.assign({}, childViewRect.outer));
     });
@@ -258,7 +268,8 @@
    */
   var thereYet = function thereYet(position, destination, velocity) {
     var errorMargin = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.001;
-    return Math.abs(position - destination) < errorMargin && Math.abs(velocity) < errorMargin;
+    return Math.abs(position - destination) < errorMargin &&
+    Math.abs(velocity) < errorMargin;
   };
   /**
    * Spring animation
@@ -266,13 +277,9 @@
   var spring =
   // default options
   function spring() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$stiffness = _ref.stiffness,
-      stiffness = _ref$stiffness === void 0 ? 0.5 : _ref$stiffness,
-      _ref$damping = _ref.damping,
-      damping = _ref$damping === void 0 ? 0.75 : _ref$damping,
-      _ref$mass = _ref.mass,
-      mass = _ref$mass === void 0 ? 10 : _ref$mass;
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ?
+      arguments[0] :
+      {},_ref$stiffness = _ref.stiffness,stiffness = _ref$stiffness === void 0 ? 0.5 : _ref$stiffness,_ref$damping = _ref.damping,damping = _ref$damping === void 0 ? 0.75 : _ref$damping,_ref$mass = _ref.mass,mass = _ref$mass === void 0 ? 10 : _ref$mass;
     var target = null;
     var position = null;
     var velocity = 0;
@@ -280,7 +287,8 @@
     // updates spring state
     var interpolate = function interpolate(ts, skipToEndState) {
       // in rest, don't animate
-      if (resting) return;
+      if (resting)
+      return;
       // need at least a target or position to do springy things
       if (!(isNumber(target) && isNumber(position))) {
         resting = true;
@@ -303,7 +311,8 @@
         // we done
         api.onupdate(position);
         api.oncomplete(position);
-      } else {
+      } else
+      {
         // progress update
         api.onupdate(position);
       }
@@ -364,13 +373,9 @@
   var tween =
   // default values
   function tween() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$duration = _ref.duration,
-      duration = _ref$duration === void 0 ? 500 : _ref$duration,
-      _ref$easing = _ref.easing,
-      easing = _ref$easing === void 0 ? easeInOutQuad : _ref$easing,
-      _ref$delay = _ref.delay,
-      delay = _ref$delay === void 0 ? 0 : _ref$delay;
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ?
+      arguments[0] :
+      {},_ref$duration = _ref.duration,duration = _ref$duration === void 0 ? 500 : _ref$duration,_ref$easing = _ref.easing,easing = _ref$easing === void 0 ? easeInOutQuad : _ref$easing,_ref$delay = _ref.delay,delay = _ref$delay === void 0 ? 0 : _ref$delay;
     var start = null;
     var t;
     var p;
@@ -378,11 +383,13 @@
     var reverse = false;
     var target = null;
     var interpolate = function interpolate(ts, skipToEndState) {
-      if (resting || target === null) return;
+      if (resting || target === null)
+      return;
       if (start === null) {
         start = ts;
       }
-      if (ts - start < delay) return;
+      if (ts - start < delay)
+      return;
       t = ts - start - delay;
       if (t >= duration || skipToEndState) {
         t = 1;
@@ -390,7 +397,8 @@
         api.onupdate(p * target);
         api.oncomplete(p * target);
         resting = true;
-      } else {
+      } else
+      {
         p = t / duration;
         api.onupdate((t >= 0 ? easing(reverse ? 1 - p : p) : 0) * target);
       }
@@ -414,7 +422,8 @@
           if (value < target) {
             target = 1;
             reverse = true;
-          } else {
+          } else
+          {
             // not tweening to a smaller value
             reverse = false;
             target = value;
@@ -446,7 +455,9 @@
   var createAnimator = function createAnimator(definition, category, property) {
     // default is single definition
     // we check if transform is set, if so, we check if property is set
-    var def = definition[category] && typeof definition[category][property] === 'object' ? definition[category][property] : definition[category] || definition;
+    var def = definition[category] && typeof definition[category][property] === 'object' ?
+    definition[category][property] :
+    definition[category] || definition;
     var type = typeof def === 'string' ? def : def.type;
     var props = typeof def === 'object' ? Object.assign({}, def) : {};
     return animator[type] ? animator[type](props) : null;
@@ -482,10 +493,7 @@
   // add getters and setters to internal and external api (if not set)
   // setup animators
   var animations = function animations(_ref) {
-    var mixinConfig = _ref.mixinConfig,
-      viewProps = _ref.viewProps,
-      viewInternalAPI = _ref.viewInternalAPI,
-      viewExternalAPI = _ref.viewExternalAPI;
+    var mixinConfig = _ref.mixinConfig,viewProps = _ref.viewProps,viewInternalAPI = _ref.viewInternalAPI,viewExternalAPI = _ref.viewExternalAPI;
     // initial properties
     var initialProps = Object.assign({}, viewProps);
     // list of all active animations
@@ -527,7 +535,8 @@
         var skipToEndState = document.hidden;
         var resting = true;
         animations.forEach(function (animation) {
-          if (!animation.resting) resting = false;
+          if (!animation.resting)
+          resting = false;
           animation.interpolate(ts, skipToEndState);
         });
         return resting;
@@ -547,12 +556,7 @@
   };
   // mixin
   var listeners = function listeners(_ref) {
-    var mixinConfig = _ref.mixinConfig,
-      viewProps = _ref.viewProps,
-      viewInternalAPI = _ref.viewInternalAPI,
-      viewExternalAPI = _ref.viewExternalAPI,
-      viewState = _ref.viewState,
-      view = _ref.view;
+    var mixinConfig = _ref.mixinConfig,viewProps = _ref.viewProps,viewInternalAPI = _ref.viewInternalAPI,viewExternalAPI = _ref.viewExternalAPI,viewState = _ref.viewState,view = _ref.view;
     var events = [];
     var add = addEvent(view.element);
     var remove = removeEvent(view.element);
@@ -583,9 +587,7 @@
   };
   // add to external api and link to props
   var apis = function apis(_ref) {
-    var mixinConfig = _ref.mixinConfig,
-      viewProps = _ref.viewProps,
-      viewExternalAPI = _ref.viewExternalAPI;
+    var mixinConfig = _ref.mixinConfig,viewProps = _ref.viewProps,viewExternalAPI = _ref.viewExternalAPI;
     addGetSet(mixinConfig, viewExternalAPI, viewProps);
   };
   var isDefined = function isDefined(value) {
@@ -608,11 +610,7 @@
     originY: 0
   };
   var styles = function styles(_ref) {
-    var mixinConfig = _ref.mixinConfig,
-      viewProps = _ref.viewProps,
-      viewInternalAPI = _ref.viewInternalAPI,
-      viewExternalAPI = _ref.viewExternalAPI,
-      view = _ref.view;
+    var mixinConfig = _ref.mixinConfig,viewProps = _ref.viewProps,viewInternalAPI = _ref.viewInternalAPI,viewExternalAPI = _ref.viewExternalAPI,view = _ref.view;
     // initial props
     var initialProps = Object.assign({}, viewProps);
     // current props
@@ -627,17 +625,18 @@
       return [viewProps['scaleX'] || 0, viewProps['scaleY'] || 0];
     };
     var getRect = function getRect() {
-      return view.rect ? getViewRect(view.rect, view.childViews, getOffset(), getScale()) : null;
+      return view.rect ?
+      getViewRect(view.rect, view.childViews, getOffset(), getScale()) :
+      null;
     };
-    viewInternalAPI.rect = {
-      get: getRect
-    };
-    viewExternalAPI.rect = {
-      get: getRect
-    };
+    viewInternalAPI.rect = { get: getRect };
+    viewExternalAPI.rect = { get: getRect };
     // apply view props
     mixinConfig.forEach(function (key) {
-      viewProps[key] = typeof initialProps[key] === 'undefined' ? defaults[key] : initialProps[key];
+      viewProps[key] =
+      typeof initialProps[key] === 'undefined' ?
+      defaults[key] :
+      initialProps[key];
     });
     // expose api
     return {
@@ -670,24 +669,13 @@
     return false;
   };
   var applyStyles = function applyStyles(element, _ref2) {
-    var opacity = _ref2.opacity,
-      perspective = _ref2.perspective,
-      translateX = _ref2.translateX,
-      translateY = _ref2.translateY,
-      scaleX = _ref2.scaleX,
-      scaleY = _ref2.scaleY,
-      rotateX = _ref2.rotateX,
-      rotateY = _ref2.rotateY,
-      rotateZ = _ref2.rotateZ,
-      originX = _ref2.originX,
-      originY = _ref2.originY,
-      width = _ref2.width,
-      height = _ref2.height;
+    var opacity = _ref2.opacity,perspective = _ref2.perspective,translateX = _ref2.translateX,translateY = _ref2.translateY,scaleX = _ref2.scaleX,scaleY = _ref2.scaleY,rotateX = _ref2.rotateX,rotateY = _ref2.rotateY,rotateZ = _ref2.rotateZ,originX = _ref2.originX,originY = _ref2.originY,width = _ref2.width,height = _ref2.height;
     var transforms = '';
     var styles = '';
     // handle transform origin
     if (isDefined(originX) || isDefined(originY)) {
-      styles += 'transform-origin: ' + (originX || 0) + 'px ' + (originY || 0) + 'px;';
+      styles +=
+      'transform-origin: ' + (originX || 0) + 'px ' + (originY || 0) + 'px;';
     }
     // transform order is relevant
     // 0. perspective
@@ -696,11 +684,21 @@
     }
     // 1. translate
     if (isDefined(translateX) || isDefined(translateY)) {
-      transforms += 'translate3d(' + (translateX || 0) + 'px, ' + (translateY || 0) + 'px, 0) ';
+      transforms +=
+      'translate3d(' + (
+      translateX || 0) +
+      'px, ' + (
+      translateY || 0) +
+      'px, 0) ';
     }
     // 2. scale
     if (isDefined(scaleX) || isDefined(scaleY)) {
-      transforms += 'scale3d(' + (isDefined(scaleX) ? scaleX : 1) + ', ' + (isDefined(scaleY) ? scaleY : 1) + ', 1) ';
+      transforms +=
+      'scale3d(' + (
+      isDefined(scaleX) ? scaleX : 1) +
+      ', ' + (
+      isDefined(scaleY) ? scaleY : 1) +
+      ', 1) ';
     }
     // 3. rotate
     if (isDefined(rotateZ)) {
@@ -739,7 +737,8 @@
     // apply styles
     var elementCurrentStyle = element.elementCurrentStyle || '';
     // if new styles does not match current styles, lets update!
-    if (styles.length !== elementCurrentStyle.length || styles !== elementCurrentStyle) {
+    if (styles.length !== elementCurrentStyle.length ||
+    styles !== elementCurrentStyle) {
       element.style.cssText = styles;
       // store current styles so we can compare them to new styles later on
       // _not_ getting the style value is faster
@@ -777,39 +776,19 @@
   var createView =
   // default view definition
   function createView() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$tag = _ref.tag,
-      tag = _ref$tag === void 0 ? 'div' : _ref$tag,
-      _ref$name = _ref.name,
-      name = _ref$name === void 0 ? null : _ref$name,
-      _ref$attributes = _ref.attributes,
-      attributes = _ref$attributes === void 0 ? {} : _ref$attributes,
-      _ref$read = _ref.read,
-      read = _ref$read === void 0 ? function () {} : _ref$read,
-      _ref$write = _ref.write,
-      write = _ref$write === void 0 ? function () {} : _ref$write,
-      _ref$create = _ref.create,
-      create = _ref$create === void 0 ? function () {} : _ref$create,
-      _ref$destroy = _ref.destroy,
-      destroy = _ref$destroy === void 0 ? function () {} : _ref$destroy,
-      _ref$filterFrameActio = _ref.filterFrameActionsForChild,
-      filterFrameActionsForChild = _ref$filterFrameActio === void 0 ? function (child, actions) {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ?
+      arguments[0] :
+      {},_ref$tag = _ref.tag,tag = _ref$tag === void 0 ? 'div' : _ref$tag,_ref$name = _ref.name,name = _ref$name === void 0 ? null : _ref$name,_ref$attributes = _ref.attributes,attributes = _ref$attributes === void 0 ? {} : _ref$attributes,_ref$read = _ref.read,read = _ref$read === void 0 ? function () {} : _ref$read,_ref$write = _ref.write,write = _ref$write === void 0 ? function () {} : _ref$write,_ref$create = _ref.create,create = _ref$create === void 0 ? function () {} : _ref$create,_ref$destroy = _ref.destroy,destroy = _ref$destroy === void 0 ? function () {} : _ref$destroy,_ref$filterFrameActio = _ref.filterFrameActionsForChild,filterFrameActionsForChild = _ref$filterFrameActio === void 0 ?
+      function (child, actions) {
         return actions;
-      } : _ref$filterFrameActio,
-      _ref$didCreateView = _ref.didCreateView,
-      didCreateView = _ref$didCreateView === void 0 ? function () {} : _ref$didCreateView,
-      _ref$didWriteView = _ref.didWriteView,
-      didWriteView = _ref$didWriteView === void 0 ? function () {} : _ref$didWriteView,
-      _ref$ignoreRect = _ref.ignoreRect,
-      ignoreRect = _ref$ignoreRect === void 0 ? false : _ref$ignoreRect,
-      _ref$ignoreRectUpdate = _ref.ignoreRectUpdate,
-      ignoreRectUpdate = _ref$ignoreRectUpdate === void 0 ? false : _ref$ignoreRectUpdate,
-      _ref$mixins = _ref.mixins,
-      mixins = _ref$mixins === void 0 ? [] : _ref$mixins;
+      } :
+      _ref$filterFrameActio,_ref$didCreateView = _ref.didCreateView,didCreateView = _ref$didCreateView === void 0 ? function () {} : _ref$didCreateView,_ref$didWriteView = _ref.didWriteView,didWriteView = _ref$didWriteView === void 0 ? function () {} : _ref$didWriteView,_ref$ignoreRect = _ref.ignoreRect,ignoreRect = _ref$ignoreRect === void 0 ? false : _ref$ignoreRect,_ref$ignoreRectUpdate = _ref.ignoreRectUpdate,ignoreRectUpdate = _ref$ignoreRectUpdate === void 0 ? false : _ref$ignoreRectUpdate,_ref$mixins = _ref.mixins,mixins = _ref$mixins === void 0 ? [] : _ref$mixins;
     return function (
     // each view requires reference to store
     store) {
-      var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var props = arguments.length > 1 && arguments[1] !== undefined ?
+      arguments[1] :
+      {};
       // root element should not be changed
       var element = createElement(tag, 'filepond--' + name, attributes);
       // style reference should also not be changed
@@ -828,13 +807,14 @@
       // state used for each instance
       var state = {};
       // list of writers that will be called to update this view
-      var writers = [write // default writer
+      var writers = [
+      write // default writer
       ];
-
-      var readers = [read // default reader
+      var readers = [
+      read // default reader
       ];
-
-      var destroyers = [destroy // default destroy
+      var destroyers = [
+      destroy // default destroy
       ];
       // core view methods
       var getElement = function getElement() {
@@ -876,11 +856,7 @@
           updateRect(rect, element, style);
         }
         // readers
-        var api = {
-          root: internalAPI,
-          props: props,
-          rect: rect
-        };
+        var api = { root: internalAPI, props: props, rect: rect };
         readers.forEach(function (reader) {
           return reader(api);
         });
@@ -914,9 +890,11 @@
           }
         });
         // updates child views that are currently attached to the DOM
-        childViews.filter(function (child) {
+        childViews.
+        filter(function (child) {
           return !!child.element.parentNode;
-        }).forEach(function (child) {
+        }).
+        forEach(function (child) {
           // if a child view is not resting, we are not resting
           var childResting = child._write(ts, filterFrameActionsForChild(child, frameActions), shouldOptimize);
           if (!childResting) {
@@ -956,10 +934,7 @@
           return mixin.destroy();
         });
         destroyers.forEach(function (destroyer) {
-          destroyer({
-            root: internalAPI,
-            props: props
-          });
+          destroyer({ root: internalAPI, props: props });
         });
         childViews.forEach(function (child) {
           return child._destroy();
@@ -1049,15 +1024,18 @@
         }
       });
       // add mixin functionality
-      Object.keys(mixins).sort(function (a, b) {
+      Object.keys(mixins).
+      sort(function (a, b) {
         // move styles to the back of the mixin list (so adjustments of other mixins are applied to the props correctly)
         if (a === 'styles') {
           return 1;
-        } else if (b === 'styles') {
+        } else
+        if (b === 'styles') {
           return -1;
         }
         return 0;
-      }).forEach(function (key) {
+      }).
+      forEach(function (key) {
         var mixinAPI = Mixins[key]({
           mixinConfig: mixins[key],
           viewProps: props,
@@ -1117,7 +1095,8 @@
         cancelTick = function cancelTick() {
           return window.clearTimeout(id);
         };
-      } else {
+      } else
+      {
         requestTick = function requestTick() {
           return window.requestAnimationFrame(tick);
         };
@@ -1127,7 +1106,8 @@
       }
     };
     document.addEventListener('visibilitychange', function () {
-      if (cancelTick) cancelTick();
+      if (cancelTick)
+      cancelTick();
       setTimerType();
       tick(performance.now());
     });
@@ -1163,15 +1143,12 @@
   };
   var createRoute = function createRoute(routes, fn) {
     return function (_ref) {
-      var root = _ref.root,
-        props = _ref.props,
-        _ref$actions = _ref.actions,
-        actions = _ref$actions === void 0 ? [] : _ref$actions,
-        timestamp = _ref.timestamp,
-        shouldOptimize = _ref.shouldOptimize;
-      actions.filter(function (action) {
+      var root = _ref.root,props = _ref.props,_ref$actions = _ref.actions,actions = _ref$actions === void 0 ? [] : _ref$actions,timestamp = _ref.timestamp,shouldOptimize = _ref.shouldOptimize;
+      actions.
+      filter(function (action) {
         return routes[action.type];
-      }).forEach(function (action) {
+      }).
+      forEach(function (action) {
         return routes[action.type]({
           root: root,
           props: props,
@@ -1217,7 +1194,10 @@
     if (isArray(value)) {
       return value;
     }
-    return toString(value).split(splitter).map(trim).filter(function (str) {
+    return toString(value).
+    split(splitter).
+    map(trim).
+    filter(function (str) {
       return str.length;
     });
   };
@@ -1231,7 +1211,11 @@
     return typeof value === 'string';
   };
   var toNumber = function toNumber(value) {
-    return isNumber(value) ? value : isString(value) ? toString(value).replace(/[a-z]+/gi, '') : 0;
+    return isNumber(value) ?
+    value :
+    isString(value) ?
+    toString(value).replace(/[a-z]+/gi, '') :
+    0;
   };
   var toInt = function toInt(value) {
     return parseInt(toNumber(value), 10);
@@ -1348,7 +1332,12 @@
     return typeof value === 'object' && value !== null;
   };
   var isAPI = function isAPI(value) {
-    return isObject(value) && isString(value.url) && isObject(value.process) && isObject(value.revert) && isObject(value.restore) && isObject(value.fetch);
+    return isObject(value) &&
+    isString(value.url) &&
+    isObject(value.process) &&
+    isObject(value.revert) &&
+    isObject(value.restore) &&
+    isObject(value.fetch);
   };
   var getType = function getType(value) {
     if (isArray(value)) {
@@ -1369,7 +1358,13 @@
     return typeof value;
   };
   var replaceSingleQuotes = function replaceSingleQuotes(str) {
-    return str.replace(/{\s*'/g, '{"').replace(/'\s*}/g, '"}').replace(/'\s*:/g, '":').replace(/:\s*'/g, ':"').replace(/,\s*'/g, ',"').replace(/'\s*,/g, '",');
+    return str.
+    replace(/{\s*'/g, '{"').
+    replace(/'\s*}/g, '"}').
+    replace(/'\s*:/g, '":').
+    replace(/:\s*'/g, ':"').
+    replace(/,\s*'/g, ',"').
+    replace(/'\s*,/g, '",');
   };
   var conversionTable = {
     array: toArray,
@@ -1390,7 +1385,8 @@
     object: function object(value) {
       try {
         return JSON.parse(replaceSingleQuotes(value));
-      } catch (e) {
+      }
+      catch (e) {
         return null;
       }
     }
@@ -1413,8 +1409,13 @@
       newValueType = getType(convertedValue);
       // no valid conversions found
       if (convertedValue === null) {
-        throw 'Trying to assign value with incorrect type to "' + option + '", allowed type: "' + valueType + '"';
-      } else {
+        throw 'Trying to assign value with incorrect type to "' +
+        option +
+        '", allowed type: "' +
+        valueType +
+        '"';
+      } else
+      {
         newValue = convertedValue;
       }
     }
@@ -1457,9 +1458,12 @@
   };
   var fromCamels = function fromCamels(string) {
     var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
-    return string.split(/(?=[A-Z])/).map(function (part) {
+    return string.
+    split(/(?=[A-Z])/).
+    map(function (part) {
       return part.toLowerCase();
-    }).join(separator);
+    }).
+    join(separator);
   };
   var createOptionAPI = function createOptionAPI(store, options) {
     var obj = {};
@@ -1485,11 +1489,10 @@
         obj['SET_' + name] = function (action) {
           try {
             state.options[key] = action.value;
-          } catch (e) {} // nope, failed
+          }
+          catch (e) {} // nope, failed
           // we successfully set the value of this option
-          dispatch('DID_SET_' + name, {
-            value: state.options[key]
-          });
+          dispatch('DID_SET_' + name, { value: state.options[key] });
         };
       });
       return obj;
@@ -1514,16 +1517,24 @@
     NONE: 5
   };
   var getUniqueId = function getUniqueId() {
-    return Math.random().toString(36).substr(2, 9);
+    return Math.random().
+    toString(36).
+    substr(2, 9);
   };
   function _typeof(obj) {
     if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
       _typeof = function (obj) {
         return typeof obj;
       };
-    } else {
+    } else
+    {
       _typeof = function (obj) {
-        return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj;
+        return obj &&
+        typeof Symbol === 'function' &&
+        obj.constructor === Symbol &&
+        obj !== Symbol.prototype ?
+        'symbol' :
+        typeof obj;
       };
     }
     return _typeof(obj);
@@ -1531,7 +1542,11 @@
   var REACT_ELEMENT_TYPE;
   function _jsx(type, props, key, children) {
     if (!REACT_ELEMENT_TYPE) {
-      REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol['for']('react.element') || 0xeac7;
+      REACT_ELEMENT_TYPE =
+      typeof Symbol === 'function' &&
+      Symbol['for'] &&
+      Symbol['for']('react.element') ||
+      0xeac7;
     }
     var defaultProps = type && type.defaultProps;
     var childrenLength = arguments.length - 3;
@@ -1546,12 +1561,14 @@
           props[propName] = defaultProps[propName];
         }
       }
-    } else if (!props) {
+    } else
+    if (!props) {
       props = defaultProps || {};
     }
     if (childrenLength === 1) {
       props.children = children;
-    } else if (childrenLength > 1) {
+    } else
+    if (childrenLength > 1) {
       var childArray = new Array(childrenLength);
       for (var i = 0; i < childrenLength; i++) {
         childArray[i] = arguments[i + 3];
@@ -1572,11 +1589,13 @@
     if (typeof Symbol !== 'undefined') {
       if (Symbol.asyncIterator) {
         method = iterable[Symbol.asyncIterator];
-        if (method != null) return method.call(iterable);
+        if (method != null)
+        return method.call(iterable);
       }
       if (Symbol.iterator) {
         method = iterable[Symbol.iterator];
-        if (method != null) return method.call(iterable);
+        if (method != null)
+        return method.call(iterable);
       }
     }
     throw new TypeError('Object is not async iterable');
@@ -1597,7 +1616,8 @@
         };
         if (back) {
           back = back.next = request;
-        } else {
+        } else
+        {
           front = back = request;
           resume(key, arg);
         }
@@ -1617,7 +1637,8 @@
         }, function (err) {
           resume('throw', err);
         });
-      } catch (err) {
+      }
+      catch (err) {
         settle('throw', err);
       }
     }
@@ -1642,7 +1663,8 @@
       front = front.next;
       if (front) {
         resume(front.key, front.arg);
-      } else {
+      } else
+      {
         back = null;
       }
     }
@@ -1674,8 +1696,7 @@
     return new _AwaitValue(value);
   }
   function _asyncGeneratorDelegate(inner, awaitWrap) {
-    var iter = {},
-      waiting = false;
+    var iter = {},waiting = false;
     function pump(key, value) {
       waiting = true;
       value = new Promise(function (resolve) {
@@ -1718,20 +1739,21 @@
     try {
       var info = gen[key](arg);
       var value = info.value;
-    } catch (error) {
+    }
+    catch (error) {
       reject(error);
       return;
     }
     if (info.done) {
       resolve(value);
-    } else {
+    } else
+    {
       Promise.resolve(value).then(_next, _throw);
     }
   }
   function _asyncToGenerator(fn) {
     return function () {
-      var self = this,
-        args = arguments;
+      var self = this,args = arguments;
       return new Promise(function (resolve, reject) {
         var gen = fn.apply(self, args);
         function _next(value) {
@@ -1754,20 +1776,24 @@
       var descriptor = props[i];
       descriptor.enumerable = descriptor.enumerable || false;
       descriptor.configurable = true;
-      if ('value' in descriptor) descriptor.writable = true;
+      if ('value' in descriptor)
+      descriptor.writable = true;
       Object.defineProperty(target, descriptor.key, descriptor);
     }
   }
   function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
+    if (protoProps)
+    _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps)
+    _defineProperties(Constructor, staticProps);
     return Constructor;
   }
   function _defineEnumerableProperties(obj, descs) {
     for (var key in descs) {
       var desc = descs[key];
       desc.configurable = desc.enumerable = true;
-      if ('value' in desc) desc.writable = true;
+      if ('value' in desc)
+      desc.writable = true;
       Object.defineProperty(obj, key, desc);
     }
     if (Object.getOwnPropertySymbols) {
@@ -1776,7 +1802,8 @@
         var sym = objectSymbols[i];
         var desc = descs[sym];
         desc.configurable = desc.enumerable = true;
-        if ('value' in desc) desc.writable = true;
+        if ('value' in desc)
+        desc.writable = true;
         Object.defineProperty(obj, sym, desc);
       }
     }
@@ -1801,13 +1828,16 @@
         configurable: true,
         writable: true
       });
-    } else {
+    } else
+    {
       obj[key] = value;
     }
     return obj;
   }
   function _extends() {
-    _extends = Object.assign || function (target) {
+    _extends =
+    Object.assign ||
+    function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
         for (var key in source) {
@@ -1839,7 +1869,8 @@
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      if (enumerableOnly)
+      symbols = symbols.filter(function (sym) {
         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
       });
       keys.push.apply(keys, symbols);
@@ -1853,9 +1884,11 @@
         ownKeys(source, true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
-      } else if (Object.getOwnPropertyDescriptors) {
+      } else
+      if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
+      } else
+      {
         ownKeys(source).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
@@ -1874,7 +1907,8 @@
         configurable: true
       }
     });
-    if (superClass) _setPrototypeOf(subClass, superClass);
+    if (superClass)
+    _setPrototypeOf(subClass, superClass);
   }
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
@@ -1882,39 +1916,49 @@
     subClass.__proto__ = superClass;
   }
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ?
+    Object.getPrototypeOf :
+    function _getPrototypeOf(o) {
       return o.__proto__ || Object.getPrototypeOf(o);
     };
     return _getPrototypeOf(o);
   }
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    _setPrototypeOf =
+    Object.setPrototypeOf ||
+    function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
     return _setPrototypeOf(o, p);
   }
   function isNativeReflectConstruct() {
-    if (typeof Reflect === 'undefined' || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === 'function') return true;
+    if (typeof Reflect === 'undefined' || !Reflect.construct)
+    return false;
+    if (Reflect.construct.sham)
+    return false;
+    if (typeof Proxy === 'function')
+    return true;
     try {
       Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
       return true;
-    } catch (e) {
+    }
+    catch (e) {
       return false;
     }
   }
   function _construct(Parent, args, Class) {
     if (isNativeReflectConstruct()) {
       _construct = Reflect.construct;
-    } else {
+    } else
+    {
       _construct = function _construct(Parent, args, Class) {
         var a = [null];
         a.push.apply(a, args);
         var Constructor = Function.bind.apply(Parent, a);
         var instance = new Constructor();
-        if (Class) _setPrototypeOf(instance, Class.prototype);
+        if (Class)
+        _setPrototypeOf(instance, Class.prototype);
         return instance;
       };
     }
@@ -1926,12 +1970,14 @@
   function _wrapNativeSuper(Class) {
     var _cache = typeof Map === 'function' ? new Map() : undefined;
     _wrapNativeSuper = function _wrapNativeSuper(Class) {
-      if (Class === null || !_isNativeFunction(Class)) return Class;
+      if (Class === null || !_isNativeFunction(Class))
+      return Class;
       if (typeof Class !== 'function') {
         throw new TypeError('Super expression must either be null or a function');
       }
       if (typeof _cache !== 'undefined') {
-        if (_cache.has(Class)) return _cache.get(Class);
+        if (_cache.has(Class))
+        return _cache.get(Class);
         _cache.set(Class, Wrapper);
       }
       function Wrapper() {
@@ -1950,29 +1996,38 @@
     return _wrapNativeSuper(Class);
   }
   function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== 'undefined' && right[Symbol.hasInstance]) {
+    if (right != null &&
+    typeof Symbol !== 'undefined' &&
+    right[Symbol.hasInstance]) {
       return !!right[Symbol.hasInstance](left);
-    } else {
+    } else
+    {
       return left instanceof right;
     }
   }
   function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
+    return obj && obj.__esModule ?
+    obj :
+    {
       default: obj
     };
   }
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
       return obj;
-    } else {
+    } else
+    {
       var newObj = {};
       if (obj != null) {
         for (var key in obj) {
           if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
+            var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ?
+            Object.getOwnPropertyDescriptor(obj, key) :
+            {};
             if (desc.get || desc.set) {
               Object.defineProperty(newObj, key, desc);
-            } else {
+            } else
+            {
               newObj[key] = obj[key];
             }
           }
@@ -1988,30 +2043,36 @@
     }
   }
   function _objectDestructuringEmpty(obj) {
-    if (obj == null) throw new TypeError('Cannot destructure undefined');
+    if (obj == null)
+    throw new TypeError('Cannot destructure undefined');
   }
   function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
+    if (source == null)
+    return {};
     var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for (i = 0; i < sourceKeys.length; i++) {
       key = sourceKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
+      if (excluded.indexOf(key) >= 0)
+      continue;
       target[key] = source[key];
     }
     return target;
   }
   function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {};
+    if (source == null)
+    return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
       var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
       for (i = 0; i < sourceSymbolKeys.length; i++) {
         key = sourceSymbolKeys[i];
-        if (excluded.indexOf(key) >= 0) continue;
-        if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+        if (excluded.indexOf(key) >= 0)
+        continue;
+        if (!Object.prototype.propertyIsEnumerable.call(source, key))
+        continue;
         target[key] = source[key];
       }
     }
@@ -2032,17 +2093,20 @@
   function _superPropBase(object, property) {
     while (!Object.prototype.hasOwnProperty.call(object, property)) {
       object = _getPrototypeOf(object);
-      if (object === null) break;
+      if (object === null)
+      break;
     }
     return object;
   }
   function _get(target, property, receiver) {
     if (typeof Reflect !== 'undefined' && Reflect.get) {
       _get = Reflect.get;
-    } else {
+    } else
+    {
       _get = function _get(target, property, receiver) {
         var base = _superPropBase(target, property);
-        if (!base) return;
+        if (!base)
+        return;
         var desc = Object.getOwnPropertyDescriptor(base, property);
         if (desc.get) {
           return desc.get.call(receiver);
@@ -2055,7 +2119,8 @@
   function set(target, property, value, receiver) {
     if (typeof Reflect !== 'undefined' && Reflect.set) {
       set = Reflect.set;
-    } else {
+    } else
+    {
       set = function set(target, property, value, receiver) {
         var base = _superPropBase(target, property);
         var desc;
@@ -2064,7 +2129,8 @@
           if (desc.set) {
             desc.set.call(receiver, value);
             return true;
-          } else if (!desc.writable) {
+          } else
+          if (!desc.writable) {
             return false;
           }
         }
@@ -2075,7 +2141,8 @@
           }
           desc.value = value;
           Object.defineProperty(receiver, property, desc);
-        } else {
+        } else
+        {
           _defineProperty(receiver, property, value);
         }
         return true;
@@ -2110,7 +2177,8 @@
   function _temporalRef(val, name) {
     if (val === _temporalUndefined) {
       throw new ReferenceError(name + ' is not defined - temporal dead zone');
-    } else {
+    } else
+    {
       return val;
     }
   }
@@ -2122,10 +2190,14 @@
   }
   var _temporalUndefined = {};
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) ||
+    _iterableToArrayLimit(arr, i) ||
+    _nonIterableRest();
   }
   function _slicedToArrayLoose(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimitLoose(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) ||
+    _iterableToArrayLimitLoose(arr, i) ||
+    _nonIterableRest();
   }
   function _toArray(arr) {
     return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
@@ -2135,15 +2207,19 @@
   }
   function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)
+      arr2[i] = arr[i];
       return arr2;
     }
   }
   function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
+    if (Array.isArray(arr))
+    return arr;
   }
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === '[object Arguments]') return Array.from(iter);
+    if (Symbol.iterator in Object(iter) ||
+    Object.prototype.toString.call(iter) === '[object Arguments]')
+    return Array.from(iter);
   }
   function _iterableToArrayLimit(arr, i) {
     var _arr = [];
@@ -2153,16 +2229,22 @@
     try {
       for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
         _arr.push(_s.value);
-        if (i && _arr.length === i) break;
+        if (i && _arr.length === i)
+        break;
       }
-    } catch (err) {
+    }
+    catch (err) {
       _d = true;
       _e = err;
-    } finally {
+    } finally
+    {
       try {
-        if (!_n && _i['return'] != null) _i['return']();
-      } finally {
-        if (_d) throw _e;
+        if (!_n && _i['return'] != null)
+        _i['return']();
+      } finally
+      {
+        if (_d)
+        throw _e;
       }
     }
     return _arr;
@@ -2171,7 +2253,8 @@
     var _arr = [];
     for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
       _arr.push(_step.value);
-      if (i && _arr.length === i) break;
+      if (i && _arr.length === i)
+      break;
     }
     return _arr;
   }
@@ -2189,11 +2272,13 @@
     };
   }
   function _toPrimitive(input, hint) {
-    if (typeof input !== 'object' || input === null) return input;
+    if (typeof input !== 'object' || input === null)
+    return input;
     var prim = input[Symbol.toPrimitive];
     if (prim !== undefined) {
       var res = prim.call(input, hint || 'default');
-      if (typeof res !== 'object') return res;
+      if (typeof res !== 'object')
+      return res;
       throw new TypeError('@@toPrimitive must return a primitive value.');
     }
     return (hint === 'string' ? String : Number)(input);
@@ -2203,15 +2288,21 @@
     return typeof key === 'symbol' ? key : String(key);
   }
   function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.');
+    throw new Error('Decorating class property failed. Please ensure that ' +
+    'proposal-class-properties is enabled and set to use loose mode. ' +
+    'To use proposal-class-properties in spec mode with decorators, wait for ' +
+    'the next major version of decorators in stage 2.');
   }
   function _initializerDefineProperty(target, property, descriptor, context) {
-    if (!descriptor) return;
+    if (!descriptor)
+    return;
     Object.defineProperty(target, property, {
       enumerable: descriptor.enumerable,
       configurable: descriptor.configurable,
       writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+      value: descriptor.initializer ?
+      descriptor.initializer.call(context) :
+      void 0
     });
   }
   function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -2224,7 +2315,10 @@
     if ('value' in desc || desc.initializer) {
       desc.writable = true;
     }
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    desc = decorators.
+    slice().
+    reverse().
+    reduce(function (desc, decorator) {
       return decorator(target, property, desc) || desc;
     }, desc);
     if (context && desc.initializer !== void 0) {
@@ -2264,7 +2358,8 @@
     }
     if (descriptor.set) {
       descriptor.set.call(receiver, value);
-    } else {
+    } else
+    {
       if (!descriptor.writable) {
         throw new TypeError('attempted to set read only private field');
       }
@@ -2286,7 +2381,8 @@
         };
       }
       return descriptor.__destrObj;
-    } else {
+    } else
+    {
       if (!descriptor.writable) {
         throw new TypeError('attempted to set read only private field');
       }
@@ -2352,7 +2448,8 @@
         ['method', 'field'].forEach(function (kind) {
           elements.forEach(function (element) {
             var placement = element.placement;
-            if (element.kind === kind && (placement === 'static' || placement === 'prototype')) {
+            if (element.kind === kind && (
+            placement === 'static' || placement === 'prototype')) {
               var receiver = placement === 'static' ? F : proto;
               this.defineClassElement(receiver, element);
             }
@@ -2384,7 +2481,8 @@
           this.addElementPlacement(element, placements);
         }, this);
         elements.forEach(function (element) {
-          if (!_hasDecorators(element)) return newElements.push(element);
+          if (!_hasDecorators(element))
+          return newElements.push(element);
           var elementFinishersExtras = this.decorateElement(element, placements);
           newElements.push(elementFinishersExtras.element);
           newElements.push.apply(newElements, elementFinishersExtras.extras);
@@ -2447,7 +2545,8 @@
             elements = elementsAndFinisher.elements;
             for (var j = 0; j < elements.length - 1; j++) {
               for (var k = j + 1; k < elements.length; k++) {
-                if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) {
+                if (elements[j].key === elements[k].key &&
+                elements[j].placement === elements[k].placement) {
                   throw new TypeError('Duplicated element (' + elements[j].key + ')');
                 }
               }
@@ -2471,11 +2570,13 @@
           configurable: true
         };
         Object.defineProperty(obj, Symbol.toStringTag, desc);
-        if (element.kind === 'field') obj.initializer = element.initializer;
+        if (element.kind === 'field')
+        obj.initializer = element.initializer;
         return obj;
       },
       toElementDescriptors: function (elementObjects) {
-        if (elementObjects === undefined) return;
+        if (elementObjects === undefined)
+        return;
         return _toArray(elementObjects).map(function (elementObject) {
           var element = this.toElementDescriptor(elementObject);
           this.disallowProperty(elementObject, 'finisher', 'An element descriptor');
@@ -2486,12 +2587,22 @@
       toElementDescriptor: function (elementObject) {
         var kind = String(elementObject.kind);
         if (kind !== 'method' && kind !== 'field') {
-          throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"');
+          throw new TypeError('An element descriptor\'s .kind property must be either "method" or' +
+          ' "field", but a decorator created an element descriptor with' +
+          ' .kind "' +
+          kind +
+          '"');
         }
         var key = _toPropertyKey(elementObject.key);
         var placement = String(elementObject.placement);
-        if (placement !== 'static' && placement !== 'prototype' && placement !== 'own') {
-          throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"');
+        if (placement !== 'static' &&
+        placement !== 'prototype' &&
+        placement !== 'own') {
+          throw new TypeError('An element descriptor\'s .placement property must be one of "static",' +
+          ' "prototype" or "own", but a decorator created an element descriptor' +
+          ' with .placement "' +
+          placement +
+          '"');
         }
         var descriptor = elementObject.descriptor;
         this.disallowProperty(elementObject, 'elements', 'An element descriptor');
@@ -2503,7 +2614,8 @@
         };
         if (kind !== 'field') {
           this.disallowProperty(elementObject, 'initializer', 'A method descriptor');
-        } else {
+        } else
+        {
           this.disallowProperty(descriptor, 'get', 'The property descriptor of a field descriptor');
           this.disallowProperty(descriptor, 'set', 'The property descriptor of a field descriptor');
           this.disallowProperty(descriptor, 'value', 'The property descriptor of a field descriptor');
@@ -2536,7 +2648,10 @@
       toClassDescriptor: function (obj) {
         var kind = String(obj.kind);
         if (kind !== 'class') {
-          throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"');
+          throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' +
+          ' created a class descriptor with .kind "' +
+          kind +
+          '"');
         }
         this.disallowProperty(obj, 'key', 'A class descriptor');
         this.disallowProperty(obj, 'placement', 'A class descriptor');
@@ -2580,19 +2695,22 @@
         configurable: true,
         enumerable: false
       };
-    } else if (def.kind === 'get') {
+    } else
+    if (def.kind === 'get') {
       descriptor = {
         get: def.value,
         configurable: true,
         enumerable: false
       };
-    } else if (def.kind === 'set') {
+    } else
+    if (def.kind === 'set') {
       descriptor = {
         set: def.value,
         configurable: true,
         enumerable: false
       };
-    } else if (def.kind === 'field') {
+    } else
+    if (def.kind === 'field') {
       descriptor = {
         configurable: true,
         writable: true,
@@ -2602,44 +2720,60 @@
     var element = {
       kind: def.kind === 'field' ? 'field' : 'method',
       key: key,
-      placement: def.static ? 'static' : def.kind === 'field' ? 'own' : 'prototype',
+      placement: def.static ?
+      'static' :
+      def.kind === 'field' ?
+      'own' :
+      'prototype',
       descriptor: descriptor
     };
-    if (def.decorators) element.decorators = def.decorators;
-    if (def.kind === 'field') element.initializer = def.value;
+    if (def.decorators)
+    element.decorators = def.decorators;
+    if (def.kind === 'field')
+    element.initializer = def.value;
     return element;
   }
   function _coalesceGetterSetter(element, other) {
     if (element.descriptor.get !== undefined) {
       other.descriptor.get = element.descriptor.get;
-    } else {
+    } else
+    {
       other.descriptor.set = element.descriptor.set;
     }
   }
   function _coalesceClassElements(elements) {
     var newElements = [];
     var isSameElement = function (other) {
-      return other.kind === 'method' && other.key === element.key && other.placement === element.placement;
+      return other.kind === 'method' &&
+      other.key === element.key &&
+      other.placement === element.placement;
     };
     for (var i = 0; i < elements.length; i++) {
       var element = elements[i];
       var other;
-      if (element.kind === 'method' && (other = newElements.find(isSameElement))) {
-        if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) {
+      if (element.kind === 'method' && (
+      other = newElements.find(isSameElement))) {
+        if (_isDataDescriptor(element.descriptor) ||
+        _isDataDescriptor(other.descriptor)) {
           if (_hasDecorators(element) || _hasDecorators(other)) {
             throw new ReferenceError('Duplicated methods (' + element.key + ") can't be decorated.");
           }
           other.descriptor = element.descriptor;
-        } else {
+        } else
+        {
           if (_hasDecorators(element)) {
             if (_hasDecorators(other)) {
-              throw new ReferenceError("Decorators can't be placed on different accessors with for " + 'the same property (' + element.key + ').');
+              throw new ReferenceError("Decorators can't be placed on different accessors with for " +
+              'the same property (' +
+              element.key +
+              ').');
             }
             other.decorators = element.decorators;
           }
           _coalesceGetterSetter(element, other);
         }
-      } else {
+      } else
+      {
         newElements.push(element);
       }
     }
@@ -2649,7 +2783,8 @@
     return element.decorators && element.decorators.length;
   }
   function _isDataDescriptor(desc) {
-    return desc !== undefined && !(desc.value === undefined && desc.writable === undefined);
+    return desc !== undefined &&
+    !(desc.value === undefined && desc.writable === undefined);
   }
   function _optionalCallableProperty(obj, name) {
     var value = obj[name];
@@ -2682,7 +2817,8 @@
     _inherits(BabelRegExp, _RegExp);
     BabelRegExp.prototype.exec = function (str) {
       var result = _super.exec.call(this, str);
-      if (result) result.groups = buildGroups(result, this);
+      if (result)
+      result.groups = buildGroups(result, this);
       return result;
     };
     BabelRegExp.prototype[Symbol.replace] = function (str, substitution) {
@@ -2691,7 +2827,8 @@
         return _super[Symbol.replace].call(this, str, substitution.replace(/\$<([^>]+)>/g, function (_, name) {
           return '$' + groups[name];
         }));
-      } else if (typeof substitution === 'function') {
+      } else
+      if (typeof substitution === 'function') {
         var _this = this;
         return _super[Symbol.replace].call(this, str, function () {
           var args = [];
@@ -2701,7 +2838,8 @@
           }
           return substitution.apply(this, args);
         });
-      } else {
+      } else
+      {
         return _super[Symbol.replace].call(this, str, substitution);
       }
     };
@@ -2720,9 +2858,11 @@
   var run = function run(cb, sync) {
     if (sync) {
       cb();
-    } else if (document.hidden) {
+    } else
+    if (document.hidden) {
       Promise.resolve(1).then(cb);
-    } else {
+    } else
+    {
       setTimeout(cb, 0);
     }
   };
@@ -2734,11 +2874,14 @@
       }));
     };
     var _fire = function fire(event, args, sync) {
-      listeners.filter(function (listener) {
+      listeners.
+      filter(function (listener) {
         return listener.event === event;
-      }).map(function (listener) {
+      }).
+      map(function (listener) {
         return listener.cb;
-      }).forEach(function (cb) {
+      }).
+      forEach(function (cb) {
         return run(function () {
           return cb.apply(void 0, _toConsumableArray(args));
         }, sync);
@@ -2758,10 +2901,7 @@
         _fire(event, args, false);
       },
       on: function on(event, cb) {
-        listeners.push({
-          event: event,
-          cb: cb
-        });
+        listeners.push({ event: event, cb: cb });
       },
       onOnce: function onOnce(event, _cb) {
         listeners.push({
@@ -2776,13 +2916,31 @@
     };
   };
   var copyObjectPropertiesToObject = function copyObjectPropertiesToObject(src, target, excluded) {
-    Object.getOwnPropertyNames(src).filter(function (property) {
+    Object.getOwnPropertyNames(src).
+    filter(function (property) {
       return !excluded.includes(property);
-    }).forEach(function (key) {
+    }).
+    forEach(function (key) {
       return Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key));
     });
   };
-  var PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];
+  var PRIVATE = [
+  'fire',
+  'process',
+  'revert',
+  'load',
+  'on',
+  'off',
+  'onOnce',
+  'retryLoad',
+  'extend',
+  'archive',
+  'archived',
+  'release',
+  'released',
+  'requestProcessing',
+  'freeze'];
+
   var createItemAPI = function createItemAPI(item) {
     var api = {};
     copyObjectPropertiesToObject(item, api, PRIVATE);
@@ -2846,9 +3004,11 @@
   var applyFilterChain = function applyFilterChain(key, value, utils) {
     return new Promise(function (resolve, reject) {
       // find matching filters for this key
-      var matchingFilters = filters.filter(function (f) {
+      var matchingFilters = filters.
+      filter(function (f) {
         return f.key === key;
-      }).map(function (f) {
+      }).
+      map(function (f) {
         return f.cb;
       });
       // resolve now
@@ -2859,36 +3019,38 @@
       // first filter to kick things of
       var initialFilter = matchingFilters.shift();
       // chain filters
-      matchingFilters.reduce(
-      // loop over promises passing value to next promise
-      function (current, next) {
-        return current.then(function (value) {
-          return next(value, utils);
-        });
-      },
-      // call initial filter, will return a promise
-      initialFilter(value, utils)
-      // all executed
-      ).then(function (value) {
+      matchingFilters.
+      reduce(
+        // loop over promises passing value to next promise
+        function (current, next) {
+          return current.then(function (value) {
+            return next(value, utils);
+          });
+        },
+        // call initial filter, will return a promise
+        initialFilter(value, utils)
+        // all executed
+      ).
+      then(function (value) {
         return resolve(value);
-      }).catch(function (error) {
+      }).
+      catch(function (error) {
         return reject(error);
       });
     });
   };
   var applyFilters = function applyFilters(key, value, utils) {
-    return filters.filter(function (f) {
+    return filters.
+    filter(function (f) {
       return f.key === key;
-    }).map(function (f) {
+    }).
+    map(function (f) {
       return f.cb(value, utils);
     });
   };
   // adds a new filter to the list
   var addFilter = function addFilter(key, cb) {
-    return filters.push({
-      key: key,
-      cb: cb
-    });
+    return filters.push({ key: key, cb: cb });
   };
   var extendDefaultOptions = function extendDefaultOptions(additionalOptions) {
     return Object.assign(defaultOptions, additionalOptions);
@@ -2964,7 +3126,10 @@
     // Labels and status messages
     labelDecimalSeparator: [getDecimalSeparator(), Type.STRING],
     labelThousandsSeparator: [getThousandsSeparator(), Type.STRING],
-    labelIdle: ['Drag & Drop your files or <span class="filepond--label-action">Browse</span>', Type.STRING],
+    labelIdle: [
+    'Drag & Drop your files or <span class="filepond--label-action">Browse</span>',
+    Type.STRING],
+
     labelInvalidField: ['Field contains invalid files', Type.STRING],
     labelFileWaitingForSize: ['Waiting for size', Type.STRING],
     labelFileSizeNotAvailable: ['Size not available', Type.STRING],
@@ -2991,11 +3156,26 @@
     labelButtonRetryItemProcessing: ['Retry', Type.STRING],
     labelButtonProcessItem: ['Upload', Type.STRING],
     // make sure width and height plus viewpox are even numbers so icons are nicely centered
-    iconRemove: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
-    iconProcess: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>', Type.STRING],
-    iconRetry: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
-    iconUndo: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
-    iconDone: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING],
+    iconRemove: [
+    '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>',
+    Type.STRING],
+
+    iconProcess: [
+    '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>',
+    Type.STRING],
+
+    iconRetry: [
+    '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>',
+    Type.STRING],
+
+    iconUndo: [
+    '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>',
+    Type.STRING],
+
+    iconDone: [
+    '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>',
+    Type.STRING],
+
     // event handlers
     oninit: [null, Type.FUNCTION],
     onwarning: [null, Type.FUNCTION],
@@ -3074,9 +3254,17 @@
     BUSY: 3,
     READY: 4 // all files uploaded
   };
+  var ITEM_ERROR = [
+  ItemStatus.LOAD_ERROR,
+  ItemStatus.PROCESSING_ERROR,
+  ItemStatus.PROCESSING_REVERT_ERROR];
 
-  var ITEM_ERROR = [ItemStatus.LOAD_ERROR, ItemStatus.PROCESSING_ERROR, ItemStatus.PROCESSING_REVERT_ERROR];
-  var ITEM_BUSY = [ItemStatus.LOADING, ItemStatus.PROCESSING, ItemStatus.PROCESSING_QUEUED, ItemStatus.INIT];
+  var ITEM_BUSY = [
+  ItemStatus.LOADING,
+  ItemStatus.PROCESSING,
+  ItemStatus.PROCESSING_QUEUED,
+  ItemStatus.INIT];
+
   var ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];
   var isItemInErrorState = function isItemInErrorState(item) {
     return ITEM_ERROR.includes(item.status);
@@ -3091,15 +3279,15 @@
     return {
       GET_STATUS: function GET_STATUS() {
         var items = getActiveItems(state.items);
-        var EMPTY = Status.EMPTY,
-          ERROR = Status.ERROR,
-          BUSY = Status.BUSY,
-          IDLE = Status.IDLE,
-          READY = Status.READY;
-        if (items.length === 0) return EMPTY;
-        if (items.some(isItemInErrorState)) return ERROR;
-        if (items.some(isItemInBusyState)) return BUSY;
-        if (items.some(isItemInReadyState)) return READY;
+        var EMPTY = Status.EMPTY,ERROR = Status.ERROR,BUSY = Status.BUSY,IDLE = Status.IDLE,READY = Status.READY;
+        if (items.length === 0)
+        return EMPTY;
+        if (items.some(isItemInErrorState))
+        return ERROR;
+        if (items.some(isItemInBusyState))
+        return BUSY;
+        if (items.some(isItemInReadyState))
+        return READY;
         return IDLE;
       },
       GET_ITEM: function GET_ITEM(query) {
@@ -3123,9 +3311,11 @@
         return item ? item.fileSize : null;
       },
       GET_STYLES: function GET_STYLES() {
-        return Object.keys(state.options).filter(function (key) {
+        return Object.keys(state.options).
+        filter(function (key) {
           return /^style/.test(key);
-        }).map(function (option) {
+        }).
+        map(function (option) {
           return {
             name: option,
             value: state.options[option]
@@ -3134,7 +3324,9 @@
       },
       GET_PANEL_ASPECT_RATIO: function GET_PANEL_ASPECT_RATIO() {
         var isShapeCircle = /circle/.test(state.options.stylePanelLayout);
-        var aspectRatio = isShapeCircle ? 1 : getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);
+        var aspectRatio = isShapeCircle ?
+        1 :
+        getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);
         return aspectRatio;
       },
       GET_ITEM_PANEL_ASPECT_RATIO: function GET_ITEM_PANEL_ASPECT_RATIO() {
@@ -3149,7 +3341,9 @@
         return getActiveItems(state.items).length;
       },
       IS_ASYNC: function IS_ASYNC() {
-        return isObject(state.options.server) && (isObject(state.options.server.process) || isFunction(state.options.server.process));
+        return isObject(state.options.server) && (
+        isObject(state.options.server.process) ||
+        isFunction(state.options.server.process));
       }
     };
   };
@@ -3197,7 +3391,11 @@
     return /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(str);
   };
   var getFilenameFromURL = function getFilenameFromURL(url) {
-    return url.split('/').pop().split('?').shift();
+    return url.
+    split('/').
+    pop().
+    split('?').
+    shift();
   };
   var getExtensionFromFilename = function getExtensionFromFilename(name) {
     return name.split('.').pop();
@@ -3238,16 +3436,31 @@
     return (padding + value).slice(-padding.length);
   };
   var getDateString = function getDateString() {
-    var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
-    return date.getFullYear() + '-' + leftPad(date.getMonth() + 1, '00') + '-' + leftPad(date.getDate(), '00') + '_' + leftPad(date.getHours(), '00') + '-' + leftPad(date.getMinutes(), '00') + '-' + leftPad(date.getSeconds(), '00');
+    var date = arguments.length > 0 && arguments[0] !== undefined ?
+    arguments[0] :
+    new Date();
+    return date.getFullYear() +
+    '-' +
+    leftPad(date.getMonth() + 1, '00') +
+    '-' +
+    leftPad(date.getDate(), '00') +
+    '_' +
+    leftPad(date.getHours(), '00') +
+    '-' +
+    leftPad(date.getMinutes(), '00') +
+    '-' +
+    leftPad(date.getSeconds(), '00');
   };
   var getFileFromBlob = function getFileFromBlob(blob, filename) {
     var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     var extension = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-    var file = typeof type === 'string' ? blob.slice(0, blob.size, type) : blob.slice(0, blob.size, blob.type);
+    var file = typeof type === 'string' ?
+    blob.slice(0, blob.size, type) :
+    blob.slice(0, blob.size, blob.type);
     file.lastModifiedDate = new Date();
     // copy relative path
-    if (blob._relativePath) file._relativePath = blob._relativePath;
+    if (blob._relativePath)
+    file._relativePath = blob._relativePath;
     // if blob has name property, use as filename if no filename supplied
     if (!isString(filename)) {
       filename = getDateString();
@@ -3255,14 +3468,19 @@
     // if filename supplied but no extension and filename has extension
     if (filename && extension === null && getExtensionFromFilename(filename)) {
       file.name = filename;
-    } else {
+    } else
+    {
       extension = extension || guesstimateExtension(file.type);
       file.name = filename + (extension ? '.' + extension : '');
     }
     return file;
   };
   var getBlobBuilder = function getBlobBuilder() {
-    return window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+    return window.BlobBuilder =
+    window.BlobBuilder ||
+    window.WebKitBlobBuilder ||
+    window.MozBlobBuilder ||
+    window.MSBlobBuilder;
   };
   var createBlob = function createBlob(arrayBuffer, mimeType) {
     var BB = getBlobBuilder();
@@ -3305,11 +3523,16 @@
   };
   var getFileNameFromHeader = function getFileNameFromHeader(header) {
     // test if is content disposition header, if not exit
-    if (!/^content-disposition:/i.test(header)) return null;
+    if (!/^content-disposition:/i.test(header))
+    return null;
     // get filename parts
-    var matches = header.split(/filename=|filename\*=.+''/).splice(1).map(function (name) {
+    var matches = header.
+    split(/filename=|filename\*=.+''/).
+    splice(1).
+    map(function (name) {
       return name.trim().replace(/^["']|[;"']{0,2}$/g, '');
-    }).filter(function (name) {
+    }).
+    filter(function (name) {
       return name.length;
     });
     return matches.length ? decodeURI(matches[matches.length - 1]) : null;
@@ -3357,15 +3580,18 @@
           continue;
         }
       }
-    } catch (err) {
+    }
+    catch (err) {
       _didIteratorError = true;
       _iteratorError = err;
-    } finally {
+    } finally
+    {
       try {
         if (!_iteratorNormalCompletion && _iterator.return != null) {
           _iterator.return();
         }
-      } finally {
+      } finally
+      {
         if (_didIteratorError) {
           throw _iteratorError;
         }
@@ -3399,13 +3625,16 @@
       // Load Files
       if (source instanceof File) {
         api.fire('load', source);
-      } else if (source instanceof Blob) {
+      } else
+      if (source instanceof Blob) {
         // Load blobs, set default name to current date
         api.fire('load', getFileFromBlob(source, source.name));
-      } else if (isBase64DataURI(source)) {
+      } else
+      if (isBase64DataURI(source)) {
         // Load base 64, set default name to current date
         api.fire('load', getFileFromBase64DataURI(source));
-      } else {
+      } else
+      {
         // Deal as if is external URL, let's load it!
         loadURL(source);
       }
@@ -3435,13 +3664,19 @@
         }
         api.fire('load',
         // if has received blob, we go with blob, if no response, we return null
-        response instanceof Blob ? response : response ? response.body : null);
+        response instanceof Blob ?
+        response :
+        response ?
+        response.body :
+        null);
       }, function (error) {
-        api.fire('error', typeof error === 'string' ? {
+        api.fire('error', typeof error === 'string' ?
+        {
           type: 'error',
           code: 0,
           body: error
-        } : error);
+        } :
+        error);
       }, function (computable, current, total) {
         // collected some meta data already
         if (total) {
@@ -3477,7 +3712,6 @@
       abort: abort,
       load: load // start load
     });
-
     return api;
   };
   var isGet = function isGet(method) {
@@ -3509,7 +3743,10 @@
     url = encodeURI(url);
     // if method is GET, add any received data to url
     if (isGet(options.method) && data) {
-      url = '' + url + encodeURIComponent(typeof data === 'string' ? data : JSON.stringify(data));
+      url =
+      '' +
+      url +
+      encodeURIComponent(typeof data === 'string' ? data : JSON.stringify(data));
     }
     // create request
     var xhr = new XMLHttpRequest();
@@ -3544,7 +3781,8 @@
       // is classified as valid response
       if (xhr.status >= 200 && xhr.status < 300) {
         api.onload(xhr);
-      } else {
+      } else
+      {
         api.onerror(xhr);
       }
     };
@@ -3622,10 +3860,12 @@
       return null;
     }
     // set onload hanlder
-    var onload = action.onload || function (res) {
+    var onload = action.onload ||
+    function (res) {
       return res;
     };
-    var onerror = action.onerror || function (res) {
+    var onerror = action.onerror ||
+    function (res) {
       return null;
     };
     // internal handler
@@ -3640,7 +3880,9 @@
         // get filename
         var filename = getFileInfoFromHeaders(headers).name || getFilenameFromURL(url);
         // create response
-        load(createResponse('load', xhr.status, action.method === 'HEAD' ? null : getFileFromBlob(onload(xhr.response), filename), headers));
+        load(createResponse('load', xhr.status, action.method === 'HEAD' ?
+        null :
+        getFileFromBlob(onload(xhr.response), filename), headers));
       };
       request.onerror = function (xhr) {
         error(createResponse('error', xhr.status, onerror(xhr.response) || xhr.statusText, xhr.getAllResponseHeaders()));
@@ -3674,31 +3916,36 @@
   var processFileChunked = function processFileChunked(apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options) {
     // all chunks
     var chunks = [];
-    var chunkTransferId = options.chunkTransferId,
-      chunkServer = options.chunkServer,
-      chunkSize = options.chunkSize,
-      chunkRetryDelays = options.chunkRetryDelays;
+    var chunkTransferId = options.chunkTransferId,chunkServer = options.chunkServer,chunkSize = options.chunkSize,chunkRetryDelays = options.chunkRetryDelays;
     // default state
     var state = {
       serverId: chunkTransferId,
       aborted: false
     };
     // set onload handlers
-    var ondata = action.ondata || function (fd) {
+    var ondata = action.ondata ||
+    function (fd) {
       return fd;
     };
-    var onload = action.onload || function (xhr, method) {
-      return method === 'HEAD' ? xhr.getResponseHeader('Upload-Offset') : xhr.response;
+    var onload = action.onload ||
+    function (xhr, method) {
+      return method === 'HEAD' ?
+      xhr.getResponseHeader('Upload-Offset') :
+      xhr.response;
     };
-    var onerror = action.onerror || function (res) {
+    var onerror = action.onerror ||
+    function (res) {
       return null;
     };
     // create server hook
     var requestTransferId = function requestTransferId(cb) {
       var formData = new FormData();
       // add metadata under same name
-      if (isObject(metadata)) formData.append(name, JSON.stringify(metadata));
-      var headers = typeof action.headers === 'function' ? action.headers(file, metadata) : Object.assign({}, action.headers, {
+      if (isObject(metadata))
+      formData.append(name, JSON.stringify(metadata));
+      var headers = typeof action.headers === 'function' ?
+      action.headers(file, metadata) :
+      Object.assign({}, action.headers, {
         'Upload-Length': file.size
       });
       var requestParams = Object.assign({}, action, {
@@ -3716,7 +3963,9 @@
     };
     var requestTransferOffset = function requestTransferOffset(cb) {
       var requestUrl = buildURL(apiUrl, chunkServer.url, state.serverId);
-      var headers = typeof action.headers === 'function' ? action.headers(state.serverId) : Object.assign({}, action.headers);
+      var headers = typeof action.headers === 'function' ?
+      action.headers(state.serverId) :
+      Object.assign({}, action.headers);
       var requestParams = {
         headers: headers,
         method: 'HEAD'
@@ -3753,11 +4002,13 @@
       return load(state.serverId);
     };
     var canProcessChunk = function canProcessChunk(chunk) {
-      return chunk.status === ChunkStatus.QUEUED || chunk.status === ChunkStatus.ERROR;
+      return chunk.status === ChunkStatus.QUEUED ||
+      chunk.status === ChunkStatus.ERROR;
     };
     var processChunk = function processChunk(chunk) {
       // processing is paused, wait here
-      if (state.aborted) return;
+      if (state.aborted)
+      return;
       // get next chunk to process
       chunk = chunk || chunks.find(canProcessChunk);
       // no more chunks to process
@@ -3775,15 +4026,19 @@
       chunk.status = ChunkStatus.PROCESSING;
       chunk.progress = null;
       // allow parsing of formdata
-      var ondata = chunkServer.ondata || function (fd) {
+      var ondata = chunkServer.ondata ||
+      function (fd) {
         return fd;
       };
-      var onerror = chunkServer.onerror || function (res) {
+      var onerror = chunkServer.onerror ||
+      function (res) {
         return null;
       };
       // send request object
       var requestUrl = buildURL(apiUrl, chunkServer.url, state.serverId);
-      var headers = typeof chunkServer.headers === 'function' ? chunkServer.headers(chunk) : Object.assign({}, chunkServer.headers, {
+      var headers = typeof chunkServer.headers === 'function' ?
+      chunkServer.headers(chunk) :
+      Object.assign({}, chunkServer.headers, {
         'Content-Type': 'application/offset+octet-stream',
         'Upload-Offset': chunk.offset,
         'Upload-Length': file.size,
@@ -3827,7 +4082,8 @@
     };
     var retryProcessChunk = function retryProcessChunk(chunk) {
       // no more retries left
-      if (chunk.retries.length === 0) return false;
+      if (chunk.retries.length === 0)
+      return false;
       // new retry
       chunk.status = ChunkStatus.WAITING;
       clearTimeout(chunk.timeout);
@@ -3840,11 +4096,13 @@
     var updateTotalProgress = function updateTotalProgress() {
       // calculate total progress fraction
       var totalBytesTransfered = chunks.reduce(function (p, chunk) {
-        if (p === null || chunk.progress === null) return null;
+        if (p === null || chunk.progress === null)
+        return null;
         return p + chunk.progress;
       }, 0);
       // can't compute progress
-      if (totalBytesTransfered === null) return progress(false, 0, 0);
+      if (totalBytesTransfered === null)
+      return progress(false, 0, 0);
       // calculate progress values
       var totalSize = chunks.reduce(function (total, chunk) {
         return total + chunk.size;
@@ -3857,7 +4115,8 @@
       var totalProcessing = chunks.filter(function (chunk) {
         return chunk.status === ChunkStatus.PROCESSING;
       }).length;
-      if (totalProcessing >= 1) return;
+      if (totalProcessing >= 1)
+      return;
       processChunk();
     };
     var abortChunks = function abortChunks() {
@@ -3872,21 +4131,26 @@
     if (!state.serverId) {
       requestTransferId(function (serverId) {
         // stop here if aborted, might have happened in between request and callback
-        if (state.aborted) return;
+        if (state.aborted)
+        return;
         // pass back to item so we can use it if something goes wrong
         transfer(serverId);
         // store internally
         state.serverId = serverId;
         processChunks();
       });
-    } else {
+    } else
+    {
       requestTransferOffset(function (offset) {
         // stop here if aborted, might have happened in between request and callback
-        if (state.aborted) return;
+        if (state.aborted)
+        return;
         // mark chunks with lower offset as complete
-        chunks.filter(function (chunk) {
+        chunks.
+        filter(function (chunk) {
           return chunk.offset < offset;
-        }).forEach(function (chunk) {
+        }).
+        forEach(function (chunk) {
           chunk.status = ChunkStatus.COMPLETE;
           chunk.progress = chunk.size;
         });
@@ -3912,20 +4176,25 @@
   var createFileProcessorFunction = function createFileProcessorFunction(apiUrl, action, name, options) {
     return function (file, metadata, load, error, progress, abort, transfer) {
       // no file received
-      if (!file) return;
+      if (!file)
+      return;
       // if was passed a file, and we can chunk it, exit here
       var canChunkUpload = options.chunkUploads;
       var shouldChunkUpload = canChunkUpload && file.size > options.chunkSize;
       var willChunkUpload = canChunkUpload && (shouldChunkUpload || options.chunkForce);
-      if (file instanceof Blob && willChunkUpload) return processFileChunked(apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options);
+      if (file instanceof Blob && willChunkUpload)
+      return processFileChunked(apiUrl, action, name, file, metadata, load, error, progress, abort, transfer, options);
       // set handlers
-      var ondata = action.ondata || function (fd) {
+      var ondata = action.ondata ||
+      function (fd) {
         return fd;
       };
-      var onload = action.onload || function (res) {
+      var onload = action.onload ||
+      function (res) {
         return res;
       };
-      var onerror = action.onerror || function (res) {
+      var onerror = action.onerror ||
+      function (res) {
         return null;
       };
       // create formdata object
@@ -3935,11 +4204,10 @@
         formData.append(name, JSON.stringify(metadata));
       }
       // Turn into an array of objects so no matter what the input, we can handle it the same way
-      (file instanceof Blob ? [{
-        name: null,
-        file: file
-      }] : file).forEach(function (item) {
-        formData.append(name, item.file, item.name === null ? item.file.name : '' + item.name + item.file.name);
+      (file instanceof Blob ? [{ name: null, file: file }] : file).forEach(function (item) {
+        formData.append(name, item.file, item.name === null ?
+        item.file.name :
+        '' + item.name + item.file.name);
       });
       // send request object
       var request = sendRequest(ondata(formData), buildURL(apiUrl, action.url), action);
@@ -3962,14 +4230,16 @@
     var name = arguments.length > 2 ? arguments[2] : undefined;
     var options = arguments.length > 3 ? arguments[3] : undefined;
     // custom handler (should also handle file, load, error, progress and abort)
-    if (typeof action === 'function') return function () {
+    if (typeof action === 'function')
+    return function () {
       for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
         params[_key] = arguments[_key];
       }
       return action.apply(void 0, [name].concat(params, [options]));
     };
     // no action supplied
-    if (!action || !isString(action.url)) return null;
+    if (!action || !isString(action.url))
+    return null;
     // internal handler
     return createFileProcessorFunction(apiUrl, action, name, options);
   };
@@ -3991,17 +4261,18 @@
       };
     }
     // set onload hanlder
-    var onload = action.onload || function (res) {
+    var onload = action.onload ||
+    function (res) {
       return res;
     };
-    var onerror = action.onerror || function (res) {
+    var onerror = action.onerror ||
+    function (res) {
       return null;
     };
     // internal implementation
     return function (uniqueFileId, load, error) {
       var request = sendRequest(uniqueFileId, apiUrl + action.url, action // contains method, headers and withCredentials properties
       );
-
       request.onload = function (xhr) {
         load(createResponse('load', xhr.status, onload(xhr.response), xhr.getAllResponseHeaders()));
       };
@@ -4062,7 +4333,8 @@
         // we've not yet started the real download, stop here
         // the request might not go through, for instance, there might be some server trouble
         // if state.progress is null, the server does not allow computing progress and we show the spinner instead
-        if (state.duration === 0 || state.progress === null) return;
+        if (state.duration === 0 || state.progress === null)
+        return;
         // as we're now processing, fire the progress event
         api.fire('progress', api.getProgress());
       };
@@ -4081,7 +4353,9 @@
         progressFn();
         // if fake progress is done, and a response has been received,
         // and we've not yet called the complete method
-        if (state.response && state.perceivedProgress === 1 && !state.complete) {
+        if (state.response &&
+        state.perceivedProgress === 1 &&
+        !state.complete) {
           // we done!
           completeFn();
         }
@@ -4091,73 +4365,79 @@
       getRandomNumber(750, 1500));
       // remember request so we can abort it later
       state.request = processFn(
-      // the file to process
-      file,
-      // the metadata to send along
-      metadata,
-      // callbacks (load, error, progress, abort, transfer)
-      // load expects the body to be a server id if
-      // you want to make use of revert
-      function (response) {
-        // we put the response in state so we can access
-        // it outside of this method
-        state.response = isObject(response) ? response : {
-          type: 'load',
-          code: 200,
-          body: '' + response,
-          headers: {}
-        };
-        // update duration
-        state.duration = Date.now() - state.timestamp;
-        // force progress to 1 as we're now done
-        state.progress = 1;
-        // actual load is done let's share results
-        api.fire('load', state.response.body);
-        // we are really done
-        // if perceived progress is 1 ( wait for perceived progress to complete )
-        // or if server does not support progress ( null )
-        if (state.perceivedProgress === 1) {
-          completeFn();
-        }
-      },
-      // error is expected to be an object with type, code, body
-      function (error) {
-        // cancel updater
-        state.perceivedPerformanceUpdater.clear();
-        // update others about this error
-        api.fire('error', isObject(error) ? error : {
-          type: 'error',
-          code: 0,
-          body: '' + error
+        // the file to process
+        file,
+        // the metadata to send along
+        metadata,
+        // callbacks (load, error, progress, abort, transfer)
+        // load expects the body to be a server id if
+        // you want to make use of revert
+        function (response) {
+          // we put the response in state so we can access
+          // it outside of this method
+          state.response = isObject(response) ?
+          response :
+          {
+            type: 'load',
+            code: 200,
+            body: '' + response,
+            headers: {}
+          };
+          // update duration
+          state.duration = Date.now() - state.timestamp;
+          // force progress to 1 as we're now done
+          state.progress = 1;
+          // actual load is done let's share results
+          api.fire('load', state.response.body);
+          // we are really done
+          // if perceived progress is 1 ( wait for perceived progress to complete )
+          // or if server does not support progress ( null )
+          if (state.perceivedProgress === 1) {
+            completeFn();
+          }
+        },
+        // error is expected to be an object with type, code, body
+        function (error) {
+          // cancel updater
+          state.perceivedPerformanceUpdater.clear();
+          // update others about this error
+          api.fire('error', isObject(error) ?
+          error :
+          {
+            type: 'error',
+            code: 0,
+            body: '' + error
+          });
+        },
+        // actual processing progress
+        function (computable, current, total) {
+          // update actual duration
+          state.duration = Date.now() - state.timestamp;
+          // update actual progress
+          state.progress = computable ? current / total : null;
+          progressFn();
+        },
+        // abort does not expect a value
+        function () {
+          // stop updater
+          state.perceivedPerformanceUpdater.clear();
+          // fire the abort event so we can switch visuals
+          api.fire('abort', state.response ? state.response.body : null);
+        },
+        // register the id for this transfer
+        function (transferId) {
+          api.fire('transfer', transferId);
         });
-      },
-      // actual processing progress
-      function (computable, current, total) {
-        // update actual duration
-        state.duration = Date.now() - state.timestamp;
-        // update actual progress
-        state.progress = computable ? current / total : null;
-        progressFn();
-      },
-      // abort does not expect a value
-      function () {
-        // stop updater
-        state.perceivedPerformanceUpdater.clear();
-        // fire the abort event so we can switch visuals
-        api.fire('abort', state.response ? state.response.body : null);
-      },
-      // register the id for this transfer
-      function (transferId) {
-        api.fire('transfer', transferId);
-      });
     };
     var abort = function abort() {
       // no request running, can't abort
-      if (!state.request) return;
+      if (!state.request)
+      return;
       // stop updater
       state.perceivedPerformanceUpdater.clear();
       // abort actual request
-      if (state.request.abort) state.request.abort();
+      if (state.request.abort)
+      state.request.abort();
       // if has response object, we've completed the request
       state.complete = true;
     };
@@ -4173,7 +4453,9 @@
       state.response = null;
     };
     var getProgress = function getProgress() {
-      return state.progress ? Math.min(state.progress, state.perceivedProgress) : null;
+      return state.progress ?
+      Math.min(state.progress, state.perceivedProgress) :
+      null;
     };
     var getDuration = function getDuration() {
       return Math.min(state.duration, state.perceivedDuration);
@@ -4195,11 +4477,13 @@
     // is blob or base64, then we need to set the name
     if (source instanceof Blob || isBase64DataURI(source)) {
       data[0] = source.name || getDateString();
-    } else if (isBase64DataURI(source)) {
+    } else
+    if (isBase64DataURI(source)) {
       // if is base64 data uri we need to determine the average size and type
       data[1] = source.length;
       data[2] = getMimeTypeFromBase64DataURI(source);
-    } else if (isString(source)) {
+    } else
+    if (isString(source)) {
       // url
       data[0] = getFilenameFromURL(source);
       data[1] = 0;
@@ -4215,10 +4499,12 @@
     return !!(value instanceof File || value instanceof Blob && value.name);
   };
   var deepCloneObject = function deepCloneObject(src) {
-    if (!isObject(src)) return src;
+    if (!isObject(src))
+    return src;
     var target = isArray(src) ? [] : {};
     for (var key in src) {
-      if (!src.hasOwnProperty(key)) continue;
+      if (!src.hasOwnProperty(key))
+      continue;
       var v = src[key];
       target[key] = v && isObject(v) ? deepCloneObject(v) : v;
     }
@@ -4251,7 +4537,9 @@
       // is aborted
       processingAborted: false,
       // current item status
-      status: serverFileReference ? ItemStatus.PROCESSING_COMPLETE : ItemStatus.INIT,
+      status: serverFileReference ?
+      ItemStatus.PROCESSING_COMPLETE :
+      ItemStatus.INIT,
       // active processes
       activeLoader: null,
       activeProcessor: null
@@ -4268,7 +4556,8 @@
     };
     // fire event unless the item has been archived
     var fire = function fire(event) {
-      if (state.released || state.frozen) return;
+      if (state.released || state.frozen)
+      return;
       for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         params[_key - 1] = arguments[_key];
       }
@@ -4347,7 +4636,8 @@
           // file received
           if (origin === FileOrigin.LIMBO && state.serverFileReference) {
             setStatus(ItemStatus.PROCESSING_COMPLETE);
-          } else {
+          } else
+          {
             setStatus(ItemStatus.IDLE);
           }
           fire('load');
@@ -4454,7 +4744,8 @@
       // when successfully transformed
       var success = function success(file) {
         // if was archived in the mean time, don't process
-        if (state.archived) return;
+        if (state.archived)
+        return;
         // process file!
         processor.process(file, Object.assign({}, metadata));
       };
@@ -4525,11 +4816,13 @@
         return data = data[key];
       });
       // compare old value against new value, if they're the same, we're not updating
-      if (JSON.stringify(data[last]) === JSON.stringify(value)) return;
+      if (JSON.stringify(data[last]) === JSON.stringify(value))
+      return;
       // update value
       data[last] = value;
       // don't fire update
-      if (silent) return;
+      if (silent)
+      return;
       // fire update
       fire('metadata-update', {
         key: root,
@@ -4575,18 +4868,10 @@
           return getFilenameWithoutExtension(state.file.name);
         }
       },
-      fileExtension: {
-        get: getFileExtension
-      },
-      fileType: {
-        get: getFileType
-      },
-      fileSize: {
-        get: getFileSize
-      },
-      file: {
-        get: getFile
-      },
+      fileExtension: { get: getFileExtension },
+      fileType: { get: getFileType },
+      fileSize: { get: getFileSize },
+      file: { get: getFile },
       relativePath: {
         get: function get() {
           return state.file._relativePath;
@@ -4694,10 +4979,15 @@
     if (url.indexOf('//') === 0) {
       url = location.protocol + url;
     }
-    return url.toLowerCase().replace('blob:', '').replace(/([a-z])?:\/\//, '$1').split('/')[0];
+    return url.
+    toLowerCase().
+    replace('blob:', '').
+    replace(/([a-z])?:\/\//, '$1').
+    split('/')[0];
   };
   var isExternalURL = function isExternalURL(url) {
-    return (url.indexOf(':') > -1 || url.indexOf('//') > -1) && getDomainFromURL(location.href) !== getDomainFromURL(url);
+    return (url.indexOf(':') > -1 || url.indexOf('//') > -1) &&
+    getDomainFromURL(location.href) !== getDomainFromURL(url);
   };
   var dynamicLabel = function dynamicLabel(label) {
     return function () {
@@ -4710,9 +5000,7 @@
   var listUpdated = function listUpdated(dispatch, state) {
     clearTimeout(state.listUpdateTimeout);
     state.listUpdateTimeout = setTimeout(function () {
-      dispatch('DID_UPDATE_ITEMS', {
-        items: getActiveItems(state.items)
-      });
+      dispatch('DID_UPDATE_ITEMS', { items: getActiveItems(state.items) });
     }, 0);
   };
   var optionalPromise = function optionalPromise(fn) {
@@ -4744,12 +5032,11 @@
   var getItemByQueryFromState = function getItemByQueryFromState(state, itemHandler) {
     return function () {
       var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var query = _ref.query,
-        _ref$success = _ref.success,
-        success = _ref$success === void 0 ? function () {} : _ref$success,
-        _ref$failure = _ref.failure,
-        failure = _ref$failure === void 0 ? function () {} : _ref$failure,
-        options = _objectWithoutProperties(_ref, ['query', 'success', 'failure']);
+      var query = _ref.query,_ref$success = _ref.success,success = _ref$success === void 0 ? function () {} : _ref$success,_ref$failure = _ref.failure,failure = _ref$failure === void 0 ? function () {} : _ref$failure,options = _objectWithoutProperties(_ref, [
+        'query',
+        'success',
+        'failure']
+        );
       var item = getItemByQuery(state.items, query);
       if (!item) {
         failure({
@@ -4777,8 +5064,7 @@
        * Sets initial files
        */
       DID_SET_FILES: function DID_SET_FILES(_ref2) {
-        var _ref2$value = _ref2.value,
-          value = _ref2$value === void 0 ? [] : _ref2$value;
+        var _ref2$value = _ref2.value,value = _ref2$value === void 0 ? [] : _ref2$value;
         // map values to file objects
         var files = value.map(function (file) {
           return {
@@ -4794,10 +5080,7 @@
           if (!files.find(function (file) {
             return file.source === item.source || file.source === item.file;
           })) {
-            dispatch('REMOVE_ITEM', {
-              query: item,
-              remove: false
-            });
+            dispatch('REMOVE_ITEM', { query: item, remove: false });
           }
         });
         // add new files
@@ -4806,7 +5089,8 @@
           // if file is already in list
           if (activeItems.find(function (item) {
             return item.source === file.source || item.file === file.source;
-          })) return;
+          }))
+          return;
           // not in list, add
           dispatch('ADD_ITEM', Object.assign({}, file, {
             interactionMethod: InteractionMethod.NONE,
@@ -4815,8 +5099,7 @@
         });
       },
       DID_UPDATE_ITEM_METADATA: function DID_UPDATE_ITEM_METADATA(_ref3) {
-        var id = _ref3.id,
-          action = _ref3.action;
+        var id = _ref3.id,action = _ref3.action;
         // if is called multiple times in close succession we combined all calls together to save resources
         clearTimeout(state.itemUpdateTimeout);
         state.itemUpdateTimeout = setTimeout(function () {
@@ -4831,16 +5114,15 @@
             }).then(function (shouldPrepareOutput) {
               // plugins determined the output data should be prepared (or not), can be adjusted with beforePrepareOutput hook
               var beforePrepareFile = query('GET_BEFORE_PREPARE_FILE');
-              if (beforePrepareFile) shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
-              if (!shouldPrepareOutput) return;
+              if (beforePrepareFile)
+              shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
+              if (!shouldPrepareOutput)
+              return;
               dispatch('REQUEST_PREPARE_OUTPUT', {
                 query: id,
                 item: item,
                 success: function success(file) {
-                  dispatch('DID_PREPARE_OUTPUT', {
-                    id: id,
-                    file: file
-                  });
+                  dispatch('DID_PREPARE_OUTPUT', { id: id, file: file });
                 }
               }, true);
             });
@@ -4850,13 +5132,14 @@
           var upload = function upload() {
             // we push this forward a bit so the interface is updated correctly
             setTimeout(function () {
-              dispatch('REQUEST_ITEM_PROCESSING', {
-                query: id
-              });
+              dispatch('REQUEST_ITEM_PROCESSING', { query: id });
             }, 32);
           };
           var revert = function revert(doUpload) {
-            item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).then(doUpload ? upload : function () {}).catch(function () {});
+            item.
+            revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).
+            then(doUpload ? upload : function () {}).
+            catch(function () {});
           };
           var abort = function abort(doUpload) {
             item.abortProcessing().then(doUpload ? upload : function () {});
@@ -4875,13 +5158,14 @@
         }, 0);
       },
       MOVE_ITEM: function MOVE_ITEM(_ref4) {
-        var query = _ref4.query,
-          index = _ref4.index;
+        var query = _ref4.query,index = _ref4.index;
         var item = getItemByQuery(state.items, query);
-        if (!item) return;
+        if (!item)
+        return;
         var currentIndex = state.items.indexOf(item);
         index = limit(index, 0, state.items.length - 1);
-        if (currentIndex === index) return;
+        if (currentIndex === index)
+        return;
         state.items.splice(index, 0, state.items.splice(currentIndex, 1)[0]);
       },
       SORT: function SORT(_ref5) {
@@ -4892,13 +5176,7 @@
         });
       },
       ADD_ITEMS: function ADD_ITEMS(_ref6) {
-        var items = _ref6.items,
-          index = _ref6.index,
-          interactionMethod = _ref6.interactionMethod,
-          _ref6$success = _ref6.success,
-          success = _ref6$success === void 0 ? function () {} : _ref6$success,
-          _ref6$failure = _ref6.failure,
-          failure = _ref6$failure === void 0 ? function () {} : _ref6$failure;
+        var items = _ref6.items,index = _ref6.index,interactionMethod = _ref6.interactionMethod,_ref6$success = _ref6.success,success = _ref6$success === void 0 ? function () {} : _ref6$success,_ref6$failure = _ref6.failure,failure = _ref6$failure === void 0 ? function () {} : _ref6$failure;
         var currentIndex = index;
         if (index === -1 || typeof index === 'undefined') {
           var insertLocation = query('GET_ITEM_INSERT_LOCATION');
@@ -4907,7 +5185,9 @@
         }
         var ignoredFiles = query('GET_IGNORED_FILES');
         var isValidFile = function isValidFile(source) {
-          return isFile(source) ? !ignoredFiles.includes(source.name.toLowerCase()) : !isEmpty(source);
+          return isFile(source) ?
+          !ignoredFiles.includes(source.name.toLowerCase()) :
+          !isEmpty(source);
         };
         var validItems = items.filter(isValidFile);
         var promises = validItems.map(function (source) {
@@ -4922,7 +5202,9 @@
             });
           });
         });
-        Promise.all(promises).then(success).catch(failure);
+        Promise.all(promises).
+        then(success).
+        catch(failure);
       },
       /**
        * @param source
@@ -4930,16 +5212,7 @@
        * @param interactionMethod
        */
       ADD_ITEM: function ADD_ITEM(_ref7) {
-        var source = _ref7.source,
-          _ref7$index = _ref7.index,
-          index = _ref7$index === void 0 ? -1 : _ref7$index,
-          interactionMethod = _ref7.interactionMethod,
-          _ref7$success = _ref7.success,
-          success = _ref7$success === void 0 ? function () {} : _ref7$success,
-          _ref7$failure = _ref7.failure,
-          failure = _ref7$failure === void 0 ? function () {} : _ref7$failure,
-          _ref7$options = _ref7.options,
-          options = _ref7$options === void 0 ? {} : _ref7$options;
+        var source = _ref7.source,_ref7$index = _ref7.index,index = _ref7$index === void 0 ? -1 : _ref7$index,interactionMethod = _ref7.interactionMethod,_ref7$success = _ref7.success,success = _ref7$success === void 0 ? function () {} : _ref7$success,_ref7$failure = _ref7.failure,failure = _ref7$failure === void 0 ? function () {} : _ref7$failure,_ref7$options = _ref7.options,options = _ref7$options === void 0 ? {} : _ref7$options;
         // if no source supplied
         if (isEmpty(source)) {
           failure({
@@ -4949,7 +5222,8 @@
           return;
         }
         // filter out invalid file items, used to filter dropped directory contents
-        if (isFile(source) && state.options.ignoredFiles.includes(source.name.toLowerCase())) {
+        if (isFile(source) &&
+        state.options.ignoredFiles.includes(source.name.toLowerCase())) {
           // fail silently
           return;
         }
@@ -4957,26 +5231,28 @@
         if (!hasRoomForItem(state)) {
           // if multiple allowed, we can't replace
           // or if only a single item is allowed but we're not allowed to replace it we exit
-          if (state.options.allowMultiple || !state.options.allowMultiple && !state.options.allowReplace) {
+          if (state.options.allowMultiple ||
+          !state.options.allowMultiple && !state.options.allowReplace) {
             var error = createResponse('warning', 0, 'Max files');
             dispatch('DID_THROW_MAX_FILES', {
               source: source,
               error: error
             });
-            failure({
-              error: error,
-              file: null
-            });
+            failure({ error: error, file: null });
             return;
           }
           // let's replace the item
           // id of first item we're about to remove
           var _item = getActiveItems(state.items)[0];
           // if has been processed remove it from the server as well
-          if (_item.status === ItemStatus.PROCESSING_COMPLETE || _item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
+          if (_item.status === ItemStatus.PROCESSING_COMPLETE ||
+          _item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
             var forceRevert = query('GET_FORCE_REVERT');
-            _item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), forceRevert).then(function () {
-              if (!forceRevert) return;
+            _item.
+            revert(createRevertFunction(state.options.server.url, state.options.server.revert), forceRevert).
+            then(function () {
+              if (!forceRevert)
+              return;
               // try to add now
               dispatch('ADD_ITEM', {
                 source: source,
@@ -4986,24 +5262,28 @@
                 failure: failure,
                 options: options
               });
-            }).catch(function () {}); // no need to handle this catch state for now
-            if (forceRevert) return;
+            }).
+            catch(function () {}); // no need to handle this catch state for now
+            if (forceRevert)
+            return;
           }
           // remove first item as it will be replaced by this item
-          dispatch('REMOVE_ITEM', {
-            query: _item.id
-          });
+          dispatch('REMOVE_ITEM', { query: _item.id });
         }
         // where did the file originate
-        var origin = options.type === 'local' ? FileOrigin.LOCAL : options.type === 'limbo' ? FileOrigin.LIMBO : FileOrigin.INPUT;
+        var origin = options.type === 'local' ?
+        FileOrigin.LOCAL :
+        options.type === 'limbo' ?
+        FileOrigin.LIMBO :
+        FileOrigin.INPUT;
         // create a new blank item
         var item = createItem(
-        // where did this file come from
-        origin,
-        // an input file never has a server file reference
-        origin === FileOrigin.INPUT ? null : source,
-        // file mock data, if defined
-        options.file);
+          // where did this file come from
+          origin,
+          // an input file never has a server file reference
+          origin === FileOrigin.INPUT ? null : source,
+          // file mock data, if defined
+          options.file);
         // set initial meta data
         Object.keys(options.metadata || {}).forEach(function (key) {
           item.setMetadata(key, options.metadata[key]);
@@ -5029,19 +5309,13 @@
         var id = item.id;
         // observe item events
         item.on('init', function () {
-          dispatch('DID_INIT_ITEM', {
-            id: id
-          });
+          dispatch('DID_INIT_ITEM', { id: id });
         });
         item.on('load-init', function () {
-          dispatch('DID_START_ITEM_LOAD', {
-            id: id
-          });
+          dispatch('DID_START_ITEM_LOAD', { id: id });
         });
         item.on('load-meta', function () {
-          dispatch('DID_UPDATE_ITEM_META', {
-            id: id
-          });
+          dispatch('DID_UPDATE_ITEM_META', { id: id });
         });
         item.on('load-progress', function (progress) {
           dispatch('DID_UPDATE_ITEM_LOAD_PROGRESS', {
@@ -5062,10 +5336,7 @@
               }
             });
             // reject the file so can be dealt with through API
-            failure({
-              error: error,
-              file: createItemAPI(item)
-            });
+            failure({ error: error, file: createItemAPI(item) });
             return;
           }
           // is possible server error, so might be possible to retry
@@ -5084,15 +5355,10 @@
             error: error.status,
             status: error.status
           });
-          failure({
-            error: error.status,
-            file: createItemAPI(item)
-          });
+          failure({ error: error.status, file: createItemAPI(item) });
         });
         item.on('load-abort', function () {
-          dispatch('REMOVE_ITEM', {
-            query: id
-          });
+          dispatch('REMOVE_ITEM', { query: id });
         });
         item.on('load-skip', function () {
           dispatch('COMPLETE_LOAD_ITEM', {
@@ -5115,10 +5381,7 @@
             }
             // now interested in metadata updates
             item.on('metadata-update', function (change) {
-              dispatch('DID_UPDATE_ITEM_METADATA', {
-                id: id,
-                change: change
-              });
+              dispatch('DID_UPDATE_ITEM_METADATA', { id: id, change: change });
             });
             // let plugins decide if the output data should be prepared at this point
             // means we'll do this and wait for idle state
@@ -5128,7 +5391,8 @@
             }).then(function (shouldPrepareOutput) {
               // plugins determined the output data should be prepared (or not), can be adjusted with beforePrepareOutput hook
               var beforePrepareFile = query('GET_BEFORE_PREPARE_FILE');
-              if (beforePrepareFile) shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
+              if (beforePrepareFile)
+              shouldPrepareOutput = beforePrepareFile(item, shouldPrepareOutput);
               var loadComplete = function loadComplete() {
                 dispatch('COMPLETE_LOAD_ITEM', {
                   query: id,
@@ -5147,10 +5411,7 @@
                   query: id,
                   item: item,
                   success: function success(file) {
-                    dispatch('DID_PREPARE_OUTPUT', {
-                      id: id,
-                      file: file
-                    });
+                    dispatch('DID_PREPARE_OUTPUT', { id: id, file: file });
                     loadComplete();
                   }
                 }, true);
@@ -5165,16 +5426,16 @@
           applyFilterChain('DID_LOAD_ITEM', item, {
             query: query,
             dispatch: dispatch
-          }).then(function () {
+          }).
+          then(function () {
             optionalPromise(query('GET_BEFORE_ADD_FILE'), createItemAPI(item)).then(handleAdd);
-          }).catch(function () {
+          }).
+          catch(function () {
             handleAdd(false);
           });
         });
         item.on('process-start', function () {
-          dispatch('DID_START_ITEM_PROCESSING', {
-            id: id
-          });
+          dispatch('DID_START_ITEM_PROCESSING', { id: id });
         });
         item.on('process-progress', function (progress) {
           dispatch('DID_UPDATE_ITEM_PROCESS_PROGRESS', {
@@ -5208,24 +5469,14 @@
             error: null,
             serverFileReference: serverFileReference
           });
-          dispatch('DID_DEFINE_VALUE', {
-            id: id,
-            value: serverFileReference
-          });
+          dispatch('DID_DEFINE_VALUE', { id: id, value: serverFileReference });
         });
         item.on('process-abort', function () {
-          dispatch('DID_ABORT_ITEM_PROCESSING', {
-            id: id
-          });
+          dispatch('DID_ABORT_ITEM_PROCESSING', { id: id });
         });
         item.on('process-revert', function () {
-          dispatch('DID_REVERT_ITEM_PROCESSING', {
-            id: id
-          });
-          dispatch('DID_DEFINE_VALUE', {
-            id: id,
-            value: null
-          });
+          dispatch('DID_REVERT_ITEM_PROCESSING', { id: id });
+          dispatch('DID_DEFINE_VALUE', { id: id, value: null });
         });
         // let view know the item has been inserted
         dispatch('DID_ADD_ITEM', {
@@ -5235,42 +5486,39 @@
         });
         listUpdated(dispatch, state);
         // start loading the source
-        var _ref8 = state.options.server || {},
-          url = _ref8.url,
-          load = _ref8.load,
-          restore = _ref8.restore,
-          fetch = _ref8.fetch;
+        var _ref8 = state.options.server || {},url = _ref8.url,load = _ref8.load,restore = _ref8.restore,fetch = _ref8.fetch;
         item.load(source,
         // this creates a function that loads the file based on the type of file (string, base64, blob, file) and location of file (local, remote, limbo)
         createFileLoader(origin === FileOrigin.INPUT ?
         // input, if is remote, see if should use custom fetch, else use default fetchBlob
-        isString(source) && isExternalURL(source) ? fetch ? createFetchFunction(url, fetch) : fetchBlob // remote url
+        isString(source) && isExternalURL(source) ?
+        fetch ?
+        createFetchFunction(url, fetch) :
+        fetchBlob // remote url
         : fetchBlob // try to fetch url
-        :
-        // limbo or local
-        origin === FileOrigin.LIMBO ? createFetchFunction(url, restore) // limbo
+        : // limbo or local
+        origin === FileOrigin.LIMBO ?
+        createFetchFunction(url, restore) // limbo
         : createFetchFunction(url, load) // local
         ),
         // called when the file is loaded so it can be piped through the filters
         function (file, success, error) {
           // let's process the file
-          applyFilterChain('LOAD_FILE', file, {
-            query: query
-          }).then(success).catch(error);
+          applyFilterChain('LOAD_FILE', file, { query: query }).
+          then(success).
+          catch(error);
         });
       },
       REQUEST_PREPARE_OUTPUT: function REQUEST_PREPARE_OUTPUT(_ref9) {
-        var item = _ref9.item,
-          success = _ref9.success,
-          _ref9$failure = _ref9.failure,
-          failure = _ref9$failure === void 0 ? function () {} : _ref9$failure;
+        var item = _ref9.item,success = _ref9.success,_ref9$failure = _ref9.failure,failure = _ref9$failure === void 0 ? function () {} : _ref9$failure;
         // error response if item archived
         var err = {
           error: createResponse('error', 0, 'Item not found'),
           file: null
         };
         // don't handle archived items, an item could have been archived (load aborted) while waiting to be prepared
-        if (item.archived) return failure(err);
+        if (item.archived)
+        return failure(err);
         // allow plugins to alter the file data
         applyFilterChain('PREPARE_OUTPUT', item.file, {
           query: query,
@@ -5281,17 +5529,16 @@
             item: item
           }).then(function (result) {
             // don't handle archived items, an item could have been archived (load aborted) while being prepared
-            if (item.archived) return failure(err);
+            if (item.archived)
+            return failure(err);
             // we done!
             success(result);
           });
         });
       },
       COMPLETE_LOAD_ITEM: function COMPLETE_LOAD_ITEM(_ref10) {
-        var item = _ref10.item,
-          data = _ref10.data;
-        var success = data.success,
-          source = data.source;
+        var item = _ref10.item,data = _ref10.data;
+        var success = data.success,source = data.source;
         // sort items in list
         var itemInsertLocation = query('GET_ITEM_INSERT_LOCATION');
         if (isFunction(itemInsertLocation) && source) {
@@ -5308,9 +5555,7 @@
         success(createItemAPI(item));
         // if this is a local server file we need to show a different state
         if (item.origin === FileOrigin.LOCAL) {
-          dispatch('DID_LOAD_LOCAL_ITEM', {
-            id: item.id
-          });
+          dispatch('DID_LOAD_LOCAL_ITEM', { id: item.id });
           return;
         }
         // if is a temp server file we prevent async upload call here (as the file is already on the server)
@@ -5328,9 +5573,7 @@
         }
         // id we are allowed to upload the file immediately, lets do it
         if (query('IS_ASYNC') && state.options.instantUpload) {
-          dispatch('REQUEST_ITEM_PROCESSING', {
-            query: item.id
-          });
+          dispatch('REQUEST_ITEM_PROCESSING', { query: item.id });
         }
       },
       RETRY_ITEM_LOAD: getItemByQueryFromState(state, function (item) {
@@ -5342,10 +5585,7 @@
           query: item.id,
           item: item,
           success: function success(file) {
-            dispatch('DID_PREPARE_OUTPUT', {
-              id: item.id,
-              file: file
-            });
+            dispatch('DID_PREPARE_OUTPUT', { id: item.id, file: file });
             _success({
               file: item,
               output: file
@@ -5374,24 +5614,24 @@
             return document.hidden ? processNow() : setTimeout(processNow, 32);
           };
           // if already done processing or tried to revert but didn't work, try again
-          if (item.status === ItemStatus.PROCESSING_COMPLETE || item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
-            item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).then(process).catch(function () {}); // don't continue with processing if something went wrong
-          } else if (item.status === ItemStatus.PROCESSING) {
+          if (item.status === ItemStatus.PROCESSING_COMPLETE ||
+          item.status === ItemStatus.PROCESSING_REVERT_ERROR) {
+            item.
+            revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).
+            then(process).
+            catch(function () {}); // don't continue with processing if something went wrong
+          } else
+          if (item.status === ItemStatus.PROCESSING) {
             item.abortProcessing().then(process);
           }
           return;
         }
         // already queued for processing
-        if (item.status === ItemStatus.PROCESSING_QUEUED) return;
+        if (item.status === ItemStatus.PROCESSING_QUEUED)
+        return;
         item.requestProcessing();
-        dispatch('DID_REQUEST_ITEM_PROCESSING', {
-          id: item.id
-        });
-        dispatch('PROCESS_ITEM', {
-          query: item,
-          success: success,
-          failure: failure
-        }, true);
+        dispatch('DID_REQUEST_ITEM_PROCESSING', { id: item.id });
+        dispatch('PROCESS_ITEM', { query: item, success: success, failure: failure }, true);
       }),
       PROCESS_ITEM: getItemByQueryFromState(state, function (item, success, failure) {
         var maxParallelUploads = query('GET_MAX_PARALLEL_UPLOADS');
@@ -5408,16 +5648,16 @@
           return;
         }
         // if was not queued or is already processing exit here
-        if (item.status === ItemStatus.PROCESSING) return;
+        if (item.status === ItemStatus.PROCESSING)
+        return;
         var processNext = function processNext() {
           // process queueud items
           var queueEntry = state.processingQueue.shift();
           // no items left
-          if (!queueEntry) return;
+          if (!queueEntry)
+          return;
           // get item reference
-          var id = queueEntry.id,
-            success = queueEntry.success,
-            failure = queueEntry.failure;
+          var id = queueEntry.id,success = queueEntry.success,failure = queueEntry.failure;
           var itemReference = getItemByQuery(state.items, id);
           // if item was archived while in queue, jump to next
           if (!itemReference || itemReference.archived) {
@@ -5425,28 +5665,22 @@
             return;
           }
           // process queued item
-          dispatch('PROCESS_ITEM', {
-            query: id,
-            success: success,
-            failure: failure
-          }, true);
+          dispatch('PROCESS_ITEM', { query: id, success: success, failure: failure }, true);
         };
         // we done function
         item.onOnce('process-complete', function () {
           success(createItemAPI(item));
           processNext();
           // All items processed? No errors?
-          var allItemsProcessed = query('GET_ITEMS_BY_STATUS', ItemStatus.PROCESSING_COMPLETE).length === state.items.length;
+          var allItemsProcessed = query('GET_ITEMS_BY_STATUS', ItemStatus.PROCESSING_COMPLETE).
+          length === state.items.length;
           if (allItemsProcessed) {
             dispatch('DID_COMPLETE_ITEM_PROCESSING_ALL');
           }
         });
         // we error function
         item.onOnce('process-error', function (error) {
-          failure({
-            error: error,
-            file: createItemAPI(item)
-          });
+          failure({ error: error, file: createItemAPI(item) });
           processNext();
         });
         // start file processing
@@ -5465,28 +5699,23 @@
           applyFilterChain('PREPARE_OUTPUT', file, {
             query: query,
             item: item
-          }).then(function (file) {
-            dispatch('DID_PREPARE_OUTPUT', {
-              id: item.id,
-              file: file
-            });
+          }).
+          then(function (file) {
+            dispatch('DID_PREPARE_OUTPUT', { id: item.id, file: file });
             success(file);
-          }).catch(error);
+          }).
+          catch(error);
         });
       }),
       RETRY_ITEM_PROCESSING: getItemByQueryFromState(state, function (item) {
-        dispatch('REQUEST_ITEM_PROCESSING', {
-          query: item
-        });
+        dispatch('REQUEST_ITEM_PROCESSING', { query: item });
       }),
       REQUEST_REMOVE_ITEM: getItemByQueryFromState(state, function (item) {
         optionalPromise(query('GET_BEFORE_REMOVE_FILE'), createItemAPI(item)).then(function (shouldRemove) {
           if (!shouldRemove) {
             return;
           }
-          dispatch('REMOVE_ITEM', {
-            query: item
-          });
+          dispatch('REMOVE_ITEM', { query: item });
         });
       }),
       RELEASE_ITEM: getItemByQueryFromState(state, function (item) {
@@ -5499,11 +5728,7 @@
           // archive the item, this does not remove it from the list
           getItemById(state.items, id).archive();
           // tell the view the item has been removed
-          dispatch('DID_REMOVE_ITEM', {
-            error: null,
-            id: id,
-            item: item
-          });
+          dispatch('DID_REMOVE_ITEM', { error: null, id: id, item: item });
           // now the list has been modified
           listUpdated(dispatch, state);
           // correctly removed
@@ -5511,10 +5736,11 @@
         };
         // if this is a local file and the server.remove function has been configured, send source there so dev can remove file from server
         var server = state.options.server;
-        if (item.origin === FileOrigin.LOCAL && server && isFunction(server.remove) && options.remove !== false) {
-          dispatch('DID_START_ITEM_REMOVE', {
-            id: item.id
-          });
+        if (item.origin === FileOrigin.LOCAL &&
+        server &&
+        isFunction(server.remove) &&
+        options.remove !== false) {
+          dispatch('DID_START_ITEM_REMOVE', { id: item.id });
           server.remove(item.source, function () {
             return removeFromView();
           }, function (status) {
@@ -5527,9 +5753,12 @@
               }
             });
           });
-        } else {
+        } else
+        {
           // if is requesting revert and can revert need to call revert handler (not calling request_ because that would also trigger beforeRemoveHook)
-          if (options.revert && item.origin !== FileOrigin.LOCAL && item.serverId !== null) {
+          if (options.revert &&
+          item.origin !== FileOrigin.LOCAL &&
+          item.serverId !== null) {
             item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT'));
           }
           // can now safely remove from view
@@ -5542,36 +5771,29 @@
       ABORT_ITEM_PROCESSING: getItemByQueryFromState(state, function (item) {
         // test if is already processed
         if (item.serverId) {
-          dispatch('REVERT_ITEM_PROCESSING', {
-            id: item.id
-          });
+          dispatch('REVERT_ITEM_PROCESSING', { id: item.id });
           return;
         }
         // abort
         item.abortProcessing().then(function () {
           var shouldRemove = state.options.instantUpload;
           if (shouldRemove) {
-            dispatch('REMOVE_ITEM', {
-              query: item.id
-            });
+            dispatch('REMOVE_ITEM', { query: item.id });
           }
         });
       }),
       REQUEST_REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, function (item) {
         // not instant uploading, revert immediately
         if (!state.options.instantUpload) {
-          dispatch('REVERT_ITEM_PROCESSING', {
-            query: item
-          });
+          dispatch('REVERT_ITEM_PROCESSING', { query: item });
           return;
         }
         // if we're instant uploading the file will also be removed if we revert,
         // so if a before remove file hook is defined we need to run it now
         var handleRevert = function handleRevert(shouldRevert) {
-          if (!shouldRevert) return;
-          dispatch('REVERT_ITEM_PROCESSING', {
-            query: item
-          });
+          if (!shouldRevert)
+          return;
+          dispatch('REVERT_ITEM_PROCESSING', { query: item });
         };
         var fn = query('GET_BEFORE_REMOVE_FILE');
         if (!fn) {
@@ -5590,14 +5812,15 @@
         }
       }),
       REVERT_ITEM_PROCESSING: getItemByQueryFromState(state, function (item) {
-        item.revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).then(function () {
+        item.
+        revert(createRevertFunction(state.options.server.url, state.options.server.revert), query('GET_FORCE_REVERT')).
+        then(function () {
           var shouldRemove = state.options.instantUpload || isMockItem(item);
           if (shouldRemove) {
-            dispatch('REMOVE_ITEM', {
-              query: item.id
-            });
+            dispatch('REMOVE_ITEM', { query: item.id });
           }
-        }).catch(function () {});
+        }).
+        catch(function () {});
       }),
       SET_OPTIONS: function SET_OPTIONS(_ref11) {
         var options = _ref11.options;
@@ -5620,7 +5843,8 @@
     if (!textNode) {
       textNode = document.createTextNode(value);
       node.appendChild(textNode);
-    } else if (value !== textNode.nodeValue) {
+    } else
+    if (value !== textNode.nodeValue) {
       textNode.nodeValue = value;
     }
   };
@@ -5634,7 +5858,19 @@
   var describeArc = function describeArc(x, y, radius, startAngle, endAngle, arcSweep) {
     var start = polarToCartesian(x, y, radius, endAngle);
     var end = polarToCartesian(x, y, radius, startAngle);
-    return ['M', start.x, start.y, 'A', radius, radius, 0, arcSweep, 0, end.x, end.y].join(' ');
+    return [
+    'M',
+    start.x,
+    start.y,
+    'A',
+    radius,
+    radius,
+    0,
+    arcSweep,
+    0,
+    end.x,
+    end.y].
+    join(' ');
   };
   var percentageArc = function percentageArc(x, y, radius, from, to) {
     var arcSweep = 1;
@@ -5647,8 +5883,7 @@
     return describeArc(x, y, radius, Math.min(0.9999, from) * 360, Math.min(0.9999, to) * 360, arcSweep);
   };
   var create = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // start at 0
     props.spin = false;
     props.progress = 0;
@@ -5664,8 +5899,7 @@
     root.appendChild(svg);
   };
   var write = function write(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props;
+    var root = _ref2.root,props = _ref2.props;
     if (props.opacity === 0) {
       return;
     }
@@ -5683,7 +5917,8 @@
     if (props.spin) {
       ringFrom = 0;
       ringTo = 0.5;
-    } else {
+    } else
+    {
       ringFrom = 0;
       ringTo = props.progress;
     }
@@ -5705,10 +5940,7 @@
       apis: ['progress', 'spin', 'align'],
       styles: ['opacity'],
       animations: {
-        opacity: {
-          type: 'tween',
-          duration: 500
-        },
+        opacity: { type: 'tween', duration: 500 },
         progress: {
           type: 'spring',
           stiffness: 0.95,
@@ -5719,20 +5951,20 @@
     }
   });
   var create$1 = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
-    root.element.innerHTML = (props.icon || '') + ('<span>' + props.label + '</span>');
+    var root = _ref.root,props = _ref.props;
+    root.element.innerHTML =
+    (props.icon || '') + ('<span>' + props.label + '</span>');
     props.isDisabled = false;
   };
   var write$1 = function write(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props;
+    var root = _ref2.root,props = _ref2.props;
     var isDisabled = props.isDisabled;
     var shouldDisable = root.query('GET_DISABLED') || props.opacity === 0;
     if (shouldDisable && !isDisabled) {
       props.isDisabled = true;
       attr(root.element, 'disabled', 'disabled');
-    } else if (!shouldDisable && isDisabled) {
+    } else
+    if (!shouldDisable && isDisabled) {
       props.isDisabled = false;
       root.element.removeAttribute('disabled');
     }
@@ -5753,10 +5985,7 @@
         scaleY: 'spring',
         translateX: 'spring',
         translateY: 'spring',
-        opacity: {
-          type: 'tween',
-          duration: 250
-        }
+        opacity: { type: 'tween', duration: 250 }
       },
       listeners: true
     },
@@ -5787,13 +6016,16 @@
     return removeDecimalsWhenZero(bytes / GB, 2, decimalSeparator) + ' GB';
   };
   var removeDecimalsWhenZero = function removeDecimalsWhenZero(value, decimalCount, separator) {
-    return value.toFixed(decimalCount).split('.').filter(function (part) {
+    return value.
+    toFixed(decimalCount).
+    split('.').
+    filter(function (part) {
       return part !== '0';
-    }).join(separator);
+    }).
+    join(separator);
   };
   var create$2 = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // filename
     var fileName = createElement$1('span');
     fileName.className = 'filepond--file-info-main';
@@ -5813,14 +6045,12 @@
     text(fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
   };
   var updateFile = function updateFile(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props;
+    var root = _ref2.root,props = _ref2.props;
     text(root.ref.fileSize, toNaturalFileSize(root.query('GET_ITEM_SIZE', props.id), '.', root.query('GET_FILE_SIZE_BASE')));
     text(root.ref.fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
   };
   var updateFileSizeOnError = function updateFileSizeOnError(_ref3) {
-    var root = _ref3.root,
-      props = _ref3.props;
+    var root = _ref3.root,props = _ref3.props;
     // if size is available don't fallback to unknown size message
     if (isInt(root.query('GET_ITEM_SIZE', props.id))) {
       return;
@@ -5838,9 +6068,7 @@
       DID_THROW_ITEM_INVALID: updateFileSizeOnError
     }),
     didCreateView: function didCreateView(root) {
-      applyFilters('CREATE_VIEW', Object.assign({}, root, {
-        view: root
-      }));
+      applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
     },
     create: create$2,
     mixins: {
@@ -5866,24 +6094,27 @@
     sub.className = 'filepond--file-status-sub';
     root.appendChild(sub);
     root.ref.sub = sub;
-    didSetItemLoadProgress({
-      root: root,
-      action: {
-        progress: null
-      }
-    });
+    didSetItemLoadProgress({ root: root, action: { progress: null } });
   };
   var didSetItemLoadProgress = function didSetItemLoadProgress(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
-    var title = action.progress === null ? root.query('GET_LABEL_FILE_LOADING') : root.query('GET_LABEL_FILE_LOADING') + ' ' + toPercentage(action.progress) + '%';
+    var root = _ref2.root,action = _ref2.action;
+    var title = action.progress === null ?
+    root.query('GET_LABEL_FILE_LOADING') :
+    root.query('GET_LABEL_FILE_LOADING') +
+    ' ' +
+    toPercentage(action.progress) +
+    '%';
     text(root.ref.main, title);
     text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
   };
   var didSetItemProcessProgress = function didSetItemProcessProgress(_ref3) {
-    var root = _ref3.root,
-      action = _ref3.action;
-    var title = action.progress === null ? root.query('GET_LABEL_FILE_PROCESSING') : root.query('GET_LABEL_FILE_PROCESSING') + ' ' + toPercentage(action.progress) + '%';
+    var root = _ref3.root,action = _ref3.action;
+    var title = action.progress === null ?
+    root.query('GET_LABEL_FILE_PROCESSING') :
+    root.query('GET_LABEL_FILE_PROCESSING') +
+    ' ' +
+    toPercentage(action.progress) +
+    '%';
     text(root.ref.main, title);
     text(root.ref.sub, root.query('GET_LABEL_TAP_TO_CANCEL'));
   };
@@ -5908,8 +6139,7 @@
     text(root.ref.sub, '');
   };
   var error = function error(_ref8) {
-    var root = _ref8.root,
-      action = _ref8.action;
+    var root = _ref8.root,action = _ref8.action;
     text(root.ref.main, action.status.main);
     text(root.ref.sub, action.status.sub);
   };
@@ -5932,18 +6162,13 @@
       DID_THROW_ITEM_REMOVE_ERROR: error
     }),
     didCreateView: function didCreateView(root) {
-      applyFilters('CREATE_VIEW', Object.assign({}, root, {
-        view: root
-      }));
+      applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
     },
     create: create$3,
     mixins: {
       styles: ['translateX', 'translateY', 'opacity'],
       animations: {
-        opacity: {
-          type: 'tween',
-          duration: 250
-        },
+        opacity: { type: 'tween', duration: 250 },
         translateX: 'spring',
         translateY: 'spring'
       }
@@ -5959,7 +6184,6 @@
       className: 'filepond--action-abort-item-load',
       align: 'LOAD_INDICATOR_POSITION' // right
     },
-
     RetryItemLoad: {
       label: 'GET_LABEL_BUTTON_RETRY_ITEM_LOAD',
       action: 'RETRY_ITEM_LOAD',
@@ -5967,7 +6191,6 @@
       className: 'filepond--action-retry-item-load',
       align: 'BUTTON_PROCESS_ITEM_POSITION' // right
     },
-
     RemoveItem: {
       label: 'GET_LABEL_BUTTON_REMOVE_ITEM',
       action: 'REQUEST_REMOVE_ITEM',
@@ -5975,7 +6198,6 @@
       className: 'filepond--action-remove-item',
       align: 'BUTTON_REMOVE_ITEM_POSITION' // left
     },
-
     ProcessItem: {
       label: 'GET_LABEL_BUTTON_PROCESS_ITEM',
       action: 'REQUEST_ITEM_PROCESSING',
@@ -5983,14 +6205,12 @@
       className: 'filepond--action-process-item',
       align: 'BUTTON_PROCESS_ITEM_POSITION' // right
     },
-
     AbortItemProcessing: {
       label: 'GET_LABEL_BUTTON_ABORT_ITEM_PROCESSING',
       action: 'ABORT_ITEM_PROCESSING',
       className: 'filepond--action-abort-item-processing',
       align: 'BUTTON_PROCESS_ITEM_POSITION' // right
     },
-
     RetryItemProcessing: {
       label: 'GET_LABEL_BUTTON_RETRY_ITEM_PROCESSING',
       action: 'RETRY_ITEM_PROCESSING',
@@ -5998,7 +6218,6 @@
       className: 'filepond--action-retry-item-processing',
       align: 'BUTTON_PROCESS_ITEM_POSITION' // right
     },
-
     RevertItemProcessing: {
       label: 'GET_LABEL_BUTTON_UNDO_ITEM_PROCESSING',
       action: 'REQUEST_REVERT_ITEM_PROCESSING',
@@ -6037,206 +6256,97 @@
     return root.query('GET_STYLE_BUTTON_REMOVE_ITEM_POSITION');
   };
   var DefaultStyle = {
-    buttonAbortItemLoad: {
-      opacity: 0
-    },
-    buttonRetryItemLoad: {
-      opacity: 0
-    },
-    buttonRemoveItem: {
-      opacity: 0
-    },
-    buttonProcessItem: {
-      opacity: 0
-    },
-    buttonAbortItemProcessing: {
-      opacity: 0
-    },
-    buttonRetryItemProcessing: {
-      opacity: 0
-    },
-    buttonRevertItemProcessing: {
-      opacity: 0
-    },
-    loadProgressIndicator: {
-      opacity: 0,
-      align: getLoadIndicatorAlignment
-    },
+    buttonAbortItemLoad: { opacity: 0 },
+    buttonRetryItemLoad: { opacity: 0 },
+    buttonRemoveItem: { opacity: 0 },
+    buttonProcessItem: { opacity: 0 },
+    buttonAbortItemProcessing: { opacity: 0 },
+    buttonRetryItemProcessing: { opacity: 0 },
+    buttonRevertItemProcessing: { opacity: 0 },
+    loadProgressIndicator: { opacity: 0, align: getLoadIndicatorAlignment },
     processProgressIndicator: {
       opacity: 0,
       align: getProcessIndicatorAlignment
     },
-    processingCompleteIndicator: {
-      opacity: 0,
-      scaleX: 0.75,
-      scaleY: 0.75
-    },
-    info: {
-      translateX: 0,
-      translateY: 0,
-      opacity: 0
-    },
-    status: {
-      translateX: 0,
-      translateY: 0,
-      opacity: 0
-    }
+    processingCompleteIndicator: { opacity: 0, scaleX: 0.75, scaleY: 0.75 },
+    info: { translateX: 0, translateY: 0, opacity: 0 },
+    status: { translateX: 0, translateY: 0, opacity: 0 }
   };
   var IdleStyle = {
-    buttonRemoveItem: {
-      opacity: 1
-    },
-    buttonProcessItem: {
-      opacity: 1
-    },
-    info: {
-      translateX: calculateFileInfoOffset
-    },
-    status: {
-      translateX: calculateFileInfoOffset
-    }
+    buttonRemoveItem: { opacity: 1 },
+    buttonProcessItem: { opacity: 1 },
+    info: { translateX: calculateFileInfoOffset },
+    status: { translateX: calculateFileInfoOffset }
   };
   var ProcessingStyle = {
-    buttonAbortItemProcessing: {
-      opacity: 1
-    },
-    processProgressIndicator: {
-      opacity: 1
-    },
-    status: {
-      opacity: 1
-    }
+    buttonAbortItemProcessing: { opacity: 1 },
+    processProgressIndicator: { opacity: 1 },
+    status: { opacity: 1 }
   };
   var StyleMap = {
     DID_THROW_ITEM_INVALID: {
-      buttonRemoveItem: {
-        opacity: 1
-      },
-      info: {
-        translateX: calculateFileInfoOffset
-      },
-      status: {
-        translateX: calculateFileInfoOffset,
-        opacity: 1
-      }
+      buttonRemoveItem: { opacity: 1 },
+      info: { translateX: calculateFileInfoOffset },
+      status: { translateX: calculateFileInfoOffset, opacity: 1 }
     },
     DID_START_ITEM_LOAD: {
-      buttonAbortItemLoad: {
-        opacity: 1
-      },
-      loadProgressIndicator: {
-        opacity: 1
-      },
-      status: {
-        opacity: 1
-      }
+      buttonAbortItemLoad: { opacity: 1 },
+      loadProgressIndicator: { opacity: 1 },
+      status: { opacity: 1 }
     },
     DID_THROW_ITEM_LOAD_ERROR: {
-      buttonRetryItemLoad: {
-        opacity: 1
-      },
-      buttonRemoveItem: {
-        opacity: 1
-      },
-      info: {
-        translateX: calculateFileInfoOffset
-      },
-      status: {
-        opacity: 1
-      }
+      buttonRetryItemLoad: { opacity: 1 },
+      buttonRemoveItem: { opacity: 1 },
+      info: { translateX: calculateFileInfoOffset },
+      status: { opacity: 1 }
     },
     DID_START_ITEM_REMOVE: {
       processProgressIndicator: {
         opacity: 1,
         align: getRemoveIndicatorAligment
       },
-      info: {
-        translateX: calculateFileInfoOffset
-      },
-      status: {
-        opacity: 0
-      }
+      info: { translateX: calculateFileInfoOffset },
+      status: { opacity: 0 }
     },
     DID_THROW_ITEM_REMOVE_ERROR: {
       processProgressIndicator: {
         opacity: 0,
         align: getRemoveIndicatorAligment
       },
-      buttonRemoveItem: {
-        opacity: 1
-      },
-      info: {
-        translateX: calculateFileInfoOffset
-      },
-      status: {
-        opacity: 1,
-        translateX: calculateFileInfoOffset
-      }
+      buttonRemoveItem: { opacity: 1 },
+      info: { translateX: calculateFileInfoOffset },
+      status: { opacity: 1, translateX: calculateFileInfoOffset }
     },
     DID_LOAD_ITEM: IdleStyle,
     DID_LOAD_LOCAL_ITEM: {
-      buttonRemoveItem: {
-        opacity: 1
-      },
-      info: {
-        translateX: calculateFileInfoOffset
-      },
-      status: {
-        translateX: calculateFileInfoOffset
-      }
+      buttonRemoveItem: { opacity: 1 },
+      info: { translateX: calculateFileInfoOffset },
+      status: { translateX: calculateFileInfoOffset }
     },
     DID_START_ITEM_PROCESSING: ProcessingStyle,
     DID_REQUEST_ITEM_PROCESSING: ProcessingStyle,
     DID_UPDATE_ITEM_PROCESS_PROGRESS: ProcessingStyle,
     DID_COMPLETE_ITEM_PROCESSING: {
-      buttonRevertItemProcessing: {
-        opacity: 1
-      },
-      info: {
-        opacity: 1
-      },
-      status: {
-        opacity: 1
-      }
+      buttonRevertItemProcessing: { opacity: 1 },
+      info: { opacity: 1 },
+      status: { opacity: 1 }
     },
     DID_THROW_ITEM_PROCESSING_ERROR: {
-      buttonRemoveItem: {
-        opacity: 1
-      },
-      buttonRetryItemProcessing: {
-        opacity: 1
-      },
-      status: {
-        opacity: 1
-      },
-      info: {
-        translateX: calculateFileInfoOffset
-      }
+      buttonRemoveItem: { opacity: 1 },
+      buttonRetryItemProcessing: { opacity: 1 },
+      status: { opacity: 1 },
+      info: { translateX: calculateFileInfoOffset }
     },
     DID_THROW_ITEM_PROCESSING_REVERT_ERROR: {
-      buttonRevertItemProcessing: {
-        opacity: 1
-      },
-      status: {
-        opacity: 1
-      },
-      info: {
-        opacity: 1
-      }
+      buttonRevertItemProcessing: { opacity: 1 },
+      status: { opacity: 1 },
+      info: { opacity: 1 }
     },
     DID_ABORT_ITEM_PROCESSING: {
-      buttonRemoveItem: {
-        opacity: 1
-      },
-      buttonProcessItem: {
-        opacity: 1
-      },
-      info: {
-        translateX: calculateFileInfoOffset
-      },
-      status: {
-        opacity: 1
-      }
+      buttonRemoveItem: { opacity: 1 },
+      buttonProcessItem: { opacity: 1 },
+      info: { translateX: calculateFileInfoOffset },
+      status: { opacity: 1 }
     },
     DID_REVERT_ITEM_PROCESSING: IdleStyle
   };
@@ -6253,10 +6363,7 @@
       animations: {
         scaleX: 'spring',
         scaleY: 'spring',
-        opacity: {
-          type: 'tween',
-          duration: 250
-        }
+        opacity: { type: 'tween', duration: 250 }
       }
     }
   });
@@ -6264,8 +6371,7 @@
    * Creates the file view
    */
   var create$4 = function create(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props;
+    var root = _ref2.root,props = _ref2.props;
     var id = props.id;
     // allow reverting upload
     var allowRevert = root.query('GET_ALLOW_REVERT');
@@ -6287,24 +6393,29 @@
         buttonFilter = function buttonFilter(key) {
           return !/RevertItemProcessing/.test(key);
         };
-      } else if (!allowProcess && allowRevert) {
+      } else
+      if (!allowProcess && allowRevert) {
         // only remove process button
         buttonFilter = function buttonFilter(key) {
           return !/ProcessItem|RetryItemProcessing|AbortItemProcessing/.test(key);
         };
-      } else if (!allowProcess && !allowRevert) {
+      } else
+      if (!allowProcess && !allowRevert) {
         // remove all process buttons
         buttonFilter = function buttonFilter(key) {
           return !/Process/.test(key);
         };
       }
-    } else {
+    } else
+    {
       // no process controls available
       buttonFilter = function buttonFilter(key) {
         return !/Process/.test(key);
       };
     }
-    var enabledButtons = buttonFilter ? ButtonKeys.filter(buttonFilter) : ButtonKeys.concat();
+    var enabledButtons = buttonFilter ?
+    ButtonKeys.filter(buttonFilter) :
+    ButtonKeys.concat();
     // update icon and label for revert button when instant uploading
     if (instantUpload && allowRevert) {
       Buttons['RevertItemProcessing'].label = 'GET_LABEL_BUTTON_REMOVE_ITEM';
@@ -6316,15 +6427,16 @@
       map.info.translateX = calculateFileHorizontalCenterOffset;
       map.info.translateY = calculateFileVerticalCenterOffset;
       map.status.translateY = calculateFileVerticalCenterOffset;
-      map.processingCompleteIndicator = {
-        opacity: 1,
-        scaleX: 1,
-        scaleY: 1
-      };
+      map.processingCompleteIndicator = { opacity: 1, scaleX: 1, scaleY: 1 };
     }
     // should align center
     if (isAsync && !allowProcess) {
-      ['DID_START_ITEM_PROCESSING', 'DID_REQUEST_ITEM_PROCESSING', 'DID_UPDATE_ITEM_PROCESS_PROGRESS', 'DID_THROW_ITEM_PROCESSING_ERROR'].forEach(function (key) {
+      [
+      'DID_START_ITEM_PROCESSING',
+      'DID_REQUEST_ITEM_PROCESSING',
+      'DID_UPDATE_ITEM_PROCESS_PROGRESS',
+      'DID_THROW_ITEM_PROCESSING_ERROR'].
+      forEach(function (key) {
         StyleMap[key].status.translateY = calculateFileVerticalCenterOffset;
       });
       StyleMap['DID_THROW_ITEM_PROCESSING_ERROR'].status.translateX = calculateButtonWidth;
@@ -6335,11 +6447,7 @@
       var _map = StyleMap['DID_COMPLETE_ITEM_PROCESSING'];
       _map.info.translateX = calculateFileInfoOffset;
       _map.status.translateY = calculateFileVerticalCenterOffset;
-      _map.processingCompleteIndicator = {
-        opacity: 1,
-        scaleX: 1,
-        scaleY: 1
-      };
+      _map.processingCompleteIndicator = { opacity: 1, scaleX: 1, scaleY: 1 };
     }
     if (!allowRemove) {
       Buttons['RemoveItem'].disabled = true;
@@ -6368,10 +6476,9 @@
       // handle interactions
       buttonView.on('click', function (e) {
         e.stopPropagation();
-        if (definition.disabled) return;
-        root.dispatch(definition.action, {
-          query: id
-        });
+        if (definition.disabled)
+        return;
+        root.dispatch(definition.action, { query: id });
       });
       // set reference
       root.ref['button' + key] = buttonView;
@@ -6380,13 +6487,9 @@
     root.ref.processingCompleteIndicator = root.appendChildView(root.createChildView(processingCompleteIndicatorView));
     root.ref.processingCompleteIndicator.element.dataset.align = root.query('GET_STYLE_BUTTON_PROCESS_ITEM_POSITION');
     // create file info view
-    root.ref.info = root.appendChildView(root.createChildView(fileInfo, {
-      id: id
-    }));
+    root.ref.info = root.appendChildView(root.createChildView(fileInfo, { id: id }));
     // create file status view
-    root.ref.status = root.appendChildView(root.createChildView(fileStatus, {
-      id: id
-    }));
+    root.ref.status = root.appendChildView(root.createChildView(fileStatus, { id: id }));
     // add progress indicators
     var loadIndicatorView = root.appendChildView(root.createChildView(progressIndicator, {
       opacity: 0,
@@ -6404,19 +6507,17 @@
     root.ref.activeStyles = [];
   };
   var write$2 = function write(_ref3) {
-    var root = _ref3.root,
-      actions = _ref3.actions,
-      props = _ref3.props;
+    var root = _ref3.root,actions = _ref3.actions,props = _ref3.props;
     // route actions
-    route({
-      root: root,
-      actions: actions,
-      props: props
-    });
+    route({ root: root, actions: actions, props: props });
     // select last state change action
-    var action = actions.concat().filter(function (action) {
+    var action = actions.
+    concat().
+    filter(function (action) {
       return /^DID_/.test(action.type);
-    }).reverse().find(function (action) {
+    }).
+    reverse().
+    find(function (action) {
       return StyleMap[action.type];
     });
     // a new action happened, let's get the matching styles
@@ -6429,7 +6530,10 @@
         var control = root.ref[name];
         // loop over all styles for this control
         forin(defaultStyles, function (key, defaultValue) {
-          var value = stylesToApply[name] && typeof stylesToApply[name][key] !== 'undefined' ? stylesToApply[name][key] : defaultValue;
+          var value = stylesToApply[name] &&
+          typeof stylesToApply[name][key] !== 'undefined' ?
+          stylesToApply[name][key] :
+          defaultValue;
           root.ref.activeStyles.push({
             control: control,
             key: key,
@@ -6440,26 +6544,21 @@
     }
     // apply active styles to element
     root.ref.activeStyles.forEach(function (_ref4) {
-      var control = _ref4.control,
-        key = _ref4.key,
-        value = _ref4.value;
+      var control = _ref4.control,key = _ref4.key,value = _ref4.value;
       control[key] = typeof value === 'function' ? value(root) : value;
     });
   };
   var route = createRoute({
     DID_SET_LABEL_BUTTON_ABORT_ITEM_PROCESSING: function DID_SET_LABEL_BUTTON_ABORT_ITEM_PROCESSING(_ref5) {
-      var root = _ref5.root,
-        action = _ref5.action;
+      var root = _ref5.root,action = _ref5.action;
       root.ref.buttonAbortItemProcessing.label = action.value;
     },
     DID_SET_LABEL_BUTTON_ABORT_ITEM_LOAD: function DID_SET_LABEL_BUTTON_ABORT_ITEM_LOAD(_ref6) {
-      var root = _ref6.root,
-        action = _ref6.action;
+      var root = _ref6.root,action = _ref6.action;
       root.ref.buttonAbortItemLoad.label = action.value;
     },
     DID_SET_LABEL_BUTTON_ABORT_ITEM_REMOVAL: function DID_SET_LABEL_BUTTON_ABORT_ITEM_REMOVAL(_ref7) {
-      var root = _ref7.root,
-        action = _ref7.action;
+      var root = _ref7.root,action = _ref7.action;
       root.ref.buttonAbortItemRemoval.label = action.value;
     },
     DID_REQUEST_ITEM_PROCESSING: function DID_REQUEST_ITEM_PROCESSING(_ref8) {
@@ -6478,14 +6577,12 @@
       root.ref.processProgressIndicator.progress = 0;
     },
     DID_UPDATE_ITEM_LOAD_PROGRESS: function DID_UPDATE_ITEM_LOAD_PROGRESS(_ref11) {
-      var root = _ref11.root,
-        action = _ref11.action;
+      var root = _ref11.root,action = _ref11.action;
       root.ref.loadProgressIndicator.spin = false;
       root.ref.loadProgressIndicator.progress = action.progress;
     },
     DID_UPDATE_ITEM_PROCESS_PROGRESS: function DID_UPDATE_ITEM_PROCESS_PROGRESS(_ref12) {
-      var root = _ref12.root,
-        action = _ref12.action;
+      var root = _ref12.root,action = _ref12.action;
       root.ref.processProgressIndicator.spin = false;
       root.ref.processProgressIndicator.progress = action.progress;
     }
@@ -6494,9 +6591,7 @@
     create: create$4,
     write: write$2,
     didCreateView: function didCreateView(root) {
-      applyFilters('CREATE_VIEW', Object.assign({}, root, {
-        view: root
-      }));
+      applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
     },
     name: 'file'
   });
@@ -6504,15 +6599,12 @@
    * Creates the file view
    */
   var create$5 = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // filename
     root.ref.fileName = createElement$1('legend');
     root.appendChild(root.ref.fileName);
     // file appended
-    root.ref.file = root.appendChildView(root.createChildView(file, {
-      id: props.id
-    }));
+    root.ref.file = root.appendChildView(root.createChildView(file, { id: props.id }));
     // data has moved to data.js
     root.ref.data = false;
   };
@@ -6520,8 +6612,7 @@
    * Data storage
    */
   var didLoadItem = function didLoadItem(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props;
+    var root = _ref2.root,props = _ref2.props;
     // updates the legend of the fieldset so screenreaders can better group buttons
     text(root.ref.fileName, formatFilename(root.query('GET_ITEM_NAME', props.id)));
   };
@@ -6532,24 +6623,19 @@
       DID_LOAD_ITEM: didLoadItem
     }),
     didCreateView: function didCreateView(root) {
-      applyFilters('CREATE_VIEW', Object.assign({}, root, {
-        view: root
-      }));
+      applyFilters('CREATE_VIEW', Object.assign({}, root, { view: root }));
     },
     tag: 'fieldset',
     name: 'file-wrapper'
   });
-  var PANEL_SPRING_PROPS = {
-    type: 'spring',
-    damping: 0.6,
-    mass: 7
-  };
+  var PANEL_SPRING_PROPS = { type: 'spring', damping: 0.6, mass: 7 };
   var create$6 = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
-    [{
+    var root = _ref.root,props = _ref.props;
+    [
+    {
       name: 'top'
-    }, {
+    },
+    {
       name: 'center',
       props: {
         translateY: null,
@@ -6561,7 +6647,8 @@
         },
         styles: ['translateY', 'scaleY']
       }
-    }, {
+    },
+    {
       name: 'bottom',
       props: {
         translateY: null
@@ -6572,7 +6659,8 @@
         },
         styles: ['translateY']
       }
-    }].forEach(function (section) {
+    }].
+    forEach(function (section) {
       createSection(root, section, props.name);
     });
     root.element.classList.add('filepond--' + props.name);
@@ -6588,15 +6676,15 @@
     root.ref[section.name] = root.appendChildView(view);
   };
   var write$3 = function write(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props;
+    var root = _ref2.root,props = _ref2.props;
     // update scalable state
     if (root.ref.scalable === null || props.scalable !== root.ref.scalable) {
       root.ref.scalable = isBoolean(props.scalable) ? props.scalable : true;
       root.element.dataset.scalable = root.ref.scalable;
     }
     // no height, can't set
-    if (!props.height) return;
+    if (!props.height)
+    return;
     // get child rects
     var topRect = root.ref.top.rect.element;
     var bottomRect = root.ref.bottom.rect.element;
@@ -6606,15 +6694,15 @@
     root.ref.center.translateY = topRect.height;
     // scale center part
     // use math ceil to prevent transparent lines because of rounding errors
-    root.ref.center.scaleY = (height - topRect.height - bottomRect.height) / 100;
+    root.ref.center.scaleY =
+    (height - topRect.height - bottomRect.height) / 100;
     // offset bottom part
     root.ref.bottom.translateY = height - bottomRect.height;
   };
   var panel = createView({
     name: 'panel',
     read: function read(_ref3) {
-      var root = _ref3.root,
-        props = _ref3.props;
+      var root = _ref3.root,props = _ref3.props;
       return props.heightCurrent = root.ref.bottom.translateY;
     },
     write: write$3,
@@ -6669,35 +6757,30 @@
    * Creates the file view
    */
   var create$7 = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // select
     root.ref.handleClick = function (e) {
-      return root.dispatch('DID_ACTIVATE_ITEM', {
-        id: props.id
-      });
+      return root.dispatch('DID_ACTIVATE_ITEM', { id: props.id });
     };
     // set id
     root.element.id = 'filepond--item-' + props.id;
     root.element.addEventListener('click', root.ref.handleClick);
     // file view
-    root.ref.container = root.appendChildView(root.createChildView(fileWrapper, {
-      id: props.id
-    }));
+    root.ref.container = root.appendChildView(root.createChildView(fileWrapper, { id: props.id }));
     // file panel
-    root.ref.panel = root.appendChildView(root.createChildView(panel, {
-      name: 'item-panel'
-    }));
+    root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'item-panel' }));
     // default start height
     root.ref.panel.height = null;
     // by default not marked for removal
     props.markedForRemoval = false;
     // if not allowed to reorder file items, exit here
-    if (!root.query('GET_ALLOW_REORDER')) return;
+    if (!root.query('GET_ALLOW_REORDER'))
+    return;
     // set to idle so shows grab cursor
     root.element.dataset.dragState = 'idle';
     var grab = function grab(e) {
-      if (!e.isPrimary) return;
+      if (!e.isPrimary)
+      return;
       var removedActivateListener = false;
       var origin = {
         x: e.pageX,
@@ -6712,12 +6795,10 @@
         y: e.offsetY
       };
       var dragState = createDragHelper(root.query('GET_ACTIVE_ITEMS'));
-      root.dispatch('DID_GRAB_ITEM', {
-        id: props.id,
-        dragState: dragState
-      });
+      root.dispatch('DID_GRAB_ITEM', { id: props.id, dragState: dragState });
       var drag = function drag(e) {
-        if (!e.isPrimary) return;
+        if (!e.isPrimary)
+        return;
         e.stopPropagation();
         e.preventDefault();
         props.dragOffset = {
@@ -6725,28 +6806,24 @@
           y: e.pageY - origin.y
         };
         // if dragged stop listening to clicks, will re-add when done dragging
-        var dist = props.dragOffset.x * props.dragOffset.x + props.dragOffset.y * props.dragOffset.y;
+        var dist = props.dragOffset.x * props.dragOffset.x +
+        props.dragOffset.y * props.dragOffset.y;
         if (dist > 16 && !removedActivateListener) {
           removedActivateListener = true;
           root.element.removeEventListener('click', root.ref.handleClick);
         }
-        root.dispatch('DID_DRAG_ITEM', {
-          id: props.id,
-          dragState: dragState
-        });
+        root.dispatch('DID_DRAG_ITEM', { id: props.id, dragState: dragState });
       };
       var drop = function drop(e) {
-        if (!e.isPrimary) return;
+        if (!e.isPrimary)
+        return;
         document.removeEventListener('pointermove', drag);
         document.removeEventListener('pointerup', drop);
         props.dragOffset = {
           x: e.pageX - origin.x,
           y: e.pageY - origin.y
         };
-        root.dispatch('DID_DROP_ITEM', {
-          id: props.id,
-          dragState: dragState
-        });
+        root.dispatch('DID_DROP_ITEM', { id: props.id, dragState: dragState });
         // start listening to clicks again
         if (removedActivateListener) {
           setTimeout(function () {
@@ -6761,15 +6838,13 @@
   };
   var route$1 = createRoute({
     DID_UPDATE_PANEL_HEIGHT: function DID_UPDATE_PANEL_HEIGHT(_ref2) {
-      var root = _ref2.root,
-        action = _ref2.action;
+      var root = _ref2.root,action = _ref2.action;
       root.height = action.height;
     }
   });
   var write$4 = createRoute({
     DID_GRAB_ITEM: function DID_GRAB_ITEM(_ref3) {
-      var root = _ref3.root,
-        props = _ref3.props;
+      var root = _ref3.root,props = _ref3.props;
       props.dragOrigin = {
         x: root.translateX,
         y: root.translateY
@@ -6780,26 +6855,26 @@
       root.element.dataset.dragState = 'drag';
     },
     DID_DROP_ITEM: function DID_DROP_ITEM(_ref5) {
-      var root = _ref5.root,
-        props = _ref5.props;
+      var root = _ref5.root,props = _ref5.props;
       props.dragOffset = null;
       props.dragOrigin = null;
       root.element.dataset.dragState = 'drop';
     }
   }, function (_ref6) {
-    var root = _ref6.root,
-      actions = _ref6.actions,
-      props = _ref6.props,
-      shouldOptimize = _ref6.shouldOptimize;
+    var root = _ref6.root,actions = _ref6.actions,props = _ref6.props,shouldOptimize = _ref6.shouldOptimize;
     if (root.element.dataset.dragState === 'drop') {
       if (root.scaleX <= 1) {
         root.element.dataset.dragState = 'idle';
       }
     }
     // select last state change action
-    var action = actions.concat().filter(function (action) {
+    var action = actions.
+    concat().
+    filter(function (action) {
       return /^DID_/.test(action.type);
-    }).reverse().find(function (action) {
+    }).
+    reverse().
+    find(function (action) {
       return StateMap[action.type];
     });
     // no need to set same state twice
@@ -6807,20 +6882,19 @@
       // set current state
       props.currentState = action.type;
       // set state
-      root.element.dataset.filepondItemState = StateMap[props.currentState] || '';
+      root.element.dataset.filepondItemState =
+      StateMap[props.currentState] || '';
     }
     // route actions
-    var aspectRatio = root.query('GET_ITEM_PANEL_ASPECT_RATIO') || root.query('GET_PANEL_ASPECT_RATIO');
+    var aspectRatio = root.query('GET_ITEM_PANEL_ASPECT_RATIO') ||
+    root.query('GET_PANEL_ASPECT_RATIO');
     if (!aspectRatio) {
-      route$1({
-        root: root,
-        actions: actions,
-        props: props
-      });
+      route$1({ root: root, actions: actions, props: props });
       if (!root.height && root.ref.container.rect.element.height > 0) {
         root.height = root.ref.container.rect.element.height;
       }
-    } else if (!shouldOptimize) {
+    } else
+    if (!shouldOptimize) {
       root.height = root.rect.element.width * aspectRatio;
     }
     // sync panel height with item height
@@ -6833,38 +6907,49 @@
     create: create$7,
     write: write$4,
     destroy: function destroy(_ref7) {
-      var root = _ref7.root,
-        props = _ref7.props;
+      var root = _ref7.root,props = _ref7.props;
       root.element.removeEventListener('click', root.ref.handleClick);
-      root.dispatch('RELEASE_ITEM', {
-        query: props.id
-      });
+      root.dispatch('RELEASE_ITEM', { query: props.id });
     },
     tag: 'li',
     name: 'item',
     mixins: {
-      apis: ['id', 'interactionMethod', 'markedForRemoval', 'spawnDate', 'dragCenter', 'dragOrigin', 'dragOffset'],
-      styles: ['translateX', 'translateY', 'scaleX', 'scaleY', 'opacity', 'height'],
+      apis: [
+      'id',
+      'interactionMethod',
+      'markedForRemoval',
+      'spawnDate',
+      'dragCenter',
+      'dragOrigin',
+      'dragOffset'],
+
+      styles: [
+      'translateX',
+      'translateY',
+      'scaleX',
+      'scaleY',
+      'opacity',
+      'height'],
+
       animations: {
         scaleX: ITEM_SCALE_SPRING,
         scaleY: ITEM_SCALE_SPRING,
         translateX: ITEM_TRANSLATE_SPRING,
         translateY: ITEM_TRANSLATE_SPRING,
-        opacity: {
-          type: 'tween',
-          duration: 150
-        }
+        opacity: { type: 'tween', duration: 150 }
       }
     }
   });
   var getItemIndexByPosition = function getItemIndexByPosition(view, children, positionInView) {
-    if (!positionInView) return;
+    if (!positionInView)
+    return;
     var horizontalSpace = view.rect.element.width;
     // const children = view.childViews;
     var l = children.length;
     var last = null;
     // -1, don't move items to accomodate (either add to top or bottom)
-    if (l === 0 || positionInView.top < children[0].rect.element.top) return -1;
+    if (l === 0 || positionInView.top < children[0].rect.element.top)
+    return -1;
     // let's get the item width
     var item = children[0];
     var itemRect = item.rect.element;
@@ -6896,9 +6981,11 @@
       if (positionInView.top < itemBottom && positionInView.top > itemTop) {
         if (positionInView.left < itemRight) {
           return _index;
-        } else if (_index !== l - 1) {
+        } else
+        if (_index !== l - 1) {
           last = _index;
-        } else {
+        } else
+        {
           last = null;
         }
       }
@@ -6915,17 +7002,21 @@
       return this.height;
     },
     set setHeight(val) {
-      if (this.height === 0 || val === 0) this.height = val;
+      if (this.height === 0 || val === 0)
+      this.height = val;
     },
     get getWidth() {
       return this.width;
     },
     set setWidth(val) {
-      if (this.width === 0 || val === 0) this.width = val;
+      if (this.width === 0 || val === 0)
+      this.width = val;
     },
     setDimensions: function setDimensions(height, width) {
-      if (this.height === 0 || height === 0) this.height = height;
-      if (this.width === 0 || width === 0) this.width = width;
+      if (this.height === 0 || height === 0)
+      this.height = height;
+      if (this.width === 0 || width === 0)
+      this.width = width;
     }
   };
   var create$8 = function create(_ref) {
@@ -6940,11 +7031,8 @@
    * @param action
    */
   var addItemView = function addItemView(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
-    var id = action.id,
-      index = action.index,
-      interactionMethod = action.interactionMethod;
+    var root = _ref2.root,action = _ref2.action;
+    var id = action.id,index = action.index,interactionMethod = action.interactionMethod;
     root.ref.addIndex = index;
     var now = Date.now();
     var spawnDate = now;
@@ -6957,15 +7045,15 @@
     }
     root.ref.lastItemSpanwDate = spawnDate;
     root.appendChildView(root.createChildView(
-    // view type
-    item,
-    // props
-    {
-      spawnDate: spawnDate,
-      id: id,
-      opacity: opacity,
-      interactionMethod: interactionMethod
-    }), index);
+      // view type
+      item,
+      // props
+      {
+        spawnDate: spawnDate,
+        id: id,
+        opacity: opacity,
+        interactionMethod: interactionMethod
+      }), index);
   };
   var moveItem = function moveItem(item, x, y) {
     var vx = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
@@ -6978,7 +7066,8 @@
       item.translateY = item.dragOrigin.y + item.dragOffset.y;
       item.scaleX = 1.025;
       item.scaleY = 1.025;
-    } else {
+    } else
+    {
       item.translateX = x;
       item.translateY = y;
       if (Date.now() > item.spawnDate) {
@@ -6999,17 +7088,20 @@
       item.translateX = x;
       item.translateY = null;
       item.translateY = y;
-    } else if (item.interactionMethod === InteractionMethod.DROP) {
+    } else
+    if (item.interactionMethod === InteractionMethod.DROP) {
       item.translateX = null;
       item.translateX = x - vx * 20;
       item.translateY = null;
       item.translateY = y - vy * 10;
       item.scaleX = 0.8;
       item.scaleY = 0.8;
-    } else if (item.interactionMethod === InteractionMethod.BROWSE) {
+    } else
+    if (item.interactionMethod === InteractionMethod.BROWSE) {
       item.translateY = null;
       item.translateY = y - 30;
-    } else if (item.interactionMethod === InteractionMethod.API) {
+    } else
+    if (item.interactionMethod === InteractionMethod.API) {
       item.translateX = null;
       item.translateX = x - 30;
       item.translateY = null;
@@ -7021,8 +7113,7 @@
    * @param action
    */
   var removeItemView = function removeItemView(_ref3) {
-    var root = _ref3.root,
-      action = _ref3.action;
+    var root = _ref3.root,action = _ref3.action;
     var id = action.id;
     // get the view matching the given id
     var view = root.childViews.find(function (child) {
@@ -7040,20 +7131,20 @@
     view.markedForRemoval = true;
   };
   var getItemHeight = function getItemHeight(child) {
-    return child.rect.element.height + child.rect.element.marginBottom * 0.5 + child.rect.element.marginTop * 0.5;
+    return child.rect.element.height +
+    child.rect.element.marginBottom * 0.5 +
+    child.rect.element.marginTop * 0.5;
   };
   var getItemWidth = function getItemWidth(child) {
-    return child.rect.element.width + child.rect.element.marginLeft * 0.5 + child.rect.element.marginRight * 0.5;
+    return child.rect.element.width +
+    child.rect.element.marginLeft * 0.5 +
+    child.rect.element.marginRight * 0.5;
   };
   var dragItem = function dragItem(_ref4) {
-    var root = _ref4.root,
-      action = _ref4.action;
-    var id = action.id,
-      dragState = action.dragState;
+    var root = _ref4.root,action = _ref4.action;
+    var id = action.id,dragState = action.dragState;
     // reference to item
-    var item = root.query('GET_ITEM', {
-      id: id
-    });
+    var item = root.query('GET_ITEM', { id: id });
     // get the view matching the given id
     var view = root.childViews.find(function (child) {
       return child.id === id;
@@ -7061,18 +7152,19 @@
     var numItems = root.childViews.length;
     var oldIndex = dragState.getItemIndex(item);
     // if no view found, exit
-    if (!view) return;
+    if (!view)
+    return;
     var dragPosition = {
       x: view.dragOrigin.x + view.dragOffset.x + view.dragCenter.x,
       y: view.dragOrigin.y + view.dragOffset.y + view.dragCenter.y
       // get drag area dimensions
     };
-
     var dragHeight = getItemHeight(view);
     var dragWidth = getItemWidth(view);
     // get rows and columns (There will always be at least one row and one column if a file is present)
     var cols = Math.floor(root.rect.outer.width / dragWidth);
-    if (cols > numItems) cols = numItems;
+    if (cols > numItems)
+    cols = numItems;
     // rows are used to find when we have left the preview area bounding box
     var rows = Math.floor(numItems / cols + 1);
     dropAreaDimensions.setHeight = dragHeight * rows;
@@ -7082,7 +7174,11 @@
       y: Math.floor(dragPosition.y / dragHeight),
       x: Math.floor(dragPosition.x / dragWidth),
       getGridIndex: function getGridIndex() {
-        if (dragPosition.y > dropAreaDimensions.getHeight || dragPosition.y < 0 || dragPosition.x > dropAreaDimensions.getWidth || dragPosition.x < 0) return oldIndex;
+        if (dragPosition.y > dropAreaDimensions.getHeight ||
+        dragPosition.y < 0 ||
+        dragPosition.x > dropAreaDimensions.getWidth ||
+        dragPosition.x < 0)
+        return oldIndex;
         return this.y * cols + this.x;
       },
       getColIndex: function getColIndex() {
@@ -7124,17 +7220,14 @@
       }
       // get new index
     };
-
     var index = cols > 1 ? location.getGridIndex() : location.getColIndex();
-    root.dispatch('MOVE_ITEM', {
-      query: view,
-      index: index
-    });
+    root.dispatch('MOVE_ITEM', { query: view, index: index });
     // if the index of the item changed, dispatch reorder action
     var currentIndex = dragState.getIndex();
     if (currentIndex === undefined || currentIndex !== index) {
       dragState.setIndex(index);
-      if (currentIndex === undefined) return;
+      if (currentIndex === undefined)
+      return;
       root.dispatch('DID_REORDER_ITEMS', {
         items: root.query('GET_ACTIVE_ITEMS'),
         origin: oldIndex,
@@ -7157,16 +7250,9 @@
    * @param props
    */
   var write$5 = function write(_ref5) {
-    var root = _ref5.root,
-      props = _ref5.props,
-      actions = _ref5.actions,
-      shouldOptimize = _ref5.shouldOptimize;
+    var root = _ref5.root,props = _ref5.props,actions = _ref5.actions,shouldOptimize = _ref5.shouldOptimize;
     // route actions
-    route$2({
-      root: root,
-      props: props,
-      actions: actions
-    });
+    route$2({ root: root, props: props, actions: actions });
     var dragCoordinates = props.dragCoordinates;
     // available space on horizontal axis
     var horizontalSpace = root.rect.element.width;
@@ -7175,15 +7261,20 @@
       return child.rect.element.height;
     });
     // sort based on current active items
-    var children = root.query('GET_ACTIVE_ITEMS').map(function (item) {
+    var children = root.
+    query('GET_ACTIVE_ITEMS').
+    map(function (item) {
       return visibleChildren.find(function (child) {
         return child.id === item.id;
       });
-    }).filter(function (item) {
+    }).
+    filter(function (item) {
       return item;
     });
     // get index
-    var dragIndex = dragCoordinates ? getItemIndexByPosition(root, children, dragCoordinates) : null;
+    var dragIndex = dragCoordinates ?
+    getItemIndexByPosition(root, children, dragCoordinates) :
+    null;
     // add index is used to reserve the dropped/added item index till the actual item is rendered
     var addIndex = root.ref.addIndex || null;
     // add index no longer needed till possibly next draw
@@ -7191,7 +7282,8 @@
     var dragIndexOffset = 0;
     var removeIndexOffset = 0;
     var addIndexOffset = 0;
-    if (children.length === 0) return;
+    if (children.length === 0)
+    return;
     var childRect = children[0].rect.element;
     var itemVerticalMargin = childRect.marginTop + childRect.marginBottom;
     var itemHorizontalMargin = childRect.marginLeft + childRect.marginRight;
@@ -7207,13 +7299,17 @@
           var dist = index - dragIndex;
           if (dist === -2) {
             dragOffset = -itemVerticalMargin * 0.25;
-          } else if (dist === -1) {
+          } else
+          if (dist === -1) {
             dragOffset = -itemVerticalMargin * 0.75;
-          } else if (dist === 0) {
+          } else
+          if (dist === 0) {
             dragOffset = itemVerticalMargin * 0.75;
-          } else if (dist === 1) {
+          } else
+          if (dist === 1) {
             dragOffset = itemVerticalMargin * 0.25;
-          } else {
+          } else
+          {
             dragOffset = 0;
           }
         }
@@ -7252,7 +7348,8 @@
         var vectorY = Math.sign(offsetY - prevY);
         prevX = offsetX;
         prevY = offsetY;
-        if (child.markedForRemoval) return;
+        if (child.markedForRemoval)
+        return;
         if (shouldOptimize) {
           child.translateX = null;
           child.translateY = null;
@@ -7283,9 +7380,11 @@
     name: 'list',
     didWriteView: function didWriteView(_ref6) {
       var root = _ref6.root;
-      root.childViews.filter(function (view) {
+      root.childViews.
+      filter(function (view) {
         return view.markedForRemoval && view.opacity === 0 && view.resting;
-      }).forEach(function (view) {
+      }).
+      forEach(function (view) {
         view._destroy();
         root.removeChildView(view);
       });
@@ -7296,20 +7395,21 @@
     }
   });
   var create$9 = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     root.ref.list = root.appendChildView(root.createChildView(list));
     props.dragCoordinates = null;
     props.overflowing = false;
   };
   var storeDragCoordinates = function storeDragCoordinates(_ref2) {
-    var root = _ref2.root,
-      props = _ref2.props,
-      action = _ref2.action;
-    if (!root.query('GET_ITEM_INSERT_LOCATION_FREEDOM')) return;
+    var root = _ref2.root,props = _ref2.props,action = _ref2.action;
+    if (!root.query('GET_ITEM_INSERT_LOCATION_FREEDOM'))
+    return;
     props.dragCoordinates = {
       left: action.position.scopeLeft - root.ref.list.rect.element.left,
-      top: action.position.scopeTop - (root.rect.outer.top + root.rect.element.marginTop + root.rect.element.scrollTop)
+      top: action.position.scopeTop - (
+      root.rect.outer.top +
+      root.rect.element.marginTop +
+      root.rect.element.scrollTop)
     };
   };
   var clearDragCoordinates = function clearDragCoordinates(_ref3) {
@@ -7321,15 +7421,9 @@
     DID_END_DRAG: clearDragCoordinates
   });
   var write$6 = function write(_ref4) {
-    var root = _ref4.root,
-      props = _ref4.props,
-      actions = _ref4.actions;
+    var root = _ref4.root,props = _ref4.props,actions = _ref4.actions;
     // route actions
-    route$3({
-      root: root,
-      props: props,
-      actions: actions
-    });
+    route$3({ root: root, props: props, actions: actions });
     // current drag position
     root.ref.list.dragCoordinates = props.dragCoordinates;
     // if currently overflowing but no longer received overflow
@@ -7365,7 +7459,8 @@
     var enabledValue = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
     if (state) {
       attr(element, name, enabledValue);
-    } else {
+    } else
+    {
       element.removeAttribute(name);
     }
   };
@@ -7377,7 +7472,8 @@
     try {
       // for modern browsers
       input.value = '';
-    } catch (err) {}
+    }
+    catch (err) {}
     // for IE10
     if (input.value) {
       // quickly append input to temp form and reset form
@@ -7389,14 +7485,14 @@
       // re-inject input where it originally was
       if (ref) {
         parentNode.insertBefore(input, ref);
-      } else {
+      } else
+      {
         parentNode.appendChild(input);
       }
     }
   };
   var create$a = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // set id so can be referenced from outside labels
     root.element.id = 'filepond--browser-' + props.id;
     // set name of element (is removed when a value is set)
@@ -7408,36 +7504,24 @@
     // set configurable props
     setAcceptedFileTypes({
       root: root,
-      action: {
-        value: root.query('GET_ACCEPTED_FILE_TYPES')
-      }
+      action: { value: root.query('GET_ACCEPTED_FILE_TYPES') }
     });
     toggleAllowMultiple({
       root: root,
-      action: {
-        value: root.query('GET_ALLOW_MULTIPLE')
-      }
+      action: { value: root.query('GET_ALLOW_MULTIPLE') }
     });
     toggleDirectoryFilter({
       root: root,
-      action: {
-        value: root.query('GET_ALLOW_DIRECTORIES_ONLY')
-      }
+      action: { value: root.query('GET_ALLOW_DIRECTORIES_ONLY') }
     });
-    toggleDisabled({
-      root: root
-    });
+    toggleDisabled({ root: root });
     toggleRequired({
       root: root,
-      action: {
-        value: root.query('GET_REQUIRED')
-      }
+      action: { value: root.query('GET_REQUIRED') }
     });
     setCaptureMethod({
       root: root,
-      action: {
-        value: root.query('GET_CAPTURE_METHOD')
-      }
+      action: { value: root.query('GET_CAPTURE_METHOD') }
     });
     // handle changes to the input field
     root.ref.handleChange = function (e) {
@@ -7460,19 +7544,17 @@
     root.element.addEventListener('change', root.ref.handleChange);
   };
   var setAcceptedFileTypes = function setAcceptedFileTypes(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
-    if (!root.query('GET_ALLOW_SYNC_ACCEPT_ATTRIBUTE')) return;
+    var root = _ref2.root,action = _ref2.action;
+    if (!root.query('GET_ALLOW_SYNC_ACCEPT_ATTRIBUTE'))
+    return;
     attrToggle(root.element, 'accept', !!action.value, action.value ? action.value.join(',') : '');
   };
   var toggleAllowMultiple = function toggleAllowMultiple(_ref3) {
-    var root = _ref3.root,
-      action = _ref3.action;
+    var root = _ref3.root,action = _ref3.action;
     attrToggle(root.element, 'multiple', action.value);
   };
   var toggleDirectoryFilter = function toggleDirectoryFilter(_ref4) {
-    var root = _ref4.root,
-      action = _ref4.action;
+    var root = _ref4.root,action = _ref4.action;
     attrToggle(root.element, 'webkitdirectory', action.value);
   };
   var toggleDisabled = function toggleDisabled(_ref5) {
@@ -7483,8 +7565,7 @@
     attrToggle(root.element, 'disabled', disableField);
   };
   var toggleRequired = function toggleRequired(_ref6) {
-    var root = _ref6.root,
-      action = _ref6.action;
+    var root = _ref6.root,action = _ref6.action;
     // want to remove required, always possible
     if (!action.value) {
       attrToggle(root.element, 'required', false);
@@ -7495,8 +7576,7 @@
     }
   };
   var setCaptureMethod = function setCaptureMethod(_ref7) {
-    var root = _ref7.root,
-      action = _ref7.action;
+    var root = _ref7.root,action = _ref7.action;
     attrToggle(root.element, 'capture', !!action.value, action.value === true ? '' : action.value);
   };
   var updateRequiredStatus = function updateRequiredStatus(_ref8) {
@@ -7506,7 +7586,8 @@
     if (root.query('GET_TOTAL_ITEMS') > 0) {
       attrToggle(element, 'required', false);
       attrToggle(element, 'name', false);
-    } else {
+    } else
+    {
       // add name attribute
       attrToggle(element, 'name', true, root.query('GET_NAME'));
       // remove any validation messages
@@ -7523,7 +7604,8 @@
   var updateFieldValidityStatus = function updateFieldValidityStatus(_ref9) {
     var root = _ref9.root;
     var shouldCheckValidity = root.query('GET_CHECK_VALIDITY');
-    if (!shouldCheckValidity) return;
+    if (!shouldCheckValidity)
+    return;
     root.element.setCustomValidity(root.query('GET_LABEL_INVALID_FIELD'));
   };
   var browser = createView({
@@ -7557,8 +7639,7 @@
     SPACE: 32
   };
   var create$b = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // create the label and link it to the file browser
     var label = createElement$1('label');
     attr(label, 'for', 'filepond--browser-' + props.id);
@@ -7569,7 +7650,8 @@
     // handle keys
     root.ref.handleKeyDown = function (e) {
       var isActivationKey = e.keyCode === Key.ENTER || e.keyCode === Key.SPACE;
-      if (!isActivationKey) return;
+      if (!isActivationKey)
+      return;
       // stops from triggering the element a second time
       e.preventDefault();
       // click link (will then in turn activate file input)
@@ -7578,7 +7660,8 @@
     root.ref.handleClick = function (e) {
       var isLabelClick = e.target === label || label.contains(e.target);
       // don't want to click twice
-      if (isLabelClick) return;
+      if (isLabelClick)
+      return;
       // click link (will then in turn activate file input)
       root.ref.label.click();
     };
@@ -7610,18 +7693,14 @@
     },
     write: createRoute({
       DID_SET_LABEL_IDLE: function DID_SET_LABEL_IDLE(_ref3) {
-        var root = _ref3.root,
-          action = _ref3.action;
+        var root = _ref3.root,action = _ref3.action;
         updateLabelValue(root.ref.label, action.value);
       }
     }),
     mixins: {
       styles: ['opacity', 'translateX', 'translateY'],
       animations: {
-        opacity: {
-          type: 'tween',
-          duration: 150
-        },
+        opacity: { type: 'tween', duration: 150 },
         translateX: 'spring',
         translateY: 'spring'
       }
@@ -7637,10 +7716,7 @@
         scaleY: 'spring',
         translateX: 'spring',
         translateY: 'spring',
-        opacity: {
-          type: 'tween',
-          duration: 250
-        }
+        opacity: { type: 'tween', duration: 250 }
       }
     }
   });
@@ -7657,12 +7733,9 @@
     }));
   };
   var moveBlob = function moveBlob(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
+    var root = _ref2.root,action = _ref2.action;
     if (!root.ref.blob) {
-      addBlob({
-        root: root
-      });
+      addBlob({ root: root });
       return;
     }
     root.ref.blob.translateX = action.position.scopeLeft;
@@ -7688,14 +7761,8 @@
     root.ref.blob.opacity = 0;
   };
   var write$7 = function write(_ref5) {
-    var root = _ref5.root,
-      props = _ref5.props,
-      actions = _ref5.actions;
-    route$4({
-      root: root,
-      props: props,
-      actions: actions
-    });
+    var root = _ref5.root,props = _ref5.props,actions = _ref5.actions;
+    route$4({ root: root, props: props, actions: actions });
     var blob = root.ref.blob;
     if (actions.length === 0 && blob && blob.opacity === 0) {
       root.removeChildView(blob);
@@ -7722,7 +7789,8 @@
   };
   var syncFieldPositionsWithItems = function syncFieldPositionsWithItems(root) {
     root.query('GET_ACTIVE_ITEMS').forEach(function (item) {
-      if (!root.ref.fields[item.id]) return;
+      if (!root.ref.fields[item.id])
+      return;
       root.element.appendChild(root.ref.fields[item.id]);
     });
   };
@@ -7731,8 +7799,7 @@
     return syncFieldPositionsWithItems(root);
   };
   var didAddItem = function didAddItem(_ref3) {
-    var root = _ref3.root,
-      action = _ref3.action;
+    var root = _ref3.root,action = _ref3.action;
     var dataContainer = createElement$1('input');
     dataContainer.type = 'hidden';
     dataContainer.name = root.query('GET_NAME');
@@ -7741,10 +7808,10 @@
     syncFieldPositionsWithItems(root);
   };
   var didLoadItem$1 = function didLoadItem(_ref4) {
-    var root = _ref4.root,
-      action = _ref4.action;
+    var root = _ref4.root,action = _ref4.action;
     var field = getField(root, action.id);
-    if (!field || action.serverFileReference === null) return;
+    if (!field || action.serverFileReference === null)
+    return;
     field.value = action.serverFileReference;
   };
   var didSetDisabled = function didSetDisabled(_ref5) {
@@ -7752,21 +7819,23 @@
     root.element.disabled = root.query('GET_DISABLED');
   };
   var didRemoveItem = function didRemoveItem(_ref6) {
-    var root = _ref6.root,
-      action = _ref6.action;
+    var root = _ref6.root,action = _ref6.action;
     var field = getField(root, action.id);
-    if (!field) return;
-    if (field.parentNode) field.parentNode.removeChild(field);
+    if (!field)
+    return;
+    if (field.parentNode)
+    field.parentNode.removeChild(field);
     delete root.ref.fields[action.id];
   };
   var didDefineValue = function didDefineValue(_ref7) {
-    var root = _ref7.root,
-      action = _ref7.action;
+    var root = _ref7.root,action = _ref7.action;
     var field = getField(root, action.id);
-    if (!field) return;
+    if (!field)
+    return;
     if (action.value === null) {
       field.removeAttribute('value');
-    } else {
+    } else
+    {
       field.value = action.value;
     }
     syncFieldPositionsWithItems(root);
@@ -7800,7 +7869,12 @@
     var extension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     extension = extension.toLowerCase();
     if (images.includes(extension)) {
-      return 'image/' + (extension === 'jpg' ? 'jpeg' : extension === 'svg' ? 'svg+xml' : extension);
+      return 'image/' + (
+      extension === 'jpg' ?
+      'jpeg' :
+      extension === 'svg' ?
+      'svg+xml' :
+      extension);
     }
     if (text$1.includes(extension)) {
       return 'text/' + extension;
@@ -7822,7 +7896,8 @@
    * Test if datatransfer has files
    */
   var hasFiles = function hasFiles(dataTransfer) {
-    if (dataTransfer.files) return dataTransfer.files.length > 0;
+    if (dataTransfer.files)
+    return dataTransfer.files.length > 0;
     return false;
   };
   /**
@@ -7831,7 +7906,9 @@
   var getFiles = function getFiles(dataTransfer) {
     return new Promise(function (resolve, reject) {
       // get the transfer items as promises
-      var promisedFiles = (dataTransfer.items ? Array.from(dataTransfer.items) : []
+      var promisedFiles = (dataTransfer.items ?
+      Array.from(dataTransfer.items) :
+      []
       // only keep file system items (files and directories)
       ).filter(function (item) {
         return isFileSystemItem(item);
@@ -7848,20 +7925,25 @@
         return;
       }
       // done!
-      Promise.all(promisedFiles).then(function (returnedFileGroups) {
+      Promise.all(promisedFiles).
+      then(function (returnedFileGroups) {
         // flatten groups
         var files = [];
         returnedFileGroups.forEach(function (group) {
           files.push.apply(files, group);
         });
         // done (filter out empty files)!
-        resolve(files.filter(function (file) {
+        resolve(files.
+        filter(function (file) {
           return file;
-        }).map(function (file) {
-          if (!file._relativePath) file._relativePath = file.webkitRelativePath;
+        }).
+        map(function (file) {
+          if (!file._relativePath)
+          file._relativePath = file.webkitRelativePath;
           return file;
         }));
-      }).catch(console.error);
+      }).
+      catch(console.error);
     });
   };
   var isFileSystemItem = function isFileSystemItem(item) {
@@ -7876,7 +7958,9 @@
   var getFilesFromItem = function getFilesFromItem(item) {
     return new Promise(function (resolve, reject) {
       if (isDirectoryEntry(item)) {
-        getFilesInDirectory(getAsEntry(item)).then(resolve).catch(reject);
+        getFilesInDirectory(getAsEntry(item)).
+        then(resolve).
+        catch(reject);
         return;
       }
       resolve([item.getAsFile()]);
@@ -7909,12 +7993,14 @@
               // recursively read more directories
               if (entry.isDirectory) {
                 readEntries(entry);
-              } else {
+              } else
+              {
                 // read as file
                 fileCounter++;
                 entry.file(function (file) {
                   var correctedFile = correctMissingFileType(file);
-                  if (entry.fullPath) correctedFile._relativePath = entry.fullPath;
+                  if (entry.fullPath)
+                  correctedFile._relativePath = entry.fullPath;
                   files.push(correctedFile);
                   fileCounter--;
                   resolveIfDone();
@@ -7933,11 +8019,13 @@
     });
   };
   var correctMissingFileType = function correctMissingFileType(file) {
-    if (file.type.length) return file;
+    if (file.type.length)
+    return file;
     var date = file.lastModifiedDate;
     var name = file.name;
     var type = guesstimateMimeType(getExtensionFromFilename(file.name));
-    if (!type.length) return file;
+    if (!type.length)
+    return file;
     file = file.slice(0, file.size, type);
     file.name = name;
     file.lastModifiedDate = date;
@@ -7964,10 +8052,11 @@
         return links;
       }
       links = getLinksFromTransferURLData(dataTransfer);
-    } catch (e) {
-      // nope nope nope (probably IE trouble)
     }
-    return links;
+    catch (e) {
+
+      // nope nope nope (probably IE trouble)
+    }return links;
   };
   var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {
     var data = dataTransfer.getData('url');
@@ -8081,15 +8170,15 @@
     // is in try catch as IE11 will throw error if not
     try {
       dataTransfer.dropEffect = effect;
-    } catch (e) {}
+    }
+    catch (e) {}
   };
   var dragenter = function dragenter(root, clients) {
     return function (e) {
       e.preventDefault();
       initialTarget = e.target;
       clients.forEach(function (client) {
-        var element = client.element,
-          onenter = client.onenter;
+        var element = client.element,onenter = client.onenter;
         if (isEventTarget(e, element)) {
           client.state = 'enter';
           // fire enter event
@@ -8105,12 +8194,7 @@
       requestDataTransferItems(dataTransfer).then(function (items) {
         var overDropTarget = false;
         clients.some(function (client) {
-          var filterElement = client.filterElement,
-            element = client.element,
-            onenter = client.onenter,
-            onexit = client.onexit,
-            ondrag = client.ondrag,
-            allowdrop = client.allowdrop;
+          var filterElement = client.filterElement,element = client.element,onenter = client.onenter,onexit = client.onexit,ondrag = client.ondrag,allowdrop = client.allowdrop;
           // by default we can drop
           setDropEffect(dataTransfer, 'copy');
           // allow transfer of these items
@@ -8138,7 +8222,8 @@
             }
             // dragging
             ondrag(eventPosition(e));
-          } else {
+          } else
+          {
             // should be over an element to drop
             if (filterElement && !overDropTarget) {
               setDropEffect(dataTransfer, 'none');
@@ -8159,16 +8244,14 @@
       var dataTransfer = e.dataTransfer;
       requestDataTransferItems(dataTransfer).then(function (items) {
         clients.forEach(function (client) {
-          var filterElement = client.filterElement,
-            element = client.element,
-            ondrop = client.ondrop,
-            onexit = client.onexit,
-            allowdrop = client.allowdrop;
+          var filterElement = client.filterElement,element = client.element,ondrop = client.ondrop,onexit = client.onexit,allowdrop = client.allowdrop;
           client.state = null;
           // if we're filtering on element we need to be over the element to drop
-          if (filterElement && !isEventTarget(e, element)) return;
+          if (filterElement && !isEventTarget(e, element))
+          return;
           // no transfer for this client
-          if (!allowdrop(items)) return onexit(eventPosition(e));
+          if (!allowdrop(items))
+          return onexit(eventPosition(e));
           // we can drop these items on this client
           ondrop(eventPosition(e), items);
         });
@@ -8191,12 +8274,11 @@
     // is now hopper scope
     scope.classList.add('filepond--hopper');
     // shortcuts
-    var catchesDropsOnPage = options.catchesDropsOnPage,
-      requiresDropOnElement = options.requiresDropOnElement,
-      _options$filterItems = options.filterItems,
-      filterItems = _options$filterItems === void 0 ? function (items) {
+    var catchesDropsOnPage = options.catchesDropsOnPage,requiresDropOnElement = options.requiresDropOnElement,_options$filterItems = options.filterItems,filterItems = _options$filterItems === void 0 ?
+      function (items) {
         return items;
-      } : _options$filterItems;
+      } :
+      _options$filterItems;
     // create a dnd client
     var client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement);
     // current client state
@@ -8261,7 +8343,8 @@
         }
         element = element.parentNode;
       }
-      if (!inScope) return;
+      if (!inScope)
+      return;
     }
     requestDataTransferItems(e.clipboardData).then(function (files) {
       // no files received
@@ -8313,8 +8396,7 @@
    * Creates the file view
    */
   var create$d = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     root.element.id = 'filepond--assistant-' + props.id;
     attr(root.element, 'role', 'status');
     attr(root.element, 'aria-live', 'polite');
@@ -8331,7 +8413,15 @@
   };
   var listModified = function listModified(root, filename, label) {
     var total = root.query('GET_TOTAL_ITEMS');
-    assist(root, label + ' ' + filename + ', ' + total + ' ' + (total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL')));
+    assist(root, label +
+    ' ' +
+    filename +
+    ', ' +
+    total +
+    ' ' + (
+    total === 1 ?
+    root.query('GET_LABEL_FILE_COUNT_SINGULAR') :
+    root.query('GET_LABEL_FILE_COUNT_PLURAL')));
     // clear group after set amount of time so the status is not read twice
     clearTimeout(notificationClearTimeout);
     notificationClearTimeout = setTimeout(function () {
@@ -8342,8 +8432,7 @@
     return root.element.parentNode.contains(document.activeElement);
   };
   var itemAdded = function itemAdded(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
+    var root = _ref2.root,action = _ref2.action;
     if (!isUsingFilePond(root)) {
       return;
     }
@@ -8357,8 +8446,7 @@
     }, 750);
   };
   var itemRemoved = function itemRemoved(_ref3) {
-    var root = _ref3.root,
-      action = _ref3.action;
+    var root = _ref3.root,action = _ref3.action;
     if (!isUsingFilePond(root)) {
       return;
     }
@@ -8366,8 +8454,7 @@
     listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));
   };
   var itemProcessed = function itemProcessed(_ref4) {
-    var root = _ref4.root,
-      action = _ref4.action;
+    var root = _ref4.root,action = _ref4.action;
     // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
     var item = root.query('GET_ITEM', action.id);
     var filename = item.filename;
@@ -8375,16 +8462,14 @@
     assist(root, filename + ' ' + label);
   };
   var itemProcessedUndo = function itemProcessedUndo(_ref5) {
-    var root = _ref5.root,
-      action = _ref5.action;
+    var root = _ref5.root,action = _ref5.action;
     var item = root.query('GET_ITEM', action.id);
     var filename = item.filename;
     var label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');
     assist(root, filename + ' ' + label);
   };
   var itemError = function itemError(_ref6) {
-    var root = _ref6.root,
-      action = _ref6.action;
+    var root = _ref6.root,action = _ref6.action;
     var item = root.query('GET_ITEM', action.id);
     var filename = item.filename;
     // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
@@ -8436,7 +8521,8 @@
         if (!immidiateOnly) {
           timeout = setTimeout(fn, interval - dist);
         }
-      } else {
+      } else
+      {
         // go!
         fn();
       }
@@ -8447,8 +8533,7 @@
     return e.preventDefault();
   };
   var create$e = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
+    var root = _ref.root,props = _ref.props;
     // Add id
     var id = root.query('GET_ID');
     if (id) {
@@ -8457,9 +8542,12 @@
     // Add className
     var className = root.query('GET_CLASS_NAME');
     if (className) {
-      className.split(' ').filter(function (name) {
+      className.
+      split(' ').
+      filter(function (name) {
         return name.length;
-      }).forEach(function (name) {
+      }).
+      forEach(function (name) {
         root.element.classList.add(name);
       });
     }
@@ -8469,13 +8557,9 @@
       caption: root.query('GET_LABEL_IDLE')
     })));
     // List of items
-    root.ref.list = root.appendChildView(root.createChildView(listScroller, {
-      translateY: null
-    }));
+    root.ref.list = root.appendChildView(root.createChildView(listScroller, { translateY: null }));
     // Background panel
-    root.ref.panel = root.appendChildView(root.createChildView(panel, {
-      name: 'panel-root'
-    }));
+    root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' }));
     // Assistant notifies assistive tech when content changes
     root.ref.assistant = root.appendChildView(root.createChildView(assistant, Object.assign({}, props)));
     // Data
@@ -8488,11 +8572,13 @@
     // information on the root height or fixed height status
     root.ref.bounds = null;
     // apply initial style properties
-    root.query('GET_STYLES').filter(function (style) {
+    root.
+    query('GET_STYLES').
+    filter(function (style) {
       return !isEmpty(style.value);
-    }).map(function (_ref2) {
-      var name = _ref2.name,
-        value = _ref2.value;
+    }).
+    map(function (_ref2) {
+      var name = _ref2.name,value = _ref2.value;
       root.element.dataset[name] = value;
     });
     // determine if width changed
@@ -8505,12 +8591,11 @@
     root.ref.previousAspectRatio = null;
     root.ref.updateHistory = [];
     // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
-    var canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;
+    var canHover = window.matchMedia('(pointer: fine) and (hover: hover)').
+    matches;
     var hasPointerEvents = ('PointerEvent' in window);
     if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {
-      root.element.addEventListener('touchmove', prevent, {
-        passive: false
-      });
+      root.element.addEventListener('touchmove', prevent, { passive: false });
       root.element.addEventListener('gesturestart', prevent);
     }
     // add credits
@@ -8530,28 +8615,25 @@
     }
   };
   var write$9 = function write(_ref3) {
-    var root = _ref3.root,
-      props = _ref3.props,
-      actions = _ref3.actions;
+    var root = _ref3.root,props = _ref3.props,actions = _ref3.actions;
     // route actions
-    route$5({
-      root: root,
-      props: props,
-      actions: actions
-    });
+    route$5({ root: root, props: props, actions: actions });
     // apply style properties
-    actions.filter(function (action) {
+    actions.
+    filter(function (action) {
       return /^DID_SET_STYLE_/.test(action.type);
-    }).filter(function (action) {
+    }).
+    filter(function (action) {
       return !isEmpty(action.data.value);
-    }).map(function (_ref4) {
-      var type = _ref4.type,
-        data = _ref4.data;
+    }).
+    map(function (_ref4) {
+      var type = _ref4.type,data = _ref4.data;
       var name = toCamels(type.substr(8).toLowerCase(), '_');
       root.element.dataset[name] = data.value;
       root.invalidateLayout();
     });
-    if (root.rect.element.hidden) return;
+    if (root.rect.element.hidden)
+    return;
     if (root.rect.element.width !== root.ref.widthPrevious) {
       root.ref.widthPrevious = root.rect.element.width;
       root.ref.widthUpdated();
@@ -8565,11 +8647,7 @@
       root.ref.measure = null;
     }
     // get quick references to various high level parts of the upload tool
-    var _root$ref = root.ref,
-      hopper = _root$ref.hopper,
-      label = _root$ref.label,
-      list = _root$ref.list,
-      panel = _root$ref.panel;
+    var _root$ref = root.ref,hopper = _root$ref.hopper,label = _root$ref.label,list = _root$ref.list,panel = _root$ref.panel;
     // sets correct state to hopper scope
     if (hopper) {
       hopper.updateHopperState();
@@ -8578,7 +8656,9 @@
     var aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
     var isMultiItem = root.query('GET_ALLOW_MULTIPLE');
     var totalItems = root.query('GET_TOTAL_ITEMS');
-    var maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;
+    var maxItems = isMultiItem ?
+    root.query('GET_MAX_FILES') || MAX_FILES_LIMIT :
+    1;
     var atMaxCapacity = totalItems === maxItems;
     // action used to add item
     var addAction = actions.find(function (action) {
@@ -8592,16 +8672,20 @@
       label.opacity = 0;
       if (isMultiItem) {
         label.translateY = -40;
-      } else {
+      } else
+      {
         if (interactionMethod === InteractionMethod.API) {
           label.translateX = 40;
-        } else if (interactionMethod === InteractionMethod.BROWSE) {
+        } else
+        if (interactionMethod === InteractionMethod.BROWSE) {
           label.translateY = 40;
-        } else {
+        } else
+        {
           label.translateY = 30;
         }
       }
-    } else if (!atMaxCapacity) {
+    } else
+    if (!atMaxCapacity) {
       label.opacity = 1;
       label.translateX = 0;
       label.translateY = 0;
@@ -8615,7 +8699,9 @@
     var visualHeight = currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;
     var boundsHeight = currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom;
     // link list to label bottom position
-    list.translateY = Math.max(0, currentLabelHeight - list.rect.element.marginTop) - listItemMargin.top;
+    list.translateY =
+    Math.max(0, currentLabelHeight - list.rect.element.marginTop) -
+    listItemMargin.top;
     if (aspectRatio) {
       // fixed aspect ratio
       // calculate height based on width
@@ -8650,26 +8736,30 @@
       // available height for list
       var listAvailableHeight =
       // the height of the panel minus the label height
-      height - currentLabelHeight - (
+      height -
+      currentLabelHeight - (
       // the room we leave open between the end of the list and the panel bottom
       listMarginBottom - listItemMargin.bottom) - (
       // if we're full we need to leave some room between the top of the panel and the list
       atMaxCapacity ? listMarginTop : 0);
       if (listHeight.visual > listAvailableHeight) {
         list.overflow = listAvailableHeight;
-      } else {
+      } else
+      {
         list.overflow = null;
       }
       // set container bounds (so pushes siblings downwards)
       root.height = height;
-    } else if (bounds.fixedHeight) {
+    } else
+    if (bounds.fixedHeight) {
       // fixed height
       // fix height of panel
       panel.scalable = false;
       // available height for list
       var _listAvailableHeight =
       // the height of the panel minus the label height
-      bounds.fixedHeight - currentLabelHeight - (
+      bounds.fixedHeight -
+      currentLabelHeight - (
       // the room we leave open between the end of the list and the panel bottom
       listMarginBottom - listItemMargin.bottom) - (
       // if we're full we need to leave some room between the top of the panel and the list
@@ -8677,34 +8767,42 @@
       // set list height
       if (listHeight.visual > _listAvailableHeight) {
         list.overflow = _listAvailableHeight;
-      } else {
+      } else
+      {
         list.overflow = null;
       }
       // no need to set container bounds as these are handles by CSS fixed height
-    } else if (bounds.cappedHeight) {
+    } else
+    if (bounds.cappedHeight) {
       // max-height
       // not a fixed height panel
       var isCappedHeight = visualHeight >= bounds.cappedHeight;
       var panelHeight = Math.min(bounds.cappedHeight, visualHeight);
       panel.scalable = true;
-      panel.height = isCappedHeight ? panelHeight : panelHeight - listItemMargin.top - listItemMargin.bottom;
+      panel.height = isCappedHeight ?
+      panelHeight :
+      panelHeight - listItemMargin.top - listItemMargin.bottom;
       // available height for list
       var _listAvailableHeight2 =
       // the height of the panel minus the label height
-      panelHeight - currentLabelHeight - (
+      panelHeight -
+      currentLabelHeight - (
       // the room we leave open between the end of the list and the panel bottom
       listMarginBottom - listItemMargin.bottom) - (
       // if we're full we need to leave some room between the top of the panel and the list
       atMaxCapacity ? listMarginTop : 0);
       // set list height (if is overflowing)
-      if (visualHeight > bounds.cappedHeight && listHeight.visual > _listAvailableHeight2) {
+      if (visualHeight > bounds.cappedHeight &&
+      listHeight.visual > _listAvailableHeight2) {
         list.overflow = _listAvailableHeight2;
-      } else {
+      } else
+      {
         list.overflow = null;
       }
       // set container bounds (so pushes siblings downwards)
       root.height = Math.min(bounds.cappedHeight, boundsHeight - listItemMargin.top - listItemMargin.bottom);
-    } else {
+    } else
+    {
       // flexible height
       // not a fixed height panel
       var itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;
@@ -8714,14 +8812,18 @@
       root.height = Math.max(labelHeight, boundsHeight - itemMargin);
     }
     // move credits to bottom
-    if (root.ref.credits && panel.heightCurrent) root.ref.credits.style.transform = 'translateY(' + panel.heightCurrent + 'px)';
+    if (root.ref.credits && panel.heightCurrent)
+    root.ref.credits.style.transform =
+    'translateY(' + panel.heightCurrent + 'px)';
   };
   var calculateListItemMargin = function calculateListItemMargin(root) {
     var item = root.ref.list.childViews[0].childViews[0];
-    return item ? {
+    return item ?
+    {
       top: item.rect.element.marginTop,
       bottom: item.rect.element.marginBottom
-    } : {
+    } :
+    {
       top: 0,
       bottom: 0
     };
@@ -8735,18 +8837,19 @@
     var visibleChildren = itemList.childViews.filter(function (child) {
       return child.rect.element.height;
     });
-    var children = root.query('GET_ACTIVE_ITEMS').map(function (item) {
+    var children = root.
+    query('GET_ACTIVE_ITEMS').
+    map(function (item) {
       return visibleChildren.find(function (child) {
         return child.id === item.id;
       });
-    }).filter(function (item) {
+    }).
+    filter(function (item) {
       return item;
     });
     // no children, done!
-    if (children.length === 0) return {
-      visual: visual,
-      bounds: bounds
-    };
+    if (children.length === 0)
+    return { visual: visual, bounds: bounds };
     var horizontalSpace = itemList.rect.element.width;
     var dragIndex = getItemIndexByPosition(itemList, children, scrollList.dragCoordinates);
     var childRect = children[0].rect.element;
@@ -8757,7 +8860,9 @@
     var newItem = typeof dragIndex !== 'undefined' && dragIndex >= 0 ? 1 : 0;
     var removedItem = children.find(function (child) {
       return child.markedForRemoval && child.opacity < 0.45;
-    }) ? -1 : 0;
+    }) ?
+    -1 :
+    0;
     var verticalItemCount = children.length + newItem + removedItem;
     var itemsPerRow = Math.round(horizontalSpace / itemWidth);
     // stack
@@ -8773,10 +8878,7 @@
       bounds = Math.ceil(verticalItemCount / itemsPerRow) * itemHeight;
       visual = bounds;
     }
-    return {
-      visual: visual,
-      bounds: bounds
-    };
+    return { visual: visual, bounds: bounds };
   };
   var calculateRootBoundingBoxHeight = function calculateRootBoundingBoxHeight(root) {
     var height = root.ref.measureHeight || null;
@@ -8815,7 +8917,10 @@
     var itemList = list.childViews[0];
     return getItemIndexByPosition(itemList, children, {
       left: position.scopeLeft - itemList.rect.element.left,
-      top: position.scopeTop - (list.rect.outer.top + list.rect.element.marginTop + list.rect.element.scrollTop)
+      top: position.scopeTop - (
+      list.rect.outer.top +
+      list.rect.element.marginTop +
+      list.rect.element.scrollTop)
     });
   };
   /**
@@ -8828,18 +8933,21 @@
     if (enabled && !root.ref.hopper) {
       var hopper = createHopper(root.element, function (items) {
         // allow quick validation of dropped items
-        var beforeDropFile = root.query('GET_BEFORE_DROP_FILE') || function () {
+        var beforeDropFile = root.query('GET_BEFORE_DROP_FILE') ||
+        function () {
           return true;
         };
         // all items should be validated by all filters as valid
         var dropValidation = root.query('GET_DROP_VALIDATION');
-        return dropValidation ? items.every(function (item) {
+        return dropValidation ?
+        items.every(function (item) {
           return applyFilters('ALLOW_HOPPER_ITEM', item, {
             query: root.query
           }).every(function (result) {
             return result === true;
           }) && beforeDropFile(item);
-        }) : true;
+        }) :
+        true;
       }, {
         filterItems: function filterItems(items) {
           var ignoredFiles = root.query('GET_IGNORED_FILES');
@@ -8859,18 +8967,20 @@
         var visibleChildren = list.childViews.filter(function (child) {
           return child.rect.element.height;
         });
-        var children = root.query('GET_ACTIVE_ITEMS').map(function (item) {
+        var children = root.
+        query('GET_ACTIVE_ITEMS').
+        map(function (item) {
           return visibleChildren.find(function (child) {
             return child.id === item.id;
           });
-        }).filter(function (item) {
+        }).
+        filter(function (item) {
           return item;
         });
-        applyFilterChain('ADD_ITEMS', items, {
-          dispatch: root.dispatch
-        }).then(function (queue) {
+        applyFilterChain('ADD_ITEMS', items, { dispatch: root.dispatch }).then(function (queue) {
           // these files don't fit so stop here
-          if (exceedsMaxFiles(root, queue)) return false;
+          if (exceedsMaxFiles(root, queue))
+          return false;
           // go
           root.dispatch('ADD_ITEMS', {
             items: queue,
@@ -8878,31 +8988,22 @@
             interactionMethod: InteractionMethod.DROP
           });
         });
-        root.dispatch('DID_DROP', {
-          position: position
-        });
-        root.dispatch('DID_END_DRAG', {
-          position: position
-        });
+        root.dispatch('DID_DROP', { position: position });
+        root.dispatch('DID_END_DRAG', { position: position });
       };
       hopper.ondragstart = function (position) {
-        root.dispatch('DID_START_DRAG', {
-          position: position
-        });
+        root.dispatch('DID_START_DRAG', { position: position });
       };
       hopper.ondrag = debounce(function (position) {
-        root.dispatch('DID_DRAG', {
-          position: position
-        });
+        root.dispatch('DID_DRAG', { position: position });
       });
       hopper.ondragend = function (position) {
-        root.dispatch('DID_END_DRAG', {
-          position: position
-        });
+        root.dispatch('DID_END_DRAG', { position: position });
       };
       root.ref.hopper = hopper;
       root.ref.drip = root.appendChildView(root.createChildView(drip));
-    } else if (!enabled && root.ref.hopper) {
+    } else
+    if (!enabled && root.ref.hopper) {
       root.ref.hopper.destroy();
       root.ref.hopper = null;
       root.removeChildView(root.ref.drip);
@@ -8922,7 +9023,8 @@
             dispatch: root.dispatch
           }).then(function (queue) {
             // these files don't fit so stop here
-            if (exceedsMaxFiles(root, queue)) return false;
+            if (exceedsMaxFiles(root, queue))
+            return false;
             // add items!
             root.dispatch('ADD_ITEMS', {
               items: queue,
@@ -8932,7 +9034,8 @@
           });
         }
       })), 0);
-    } else if (!enabled && root.ref.browser) {
+    } else
+    if (!enabled && root.ref.browser) {
       root.removeChildView(root.ref.browser);
       root.ref.browser = null;
     }
@@ -8947,11 +9050,10 @@
     if (enabled && !root.ref.paster) {
       root.ref.paster = createPaster();
       root.ref.paster.onload = function (items) {
-        applyFilterChain('ADD_ITEMS', items, {
-          dispatch: root.dispatch
-        }).then(function (queue) {
+        applyFilterChain('ADD_ITEMS', items, { dispatch: root.dispatch }).then(function (queue) {
           // these files don't fit so stop here
-          if (exceedsMaxFiles(root, queue)) return false;
+          if (exceedsMaxFiles(root, queue))
+          return false;
           // add items!
           root.dispatch('ADD_ITEMS', {
             items: queue,
@@ -8960,7 +9062,8 @@
           });
         });
       };
-    } else if (!enabled && root.ref.paster) {
+    } else
+    if (!enabled && root.ref.paster) {
       root.ref.paster.destroy();
       root.ref.paster = null;
     }
@@ -8970,8 +9073,7 @@
    */
   var route$5 = createRoute({
     DID_SET_ALLOW_BROWSE: function DID_SET_ALLOW_BROWSE(_ref5) {
-      var root = _ref5.root,
-        props = _ref5.props;
+      var root = _ref5.root,props = _ref5.props;
       toggleBrowse(root, props);
     },
     DID_SET_ALLOW_DROP: function DID_SET_ALLOW_DROP(_ref6) {
@@ -8983,15 +9085,15 @@
       togglePaste(root);
     },
     DID_SET_DISABLED: function DID_SET_DISABLED(_ref8) {
-      var root = _ref8.root,
-        props = _ref8.props;
+      var root = _ref8.root,props = _ref8.props;
       toggleDrop(root);
       togglePaste(root);
       toggleBrowse(root, props);
       var isDisabled = root.query('GET_DISABLED');
       if (isDisabled) {
         root.element.dataset.disabled = 'disabled';
-      } else {
+      } else
+      {
         // delete root.element.dataset.disabled; <= this does not work on iOS 10
         root.element.removeAttribute('data-disabled');
       }
@@ -9031,19 +9133,18 @@
     var defaultOptions = getOptions();
     // create the data store, this will contain all our app info
     var store = createStore(
-    // initial state (should be serializable)
-    createInitialState(defaultOptions),
-    // queries
-    [queries, createOptionQueries(defaultOptions)],
-    // action handlers
-    [actions, createOptionActions(defaultOptions)]);
+      // initial state (should be serializable)
+      createInitialState(defaultOptions),
+      // queries
+      [queries, createOptionQueries(defaultOptions)],
+      // action handlers
+      [actions, createOptionActions(defaultOptions)]);
     // set initial options
-    store.dispatch('SET_OPTIONS', {
-      options: initialOptions
-    });
+    store.dispatch('SET_OPTIONS', { options: initialOptions });
     // kick thread if visibility changes
     var visibilityHandler = function visibilityHandler() {
-      if (document.hidden) return;
+      if (document.hidden)
+      return;
       store.dispatch('KICK');
     };
     document.addEventListener('visibilitychange', visibilityHandler);
@@ -9070,9 +9171,7 @@
     };
     window.addEventListener('resize', resizeHandler);
     // render initial view
-    var view = root(store, {
-      id: getUniqueId()
-    });
+    var view = root(store, { id: getUniqueId() });
     //
     // PRIVATE API -------------------------------------------------------------------------------------
     //
@@ -9092,7 +9191,8 @@
           if (!initialWindowWidth) {
             initialWindowWidth = currentWindowWidth;
           }
-          if (!isResizingHorizontally && currentWindowWidth !== initialWindowWidth) {
+          if (!isResizingHorizontally &&
+          currentWindowWidth !== initialWindowWidth) {
             store.dispatch('DID_START_RESIZE');
             isResizingHorizontally = true;
           }
@@ -9102,7 +9202,8 @@
           isResting = view.element.offsetParent === null;
         }
         // if resting, no need to read as numbers will still all be correct
-        if (isResting) return;
+        if (isResting)
+        return;
         // read view data
         view._read();
         // if is hidden we need to know so we exit rest mode when revealed
@@ -9114,13 +9215,15 @@
        */
       _write: function _write(ts) {
         // get all actions from store
-        var actions = store.processActionQueue()
+        var actions = store.
+        processActionQueue()
         // filter out set actions (these will automatically trigger DID_SET)
         .filter(function (action) {
           return !/^SET_/.test(action.type);
         });
         // if was idling and no actions stop here
-        if (isResting && !actions.length) return;
+        if (isResting && !actions.length)
+        return;
         // some actions might trigger events
         routeActionsToEvents(actions);
         // update the view
@@ -9159,7 +9262,8 @@
         // only source is available, else add item if possible
         if (data.source) {
           event.file = data.source;
-        } else if (data.item || data.id) {
+        } else
+        if (data.item || data.id) {
           var item = data.item ? data.item : store.query('GET_ITEM', data.id);
           event.file = item ? createItemAPI(item) : null;
         }
@@ -9189,7 +9293,10 @@
       DID_LOAD_ITEM: createEvent('addfile'),
       DID_THROW_ITEM_INVALID: [createEvent('error'), createEvent('addfile')],
       DID_THROW_ITEM_LOAD_ERROR: [createEvent('error'), createEvent('addfile')],
-      DID_THROW_ITEM_REMOVE_ERROR: [createEvent('error'), createEvent('removefile')],
+      DID_THROW_ITEM_REMOVE_ERROR: [
+      createEvent('error'),
+      createEvent('removefile')],
+
       DID_PREPARE_OUTPUT: createEvent('preparefile'),
       DID_START_ITEM_PROCESSING: createEvent('processfilestart'),
       DID_UPDATE_ITEM_PROCESS_PROGRESS: createEvent('processfileprogress'),
@@ -9197,7 +9304,10 @@
       DID_COMPLETE_ITEM_PROCESSING: createEvent('processfile'),
       DID_COMPLETE_ITEM_PROCESSING_ALL: createEvent('processfiles'),
       DID_REVERT_ITEM_PROCESSING: createEvent('processfilerevert'),
-      DID_THROW_ITEM_PROCESSING_ERROR: [createEvent('error'), createEvent('processfile')],
+      DID_THROW_ITEM_PROCESSING_ERROR: [
+      createEvent('error'),
+      createEvent('processfile')],
+
       DID_REMOVE_ITEM: createEvent('removefile'),
       DID_UPDATE_ITEMS: createEvent('updatefiles'),
       DID_ACTIVATE_ITEM: createEvent('activatefile'),
@@ -9205,9 +9315,7 @@
     };
     var exposeEvent = function exposeEvent(event) {
       // create event object to be dispatched
-      var detail = Object.assign({
-        pond: exports
-      }, event);
+      var detail = Object.assign({ pond: exports }, event);
       delete detail.type;
       view.element.dispatchEvent(new CustomEvent('FilePond:' + event.type, {
         // event info
@@ -9229,9 +9337,11 @@
       }
       // append other props
       var filtered = ['type', 'error', 'file'];
-      Object.keys(event).filter(function (key) {
+      Object.keys(event).
+      filter(function (key) {
         return !filtered.includes(key);
-      }).forEach(function (key) {
+      }).
+      forEach(function (key) {
         return params.push(event[key]);
       });
       // on(type, () => { })
@@ -9243,16 +9353,20 @@
       }
     };
     var routeActionsToEvents = function routeActionsToEvents(actions) {
-      if (!actions.length) return;
-      actions.filter(function (action) {
+      if (!actions.length)
+      return;
+      actions.
+      filter(function (action) {
         return eventRoutes[action.type];
-      }).forEach(function (action) {
+      }).
+      forEach(function (action) {
         var routes = eventRoutes[action.type];
         (Array.isArray(routes) ? routes : [routes]).forEach(function (route) {
           // this isn't fantastic, but because of the stacking of settimeouts plugins can handle the did_load before the did_init
           if (action.type === 'DID_INIT_ITEM') {
             exposeEvent(route(action.data));
-          } else {
+          } else
+          {
             setTimeout(function () {
               exposeEvent(route(action.data));
             }, 0);
@@ -9264,9 +9378,7 @@
     // PUBLIC API -------------------------------------------------------------------------------------
     //
     var setOptions = function setOptions(options) {
-      return store.dispatch('SET_OPTIONS', {
-        options: options
-      });
+      return store.dispatch('SET_OPTIONS', { options: options });
     };
     var getFile = function getFile(query) {
       return store.query('GET_ACTIVE_ITEM', query);
@@ -9287,14 +9399,13 @@
     var addFile = function addFile(source) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       return new Promise(function (resolve, reject) {
-        addFiles([{
-          source: source,
-          options: options
-        }], {
+        addFiles([{ source: source, options: options }], {
           index: options.index
-        }).then(function (items) {
+        }).
+        then(function (items) {
           return resolve(items && items[0]);
-        }).catch(reject);
+        }).
+        catch(reject);
       });
     };
     var isFilePondFile = function isFilePondFile(obj) {
@@ -9307,9 +9418,7 @@
         query = undefined;
       }
       // request item removal
-      store.dispatch('REMOVE_ITEM', Object.assign({}, options, {
-        query: query
-      }));
+      store.dispatch('REMOVE_ITEM', Object.assign({}, options, { query: query }));
       // see if item has been removed
       return store.query('GET_ACTIVE_ITEM', query) === null;
     };
@@ -9324,10 +9433,12 @@
         if (isArray(args[0])) {
           sources.push.apply(sources, args[0]);
           Object.assign(options, args[1] || {});
-        } else {
+        } else
+        {
           // user passed sources as arguments, last one might be options object
           var lastArgument = args[args.length - 1];
-          if (typeof lastArgument === 'object' && !(lastArgument instanceof Blob)) {
+          if (typeof lastArgument === 'object' &&
+          !(lastArgument instanceof Blob)) {
             Object.assign(options, args.pop());
           }
           // add rest to sources
@@ -9373,7 +9484,11 @@
       var queries = Array.isArray(args[0]) ? args[0] : args;
       if (!queries.length) {
         var files = getFiles().filter(function (item) {
-          return !(item.status === ItemStatus.IDLE && item.origin === FileOrigin.LOCAL) && item.status !== ItemStatus.PROCESSING && item.status !== ItemStatus.PROCESSING_COMPLETE && item.status !== ItemStatus.PROCESSING_REVERT_ERROR;
+          return !(item.status === ItemStatus.IDLE &&
+          item.origin === FileOrigin.LOCAL) &&
+          item.status !== ItemStatus.PROCESSING &&
+          item.status !== ItemStatus.PROCESSING_COMPLETE &&
+          item.status !== ItemStatus.PROCESSING_REVERT_ERROR;
         });
         return Promise.all(files.map(processFile));
       }
@@ -9387,17 +9502,25 @@
       var options;
       if (typeof queries[queries.length - 1] === 'object') {
         options = queries.pop();
-      } else if (Array.isArray(args[0])) {
+      } else
+      if (Array.isArray(args[0])) {
         options = args[1];
       }
       var files = getFiles();
-      if (!queries.length) return Promise.all(files.map(function (file) {
+      if (!queries.length)
+      return Promise.all(files.map(function (file) {
         return removeFile(file, options);
       }));
       // when removing by index the indexes shift after each file removal so we need to convert indexes to ids
-      var mappedQueries = queries.map(function (query) {
-        return isNumber(query) ? files[query] ? files[query].id : null : query;
-      }).filter(function (query) {
+      var mappedQueries = queries.
+      map(function (query) {
+        return isNumber(query) ?
+        files[query] ?
+        files[query].id :
+        null :
+        query;
+      }).
+      filter(function (query) {
         return query;
       });
       return mappedQueries.map(function (q) {
@@ -9446,10 +9569,7 @@
        * Moves a file to a new location in the files list
        */
       moveFile: function moveFile(query, index) {
-        return store.dispatch('MOVE_ITEM', {
-          query: query,
-          index: index
-        });
+        return store.dispatch('MOVE_ITEM', { query: query, index: index });
       },
       /**
        * Returns all files (wrapped in public api)
@@ -9471,9 +9591,7 @@
        * Sort list of files
        */
       sort: function sort(compare) {
-        return store.dispatch('SORT', {
-          compare: compare
-        });
+        return store.dispatch('SORT', { compare: compare });
       },
       /**
        * Browse the file system for a file
@@ -9636,11 +9754,14 @@
     forin(node.attributes, function (index) {
       attributes.push(node.attributes[index]);
     });
-    var output = attributes.filter(function (attribute) {
+    var output = attributes.
+    filter(function (attribute) {
       return attribute.name;
-    }).reduce(function (obj, attribute) {
+    }).
+    reduce(function (obj, attribute) {
       var value = attr(node, attribute.name);
-      obj[attributeNameToPropertyName(attribute.name)] = value === attribute.name ? true : value;
+      obj[attributeNameToPropertyName(attribute.name)] =
+      value === attribute.name ? true : value;
       return obj;
     }, {});
     // do mapping of object properties
@@ -9685,7 +9806,9 @@
     applyFilters('SET_ATTRIBUTE_TO_OPTION_MAP', attributeMapping);
     // create final options object by setting options object and then overriding options supplied on element
     var mergedOptions = Object.assign({}, options);
-    var attributeOptions = getAttributesAsObject(element.nodeName === 'FIELDSET' ? element.querySelector('input[type=file]') : element, attributeMapping);
+    var attributeOptions = getAttributesAsObject(element.nodeName === 'FIELDSET' ?
+    element.querySelector('input[type=file]') :
+    element, attributeMapping);
     // merge with options object
     Object.keys(attributeOptions).forEach(function (key) {
       if (isObject(attributeOptions[key])) {
@@ -9693,7 +9816,8 @@
           mergedOptions[key] = {};
         }
         Object.assign(mergedOptions[key], attributeOptions[key]);
-      } else {
+      } else
+      {
         mergedOptions[key] = attributeOptions[key];
       }
     });
@@ -9722,7 +9846,9 @@
   };
   // if an element is passed, we create the instance at that element, if not, we just create an up object
   var createApp$1 = function createApp() {
-    return isNode(arguments.length <= 0 ? undefined : arguments[0]) ? createAppAtElement.apply(void 0, arguments) : createAppObject.apply(void 0, arguments);
+    return isNode(arguments.length <= 0 ? undefined : arguments[0]) ?
+    createAppAtElement.apply(void 0, arguments) :
+    createAppObject.apply(void 0, arguments);
   };
   var PRIVATE_METHODS = ['fire', '_read', '_write'];
   var createAppAPI = function createAppAPI(app) {
@@ -9864,7 +9990,11 @@
     // Can't run on Opera Mini due to lack of everything
     !isOperaMini() &&
     // Require these APIs to feature detect a modern browser
-    hasVisibility() && hasPromises() && hasBlobSlice() && hasCreateObjectURL() && hasTiming() && (
+    hasVisibility() &&
+    hasPromises() &&
+    hasBlobSlice() &&
+    hasCreateObjectURL() &&
+    hasTiming() && (
     // doesn't need CSSSupports but is a good way to detect Safari 9+ (we do want to support IE11 though)
     hasCSSSupports() || isIE11());
     return function () {
@@ -9929,7 +10059,8 @@
       setTimeout(function () {
         return dispatch();
       }, 0);
-    } else {
+    } else
+    {
       document.addEventListener('DOMContentLoaded', dispatch);
     }
     // updates the OptionTypes object based on the current options
@@ -10021,7 +10152,6 @@
     };
   }
   exports.supported = supported;
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
+  Object.defineProperty(exports, '__esModule', { value: true });
 });
+//# sourceMappingURL=filepond.js.map

@@ -1,5 +1,4 @@
 "use strict";
-
 /*!
  * FilePondPluginFileValidateType 1.2.5
  * Licensed under MIT, https://opensource.org/licenses/MIT/
@@ -7,20 +6,18 @@
  */
 /* eslint-disable */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.FilePondPluginFileValidateType = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ?
+  module.exports = factory() :
+  typeof define === 'function' && define.amd ?
+  define(factory) : (
+  global = global || self,
+  global.FilePondPluginFileValidateType = factory());
 })(this, function () {
   'use strict';
-
   var plugin = function plugin(_ref) {
-    var addFilter = _ref.addFilter,
-      utils = _ref.utils;
+    var addFilter = _ref.addFilter,utils = _ref.utils;
     // get quick reference to Type utils
-    var Type = utils.Type,
-      isString = utils.isString,
-      replaceInString = utils.replaceInString,
-      guesstimateMimeType = utils.guesstimateMimeType,
-      getExtensionFromFilename = utils.getExtensionFromFilename,
-      getFilenameFromURL = utils.getFilenameFromURL;
+    var Type = utils.Type,isString = utils.isString,replaceInString = utils.replaceInString,guesstimateMimeType = utils.guesstimateMimeType,getExtensionFromFilename = utils.getExtensionFromFilename,getFilenameFromURL = utils.getFilenameFromURL;
     var mimeTypeMatchesWildCard = function mimeTypeMatchesWildCard(mimeType, wildcard) {
       var mimeTypeGroup = (/^[^/]+/.exec(mimeType) || []).pop(); // image/png -> image
       var wildcardGroup = wildcard.slice(0, -2); // image/* -> image
@@ -45,7 +42,8 @@
         if (extension) {
           type = guesstimateMimeType(extension);
         }
-      } else {
+      } else
+      {
         type = item.type;
       }
       return type;
@@ -63,18 +61,23 @@
       }
       // use type detector
       return new Promise(function (resolve, reject) {
-        typeDetector(item, type).then(function (detectedType) {
+        typeDetector(item, type).
+        then(function (detectedType) {
           if (isValidMimeType(acceptedFileTypes, detectedType)) {
             resolve();
-          } else {
+          } else
+          {
             reject();
           }
-        }).catch(reject);
+        }).
+        catch(reject);
       });
     };
     var applyMimeTypeMap = function applyMimeTypeMap(map) {
       return function (acceptedFileType) {
-        return map[acceptedFileType] === null ? false : map[acceptedFileType] || acceptedFileType;
+        return map[acceptedFileType] === null ?
+        false :
+        map[acceptedFileType] || acceptedFileType;
       };
     };
     // setup attribute mapping for accept
@@ -109,7 +112,9 @@
         // if invalid, exit here
         var validationResult = validateFile(file, acceptedFileTypes, typeDetector);
         var handleRejection = function handleRejection() {
-          var acceptedFileTypesMapped = acceptedFileTypes.map(applyMimeTypeMap(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES_MAP'))).filter(function (label) {
+          var acceptedFileTypesMapped = acceptedFileTypes.
+          map(applyMimeTypeMap(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES_MAP'))).
+          filter(function (label) {
             return label !== false;
           });
           reject({
@@ -117,7 +122,9 @@
               main: query('GET_LABEL_FILE_TYPE_NOT_ALLOWED'),
               sub: replaceInString(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES'), {
                 allTypes: acceptedFileTypesMapped.join(', '),
-                allButLastType: acceptedFileTypesMapped.slice(0, -1).join(', '),
+                allButLastType: acceptedFileTypesMapped.
+                slice(0, -1).
+                join(', '),
                 lastType: acceptedFileTypesMapped[acceptedFileTypesMapped.length - 1]
               })
             }
@@ -131,9 +138,11 @@
           return resolve(file);
         }
         // is promise
-        validationResult.then(function () {
+        validationResult.
+        then(function () {
           resolve(file);
-        }).catch(handleRejection);
+        }).
+        catch(handleRejection);
       });
     });
     // expose plugin
@@ -151,7 +160,10 @@
         // label to show when a type is not allowed
         labelFileTypeNotAllowed: ['File is of invalid type', Type.STRING],
         // nicer label
-        fileValidateTypeLabelExpectedTypes: ['Expects {allButLastType} or {lastType}', Type.STRING],
+        fileValidateTypeLabelExpectedTypes: [
+        'Expects {allButLastType} or {lastType}',
+        Type.STRING],
+
         // map mime types to extensions
         fileValidateTypeLabelExpectedTypesMap: [{}, Type.OBJECT],
         // Custom function to detect type of file
@@ -162,9 +174,8 @@
   // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
   var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   if (isBrowser) {
-    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', {
-      detail: plugin
-    }));
+    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', { detail: plugin }));
   }
   return plugin;
 });
+//# sourceMappingURL=filepond-plugin-file-validate-type.js.map

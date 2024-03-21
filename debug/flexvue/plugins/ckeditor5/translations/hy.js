@@ -1,7 +1,7 @@
 "use strict";
 
 !function (e) {
-  const t = e.hy = e.hy || {};
+  var t = e.hy = e.hy || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     "Align cell text to the bottom": "",
@@ -103,3 +103,4 @@
     return 1 != e;
   };
 }(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=hy.js.map

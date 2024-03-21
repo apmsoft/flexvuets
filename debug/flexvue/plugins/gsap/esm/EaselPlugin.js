@@ -8,26 +8,15 @@
  * @author: Jack Doyle, jack@greensock.com
 */
 /* eslint-disable */
-var gsap,
-  _coreInitted,
-  _win,
-  _createJS,
-  _ColorFilter,
-  _ColorMatrixFilter,
-  _colorProps = "redMultiplier,greenMultiplier,blueMultiplier,alphaMultiplier,redOffset,greenOffset,blueOffset,alphaOffset".split(","),
-  _windowExists = function _windowExists() {
+var gsap,_coreInitted,_win,_createJS,_ColorFilter,_ColorMatrixFilter,_colorProps = "redMultiplier,greenMultiplier,blueMultiplier,alphaMultiplier,redOffset,greenOffset,blueOffset,alphaOffset".split(","),_windowExists = function _windowExists() {
     return typeof window !== "undefined";
-  },
-  _getGSAP = function _getGSAP() {
+  },_getGSAP = function _getGSAP() {
     return gsap || _windowExists() && (gsap = window.gsap) && gsap.registerPlugin && gsap;
-  },
-  _getCreateJS = function _getCreateJS() {
+  },_getCreateJS = function _getCreateJS() {
     return _createJS || _win && _win.createjs || _win || {};
-  },
-  _warn = function _warn(message) {
+  },_warn = function _warn(message) {
     return console.warn(message);
-  },
-  _cache = function _cache(target) {
+  },_cache = function _cache(target) {
     var b = target.getBounds && target.getBounds();
     if (!b) {
       b = target.nominalBounds || {
@@ -40,22 +29,14 @@ var gsap,
     }
     target.cache && target.cache(b.x, b.y, b.width, b.height);
     _warn("EaselPlugin: for filters to display in EaselJS, you must call the object's cache() method first. GSAP attempted to use the target's getBounds() for the cache but that may not be completely accurate. " + target);
-  },
-  _parseColorFilter = function _parseColorFilter(target, v, plugin) {
+  },_parseColorFilter = function _parseColorFilter(target, v, plugin) {
     if (!_ColorFilter) {
       _ColorFilter = _getCreateJS().ColorFilter;
       if (!_ColorFilter) {
         _warn("EaselPlugin error: The EaselJS ColorFilter JavaScript file wasn't loaded.");
       }
     }
-    var filters = target.filters || [],
-      i = filters.length,
-      c,
-      s,
-      e,
-      a,
-      p,
-      pt;
+    var filters = target.filters || [],i = filters.length,c,s,e,a,p,pt;
     while (i--) {
       if (filters[i] instanceof _ColorFilter) {
         s = filters[i];
@@ -75,9 +56,11 @@ var gsap,
       e.greenOffset = +c[1] * a;
       e.blueOffset = +c[2] * a;
       e.redMultiplier = e.greenMultiplier = e.blueMultiplier = 1 - a;
-    } else {
+    } else
+    {
       for (p in v) {
-        if (p !== "exposure") if (p !== "brightness") {
+        if (p !== "exposure")
+        if (p !== "brightness") {
           e[p] = +v[p];
         }
       }
@@ -85,7 +68,8 @@ var gsap,
     if (v.exposure != null) {
       e.redOffset = e.greenOffset = e.blueOffset = 255 * (+v.exposure - 1);
       e.redMultiplier = e.greenMultiplier = e.blueMultiplier = 1;
-    } else if (v.brightness != null) {
+    } else
+    if (v.brightness != null) {
       a = +v.brightness - 1;
       e.redOffset = e.greenOffset = e.blueOffset = a > 0 ? a * 255 : 0;
       e.redMultiplier = e.greenMultiplier = e.blueMultiplier = 1 - Math.abs(a);
@@ -104,20 +88,11 @@ var gsap,
     if (!target.cacheID) {
       _cache(target);
     }
-  },
-  _idMatrix = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-  _lumR = 0.212671,
-  _lumG = 0.715160,
-  _lumB = 0.072169,
-  _applyMatrix = function _applyMatrix(m, m2) {
+  },_idMatrix = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0],_lumR = 0.212671,_lumG = 0.715160,_lumB = 0.072169,_applyMatrix = function _applyMatrix(m, m2) {
     if (!(m instanceof Array) || !(m2 instanceof Array)) {
       return m2;
     }
-    var temp = [],
-      i = 0,
-      z = 0,
-      y,
-      x;
+    var temp = [],i = 0,z = 0,y,x;
     for (y = 0; y < 4; y++) {
       for (x = 0; x < 5; x++) {
         z = x === 4 ? m[i + 4] : 0;
@@ -126,57 +101,39 @@ var gsap,
       i += 5;
     }
     return temp;
-  },
-  _setSaturation = function _setSaturation(m, n) {
+  },_setSaturation = function _setSaturation(m, n) {
     if (isNaN(n)) {
       return m;
     }
-    var inv = 1 - n,
-      r = inv * _lumR,
-      g = inv * _lumG,
-      b = inv * _lumB;
+    var inv = 1 - n,r = inv * _lumR,g = inv * _lumG,b = inv * _lumB;
     return _applyMatrix([r + n, g, b, 0, 0, r, g + n, b, 0, 0, r, g, b + n, 0, 0, 0, 0, 0, 1, 0], m);
-  },
-  _colorize = function _colorize(m, color, amount) {
+  },_colorize = function _colorize(m, color, amount) {
     if (isNaN(amount)) {
       amount = 1;
     }
-    var c = gsap.utils.splitColor(color),
-      r = c[0] / 255,
-      g = c[1] / 255,
-      b = c[2] / 255,
-      inv = 1 - amount;
+    var c = gsap.utils.splitColor(color),r = c[0] / 255,g = c[1] / 255,b = c[2] / 255,inv = 1 - amount;
     return _applyMatrix([inv + amount * r * _lumR, amount * r * _lumG, amount * r * _lumB, 0, 0, amount * g * _lumR, inv + amount * g * _lumG, amount * g * _lumB, 0, 0, amount * b * _lumR, amount * b * _lumG, inv + amount * b * _lumB, 0, 0, 0, 0, 0, 1, 0], m);
-  },
-  _setHue = function _setHue(m, n) {
+  },_setHue = function _setHue(m, n) {
     if (isNaN(n)) {
       return m;
     }
     n *= Math.PI / 180;
-    var c = Math.cos(n),
-      s = Math.sin(n);
+    var c = Math.cos(n),s = Math.sin(n);
     return _applyMatrix([_lumR + c * (1 - _lumR) + s * -_lumR, _lumG + c * -_lumG + s * -_lumG, _lumB + c * -_lumB + s * (1 - _lumB), 0, 0, _lumR + c * -_lumR + s * 0.143, _lumG + c * (1 - _lumG) + s * 0.14, _lumB + c * -_lumB + s * -0.283, 0, 0, _lumR + c * -_lumR + s * -(1 - _lumR), _lumG + c * -_lumG + s * _lumG, _lumB + c * (1 - _lumB) + s * _lumB, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1], m);
-  },
-  _setContrast = function _setContrast(m, n) {
+  },_setContrast = function _setContrast(m, n) {
     if (isNaN(n)) {
       return m;
     }
     n += 0.01;
     return _applyMatrix([n, 0, 0, 0, 128 * (1 - n), 0, n, 0, 0, 128 * (1 - n), 0, 0, n, 0, 128 * (1 - n), 0, 0, 0, 1, 0], m);
-  },
-  _parseColorMatrixFilter = function _parseColorMatrixFilter(target, v, plugin) {
+  },_parseColorMatrixFilter = function _parseColorMatrixFilter(target, v, plugin) {
     if (!_ColorMatrixFilter) {
       _ColorMatrixFilter = _getCreateJS().ColorMatrixFilter;
       if (!_ColorMatrixFilter) {
         _warn("EaselPlugin: The EaselJS ColorMatrixFilter JavaScript file wasn't loaded.");
       }
     }
-    var filters = target.filters || [],
-      i = filters.length,
-      matrix,
-      startMatrix,
-      s,
-      pg;
+    var filters = target.filters || [],i = filters.length,matrix,startMatrix,s,pg;
     while (--i > -1) {
       if (filters[i] instanceof _ColorMatrixFilter) {
         s = filters[i];
@@ -216,8 +173,7 @@ var gsap,
       _cache();
     }
     plugin._matrix = startMatrix;
-  },
-  _initCore = function _initCore(core) {
+  },_initCore = function _initCore(core) {
     gsap = core || _getGSAP();
     if (_windowExists()) {
       _win = window;
@@ -245,12 +201,14 @@ export var EaselPlugin = {
           _parseColorFilter(target, value.colorFilter || value, this);
           tint = true;
         }
-      } else if (p === "saturation" || p === "contrast" || p === "hue" || p === "colorize" || p === "colorizeAmount") {
+      } else
+      if (p === "saturation" || p === "contrast" || p === "hue" || p === "colorize" || p === "colorizeAmount") {
         if (!colorMatrix) {
           _parseColorMatrixFilter(target, value.colorMatrixFilter || value, this);
           colorMatrix = true;
         }
-      } else if (p === "frame") {
+      } else
+      if (p === "frame") {
         if (typeof end === "string" && end.charAt(1) !== "=" && (labels = target.labels)) {
           for (i = 0; i < labels.length; i++) {
             if (labels[i].label === end) {
@@ -262,7 +220,8 @@ export var EaselPlugin = {
         if (pt) {
           pt.op = p;
         }
-      } else if (target[p] != null) {
+      } else
+      if (target[p] != null) {
         this.add(target, p, "get", end);
       }
     }
@@ -284,3 +243,4 @@ EaselPlugin.registerCreateJS = function (createjs) {
 };
 _getGSAP() && gsap.registerPlugin(EaselPlugin);
 export { EaselPlugin as default };
+//# sourceMappingURL=EaselPlugin.js.map

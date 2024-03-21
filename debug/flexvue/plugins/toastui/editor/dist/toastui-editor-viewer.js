@@ -3,7 +3,7 @@
  * @version 3.1.3 | Thu Feb 10 2022
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
- */(function webpackUniversalModuleDefinition(root,factory){if(typeof exports==='object'&&typeof module==='object')module.exports=factory(require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-view"));else if(typeof define==='function'&&define.amd)define(["prosemirror-model","prosemirror-state","prosemirror-view"],factory);else if(typeof exports==='object')exports["toastui"]=factory(require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-view"));else root["toastui"]=root["toastui"]||{},root["toastui"]["Editor"]=factory(root[undefined],root[undefined],root[undefined]);})(self,function(__WEBPACK_EXTERNAL_MODULE__43__,__WEBPACK_EXTERNAL_MODULE__814__,__WEBPACK_EXTERNAL_MODULE__311__){return(/******/function(){/******/var __webpack_modules__={/***/368:/***/function(module){/*! @license DOMPurify 2.3.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.3/LICENSE */(function(global,factory){true?module.exports=factory():0;})(this,function(){'use strict';function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i];}return arr2;}else{return Array.from(arr);}}var hasOwnProperty=Object.hasOwnProperty,setPrototypeOf=Object.setPrototypeOf,isFrozen=Object.isFrozen,getPrototypeOf=Object.getPrototypeOf,getOwnPropertyDescriptor=Object.getOwnPropertyDescriptor;var freeze=Object.freeze,seal=Object.seal,create=Object.create;// eslint-disable-line import/no-mutable-exports
+ */(function webpackUniversalModuleDefinition(root,factory){if(typeof exports==='object'&&typeof module==='object')module.exports=factory(require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-view"));else if(typeof define==='function'&&define.amd)define(["prosemirror-model","prosemirror-state","prosemirror-view"],factory);else if(typeof exports==='object')exports["toastui"]=factory(require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-view"));else root["toastui"]=root["toastui"]||{},root["toastui"]["Editor"]=factory(root[undefined],root[undefined],root[undefined]);})(self,function(__WEBPACK_EXTERNAL_MODULE__43__,__WEBPACK_EXTERNAL_MODULE__814__,__WEBPACK_EXTERNAL_MODULE__311__){return/******/function(){/******/var __webpack_modules__={/***/368:(/***/function(module){/*! @license DOMPurify 2.3.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.3/LICENSE */(function(global,factory){true?module.exports=factory():0;})(this,function(){'use strict';function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i];}return arr2;}else{return Array.from(arr);}}var hasOwnProperty=Object.hasOwnProperty,setPrototypeOf=Object.setPrototypeOf,isFrozen=Object.isFrozen,getPrototypeOf=Object.getPrototypeOf,getOwnPropertyDescriptor=Object.getOwnPropertyDescriptor;var freeze=Object.freeze,seal=Object.seal,create=Object.create;// eslint-disable-line import/no-mutable-exports
 var _ref=typeof Reflect!=='undefined'&&Reflect,apply=_ref.apply,construct=_ref.construct;if(!apply){apply=function apply(fun,thisValue,args){return fun.apply(thisValue,args);};}if(!freeze){freeze=function freeze(x){return x;};}if(!seal){seal=function seal(x){return x;};}if(!construct){construct=function construct(Func,args){return new(Function.prototype.bind.apply(Func,[null].concat(_toConsumableArray(args))))();};}var arrayForEach=unapply(Array.prototype.forEach);var arrayPop=unapply(Array.prototype.pop);var arrayPush=unapply(Array.prototype.push);var stringToLowerCase=unapply(String.prototype.toLowerCase);var stringMatch=unapply(String.prototype.match);var stringReplace=unapply(String.prototype.replace);var stringIndexOf=unapply(String.prototype.indexOf);var stringTrim=unapply(String.prototype.trim);var regExpTest=unapply(RegExp.prototype.test);var typeErrorCreate=unconstruct(TypeError);function unapply(func){return function(thisArg){for(var _len=arguments.length,args=Array(_len>1?_len-1:0),_key=1;_key<_len;_key++){args[_key-1]=arguments[_key];}return apply(func,thisArg,args);};}function unconstruct(func){return function(){for(var _len2=arguments.length,args=Array(_len2),_key2=0;_key2<_len2;_key2++){args[_key2]=arguments[_key2];}return construct(func,args);};}/* Add properties to a lookup table */function addToSet(set,array){if(setPrototypeOf){// Make 'in' and truthy checks like Boolean(set.constructor)
 // independent of any properties defined on Object.prototype.
 // Prevent prototype setters from intercepting set as a this value.
@@ -269,7 +269,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                          * RemoveAllHooks
                          * Public method to remove all DOMPurify hooks
                          *
-                         */DOMPurify.removeAllHooks=function(){hooks={};};return DOMPurify;}var purify=createDOMPurify();return purify;});/***/},/***/928:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/* eslint-disable complexity */ /**
+                         */DOMPurify.removeAllHooks=function(){hooks={};};return DOMPurify;}var purify=createDOMPurify();return purify;});/***/}),/***/928:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/* eslint-disable complexity */ /**
                  * @fileoverview Returns the first index at which a given element can be found in the array.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isArray=__webpack_require__(322);/**
@@ -294,7 +294,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * const arr = ['one', 'two', 'three', 'four'];
                  * const idx1 = inArray('one', arr, 3); // -1
                  * const idx2 = inArray('one', arr); // 0
-                 */function inArray(searchElement,array,startIndex){var i;var length;startIndex=startIndex||0;if(!isArray(array)){return-1;}if(Array.prototype.indexOf){return Array.prototype.indexOf.call(array,searchElement,startIndex);}length=array.length;for(i=startIndex;startIndex>=0&&i<length;i+=1){if(array[i]===searchElement){return i;}}return-1;}module.exports=inArray;/***/},/***/690:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function inArray(searchElement,array,startIndex){var i;var length;startIndex=startIndex||0;if(!isArray(array)){return-1;}if(Array.prototype.indexOf){return Array.prototype.indexOf.call(array,searchElement,startIndex);}length=array.length;for(i=startIndex;startIndex>=0&&i<length;i+=1){if(array[i]===searchElement){return i;}}return-1;}module.exports=inArray;/***/}),/***/690:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Execute the provided callback once for each property of object(or element of array) which actually exist.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isArray=__webpack_require__(322);var forEachArray=__webpack_require__(893);var forEachOwnProperties=__webpack_require__(956);/**
@@ -330,7 +330,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * forEach(array, function(value){
                  *   sum += value;
                  * });
-                 */function forEach(obj,iteratee,context){if(isArray(obj)){forEachArray(obj,iteratee,context);}else{forEachOwnProperties(obj,iteratee,context);}}module.exports=forEach;/***/},/***/893:/***/function(module){"use strict";/**
+                 */function forEach(obj,iteratee,context){if(isArray(obj)){forEachArray(obj,iteratee,context);}else{forEachOwnProperties(obj,iteratee,context);}}module.exports=forEach;/***/}),/***/893:(/***/function(module){"use strict";/**
                  * @fileoverview Execute the provided callback once for each element present in the array(or Array-like object) in ascending order.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -358,7 +358,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *   sum += value;
                  * });
                  * alert(sum); // 6
-                 */function forEachArray(arr,iteratee,context){var index=0;var len=arr.length;context=context||null;for(;index<len;index+=1){if(iteratee.call(context,arr[index],index,arr)===false){break;}}}module.exports=forEachArray;/***/},/***/956:/***/function(module){"use strict";/**
+                 */function forEachArray(arr,iteratee,context){var index=0;var len=arr.length;context=context||null;for(;index<len;index+=1){if(iteratee.call(context,arr[index],index,arr)===false){break;}}}module.exports=forEachArray;/***/}),/***/956:(/***/function(module){"use strict";/**
                  * @fileoverview Execute the provided callback once for each property of object which actually exist.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -385,7 +385,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *   sum += value;
                  * });
                  * alert(sum); // 6
-                 */function forEachOwnProperties(obj,iteratee,context){var key;context=context||null;for(key in obj){if(obj.hasOwnProperty(key)){if(iteratee.call(context,obj[key],key,obj)===false){break;}}}}module.exports=forEachOwnProperties;/***/},/***/990:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function forEachOwnProperties(obj,iteratee,context){var key;context=context||null;for(key in obj){if(obj.hasOwnProperty(key)){if(iteratee.call(context,obj[key],key,obj)===false){break;}}}}module.exports=forEachOwnProperties;/***/}),/***/990:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Transform the Array-like object to Array.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEachArray=__webpack_require__(893);/**
@@ -412,7 +412,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *
                  * alert(result instanceof Array); // true
                  * alert(result); // one,two,three,four
-                 */function toArray(arrayLike){var arr;try{arr=Array.prototype.slice.call(arrayLike);}catch(e){arr=[];forEachArray(arrayLike,function(value){arr.push(value);});}return arr;}module.exports=toArray;/***/},/***/755:/***/function(module){"use strict";/**
+                 */function toArray(arrayLike){var arr;try{arr=Array.prototype.slice.call(arrayLike);}catch(e){arr=[];forEachArray(arrayLike,function(value){arr.push(value);});}return arr;}module.exports=toArray;/***/}),/***/755:(/***/function(module){"use strict";/**
                  * @fileoverview Get event collection for specific HTML element
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var EVENT_KEY='_feEventKey';/**
@@ -421,7 +421,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} type - event type
                  * @returns {array}
                  * @private
-                 */function safeEvent(element,type){var events=element[EVENT_KEY];var handlers;if(!events){events=element[EVENT_KEY]={};}handlers=events[type];if(!handlers){handlers=events[type]=[];}return handlers;}module.exports=safeEvent;/***/},/***/349:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function safeEvent(element,type){var events=element[EVENT_KEY];var handlers;if(!events){events=element[EVENT_KEY]={};}handlers=events[type];if(!handlers){handlers=events[type]=[];}return handlers;}module.exports=safeEvent;/***/}),/***/349:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Unbind DOM events
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isString=__webpack_require__(758);var forEach=__webpack_require__(690);var safeEvent=__webpack_require__(755);/**
@@ -463,7 +463,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} type - event type
                  * @param {function} handler - event handler
                  * @private
-                 */function removeHandler(element,type,handler){if('removeEventListener'in element){element.removeEventListener(type,handler);}else if('detachEvent'in element){element.detachEvent('on'+type,handler);}}module.exports=off;/***/},/***/348:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function removeHandler(element,type,handler){if('removeEventListener'in element){element.removeEventListener(type,handler);}else if('detachEvent'in element){element.detachEvent('on'+type,handler);}}module.exports=off;/***/}),/***/348:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Bind DOM events
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isString=__webpack_require__(758);var forEach=__webpack_require__(690);var safeEvent=__webpack_require__(755);/**
@@ -514,7 +514,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {function} handler - handler function that user passed at on() use
                  * @param {function} wrappedHandler - handler function that wrapped by domevent for implementing some features
                  * @private
-                 */function memorizeHandler(element,type,handler,wrappedHandler){var events=safeEvent(element,type);var existInEvents=false;forEach(events,function(obj){if(obj.handler===handler){existInEvents=true;return false;}return true;});if(!existInEvents){events.push({handler:handler,wrappedHandler:wrappedHandler});}}module.exports=on;/***/},/***/24:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function memorizeHandler(element,type,handler,wrappedHandler){var events=safeEvent(element,type);var existInEvents=false;forEach(events,function(obj){if(obj.handler===handler){existInEvents=true;return false;}return true;});if(!existInEvents){events.push({handler:handler,wrappedHandler:wrappedHandler});}}module.exports=on;/***/}),/***/24:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Set className value
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isArray=__webpack_require__(322);var isUndefined=__webpack_require__(929);/**
@@ -522,7 +522,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element - target element
                  * @param {(string|string[])} cssClass - class names
                  * @private
-                 */function setClassName(element,cssClass){cssClass=isArray(cssClass)?cssClass.join(' '):cssClass;cssClass=cssClass.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,'');if(isUndefined(element.className.baseVal)){element.className=cssClass;return;}element.className.baseVal=cssClass;}module.exports=setClassName;/***/},/***/204:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function setClassName(element,cssClass){cssClass=isArray(cssClass)?cssClass.join(' '):cssClass;cssClass=cssClass.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,'');if(isUndefined(element.className.baseVal)){element.className=cssClass;return;}element.className.baseVal=cssClass;}module.exports=setClassName;/***/}),/***/204:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Add css class to element
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEach=__webpack_require__(690);var inArray=__webpack_require__(928);var getClass=__webpack_require__(902);var setClassName=__webpack_require__(24);/**
@@ -533,7 +533,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element - target element
                  * @param {...string} cssClass - css classes to add
                  * @memberof module:domUtil
-                 */function addClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var newClass=[];var origin;if(classList){forEach(cssClass,function(name){element.classList.add(name);});return;}origin=getClass(element);if(origin){cssClass=[].concat(origin.split(/\s+/),cssClass);}forEach(cssClass,function(cls){if(inArray(cls,newClass)<0){newClass.push(cls);}});setClassName(element,newClass);}module.exports=addClass;/***/},/***/522:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function addClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var newClass=[];var origin;if(classList){forEach(cssClass,function(name){element.classList.add(name);});return;}origin=getClass(element);if(origin){cssClass=[].concat(origin.split(/\s+/),cssClass);}forEach(cssClass,function(cls){if(inArray(cls,newClass)<0){newClass.push(cls);}});setClassName(element,newClass);}module.exports=addClass;/***/}),/***/522:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Setting element style
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isString=__webpack_require__(758);var forEach=__webpack_require__(690);/**
@@ -542,7 +542,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(string|object)} key - style prop name or {prop: value} pair object
                  * @param {string} [value] - style value
                  * @memberof module:domUtil
-                 */function css(element,key,value){var style=element.style;if(isString(key)){style[key]=value;return;}forEach(key,function(v,k){style[k]=v;});}module.exports=css;/***/},/***/902:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function css(element,key,value){var style=element.style;if(isString(key)){style[key]=value;return;}forEach(key,function(v,k){style[k]=v;});}module.exports=css;/***/}),/***/902:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Get HTML element's design classes.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isUndefined=__webpack_require__(929);/**
@@ -550,7 +550,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element target element
                  * @returns {string} element css class name
                  * @memberof module:domUtil
-                 */function getClass(element){if(!element||!element.className){return'';}if(isUndefined(element.className.baseVal)){return element.className;}return element.className.baseVal;}module.exports=getClass;/***/},/***/714:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function getClass(element){if(!element||!element.className){return'';}if(isUndefined(element.className.baseVal)){return element.className;}return element.className.baseVal;}module.exports=getClass;/***/}),/***/714:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check element has specific css class
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var inArray=__webpack_require__(928);var getClass=__webpack_require__(902);/**
@@ -559,7 +559,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} cssClass - css class
                  * @returns {boolean}
                  * @memberof module:domUtil
-                 */function hasClass(element,cssClass){var origin;if(element.classList){return element.classList.contains(cssClass);}origin=getClass(element).split(/\s+/);return inArray(cssClass,origin)>-1;}module.exports=hasClass;/***/},/***/471:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function hasClass(element,cssClass){var origin;if(element.classList){return element.classList.contains(cssClass);}origin=getClass(element).split(/\s+/);return inArray(cssClass,origin)>-1;}module.exports=hasClass;/***/}),/***/471:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check element match selector
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var inArray=__webpack_require__(928);var toArray=__webpack_require__(990);var elProto=Element.prototype;var matchSelector=elProto.matches||elProto.webkitMatchesSelector||elProto.mozMatchesSelector||elProto.msMatchesSelector||function(selector){var doc=this.document||this.ownerDocument;return inArray(this,toArray(doc.querySelectorAll(selector)))>-1;};/**
@@ -568,7 +568,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} selector - selector to check
                  * @returns {boolean} is selector matched to element?
                  * @memberof module:domUtil
-                 */function matches(element,selector){return matchSelector.call(element,selector);}module.exports=matches;/***/},/***/462:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function matches(element,selector){return matchSelector.call(element,selector);}module.exports=matches;/***/}),/***/462:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Remove css class from element
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEachArray=__webpack_require__(893);var inArray=__webpack_require__(928);var getClass=__webpack_require__(902);var setClassName=__webpack_require__(24);/**
@@ -576,7 +576,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element - target element
                  * @param {...string} cssClass - css classes to remove
                  * @memberof module:domUtil
-                 */function removeClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var origin,newClass;if(classList){forEachArray(cssClass,function(name){classList.remove(name);});return;}origin=getClass(element).split(/\s+/);newClass=[];forEachArray(origin,function(name){if(inArray(name,cssClass)<0){newClass.push(name);}});setClassName(element,newClass);}module.exports=removeClass;/***/},/***/969:/***/function(module){"use strict";/**
+                 */function removeClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var origin,newClass;if(classList){forEachArray(cssClass,function(name){classList.remove(name);});return;}origin=getClass(element).split(/\s+/);newClass=[];forEachArray(origin,function(name){if(inArray(name,cssClass)<0){newClass.push(name);}});setClassName(element,newClass);}module.exports=removeClass;/***/}),/***/969:(/***/function(module){"use strict";/**
                  * @fileoverview Extend the target object from other objects.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -587,7 +587,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {...object} objects - Objects as sources
                  * @returns {object} Extended object
                  * @memberof module:object
-                 */function extend(target,objects){var hasOwnProp=Object.prototype.hasOwnProperty;var source,prop,i,len;for(i=1,len=arguments.length;i<len;i+=1){source=arguments[i];for(prop in source){if(hasOwnProp.call(source,prop)){target[prop]=source[prop];}}}return target;}module.exports=extend;/***/},/***/254:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function extend(target,objects){var hasOwnProp=Object.prototype.hasOwnProperty;var source,prop,i,len;for(i=1,len=arguments.length;i<len;i+=1){source=arguments[i];for(prop in source){if(hasOwnProp.call(source,prop)){target[prop]=source[prop];}}}return target;}module.exports=extend;/***/}),/***/254:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Request image ping.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEachOwnProperties=__webpack_require__(956);/**
@@ -613,7 +613,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *   dp: 'dp',
                  *   dh: 'dh'
                  * });
-                 */function imagePing(url,trackingInfo){var trackingElement=document.createElement('img');var queryString='';forEachOwnProperties(trackingInfo,function(value,key){queryString+='&'+key+'='+value;});queryString=queryString.substring(1);trackingElement.src=url+'?'+queryString;trackingElement.style.display='none';document.body.appendChild(trackingElement);document.body.removeChild(trackingElement);return trackingElement;}module.exports=imagePing;/***/},/***/391:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function imagePing(url,trackingInfo){var trackingElement=document.createElement('img');var queryString='';forEachOwnProperties(trackingInfo,function(value,key){queryString+='&'+key+'='+value;});queryString=queryString.substring(1);trackingElement.src=url+'?'+queryString;trackingElement.style.display='none';document.body.appendChild(trackingElement);document.body.removeChild(trackingElement);return trackingElement;}module.exports=imagePing;/***/}),/***/391:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Send hostname on DOMContentLoaded.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isUndefined=__webpack_require__(929);var imagePing=__webpack_require__(254);var ms7days=7*24*60*60*1000;/**
@@ -629,7 +629,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @ignore
                  */function sendHostname(appName,trackingId){var url='https://www.google-analytics.com/collect';var hostname=location.hostname;var hitType='event';var eventCategory='use';var applicationKeyForStorage='TOAST UI '+appName+' for '+hostname+': Statistics';var date=window.localStorage.getItem(applicationKeyForStorage);// skip if the flag is defined and is set to false explicitly
 if(!isUndefined(window.tui)&&window.tui.usageStatistics===false){return;}// skip if not pass seven days old
-if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyForStorage,new Date().getTime());setTimeout(function(){if(document.readyState==='interactive'||document.readyState==='complete'){imagePing(url,{v:1,t:hitType,tid:trackingId,cid:hostname,dp:hostname,dh:appName,el:appName,ec:eventCategory});}},1000);}module.exports=sendHostname;/***/},/***/322:/***/function(module){"use strict";/**
+if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyForStorage,new Date().getTime());setTimeout(function(){if(document.readyState==='interactive'||document.readyState==='complete'){imagePing(url,{v:1,t:hitType,tid:trackingId,cid:hostname,dp:hostname,dh:appName,el:appName,ec:eventCategory});}},1000);}module.exports=sendHostname;/***/}),/***/322:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is an instance of Array or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -638,7 +638,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is array instance?
                  * @memberof module:type
-                 */function isArray(obj){return obj instanceof Array;}module.exports=isArray;/***/},/***/65:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function isArray(obj){return obj instanceof Array;}module.exports=isArray;/***/}),/***/65:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check whether the given variable is existing or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isUndefined=__webpack_require__(929);var isNull=__webpack_require__(934);/**
@@ -660,7 +660,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * isExisty({}); //true
                  * isExisty(null); //false
                  * isExisty(undefined); //false
-                */function isExisty(param){return!isUndefined(param)&&!isNull(param);}module.exports=isExisty;/***/},/***/404:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                */function isExisty(param){return!isUndefined(param)&&!isNull(param);}module.exports=isExisty;/***/}),/***/404:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check whether the given variable is falsy or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isTruthy=__webpack_require__(790);/**
@@ -669,7 +669,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is falsy?
                  * @memberof module:type
-                 */function isFalsy(obj){return!isTruthy(obj);}module.exports=isFalsy;/***/},/***/294:/***/function(module){"use strict";/**
+                 */function isFalsy(obj){return!isTruthy(obj);}module.exports=isFalsy;/***/}),/***/294:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is a function or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -678,7 +678,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is function?
                  * @memberof module:type
-                 */function isFunction(obj){return obj instanceof Function;}module.exports=isFunction;/***/},/***/934:/***/function(module){"use strict";/**
+                 */function isFunction(obj){return obj instanceof Function;}module.exports=isFunction;/***/}),/***/934:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is null or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -687,7 +687,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is null?
                  * @memberof module:type
-                 */function isNull(obj){return obj===null;}module.exports=isNull;/***/},/***/758:/***/function(module){"use strict";/**
+                 */function isNull(obj){return obj===null;}module.exports=isNull;/***/}),/***/758:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is a string or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -696,7 +696,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is string?
                  * @memberof module:type
-                 */function isString(obj){return typeof obj==='string'||obj instanceof String;}module.exports=isString;/***/},/***/790:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function isString(obj){return typeof obj==='string'||obj instanceof String;}module.exports=isString;/***/}),/***/790:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check whether the given variable is truthy or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isExisty=__webpack_require__(65);/**
@@ -706,7 +706,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is truthy?
                  * @memberof module:type
-                 */function isTruthy(obj){return isExisty(obj)&&obj!==false;}module.exports=isTruthy;/***/},/***/929:/***/function(module){"use strict";/**
+                 */function isTruthy(obj){return isExisty(obj)&&obj!==false;}module.exports=isTruthy;/***/}),/***/929:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is undefined or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -716,7 +716,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * @returns {boolean} Is undefined?
                  * @memberof module:type
                  */function isUndefined(obj){return obj===undefined;// eslint-disable-line no-undefined
-}module.exports=isUndefined;/***/},/***/43:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__43__;/***/},/***/814:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__814__;/***/},/***/311:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__311__;/***/}/******/};/************************************************************************/ /******/ // The module cache
+}module.exports=isUndefined;/***/}),/***/43:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__43__;/***/}),/***/814:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__814__;/***/}),/***/311:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__311__;/***/})/******/};/************************************************************************/ /******/ // The module cache
 /******/var __webpack_module_cache__={};/******/ /******/ // The require function
 /******/function __webpack_require__(moduleId){/******/ // Check if module is in cache
 /******/var cachedModule=__webpack_module_cache__[moduleId];/******/if(cachedModule!==undefined){/******/return cachedModule.exports;/******/}/******/ // Create a new module (and put it into the cache)
@@ -728,7 +728,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
 /******/__webpack_require__.n=function(module){/******/var getter=module&&module.__esModule?/******/function(){return module['default'];}:/******/function(){return module;};/******/__webpack_require__.d(getter,{a:getter});/******/return getter;/******/};/******/}();/******/ /******/ /* webpack/runtime/define property getters */ /******/!function(){/******/ // define getter functions for harmony exports
 /******/__webpack_require__.d=function(exports,definition){/******/for(var key in definition){/******/if(__webpack_require__.o(definition,key)&&!__webpack_require__.o(exports,key)){/******/Object.defineProperty(exports,key,{enumerable:true,get:definition[key]});/******/}/******/}/******/};/******/}();/******/ /******/ /* webpack/runtime/global */ /******/!function(){/******/__webpack_require__.g=function(){/******/if(typeof globalThis==='object')return globalThis;/******/try{/******/return this||new Function('return this')();/******/}catch(e){/******/if(typeof window==='object')return window;/******/}/******/}();/******/}();/******/ /******/ /* webpack/runtime/hasOwnProperty shorthand */ /******/!function(){/******/__webpack_require__.o=function(obj,prop){return Object.prototype.hasOwnProperty.call(obj,prop);};/******/}();/******/ /************************************************************************/var __webpack_exports__={};// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 !function(){"use strict";// EXPORTS
-__webpack_require__.d(__webpack_exports__,{"default":function(){return(/* binding */indexViewer);}});;// CONCATENATED MODULE: ../../node_modules/tslib/tslib.es6.js
+__webpack_require__.d(__webpack_exports__,{"default":function(){return/* binding */indexViewer;}});;// CONCATENATED MODULE: ../../node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
             Copyright (c) Microsoft Corporation.
             
@@ -1265,4 +1265,4 @@ Object.keys(convertorMap[htmlType]).forEach(function(type){return htmlSanitizer_
                  * Return false
                  * @returns {boolean}
                  */ToastUIEditorViewer.prototype.isWysiwygMode=function(){return false;};return ToastUIEditorViewer;}();/* harmony default export */var viewer=ToastUIEditorViewer;;// CONCATENATED MODULE: ./src/indexViewer.ts
-/* harmony default export */var indexViewer=viewer;}();__webpack_exports__=__webpack_exports__["default"];/******/return __webpack_exports__;/******/}());});
+/* harmony default export */var indexViewer=viewer;}();__webpack_exports__=__webpack_exports__["default"];/******/return __webpack_exports__;/******/}();});

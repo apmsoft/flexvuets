@@ -118,3 +118,19 @@ tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
 >> npm run release
 >> npm run clean_release
 
+# editorjs : https://editorjs.io/getting-started/
+# plugins : https://github.com/orgs/editor-js/repositories?type=all
+npm i @editorjs/editorjs --save
+
+npm install --save-dev @editorjs/simple-image
+npm install --save-dev @editorjs/header
+npm install --save-dev @editorjs/table
+npm install --save-dev @editorjs/link
+npm install --save-dev @editorjs/image
+
+npm install --save-dev @editorjs/raw
+npm install --save-dev @editorjs/checklist
+npm install --save-dev @editorjs/list
+npm install --save-dev @editorjs/embed
+npm install --save-dev @editorjs/quote
+npm install --save-dev @editorjs/code

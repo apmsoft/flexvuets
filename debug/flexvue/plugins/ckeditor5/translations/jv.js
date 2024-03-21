@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["jv"] = e["jv"] || {};
+  var a = e["jv"] = e["jv"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "%0 saking %1",
     Big: "Ageng",
@@ -112,3 +112,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=jv.js.map

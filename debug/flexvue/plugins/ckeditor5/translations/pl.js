@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["pl"] = e["pl"] || {};
+  var a = e["pl"] = e["pl"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "%0 z %1",
     "Align cell text to the bottom": "Wyrównaj tekst w komórce do dołu",
@@ -231,3 +231,4 @@
     return e == 1 ? 0 : e % 10 >= 2 && e % 10 <= 4 && (e % 100 < 12 || e % 100 > 14) ? 1 : e != 1 && e % 10 >= 0 && e % 10 <= 1 || e % 10 >= 5 && e % 10 <= 9 || e % 100 >= 12 && e % 100 <= 14 ? 2 : 3;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=pl.js.map

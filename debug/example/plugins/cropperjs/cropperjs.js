@@ -49,7 +49,6 @@ const onReady = () => {
       });
       // }
     },
-
     cropmove: function () {
       var cropper = this.cropper;
       var cropBoxData = cropper.getCropBoxData();
@@ -58,7 +57,8 @@ const onReady = () => {
         cropper.setCropBoxData({
           width: cropBoxData.height * minAspectRatio
         });
-      } else if (aspectRatio > maxAspectRatio) {
+      } else
+      if (aspectRatio > maxAspectRatio) {
         cropper.setCropBoxData({
           width: cropBoxData.height * maxAspectRatio
         });
@@ -70,10 +70,7 @@ const onReady = () => {
   button.onclick = function () {
     result.innerHTML = '';
     // result.appendChild(cropper.getCroppedCanvas());
-    var imgUrl = cropper.getCroppedCanvas({
-      width: 1000,
-      height: 1000
-    }).toDataURL();
+    var imgUrl = cropper.getCroppedCanvas({ width: 1000, height: 1000 }).toDataURL();
     var img = document.createElement("img");
     img.src = imgUrl;
     result.appendChild(img);
@@ -81,3 +78,4 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=cropperjs.js.map

@@ -21,7 +21,7 @@ class Binder {
      * @type {Element}
      */
     this.element = element;
-    Object.keys(state.registeredGestures).forEach(key => {
+    Object.keys(state.registeredGestures).forEach((key) => {
       this[key] = (handler, capture) => {
         state.addBinding(this.element, key, handler, capture, bindOnce);
         return this;
@@ -30,3 +30,4 @@ class Binder {
   }
 }
 export default Binder;
+//# sourceMappingURL=Binder.js.map

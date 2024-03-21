@@ -41,7 +41,8 @@ class Tap extends Gesture {
      * screen.
      * @type {Number}
      */
-    this.minDelay = options && options.minDelay ? options.minDelay : DEFAULT_MIN_DELAY_MS;
+    this.minDelay = options && options.minDelay ?
+    options.minDelay : DEFAULT_MIN_DELAY_MS;
     /**
      * The maximum delay between a touchstart and touchend can be configured in
      * milliseconds. The maximum delay starts to count down when the expected
@@ -49,19 +50,22 @@ class Tap extends Gesture {
      * screen.
      * @type {Number}
      */
-    this.maxDelay = options && options.maxDelay ? options.maxDelay : DEFAULT_MAX_DELAY_MS;
+    this.maxDelay = options && options.maxDelay ?
+    options.maxDelay : DEFAULT_MAX_DELAY_MS;
     /**
      * The number of inputs to trigger a Tap can be variable,
      * and the maximum number being a factor of the browser.
      * @type {Number}
      */
-    this.numInputs = options && options.numInputs ? options.numInputs : DEFAULT_INPUTS;
+    this.numInputs = options && options.numInputs ?
+    options.numInputs : DEFAULT_INPUTS;
     /**
      * A move tolerance in pixels allows some slop between a user's start to end
      * events. This allows the Tap gesture to be triggered more easily.
      * @type {number}
      */
-    this.tolerance = options && options.tolerance ? options.tolerance : DEFAULT_MOVE_PX_TOLERANCE;
+    this.tolerance = options && options.tolerance ?
+    options.tolerance : DEFAULT_MOVE_PX_TOLERANCE;
     /**
      * The on end callback
      */
@@ -78,7 +82,7 @@ class Tap extends Gesture {
    */
   start(inputs) {
     if (inputs.length === this.numInputs) {
-      inputs.forEach(input => {
+      inputs.forEach((input) => {
         let progress = input.getGestureProgress(this.getId());
         progress.start = new Date().getTime();
       });
@@ -141,14 +145,13 @@ class Tap extends Gesture {
     }
     let interval = new Date().getTime() - startTime;
     if (this.minDelay <= interval && this.maxDelay >= interval) {
-      const timing = {
-        interval
-      };
+      const timing = { interval };
       if (this.onEnd) {
         this.onEnd(inputs, timing);
       }
       return timing;
-    } else {
+    } else
+    {
       let type = this.type;
       inputs.forEach(function (input) {
         input.resetProgress(type);
@@ -158,3 +161,4 @@ class Tap extends Gesture {
   }
 }
 export default Tap;
+//# sourceMappingURL=Tap.js.map

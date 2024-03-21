@@ -1,5 +1,4 @@
 "use strict";
-
 {
   const onReady = () => {
     var _a, _b;
@@ -14,3 +13,4 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
+//# sourceMappingURL=progressbars.js.map

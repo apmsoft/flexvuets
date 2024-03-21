@@ -13,12 +13,12 @@ const onReady = () => {
   window.observable.subscribe('public', _n);
   window.observable.subscribe('public', _f);
   // 뒤로 가기 시 실행
-  new Activity().onBackPressed(state => {
+  new Activity().onBackPressed((state) => {
     Log.clear();
     Log.i('onBackPressed : ', state);
   });
   // 라우터 테스트용 버튼 활성화
-  document.querySelectorAll('.btn-router').forEach(el => {
+  document.querySelectorAll('.btn-router').forEach((el) => {
     el.addEventListener('click', function () {
       const path = el.dataset.path;
       window.location.hash = `#${path}`;
@@ -51,19 +51,25 @@ const onReady = () => {
       mode = mode.length > 0 ? mode : pathinfo.path;
       Log.d('mode', mode);
       // dynamic import mymodule
-      new AsyncTask().doImport(mymodule_path).then(Module => {
+      new AsyncTask().doImport(mymodule_path).
+      then((Module) => {
         const componentActivity = new Module.ComponentActivity();
         if (mode == '/') {
           componentActivity.doList(pathinfo.parse_query);
-        } else if (mode == '/post') {
+        } else
+        if (mode == '/post') {
           componentActivity.doPost(pathinfo.parse_query);
-        } else if (mode == '/edit') {
+        } else
+        if (mode == '/edit') {
           componentActivity.doEdit(pathinfo.parse_query);
-        } else if (mode == '/reply') {
+        } else
+        if (mode == '/reply') {
           componentActivity.doReply(pathinfo.parse_query);
-        } else if (mode == '/view') {
+        } else
+        if (mode == '/view') {
           componentActivity.doView(pathinfo.parse_query);
-        } else if (mode == '/list') {
+        } else
+        if (mode == '/list') {
           componentActivity.doList(pathinfo.parse_query);
         }
       });
@@ -73,3 +79,4 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=router.js.map

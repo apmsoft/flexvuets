@@ -20,18 +20,10 @@ const onReady = () => {
     scale: function (el, i, l) {
       return l - i + .25;
     },
-    rotate: function () {
-      return anime.random(-360, 360);
-    },
-    borderRadius: function () {
-      return ['50%', anime.random(10, 35) + '%'];
-    },
-    duration: function () {
-      return anime.random(1200, 1800);
-    },
-    delay: function () {
-      return anime.random(0, 400);
-    },
+    rotate: function () {return anime.random(-360, 360);},
+    borderRadius: function () {return ['50%', anime.random(10, 35) + '%'];},
+    duration: function () {return anime.random(1200, 1800);},
+    delay: function () {return anime.random(0, 400);},
     direction: 'alternate',
     loop: true
   });
@@ -48,21 +40,22 @@ const onReady = () => {
     targets: '.timeline-controls-demo .el',
     translateX: 50,
     borderRadius: 0
-  }).add({
+  }).
+  add({
     targets: '.timeline-controls-demo .el',
     translateX: 200,
     scale: 0.5,
     duration: 750,
     backgroundColor: '#e4e4e4',
     rotate: '65deg'
-  }, '-=100').add({
+  }, '-=100').
+  add({
     targets: '.timeline-controls-demo .el',
     translateX: 470,
     backgroundColor: '#A5199B',
-    borderRadius: function () {
-      return ['50%', anime.random(10, 35) + '%'];
-    }
+    borderRadius: function () {return ['50%', anime.random(10, 35) + '%'];}
   }, '-=100');
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=animejs.js.map

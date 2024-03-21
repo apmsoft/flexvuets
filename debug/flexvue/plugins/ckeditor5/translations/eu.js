@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["eu"] = e["eu"] || {};
+  var t = e["eu"] = e["eu"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     Aquamarine: "",
@@ -120,3 +120,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=eu.js.map

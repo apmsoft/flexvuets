@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["ne"] = e["ne"] || {};
+  var t = e["ne"] = e["ne"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 मध्ये %1",
     "Align cell text to the bottom": "",
@@ -210,3 +210,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ne.js.map

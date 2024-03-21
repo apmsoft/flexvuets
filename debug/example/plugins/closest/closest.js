@@ -1,5 +1,4 @@
 "use strict";
-
 const onReady = () => {
   document.querySelectorAll('.uk-hidden').forEach((el, idx) => {
     console.log(idx);
@@ -13,3 +12,4 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
+//# sourceMappingURL=closest.js.map

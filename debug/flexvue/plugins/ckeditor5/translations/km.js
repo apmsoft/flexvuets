@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["km"] = e["km"] || {};
+  var t = e["km"] = e["km"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     Aquamarine: "",
@@ -120,3 +120,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=km.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const i = e["ro"] = e["ro"] || {};
+  var i = e["ro"] = e["ro"] || {};
   i.dictionary = Object.assign(i.dictionary || {}, {
     "%0 of %1": "%0 din %1",
     "Align cell text to the bottom": "Alinează textul celulei jos",
@@ -231,3 +231,4 @@
     return e == 1 ? 0 : e % 100 > 19 || e % 100 == 0 && e != 0 ? 2 : 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ro.js.map

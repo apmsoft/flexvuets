@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["sr"] = e["sr"] || {};
+  var t = e["sr"] = e["sr"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 of %1",
     "Align cell text to the bottom": "Поравнајте текст ћелије према доле",
@@ -231,3 +231,4 @@
     return e % 10 == 1 && e % 100 != 11 ? 0 : e % 10 >= 2 && e % 10 <= 4 && (e % 100 < 10 || e % 100 >= 20) ? 1 : 2;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=sr.js.map

@@ -10,95 +10,58 @@
 /* eslint-disable */
 import { gsap, _getProperty, _numExp, _numWithUnitExp, getUnit, _isString, _isUndefined, _renderComplexString, _relExp, _forEachName, _sortPropTweensByPriority, _colorStringFilter, _checkPlugin, _replaceRandom, _plugins, GSCache, PropTween, _config, _ticker, _round, _missingPlugin, _getSetter, _getCache, _colorExp, _setDefaults, _removeLinkedListItem //for the commented-out className feature.
 } from "./gsap-core.min.js";
-var _win,
-  _doc,
-  _docElement,
-  _pluginInitted,
-  _tempDiv,
-  _tempDivStyler,
-  _recentSetterPlugin,
-  _windowExists = function _windowExists() {
+var _win,_doc,_docElement,_pluginInitted,_tempDiv,_tempDivStyler,_recentSetterPlugin,_windowExists = function _windowExists() {
     return typeof window !== "undefined";
-  },
-  _transformProps = {},
-  _RAD2DEG = 180 / Math.PI,
-  _DEG2RAD = Math.PI / 180,
-  _atan2 = Math.atan2,
-  _bigNum = 1e8,
-  _capsExp = /([A-Z])/g,
-  _horizontalExp = /(?:left|right|width|margin|padding|x)/i,
-  _complexExp = /[\s,\(]\S/,
-  _propertyAliases = {
+  },_transformProps = {},_RAD2DEG = 180 / Math.PI,_DEG2RAD = Math.PI / 180,_atan2 = Math.atan2,_bigNum = 1e8,_capsExp = /([A-Z])/g,_horizontalExp = /(?:left|right|width|margin|padding|x)/i,_complexExp = /[\s,\(]\S/,_propertyAliases = {
     autoAlpha: "opacity,visibility",
     scale: "scaleX,scaleY",
     alpha: "opacity"
-  },
-  _renderCSSProp = function _renderCSSProp(ratio, data) {
+  },_renderCSSProp = function _renderCSSProp(ratio, data) {
     return data.set(data.t, data.p, Math.round((data.s + data.c * ratio) * 10000) / 10000 + data.u, data);
-  },
-  _renderPropWithEnd = function _renderPropWithEnd(ratio, data) {
+  },_renderPropWithEnd = function _renderPropWithEnd(ratio, data) {
     return data.set(data.t, data.p, ratio === 1 ? data.e : Math.round((data.s + data.c * ratio) * 10000) / 10000 + data.u, data);
-  },
-  _renderCSSPropWithBeginning = function _renderCSSPropWithBeginning(ratio, data) {
+  },_renderCSSPropWithBeginning = function _renderCSSPropWithBeginning(ratio, data) {
     return data.set(data.t, data.p, ratio ? Math.round((data.s + data.c * ratio) * 10000) / 10000 + data.u : data.b, data);
   },
   //if units change, we need a way to render the original unit/value when the tween goes all the way back to the beginning (ratio:0)
   _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
     var value = data.s + data.c * ratio;
     data.set(data.t, data.p, ~~(value + (value < 0 ? -.5 : .5)) + data.u, data);
-  },
-  _renderNonTweeningValue = function _renderNonTweeningValue(ratio, data) {
+  },_renderNonTweeningValue = function _renderNonTweeningValue(ratio, data) {
     return data.set(data.t, data.p, ratio ? data.e : data.b, data);
-  },
-  _renderNonTweeningValueOnlyAtEnd = function _renderNonTweeningValueOnlyAtEnd(ratio, data) {
+  },_renderNonTweeningValueOnlyAtEnd = function _renderNonTweeningValueOnlyAtEnd(ratio, data) {
     return data.set(data.t, data.p, ratio !== 1 ? data.b : data.e, data);
-  },
-  _setterCSSStyle = function _setterCSSStyle(target, property, value) {
+  },_setterCSSStyle = function _setterCSSStyle(target, property, value) {
     return target.style[property] = value;
-  },
-  _setterCSSProp = function _setterCSSProp(target, property, value) {
+  },_setterCSSProp = function _setterCSSProp(target, property, value) {
     return target.style.setProperty(property, value);
-  },
-  _setterTransform = function _setterTransform(target, property, value) {
+  },_setterTransform = function _setterTransform(target, property, value) {
     return target._gsap[property] = value;
-  },
-  _setterScale = function _setterScale(target, property, value) {
+  },_setterScale = function _setterScale(target, property, value) {
     return target._gsap.scaleX = target._gsap.scaleY = value;
-  },
-  _setterScaleWithRender = function _setterScaleWithRender(target, property, value, data, ratio) {
+  },_setterScaleWithRender = function _setterScaleWithRender(target, property, value, data, ratio) {
     var cache = target._gsap;
     cache.scaleX = cache.scaleY = value;
     cache.renderTransform(ratio, cache);
-  },
-  _setterTransformWithRender = function _setterTransformWithRender(target, property, value, data, ratio) {
+  },_setterTransformWithRender = function _setterTransformWithRender(target, property, value, data, ratio) {
     var cache = target._gsap;
     cache[property] = value;
     cache.renderTransform(ratio, cache);
-  },
-  _transformProp = "transform",
-  _transformOriginProp = _transformProp + "Origin",
-  _supports3D,
-  _createElement = function _createElement(type, ns) {
+  },_transformProp = "transform",_transformOriginProp = _transformProp + "Origin",_supports3D,_createElement = function _createElement(type, ns) {
     var e = _doc.createElementNS ? _doc.createElementNS((ns || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"), type) : _doc.createElement(type); //some servers swap in https for http in the namespace which can break things, making "style" inaccessible.
     return e.style ? e : _doc.createElement(type); //some environments won't allow access to the element's style when created with a namespace in which case we default to the standard createElement() to work around the issue. Also note that when GSAP is embedded directly inside an SVG file, createElement() won't allow access to the style object in Firefox (see https://greensock.com/forums/topic/20215-problem-using-tweenmax-in-standalone-self-containing-svg-file-err-cannot-set-property-csstext-of-undefined/).
-  },
-  _getComputedProperty = function _getComputedProperty(target, property, skipPrefixFallback) {
+  },_getComputedProperty = function _getComputedProperty(target, property, skipPrefixFallback) {
     var cs = getComputedStyle(target);
     return cs[property] || cs.getPropertyValue(property.replace(_capsExp, "-$1").toLowerCase()) || cs.getPropertyValue(property) || !skipPrefixFallback && _getComputedProperty(target, _checkPropPrefix(property) || property, 1) || ""; //css variables may not need caps swapped out for dashes and lowercase.
-  },
-  _prefixes = "O,Moz,ms,Ms,Webkit".split(","),
-  _checkPropPrefix = function _checkPropPrefix(property, element, preferPrefix) {
-    var e = element || _tempDiv,
-      s = e.style,
-      i = 5;
+  },_prefixes = "O,Moz,ms,Ms,Webkit".split(","),_checkPropPrefix = function _checkPropPrefix(property, element, preferPrefix) {
+    var e = element || _tempDiv,s = e.style,i = 5;
     if (property in s && !preferPrefix) {
       return property;
     }
     property = property.charAt(0).toUpperCase() + property.substr(1);
     while (i-- && !(_prefixes[i] + property in s)) {}
     return i < 0 ? null : (i === 3 ? "ms" : i >= 0 ? _prefixes[i] : "") + property;
-  },
-  _initCore = function _initCore() {
+  },_initCore = function _initCore() {
     if (_windowExists() && window.document) {
       _win = window;
       _doc = _win.document;
@@ -113,14 +76,9 @@ var _win,
       _supports3D = !!_checkPropPrefix("perspective");
       _pluginInitted = 1;
     }
-  },
-  _getBBoxHack = function _getBBoxHack(swapIfPossible) {
+  },_getBBoxHack = function _getBBoxHack(swapIfPossible) {
     //works around issues in some browsers (like Firefox) that don't correctly report getBBox() on SVG elements inside a <defs> element and/or <mask>. We try creating an SVG, adding it to the documentElement and toss the element in there so that it's definitely part of the rendering tree, then grab the bbox and if it works, we actually swap out the original getBBox() method for our own that does these extra steps whenever getBBox is needed. This helps ensure that performance is optimal (only do all these extra steps when absolutely necessary...most elements don't need it).
-    var svg = _createElement("svg", this.ownerSVGElement && this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),
-      oldParent = this.parentNode,
-      oldSibling = this.nextSibling,
-      oldCSS = this.style.cssText,
-      bbox;
+    var svg = _createElement("svg", this.ownerSVGElement && this.ownerSVGElement.getAttribute("xmlns") || "http://www.w3.org/2000/svg"),oldParent = this.parentNode,oldSibling = this.nextSibling,oldCSS = this.style.cssText,bbox;
     _docElement.appendChild(svg);
     svg.appendChild(this);
     this.style.display = "block";
@@ -129,34 +87,36 @@ var _win,
         bbox = this.getBBox();
         this._gsapBBox = this.getBBox; //store the original
         this.getBBox = _getBBoxHack;
-      } catch (e) {}
-    } else if (this._gsapBBox) {
+      }
+      catch (e) {}
+    } else
+    if (this._gsapBBox) {
       bbox = this._gsapBBox();
     }
     if (oldParent) {
       if (oldSibling) {
         oldParent.insertBefore(this, oldSibling);
-      } else {
+      } else
+      {
         oldParent.appendChild(this);
       }
     }
     _docElement.removeChild(svg);
     this.style.cssText = oldCSS;
     return bbox;
-  },
-  _getAttributeFallbacks = function _getAttributeFallbacks(target, attributesArray) {
+  },_getAttributeFallbacks = function _getAttributeFallbacks(target, attributesArray) {
     var i = attributesArray.length;
     while (i--) {
       if (target.hasAttribute(attributesArray[i])) {
         return target.getAttribute(attributesArray[i]);
       }
     }
-  },
-  _getBBox = function _getBBox(target) {
+  },_getBBox = function _getBBox(target) {
     var bounds;
     try {
       bounds = target.getBBox(); //Firefox throws errors if you try calling getBBox() on an SVG element that's not rendered (like in a <symbol> or <defs>). https://bugzilla.mozilla.org/show_bug.cgi?id=612118
-    } catch (error) {
+    }
+    catch (error) {
       bounds = _getBBoxHack.call(target, true);
     }
     bounds && (bounds.width || bounds.height) || target.getBBox === _getBBoxHack || (bounds = _getBBoxHack.call(target, true)); //some browsers (like Firefox) misreport the bounds if the element has zero width and height (it just assumes it's at x:0, y:0), thus we need to manually grab the position in that case.
@@ -166,8 +126,7 @@ var _win,
       width: 0,
       height: 0
     } : bounds;
-  },
-  _isSVG = function _isSVG(e) {
+  },_isSVG = function _isSVG(e) {
     return !!(e.getCTM && (!e.parentNode || e.ownerSVGElement) && _getBBox(e));
   },
   //reports if the element is an SVG on which getBBox() actually works
@@ -183,41 +142,29 @@ var _win,
           property = "-" + property;
         }
         style.removeProperty(property.replace(_capsExp, "-$1").toLowerCase());
-      } else {
+      } else
+      {
         //note: old versions of IE use "removeAttribute()" instead of "removeProperty()"
         style.removeAttribute(property);
       }
     }
-  },
-  _addNonTweeningPT = function _addNonTweeningPT(plugin, target, property, beginning, end, onlySetAtEnd) {
+  },_addNonTweeningPT = function _addNonTweeningPT(plugin, target, property, beginning, end, onlySetAtEnd) {
     var pt = new PropTween(plugin._pt, target, property, 0, 1, onlySetAtEnd ? _renderNonTweeningValueOnlyAtEnd : _renderNonTweeningValue);
     plugin._pt = pt;
     pt.b = beginning;
     pt.e = end;
     plugin._props.push(property);
     return pt;
-  },
-  _nonConvertibleUnits = {
+  },_nonConvertibleUnits = {
     deg: 1,
     rad: 1,
     turn: 1
   },
   //takes a single value like 20px and converts it to the unit specified, like "%", returning only the numeric amount.
   _convertToUnit = function _convertToUnit(target, property, value, unit) {
-    var curValue = parseFloat(value) || 0,
-      curUnit = (value + "").trim().substr((curValue + "").length) || "px",
+    var curValue = parseFloat(value) || 0,curUnit = (value + "").trim().substr((curValue + "").length) || "px",
       // some browsers leave extra whitespace at the beginning of CSS variables, hence the need to trim()
-      style = _tempDiv.style,
-      horizontal = _horizontalExp.test(property),
-      isRootSVG = target.tagName.toLowerCase() === "svg",
-      measureProperty = (isRootSVG ? "client" : "offset") + (horizontal ? "Width" : "Height"),
-      amount = 100,
-      toPixels = unit === "px",
-      toPercent = unit === "%",
-      px,
-      parent,
-      cache,
-      isSVG;
+      style = _tempDiv.style,horizontal = _horizontalExp.test(property),isRootSVG = target.tagName.toLowerCase() === "svg",measureProperty = (isRootSVG ? "client" : "offset") + (horizontal ? "Width" : "Height"),amount = 100,toPixels = unit === "px",toPercent = unit === "%",px,parent,cache,isSVG;
     if (unit === curUnit || !curValue || _nonConvertibleUnits[unit] || _nonConvertibleUnits[curUnit]) {
       return curValue;
     }
@@ -238,7 +185,8 @@ var _win,
     cache = parent._gsap;
     if (cache && toPercent && cache.width && horizontal && cache.time === _ticker.time) {
       return _round(curValue / cache.width * amount);
-    } else {
+    } else
+    {
       (toPercent || curUnit === "%") && (style.position = _getComputedProperty(target, "position"));
       parent === target && (style.position = "static"); // like for borderRadius, if it's a % we must have it relative to the target itself but that may not have position: relative or position: absolute in which case it'd go up the chain until it finds its offsetParent (bad). position: static protects against that.
       parent.appendChild(_tempDiv);
@@ -252,8 +200,7 @@ var _win,
       }
     }
     return _round(toPixels ? px * curValue / amount : px && curValue ? amount / px * curValue : 0);
-  },
-  _get = function _get(target, property, unit, uncache) {
+  },_get = function _get(target, property, unit, uncache) {
     var value;
     _pluginInitted || _initCore();
     if (property in _propertyAliases && property !== "transform") {
@@ -265,45 +212,28 @@ var _win,
     if (_transformProps[property] && property !== "transform") {
       value = _parseTransform(target, uncache);
       value = property !== "transformOrigin" ? value[property] : value.svg ? value.origin : _firstTwoOnly(_getComputedProperty(target, _transformOriginProp)) + " " + value.zOrigin + "px";
-    } else {
+    } else
+    {
       value = target.style[property];
       if (!value || value === "auto" || uncache || ~(value + "").indexOf("calc(")) {
         value = _specialProps[property] && _specialProps[property](target, property, unit) || _getComputedProperty(target, property) || _getProperty(target, property) || (property === "opacity" ? 1 : 0); // note: some browsers, like Firefox, don't report borderRadius correctly! Instead, it only reports every corner like  borderTopLeftRadius
       }
     }
-
     return unit && !~(value + "").trim().indexOf(" ") ? _convertToUnit(target, property, value, unit) + unit : value;
-  },
-  _tweenComplexCSSString = function _tweenComplexCSSString(target, prop, start, end) {
+  },_tweenComplexCSSString = function _tweenComplexCSSString(target, prop, start, end) {
     //note: we call _tweenComplexCSSString.call(pluginInstance...) to ensure that it's scoped properly. We may call it from within a plugin too, thus "this" would refer to the plugin.
     if (!start || start === "none") {
       // some browsers like Safari actually PREFER the prefixed property and mis-report the unprefixed value like clipPath (BUG). In other words, even though clipPath exists in the style ("clipPath" in target.style) and it's set in the CSS properly (along with -webkit-clip-path), Safari reports clipPath as "none" whereas WebkitClipPath reports accurately like "ellipse(100% 0% at 50% 0%)", so in this case we must SWITCH to using the prefixed property instead. See https://greensock.com/forums/topic/18310-clippath-doesnt-work-on-ios/
-      var p = _checkPropPrefix(prop, target, 1),
-        s = p && _getComputedProperty(target, p, 1);
+      var p = _checkPropPrefix(prop, target, 1),s = p && _getComputedProperty(target, p, 1);
       if (s && s !== start) {
         prop = p;
         start = s;
-      } else if (prop === "borderColor") {
+      } else
+      if (prop === "borderColor") {
         start = _getComputedProperty(target, "borderTopColor"); // Firefox bug: always reports "borderColor" as "", so we must fall back to borderTopColor. See https://greensock.com/forums/topic/24583-how-to-return-colors-that-i-had-after-reverse/
       }
     }
-
-    var pt = new PropTween(this._pt, target.style, prop, 0, 1, _renderComplexString),
-      index = 0,
-      matchIndex = 0,
-      a,
-      result,
-      startValues,
-      startNum,
-      color,
-      startValue,
-      endValue,
-      endNum,
-      chunk,
-      endUnit,
-      startUnit,
-      relative,
-      endValues;
+    var pt = new PropTween(this._pt, target.style, prop, 0, 1, _renderComplexString),index = 0,matchIndex = 0,a,result,startValues,startNum,color,startValue,endValue,endNum,chunk,endUnit,startUnit,relative,endValues;
     pt.b = start;
     pt.e = end;
     start += ""; //ensure values are strings
@@ -325,7 +255,8 @@ var _win,
         chunk = end.substring(index, result.index);
         if (color) {
           color = (color + 1) % 5;
-        } else if (chunk.substr(-5) === "rgba(" || chunk.substr(-5) === "hsla(") {
+        } else
+        if (chunk.substr(-5) === "rgba(" || chunk.substr(-5) === "hsla(") {
           color = 1;
         }
         if (endValue !== (startValue = startValues[matchIndex++] || "")) {
@@ -360,24 +291,21 @@ var _win,
         }
       }
       pt.c = index < end.length ? end.substring(index, end.length) : ""; //we use the "c" of the PropTween to store the final part of the string (after the last number)
-    } else {
+    } else
+    {
       pt.r = prop === "display" && end === "none" ? _renderNonTweeningValueOnlyAtEnd : _renderNonTweeningValue;
     }
     _relExp.test(end) && (pt.e = 0); //if the end string contains relative values or dynamic random(...) values, delete the end it so that on the final render we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
     this._pt = pt; //start the linked list with this new PropTween. Remember, we call _tweenComplexCSSString.call(pluginInstance...) to ensure that it's scoped properly. We may call it from within another plugin too, thus "this" would refer to the plugin.
     return pt;
-  },
-  _keywordToPercent = {
+  },_keywordToPercent = {
     top: "0%",
     bottom: "100%",
     left: "0%",
     right: "100%",
     center: "50%"
-  },
-  _convertKeywordsToPercentages = function _convertKeywordsToPercentages(value) {
-    var split = value.split(" "),
-      x = split[0],
-      y = split[1] || "50%";
+  },_convertKeywordsToPercentages = function _convertKeywordsToPercentages(value) {
+    var split = value.split(" "),x = split[0],y = split[1] || "50%";
     if (x === "top" || x === "bottom" || y === "left" || y === "right") {
       //the user provided them in the wrong order, so flip them
       value = x;
@@ -387,20 +315,14 @@ var _win,
     split[0] = _keywordToPercent[x] || x;
     split[1] = _keywordToPercent[y] || y;
     return split.join(" ");
-  },
-  _renderClearProps = function _renderClearProps(ratio, data) {
+  },_renderClearProps = function _renderClearProps(ratio, data) {
     if (data.tween && data.tween._time === data.tween._dur) {
-      var target = data.t,
-        style = target.style,
-        props = data.u,
-        cache = target._gsap,
-        prop,
-        clearTransforms,
-        i;
+      var target = data.t,style = target.style,props = data.u,cache = target._gsap,prop,clearTransforms,i;
       if (props === "all" || props === true) {
         style.cssText = "";
         clearTransforms = 1;
-      } else {
+      } else
+      {
         props = props.split(",");
         i = props.length;
         while (--i > -1) {
@@ -503,28 +425,19 @@ var _win,
    * TRANSFORMS
    * --------------------------------------------------------------------------------------
    */
-  _identity2DMatrix = [1, 0, 0, 1, 0, 0],
-  _rotationalProperties = {},
-  _isNullTransform = function _isNullTransform(value) {
+  _identity2DMatrix = [1, 0, 0, 1, 0, 0],_rotationalProperties = {},_isNullTransform = function _isNullTransform(value) {
     return value === "matrix(1, 0, 0, 1, 0, 0)" || value === "none" || !value;
-  },
-  _getComputedTransformMatrixAsArray = function _getComputedTransformMatrixAsArray(target) {
+  },_getComputedTransformMatrixAsArray = function _getComputedTransformMatrixAsArray(target) {
     var matrixString = _getComputedProperty(target, _transformProp);
     return _isNullTransform(matrixString) ? _identity2DMatrix : matrixString.substr(7).match(_numExp).map(_round);
-  },
-  _getMatrix = function _getMatrix(target, force2D) {
-    var cache = target._gsap || _getCache(target),
-      style = target.style,
-      matrix = _getComputedTransformMatrixAsArray(target),
-      parent,
-      nextSibling,
-      temp,
-      addedToDOM;
+  },_getMatrix = function _getMatrix(target, force2D) {
+    var cache = target._gsap || _getCache(target),style = target.style,matrix = _getComputedTransformMatrixAsArray(target),parent,nextSibling,temp,addedToDOM;
     if (cache.svg && target.getAttribute("transform")) {
       temp = target.transform.baseVal.consolidate().matrix; //ensures that even complex values like "translate(50,60) rotate(135,0,0)" are parsed because it mashes it into a matrix.
       matrix = [temp.a, temp.b, temp.c, temp.d, temp.e, temp.f];
       return matrix.join(",") === "1,0,0,1,0,0" ? _identity2DMatrix : matrix;
-    } else if (matrix === _identity2DMatrix && !target.offsetParent && target !== _docElement && !cache.svg) {
+    } else
+    if (matrix === _identity2DMatrix && !target.offsetParent && target !== _docElement && !cache.svg) {
       //note: if offsetParent is null, that means the element isn't in the normal document flow, like if it has display:none or one of its ancestors has display:none). Firefox returns null for getComputedStyle() if the element is in an iframe that has display:none. https://bugzilla.mozilla.org/show_bug.cgi?id=548397
       //browsers don't report transforms accurately unless the element is in the DOM and has a display value that's not "none". Firefox and Microsoft browsers have a partial bug where they'll report transforms even if display:none BUT not any percentage-based values like translate(-50%, 8px) will be reported as if it's translate(0, 8px).
       temp = style.display;
@@ -536,7 +449,6 @@ var _win,
         nextSibling = target.nextSibling;
         _docElement.appendChild(target); //we must add it to the DOM in order to get values properly
       }
-
       matrix = _getComputedTransformMatrixAsArray(target);
       temp ? style.display = temp : _removeProperty(target, "display");
       if (addedToDOM) {
@@ -544,32 +456,14 @@ var _win,
       }
     }
     return force2D && matrix.length > 6 ? [matrix[0], matrix[1], matrix[4], matrix[5], matrix[12], matrix[13]] : matrix;
-  },
-  _applySVGOrigin = function _applySVGOrigin(target, origin, originIsAbsolute, smooth, matrixArray, pluginToAddPropTweensTo) {
-    var cache = target._gsap,
-      matrix = matrixArray || _getMatrix(target, true),
-      xOriginOld = cache.xOrigin || 0,
-      yOriginOld = cache.yOrigin || 0,
-      xOffsetOld = cache.xOffset || 0,
-      yOffsetOld = cache.yOffset || 0,
-      a = matrix[0],
-      b = matrix[1],
-      c = matrix[2],
-      d = matrix[3],
-      tx = matrix[4],
-      ty = matrix[5],
-      originSplit = origin.split(" "),
-      xOrigin = parseFloat(originSplit[0]) || 0,
-      yOrigin = parseFloat(originSplit[1]) || 0,
-      bounds,
-      determinant,
-      x,
-      y;
+  },_applySVGOrigin = function _applySVGOrigin(target, origin, originIsAbsolute, smooth, matrixArray, pluginToAddPropTweensTo) {
+    var cache = target._gsap,matrix = matrixArray || _getMatrix(target, true),xOriginOld = cache.xOrigin || 0,yOriginOld = cache.yOrigin || 0,xOffsetOld = cache.xOffset || 0,yOffsetOld = cache.yOffset || 0,a = matrix[0],b = matrix[1],c = matrix[2],d = matrix[3],tx = matrix[4],ty = matrix[5],originSplit = origin.split(" "),xOrigin = parseFloat(originSplit[0]) || 0,yOrigin = parseFloat(originSplit[1]) || 0,bounds,determinant,x,y;
     if (!originIsAbsolute) {
       bounds = _getBBox(target);
       xOrigin = bounds.x + (~originSplit[0].indexOf("%") ? xOrigin / 100 * bounds.width : xOrigin);
       yOrigin = bounds.y + (~(originSplit[1] || originSplit[0]).indexOf("%") ? yOrigin / 100 * bounds.height : yOrigin);
-    } else if (matrix !== _identity2DMatrix && (determinant = a * d - b * c)) {
+    } else
+    if (matrix !== _identity2DMatrix && (determinant = a * d - b * c)) {
       //if it's zero (like if scaleX and scaleY are zero), skip it to avoid errors with dividing by zero.
       x = xOrigin * (d / determinant) + yOrigin * (-c / determinant) + (c * ty - d * tx) / determinant;
       y = xOrigin * (-b / determinant) + yOrigin * (a / determinant) - (a * ty - b * tx) / determinant;
@@ -581,7 +475,8 @@ var _win,
       ty = yOrigin - yOriginOld;
       cache.xOffset = xOffsetOld + (tx * a + ty * c) - tx;
       cache.yOffset = yOffsetOld + (tx * b + ty * d) - ty;
-    } else {
+    } else
+    {
       cache.xOffset = cache.yOffset = 0;
     }
     cache.xOrigin = xOrigin;
@@ -597,49 +492,12 @@ var _win,
       _addNonTweeningPT(pluginToAddPropTweensTo, cache, "yOffset", yOffsetOld, cache.yOffset);
     }
     target.setAttribute("data-svg-origin", xOrigin + " " + yOrigin);
-  },
-  _parseTransform = function _parseTransform(target, uncache) {
+  },_parseTransform = function _parseTransform(target, uncache) {
     var cache = target._gsap || new GSCache(target);
     if ("x" in cache && !uncache && !cache.uncache) {
       return cache;
     }
-    var style = target.style,
-      invertedScaleX = cache.scaleX < 0,
-      px = "px",
-      deg = "deg",
-      origin = _getComputedProperty(target, _transformOriginProp) || "0",
-      x,
-      y,
-      z,
-      scaleX,
-      scaleY,
-      rotation,
-      rotationX,
-      rotationY,
-      skewX,
-      skewY,
-      perspective,
-      xOrigin,
-      yOrigin,
-      matrix,
-      angle,
-      cos,
-      sin,
-      a,
-      b,
-      c,
-      d,
-      a12,
-      a22,
-      t1,
-      t2,
-      t3,
-      a13,
-      a23,
-      a33,
-      a42,
-      a43,
-      a32;
+    var style = target.style,invertedScaleX = cache.scaleX < 0,px = "px",deg = "deg",origin = _getComputedProperty(target, _transformOriginProp) || "0",x,y,z,scaleX,scaleY,rotation,rotationX,rotationY,skewX,skewY,perspective,xOrigin,yOrigin,matrix,angle,cos,sin,a,b,c,d,a12,a22,t1,t2,t3,a13,a23,a33,a42,a43,a32;
     x = y = z = rotation = rotationX = rotationY = skewX = skewY = perspective = 0;
     scaleX = scaleY = 1;
     cache.svg = !!(target.getCTM && _isSVG(target));
@@ -667,7 +525,8 @@ var _win,
           x -= xOrigin - (xOrigin * a + yOrigin * c);
           y -= yOrigin - (xOrigin * b + yOrigin * d);
         } //3D matrix
-      } else {
+      } else
+      {
         a32 = matrix[6];
         a42 = matrix[7];
         a13 = matrix[8];
@@ -741,7 +600,8 @@ var _win,
         scaleX *= -1;
         skewX += rotation <= 0 ? 180 : -180;
         rotation += rotation <= 0 ? 180 : -180;
-      } else {
+      } else
+      {
         scaleY *= -1;
         skewX += skewX <= 0 ? 180 : -180;
       }
@@ -765,49 +625,22 @@ var _win,
     cache.renderTransform = cache.svg ? _renderSVGTransforms : _supports3D ? _renderCSSTransforms : _renderNon3DTransforms;
     cache.uncache = 0;
     return cache;
-  },
-  _firstTwoOnly = function _firstTwoOnly(value) {
+  },_firstTwoOnly = function _firstTwoOnly(value) {
     return (value = value.split(" "))[0] + " " + value[1];
   },
   //for handling transformOrigin values, stripping out the 3rd dimension
   _addPxTranslate = function _addPxTranslate(target, start, value) {
     var unit = getUnit(start);
     return _round(parseFloat(start) + parseFloat(_convertToUnit(target, "x", value + "px", unit))) + unit;
-  },
-  _renderNon3DTransforms = function _renderNon3DTransforms(ratio, cache) {
+  },_renderNon3DTransforms = function _renderNon3DTransforms(ratio, cache) {
     cache.z = "0px";
     cache.rotationY = cache.rotationX = "0deg";
     cache.force3D = 0;
     _renderCSSTransforms(ratio, cache);
-  },
-  _zeroDeg = "0deg",
-  _zeroPx = "0px",
-  _endParenthesis = ") ",
-  _renderCSSTransforms = function _renderCSSTransforms(ratio, cache) {
-    var _ref = cache || this,
-      xPercent = _ref.xPercent,
-      yPercent = _ref.yPercent,
-      x = _ref.x,
-      y = _ref.y,
-      z = _ref.z,
-      rotation = _ref.rotation,
-      rotationY = _ref.rotationY,
-      rotationX = _ref.rotationX,
-      skewX = _ref.skewX,
-      skewY = _ref.skewY,
-      scaleX = _ref.scaleX,
-      scaleY = _ref.scaleY,
-      transformPerspective = _ref.transformPerspective,
-      force3D = _ref.force3D,
-      target = _ref.target,
-      zOrigin = _ref.zOrigin,
-      transforms = "",
-      use3D = force3D === "auto" && ratio && ratio !== 1 || force3D === true; // Safari has a bug that causes it not to render 3D transform-origin values properly, so we force the z origin to 0, record it in the cache, and then do the math here to offset the translate values accordingly (basically do the 3D transform-origin part manually)
+  },_zeroDeg = "0deg",_zeroPx = "0px",_endParenthesis = ") ",_renderCSSTransforms = function _renderCSSTransforms(ratio, cache) {
+    var _ref = cache || this,xPercent = _ref.xPercent,yPercent = _ref.yPercent,x = _ref.x,y = _ref.y,z = _ref.z,rotation = _ref.rotation,rotationY = _ref.rotationY,rotationX = _ref.rotationX,skewX = _ref.skewX,skewY = _ref.skewY,scaleX = _ref.scaleX,scaleY = _ref.scaleY,transformPerspective = _ref.transformPerspective,force3D = _ref.force3D,target = _ref.target,zOrigin = _ref.zOrigin,transforms = "",use3D = force3D === "auto" && ratio && ratio !== 1 || force3D === true; // Safari has a bug that causes it not to render 3D transform-origin values properly, so we force the z origin to 0, record it in the cache, and then do the math here to offset the translate values accordingly (basically do the 3D transform-origin part manually)
     if (zOrigin && (rotationX !== _zeroDeg || rotationY !== _zeroDeg)) {
-      var angle = parseFloat(rotationY) * _DEG2RAD,
-        a13 = Math.sin(angle),
-        a33 = Math.cos(angle),
-        cos;
+      var angle = parseFloat(rotationY) * _DEG2RAD,a13 = Math.sin(angle),a33 = Math.cos(angle),cos;
       angle = parseFloat(rotationX) * _DEG2RAD;
       cos = Math.cos(angle);
       x = _addPxTranslate(target, x, a13 * cos * -zOrigin);
@@ -839,31 +672,8 @@ var _win,
       transforms += "scale(" + scaleX + ", " + scaleY + _endParenthesis;
     }
     target.style[_transformProp] = transforms || "translate(0, 0)";
-  },
-  _renderSVGTransforms = function _renderSVGTransforms(ratio, cache) {
-    var _ref2 = cache || this,
-      xPercent = _ref2.xPercent,
-      yPercent = _ref2.yPercent,
-      x = _ref2.x,
-      y = _ref2.y,
-      rotation = _ref2.rotation,
-      skewX = _ref2.skewX,
-      skewY = _ref2.skewY,
-      scaleX = _ref2.scaleX,
-      scaleY = _ref2.scaleY,
-      target = _ref2.target,
-      xOrigin = _ref2.xOrigin,
-      yOrigin = _ref2.yOrigin,
-      xOffset = _ref2.xOffset,
-      yOffset = _ref2.yOffset,
-      forceCSS = _ref2.forceCSS,
-      tx = parseFloat(x),
-      ty = parseFloat(y),
-      a11,
-      a21,
-      a12,
-      a22,
-      temp;
+  },_renderSVGTransforms = function _renderSVGTransforms(ratio, cache) {
+    var _ref2 = cache || this,xPercent = _ref2.xPercent,yPercent = _ref2.yPercent,x = _ref2.x,y = _ref2.y,rotation = _ref2.rotation,skewX = _ref2.skewX,skewY = _ref2.skewY,scaleX = _ref2.scaleX,scaleY = _ref2.scaleY,target = _ref2.target,xOrigin = _ref2.xOrigin,yOrigin = _ref2.yOrigin,xOffset = _ref2.xOffset,yOffset = _ref2.yOffset,forceCSS = _ref2.forceCSS,tx = parseFloat(x),ty = parseFloat(y),a11,a21,a12,a22,temp;
     rotation = parseFloat(rotation);
     skewX = parseFloat(skewX);
     skewY = parseFloat(skewY);
@@ -897,7 +707,8 @@ var _win,
       a21 = _round(a21);
       a12 = _round(a12);
       a22 = _round(a22);
-    } else {
+    } else
+    {
       a11 = scaleX;
       a22 = scaleY;
       a21 = a12 = 0;
@@ -919,15 +730,8 @@ var _win,
     temp = "matrix(" + a11 + "," + a21 + "," + a12 + "," + a22 + "," + tx + "," + ty + ")";
     target.setAttribute("transform", temp);
     forceCSS && (target.style[_transformProp] = temp); //some browsers prioritize CSS transforms over the transform attribute. When we sense that the user has CSS transforms applied, we must overwrite them this way (otherwise some browser simply won't render the  transform attribute changes!)
-  },
-  _addRotationalPropTween = function _addRotationalPropTween(plugin, target, property, startNum, endValue, relative) {
-    var cap = 360,
-      isString = _isString(endValue),
-      endNum = parseFloat(endValue) * (isString && ~endValue.indexOf("rad") ? _RAD2DEG : 1),
-      change = relative ? endNum * relative : endNum - startNum,
-      finalValue = startNum + change + "deg",
-      direction,
-      pt;
+  },_addRotationalPropTween = function _addRotationalPropTween(plugin, target, property, startNum, endValue, relative) {
+    var cap = 360,isString = _isString(endValue),endNum = parseFloat(endValue) * (isString && ~endValue.indexOf("rad") ? _RAD2DEG : 1),change = relative ? endNum * relative : endNum - startNum,finalValue = startNum + change + "deg",direction,pt;
     if (isString) {
       direction = endValue.split("_")[1];
       if (direction === "short") {
@@ -938,7 +742,8 @@ var _win,
       }
       if (direction === "cw" && change < 0) {
         change = (change + cap * _bigNum) % cap - ~~(change / cap) * cap;
-      } else if (direction === "ccw" && change > 0) {
+      } else
+      if (direction === "ccw" && change > 0) {
         change = (change - cap * _bigNum) % cap - ~~(change / cap) * cap;
       }
     }
@@ -947,27 +752,15 @@ var _win,
     pt.u = "deg";
     plugin._props.push(property);
     return pt;
-  },
-  _assign = function _assign(target, source) {
+  },_assign = function _assign(target, source) {
     // Internet Explorer doesn't have Object.assign(), so we recreate it here.
     for (var p in source) {
       target[p] = source[p];
     }
     return target;
-  },
-  _addRawTransformPTs = function _addRawTransformPTs(plugin, transforms, target) {
+  },_addRawTransformPTs = function _addRawTransformPTs(plugin, transforms, target) {
     //for handling cases where someone passes in a whole transform string, like transform: "scale(2, 3) rotate(20deg) translateY(30em)"
-    var startCache = _assign({}, target._gsap),
-      exclude = "perspective,force3D,transformOrigin,svgOrigin",
-      style = target.style,
-      endCache,
-      p,
-      startValue,
-      endValue,
-      startNum,
-      endNum,
-      startUnit,
-      endUnit;
+    var startCache = _assign({}, target._gsap),exclude = "perspective,force3D,transformOrigin,svgOrigin",style = target.style,endCache,p,startValue,endValue,startNum,endNum,startUnit,endUnit;
     if (startCache.svg) {
       startValue = target.getAttribute("transform");
       target.setAttribute("transform", "");
@@ -975,7 +768,8 @@ var _win,
       endCache = _parseTransform(target, 1);
       _removeProperty(target, _transformProp);
       target.setAttribute("transform", startValue);
-    } else {
+    } else
+    {
       startValue = getComputedStyle(target)[_transformProp];
       style[_transformProp] = transforms;
       endCache = _parseTransform(target, 1);
@@ -998,11 +792,7 @@ var _win,
     _assign(endCache, startCache);
   }; // handle splitting apart padding, margin, borderWidth, and borderRadius into their 4 components. Firefox, for example, won't report borderRadius correctly - it will only do borderTopLeftRadius and the other corners. We also want to handle paddingTop, marginLeft, borderRightWidth, etc.
 _forEachName("padding,margin,Width,Radius", function (name, index) {
-  var t = "Top",
-    r = "Right",
-    b = "Bottom",
-    l = "Left",
-    props = (index < 3 ? [t, r, b, l] : [t + l, t + r, b + r, b + l]).map(function (side) {
+  var t = "Top",r = "Right",b = "Bottom",l = "Left",props = (index < 3 ? [t, r, b, l] : [t + l, t + r, b + r, b + l]).map(function (side) {
       return index < 2 ? name + side : "border" + side + name;
     });
   _specialProps[index > 1 ? "border" + name : name] = function (plugin, target, property, endValue, tween) {
@@ -1030,24 +820,7 @@ export var CSSPlugin = {
     return target.style && target.nodeType;
   },
   init: function init(target, vars, tween, index, targets) {
-    var props = this._props,
-      style = target.style,
-      startAt = tween.vars.startAt,
-      startValue,
-      endValue,
-      endNum,
-      startNum,
-      type,
-      specialProp,
-      p,
-      startUnit,
-      endUnit,
-      relative,
-      isTransformRelated,
-      transformPropTween,
-      cache,
-      smooth,
-      hasPriority;
+    var props = this._props,style = target.style,startAt = tween.vars.startAt,startValue,endValue,endNum,startNum,type,specialProp,p,startUnit,endUnit,relative,isTransformRelated,transformPropTween,cache,smooth,hasPriority;
     _pluginInitted || _initCore();
     for (p in vars) {
       if (p === "autoRound") {
@@ -1069,7 +842,8 @@ export var CSSPlugin = {
       }
       if (specialProp) {
         specialProp(this, target, p, endValue, tween) && (hasPriority = 1);
-      } else if (p.substr(0, 2) === "--") {
+      } else
+      if (p.substr(0, 2) === "--") {
         //CSS variable
         startValue = (getComputedStyle(target).getPropertyValue(p) + "").trim();
         endValue += "";
@@ -1082,14 +856,16 @@ export var CSSPlugin = {
         endUnit ? startUnit !== endUnit && (startValue = _convertToUnit(target, p, startValue, endUnit) + endUnit) : startUnit && (endValue += startUnit);
         this.add(style, "setProperty", startValue, endValue, index, targets, 0, 0, p);
         props.push(p);
-      } else if (type !== "undefined") {
+      } else
+      if (type !== "undefined") {
         if (startAt && p in startAt) {
           // in case someone hard-codes a complex value as the start, like top: "calc(2vh / 2)". Without this, it'd use the computed value (always in px)
           startValue = typeof startAt[p] === "function" ? startAt[p].call(tween, index, target, targets) : startAt[p];
           p in _config.units && !getUnit(startValue) && (startValue += _config.units[p]); // for cases when someone passes in a unitless value like {x: 100}; if we try setting translate(100, 0px) it won't work.
           _isString(startValue) && ~startValue.indexOf("random(") && (startValue = _replaceRandom(startValue));
           (startValue + "").charAt(1) === "=" && (startValue = _get(target, p)); // can't work with relative values
-        } else {
+        } else
+        {
           startValue = _get(target, p);
         }
         startNum = parseFloat(startValue);
@@ -1119,38 +895,45 @@ export var CSSPlugin = {
             transformPropTween = this._pt = new PropTween(this._pt, style, _transformProp, 0, 1, cache.renderTransform, cache, 0, -1); //the first time through, create the rendering PropTween so that it runs LAST (in the linked list, we keep adding to the beginning)
             transformPropTween.dep = 1; //flag it as dependent so that if things get killed/overwritten and this is the only PropTween left, we can safely kill the whole tween.
           }
-
           if (p === "scale") {
             this._pt = new PropTween(this._pt, cache, "scaleY", cache.scaleY, (relative ? relative * endNum : endNum - cache.scaleY) || 0);
             props.push("scaleY", p);
             p += "X";
-          } else if (p === "transformOrigin") {
+          } else
+          if (p === "transformOrigin") {
             endValue = _convertKeywordsToPercentages(endValue); //in case something like "left top" or "bottom right" is passed in. Convert to percentages.
             if (cache.svg) {
               _applySVGOrigin(target, endValue, 0, smooth, 0, this);
-            } else {
+            } else
+            {
               endUnit = parseFloat(endValue.split(" ")[2]) || 0; //handle the zOrigin separately!
               endUnit !== cache.zOrigin && _addNonTweeningPT(this, cache, "zOrigin", cache.zOrigin, endUnit);
               _addNonTweeningPT(this, style, p, _firstTwoOnly(startValue), _firstTwoOnly(endValue));
             }
             continue;
-          } else if (p === "svgOrigin") {
+          } else
+          if (p === "svgOrigin") {
             _applySVGOrigin(target, endValue, 1, smooth, 0, this);
             continue;
-          } else if (p in _rotationalProperties) {
+          } else
+          if (p in _rotationalProperties) {
             _addRotationalPropTween(this, cache, p, startNum, endValue, relative);
             continue;
-          } else if (p === "smoothOrigin") {
+          } else
+          if (p === "smoothOrigin") {
             _addNonTweeningPT(this, cache, "smooth", cache.smooth, endValue);
             continue;
-          } else if (p === "force3D") {
+          } else
+          if (p === "force3D") {
             cache[p] = endValue;
             continue;
-          } else if (p === "transform") {
+          } else
+          if (p === "transform") {
             _addRawTransformPTs(this, endValue, target);
             continue;
           }
-        } else if (!(p in style)) {
+        } else
+        if (!(p in style)) {
           p = _checkPropPrefix(p) || p;
         }
         if (isTransformRelated || (endNum || endNum === 0) && (startNum || startNum === 0) && !_complexExp.test(endValue) && p in style) {
@@ -1165,15 +948,18 @@ export var CSSPlugin = {
             this._pt.b = startValue;
             this._pt.r = _renderCSSPropWithBeginning;
           }
-        } else if (!(p in style)) {
+        } else
+        if (!(p in style)) {
           if (p in target) {
             //maybe it's not a style - it could be a property added directly to an element in which case we'll try to animate that.
             this.add(target, p, startValue || target[p], endValue, index, targets);
-          } else {
+          } else
+          {
             _missingPlugin(p, endValue);
             continue;
           }
-        } else {
+        } else
+        {
           _tweenComplexCSSString.call(this, target, p, startValue, endValue);
         }
         props.push(p);
@@ -1214,3 +1000,4 @@ _forEachName("x,y,z,top,right,bottom,left,width,height,fontSize,padding,margin,p
 });
 gsap.registerPlugin(CSSPlugin);
 export { CSSPlugin as default, _getBBox, _createElement, _checkPropPrefix as checkPrefix };
+//# sourceMappingURL=CSSPlugin.js.map

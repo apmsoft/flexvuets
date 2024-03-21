@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["sl"] = e["sl"] || {};
+  var a = e["sl"] = e["sl"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "",
     Aquamarine: "Akvamarin",
@@ -81,3 +81,4 @@
     return e % 100 == 1 ? 0 : e % 100 == 2 ? 1 : e % 100 == 3 || e % 100 == 4 ? 2 : 3;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=sl.js.map

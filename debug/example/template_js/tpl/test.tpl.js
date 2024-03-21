@@ -1,6 +1,7 @@
-const fn = name => `####${name}<<<<`;
+const fn = (name) => `####${name}<<<<`;
 class Template {
-  constructor() {}
+  constructor() {
+  }
   render(message) {
     var _a;
     return `
@@ -8,7 +9,7 @@ class Template {
             <p>${fn(message.name)}</p>
             <p>${message.age}</p>
             <ul>
-            ${(_a = message.msg) === null || _a === void 0 ? void 0 : _a.map(item => `
+            ${(_a = message.msg) === null || _a === void 0 ? void 0 : _a.map((item) => `
                 <li>${item.name}</li>
             `).join('')}
             </ul>
@@ -16,3 +17,4 @@ class Template {
   }
 }
 export { Template };
+//# sourceMappingURL=test.tpl.js.map

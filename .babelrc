@@ -1,9 +1,22 @@
 {
+  "sourceMaps": true,
+  "retainLines": true,
   "plugins": [
     [ "module-resolver", {
         "alias": {
           "src": "./debug"
           ,"@flexvue":"./debug/flexvue"
+          ,"@editorjs/editorjs": "./node_modules/@editorjs/editorjs/dist/editorjs.mjs"
+          ,"@editorjs/simple-image": "./node_modules/@editorjs/simple-image/dist/simple-image.mjs"
+          ,"@editorjs/header": "./node_modules/@editorjs/header/dist/header.mjs"
+          ,"@editorjs/link": "./node_modules/@editorjs/link/dist/link.mjs"
+          ,"@editorjs/image": "./node_modules/@editorjs/image/dist/image.mjs"
+          ,"@editorjs/table": "./node_modules/@editorjs/table/dist/table.mjs"
+          ,"@editorjs/code": "./node_modules/@editorjs/code/dist/code.mjs"
+          ,"@editorjs/list": "./node_modules/@editorjs/list/dist/list.mjs"
+          ,"@editorjs/embed": "./node_modules/@editorjs/embed/dist/embed.mjs"
+          ,"@editorjs/checklist": "./node_modules/@editorjs/checklist/dist/checklist.mjs"
+          ,"@editorjs/quote": "./node_modules/@editorjs/quote/dist/quote.mjs"
         }
       }
     ]

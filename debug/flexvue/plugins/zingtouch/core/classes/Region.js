@@ -47,7 +47,8 @@ class Region {
      * over the region
      * @type {boolean}
      */
-    this.preventDefault = typeof preventDefault !== 'undefined' ? preventDefault : true;
+    this.preventDefault = typeof preventDefault !== 'undefined' ?
+    preventDefault : true;
     /**
      * The internal state object for a Region.
      * Keeps track of registered gestures, inputs, and events.
@@ -56,13 +57,25 @@ class Region {
     this.state = new State(id);
     let eventNames = [];
     if (window.PointerEvent && !window.TouchEvent) {
-      eventNames = ['pointerdown', 'pointermove', 'pointerup'];
-    } else {
-      eventNames = ['mousedown', 'mousemove', 'mouseup', 'touchstart', 'touchmove', 'touchend'];
+      eventNames = [
+      'pointerdown',
+      'pointermove',
+      'pointerup'];
+
+    } else
+    {
+      eventNames = [
+      'mousedown',
+      'mousemove',
+      'mouseup',
+      'touchstart',
+      'touchmove',
+      'touchend'];
+
     }
     // Bind detected browser events to the region element.
-    eventNames.forEach(name => {
-      element.addEventListener(name, e => {
+    eventNames.forEach((name) => {
+      element.addEventListener(name, (e) => {
         arbiter(e, this);
       }, this.capture);
     });
@@ -90,7 +103,8 @@ class Region {
     bindOnce = typeof bindOnce !== 'undefined' ? bindOnce : false;
     if (!gesture) {
       return new Binder(element, bindOnce, this.state);
-    } else {
+    } else
+    {
       this.state.addBinding(element, gesture, handler, capture, bindOnce);
     }
   }
@@ -120,16 +134,18 @@ class Region {
   unbind(element, gesture) {
     let bindings = this.state.retrieveBindingsByElement(element);
     let unbound = [];
-    bindings.forEach(binding => {
+    bindings.forEach((binding) => {
       if (gesture) {
-        if (typeof gesture === 'string' && this.state.registeredGestures[gesture]) {
+        if (typeof gesture === 'string' &&
+        this.state.registeredGestures[gesture]) {
           let registeredGesture = this.state.registeredGestures[gesture];
           if (registeredGesture.id === binding.gesture.id) {
             element.removeEventListener(binding.gesture.getId(), binding.handler, binding.capture);
             unbound.push(binding);
           }
         }
-      } else {
+      } else
+      {
         element.removeEventListener(binding.gesture.getId(), binding.handler, binding.capture);
         unbound.push(binding);
       }
@@ -163,7 +179,7 @@ class Region {
    *  or null if it could not be found.
    */
   unregister(key) {
-    this.state.bindings.forEach(binding => {
+    this.state.bindings.forEach((binding) => {
       if (binding.gesture.getType() === key) {
         binding.element.removeEventListener(binding.gesture.getId(), binding.handler, binding.capture);
       }
@@ -174,3 +190,4 @@ class Region {
   }
 }
 export default Region;
+//# sourceMappingURL=Region.js.map

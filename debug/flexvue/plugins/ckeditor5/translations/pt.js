@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["pt"] = e["pt"] || {};
+  var a = e["pt"] = e["pt"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "%0 de %1",
     "Align cell text to the bottom": "Alinhar texto da célula no fundo",
@@ -231,3 +231,4 @@
     return e == 0 || e == 1 ? 0 : e != 0 && e % 1e6 == 0 ? 1 : 2;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=pt.js.map

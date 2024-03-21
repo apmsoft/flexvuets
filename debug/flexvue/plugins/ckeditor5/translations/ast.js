@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["ast"] = e["ast"] || {};
+  var t = e["ast"] = e["ast"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     Aquamarine: "",
@@ -108,3 +108,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ast.js.map

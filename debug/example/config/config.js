@@ -1,5 +1,4 @@
 "use strict";
-
 {
   const onReady = () => {
     Log.d(config);
@@ -14,3 +13,4 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
+//# sourceMappingURL=config.js.map

@@ -37,3 +37,4 @@ export default {
   imageValidateSizeLabelExpectedMinResolution: 'Resolusi minimum adalah {minResolution}',
   imageValidateSizeLabelExpectedMaxResolution: 'Resolusi maksimum adalah {maxResolution}'
 };
+//# sourceMappingURL=id-id.js.map

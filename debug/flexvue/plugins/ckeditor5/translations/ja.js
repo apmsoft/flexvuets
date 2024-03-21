@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["ja"] = e["ja"] || {};
+  var t = e["ja"] = e["ja"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0/%1",
     "Align cell text to the bottom": "セルのテキストを下に寄せる",
@@ -231,3 +231,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ja.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["sq"] = e["sq"] || {};
+  var t = e["sq"] = e["sq"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     "Align cell text to the bottom": "",
@@ -208,3 +208,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=sq.js.map

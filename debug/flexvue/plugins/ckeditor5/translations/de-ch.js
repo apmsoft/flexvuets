@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["de-ch"] = e["de-ch"] || {};
+  var t = e["de-ch"] = e["de-ch"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "",
     "Align cell text to the bottom": "",
@@ -225,3 +225,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=de-ch.js.map

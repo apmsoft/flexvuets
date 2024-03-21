@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["zh-cn"] = e["zh-cn"] || {};
+  var t = e["zh-cn"] = e["zh-cn"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "第 %0 步，共 %1 步",
     "Align cell text to the bottom": "使单元格文本对齐到底部",
@@ -231,3 +231,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=zh-cn.js.map

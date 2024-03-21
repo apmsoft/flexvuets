@@ -9,25 +9,14 @@
 */
 /* eslint-disable */
 import { emojiSafeSplit, getText, splitInnerHTML } from "./utils/strings.min.js";
-var gsap,
-  _tempDiv,
-  _getGSAP = function _getGSAP() {
+var gsap,_tempDiv,_getGSAP = function _getGSAP() {
     return gsap || typeof window !== "undefined" && (gsap = window.gsap) && gsap.registerPlugin && gsap;
   };
 export var TextPlugin = {
   version: "3.8.0",
   name: "text",
   init: function init(target, value, tween) {
-    var i = target.nodeName.toUpperCase(),
-      data = this,
-      _short,
-      text,
-      original,
-      j,
-      condensedText,
-      condensedOriginal,
-      aggregate,
-      s;
+    var i = target.nodeName.toUpperCase(),data = this,_short,text,original,j,condensedText,condensedOriginal,aggregate,s;
     data.svg = target.getBBox && (i === "TEXT" || i === "TSPAN");
     if (!("innerHTML" in target) && !data.svg) {
       return false;
@@ -76,7 +65,8 @@ export var TextPlugin = {
         s = text[i];
         if (s === original[i]) {
           aggregate += s;
-        } else {
+        } else
+        {
           condensedText[j] = aggregate + s;
           condensedOriginal[j++] = aggregate + original[i];
           aggregate = "";
@@ -99,36 +89,27 @@ export var TextPlugin = {
   render: function render(ratio, data) {
     if (ratio > 1) {
       ratio = 1;
-    } else if (ratio < 0) {
+    } else
+    if (ratio < 0) {
       ratio = 0;
     }
     if (data.from) {
       ratio = 1 - ratio;
     }
-    var text = data.text,
-      hasClass = data.hasClass,
-      newClass = data.newClass,
-      oldClass = data.oldClass,
-      delimiter = data.delimiter,
-      target = data.target,
-      fillChar = data.fillChar,
-      original = data.original,
-      l = text.length,
-      i = ratio * l + 0.5 | 0,
-      applyNew,
-      applyOld,
-      str;
+    var text = data.text,hasClass = data.hasClass,newClass = data.newClass,oldClass = data.oldClass,delimiter = data.delimiter,target = data.target,fillChar = data.fillChar,original = data.original,l = text.length,i = ratio * l + 0.5 | 0,applyNew,applyOld,str;
     if (hasClass) {
       applyNew = newClass && i;
       applyOld = oldClass && i !== l;
       str = (applyNew ? "<span class='" + newClass + "'>" : "") + text.slice(0, i).join(delimiter) + (applyNew ? "</span>" : "") + (applyOld ? "<span class='" + oldClass + "'>" : "") + delimiter + original.slice(i).join(delimiter) + (applyOld ? "</span>" : "");
-    } else {
+    } else
+    {
       str = text.slice(0, i).join(delimiter) + delimiter + original.slice(i).join(delimiter);
     }
     if (data.svg) {
       //SVG text elements don't have an "innerHTML" in Microsoft browsers.
       target.textContent = str;
-    } else {
+    } else
+    {
       target.innerHTML = fillChar === "&nbsp;" && ~str.indexOf("  ") ? str.split("  ").join("&nbsp;&nbsp;") : str;
     }
   }
@@ -138,3 +119,4 @@ TextPlugin.emojiSafeSplit = emojiSafeSplit;
 TextPlugin.getText = getText;
 _getGSAP() && gsap.registerPlugin(TextPlugin);
 export { TextPlugin as default };
+//# sourceMappingURL=TextPlugin.js.map

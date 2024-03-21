@@ -3,7 +3,7 @@
  * @version 3.1.3 | Thu Feb 10 2022
  * @author NHN FE Development Lab <dl_javascript@nhn.com>
  * @license MIT
- */(function webpackUniversalModuleDefinition(root,factory){if(typeof exports==='object'&&typeof module==='object')module.exports=factory(require("prosemirror-commands"),require("prosemirror-history"),require("prosemirror-inputrules"),require("prosemirror-keymap"),require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-transform"),require("prosemirror-view"));else if(typeof define==='function'&&define.amd)define(["prosemirror-commands","prosemirror-history","prosemirror-inputrules","prosemirror-keymap","prosemirror-model","prosemirror-state","prosemirror-transform","prosemirror-view"],factory);else if(typeof exports==='object')exports["toastui"]=factory(require("prosemirror-commands"),require("prosemirror-history"),require("prosemirror-inputrules"),require("prosemirror-keymap"),require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-transform"),require("prosemirror-view"));else root["toastui"]=root["toastui"]||{},root["toastui"]["Editor"]=factory(root[undefined],root[undefined],root[undefined],root[undefined],root[undefined],root[undefined],root[undefined],root[undefined]);})(self,function(__WEBPACK_EXTERNAL_MODULE__695__,__WEBPACK_EXTERNAL_MODULE__412__,__WEBPACK_EXTERNAL_MODULE__479__,__WEBPACK_EXTERNAL_MODULE__481__,__WEBPACK_EXTERNAL_MODULE__43__,__WEBPACK_EXTERNAL_MODULE__814__,__WEBPACK_EXTERNAL_MODULE__785__,__WEBPACK_EXTERNAL_MODULE__311__){return(/******/function(){/******/var __webpack_modules__={/***/368:/***/function(module){/*! @license DOMPurify 2.3.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.3/LICENSE */(function(global,factory){true?module.exports=factory():0;})(this,function(){'use strict';function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i];}return arr2;}else{return Array.from(arr);}}var hasOwnProperty=Object.hasOwnProperty,setPrototypeOf=Object.setPrototypeOf,isFrozen=Object.isFrozen,getPrototypeOf=Object.getPrototypeOf,getOwnPropertyDescriptor=Object.getOwnPropertyDescriptor;var freeze=Object.freeze,seal=Object.seal,create=Object.create;// eslint-disable-line import/no-mutable-exports
+ */(function webpackUniversalModuleDefinition(root,factory){if(typeof exports==='object'&&typeof module==='object')module.exports=factory(require("prosemirror-commands"),require("prosemirror-history"),require("prosemirror-inputrules"),require("prosemirror-keymap"),require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-transform"),require("prosemirror-view"));else if(typeof define==='function'&&define.amd)define(["prosemirror-commands","prosemirror-history","prosemirror-inputrules","prosemirror-keymap","prosemirror-model","prosemirror-state","prosemirror-transform","prosemirror-view"],factory);else if(typeof exports==='object')exports["toastui"]=factory(require("prosemirror-commands"),require("prosemirror-history"),require("prosemirror-inputrules"),require("prosemirror-keymap"),require("prosemirror-model"),require("prosemirror-state"),require("prosemirror-transform"),require("prosemirror-view"));else root["toastui"]=root["toastui"]||{},root["toastui"]["Editor"]=factory(root[undefined],root[undefined],root[undefined],root[undefined],root[undefined],root[undefined],root[undefined],root[undefined]);})(self,function(__WEBPACK_EXTERNAL_MODULE__695__,__WEBPACK_EXTERNAL_MODULE__412__,__WEBPACK_EXTERNAL_MODULE__479__,__WEBPACK_EXTERNAL_MODULE__481__,__WEBPACK_EXTERNAL_MODULE__43__,__WEBPACK_EXTERNAL_MODULE__814__,__WEBPACK_EXTERNAL_MODULE__785__,__WEBPACK_EXTERNAL_MODULE__311__){return/******/function(){/******/var __webpack_modules__={/***/368:(/***/function(module){/*! @license DOMPurify 2.3.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.3/LICENSE */(function(global,factory){true?module.exports=factory():0;})(this,function(){'use strict';function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++){arr2[i]=arr[i];}return arr2;}else{return Array.from(arr);}}var hasOwnProperty=Object.hasOwnProperty,setPrototypeOf=Object.setPrototypeOf,isFrozen=Object.isFrozen,getPrototypeOf=Object.getPrototypeOf,getOwnPropertyDescriptor=Object.getOwnPropertyDescriptor;var freeze=Object.freeze,seal=Object.seal,create=Object.create;// eslint-disable-line import/no-mutable-exports
 var _ref=typeof Reflect!=='undefined'&&Reflect,apply=_ref.apply,construct=_ref.construct;if(!apply){apply=function apply(fun,thisValue,args){return fun.apply(thisValue,args);};}if(!freeze){freeze=function freeze(x){return x;};}if(!seal){seal=function seal(x){return x;};}if(!construct){construct=function construct(Func,args){return new(Function.prototype.bind.apply(Func,[null].concat(_toConsumableArray(args))))();};}var arrayForEach=unapply(Array.prototype.forEach);var arrayPop=unapply(Array.prototype.pop);var arrayPush=unapply(Array.prototype.push);var stringToLowerCase=unapply(String.prototype.toLowerCase);var stringMatch=unapply(String.prototype.match);var stringReplace=unapply(String.prototype.replace);var stringIndexOf=unapply(String.prototype.indexOf);var stringTrim=unapply(String.prototype.trim);var regExpTest=unapply(RegExp.prototype.test);var typeErrorCreate=unconstruct(TypeError);function unapply(func){return function(thisArg){for(var _len=arguments.length,args=Array(_len>1?_len-1:0),_key=1;_key<_len;_key++){args[_key-1]=arguments[_key];}return apply(func,thisArg,args);};}function unconstruct(func){return function(){for(var _len2=arguments.length,args=Array(_len2),_key2=0;_key2<_len2;_key2++){args[_key2]=arguments[_key2];}return construct(func,args);};}/* Add properties to a lookup table */function addToSet(set,array){if(setPrototypeOf){// Make 'in' and truthy checks like Boolean(set.constructor)
 // independent of any properties defined on Object.prototype.
 // Prevent prototype setters from intercepting set as a this value.
@@ -269,7 +269,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                          * RemoveAllHooks
                          * Public method to remove all DOMPurify hooks
                          *
-                         */DOMPurify.removeAllHooks=function(){hooks={};};return DOMPurify;}var purify=createDOMPurify();return purify;});/***/},/***/928:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/* eslint-disable complexity */ /**
+                         */DOMPurify.removeAllHooks=function(){hooks={};};return DOMPurify;}var purify=createDOMPurify();return purify;});/***/}),/***/928:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/* eslint-disable complexity */ /**
                  * @fileoverview Returns the first index at which a given element can be found in the array.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isArray=__webpack_require__(322);/**
@@ -294,7 +294,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * const arr = ['one', 'two', 'three', 'four'];
                  * const idx1 = inArray('one', arr, 3); // -1
                  * const idx2 = inArray('one', arr); // 0
-                 */function inArray(searchElement,array,startIndex){var i;var length;startIndex=startIndex||0;if(!isArray(array)){return-1;}if(Array.prototype.indexOf){return Array.prototype.indexOf.call(array,searchElement,startIndex);}length=array.length;for(i=startIndex;startIndex>=0&&i<length;i+=1){if(array[i]===searchElement){return i;}}return-1;}module.exports=inArray;/***/},/***/690:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function inArray(searchElement,array,startIndex){var i;var length;startIndex=startIndex||0;if(!isArray(array)){return-1;}if(Array.prototype.indexOf){return Array.prototype.indexOf.call(array,searchElement,startIndex);}length=array.length;for(i=startIndex;startIndex>=0&&i<length;i+=1){if(array[i]===searchElement){return i;}}return-1;}module.exports=inArray;/***/}),/***/690:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Execute the provided callback once for each property of object(or element of array) which actually exist.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isArray=__webpack_require__(322);var forEachArray=__webpack_require__(893);var forEachOwnProperties=__webpack_require__(956);/**
@@ -330,7 +330,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * forEach(array, function(value){
                  *   sum += value;
                  * });
-                 */function forEach(obj,iteratee,context){if(isArray(obj)){forEachArray(obj,iteratee,context);}else{forEachOwnProperties(obj,iteratee,context);}}module.exports=forEach;/***/},/***/893:/***/function(module){"use strict";/**
+                 */function forEach(obj,iteratee,context){if(isArray(obj)){forEachArray(obj,iteratee,context);}else{forEachOwnProperties(obj,iteratee,context);}}module.exports=forEach;/***/}),/***/893:(/***/function(module){"use strict";/**
                  * @fileoverview Execute the provided callback once for each element present in the array(or Array-like object) in ascending order.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -358,7 +358,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *   sum += value;
                  * });
                  * alert(sum); // 6
-                 */function forEachArray(arr,iteratee,context){var index=0;var len=arr.length;context=context||null;for(;index<len;index+=1){if(iteratee.call(context,arr[index],index,arr)===false){break;}}}module.exports=forEachArray;/***/},/***/956:/***/function(module){"use strict";/**
+                 */function forEachArray(arr,iteratee,context){var index=0;var len=arr.length;context=context||null;for(;index<len;index+=1){if(iteratee.call(context,arr[index],index,arr)===false){break;}}}module.exports=forEachArray;/***/}),/***/956:(/***/function(module){"use strict";/**
                  * @fileoverview Execute the provided callback once for each property of object which actually exist.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -385,7 +385,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *   sum += value;
                  * });
                  * alert(sum); // 6
-                 */function forEachOwnProperties(obj,iteratee,context){var key;context=context||null;for(key in obj){if(obj.hasOwnProperty(key)){if(iteratee.call(context,obj[key],key,obj)===false){break;}}}}module.exports=forEachOwnProperties;/***/},/***/990:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function forEachOwnProperties(obj,iteratee,context){var key;context=context||null;for(key in obj){if(obj.hasOwnProperty(key)){if(iteratee.call(context,obj[key],key,obj)===false){break;}}}}module.exports=forEachOwnProperties;/***/}),/***/990:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Transform the Array-like object to Array.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEachArray=__webpack_require__(893);/**
@@ -412,7 +412,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *
                  * alert(result instanceof Array); // true
                  * alert(result); // one,two,three,four
-                 */function toArray(arrayLike){var arr;try{arr=Array.prototype.slice.call(arrayLike);}catch(e){arr=[];forEachArray(arrayLike,function(value){arr.push(value);});}return arr;}module.exports=toArray;/***/},/***/755:/***/function(module){"use strict";/**
+                 */function toArray(arrayLike){var arr;try{arr=Array.prototype.slice.call(arrayLike);}catch(e){arr=[];forEachArray(arrayLike,function(value){arr.push(value);});}return arr;}module.exports=toArray;/***/}),/***/755:(/***/function(module){"use strict";/**
                  * @fileoverview Get event collection for specific HTML element
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var EVENT_KEY='_feEventKey';/**
@@ -421,7 +421,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} type - event type
                  * @returns {array}
                  * @private
-                 */function safeEvent(element,type){var events=element[EVENT_KEY];var handlers;if(!events){events=element[EVENT_KEY]={};}handlers=events[type];if(!handlers){handlers=events[type]=[];}return handlers;}module.exports=safeEvent;/***/},/***/349:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function safeEvent(element,type){var events=element[EVENT_KEY];var handlers;if(!events){events=element[EVENT_KEY]={};}handlers=events[type];if(!handlers){handlers=events[type]=[];}return handlers;}module.exports=safeEvent;/***/}),/***/349:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Unbind DOM events
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isString=__webpack_require__(758);var forEach=__webpack_require__(690);var safeEvent=__webpack_require__(755);/**
@@ -463,7 +463,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} type - event type
                  * @param {function} handler - event handler
                  * @private
-                 */function removeHandler(element,type,handler){if('removeEventListener'in element){element.removeEventListener(type,handler);}else if('detachEvent'in element){element.detachEvent('on'+type,handler);}}module.exports=off;/***/},/***/348:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function removeHandler(element,type,handler){if('removeEventListener'in element){element.removeEventListener(type,handler);}else if('detachEvent'in element){element.detachEvent('on'+type,handler);}}module.exports=off;/***/}),/***/348:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Bind DOM events
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isString=__webpack_require__(758);var forEach=__webpack_require__(690);var safeEvent=__webpack_require__(755);/**
@@ -514,7 +514,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {function} handler - handler function that user passed at on() use
                  * @param {function} wrappedHandler - handler function that wrapped by domevent for implementing some features
                  * @private
-                 */function memorizeHandler(element,type,handler,wrappedHandler){var events=safeEvent(element,type);var existInEvents=false;forEach(events,function(obj){if(obj.handler===handler){existInEvents=true;return false;}return true;});if(!existInEvents){events.push({handler:handler,wrappedHandler:wrappedHandler});}}module.exports=on;/***/},/***/24:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function memorizeHandler(element,type,handler,wrappedHandler){var events=safeEvent(element,type);var existInEvents=false;forEach(events,function(obj){if(obj.handler===handler){existInEvents=true;return false;}return true;});if(!existInEvents){events.push({handler:handler,wrappedHandler:wrappedHandler});}}module.exports=on;/***/}),/***/24:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Set className value
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isArray=__webpack_require__(322);var isUndefined=__webpack_require__(929);/**
@@ -522,7 +522,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element - target element
                  * @param {(string|string[])} cssClass - class names
                  * @private
-                 */function setClassName(element,cssClass){cssClass=isArray(cssClass)?cssClass.join(' '):cssClass;cssClass=cssClass.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,'');if(isUndefined(element.className.baseVal)){element.className=cssClass;return;}element.className.baseVal=cssClass;}module.exports=setClassName;/***/},/***/204:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function setClassName(element,cssClass){cssClass=isArray(cssClass)?cssClass.join(' '):cssClass;cssClass=cssClass.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,'');if(isUndefined(element.className.baseVal)){element.className=cssClass;return;}element.className.baseVal=cssClass;}module.exports=setClassName;/***/}),/***/204:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Add css class to element
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEach=__webpack_require__(690);var inArray=__webpack_require__(928);var getClass=__webpack_require__(902);var setClassName=__webpack_require__(24);/**
@@ -533,7 +533,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element - target element
                  * @param {...string} cssClass - css classes to add
                  * @memberof module:domUtil
-                 */function addClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var newClass=[];var origin;if(classList){forEach(cssClass,function(name){element.classList.add(name);});return;}origin=getClass(element);if(origin){cssClass=[].concat(origin.split(/\s+/),cssClass);}forEach(cssClass,function(cls){if(inArray(cls,newClass)<0){newClass.push(cls);}});setClassName(element,newClass);}module.exports=addClass;/***/},/***/522:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function addClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var newClass=[];var origin;if(classList){forEach(cssClass,function(name){element.classList.add(name);});return;}origin=getClass(element);if(origin){cssClass=[].concat(origin.split(/\s+/),cssClass);}forEach(cssClass,function(cls){if(inArray(cls,newClass)<0){newClass.push(cls);}});setClassName(element,newClass);}module.exports=addClass;/***/}),/***/522:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Setting element style
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isString=__webpack_require__(758);var forEach=__webpack_require__(690);/**
@@ -542,7 +542,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(string|object)} key - style prop name or {prop: value} pair object
                  * @param {string} [value] - style value
                  * @memberof module:domUtil
-                 */function css(element,key,value){var style=element.style;if(isString(key)){style[key]=value;return;}forEach(key,function(v,k){style[k]=v;});}module.exports=css;/***/},/***/902:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function css(element,key,value){var style=element.style;if(isString(key)){style[key]=value;return;}forEach(key,function(v,k){style[k]=v;});}module.exports=css;/***/}),/***/902:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Get HTML element's design classes.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isUndefined=__webpack_require__(929);/**
@@ -550,7 +550,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element target element
                  * @returns {string} element css class name
                  * @memberof module:domUtil
-                 */function getClass(element){if(!element||!element.className){return'';}if(isUndefined(element.className.baseVal)){return element.className;}return element.className.baseVal;}module.exports=getClass;/***/},/***/714:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function getClass(element){if(!element||!element.className){return'';}if(isUndefined(element.className.baseVal)){return element.className;}return element.className.baseVal;}module.exports=getClass;/***/}),/***/714:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check element has specific css class
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var inArray=__webpack_require__(928);var getClass=__webpack_require__(902);/**
@@ -559,7 +559,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} cssClass - css class
                  * @returns {boolean}
                  * @memberof module:domUtil
-                 */function hasClass(element,cssClass){var origin;if(element.classList){return element.classList.contains(cssClass);}origin=getClass(element).split(/\s+/);return inArray(cssClass,origin)>-1;}module.exports=hasClass;/***/},/***/471:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function hasClass(element,cssClass){var origin;if(element.classList){return element.classList.contains(cssClass);}origin=getClass(element).split(/\s+/);return inArray(cssClass,origin)>-1;}module.exports=hasClass;/***/}),/***/471:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check element match selector
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var inArray=__webpack_require__(928);var toArray=__webpack_require__(990);var elProto=Element.prototype;var matchSelector=elProto.matches||elProto.webkitMatchesSelector||elProto.mozMatchesSelector||elProto.msMatchesSelector||function(selector){var doc=this.document||this.ownerDocument;return inArray(this,toArray(doc.querySelectorAll(selector)))>-1;};/**
@@ -568,7 +568,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {string} selector - selector to check
                  * @returns {boolean} is selector matched to element?
                  * @memberof module:domUtil
-                 */function matches(element,selector){return matchSelector.call(element,selector);}module.exports=matches;/***/},/***/462:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function matches(element,selector){return matchSelector.call(element,selector);}module.exports=matches;/***/}),/***/462:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Remove css class from element
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEachArray=__webpack_require__(893);var inArray=__webpack_require__(928);var getClass=__webpack_require__(902);var setClassName=__webpack_require__(24);/**
@@ -576,7 +576,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {(HTMLElement|SVGElement)} element - target element
                  * @param {...string} cssClass - css classes to remove
                  * @memberof module:domUtil
-                 */function removeClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var origin,newClass;if(classList){forEachArray(cssClass,function(name){classList.remove(name);});return;}origin=getClass(element).split(/\s+/);newClass=[];forEachArray(origin,function(name){if(inArray(name,cssClass)<0){newClass.push(name);}});setClassName(element,newClass);}module.exports=removeClass;/***/},/***/969:/***/function(module){"use strict";/**
+                 */function removeClass(element){var cssClass=Array.prototype.slice.call(arguments,1);var classList=element.classList;var origin,newClass;if(classList){forEachArray(cssClass,function(name){classList.remove(name);});return;}origin=getClass(element).split(/\s+/);newClass=[];forEachArray(origin,function(name){if(inArray(name,cssClass)<0){newClass.push(name);}});setClassName(element,newClass);}module.exports=removeClass;/***/}),/***/969:(/***/function(module){"use strict";/**
                  * @fileoverview Extend the target object from other objects.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -587,7 +587,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @param {...object} objects - Objects as sources
                  * @returns {object} Extended object
                  * @memberof module:object
-                 */function extend(target,objects){var hasOwnProp=Object.prototype.hasOwnProperty;var source,prop,i,len;for(i=1,len=arguments.length;i<len;i+=1){source=arguments[i];for(prop in source){if(hasOwnProp.call(source,prop)){target[prop]=source[prop];}}}return target;}module.exports=extend;/***/},/***/254:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function extend(target,objects){var hasOwnProp=Object.prototype.hasOwnProperty;var source,prop,i,len;for(i=1,len=arguments.length;i<len;i+=1){source=arguments[i];for(prop in source){if(hasOwnProp.call(source,prop)){target[prop]=source[prop];}}}return target;}module.exports=extend;/***/}),/***/254:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Request image ping.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var forEachOwnProperties=__webpack_require__(956);/**
@@ -613,7 +613,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  *   dp: 'dp',
                  *   dh: 'dh'
                  * });
-                 */function imagePing(url,trackingInfo){var trackingElement=document.createElement('img');var queryString='';forEachOwnProperties(trackingInfo,function(value,key){queryString+='&'+key+'='+value;});queryString=queryString.substring(1);trackingElement.src=url+'?'+queryString;trackingElement.style.display='none';document.body.appendChild(trackingElement);document.body.removeChild(trackingElement);return trackingElement;}module.exports=imagePing;/***/},/***/391:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function imagePing(url,trackingInfo){var trackingElement=document.createElement('img');var queryString='';forEachOwnProperties(trackingInfo,function(value,key){queryString+='&'+key+'='+value;});queryString=queryString.substring(1);trackingElement.src=url+'?'+queryString;trackingElement.style.display='none';document.body.appendChild(trackingElement);document.body.removeChild(trackingElement);return trackingElement;}module.exports=imagePing;/***/}),/***/391:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Send hostname on DOMContentLoaded.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isUndefined=__webpack_require__(929);var imagePing=__webpack_require__(254);var ms7days=7*24*60*60*1000;/**
@@ -629,7 +629,7 @@ returnNode.appendChild(body.firstChild);}}else{returnNode=body;}if(RETURN_DOM_IM
                  * @ignore
                  */function sendHostname(appName,trackingId){var url='https://www.google-analytics.com/collect';var hostname=location.hostname;var hitType='event';var eventCategory='use';var applicationKeyForStorage='TOAST UI '+appName+' for '+hostname+': Statistics';var date=window.localStorage.getItem(applicationKeyForStorage);// skip if the flag is defined and is set to false explicitly
 if(!isUndefined(window.tui)&&window.tui.usageStatistics===false){return;}// skip if not pass seven days old
-if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyForStorage,new Date().getTime());setTimeout(function(){if(document.readyState==='interactive'||document.readyState==='complete'){imagePing(url,{v:1,t:hitType,tid:trackingId,cid:hostname,dp:hostname,dh:appName,el:appName,ec:eventCategory});}},1000);}module.exports=sendHostname;/***/},/***/516:/***/function(module){"use strict";/**
+if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyForStorage,new Date().getTime());setTimeout(function(){if(document.readyState==='interactive'||document.readyState==='complete'){imagePing(url,{v:1,t:hitType,tid:trackingId,cid:hostname,dp:hostname,dh:appName,el:appName,ec:eventCategory});}},1000);}module.exports=sendHostname;/***/}),/***/516:(/***/function(module){"use strict";/**
                  * @fileoverview Creates a debounced function that delays invoking fn until after delay milliseconds has elapsed since the last time the debouced function was invoked.
                  * @author NHN FE Development Lab <dl_javascript.nhn.com>
                  */ /**
@@ -661,7 +661,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
                  * debounced();    // last invoke of debounced()
                  *
                  * // invoke someMethodToInvokeDebounced() after 300 milliseconds.
-                 */function debounce(fn,delay){var timer,args;/* istanbul ignore next */delay=delay||0;function debounced(){args=Array.prototype.slice.call(arguments);window.clearTimeout(timer);timer=window.setTimeout(function(){fn.apply(null,args);},delay);}return debounced;}module.exports=debounce;/***/},/***/423:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function debounce(fn,delay){var timer,args;/* istanbul ignore next */delay=delay||0;function debounced(){args=Array.prototype.slice.call(arguments);window.clearTimeout(timer);timer=window.setTimeout(function(){fn.apply(null,args);},delay);}return debounced;}module.exports=debounce;/***/}),/***/423:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Creates a throttled function that only invokes fn at most once per every interval milliseconds.
                  * @author NHN FE Development Lab <dl_javascript.nhn.com>
                  */var debounce=__webpack_require__(516);/**
@@ -700,7 +700,7 @@ if(date&&!isExpired(date)){return;}window.localStorage.setItem(applicationKeyFor
 //
 // also, this `debounced` line invoked every time for implements
 // `trailing` features.
-debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading=true;base=null;}throttled.reset=reset;return throttled;}module.exports=throttle;/***/},/***/322:/***/function(module){"use strict";/**
+debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading=true;base=null;}throttled.reset=reset;return throttled;}module.exports=throttle;/***/}),/***/322:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is an instance of Array or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -709,7 +709,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is array instance?
                  * @memberof module:type
-                 */function isArray(obj){return obj instanceof Array;}module.exports=isArray;/***/},/***/326:/***/function(module){"use strict";/**
+                 */function isArray(obj){return obj instanceof Array;}module.exports=isArray;/***/}),/***/326:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is a string or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -718,7 +718,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is boolean?
                  * @memberof module:type
-                 */function isBoolean(obj){return typeof obj==='boolean'||obj instanceof Boolean;}module.exports=isBoolean;/***/},/***/65:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function isBoolean(obj){return typeof obj==='boolean'||obj instanceof Boolean;}module.exports=isBoolean;/***/}),/***/65:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check whether the given variable is existing or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isUndefined=__webpack_require__(929);var isNull=__webpack_require__(934);/**
@@ -740,7 +740,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * isExisty({}); //true
                  * isExisty(null); //false
                  * isExisty(undefined); //false
-                */function isExisty(param){return!isUndefined(param)&&!isNull(param);}module.exports=isExisty;/***/},/***/404:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                */function isExisty(param){return!isUndefined(param)&&!isNull(param);}module.exports=isExisty;/***/}),/***/404:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check whether the given variable is falsy or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isTruthy=__webpack_require__(790);/**
@@ -749,7 +749,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is falsy?
                  * @memberof module:type
-                 */function isFalsy(obj){return!isTruthy(obj);}module.exports=isFalsy;/***/},/***/294:/***/function(module){"use strict";/**
+                 */function isFalsy(obj){return!isTruthy(obj);}module.exports=isFalsy;/***/}),/***/294:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is a function or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -758,7 +758,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is function?
                  * @memberof module:type
-                 */function isFunction(obj){return obj instanceof Function;}module.exports=isFunction;/***/},/***/934:/***/function(module){"use strict";/**
+                 */function isFunction(obj){return obj instanceof Function;}module.exports=isFunction;/***/}),/***/934:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is null or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -767,7 +767,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is null?
                  * @memberof module:type
-                 */function isNull(obj){return obj===null;}module.exports=isNull;/***/},/***/321:/***/function(module){"use strict";/**
+                 */function isNull(obj){return obj===null;}module.exports=isNull;/***/}),/***/321:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is a number or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -776,7 +776,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is number?
                  * @memberof module:type
-                 */function isNumber(obj){return typeof obj==='number'||obj instanceof Number;}module.exports=isNumber;/***/},/***/73:/***/function(module){"use strict";/**
+                 */function isNumber(obj){return typeof obj==='number'||obj instanceof Number;}module.exports=isNumber;/***/}),/***/73:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is an object or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -785,7 +785,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is object?
                  * @memberof module:type
-                 */function isObject(obj){return obj===Object(obj);}module.exports=isObject;/***/},/***/758:/***/function(module){"use strict";/**
+                 */function isObject(obj){return obj===Object(obj);}module.exports=isObject;/***/}),/***/758:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is a string or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -794,7 +794,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is string?
                  * @memberof module:type
-                 */function isString(obj){return typeof obj==='string'||obj instanceof String;}module.exports=isString;/***/},/***/790:/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
+                 */function isString(obj){return typeof obj==='string'||obj instanceof String;}module.exports=isString;/***/}),/***/790:(/***/function(module,__unused_webpack_exports,__webpack_require__){"use strict";/**
                  * @fileoverview Check whether the given variable is truthy or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */var isExisty=__webpack_require__(65);/**
@@ -804,7 +804,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @param {*} obj - Target for checking
                  * @returns {boolean} Is truthy?
                  * @memberof module:type
-                 */function isTruthy(obj){return isExisty(obj)&&obj!==false;}module.exports=isTruthy;/***/},/***/929:/***/function(module){"use strict";/**
+                 */function isTruthy(obj){return isExisty(obj)&&obj!==false;}module.exports=isTruthy;/***/}),/***/929:(/***/function(module){"use strict";/**
                  * @fileoverview Check whether the given variable is undefined or not.
                  * @author NHN FE Development Lab <dl_javascript@nhn.com>
                  */ /**
@@ -814,7 +814,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
                  * @returns {boolean} Is undefined?
                  * @memberof module:type
                  */function isUndefined(obj){return obj===undefined;// eslint-disable-line no-undefined
-}module.exports=isUndefined;/***/},/***/695:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__695__;/***/},/***/412:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__412__;/***/},/***/479:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__479__;/***/},/***/481:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__481__;/***/},/***/43:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__43__;/***/},/***/814:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__814__;/***/},/***/785:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__785__;/***/},/***/311:/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__311__;/***/}/******/};/************************************************************************/ /******/ // The module cache
+}module.exports=isUndefined;/***/}),/***/695:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__695__;/***/}),/***/412:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__412__;/***/}),/***/479:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__479__;/***/}),/***/481:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__481__;/***/}),/***/43:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__43__;/***/}),/***/814:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__814__;/***/}),/***/785:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__785__;/***/}),/***/311:(/***/function(module){"use strict";module.exports=__WEBPACK_EXTERNAL_MODULE__311__;/***/})/******/};/************************************************************************/ /******/ // The module cache
 /******/var __webpack_module_cache__={};/******/ /******/ // The require function
 /******/function __webpack_require__(moduleId){/******/ // Check if module is in cache
 /******/var cachedModule=__webpack_module_cache__[moduleId];/******/if(cachedModule!==undefined){/******/return cachedModule.exports;/******/}/******/ // Create a new module (and put it into the cache)
@@ -826,7 +826,7 @@ debounced(args);if(stamp-base>=interval){tick(args);}}function reset(){isLeading
 /******/__webpack_require__.n=function(module){/******/var getter=module&&module.__esModule?/******/function(){return module['default'];}:/******/function(){return module;};/******/__webpack_require__.d(getter,{a:getter});/******/return getter;/******/};/******/}();/******/ /******/ /* webpack/runtime/define property getters */ /******/!function(){/******/ // define getter functions for harmony exports
 /******/__webpack_require__.d=function(exports,definition){/******/for(var key in definition){/******/if(__webpack_require__.o(definition,key)&&!__webpack_require__.o(exports,key)){/******/Object.defineProperty(exports,key,{enumerable:true,get:definition[key]});/******/}/******/}/******/};/******/}();/******/ /******/ /* webpack/runtime/global */ /******/!function(){/******/__webpack_require__.g=function(){/******/if(typeof globalThis==='object')return globalThis;/******/try{/******/return this||new Function('return this')();/******/}catch(e){/******/if(typeof window==='object')return window;/******/}/******/}();/******/}();/******/ /******/ /* webpack/runtime/hasOwnProperty shorthand */ /******/!function(){/******/__webpack_require__.o=function(obj,prop){return Object.prototype.hasOwnProperty.call(obj,prop);};/******/}();/******/ /************************************************************************/var __webpack_exports__={};// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 !function(){"use strict";// EXPORTS
-__webpack_require__.d(__webpack_exports__,{"default":function(){return(/* binding */src);}});// UNUSED EXPORTS: Editor, EditorCore
+__webpack_require__.d(__webpack_exports__,{"default":function(){return/* binding */src;}});// UNUSED EXPORTS: Editor, EditorCore
 ;// CONCATENATED MODULE: ../../node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
             Copyright (c) Microsoft Corporation.
@@ -1866,7 +1866,7 @@ var throttle=__webpack_require__(423);var throttle_default=/*#__PURE__*/__webpac
                  * @param {Array<Array>} arr
                  * @param {*} key
                  * @returns {number}
-                 */function getIndex(arr,key){var result=-1;arr.some(function(entry,index){if(entry[0]===key){result=index;return true;}return false;});return result;}return(/** @class */function(){function class_1(){this.__entries__=[];}Object.defineProperty(class_1.prototype,"size",{/**
+                 */function getIndex(arr,key){var result=-1;arr.some(function(entry,index){if(entry[0]===key){result=index;return true;}return false;});return result;}return/** @class */function(){function class_1(){this.__entries__=[];}Object.defineProperty(class_1.prototype,"size",{/**
                          * @returns {boolean}
                          */get:function(){return this.__entries__.length;},enumerable:true,configurable:true});/**
                      * @param {*} key
@@ -1887,7 +1887,7 @@ var throttle=__webpack_require__(423);var throttle_default=/*#__PURE__*/__webpac
                      * @param {Function} callback
                      * @param {*} [ctx=null]
                      * @returns {void}
-                     */class_1.prototype.forEach=function(callback,ctx){if(ctx===void 0){ctx=null;}for(var _i=0,_a=this.__entries__;_i<_a.length;_i++){var entry=_a[_i];callback.call(ctx,entry[1],entry[0]);}};return class_1;}());}();/**
+                     */class_1.prototype.forEach=function(callback,ctx){if(ctx===void 0){ctx=null;}for(var _i=0,_a=this.__entries__;_i<_a.length;_i++){var entry=_a[_i];callback.call(ctx,entry[1],entry[0]);}};return class_1;}();}();/**
              * Detects whether window and document objects are available in current environment.
              */var isBrowser=typeof window!=='undefined'&&typeof document!=='undefined'&&window.document===document;// Returns global object of a current environment.
 var global$1=function(){if(typeof __webpack_require__.g!=='undefined'&&__webpack_require__.g.Math===Math){return __webpack_require__.g;}if(typeof self!=='undefined'&&self.Math===Math){return self;}if(typeof window!=='undefined'&&window.Math===Math){return window;}// eslint-disable-next-line no-new-func
@@ -2256,7 +2256,7 @@ this.refs.el.replaceChild(this.props.body,prevProps.body);};CustomPopupBody.prot
 function createToolbarItemInfo(type){return isString_default()(type)?createDefaultToolbarItemInfo(type):type;}function createScrollSyncToolbarItem(){var label=document.createElement('label');var checkbox=document.createElement('input');var toggleSwitch=document.createElement('span');label.className='scroll-sync active';checkbox.type='checkbox';checkbox.checked=true;toggleSwitch.className='switch';var onMounted=function(execCommand){return checkbox.addEventListener('change',function(ev){var checked=ev.target.checked;if(checked){addClass_default()(label,'active');}else{removeClass_default()(label,'active');}execCommand('toggleScrollSync',{active:checked});});};label.appendChild(checkbox);label.appendChild(toggleSwitch);return{name:'scrollSync',el:label,onMounted:onMounted};}function createDefaultToolbarItemInfo(type){var info;switch(type){case'heading':info={name:'heading',className:'heading',tooltip:i18n.get('Headings'),state:'heading'};break;case'bold':info={name:'bold',className:'bold',command:'bold',tooltip:i18n.get('Bold'),state:'strong'};break;case'italic':info={name:'italic',className:'italic',command:'italic',tooltip:i18n.get('Italic'),state:'emph'};break;case'strike':info={name:'strike',className:'strike',command:'strike',tooltip:i18n.get('Strike'),state:'strike'};break;case'hr':info={name:'hr',className:'hrline',command:'hr',tooltip:i18n.get('Line'),state:'thematicBreak'};break;case'quote':info={name:'quote',className:'quote',command:'blockQuote',tooltip:i18n.get('Blockquote'),state:'blockQuote'};break;case'ul':info={name:'ul',className:'bullet-list',command:'bulletList',tooltip:i18n.get('Unordered list'),state:'bulletList'};break;case'ol':info={name:'ol',className:'ordered-list',command:'orderedList',tooltip:i18n.get('Ordered list'),state:'orderedList'};break;case'task':info={name:'task',className:'task-list',command:'taskList',tooltip:i18n.get('Task'),state:'taskList'};break;case'table':info={name:'table',className:'table',tooltip:i18n.get('Insert table'),state:'table'};break;case'image':info={name:'image',className:'image',tooltip:i18n.get('Insert image')};break;case'link':info={name:'link',className:'link',tooltip:i18n.get('Insert link')};break;case'code':info={name:'code',className:'code',command:'code',tooltip:i18n.get('Code'),state:'code'};break;case'codeblock':info={name:'codeblock',className:'codeblock',command:'codeBlock',tooltip:i18n.get('Insert CodeBlock'),state:'codeBlock'};break;case'indent':info={name:'indent',className:'indent',command:'indent',tooltip:i18n.get('Indent'),state:'indent'};break;case'outdent':info={name:'outdent',className:'outdent',command:'outdent',tooltip:i18n.get('Outdent'),state:'outdent'};break;case'scrollSync':info=createScrollSyncToolbarItem();break;case'more':info={name:'more',className:'more',tooltip:i18n.get('More')};break;default:// do nothing
 }if(info.name!=='scrollSync'){info.className+=" "+cls('toolbar-icons');}return info;}function createPopupInfo(type,payload){var el=payload.el,pos=payload.pos,popup=payload.popup,initialValues=payload.initialValues;switch(type){case'heading':return{render:function(props){return template(toolbarItemFactory_templateObject_1||(toolbarItemFactory_templateObject_1=__makeTemplateObject(["<"," ..."," />"],["<"," ..."," />"])),HeadingPopupBody,props);},className:cls('popup-add-heading'),fromEl:el,pos:pos};case'link':return{render:function(props){return template(toolbarItemFactory_templateObject_2||(toolbarItemFactory_templateObject_2=__makeTemplateObject(["<"," ..."," />"],["<"," ..."," />"])),LinkPopupBody,props);},className:cls('popup-add-link'),fromEl:el,pos:pos,initialValues:initialValues};case'image':return{render:function(props){return template(toolbarItemFactory_templateObject_3||(toolbarItemFactory_templateObject_3=__makeTemplateObject(["<"," ..."," />"],["<"," ..."," />"])),ImagePopupBody,props);},className:cls('popup-add-image'),fromEl:el,pos:pos};case'table':return{render:function(props){return template(toolbarItemFactory_templateObject_4||(toolbarItemFactory_templateObject_4=__makeTemplateObject(["<"," ..."," />"],["<"," ..."," />"])),TablePopupBody,props);},className:cls('popup-add-table'),fromEl:el,pos:pos};case'customPopupBody':if(!popup){return null;}return __assign({render:function(props){return template(templateObject_5||(templateObject_5=__makeTemplateObject(["<"," ..."," body="," />"],["<"," ..."," body="," />"])),CustomPopupBody,props,popup.body);},fromEl:el,pos:pos},popup);default:return null;}}function setGroupState(group){group.hidden=group.length===group.filter(function(info){return info.hidden;}).length;}function groupToolbarItems(toolbarItems,hiddenScrollSync){var toggleScrollSyncState=function(item){item.hidden=item.name==='scrollSync'&&hiddenScrollSync;return item;};return toolbarItems.reduce(function(acc,item){acc.push(item.map(function(type){return toggleScrollSyncState(createToolbarItemInfo(type));}));var group=acc[(acc.length||1)-1];if(group){setGroupState(group);}return acc;},[]);}function toggleScrollSync(toolbarItems,hiddenScrollSync){toolbarItems.forEach(function(group){group.forEach(function(item){return item.hidden=item.name==='scrollSync'&&hiddenScrollSync;});setGroupState(group);});}var toolbarItemFactory_templateObject_1,toolbarItemFactory_templateObject_2,toolbarItemFactory_templateObject_3,toolbarItemFactory_templateObject_4,templateObject_5;;// CONCATENATED MODULE: ./src/ui/components/popup.ts
 var MARGIN_FROM_RIGHT_SIDE=20;var Popup=/** @class */function(_super){__extends(Popup,_super);function Popup(){var _this=_super!==null&&_super.apply(this,arguments)||this;_this.handleMousedown=function(ev){if(!closest(ev.target,"."+cls('popup'))&&!closest(ev.target,_this.props.info.fromEl)){_this.props.hidePopup();}};return _this;}Popup.prototype.mounted=function(){document.addEventListener('mousedown',this.handleMousedown);this.props.eventEmitter.listen('closePopup',this.props.hidePopup);};Popup.prototype.beforeDestroy=function(){document.removeEventListener('mousedown',this.handleMousedown);};Popup.prototype.updated=function(prevProps){var _a=this.props,show=_a.show,info=_a.info;if(show&&info.pos&&prevProps.show!==show){var popupPos=__assign({},info.pos);var offsetWidth=this.refs.el.offsetWidth;var toolbarEl=closest(this.refs.el,"."+cls('toolbar'));var toolbarOffsetWidth=toolbarEl.offsetWidth;if(popupPos.left+offsetWidth>=toolbarOffsetWidth){popupPos.left=toolbarOffsetWidth-offsetWidth-MARGIN_FROM_RIGHT_SIDE;}if(!shallowEqual(this.state.popupPos,popupPos)){this.setState({popupPos:popupPos});}}};Popup.prototype.render=function(){var _this=this;var _a=this.props,info=_a.info,show=_a.show,hidePopup=_a.hidePopup,eventEmitter=_a.eventEmitter,execCommand=_a.execCommand;var _b=info||{},_c=_b.className,className=_c===void 0?'':_c,style=_b.style,render=_b.render,_d=_b.initialValues,initialValues=_d===void 0?{}:_d;var popupStyle=__assign(__assign({display:show?'block':'none'},style),this.state.popupPos);return template(popup_templateObject_1||(popup_templateObject_1=__makeTemplateObject(["\n      <div\n        class=\""," ","\"\n        style=","\n        ref=","\n        aria-role=\"dialog\"\n      >\n        <div class=\"","\">\n          ","\n        </div>\n      </div>\n    "],["\n      <div\n        class=\""," ","\"\n        style=","\n        ref=","\n        aria-role=\"dialog\"\n      >\n        <div class=\"","\">\n          ","\n        </div>\n      </div>\n    "])),cls('popup'),className,popupStyle,function(el){return _this.refs.el=el;},cls('popup-body'),render&&render({eventEmitter:eventEmitter,show:show,hidePopup:hidePopup,execCommand:execCommand,initialValues:initialValues}));};return Popup;}(Component);var popup_templateObject_1;;// CONCATENATED MODULE: ./src/ui/components/toolbar/buttonHoc.ts
-var TOOLTIP_INDENT=6;function connectHOC(WrappedComponent){return(/** @class */function(_super){__extends(ButtonHOC,_super);function ButtonHOC(props){var _this=_super.call(this,props)||this;_this.showTooltip=function(el){var tooltip=_this.props.item.tooltip;if(!_this.props.disabled&&tooltip){var bound=_this.getBound(el);var left=bound.left+TOOLTIP_INDENT+"px";var top=bound.top+TOOLTIP_INDENT+"px";css_default()(_this.props.tooltipRef.current,{display:'block',left:left,top:top});_this.props.tooltipRef.current.querySelector('.text').textContent=tooltip;}};_this.hideTooltip=function(){css_default()(_this.props.tooltipRef.current,'display','none');};_this.state={active:false,disabled:props.disabled};_this.addEvent();return _this;}ButtonHOC.prototype.addEvent=function(){var _this=this;var _a=this.props,item=_a.item,eventEmitter=_a.eventEmitter;if(item.state){eventEmitter.listen('changeToolbarState',function(_a){var _b;var toolbarState=_a.toolbarState;var _c=(_b=toolbarState[item.state])!==null&&_b!==void 0?_b:{},active=_c.active,disabled=_c.disabled;_this.setState({active:!!active,disabled:disabled!==null&&disabled!==void 0?disabled:_this.props.disabled});});}};ButtonHOC.prototype.getBound=function(el){var _a=getTotalOffset(el,closest(el,"."+cls('toolbar'))),offsetLeft=_a.offsetLeft,offsetTop=_a.offsetTop;return{left:offsetLeft,top:el.offsetHeight+offsetTop};};ButtonHOC.prototype.render=function(){return template(buttonHoc_templateObject_1||(buttonHoc_templateObject_1=__makeTemplateObject(["\n        <","\n          ...","\n          active=","\n          showTooltip=","\n          hideTooltip=","\n          getBound=","\n          disabled=","\n        />\n      "],["\n        <","\n          ...","\n          active=","\n          showTooltip=","\n          hideTooltip=","\n          getBound=","\n          disabled=","\n        />\n      "])),WrappedComponent,this.props,this.state.active,this.showTooltip,this.hideTooltip,this.getBound,this.state.disabled||this.props.disabled);};return ButtonHOC;}(Component));}var buttonHoc_templateObject_1;;// CONCATENATED MODULE: ./src/ui/components/toolbar/toolbarButton.ts
+var TOOLTIP_INDENT=6;function connectHOC(WrappedComponent){return/** @class */function(_super){__extends(ButtonHOC,_super);function ButtonHOC(props){var _this=_super.call(this,props)||this;_this.showTooltip=function(el){var tooltip=_this.props.item.tooltip;if(!_this.props.disabled&&tooltip){var bound=_this.getBound(el);var left=bound.left+TOOLTIP_INDENT+"px";var top=bound.top+TOOLTIP_INDENT+"px";css_default()(_this.props.tooltipRef.current,{display:'block',left:left,top:top});_this.props.tooltipRef.current.querySelector('.text').textContent=tooltip;}};_this.hideTooltip=function(){css_default()(_this.props.tooltipRef.current,'display','none');};_this.state={active:false,disabled:props.disabled};_this.addEvent();return _this;}ButtonHOC.prototype.addEvent=function(){var _this=this;var _a=this.props,item=_a.item,eventEmitter=_a.eventEmitter;if(item.state){eventEmitter.listen('changeToolbarState',function(_a){var _b;var toolbarState=_a.toolbarState;var _c=(_b=toolbarState[item.state])!==null&&_b!==void 0?_b:{},active=_c.active,disabled=_c.disabled;_this.setState({active:!!active,disabled:disabled!==null&&disabled!==void 0?disabled:_this.props.disabled});});}};ButtonHOC.prototype.getBound=function(el){var _a=getTotalOffset(el,closest(el,"."+cls('toolbar'))),offsetLeft=_a.offsetLeft,offsetTop=_a.offsetTop;return{left:offsetLeft,top:el.offsetHeight+offsetTop};};ButtonHOC.prototype.render=function(){return template(buttonHoc_templateObject_1||(buttonHoc_templateObject_1=__makeTemplateObject(["\n        <","\n          ...","\n          active=","\n          showTooltip=","\n          hideTooltip=","\n          getBound=","\n          disabled=","\n        />\n      "],["\n        <","\n          ...","\n          active=","\n          showTooltip=","\n          hideTooltip=","\n          getBound=","\n          disabled=","\n        />\n      "])),WrappedComponent,this.props,this.state.active,this.showTooltip,this.hideTooltip,this.getBound,this.state.disabled||this.props.disabled);};return ButtonHOC;}(Component);}var buttonHoc_templateObject_1;;// CONCATENATED MODULE: ./src/ui/components/toolbar/toolbarButton.ts
 var DEFAULT_WIDTH=80;var ToolbarButtonComp=/** @class */function(_super){__extends(ToolbarButtonComp,_super);function ToolbarButtonComp(){var _this=_super!==null&&_super.apply(this,arguments)||this;_this.showTooltip=function(){_this.props.showTooltip(_this.refs.el);};_this.execCommand=function(){var _a=_this.props,item=_a.item,execCommand=_a.execCommand,setPopupInfo=_a.setPopupInfo,getBound=_a.getBound,eventEmitter=_a.eventEmitter;var command=item.command,name=item.name,popup=item.popup;if(command){execCommand(command);}else{var popupName=popup?'customPopupBody':name;var initialValues=eventEmitter.emit('query','getPopupInitialValues',{popupName:popupName})[0];var info=createPopupInfo(popupName,{el:_this.refs.el,pos:getBound(_this.refs.el),popup:popup,initialValues:initialValues});if(info){setPopupInfo(info);}}};return _this;}ToolbarButtonComp.prototype.mounted=function(){this.setItemWidth();};ToolbarButtonComp.prototype.updated=function(prevProps){if(prevProps.item.name!==this.props.item.name){this.setItemWidth();}};ToolbarButtonComp.prototype.setItemWidth=function(){var _a=this.props,setItemWidth=_a.setItemWidth,item=_a.item;// set width only if it is not a dropdown toolbar
 if(setItemWidth){setItemWidth(item.name,getOuterWidth(this.refs.el)+(item.hidden?DEFAULT_WIDTH:0));}};ToolbarButtonComp.prototype.render=function(){var _this=this;var _a=this.props,hideTooltip=_a.hideTooltip,disabled=_a.disabled,item=_a.item,active=_a.active;var style=__assign({display:item.hidden?'none':null},item.style);var classNames=""+(item.className||'')+(active?' active':'');return template(toolbarButton_templateObject_1||(toolbarButton_templateObject_1=__makeTemplateObject(["\n      <button\n        ref=","\n        type=\"button\"\n        style=","\n        class=","\n        onClick=","\n        onMouseover=","\n        onMouseout=","\n        disabled=","\n        aria-label=","\n      >\n        ","\n      </button>\n    "],["\n      <button\n        ref=","\n        type=\"button\"\n        style=","\n        class=","\n        onClick=","\n        onMouseover=","\n        onMouseout=","\n        disabled=","\n        aria-label=","\n      >\n        ","\n      </button>\n    "])),function(el){return _this.refs.el=el;},style,classNames,this.execCommand,this.showTooltip,hideTooltip,!!disabled,item.text||item.tooltip||'',item.text||'');};return ToolbarButtonComp;}(Component);var ToolbarButton=connectHOC(ToolbarButtonComp);var toolbarButton_templateObject_1;;// CONCATENATED MODULE: ./src/ui/components/toolbar/customToolbarItem.ts
 var CustomToolbarItemComp=/** @class */function(_super){__extends(CustomToolbarItemComp,_super);function CustomToolbarItemComp(){var _this=_super!==null&&_super.apply(this,arguments)||this;_this.showTooltip=function(){_this.props.showTooltip(_this.refs.el);};_this.showPopup=function(){var info=createPopupInfo('customPopupBody',{el:_this.refs.el,pos:_this.props.getBound(_this.refs.el),popup:_this.props.item.popup});if(info){_this.props.setPopupInfo(info);}};return _this;}CustomToolbarItemComp.prototype.mounted=function(){var _a=this.props,setItemWidth=_a.setItemWidth,item=_a.item;// append the custom html element
@@ -2293,4 +2293,4 @@ var Layout=/** @class */function(_super){__extends(Layout,_super);function Layou
              * @fileoverview I18N for English
              * @author NHN FE Development Lab <dl_javascript@nhn.com>
              */editorCore.setLanguage(['en','en-US'],{Markdown:'Markdown',WYSIWYG:'WYSIWYG',Write:'Write',Preview:'Preview',Headings:'Headings',Paragraph:'Paragraph',Bold:'Bold',Italic:'Italic',Strike:'Strike',Code:'Inline code',Line:'Line',Blockquote:'Blockquote','Unordered list':'Unordered list','Ordered list':'Ordered list',Task:'Task',Indent:'Indent',Outdent:'Outdent','Insert link':'Insert link','Insert CodeBlock':'Insert codeBlock','Insert table':'Insert table','Insert image':'Insert image',Heading:'Heading','Image URL':'Image URL','Select image file':'Select image file','Choose a file':'Choose a file','No file':'No file',Description:'Description',OK:'OK',More:'More',Cancel:'Cancel',File:'File',URL:'URL','Link text':'Link text','Add row to up':'Add row to up','Add row to down':'Add row to down','Add column to left':'Add column to left','Add column to right':'Add column to right','Remove row':'Remove row','Remove column':'Remove column','Align column to left':'Align column to left','Align column to center':'Align column to center','Align column to right':'Align column to right','Remove table':'Remove table','Would you like to paste as table?':'Would you like to paste as table?','Text color':'Text color','Auto scroll enabled':'Auto scroll enabled','Auto scroll disabled':'Auto scroll disabled','Choose language':'Choose language'});;// CONCATENATED MODULE: ./src/index.ts
-/* harmony default export */var src=editor;}();__webpack_exports__=__webpack_exports__["default"];/******/return __webpack_exports__;/******/}());});
+/* harmony default export */var src=editor;}();__webpack_exports__=__webpack_exports__["default"];/******/return __webpack_exports__;/******/}();});

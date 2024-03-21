@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["zh"] = e["zh"] || {};
+  var t = e["zh"] = e["zh"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0/%1",
     "Align cell text to the bottom": "向下對齊",
@@ -231,3 +231,4 @@
     return 0;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=zh.js.map

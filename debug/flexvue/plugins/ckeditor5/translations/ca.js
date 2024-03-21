@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const a = e["ca"] = e["ca"] || {};
+  var a = e["ca"] = e["ca"] || {};
   a.dictionary = Object.assign(a.dictionary || {}, {
     "%0 of %1": "%0 de %1",
     "Align cell text to the bottom": "Alinear el text de la cel·la a la part inferior",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ca.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const i = e["bs"] = e["bs"] || {};
+  var i = e["bs"] = e["bs"] || {};
   i.dictionary = Object.assign(i.dictionary || {}, {
     "%0 of %1": "%0 od %1",
     Big: "",
@@ -76,3 +76,4 @@
     return e % 10 == 1 && e % 100 != 11 ? 0 : e % 10 >= 2 && e % 10 <= 4 && (e % 100 < 10 || e % 100 >= 20) ? 1 : 2;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=bs.js.map

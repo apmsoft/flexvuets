@@ -1,7 +1,7 @@
 "use strict";
 
 !function (e) {
-  const t = e.ko = e.ko || {};
+  var t = e.ko = e.ko || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 / %1",
     Accept: "수락",
@@ -214,3 +214,4 @@
     return 0;
   };
 }(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=ko.js.map

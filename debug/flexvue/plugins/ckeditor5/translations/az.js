@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["az"] = e["az"] || {};
+  var t = e["az"] = e["az"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%1-dən %0",
     "Align cell text to the bottom": "",
@@ -217,3 +217,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=az.js.map

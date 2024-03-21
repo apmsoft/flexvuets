@@ -1,7 +1,7 @@
 "use strict";
 
 (function (i) {
-  const e = i["lt"] = i["lt"] || {};
+  var e = i["lt"] = i["lt"] || {};
   e.dictionary = Object.assign(e.dictionary || {}, {
     "%0 of %1": "%0 iš %1",
     "Align cell text to the bottom": "Lygiuoti langelio tekstą apačioje",
@@ -231,3 +231,4 @@
     return i % 10 == 1 && (i % 100 > 19 || i % 100 < 11) ? 0 : i % 10 >= 2 && i % 10 <= 9 && (i % 100 > 19 || i % 100 < 11) ? 1 : i % 1 != 0 ? 2 : 3;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=lt.js.map

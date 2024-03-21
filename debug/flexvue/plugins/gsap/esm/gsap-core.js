@@ -1,14 +1,7 @@
-function _assertThisInitialized(self) {
-  if (self === void 0) {
+function _assertThisInitialized(self) {if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self;
-}
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
-}
+  }return self;}
+function _inheritsLoose(subClass, superClass) {subClass.prototype = Object.create(superClass.prototype);subClass.prototype.constructor = subClass;subClass.__proto__ = superClass;}
 /*!
  * GSAP 3.8.0
  * https://greensock.com
@@ -26,94 +19,48 @@ var _config = {
     units: {
       lineHeight: ""
     }
-  },
-  _defaults = {
+  },_defaults = {
     duration: .5,
     overwrite: false,
     delay: 0
-  },
-  _suppressOverwrites,
-  _bigNum = 1e8,
-  _tinyNum = 1 / _bigNum,
-  _2PI = Math.PI * 2,
-  _HALF_PI = _2PI / 4,
-  _gsID = 0,
-  _sqrt = Math.sqrt,
-  _cos = Math.cos,
-  _sin = Math.sin,
-  _isString = function _isString(value) {
+  },_suppressOverwrites,_bigNum = 1e8,_tinyNum = 1 / _bigNum,_2PI = Math.PI * 2,_HALF_PI = _2PI / 4,_gsID = 0,_sqrt = Math.sqrt,_cos = Math.cos,_sin = Math.sin,_isString = function _isString(value) {
     return typeof value === "string";
-  },
-  _isFunction = function _isFunction(value) {
+  },_isFunction = function _isFunction(value) {
     return typeof value === "function";
-  },
-  _isNumber = function _isNumber(value) {
+  },_isNumber = function _isNumber(value) {
     return typeof value === "number";
-  },
-  _isUndefined = function _isUndefined(value) {
+  },_isUndefined = function _isUndefined(value) {
     return typeof value === "undefined";
-  },
-  _isObject = function _isObject(value) {
+  },_isObject = function _isObject(value) {
     return typeof value === "object";
-  },
-  _isNotFalse = function _isNotFalse(value) {
+  },_isNotFalse = function _isNotFalse(value) {
     return value !== false;
-  },
-  _windowExists = function _windowExists() {
+  },_windowExists = function _windowExists() {
     return typeof window !== "undefined";
-  },
-  _isFuncOrString = function _isFuncOrString(value) {
+  },_isFuncOrString = function _isFuncOrString(value) {
     return _isFunction(value) || _isString(value);
-  },
-  _isTypedArray = typeof ArrayBuffer === "function" && ArrayBuffer.isView || function () {},
+  },_isTypedArray = typeof ArrayBuffer === "function" && ArrayBuffer.isView || function () {},
   // note: IE10 has ArrayBuffer, but NOT ArrayBuffer.isView().
-  _isArray = Array.isArray,
-  _strictNumExp = /(?:-?\.?\d|\.)+/gi,
+  _isArray = Array.isArray,_strictNumExp = /(?:-?\.?\d|\.)+/gi,
   //only numbers (including negatives and decimals) but NOT relative values.
   _numExp = /[-+=.]*\d+[.e\-+]*\d*[e\-+]*\d*/g,
   //finds any numbers, including ones that start with += or -=, negative numbers, and ones in scientific notation like 1e-8.
-  _numWithUnitExp = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g,
-  _complexStringNumExp = /[-+=.]*\d+\.?\d*(?:e-|e\+)?\d*/gi,
+  _numWithUnitExp = /[-+=.]*\d+[.e-]*\d*[a-z%]*/g,_complexStringNumExp = /[-+=.]*\d+\.?\d*(?:e-|e\+)?\d*/gi,
   //duplicate so that while we're looping through matches from exec(), it doesn't contaminate the lastIndex of _numExp which we use to search for colors too.
-  _relExp = /[+-]=-?[.\d]+/,
-  _delimitedValueExp = /[^,'"\[\]\s]+/gi,
+  _relExp = /[+-]=-?[.\d]+/,_delimitedValueExp = /[^,'"\[\]\s]+/gi,
   // previously /[#\-+.]*\b[a-z\d\-=+%.]+/gi but didn't catch special characters.
-  _unitExp = /[\d.+\-=]+(?:e[-+]\d*)*/i,
-  _globalTimeline,
-  _win,
-  _coreInitted,
-  _doc,
-  _globals = {},
-  _installScope = {},
-  _coreReady,
-  _install = function _install(scope) {
+  _unitExp = /[\d.+\-=]+(?:e[-+]\d*)*/i,_globalTimeline,_win,_coreInitted,_doc,_globals = {},_installScope = {},_coreReady,_install = function _install(scope) {
     return (_installScope = _merge(scope, _globals)) && gsap;
-  },
-  _missingPlugin = function _missingPlugin(property, value) {
+  },_missingPlugin = function _missingPlugin(property, value) {
     return console.warn("Invalid property", property, "set to", value, "Missing plugin? gsap.registerPlugin()");
-  },
-  _warn = function _warn(message, suppress) {
+  },_warn = function _warn(message, suppress) {
     return !suppress && console.warn(message);
-  },
-  _addGlobal = function _addGlobal(name, obj) {
+  },_addGlobal = function _addGlobal(name, obj) {
     return name && (_globals[name] = obj) && _installScope && (_installScope[name] = obj) || _globals;
-  },
-  _emptyFunc = function _emptyFunc() {
+  },_emptyFunc = function _emptyFunc() {
     return 0;
-  },
-  _reservedProps = {},
-  _lazyTweens = [],
-  _lazyLookup = {},
-  _lastRenderedFrame,
-  _plugins = {},
-  _effects = {},
-  _nextGCFrame = 30,
-  _harnessPlugins = [],
-  _callbackNames = "",
-  _harness = function _harness(targets) {
-    var target = targets[0],
-      harnessPlugin,
-      i;
+  },_reservedProps = {},_lazyTweens = [],_lazyLookup = {},_lastRenderedFrame,_plugins = {},_effects = {},_nextGCFrame = 30,_harnessPlugins = [],_callbackNames = "",_harness = function _harness(targets) {
+    var target = targets[0],harnessPlugin,i;
     _isObject(target) || _isFunction(target) || (targets = [targets]);
     if (!(harnessPlugin = (target._gsap || {}).harness)) {
       // find the first target with a harness. We assume targets passed into an animation will be of similar type, meaning the same kind of harness can be used for them all (performance optimization)
@@ -126,89 +73,69 @@ var _config = {
       targets[i] && (targets[i]._gsap || (targets[i]._gsap = new GSCache(targets[i], harnessPlugin))) || targets.splice(i, 1);
     }
     return targets;
-  },
-  _getCache = function _getCache(target) {
+  },_getCache = function _getCache(target) {
     return target._gsap || _harness(toArray(target))[0]._gsap;
-  },
-  _getProperty = function _getProperty(target, property, v) {
+  },_getProperty = function _getProperty(target, property, v) {
     return (v = target[property]) && _isFunction(v) ? target[property]() : _isUndefined(v) && target.getAttribute && target.getAttribute(property) || v;
-  },
-  _forEachName = function _forEachName(names, func) {
+  },_forEachName = function _forEachName(names, func) {
     return (names = names.split(",")).forEach(func) || names;
   },
   //split a comma-delimited list of names into an array, then run a forEach() function and return the split array (this is just a way to consolidate/shorten some code).
   _round = function _round(value) {
     return Math.round(value * 100000) / 100000 || 0;
-  },
-  _roundPrecise = function _roundPrecise(value) {
+  },_roundPrecise = function _roundPrecise(value) {
     return Math.round(value * 10000000) / 10000000 || 0;
   },
   // increased precision mostly for timing values.
   _arrayContainsAny = function _arrayContainsAny(toSearch, toFind) {
     //searches one array to find matches for any of the items in the toFind array. As soon as one is found, it returns true. It does NOT return all the matches; it's simply a boolean search.
-    var l = toFind.length,
-      i = 0;
+    var l = toFind.length,i = 0;
     for (; toSearch.indexOf(toFind[i]) < 0 && ++i < l;) {}
     return i < l;
-  },
-  _lazyRender = function _lazyRender() {
-    var l = _lazyTweens.length,
-      a = _lazyTweens.slice(0),
-      i,
-      tween;
+  },_lazyRender = function _lazyRender() {
+    var l = _lazyTweens.length,a = _lazyTweens.slice(0),i,tween;
     _lazyLookup = {};
     _lazyTweens.length = 0;
     for (i = 0; i < l; i++) {
       tween = a[i];
       tween && tween._lazy && (tween.render(tween._lazy[0], tween._lazy[1], true)._lazy = 0);
     }
-  },
-  _lazySafeRender = function _lazySafeRender(animation, time, suppressEvents, force) {
+  },_lazySafeRender = function _lazySafeRender(animation, time, suppressEvents, force) {
     _lazyTweens.length && _lazyRender();
     animation.render(time, suppressEvents, force);
     _lazyTweens.length && _lazyRender(); //in case rendering caused any tweens to lazy-init, we should render them because typically when someone calls seek() or time() or progress(), they expect an immediate render.
-  },
-  _numericIfPossible = function _numericIfPossible(value) {
+  },_numericIfPossible = function _numericIfPossible(value) {
     var n = parseFloat(value);
     return (n || n === 0) && (value + "").match(_delimitedValueExp).length < 2 ? n : _isString(value) ? value.trim() : value;
-  },
-  _passThrough = function _passThrough(p) {
+  },_passThrough = function _passThrough(p) {
     return p;
-  },
-  _setDefaults = function _setDefaults(obj, defaults) {
+  },_setDefaults = function _setDefaults(obj, defaults) {
     for (var p in defaults) {
       p in obj || (obj[p] = defaults[p]);
     }
     return obj;
-  },
-  _setKeyframeDefaults = function _setKeyframeDefaults(obj, defaults) {
+  },_setKeyframeDefaults = function _setKeyframeDefaults(obj, defaults) {
     for (var p in defaults) {
       p in obj || p === "duration" || p === "ease" || (obj[p] = defaults[p]);
     }
-  },
-  _merge = function _merge(base, toMerge) {
+  },_merge = function _merge(base, toMerge) {
     for (var p in toMerge) {
       base[p] = toMerge[p];
     }
     return base;
-  },
-  _mergeDeep = function _mergeDeep(base, toMerge) {
+  },_mergeDeep = function _mergeDeep(base, toMerge) {
     for (var p in toMerge) {
       p !== "__proto__" && p !== "constructor" && p !== "prototype" && (base[p] = _isObject(toMerge[p]) ? _mergeDeep(base[p] || (base[p] = {}), toMerge[p]) : toMerge[p]);
     }
     return base;
-  },
-  _copyExcluding = function _copyExcluding(obj, excluding) {
-    var copy = {},
-      p;
+  },_copyExcluding = function _copyExcluding(obj, excluding) {
+    var copy = {},p;
     for (p in obj) {
       p in excluding || (copy[p] = obj[p]);
     }
     return copy;
-  },
-  _inheritDefaults = function _inheritDefaults(vars) {
-    var parent = vars.parent || _globalTimeline,
-      func = vars.keyframes ? _setKeyframeDefaults : _setDefaults;
+  },_inheritDefaults = function _inheritDefaults(vars) {
+    var parent = vars.parent || _globalTimeline,func = vars.keyframes ? _setKeyframeDefaults : _setDefaults;
     if (_isNotFalse(vars.inherit)) {
       while (parent) {
         func(vars, parent.vars.defaults);
@@ -216,22 +143,18 @@ var _config = {
       }
     }
     return vars;
-  },
-  _arraysMatch = function _arraysMatch(a1, a2) {
-    var i = a1.length,
-      match = i === a2.length;
+  },_arraysMatch = function _arraysMatch(a1, a2) {
+    var i = a1.length,match = i === a2.length;
     while (match && i-- && a1[i] === a2[i]) {}
     return i < 0;
-  },
-  _addLinkedListItem = function _addLinkedListItem(parent, child, firstProp, lastProp, sortBy) {
+  },_addLinkedListItem = function _addLinkedListItem(parent, child, firstProp, lastProp, sortBy) {
     if (firstProp === void 0) {
       firstProp = "_first";
     }
     if (lastProp === void 0) {
       lastProp = "_last";
     }
-    var prev = parent[lastProp],
-      t;
+    var prev = parent[lastProp],t;
     if (sortBy) {
       t = child[sortBy];
       while (prev && prev[sortBy] > t) {
@@ -241,45 +164,45 @@ var _config = {
     if (prev) {
       child._next = prev._next;
       prev._next = child;
-    } else {
+    } else
+    {
       child._next = parent[firstProp];
       parent[firstProp] = child;
     }
     if (child._next) {
       child._next._prev = child;
-    } else {
+    } else
+    {
       parent[lastProp] = child;
     }
     child._prev = prev;
     child.parent = child._dp = parent;
     return child;
-  },
-  _removeLinkedListItem = function _removeLinkedListItem(parent, child, firstProp, lastProp) {
+  },_removeLinkedListItem = function _removeLinkedListItem(parent, child, firstProp, lastProp) {
     if (firstProp === void 0) {
       firstProp = "_first";
     }
     if (lastProp === void 0) {
       lastProp = "_last";
     }
-    var prev = child._prev,
-      next = child._next;
+    var prev = child._prev,next = child._next;
     if (prev) {
       prev._next = next;
-    } else if (parent[firstProp] === child) {
+    } else
+    if (parent[firstProp] === child) {
       parent[firstProp] = next;
     }
     if (next) {
       next._prev = prev;
-    } else if (parent[lastProp] === child) {
+    } else
+    if (parent[lastProp] === child) {
       parent[lastProp] = prev;
     }
     child._next = child._prev = child.parent = null; // don't delete the _dp just so we can revert if necessary. But parent should be null to indicate the item isn't in a linked list.
-  },
-  _removeFromParent = function _removeFromParent(child, onlyIfParentHasAutoRemove) {
+  },_removeFromParent = function _removeFromParent(child, onlyIfParentHasAutoRemove) {
     child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren) && child.parent.remove(child);
     child._act = 0;
-  },
-  _uncache = function _uncache(animation, child) {
+  },_uncache = function _uncache(animation, child) {
     if (animation && (!child || child._end > animation._dur || child._start < 0)) {
       // performance optimization: if a child animation is passed in we should only uncache if that child EXTENDS the animation (its end time is beyond the end)
       var a = animation;
@@ -289,8 +212,7 @@ var _config = {
       }
     }
     return animation;
-  },
-  _recacheAncestors = function _recacheAncestors(animation) {
+  },_recacheAncestors = function _recacheAncestors(animation) {
     var parent = animation.parent;
     while (parent && parent.parent) {
       //sometimes we must force a re-sort of all children and update the duration/totalDuration of all ancestor timelines immediately in case, for example, in the middle of a render loop, one tween alters another tween's timeScale which shoves its startTime before 0, forcing the parent timeline to shift around and shiftChildren() which could affect that next tween's render (startTime). Doesn't matter for the root timeline though.
@@ -299,25 +221,20 @@ var _config = {
       parent = parent.parent;
     }
     return animation;
-  },
-  _hasNoPausedAncestors = function _hasNoPausedAncestors(animation) {
+  },_hasNoPausedAncestors = function _hasNoPausedAncestors(animation) {
     return !animation || animation._ts && _hasNoPausedAncestors(animation.parent);
-  },
-  _elapsedCycleDuration = function _elapsedCycleDuration(animation) {
+  },_elapsedCycleDuration = function _elapsedCycleDuration(animation) {
     return animation._repeat ? _animationCycle(animation._tTime, animation = animation.duration() + animation._rDelay) * animation : 0;
   },
   // feed in the totalTime and cycleDuration and it'll return the cycle (iteration minus 1) and if the playhead is exactly at the very END, it will NOT bump up to the next cycle.
   _animationCycle = function _animationCycle(tTime, cycleDuration) {
     var whole = Math.floor(tTime /= cycleDuration);
     return tTime && whole === tTime ? whole - 1 : whole;
-  },
-  _parentToChildTotalTime = function _parentToChildTotalTime(parentTime, child) {
+  },_parentToChildTotalTime = function _parentToChildTotalTime(parentTime, child) {
     return (parentTime - child._start) * child._ts + (child._ts >= 0 ? 0 : child._dirty ? child.totalDuration() : child._tDur);
-  },
-  _setEnd = function _setEnd(animation) {
+  },_setEnd = function _setEnd(animation) {
     return animation._end = _roundPrecise(animation._start + (animation._tDur / Math.abs(animation._ts || animation._rts || _tinyNum) || 0));
-  },
-  _alignPlayhead = function _alignPlayhead(animation, totalTime) {
+  },_alignPlayhead = function _alignPlayhead(animation, totalTime) {
     // adjusts the animation's _start and _end according to the provided totalTime (only if the parent's smoothChildTiming is true and the animation isn't paused). It doesn't do any rendering or forcing things back into parent timelines, etc. - that's what totalTime() is for.
     var parent = animation._dp;
     if (parent && parent.smoothChildTiming && animation._ts) {
@@ -325,7 +242,6 @@ var _config = {
       _setEnd(animation);
       parent._dirty || _uncache(parent, animation); //for performance improvement. If the parent's cache is already dirty, it already took care of marking the ancestors as dirty too, so skip the function call here.
     }
-
     return animation;
   },
   /*
@@ -358,8 +274,7 @@ var _config = {
       }
       timeline._zTime = -_tinyNum; // helps ensure that the next render() will be forced (crossingStart = true in render()), even if the duration hasn't changed (we're adding a child which would need to get rendered). Definitely an edge case. Note: we MUST do this AFTER the loop above where the totalTime() might trigger a render() because this _addToTimeline() method gets called from the Animation constructor, BEFORE tweens even record their targets, etc. so we wouldn't want things to get triggered in the wrong order.
     }
-  },
-  _addToTimeline = function _addToTimeline(timeline, child, position, skipChecks) {
+  },_addToTimeline = function _addToTimeline(timeline, child, position, skipChecks) {
     child.parent && _removeFromParent(child);
     child._start = _roundPrecise((_isNumber(position) ? position : position || timeline !== _globalTimeline ? _parsePosition(timeline, position, child) : timeline._time) + child._delay);
     child._end = _roundPrecise(child._start + (child.totalDuration() / Math.abs(child.timeScale()) || 0));
@@ -367,11 +282,9 @@ var _config = {
     _isFromOrFromStart(child) || (timeline._recent = child);
     skipChecks || _postAddChecks(timeline, child);
     return timeline;
-  },
-  _scrollTrigger = function _scrollTrigger(animation, trigger) {
+  },_scrollTrigger = function _scrollTrigger(animation, trigger) {
     return (_globals.ScrollTrigger || _missingPlugin("scrollTrigger", trigger)) && _globals.ScrollTrigger.create(trigger, animation);
-  },
-  _attemptInitTween = function _attemptInitTween(tween, totalTime, force, suppressEvents) {
+  },_attemptInitTween = function _attemptInitTween(tween, totalTime, force, suppressEvents) {
     _initTween(tween, totalTime);
     if (!tween._initted) {
       return 1;
@@ -381,8 +294,7 @@ var _config = {
       tween._lazy = [totalTime, suppressEvents];
       return 1;
     }
-  },
-  _parentPlayheadIsBeforeStart = function _parentPlayheadIsBeforeStart(_ref) {
+  },_parentPlayheadIsBeforeStart = function _parentPlayheadIsBeforeStart(_ref) {
     var parent = _ref.parent;
     return parent && parent._ts && parent._initted && !parent._lock && (parent.rawTime() < 0 || _parentPlayheadIsBeforeStart(parent));
   },
@@ -390,16 +302,10 @@ var _config = {
   _isFromOrFromStart = function _isFromOrFromStart(_ref2) {
     var data = _ref2.data;
     return data === "isFromStart" || data === "isStart";
-  },
-  _renderZeroDurationTween = function _renderZeroDurationTween(tween, totalTime, suppressEvents, force) {
-    var prevRatio = tween.ratio,
-      ratio = totalTime < 0 || !totalTime && (!tween._start && _parentPlayheadIsBeforeStart(tween) && !(!tween._initted && _isFromOrFromStart(tween)) || (tween._ts < 0 || tween._dp._ts < 0) && !_isFromOrFromStart(tween)) ? 0 : 1,
+  },_renderZeroDurationTween = function _renderZeroDurationTween(tween, totalTime, suppressEvents, force) {
+    var prevRatio = tween.ratio,ratio = totalTime < 0 || !totalTime && (!tween._start && _parentPlayheadIsBeforeStart(tween) && !(!tween._initted && _isFromOrFromStart(tween)) || (tween._ts < 0 || tween._dp._ts < 0) && !_isFromOrFromStart(tween)) ? 0 : 1,
       // if the tween or its parent is reversed and the totalTime is 0, we should go to a ratio of 0. Edge case: if a from() or fromTo() stagger tween is placed later in a timeline, the "startAt" zero-duration tween could initially render at a time when the parent timeline's playhead is technically BEFORE where this tween is, so make sure that any "from" and "fromTo" startAt tweens are rendered the first time at a ratio of 1.
-      repeatDelay = tween._rDelay,
-      tTime = 0,
-      pt,
-      iteration,
-      prevIteration;
+      repeatDelay = tween._rDelay,tTime = 0,pt,iteration,prevIteration;
     if (repeatDelay && tween._repeat) {
       // in case there's a zero-duration tween that has a repeat with a repeatDelay
       tTime = _clamp(0, tween._tDur, totalTime);
@@ -438,11 +344,11 @@ var _config = {
           tween._prom && tween._prom();
         }
       }
-    } else if (!tween._zTime) {
+    } else
+    if (!tween._zTime) {
       tween._zTime = totalTime;
     }
-  },
-  _findNextPauseTween = function _findNextPauseTween(animation, prevTime, time) {
+  },_findNextPauseTween = function _findNextPauseTween(animation, prevTime, time) {
     var child;
     if (time > prevTime) {
       child = animation._first;
@@ -452,7 +358,8 @@ var _config = {
         }
         child = child._next;
       }
-    } else {
+    } else
+    {
       child = animation._last;
       while (child && child._start >= time) {
         if (!child._dur && child.data === "isPause" && child._start < prevTime) {
@@ -461,34 +368,24 @@ var _config = {
         child = child._prev;
       }
     }
-  },
-  _setDuration = function _setDuration(animation, duration, skipUncache, leavePlayhead) {
-    var repeat = animation._repeat,
-      dur = _roundPrecise(duration) || 0,
-      totalProgress = animation._tTime / animation._tDur;
+  },_setDuration = function _setDuration(animation, duration, skipUncache, leavePlayhead) {
+    var repeat = animation._repeat,dur = _roundPrecise(duration) || 0,totalProgress = animation._tTime / animation._tDur;
     totalProgress && !leavePlayhead && (animation._time *= dur / animation._dur);
     animation._dur = dur;
     animation._tDur = !repeat ? dur : repeat < 0 ? 1e10 : _roundPrecise(dur * (repeat + 1) + animation._rDelay * repeat);
     totalProgress && !leavePlayhead ? _alignPlayhead(animation, animation._tTime = animation._tDur * totalProgress) : animation.parent && _setEnd(animation);
     skipUncache || _uncache(animation.parent, animation);
     return animation;
-  },
-  _onUpdateTotalDuration = function _onUpdateTotalDuration(animation) {
+  },_onUpdateTotalDuration = function _onUpdateTotalDuration(animation) {
     return animation instanceof Timeline ? _uncache(animation) : _setDuration(animation, animation._dur);
-  },
-  _zeroPosition = {
+  },_zeroPosition = {
     _start: 0,
     endTime: _emptyFunc,
     totalDuration: _emptyFunc
-  },
-  _parsePosition = function _parsePosition(animation, position, percentAnimation) {
-    var labels = animation.labels,
-      recent = animation._recent || _zeroPosition,
-      clippedDuration = animation.duration() >= _bigNum ? recent.endTime(false) : animation._dur,
+  },_parsePosition = function _parsePosition(animation, position, percentAnimation) {
+    var labels = animation.labels,recent = animation._recent || _zeroPosition,clippedDuration = animation.duration() >= _bigNum ? recent.endTime(false) : animation._dur,
       //in case there's a child that infinitely repeats, users almost never intend for the insertion point of a new child to be based on a SUPER long value like that so we clip it and assume the most recently-added child's endTime should be used instead.
-      i,
-      offset,
-      isPercent;
+      i,offset,isPercent;
     if (_isString(position) && (isNaN(position) || position in labels)) {
       //if the string is a number like "1", check to see if there's a label with that name, otherwise interpret it as a number (absolute value).
       offset = position.charAt(0);
@@ -509,13 +406,8 @@ var _config = {
       return i > 1 ? _parsePosition(animation, position.substr(0, i - 1), percentAnimation) + offset : clippedDuration + offset;
     }
     return position == null ? clippedDuration : +position;
-  },
-  _createTweenType = function _createTweenType(type, params, timeline) {
-    var isLegacy = _isNumber(params[1]),
-      varsIndex = (isLegacy ? 2 : 1) + (type < 2 ? 0 : 1),
-      vars = params[varsIndex],
-      irVars,
-      parent;
+  },_createTweenType = function _createTweenType(type, params, timeline) {
+    var isLegacy = _isNumber(params[1]),varsIndex = (isLegacy ? 2 : 1) + (type < 2 ? 0 : 1),vars = params[varsIndex],irVars,parent;
     isLegacy && (vars.duration = params[1]);
     vars.parent = timeline;
     if (type) {
@@ -529,16 +421,12 @@ var _config = {
       vars.immediateRender = _isNotFalse(irVars.immediateRender);
       type < 2 ? vars.runBackwards = 1 : vars.startAt = params[varsIndex - 1]; // "from" vars
     }
-
     return new Tween(params[0], vars, params[varsIndex + 1]);
-  },
-  _conditionalReturn = function _conditionalReturn(value, func) {
+  },_conditionalReturn = function _conditionalReturn(value, func) {
     return value || value === 0 ? func(value) : func;
-  },
-  _clamp = function _clamp(min, max, value) {
+  },_clamp = function _clamp(min, max, value) {
     return value < min ? min : value > max ? max : value;
-  },
-  getUnit = function getUnit(value) {
+  },getUnit = function getUnit(value) {
     if (typeof value !== "string") {
       return "";
     }
@@ -550,12 +438,9 @@ var _config = {
     return _conditionalReturn(value, function (v) {
       return _clamp(min, max, v);
     });
-  },
-  _slice = [].slice,
-  _isArrayLike = function _isArrayLike(value, nonEmpty) {
+  },_slice = [].slice,_isArrayLike = function _isArrayLike(value, nonEmpty) {
     return value && _isObject(value) && "length" in value && (!nonEmpty && !value.length || value.length - 1 in value && _isObject(value[0])) && !value.nodeType && value !== _win;
-  },
-  _flatten = function _flatten(ar, leaveStrings, accumulator) {
+  },_flatten = function _flatten(ar, leaveStrings, accumulator) {
     if (accumulator === void 0) {
       accumulator = [];
     }
@@ -567,15 +452,13 @@ var _config = {
   //takes any value and returns an array. If it's a string (and leaveStrings isn't true), it'll use document.querySelectorAll() and convert that to an array. It'll also accept iterables like jQuery objects.
   toArray = function toArray(value, scope, leaveStrings) {
     return _isString(value) && !leaveStrings && (_coreInitted || !_wake()) ? _slice.call((scope || _doc).querySelectorAll(value), 0) : _isArray(value) ? _flatten(value, leaveStrings) : _isArrayLike(value) ? _slice.call(value, 0) : value ? [value] : [];
-  },
-  selector = function selector(value) {
+  },selector = function selector(value) {
     value = toArray(value)[0] || _warn("Invalid scope") || {};
     return function (v) {
       var el = value.current || value.nativeElement || value;
       return toArray(v, el.querySelectorAll ? el : el === value ? _warn("Invalid scope") || _doc.createElement("div") : value);
     };
-  },
-  shuffle = function shuffle(a) {
+  },shuffle = function shuffle(a) {
     return a.sort(function () {
       return .5 - Math.random();
     });
@@ -590,37 +473,20 @@ var _config = {
         each: v
       },
       //n:1 is just to indicate v was a number; we leverage that later to set v according to the length we get. If a number is passed in, we treat it like the old stagger value where 0.1, for example, would mean that things would be distributed with 0.1 between each element in the array rather than a total "amount" that's chunked out among them all.
-      ease = _parseEase(vars.ease),
-      from = vars.from || 0,
-      base = parseFloat(vars.base) || 0,
-      cache = {},
-      isDecimal = from > 0 && from < 1,
-      ratios = isNaN(from) || isDecimal,
-      axis = vars.axis,
-      ratioX = from,
-      ratioY = from;
+      ease = _parseEase(vars.ease),from = vars.from || 0,base = parseFloat(vars.base) || 0,cache = {},isDecimal = from > 0 && from < 1,ratios = isNaN(from) || isDecimal,axis = vars.axis,ratioX = from,ratioY = from;
     if (_isString(from)) {
       ratioX = ratioY = {
         center: .5,
         edges: .5,
         end: 1
       }[from] || 0;
-    } else if (!isDecimal && ratios) {
+    } else
+    if (!isDecimal && ratios) {
       ratioX = from[0];
       ratioY = from[1];
     }
     return function (i, target, a) {
-      var l = (a || vars).length,
-        distances = cache[l],
-        originX,
-        originY,
-        x,
-        y,
-        d,
-        j,
-        max,
-        min,
-        wrapAt;
+      var l = (a || vars).length,distances = cache[l],originX,originY,x,y,d,j,max,min,wrapAt;
       if (!distances) {
         wrapAt = vars.grid === "auto" ? 0 : (vars.grid || [1, _bigNum])[1];
         if (!wrapAt) {
@@ -651,19 +517,15 @@ var _config = {
       l = (distances[i] - distances.min) / distances.max || 0;
       return _roundPrecise(distances.b + (ease ? ease(l) : l) * distances.v) + distances.u; //round in order to work around floating point errors
     };
-  },
-  _roundModifier = function _roundModifier(v) {
+  },_roundModifier = function _roundModifier(v) {
     //pass in 0.1 get a function that'll round to the nearest tenth, or 5 to round to the closest 5, or 0.001 to the closest 1000th, etc.
     var p = Math.pow(10, ((v + "").split(".")[1] || "").length); //to avoid floating point math errors (like 24 * 0.1 == 2.4000000000000004), we chop off at a specific number of decimal places (much faster than toFixed())
     return function (raw) {
       var n = Math.round(parseFloat(raw) / v) * v * p;
       return (n - n % 1) / p + (_isNumber(raw) ? 0 : getUnit(raw)); // n - n % 1 replaces Math.floor() in order to handle negative values properly. For example, Math.floor(-150.00000000000003) is 151!
     };
-  },
-  snap = function snap(snapTo, value) {
-    var isArray = _isArray(snapTo),
-      radius,
-      is2D;
+  },snap = function snap(snapTo, value) {
+    var isArray = _isArray(snapTo),radius,is2D;
     if (!isArray && _isObject(snapTo)) {
       radius = isArray = snapTo.radius || _bigNum;
       if (snapTo.values) {
@@ -671,7 +533,8 @@ var _config = {
         if (is2D = !_isNumber(snapTo[0])) {
           radius *= radius; //performance optimization so we don't have to Math.sqrt() in the loop.
         }
-      } else {
+      } else
+      {
         snapTo = _roundModifier(snapTo.increment);
       }
     }
@@ -679,19 +542,14 @@ var _config = {
       is2D = snapTo(raw);
       return Math.abs(is2D - raw) <= radius ? is2D : raw;
     } : function (raw) {
-      var x = parseFloat(is2D ? raw.x : raw),
-        y = parseFloat(is2D ? raw.y : 0),
-        min = _bigNum,
-        closest = 0,
-        i = snapTo.length,
-        dx,
-        dy;
+      var x = parseFloat(is2D ? raw.x : raw),y = parseFloat(is2D ? raw.y : 0),min = _bigNum,closest = 0,i = snapTo.length,dx,dy;
       while (i--) {
         if (is2D) {
           dx = snapTo[i].x - x;
           dy = snapTo[i].y - y;
           dx = dx * dx + dy * dy;
-        } else {
+        } else
+        {
           dx = Math.abs(snapTo[i] - x);
         }
         if (dx < min) {
@@ -702,13 +560,11 @@ var _config = {
       closest = !radius || min <= radius ? snapTo[closest] : raw;
       return is2D || closest === raw || _isNumber(raw) ? closest : closest + getUnit(raw);
     });
-  },
-  random = function random(min, max, roundingIncrement, returnFunction) {
+  },random = function random(min, max, roundingIncrement, returnFunction) {
     return _conditionalReturn(_isArray(min) ? !max : roundingIncrement === true ? !!(roundingIncrement = 0) : !returnFunction, function () {
       return _isArray(min) ? min[~~(Math.random() * min.length)] : (roundingIncrement = roundingIncrement || 1e-5) && (returnFunction = roundingIncrement < 1 ? Math.pow(10, (roundingIncrement + "").length - 2) : 1) && Math.floor(Math.round((min - roundingIncrement / 2 + Math.random() * (max - min + roundingIncrement * .99)) / roundingIncrement) * roundingIncrement * returnFunction) / returnFunction;
     });
-  },
-  pipe = function pipe() {
+  },pipe = function pipe() {
     for (var _len = arguments.length, functions = new Array(_len), _key = 0; _key < _len; _key++) {
       functions[_key] = arguments[_key];
     }
@@ -717,43 +573,31 @@ var _config = {
         return f(v);
       }, value);
     };
-  },
-  unitize = function unitize(func, unit) {
+  },unitize = function unitize(func, unit) {
     return function (value) {
       return func(parseFloat(value)) + (unit || getUnit(value));
     };
-  },
-  normalize = function normalize(min, max, value) {
+  },normalize = function normalize(min, max, value) {
     return mapRange(min, max, 0, 1, value);
-  },
-  _wrapArray = function _wrapArray(a, wrapper, value) {
+  },_wrapArray = function _wrapArray(a, wrapper, value) {
     return _conditionalReturn(value, function (index) {
       return a[~~wrapper(index)];
     });
-  },
-  wrap = function wrap(min, max, value) {
+  },wrap = function wrap(min, max, value) {
     // NOTE: wrap() CANNOT be an arrow function! A very odd compiling bug causes problems (unrelated to GSAP).
     var range = max - min;
     return _isArray(min) ? _wrapArray(min, wrap(0, min.length), max) : _conditionalReturn(value, function (value) {
       return (range + (value - min) % range) % range + min;
     });
-  },
-  wrapYoyo = function wrapYoyo(min, max, value) {
-    var range = max - min,
-      total = range * 2;
+  },wrapYoyo = function wrapYoyo(min, max, value) {
+    var range = max - min,total = range * 2;
     return _isArray(min) ? _wrapArray(min, wrapYoyo(0, min.length - 1), max) : _conditionalReturn(value, function (value) {
       value = (total + (value - min) % total) % total || 0;
       return min + (value > range ? total - value : value);
     });
-  },
-  _replaceRandom = function _replaceRandom(value) {
+  },_replaceRandom = function _replaceRandom(value) {
     //replaces all occurrences of random(...) in a string with the calculated random value. can be a range like random(-100, 100, 5) or an array like random([0, 100, 500])
-    var prev = 0,
-      s = "",
-      i,
-      nums,
-      end,
-      isArray;
+    var prev = 0,s = "",i,nums,end,isArray;
     while (~(i = value.indexOf("random(", prev))) {
       end = value.indexOf(")", i);
       isArray = value.charAt(i + 7) === "[";
@@ -762,26 +606,17 @@ var _config = {
       prev = end + 1;
     }
     return s + value.substr(prev, value.length - prev);
-  },
-  mapRange = function mapRange(inMin, inMax, outMin, outMax, value) {
-    var inRange = inMax - inMin,
-      outRange = outMax - outMin;
+  },mapRange = function mapRange(inMin, inMax, outMin, outMax, value) {
+    var inRange = inMax - inMin,outRange = outMax - outMin;
     return _conditionalReturn(value, function (value) {
       return outMin + ((value - inMin) / inRange * outRange || 0);
     });
-  },
-  interpolate = function interpolate(start, end, progress, mutate) {
+  },interpolate = function interpolate(start, end, progress, mutate) {
     var func = isNaN(start + end) ? 0 : function (p) {
       return (1 - p) * start + p * end;
     };
     if (!func) {
-      var isString = _isString(start),
-        master = {},
-        p,
-        i,
-        interpolators,
-        l,
-        il;
+      var isString = _isString(start),master = {},p,i,interpolators,l,il;
       progress === true && (mutate = 1) && (progress = null);
       if (isString) {
         start = {
@@ -790,14 +625,14 @@ var _config = {
         end = {
           p: end
         };
-      } else if (_isArray(start) && !_isArray(end)) {
+      } else
+      if (_isArray(start) && !_isArray(end)) {
         interpolators = [];
         l = start.length;
         il = l - 2;
         for (i = 1; i < l; i++) {
           interpolators.push(interpolate(start[i - 1], start[i])); //build the interpolators up front as a performance optimization so that when the function is called many times, it can just reuse them.
         }
-
         l--;
         func = function func(p) {
           p *= l;
@@ -805,7 +640,8 @@ var _config = {
           return interpolators[i](p - i);
         };
         progress = end;
-      } else if (!mutate) {
+      } else
+      if (!mutate) {
         start = _merge(_isArray(start) ? [] : {}, start);
       }
       if (!interpolators) {
@@ -818,14 +654,9 @@ var _config = {
       }
     }
     return _conditionalReturn(progress, func);
-  },
-  _getLabelInDirection = function _getLabelInDirection(timeline, fromTime, backward) {
+  },_getLabelInDirection = function _getLabelInDirection(timeline, fromTime, backward) {
     //used for nextLabel() and previousLabel()
-    var labels = timeline.labels,
-      min = _bigNum,
-      p,
-      distance,
-      label;
+    var labels = timeline.labels,min = _bigNum,p,distance,label;
     for (p in labels) {
       distance = labels[p] - fromTime;
       if (distance < 0 === !!backward && distance && min > (distance = Math.abs(distance))) {
@@ -834,12 +665,8 @@ var _config = {
       }
     }
     return label;
-  },
-  _callback = function _callback(animation, type, executeLazyFirst) {
-    var v = animation.vars,
-      callback = v[type],
-      params,
-      scope;
+  },_callback = function _callback(animation, type, executeLazyFirst) {
+    var v = animation.vars,callback = v[type],params,scope;
     if (!callback) {
       return;
     }
@@ -847,19 +674,14 @@ var _config = {
     scope = v.callbackScope || animation;
     executeLazyFirst && _lazyTweens.length && _lazyRender(); //in case rendering caused any tweens to lazy-init, we should render them because typically when a timeline finishes, users expect things to have rendered fully. Imagine an onUpdate on a timeline that reports/checks tweened values.
     return params ? callback.apply(scope, params) : callback.call(scope);
-  },
-  _interrupt = function _interrupt(animation) {
+  },_interrupt = function _interrupt(animation) {
     _removeFromParent(animation);
     animation.scrollTrigger && animation.scrollTrigger.kill(false);
     animation.progress() < 1 && _callback(animation, "onInterrupt");
     return animation;
-  },
-  _quickTween,
-  _createPlugin = function _createPlugin(config) {
+  },_quickTween,_createPlugin = function _createPlugin(config) {
     config = !config.name && config["default"] || config; //UMD packaging wraps things oddly, so for example MotionPathHelper becomes {MotionPathHelper:MotionPathHelper, default:MotionPathHelper}.
-    var name = config.name,
-      isFunc = _isFunction(config),
-      Plugin = name && !isFunc && config.init ? function () {
+    var name = config.name,isFunc = _isFunction(config),Plugin = name && !isFunc && config.init ? function () {
         this._props = [];
       } : config,
       //in case someone passes in an object that's not a plugin, like CustomEase
@@ -870,8 +692,7 @@ var _config = {
         kill: _killPropTweensOf,
         modifier: _addPluginModifier,
         rawVars: 0
-      },
-      statics = {
+      },statics = {
         targetTest: 0,
         get: 0,
         getSetter: _getSetter,
@@ -892,7 +713,6 @@ var _config = {
       }
       name = (name === "css" ? "CSS" : name.charAt(0).toUpperCase() + name.substr(1)) + "Plugin"; //for the global name. "motionPath" should become MotionPathPlugin
     }
-
     _addGlobal(name, Plugin);
     config.register && config.register(gsap, Plugin, PropTween);
   },
@@ -901,8 +721,7 @@ var _config = {
    * COLORS
    * --------------------------------------------------------------------------------------
    */
-  _255 = 255,
-  _colorLookup = {
+  _255 = 255,_colorLookup = {
     aqua: [0, _255, _255],
     lime: [0, _255, 0],
     silver: [192, 192, 192],
@@ -922,23 +741,11 @@ var _config = {
     pink: [_255, 192, 203],
     cyan: [0, _255, _255],
     transparent: [_255, _255, _255, 0]
-  },
-  _hue = function _hue(h, m1, m2) {
+  },_hue = function _hue(h, m1, m2) {
     h = h < 0 ? h + 1 : h > 1 ? h - 1 : h;
     return (h * 6 < 1 ? m1 + (m2 - m1) * h * 6 : h < .5 ? m2 : h * 3 < 2 ? m1 + (m2 - m1) * (2 / 3 - h) * 6 : m1) * _255 + .5 | 0;
-  },
-  splitColor = function splitColor(v, toHSL, forceAlpha) {
-    var a = !v ? _colorLookup.black : _isNumber(v) ? [v >> 16, v >> 8 & _255, v & _255] : 0,
-      r,
-      g,
-      b,
-      h,
-      s,
-      l,
-      max,
-      min,
-      d,
-      wasHSL;
+  },splitColor = function splitColor(v, toHSL, forceAlpha) {
+    var a = !v ? _colorLookup.black : _isNumber(v) ? [v >> 16, v >> 8 & _255, v & _255] : 0,r,g,b,h,s,l,max,min,d,wasHSL;
     if (!a) {
       if (v.substr(-1) === ",") {
         //sometimes a trailing comma is included and we should chop it off (typically from a comma-delimited list of values like a textShadow:"2px 2px 2px blue, 5px 5px 5px rgb(255,0,0)" - in this example "blue," has a trailing comma. We could strip it out inside parseComplex() but we'd need to do it to the beginning and ending values plus it wouldn't provide protection from other potential scenarios like if the user passes in a similar value.
@@ -946,7 +753,8 @@ var _config = {
       }
       if (_colorLookup[v]) {
         a = _colorLookup[v];
-      } else if (v.charAt(0) === "#") {
+      } else
+      if (v.charAt(0) === "#") {
         if (v.length < 6) {
           //for shorthand like #9F0 or #9F0F (could have alpha)
           r = v.charAt(1);
@@ -961,7 +769,8 @@ var _config = {
         }
         v = parseInt(v.substr(1), 16);
         a = [v >> 16, v >> 8 & _255, v & _255];
-      } else if (v.substr(0, 3) === "hsl") {
+      } else
+      if (v.substr(0, 3) === "hsl") {
         a = wasHSL = v.match(_strictNumExp);
         if (!toHSL) {
           h = +a[0] % 360 / 360;
@@ -973,13 +782,15 @@ var _config = {
           a[0] = _hue(h + 1 / 3, r, g);
           a[1] = _hue(h, r, g);
           a[2] = _hue(h - 1 / 3, r, g);
-        } else if (~v.indexOf("=")) {
+        } else
+        if (~v.indexOf("=")) {
           //if relative values are found, just return the raw strings with the relative prefixes in place.
           a = v.match(_numExp);
           forceAlpha && a.length < 4 && (a[3] = 1);
           return a;
         }
-      } else {
+      } else
+      {
         a = v.match(_strictNumExp) || _colorLookup.transparent;
       }
       a = a.map(Number);
@@ -993,7 +804,8 @@ var _config = {
       l = (max + min) / 2;
       if (max === min) {
         h = s = 0;
-      } else {
+      } else
+      {
         d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
         h = max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
@@ -1005,12 +817,9 @@ var _config = {
     }
     forceAlpha && a.length < 4 && (a[3] = 1);
     return a;
-  },
-  _colorOrderData = function _colorOrderData(v) {
+  },_colorOrderData = function _colorOrderData(v) {
     // strips out the colors from the string, finds all the numeric slots (with units) and returns an array of those. The Array also has a "c" property which is an Array of the index values where the colors belong. This is to help work around issues where there's a mis-matched order of color/numeric data like drop-shadow(#f00 0px 1px 2px) and drop-shadow(0x 1px 2px #f00). This is basically a helper function used in _formatColors()
-    var values = [],
-      c = [],
-      i = -1;
+    var values = [],c = [],i = -1;
     v.split(_colorExp).forEach(function (v) {
       var a = v.match(_numWithUnitExp) || [];
       values.push.apply(values, a);
@@ -1018,16 +827,8 @@ var _config = {
     });
     values.c = c;
     return values;
-  },
-  _formatColors = function _formatColors(s, toHSL, orderMatchData) {
-    var result = "",
-      colors = (s + result).match(_colorExp),
-      type = toHSL ? "hsla(" : "rgba(",
-      i = 0,
-      c,
-      shell,
-      d,
-      l;
+  },_formatColors = function _formatColors(s, toHSL, orderMatchData) {
+    var result = "",colors = (s + result).match(_colorExp),type = toHSL ? "hsla(" : "rgba(",i = 0,c,shell,d,l;
     if (!colors) {
       return s;
     }
@@ -1053,8 +854,7 @@ var _config = {
       }
     }
     return result + shell[l];
-  },
-  _colorExp = function () {
+  },_colorExp = function () {
     var s = "(?:\\b(?:(?:rgb|rgba|hsl|hsla)\\(.+?\\))|\\B#(?:[0-9a-f]{3,4}){1,2}\\b",
       //we'll dynamically build this Regular Expression to conserve file size. After building it, it will be able to find rgb(), rgba(), # (hexadecimal), and named color values like red, blue, purple, etc.,
       p;
@@ -1062,11 +862,8 @@ var _config = {
       s += "|" + p + "\\b";
     }
     return new RegExp(s + ")", "gi");
-  }(),
-  _hslExp = /hsl[a]?\(/,
-  _colorStringFilter = function _colorStringFilter(a) {
-    var combined = a.join(" "),
-      toHSL;
+  }(),_hslExp = /hsl[a]?\(/,_colorStringFilter = function _colorStringFilter(a) {
+    var combined = a.join(" "),toHSL;
     _colorExp.lastIndex = 0;
     if (_colorExp.test(combined)) {
       toHSL = _hslExp.test(combined);
@@ -1080,29 +877,9 @@ var _config = {
    * TICKER
    * --------------------------------------------------------------------------------------
    */
-  _tickerActive,
-  _ticker = function () {
-    var _getTime = Date.now,
-      _lagThreshold = 500,
-      _adjustedLag = 33,
-      _startTime = _getTime(),
-      _lastUpdate = _startTime,
-      _gap = 1000 / 240,
-      _nextTime = _gap,
-      _listeners = [],
-      _id,
-      _req,
-      _raf,
-      _self,
-      _delta,
-      _i,
-      _tick = function _tick(v) {
-        var elapsed = _getTime() - _lastUpdate,
-          manual = v === true,
-          overlap,
-          dispatch,
-          time,
-          frame;
+  _tickerActive,_ticker = function () {
+    var _getTime = Date.now,_lagThreshold = 500,_adjustedLag = 33,_startTime = _getTime(),_lastUpdate = _startTime,_gap = 1000 / 240,_nextTime = _gap,_listeners = [],_id,_req,_raf,_self,_delta,_i,_tick = function _tick(v) {
+        var elapsed = _getTime() - _lastUpdate,manual = v === true,overlap,dispatch,time,frame;
         elapsed > _lagThreshold && (_startTime += elapsed - _adjustedLag);
         _lastUpdate += elapsed;
         time = _lastUpdate - _startTime;
@@ -1173,8 +950,7 @@ var _config = {
       _listeners: _listeners
     };
     return _self;
-  }(),
-  _wake = function _wake() {
+  }(),_wake = function _wake() {
     return !_tickerActive && _ticker.wake();
   },
   //also ensures the core classes are initialized.
@@ -1183,19 +959,9 @@ var _config = {
   * EASING
   * -------------------------------------------------
   */
-  _easeMap = {},
-  _customEaseExp = /^[\d.\-M][\d.\-,\s]/,
-  _quotesExp = /["']/g,
-  _parseObjectInString = function _parseObjectInString(value) {
+  _easeMap = {},_customEaseExp = /^[\d.\-M][\d.\-,\s]/,_quotesExp = /["']/g,_parseObjectInString = function _parseObjectInString(value) {
     //takes a string like "{wiggles:10, type:anticipate})" and turns it into a real object. Notice it ends in ")" and includes the {} wrappers. This is because we only use this function for parsing ease configs and prioritized optimization rather than reusability.
-    var obj = {},
-      split = value.substr(1, value.length - 3).split(":"),
-      key = split[0],
-      i = 1,
-      l = split.length,
-      index,
-      val,
-      parsedVal;
+    var obj = {},split = value.substr(1, value.length - 3).split(":"),key = split[0],i = 1,l = split.length,index,val,parsedVal;
     for (; i < l; i++) {
       val = split[i];
       index = i !== l - 1 ? val.lastIndexOf(",") : val.length;
@@ -1204,35 +970,30 @@ var _config = {
       key = val.substr(index + 1).trim();
     }
     return obj;
-  },
-  _valueInParentheses = function _valueInParentheses(value) {
-    var open = value.indexOf("(") + 1,
-      close = value.indexOf(")"),
-      nested = value.indexOf("(", open);
+  },_valueInParentheses = function _valueInParentheses(value) {
+    var open = value.indexOf("(") + 1,close = value.indexOf(")"),nested = value.indexOf("(", open);
     return value.substring(open, ~nested && nested < close ? value.indexOf(")", close + 1) : close);
-  },
-  _configEaseFromString = function _configEaseFromString(name) {
+  },_configEaseFromString = function _configEaseFromString(name) {
     //name can be a string like "elastic.out(1,0.5)", and pass in _easeMap as obj and it'll parse it out and call the actual function like _easeMap.Elastic.easeOut.config(1,0.5). It will also parse custom ease strings as long as CustomEase is loaded and registered (internally as _easeMap._CE).
-    var split = (name + "").split("("),
-      ease = _easeMap[split[0]];
+    var split = (name + "").split("("),ease = _easeMap[split[0]];
     return ease && split.length > 1 && ease.config ? ease.config.apply(null, ~name.indexOf("{") ? [_parseObjectInString(split[1])] : _valueInParentheses(name).split(",").map(_numericIfPossible)) : _easeMap._CE && _customEaseExp.test(name) ? _easeMap._CE("", name) : ease;
-  },
-  _invertEase = function _invertEase(ease) {
+  },_invertEase = function _invertEase(ease) {
     return function (p) {
       return 1 - ease(1 - p);
     };
   },
   // allow yoyoEase to be set in children and have those affected when the parent/ancestor timeline yoyos.
   _propagateYoyoEase = function _propagateYoyoEase(timeline, isYoyo) {
-    var child = timeline._first,
-      ease;
+    var child = timeline._first,ease;
     while (child) {
       if (child instanceof Timeline) {
         _propagateYoyoEase(child, isYoyo);
-      } else if (child.vars.yoyoEase && (!child._yoyo || !child._repeat) && child._yoyo !== isYoyo) {
+      } else
+      if (child.vars.yoyoEase && (!child._yoyo || !child._repeat) && child._yoyo !== isYoyo) {
         if (child.timeline) {
           _propagateYoyoEase(child.timeline, isYoyo);
-        } else {
+        } else
+        {
           ease = child._ease;
           child._ease = child._yEase;
           child._yEase = ease;
@@ -1241,11 +1002,9 @@ var _config = {
       }
       child = child._next;
     }
-  },
-  _parseEase = function _parseEase(ease, defaultEase) {
+  },_parseEase = function _parseEase(ease, defaultEase) {
     return !ease ? defaultEase : (_isFunction(ease) ? ease : _easeMap[ease] || _configEaseFromString(ease)) || defaultEase;
-  },
-  _insertEase = function _insertEase(names, easeIn, easeOut, easeInOut) {
+  },_insertEase = function _insertEase(names, easeIn, easeOut, easeInOut) {
     if (easeOut === void 0) {
       easeOut = function easeOut(p) {
         return 1 - easeIn(1 - p);
@@ -1260,8 +1019,7 @@ var _config = {
         easeIn: easeIn,
         easeOut: easeOut,
         easeInOut: easeInOut
-      },
-      lowercaseName;
+      },lowercaseName;
     _forEachName(names, function (name) {
       _easeMap[name] = _globals[name] = ease;
       _easeMap[lowercaseName = name.toLowerCase()] = easeOut;
@@ -1270,21 +1028,16 @@ var _config = {
       }
     });
     return ease;
-  },
-  _easeInOutFromOut = function _easeInOutFromOut(easeOut) {
+  },_easeInOutFromOut = function _easeInOutFromOut(easeOut) {
     return function (p) {
       return p < .5 ? (1 - easeOut(1 - p * 2)) / 2 : .5 + easeOut((p - .5) * 2) / 2;
     };
-  },
-  _configElastic = function _configElastic(type, amplitude, period) {
+  },_configElastic = function _configElastic(type, amplitude, period) {
     var p1 = amplitude >= 1 ? amplitude : 1,
       //note: if amplitude is < 1, we simply adjust the period for a more natural feel. Otherwise the math doesn't work right and the curve starts at 1.
-      p2 = (period || (type ? .3 : .45)) / (amplitude < 1 ? amplitude : 1),
-      p3 = p2 / _2PI * (Math.asin(1 / p1) || 0),
-      easeOut = function easeOut(p) {
+      p2 = (period || (type ? .3 : .45)) / (amplitude < 1 ? amplitude : 1),p3 = p2 / _2PI * (Math.asin(1 / p1) || 0),easeOut = function easeOut(p) {
         return p === 1 ? 1 : p1 * Math.pow(2, -10 * p) * _sin((p - p3) * p2) + 1;
-      },
-      ease = type === "out" ? easeOut : type === "in" ? function (p) {
+      },ease = type === "out" ? easeOut : type === "in" ? function (p) {
         return 1 - easeOut(1 - p);
       } : _easeInOutFromOut(easeOut);
     p2 = _2PI / p2; //precalculate to optimize
@@ -1292,15 +1045,13 @@ var _config = {
       return _configElastic(type, amplitude, period);
     };
     return ease;
-  },
-  _configBack = function _configBack(type, overshoot) {
+  },_configBack = function _configBack(type, overshoot) {
     if (overshoot === void 0) {
       overshoot = 1.70158;
     }
     var easeOut = function easeOut(p) {
         return p ? --p * p * ((overshoot + 1) * p + overshoot) + 1 : 0;
-      },
-      ease = type === "out" ? easeOut : type === "in" ? function (p) {
+      },ease = type === "out" ? easeOut : type === "in" ? function (p) {
         return 1 - easeOut(1 - p);
       } : _easeInOutFromOut(easeOut);
     ease.config = function (overshoot) {
@@ -1335,10 +1086,7 @@ _forEachName("Linear,Quad,Cubic,Quart,Quint,Strong", function (name, i) {
 _easeMap.Linear.easeNone = _easeMap.none = _easeMap.Linear.easeIn;
 _insertEase("Elastic", _configElastic("in"), _configElastic("out"), _configElastic());
 (function (n, c) {
-  var n1 = 1 / c,
-    n2 = 2 * n1,
-    n3 = 2.5 * n1,
-    easeOut = function easeOut(p) {
+  var n1 = 1 / c,n2 = 2 * n1,n3 = 2.5 * n1,easeOut = function easeOut(p) {
       return p < n1 ? n * p * p : p < n2 ? n * Math.pow(p - 1.5 / c, 2) + .75 : p < n3 ? n * (p -= 2.25 / c) * p + .9375 : n * Math.pow(p - 2.625 / c, 2) + .984375;
     };
   _insertEase("Bounce", function (p) {
@@ -1360,10 +1108,7 @@ _easeMap.SteppedEase = _easeMap.steps = _globals.SteppedEase = {
     if (steps === void 0) {
       steps = 1;
     }
-    var p1 = 1 / steps,
-      p2 = steps + (immediateStart ? 0 : 1),
-      p3 = immediateStart ? 1 : 0,
-      max = 1 - _tinyNum;
+    var p1 = 1 / steps,p2 = steps + (immediateStart ? 0 : 1),p3 = immediateStart ? 1 : 0,max = 1 - _tinyNum;
     return function (p) {
       return ((p2 * _clamp(0, max, p) | 0) + p3) * p1;
     };
@@ -1453,13 +1198,11 @@ export var Animation = /*#__PURE__*/function () {
       _lazySafeRender(this, _totalTime, suppressEvents); //   this._lock = 0;
       //}
     }
-
     return this;
   };
   _proto.time = function time(value, suppressEvents) {
     return arguments.length ? this.totalTime(Math.min(this.totalDuration(), value + _elapsedCycleDuration(this)) % (this._dur + this._rDelay) || (value ? this._dur : 0), suppressEvents) : this._time; // note: if the modulus results in 0, the playhead could be exactly at the end or the beginning, and we always defer to the END with a non-zero value, otherwise if you set the time() to the very end (duration()), it would render at the START!
   };
-
   _proto.totalProgress = function totalProgress(value, suppressEvents) {
     return arguments.length ? this.totalTime(this.totalDuration() * value, suppressEvents) : this.totalDuration() ? Math.min(1, this._tTime / this._tDur) : this.ratio;
   };
@@ -1471,12 +1214,10 @@ export var Animation = /*#__PURE__*/function () {
     return arguments.length ? this.totalTime(this._time + (value - 1) * cycleDuration, suppressEvents) : this._repeat ? _animationCycle(this._tTime, cycleDuration) + 1 : 1;
   } // potential future addition:
   ;
-
   _proto.timeScale = function timeScale(value) {
     if (!arguments.length) {
       return this._rts === -_tinyNum ? 0 : this._rts; // recorded timeScale. Special case: if someone calls reverse() on an animation with timeScale of 0, we assign it -_tinyNum to remember it's reversed.
     }
-
     if (this._rts === value) {
       return this;
     }
@@ -1499,13 +1240,13 @@ export var Animation = /*#__PURE__*/function () {
       if (value) {
         this._pTime = this._tTime || Math.max(-this._delay, this.rawTime()); // if the pause occurs during the delay phase, make sure that's factored in when resuming.
         this._ts = this._act = 0; // _ts is the functional timeScale, so a paused tween would effectively have a timeScale of 0. We record the "real" timeScale as _rts (recorded time scale)
-      } else {
+      } else
+      {
         _wake();
         this._ts = this._rts; //only defer to _pTime (pauseTime) if tTime is zero. Remember, someone could pause() an animation, then scrub the playhead and resume(). If the parent doesn't have smoothChildTiming, we render at the rawTime() because the startTime won't get updated.
         this.totalTime(this.parent && !this.parent.smoothChildTiming ? this.rawTime() : this._tTime || this._pTime, this.progress() === 1 && Math.abs(this._zTime) !== _tinyNum && (this._tTime -= _tinyNum)); // edge case: animation.progress(1).pause().play() wouldn't render again because the playhead is already at the end, but the call to totalTime() below will add it back to its parent...and not remove it again (since removing only happens upon rendering at a new time). Offsetting the _tTime slightly is done simply to cause the final render in totalTime() that'll pop it off its timeline (if autoRemoveChildren is true, of course). Check to make sure _zTime isn't -_tinyNum to avoid an edge case where the playhead is pushed to the end but INSIDE a tween/callback, the timeline itself is paused thus halting rendering and leaving a few unrendered. When resuming, it wouldn't render those otherwise.
       }
     }
-
     return this;
   };
   _proto.startTime = function startTime(value) {
@@ -1525,8 +1266,7 @@ export var Animation = /*#__PURE__*/function () {
     return !parent ? this._tTime : wrapRepeats && (!this._ts || this._repeat && this._time && this.totalProgress() < 1) ? this._tTime % (this._dur + this._rDelay) : !this._ts ? this._tTime : _parentToChildTotalTime(parent.rawTime(wrapRepeats), this);
   };
   _proto.globalTime = function globalTime(rawTime) {
-    var animation = this,
-      time = arguments.length ? rawTime : animation.rawTime();
+    var animation = this,time = arguments.length ? rawTime : animation.rawTime();
     while (animation) {
       time = animation._start + time / (animation._ts || 1);
       animation = animation._dp;
@@ -1590,9 +1330,7 @@ export var Animation = /*#__PURE__*/function () {
     return this;
   };
   _proto.isActive = function isActive() {
-    var parent = this.parent || this._dp,
-      start = this._start,
-      rawTime;
+    var parent = this.parent || this._dp,start = this._start,rawTime;
     return !!(!parent || this._ts && this._initted && parent.isActive() && (rawTime = parent.rawTime(true)) >= start && rawTime < this.endTime(true) - _tinyNum);
   };
   _proto.eventCallback = function eventCallback(type, callback, params) {
@@ -1600,7 +1338,8 @@ export var Animation = /*#__PURE__*/function () {
     if (arguments.length > 1) {
       if (!callback) {
         delete vars[type];
-      } else {
+      } else
+      {
         vars[type] = callback;
         params && (vars[type + "Params"] = params);
         type === "onUpdate" && (this._onUpdate = callback);
@@ -1612,8 +1351,7 @@ export var Animation = /*#__PURE__*/function () {
   _proto.then = function then(onFulfilled) {
     var self = this;
     return new Promise(function (resolve) {
-      var f = _isFunction(onFulfilled) ? onFulfilled : _passThrough,
-        _resolve = function _resolve() {
+      var f = _isFunction(onFulfilled) ? onFulfilled : _passThrough,_resolve = function _resolve() {
           var _then = self.then;
           self.then = null; // temporarily null the then() method to avoid an infinite loop (see https://github.com/greensock/GSAP/issues/322)
           _isFunction(f) && (f = f(self)) && (f.then || f === self) && (self.then = _then);
@@ -1622,7 +1360,8 @@ export var Animation = /*#__PURE__*/function () {
         };
       if (self._initted && self.totalProgress() === 1 && self._ts >= 0 || !self._tTime && self._ts < 0) {
         _resolve();
-      } else {
+      } else
+      {
         self._prom = _resolve;
       }
     });
@@ -1700,7 +1439,6 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     return _addToTimeline(this, Tween.delayedCall(0, callback, params), position);
   } //ONLY for backward compatibility! Maybe delete?
   ;
-
   _proto2.staggerTo = function staggerTo(targets, duration, vars, stagger, position, onCompleteAll, onCompleteAllParams) {
     vars.duration = duration;
     vars.stagger = vars.stagger || stagger;
@@ -1721,24 +1459,9 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     return this.staggerTo(targets, duration, toVars, stagger, position, onCompleteAll, onCompleteAllParams);
   };
   _proto2.render = function render(totalTime, suppressEvents, force) {
-    var prevTime = this._time,
-      tDur = this._dirty ? this.totalDuration() : this._tDur,
-      dur = this._dur,
-      tTime = totalTime <= 0 ? 0 : _roundPrecise(totalTime),
+    var prevTime = this._time,tDur = this._dirty ? this.totalDuration() : this._tDur,dur = this._dur,tTime = totalTime <= 0 ? 0 : _roundPrecise(totalTime),
       // if a paused timeline is resumed (or its _start is updated for another reason...which rounds it), that could result in the playhead shifting a **tiny** amount and a zero-duration child at that spot may get rendered at a different ratio, like its totalTime in render() may be 1e-17 instead of 0, for example.
-      crossingStart = this._zTime < 0 !== totalTime < 0 && (this._initted || !dur),
-      time,
-      child,
-      next,
-      iteration,
-      cycleDuration,
-      prevPaused,
-      pauseTween,
-      timeScale,
-      prevStart,
-      prevIteration,
-      yoyo,
-      isYoyo;
+      crossingStart = this._zTime < 0 !== totalTime < 0 && (this._initted || !dur),time,child,next,iteration,cycleDuration,prevPaused,pauseTween,timeScale,prevStart,prevIteration,yoyo,isYoyo;
     this !== _globalTimeline && tTime > tDur && totalTime >= 0 && (tTime = tDur);
     if (tTime !== this._tTime || force || crossingStart) {
       if (prevTime !== this._time && dur) {
@@ -1766,7 +1489,8 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
           // the tDur === tTime is for edge cases where there's a lengthy decimal on the duration and it may reach the very end but the time is rendered as not-quite-there (remember, tDur is rounded to 4 decimals whereas dur isn't)
           iteration = this._repeat;
           time = dur;
-        } else {
+        } else
+        {
           iteration = ~~(tTime / cycleDuration);
           if (iteration && iteration === tTime / cycleDuration) {
             time = dur;
@@ -1789,8 +1513,7 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
         ensure that zero-duration tweens at the very beginning or end of the Timeline work.
         */
         if (iteration !== prevIteration && !this._lock) {
-          var rewinding = yoyo && prevIteration & 1,
-            doesWrap = rewinding === (yoyo && iteration & 1);
+          var rewinding = yoyo && prevIteration & 1,doesWrap = rewinding === (yoyo && iteration & 1);
           iteration < prevIteration && (rewinding = !rewinding);
           prevTime = rewinding ? 0 : dur;
           this._lock = 1;
@@ -1832,7 +1555,6 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
         this._zTime = totalTime;
         prevTime = 0; // upon init, the playhead should always go forward; someone could invalidate() a completed timeline and then if they restart(), that would make child tweens render in reverse order which could lock in the wrong starting values if they build on each other, like tl.to(obj, {x: 100}).to(obj, {x: 0}).
       }
-
       if (!prevTime && time && !suppressEvents) {
         _callback(this, "onStart");
         if (this._tTime !== tTime) {
@@ -1859,7 +1581,8 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
           }
           child = next;
         }
-      } else {
+      } else
+      {
         child = this._last;
         var adjustedTime = totalTime < 0 ? totalTime : time; //when the playhead goes backward beyond the start of this timeline, we must pass that information down to the child animations so that zero-duration tweens know whether to render their starting or ending values.
         while (child) {
@@ -1891,7 +1614,9 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
         }
       }
       this._onUpdate && !suppressEvents && _callback(this, "onUpdate", true);
-      if (tTime === tDur && tDur >= this.totalDuration() || !tTime && prevTime) if (prevStart === this._start || Math.abs(timeScale) !== Math.abs(this._ts)) if (!this._lock) {
+      if (tTime === tDur && tDur >= this.totalDuration() || !tTime && prevTime)
+      if (prevStart === this._start || Math.abs(timeScale) !== Math.abs(this._ts))
+      if (!this._lock) {
         (totalTime || !dur) && (tTime === tDur && this._ts > 0 || !tTime && this._ts < 0) && _removeFromParent(this, 1); // don't remove if the timeline is reversed and the playhead isn't at 0, otherwise tl.progress(1).reverse() won't work. Only remove if the playhead is at the end and timeScale is positive, or if the playhead is at 0 and the timeScale is negative.
         if (!suppressEvents && !(totalTime < 0 && !prevTime) && (tTime || prevTime || !tDur)) {
           _callback(this, tTime === tDur && totalTime >= 0 ? "onComplete" : "onReverseComplete", true);
@@ -1916,13 +1641,13 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
       }
       if (_isFunction(child)) {
         child = Tween.delayedCall(0, child);
-      } else {
+      } else
+      {
         return this;
       }
     }
     return this !== child ? _addToTimeline(this, child, position) : this; //don't allow a timeline to be added to itself as a child!
   };
-
   _proto2.getChildren = function getChildren(nested, tweens, timelines, ignoreBeforeTime) {
     if (nested === void 0) {
       nested = true;
@@ -1936,13 +1661,13 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     if (ignoreBeforeTime === void 0) {
       ignoreBeforeTime = -_bigNum;
     }
-    var a = [],
-      child = this._first;
+    var a = [],child = this._first;
     while (child) {
       if (child._start >= ignoreBeforeTime) {
         if (child instanceof Tween) {
           tweens && a.push(child);
-        } else {
+        } else
+        {
           timelines && a.push(child);
           nested && a.push.apply(a, child.getChildren(true, tweens, timelines));
         }
@@ -1952,8 +1677,7 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     return a;
   };
   _proto2.getById = function getById(id) {
-    var animations = this.getChildren(1, 1, 1),
-      i = animations.length;
+    var animations = this.getChildren(1, 1, 1),i = animations.length;
     while (i--) {
       if (animations[i].vars.id === id) {
         return animations[i];
@@ -2011,18 +1735,14 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     }
   };
   _proto2.killTweensOf = function killTweensOf(targets, props, onlyActive) {
-    var tweens = this.getTweensOf(targets, onlyActive),
-      i = tweens.length;
+    var tweens = this.getTweensOf(targets, onlyActive),i = tweens.length;
     while (i--) {
       _overwritingTween !== tweens[i] && tweens[i].kill(targets, props);
     }
     return this;
   };
   _proto2.getTweensOf = function getTweensOf(targets, onlyActive) {
-    var a = [],
-      parsedTargets = toArray(targets),
-      child = this._first,
-      isGlobalTime = _isNumber(onlyActive),
+    var a = [],parsedTargets = toArray(targets),child = this._first,isGlobalTime = _isNumber(onlyActive),
       // a number is interpreted as a global time. If the animation spans
       children;
     while (child) {
@@ -2031,7 +1751,8 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
           // note: if this is for overwriting, it should only be for tweens that aren't paused and are initted.
           a.push(child);
         }
-      } else if ((children = child.getTweensOf(parsedTargets, onlyActive)).length) {
+      } else
+      if ((children = child.getTweensOf(parsedTargets, onlyActive)).length) {
         a.push.apply(a, children);
       }
       child = child._next;
@@ -2039,18 +1760,9 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     return a;
   } // potential future feature - targets() on timelines
   ;
-
   _proto2.tweenTo = function tweenTo(position, vars) {
     vars = vars || {};
-    var tl = this,
-      endTime = _parsePosition(tl, position),
-      _vars = vars,
-      startAt = _vars.startAt,
-      _onStart = _vars.onStart,
-      onStartParams = _vars.onStartParams,
-      immediateRender = _vars.immediateRender,
-      initted,
-      tween = Tween.to(tl, _setDefaults({
+    var tl = this,endTime = _parsePosition(tl, position),_vars = vars,startAt = _vars.startAt,_onStart = _vars.onStart,onStartParams = _vars.onStartParams,immediateRender = _vars.immediateRender,initted,tween = Tween.to(tl, _setDefaults({
         ease: vars.ease || "none",
         lazy: false,
         immediateRender: false,
@@ -2098,9 +1810,7 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     if (ignoreBeforeTime === void 0) {
       ignoreBeforeTime = 0;
     }
-    var child = this._first,
-      labels = this.labels,
-      p;
+    var child = this._first,labels = this.labels,p;
     while (child) {
       if (child._start >= ignoreBeforeTime) {
         child._start += amount;
@@ -2130,8 +1840,7 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     if (includeLabels === void 0) {
       includeLabels = true;
     }
-    var child = this._first,
-      next;
+    var child = this._first,next;
     while (child) {
       next = child._next;
       this.remove(child);
@@ -2142,13 +1851,7 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     return _uncache(this);
   };
   _proto2.totalDuration = function totalDuration(value) {
-    var max = 0,
-      self = this,
-      child = self._last,
-      prevStart = _bigNum,
-      prev,
-      start,
-      parent;
+    var max = 0,self = this,child = self._last,prevStart = _bigNum,prev,start,parent;
     if (arguments.length) {
       return self.timeScale((self._repeat < 0 ? self.duration() : self.totalDuration()) / (self.reversed() ? -value : value));
     }
@@ -2162,7 +1865,8 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
           //in case one of the tweens shifted out of order, it needs to be re-inserted into the correct position in the sequence
           self._lock = 1; //prevent endless recursive calls - there are methods that get triggered that check duration/totalDuration when we add().
           _addToTimeline(self, child, start - child._delay, 1)._lock = 0;
-        } else {
+        } else
+        {
           prevStart = start;
         }
         if (start < 0 && child._ts) {
@@ -2192,7 +1896,8 @@ export var Timeline = /*#__PURE__*/function (_Animation) {
     if (_ticker.frame >= _nextGCFrame) {
       _nextGCFrame += _config.autoSleep || 120;
       var child = _globalTimeline._first;
-      if (!child || !child._ts) if (_config.autoSleep && _ticker._listeners.length < 2) {
+      if (!child || !child._ts)
+      if (_config.autoSleep && _ticker._listeners.length < 2) {
         while (child && !child._ts) {
           child = child._next;
         }
@@ -2209,17 +1914,7 @@ _setDefaults(Timeline.prototype, {
 });
 var _addComplexStringPropTween = function _addComplexStringPropTween(target, prop, start, end, setter, stringFilter, funcParam) {
     //note: we call _addComplexStringPropTween.call(tweenInstance...) to ensure that it's scoped properly. We may call it from within a plugin too, thus "this" would refer to the plugin.
-    var pt = new PropTween(this._pt, target, prop, 0, 1, _renderComplexString, null, setter),
-      index = 0,
-      matchIndex = 0,
-      result,
-      startNums,
-      color,
-      endNum,
-      chunk,
-      startNum,
-      hasRandom,
-      a;
+    var pt = new PropTween(this._pt, target, prop, 0, 1, _renderComplexString, null, setter),index = 0,matchIndex = 0,result,startNums,color,endNum,chunk,startNum,hasRandom,a;
     pt.b = start;
     pt.e = end;
     start += ""; //ensure values are strings
@@ -2239,7 +1934,8 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
       chunk = end.substring(index, result.index);
       if (color) {
         color = (color + 1) % 5;
-      } else if (chunk.substr(-5) === "rgba(") {
+      } else
+      if (chunk.substr(-5) === "rgba(") {
         color = 1;
       }
       if (endNum !== startNums[matchIndex++]) {
@@ -2260,16 +1956,11 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
     if (_relExp.test(end) || hasRandom) {
       pt.e = 0; //if the end string contains relative values or dynamic random(...) values, delete the end it so that on the final render we don't actually set it to the string with += or -= characters (forces it to use the calculated value).
     }
-
     this._pt = pt; //start the linked list with this new PropTween. Remember, we call _addComplexStringPropTween.call(tweenInstance...) to ensure that it's scoped properly. We may call it from within a plugin too, thus "this" would refer to the plugin.
     return pt;
-  },
-  _addPropTween = function _addPropTween(target, prop, start, end, index, targets, modifier, stringFilter, funcParam) {
+  },_addPropTween = function _addPropTween(target, prop, start, end, index, targets, modifier, stringFilter, funcParam) {
     _isFunction(end) && (end = end(index || 0, target, targets));
-    var currentValue = target[prop],
-      parsedStart = start !== "get" ? start : !_isFunction(currentValue) ? currentValue : funcParam ? target[prop.indexOf("set") || !_isFunction(target["get" + prop.substr(3)]) ? prop : "get" + prop.substr(3)](funcParam) : target[prop](),
-      setter = !_isFunction(currentValue) ? _setterPlain : funcParam ? _setterFuncWithParam : _setterFunc,
-      pt;
+    var currentValue = target[prop],parsedStart = start !== "get" ? start : !_isFunction(currentValue) ? currentValue : funcParam ? target[prop.indexOf("set") || !_isFunction(target["get" + prop.substr(3)]) ? prop : "get" + prop.substr(3)](funcParam) : target[prop](),setter = !_isFunction(currentValue) ? _setterPlain : funcParam ? _setterFuncWithParam : _setterFunc,pt;
     if (_isString(end)) {
       if (~end.indexOf("random(")) {
         end = _replaceRandom(end);
@@ -2300,14 +1991,12 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
     if (!_isObject(vars) || vars.style && vars.nodeType || _isArray(vars) || _isTypedArray(vars)) {
       return _isString(vars) ? _parseFuncOrString(vars, tween, index, target, targets) : vars;
     }
-    var copy = {},
-      p;
+    var copy = {},p;
     for (p in vars) {
       copy[p] = _parseFuncOrString(vars[p], tween, index, target, targets);
     }
     return copy;
-  },
-  _checkPlugin = function _checkPlugin(property, vars, tween, index, target, targets) {
+  },_checkPlugin = function _checkPlugin(property, vars, tween, index, target, targets) {
     var plugin, pt, ptLookup, i;
     if (_plugins[property] && (plugin = new _plugins[property]()).init(target, plugin.rawVars ? vars[property] : _processVars(vars[property], index, target, targets, tween), tween, index, targets) !== false) {
       tween._pt = pt = new PropTween(tween._pt, target, property, 0, 1, plugin.render, plugin, 0, plugin.priority);
@@ -2320,42 +2009,10 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
       }
     }
     return plugin;
-  },
-  _overwritingTween,
+  },_overwritingTween,
   //store a reference temporarily so we can avoid overwriting itself.
   _initTween = function _initTween(tween, time) {
-    var vars = tween.vars,
-      ease = vars.ease,
-      startAt = vars.startAt,
-      immediateRender = vars.immediateRender,
-      lazy = vars.lazy,
-      onUpdate = vars.onUpdate,
-      onUpdateParams = vars.onUpdateParams,
-      callbackScope = vars.callbackScope,
-      runBackwards = vars.runBackwards,
-      yoyoEase = vars.yoyoEase,
-      keyframes = vars.keyframes,
-      autoRevert = vars.autoRevert,
-      dur = tween._dur,
-      prevStartAt = tween._startAt,
-      targets = tween._targets,
-      parent = tween.parent,
-      fullTargets = parent && parent.data === "nested" ? parent.parent._targets : targets,
-      autoOverwrite = tween._overwrite === "auto" && !_suppressOverwrites,
-      tl = tween.timeline,
-      cleanVars,
-      i,
-      p,
-      pt,
-      target,
-      hasPriority,
-      gsData,
-      harness,
-      plugin,
-      ptLookup,
-      index,
-      harnessVars,
-      overwritten;
+    var vars = tween.vars,ease = vars.ease,startAt = vars.startAt,immediateRender = vars.immediateRender,lazy = vars.lazy,onUpdate = vars.onUpdate,onUpdateParams = vars.onUpdateParams,callbackScope = vars.callbackScope,runBackwards = vars.runBackwards,yoyoEase = vars.yoyoEase,keyframes = vars.keyframes,autoRevert = vars.autoRevert,dur = tween._dur,prevStartAt = tween._startAt,targets = tween._targets,parent = tween.parent,fullTargets = parent && parent.data === "nested" ? parent.parent._targets : targets,autoOverwrite = tween._overwrite === "auto" && !_suppressOverwrites,tl = tween.timeline,cleanVars,i,p,pt,target,hasPriority,gsData,harness,plugin,ptLookup,index,harnessVars,overwritten;
     tl && (!keyframes || !ease) && (ease = "none");
     tween._ease = _parseEase(ease, _defaults.ease);
     tween._yEase = yoyoEase ? _invertEase(_parseEase(yoyoEase === true ? ease : yoyoEase, _defaults.ease)) : 0;
@@ -2398,14 +2055,17 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
           // 	time && (tween._zTime = time);
           // 	return; //we skip initialization here so that overwriting doesn't occur until the tween actually begins. Otherwise, if you create several immediateRender:true tweens of the same target/properties to drop into a Timeline, the last one created would overwrite the first ones because they didn't get placed into the timeline yet before the first render occurs and kicks in overwriting.
           // }
-        } else if (autoRevert === false) {
+        } else
+        if (autoRevert === false) {
           tween._startAt = 0;
         }
-      } else if (runBackwards && dur) {
+      } else
+      if (runBackwards && dur) {
         //from() tweens must be handled uniquely: their beginning values must be rendered but we don't want overwriting to occur yet (when time is still 0). Wait until the tween actually begins before doing all the routines like overwriting. At that time, we should render at the END of the tween to ensure that things initialize correctly (remember, from() tweens go backwards)
         if (prevStartAt) {
           !autoRevert && (tween._startAt = 0);
-        } else {
+        } else
+        {
           time && (immediateRender = false); //in rare cases (like if a from() tween runs and then is invalidate()-ed), immediateRender could be true but the initial forced-render gets skipped, so there's no need to force the render in this context when the _time is greater than 0
           p = _setDefaults({
             overwrite: false,
@@ -2422,7 +2082,8 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
           time < 0 && tween._startAt.render(-1, true); // rare edge case, like if a render is forced in the negative direction of a non-initted from() tween.
           if (!immediateRender) {
             _initTween(tween._startAt, _tinyNum); //ensures that the initial values are recorded
-          } else if (!time) {
+          } else
+          if (!time) {
             return;
           }
         }
@@ -2446,7 +2107,8 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
           for (p in cleanVars) {
             if (_plugins[p] && (plugin = _checkPlugin(p, cleanVars, tween, index, target, fullTargets))) {
               plugin.priority && (hasPriority = 1);
-            } else {
+            } else
+            {
               ptLookup[p] = pt = _addPropTween.call(tween, target, p, "get", cleanVars[p], index, fullTargets, 0, vars.stringFilter);
             }
           }
@@ -2463,17 +2125,10 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
       hasPriority && _sortPropTweensByPriority(tween);
       tween._onInit && tween._onInit(tween); //plugins like RoundProps must wait until ALL of the PropTweens are instantiated. In the plugin's init() function, it sets the _onInit on the tween instance. May not be pretty/intuitive, but it's fast and keeps file size down.
     }
-
     tween._onUpdate = onUpdate;
     tween._initted = (!tween._op || tween._pt) && !overwritten; // if overwrittenProps resulted in the entire tween being killed, do NOT flag it as initted or else it may render for one tick.
-  },
-  _addAliasesToVars = function _addAliasesToVars(targets, vars) {
-    var harness = targets[0] ? _getCache(targets[0]).harness : 0,
-      propertyAliases = harness && harness.aliases,
-      copy,
-      p,
-      i,
-      aliases;
+  },_addAliasesToVars = function _addAliasesToVars(targets, vars) {
+    var harness = targets[0] ? _getCache(targets[0]).harness : 0,propertyAliases = harness && harness.aliases,copy,p,i,aliases;
     if (!propertyAliases) {
       return vars;
     }
@@ -2488,12 +2143,9 @@ var _addComplexStringPropTween = function _addComplexStringPropTween(target, pro
       }
     }
     return copy;
-  },
-  _parseFuncOrString = function _parseFuncOrString(value, tween, i, target, targets) {
+  },_parseFuncOrString = function _parseFuncOrString(value, tween, i, target, targets) {
     return _isFunction(value) ? value.call(tween, i, target, targets) : _isString(value) && ~value.indexOf("random(") ? _replaceRandom(value) : value;
-  },
-  _staggerTweenProps = _callbackNames + "repeat,repeatDelay,yoyo,repeatRefresh,yoyoEase",
-  _staggerPropsToSkip = (_staggerTweenProps + ",id,stagger,delay,duration,paused,scrollTrigger").split(",");
+  },_staggerTweenProps = _callbackNames + "repeat,repeatDelay,yoyo,repeatRefresh,yoyoEase",_staggerPropsToSkip = (_staggerTweenProps + ",id,stagger,delay,duration,paused,scrollTrigger").split(",");
 /*
  * --------------------------------------------------------------------------------------
  * TWEEN
@@ -2509,26 +2161,7 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
       position = null;
     }
     _this3 = _Animation2.call(this, skipInherit ? vars : _inheritDefaults(vars)) || this;
-    var _this3$vars = _this3.vars,
-      duration = _this3$vars.duration,
-      delay = _this3$vars.delay,
-      immediateRender = _this3$vars.immediateRender,
-      stagger = _this3$vars.stagger,
-      overwrite = _this3$vars.overwrite,
-      keyframes = _this3$vars.keyframes,
-      defaults = _this3$vars.defaults,
-      scrollTrigger = _this3$vars.scrollTrigger,
-      yoyoEase = _this3$vars.yoyoEase,
-      parent = vars.parent || _globalTimeline,
-      parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber(targets[0]) : "length" in vars) ? [targets] : toArray(targets),
-      tl,
-      i,
-      copy,
-      l,
-      p,
-      curTarget,
-      staggerFunc,
-      staggerVarsToMerge;
+    var _this3$vars = _this3.vars,duration = _this3$vars.duration,delay = _this3$vars.delay,immediateRender = _this3$vars.immediateRender,stagger = _this3$vars.stagger,overwrite = _this3$vars.overwrite,keyframes = _this3$vars.keyframes,defaults = _this3$vars.defaults,scrollTrigger = _this3$vars.scrollTrigger,yoyoEase = _this3$vars.yoyoEase,parent = vars.parent || _globalTimeline,parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber(targets[0]) : "length" in vars) ? [targets] : toArray(targets),tl,i,copy,l,p,curTarget,staggerFunc,staggerVarsToMerge;
     _this3._targets = parsedTargets.length ? _harness(parsedTargets) : _warn("GSAP target " + targets + " not found. https://greensock.com", !_config.nullTargetWarn) || [];
     _this3._ptLookup = []; //PropTween lookup. An array containing an object for each target, having keys for each tweening property
     _this3._overwrite = overwrite;
@@ -2552,7 +2185,8 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
         }) : keyframes.forEach(function (frame) {
           return tl.to(parsedTargets, frame, ">");
         });
-      } else {
+      } else
+      {
         l = parsedTargets.length;
         staggerFunc = stagger ? distribute(stagger) : _emptyFunc;
         if (_isObject(stagger)) {
@@ -2587,12 +2221,11 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
         }
         tl.duration() ? duration = delay = 0 : _this3.timeline = 0; // if the timeline's duration is 0, we don't need a timeline internally!
       }
-
       duration || _this3.duration(duration = tl.duration());
-    } else {
+    } else
+    {
       _this3.timeline = 0; //speed optimization, faster lookups (no going up the prototype chain)
     }
-
     if (overwrite === true && !_suppressOverwrites) {
       _overwritingTween = _assertThisInitialized(_this3);
       _globalTimeline.killTweensOf(parsedTargets);
@@ -2605,28 +2238,16 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
       _this3._tTime = -_tinyNum; //forces a render without having to set the render() "force" parameter to true because we want to allow lazying by default (using the "force" parameter always forces an immediate full render)
       _this3.render(Math.max(0, -delay)); //in case delay is negative
     }
-
     scrollTrigger && _scrollTrigger(_assertThisInitialized(_this3), scrollTrigger);
     return _this3;
   }
   var _proto3 = Tween.prototype;
   _proto3.render = function render(totalTime, suppressEvents, force) {
-    var prevTime = this._time,
-      tDur = this._tDur,
-      dur = this._dur,
-      tTime = totalTime > tDur - _tinyNum && totalTime >= 0 ? tDur : totalTime < _tinyNum ? 0 : totalTime,
-      time,
-      pt,
-      iteration,
-      cycleDuration,
-      prevIteration,
-      isYoyo,
-      ratio,
-      timeline,
-      yoyoEase;
+    var prevTime = this._time,tDur = this._tDur,dur = this._dur,tTime = totalTime > tDur - _tinyNum && totalTime >= 0 ? tDur : totalTime < _tinyNum ? 0 : totalTime,time,pt,iteration,cycleDuration,prevIteration,isYoyo,ratio,timeline,yoyoEase;
     if (!dur) {
       _renderZeroDurationTween(this, totalTime, suppressEvents, force);
-    } else if (tTime !== this._tTime || !totalTime || force || !this._initted && this._tTime || this._startAt && this._zTime < 0 !== totalTime < 0) {
+    } else
+    if (tTime !== this._tTime || !totalTime || force || !this._initted && this._tTime || this._startAt && this._zTime < 0 !== totalTime < 0) {
       //this senses if we're crossing over the start time, in which case we must record _zTime and force the render, but we do it in this lengthy conditional way for performance reasons (usually we can skip the calculations): this._initted && (this._zTime < 0) !== (totalTime < 0)
       time = tTime;
       timeline = this.timeline;
@@ -2641,7 +2262,8 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
           // the tDur === tTime is for edge cases where there's a lengthy decimal on the duration and it may reach the very end but the time is rendered as not-quite-there (remember, tDur is rounded to 4 decimals whereas dur isn't)
           iteration = this._repeat;
           time = dur;
-        } else {
+        } else
+        {
           iteration = ~~(tTime / cycleDuration);
           if (iteration && iteration === tTime / cycleDuration) {
             time = dur;
@@ -2740,17 +2362,7 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
       this.parent && tDur !== this.timeline.totalDuration() && _setDuration(this, this._dur * this.timeline._tDur / tDur, 0, 1); // if a nested tween is killed that changes the duration, it should affect this tween's duration. We must use the ratio, though, because sometimes the internal timeline is stretched like for keyframes where they don't all add up to whatever the parent tween's duration was set to.
       return this;
     }
-    var parsedTargets = this._targets,
-      killingTargets = targets ? toArray(targets) : parsedTargets,
-      propTweenLookup = this._ptLookup,
-      firstPT = this._pt,
-      overwrittenProps,
-      curLookup,
-      curOverwriteProps,
-      props,
-      p,
-      pt,
-      i;
+    var parsedTargets = this._targets,killingTargets = targets ? toArray(targets) : parsedTargets,propTweenLookup = this._ptLookup,firstPT = this._pt,overwrittenProps,curLookup,curOverwriteProps,props,p,pt,i;
     if ((!vars || vars === "all") && _arraysMatch(parsedTargets, killingTargets)) {
       vars === "all" && (this._pt = 0);
       return _interrupt(this);
@@ -2775,7 +2387,8 @@ export var Tween = /*#__PURE__*/function (_Animation2) {
           overwrittenProps[i] = vars;
           props = curLookup;
           curOverwriteProps = {};
-        } else {
+        } else
+        {
           curOverwriteProps = overwrittenProps[i] = overwrittenProps[i] || {};
           props = vars;
         }
@@ -2844,8 +2457,7 @@ _setDefaults(Tween.prototype, {
 //for backward compatibility. Leverage the timeline calls.
 _forEachName("staggerTo,staggerFrom,staggerFromTo", function (name) {
   Tween[name] = function () {
-    var tl = new Timeline(),
-      params = _slice.call(arguments, 0);
+    var tl = new Timeline(),params = _slice.call(arguments, 0);
     params.splice(name === "staggerFromTo" ? 5 : 4, 0, 0);
     return tl[name].apply(tl, params);
   };
@@ -2857,84 +2469,66 @@ _forEachName("staggerTo,staggerFrom,staggerFromTo", function (name) {
  */
 var _setterPlain = function _setterPlain(target, property, value) {
     return target[property] = value;
-  },
-  _setterFunc = function _setterFunc(target, property, value) {
+  },_setterFunc = function _setterFunc(target, property, value) {
     return target[property](value);
-  },
-  _setterFuncWithParam = function _setterFuncWithParam(target, property, value, data) {
+  },_setterFuncWithParam = function _setterFuncWithParam(target, property, value, data) {
     return target[property](data.fp, value);
-  },
-  _setterAttribute = function _setterAttribute(target, property, value) {
+  },_setterAttribute = function _setterAttribute(target, property, value) {
     return target.setAttribute(property, value);
-  },
-  _getSetter = function _getSetter(target, property) {
+  },_getSetter = function _getSetter(target, property) {
     return _isFunction(target[property]) ? _setterFunc : _isUndefined(target[property]) && target.setAttribute ? _setterAttribute : _setterPlain;
-  },
-  _renderPlain = function _renderPlain(ratio, data) {
+  },_renderPlain = function _renderPlain(ratio, data) {
     return data.set(data.t, data.p, Math.round((data.s + data.c * ratio) * 1000000) / 1000000, data);
-  },
-  _renderBoolean = function _renderBoolean(ratio, data) {
+  },_renderBoolean = function _renderBoolean(ratio, data) {
     return data.set(data.t, data.p, !!(data.s + data.c * ratio), data);
-  },
-  _renderComplexString = function _renderComplexString(ratio, data) {
-    var pt = data._pt,
-      s = "";
+  },_renderComplexString = function _renderComplexString(ratio, data) {
+    var pt = data._pt,s = "";
     if (!ratio && data.b) {
       //b = beginning string
       s = data.b;
-    } else if (ratio === 1 && data.e) {
+    } else
+    if (ratio === 1 && data.e) {
       //e = ending string
       s = data.e;
-    } else {
+    } else
+    {
       while (pt) {
         s = pt.p + (pt.m ? pt.m(pt.s + pt.c * ratio) : Math.round((pt.s + pt.c * ratio) * 10000) / 10000) + s; //we use the "p" property for the text inbetween (like a suffix). And in the context of a complex string, the modifier (m) is typically just Math.round(), like for RGB colors.
         pt = pt._next;
       }
       s += data.c; //we use the "c" of the PropTween to store the final chunk of non-numeric text.
     }
-
     data.set(data.t, data.p, s, data);
-  },
-  _renderPropTweens = function _renderPropTweens(ratio, data) {
+  },_renderPropTweens = function _renderPropTweens(ratio, data) {
     var pt = data._pt;
     while (pt) {
       pt.r(ratio, pt.d);
       pt = pt._next;
     }
-  },
-  _addPluginModifier = function _addPluginModifier(modifier, tween, target, property) {
-    var pt = this._pt,
-      next;
+  },_addPluginModifier = function _addPluginModifier(modifier, tween, target, property) {
+    var pt = this._pt,next;
     while (pt) {
       next = pt._next;
       pt.p === property && pt.modifier(modifier, tween, target);
       pt = next;
     }
-  },
-  _killPropTweensOf = function _killPropTweensOf(property) {
-    var pt = this._pt,
-      hasNonDependentRemaining,
-      next;
+  },_killPropTweensOf = function _killPropTweensOf(property) {
+    var pt = this._pt,hasNonDependentRemaining,next;
     while (pt) {
       next = pt._next;
       if (pt.p === property && !pt.op || pt.op === property) {
         _removeLinkedListItem(this, pt, "_pt");
-      } else if (!pt.dep) {
+      } else
+      if (!pt.dep) {
         hasNonDependentRemaining = 1;
       }
       pt = next;
     }
     return !hasNonDependentRemaining;
-  },
-  _setterWithModifier = function _setterWithModifier(target, property, value, data) {
+  },_setterWithModifier = function _setterWithModifier(target, property, value, data) {
     data.mSet(target, property, data.m.call(data.tween, value, data.mt), data);
-  },
-  _sortPropTweensByPriority = function _sortPropTweensByPriority(parent) {
-    var pt = parent._pt,
-      next,
-      pt2,
-      first,
-      last; //sorts the PropTween linked list in order of priority because some plugins need to do their work after ALL of the PropTweens were created (like RoundPropsPlugin and ModifiersPlugin)
+  },_sortPropTweensByPriority = function _sortPropTweensByPriority(parent) {
+    var pt = parent._pt,next,pt2,first,last; //sorts the PropTween linked list in order of priority because some plugins need to do their work after ALL of the PropTweens were created (like RoundPropsPlugin and ModifiersPlugin)
     while (pt) {
       next = pt._next;
       pt2 = first;
@@ -2943,12 +2537,14 @@ var _setterPlain = function _setterPlain(target, property, value) {
       }
       if (pt._prev = pt2 ? pt2._prev : last) {
         pt._prev._next = pt;
-      } else {
+      } else
+      {
         first = pt;
       }
       if (pt._next = pt2) {
         pt2._prev = pt;
-      } else {
+      } else
+      {
         last = pt;
       }
       pt = next;
@@ -3015,8 +2611,7 @@ var _gsap = {
   },
   getProperty: function getProperty(target, property, unit, uncache) {
     _isString(target) && (target = toArray(target)[0]); //in case selector text or an array is passed in
-    var getter = _getCache(target || {}).get,
-      format = unit ? _passThrough : _numericIfPossible;
+    var getter = _getCache(target || {}).get,format = unit ? _passThrough : _numericIfPossible;
     unit === "native" && (unit = "");
     return !target ? target : !property ? function (property, unit, uncache) {
       return format((_plugins[property] && _plugins[property].get || getter)(target, property, unit, uncache));
@@ -3027,8 +2622,7 @@ var _gsap = {
     if (target.length > 1) {
       var setters = target.map(function (t) {
           return gsap.quickSetter(t, property, unit);
-        }),
-        l = setters.length;
+        }),l = setters.length;
       return function (value) {
         var i = l;
         while (i--) {
@@ -3037,9 +2631,7 @@ var _gsap = {
       };
     }
     target = target[0] || {};
-    var Plugin = _plugins[property],
-      cache = _getCache(target),
-      p = cache.harness && (cache.harness.aliases || {})[property] || property,
+    var Plugin = _plugins[property],cache = _getCache(target),p = cache.harness && (cache.harness.aliases || {})[property] || property,
       // in case it's an alias, like "rotate" for "rotation".
       setter = Plugin ? function (value) {
         var p = new Plugin();
@@ -3063,11 +2655,7 @@ var _gsap = {
     return _mergeDeep(_config, value || {});
   },
   registerEffect: function registerEffect(_ref3) {
-    var name = _ref3.name,
-      effect = _ref3.effect,
-      plugins = _ref3.plugins,
-      defaults = _ref3.defaults,
-      extendTimeline = _ref3.extendTimeline;
+    var name = _ref3.name,effect = _ref3.effect,plugins = _ref3.plugins,defaults = _ref3.defaults,extendTimeline = _ref3.extendTimeline;
     (plugins || "").split(",").forEach(function (pluginName) {
       return pluginName && !_plugins[pluginName] && !_globals[pluginName] && _warn(name + " effect requires " + pluginName + " plugin.");
     });
@@ -3093,9 +2681,7 @@ var _gsap = {
     if (vars === void 0) {
       vars = {};
     }
-    var tl = new Timeline(vars),
-      child,
-      next;
+    var tl = new Timeline(vars),child,next;
     tl.smoothChildTiming = _isNotFalse(vars.smoothChildTiming);
     _globalTimeline.remove(tl);
     tl._dp = 0; //otherwise it'll get re-activated when adding children and be re-introduced into _globalTimeline's linked list (then added to itself).
@@ -3161,12 +2747,8 @@ var _getPluginPropTween = function _getPluginPropTween(plugin, prop) {
       pt = pt._next;
     }
     return pt;
-  },
-  _addModifiers = function _addModifiers(tween, modifiers) {
-    var targets = tween._targets,
-      p,
-      i,
-      pt;
+  },_addModifiers = function _addModifiers(tween, modifiers) {
+    var targets = tween._targets,p,i,pt;
     for (p in modifiers) {
       i = targets.length;
       while (i--) {
@@ -3180,8 +2762,7 @@ var _getPluginPropTween = function _getPluginPropTween(plugin, prop) {
         }
       }
     }
-  },
-  _buildModifierPlugin = function _buildModifierPlugin(name, modifier) {
+  },_buildModifierPlugin = function _buildModifierPlugin(name, modifier) {
     return {
       name: name,
       rawVars: 1,
@@ -3230,24 +2811,8 @@ export var gsap = _gsap.registerPlugin({
 Tween.version = Timeline.version = gsap.version = "3.8.0";
 _coreReady = 1;
 _windowExists() && _wake();
-var Power0 = _easeMap.Power0,
-  Power1 = _easeMap.Power1,
-  Power2 = _easeMap.Power2,
-  Power3 = _easeMap.Power3,
-  Power4 = _easeMap.Power4,
-  Linear = _easeMap.Linear,
-  Quad = _easeMap.Quad,
-  Cubic = _easeMap.Cubic,
-  Quart = _easeMap.Quart,
-  Quint = _easeMap.Quint,
-  Strong = _easeMap.Strong,
-  Elastic = _easeMap.Elastic,
-  Back = _easeMap.Back,
-  SteppedEase = _easeMap.SteppedEase,
-  Bounce = _easeMap.Bounce,
-  Sine = _easeMap.Sine,
-  Expo = _easeMap.Expo,
-  Circ = _easeMap.Circ;
+var Power0 = _easeMap.Power0,Power1 = _easeMap.Power1,Power2 = _easeMap.Power2,Power3 = _easeMap.Power3,Power4 = _easeMap.Power4,Linear = _easeMap.Linear,Quad = _easeMap.Quad,Cubic = _easeMap.Cubic,Quart = _easeMap.Quart,Quint = _easeMap.Quint,Strong = _easeMap.Strong,Elastic = _easeMap.Elastic,Back = _easeMap.Back,SteppedEase = _easeMap.SteppedEase,Bounce = _easeMap.Bounce,Sine = _easeMap.Sine,Expo = _easeMap.Expo,Circ = _easeMap.Circ;
 export { Power0, Power1, Power2, Power3, Power4, Linear, Quad, Cubic, Quart, Quint, Strong, Elastic, Back, SteppedEase, Bounce, Sine, Expo, Circ };
 export { Tween as TweenMax, Tween as TweenLite, Timeline as TimelineMax, Timeline as TimelineLite, gsap as default, wrap, wrapYoyo, distribute, random, snap, normalize, getUnit, clamp, splitColor, toArray, selector, mapRange, pipe, unitize, interpolate, shuffle }; //export some internal methods/orojects for use in CSSPlugin so that we can externalize that file and allow custom builds that exclude it.
 export { _getProperty, _numExp, _numWithUnitExp, _isString, _isUndefined, _renderComplexString, _relExp, _setDefaults, _removeLinkedListItem, _forEachName, _sortPropTweensByPriority, _colorStringFilter, _replaceRandom, _checkPlugin, _plugins, _ticker, _config, _roundModifier, _round, _missingPlugin, _getSetter, _getCache, _colorExp };
+//# sourceMappingURL=gsap-core.js.map

@@ -1,7 +1,7 @@
 "use strict";
 
 (function (e) {
-  const t = e["bg"] = e["bg"] || {};
+  var t = e["bg"] = e["bg"] || {};
   t.dictionary = Object.assign(t.dictionary || {}, {
     "%0 of %1": "%0 от %1",
     "Align cell text to the bottom": "Подравни текста в клетката към дъното",
@@ -231,3 +231,4 @@
     return e != 1;
   };
 })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {}));
+//# sourceMappingURL=bg.js.map

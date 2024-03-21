@@ -1,5 +1,4 @@
 "use strict";
-
 /*!
  * FilePondPluginImagePreview 4.6.5
  * Licensed under MIT, https://opensource.org/licenses/MIT/
@@ -7,10 +6,14 @@
  */
 /* eslint-disable */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.FilePondPluginImagePreview = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ?
+  module.exports = factory() :
+  typeof define === 'function' && define.amd ?
+  define(factory) : (
+  global = global || self,
+  global.FilePondPluginImagePreview = factory());
 })(this, function () {
   'use strict';
-
   // test if file is of type image and can be viewed in canvas
   var isPreviewableImage = function isPreviewableImage(file) {
     return /^image/.test(file.type);
@@ -20,9 +23,15 @@
       _typeof = function (obj) {
         return typeof obj;
       };
-    } else {
+    } else
+    {
       _typeof = function (obj) {
-        return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj;
+        return obj &&
+        typeof Symbol === 'function' &&
+        obj.constructor === Symbol &&
+        obj !== Symbol.prototype ?
+        'symbol' :
+        typeof obj;
       };
     }
     return _typeof(obj);
@@ -30,7 +39,11 @@
   var REACT_ELEMENT_TYPE;
   function _jsx(type, props, key, children) {
     if (!REACT_ELEMENT_TYPE) {
-      REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol.for && Symbol.for('react.element') || 0xeac7;
+      REACT_ELEMENT_TYPE =
+      typeof Symbol === 'function' &&
+      Symbol.for &&
+      Symbol.for('react.element') ||
+      0xeac7;
     }
     var defaultProps = type && type.defaultProps;
     var childrenLength = arguments.length - 3;
@@ -45,12 +58,14 @@
           props[propName] = defaultProps[propName];
         }
       }
-    } else if (!props) {
+    } else
+    if (!props) {
       props = defaultProps || {};
     }
     if (childrenLength === 1) {
       props.children = children;
-    } else if (childrenLength > 1) {
+    } else
+    if (childrenLength > 1) {
       var childArray = new Array(childrenLength);
       for (var i = 0; i < childrenLength; i++) {
         childArray[i] = arguments[i + 3];
@@ -71,11 +86,13 @@
     if (typeof Symbol === 'function') {
       if (Symbol.asyncIterator) {
         method = iterable[Symbol.asyncIterator];
-        if (method != null) return method.call(iterable);
+        if (method != null)
+        return method.call(iterable);
       }
       if (Symbol.iterator) {
         method = iterable[Symbol.iterator];
-        if (method != null) return method.call(iterable);
+        if (method != null)
+        return method.call(iterable);
       }
     }
     throw new TypeError('Object is not async iterable');
@@ -96,7 +113,8 @@
         };
         if (back) {
           back = back.next = request;
-        } else {
+        } else
+        {
           front = back = request;
           resume(key, arg);
         }
@@ -116,7 +134,8 @@
         }, function (err) {
           resume('throw', err);
         });
-      } catch (err) {
+      }
+      catch (err) {
         settle('throw', err);
       }
     }
@@ -141,7 +160,8 @@
       front = front.next;
       if (front) {
         resume(front.key, front.arg);
-      } else {
+      } else
+      {
         back = null;
       }
     }
@@ -173,8 +193,7 @@
     return new _AwaitValue(value);
   }
   function _asyncGeneratorDelegate(inner, awaitWrap) {
-    var iter = {},
-      waiting = false;
+    var iter = {},waiting = false;
     function pump(key, value) {
       waiting = true;
       value = new Promise(function (resolve) {
@@ -217,20 +236,21 @@
     try {
       var info = gen[key](arg);
       var value = info.value;
-    } catch (error) {
+    }
+    catch (error) {
       reject(error);
       return;
     }
     if (info.done) {
       resolve(value);
-    } else {
+    } else
+    {
       Promise.resolve(value).then(_next, _throw);
     }
   }
   function _asyncToGenerator(fn) {
     return function () {
-      var self = this,
-        args = arguments;
+      var self = this,args = arguments;
       return new Promise(function (resolve, reject) {
         var gen = fn.apply(self, args);
         function _next(value) {
@@ -253,20 +273,24 @@
       var descriptor = props[i];
       descriptor.enumerable = descriptor.enumerable || false;
       descriptor.configurable = true;
-      if ('value' in descriptor) descriptor.writable = true;
+      if ('value' in descriptor)
+      descriptor.writable = true;
       Object.defineProperty(target, descriptor.key, descriptor);
     }
   }
   function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
+    if (protoProps)
+    _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps)
+    _defineProperties(Constructor, staticProps);
     return Constructor;
   }
   function _defineEnumerableProperties(obj, descs) {
     for (var key in descs) {
       var desc = descs[key];
       desc.configurable = desc.enumerable = true;
-      if ('value' in desc) desc.writable = true;
+      if ('value' in desc)
+      desc.writable = true;
       Object.defineProperty(obj, key, desc);
     }
     if (Object.getOwnPropertySymbols) {
@@ -275,7 +299,8 @@
         var sym = objectSymbols[i];
         var desc = descs[sym];
         desc.configurable = desc.enumerable = true;
-        if ('value' in desc) desc.writable = true;
+        if ('value' in desc)
+        desc.writable = true;
         Object.defineProperty(obj, sym, desc);
       }
     }
@@ -300,13 +325,16 @@
         configurable: true,
         writable: true
       });
-    } else {
+    } else
+    {
       obj[key] = value;
     }
     return obj;
   }
   function _extends() {
-    _extends = Object.assign || function (target) {
+    _extends =
+    Object.assign ||
+    function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
         for (var key in source) {
@@ -345,7 +373,8 @@
         configurable: true
       }
     });
-    if (superClass) _setPrototypeOf(subClass, superClass);
+    if (superClass)
+    _setPrototypeOf(subClass, superClass);
   }
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
@@ -353,39 +382,49 @@
     subClass.__proto__ = superClass;
   }
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ?
+    Object.getPrototypeOf :
+    function _getPrototypeOf(o) {
       return o.__proto__ || Object.getPrototypeOf(o);
     };
     return _getPrototypeOf(o);
   }
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    _setPrototypeOf =
+    Object.setPrototypeOf ||
+    function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
     return _setPrototypeOf(o, p);
   }
   function isNativeReflectConstruct() {
-    if (typeof Reflect === 'undefined' || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === 'function') return true;
+    if (typeof Reflect === 'undefined' || !Reflect.construct)
+    return false;
+    if (Reflect.construct.sham)
+    return false;
+    if (typeof Proxy === 'function')
+    return true;
     try {
       Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
       return true;
-    } catch (e) {
+    }
+    catch (e) {
       return false;
     }
   }
   function _construct(Parent, args, Class) {
     if (isNativeReflectConstruct()) {
       _construct = Reflect.construct;
-    } else {
+    } else
+    {
       _construct = function _construct(Parent, args, Class) {
         var a = [null];
         a.push.apply(a, args);
         var Constructor = Function.bind.apply(Parent, a);
         var instance = new Constructor();
-        if (Class) _setPrototypeOf(instance, Class.prototype);
+        if (Class)
+        _setPrototypeOf(instance, Class.prototype);
         return instance;
       };
     }
@@ -397,12 +436,14 @@
   function _wrapNativeSuper(Class) {
     var _cache = typeof Map === 'function' ? new Map() : undefined;
     _wrapNativeSuper = function _wrapNativeSuper(Class) {
-      if (Class === null || !_isNativeFunction(Class)) return Class;
+      if (Class === null || !_isNativeFunction(Class))
+      return Class;
       if (typeof Class !== 'function') {
         throw new TypeError('Super expression must either be null or a function');
       }
       if (typeof _cache !== 'undefined') {
-        if (_cache.has(Class)) return _cache.get(Class);
+        if (_cache.has(Class))
+        return _cache.get(Class);
         _cache.set(Class, Wrapper);
       }
       function Wrapper() {
@@ -421,29 +462,38 @@
     return _wrapNativeSuper(Class);
   }
   function _instanceof(left, right) {
-    if (right != null && typeof Symbol !== 'undefined' && right[Symbol.hasInstance]) {
+    if (right != null &&
+    typeof Symbol !== 'undefined' &&
+    right[Symbol.hasInstance]) {
       return right[Symbol.hasInstance](left);
-    } else {
+    } else
+    {
       return left instanceof right;
     }
   }
   function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
+    return obj && obj.__esModule ?
+    obj :
+    {
       default: obj
     };
   }
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
       return obj;
-    } else {
+    } else
+    {
       var newObj = {};
       if (obj != null) {
         for (var key in obj) {
           if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
+            var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ?
+            Object.getOwnPropertyDescriptor(obj, key) :
+            {};
             if (desc.get || desc.set) {
               Object.defineProperty(newObj, key, desc);
-            } else {
+            } else
+            {
               newObj[key] = obj[key];
             }
           }
@@ -459,30 +509,36 @@
     }
   }
   function _objectDestructuringEmpty(obj) {
-    if (obj == null) throw new TypeError('Cannot destructure undefined');
+    if (obj == null)
+    throw new TypeError('Cannot destructure undefined');
   }
   function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null) return {};
+    if (source == null)
+    return {};
     var target = {};
     var sourceKeys = Object.keys(source);
     var key, i;
     for (i = 0; i < sourceKeys.length; i++) {
       key = sourceKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
+      if (excluded.indexOf(key) >= 0)
+      continue;
       target[key] = source[key];
     }
     return target;
   }
   function _objectWithoutProperties(source, excluded) {
-    if (source == null) return {};
+    if (source == null)
+    return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
     var key, i;
     if (Object.getOwnPropertySymbols) {
       var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
       for (i = 0; i < sourceSymbolKeys.length; i++) {
         key = sourceSymbolKeys[i];
-        if (excluded.indexOf(key) >= 0) continue;
-        if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+        if (excluded.indexOf(key) >= 0)
+        continue;
+        if (!Object.prototype.propertyIsEnumerable.call(source, key))
+        continue;
         target[key] = source[key];
       }
     }
@@ -503,17 +559,20 @@
   function _superPropBase(object, property) {
     while (!Object.prototype.hasOwnProperty.call(object, property)) {
       object = _getPrototypeOf(object);
-      if (object === null) break;
+      if (object === null)
+      break;
     }
     return object;
   }
   function _get(target, property, receiver) {
     if (typeof Reflect !== 'undefined' && Reflect.get) {
       _get = Reflect.get;
-    } else {
+    } else
+    {
       _get = function _get(target, property, receiver) {
         var base = _superPropBase(target, property);
-        if (!base) return;
+        if (!base)
+        return;
         var desc = Object.getOwnPropertyDescriptor(base, property);
         if (desc.get) {
           return desc.get.call(receiver);
@@ -526,7 +585,8 @@
   function set(target, property, value, receiver) {
     if (typeof Reflect !== 'undefined' && Reflect.set) {
       set = Reflect.set;
-    } else {
+    } else
+    {
       set = function set(target, property, value, receiver) {
         var base = _superPropBase(target, property);
         var desc;
@@ -535,7 +595,8 @@
           if (desc.set) {
             desc.set.call(receiver, value);
             return true;
-          } else if (!desc.writable) {
+          } else
+          if (!desc.writable) {
             return false;
           }
         }
@@ -546,7 +607,8 @@
           }
           desc.value = value;
           Object.defineProperty(receiver, property, desc);
-        } else {
+        } else
+        {
           _defineProperty(receiver, property, value);
         }
         return true;
@@ -581,7 +643,8 @@
   function _temporalRef(val, name) {
     if (val === _temporalUndefined) {
       throw new ReferenceError(name + ' is not defined - temporal dead zone');
-    } else {
+    } else
+    {
       return val;
     }
   }
@@ -593,10 +656,14 @@
   }
   var _temporalUndefined = {};
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) ||
+    _iterableToArrayLimit(arr, i) ||
+    _nonIterableRest();
   }
   function _slicedToArrayLoose(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimitLoose(arr, i) || _nonIterableRest();
+    return _arrayWithHoles(arr) ||
+    _iterableToArrayLimitLoose(arr, i) ||
+    _nonIterableRest();
   }
   function _toArray(arr) {
     return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
@@ -606,15 +673,19 @@
   }
   function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)
+      arr2[i] = arr[i];
       return arr2;
     }
   }
   function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
+    if (Array.isArray(arr))
+    return arr;
   }
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === '[object Arguments]') return Array.from(iter);
+    if (Symbol.iterator in Object(iter) ||
+    Object.prototype.toString.call(iter) === '[object Arguments]')
+    return Array.from(iter);
   }
   function _iterableToArrayLimit(arr, i) {
     var _arr = [];
@@ -624,16 +695,22 @@
     try {
       for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
         _arr.push(_s.value);
-        if (i && _arr.length === i) break;
+        if (i && _arr.length === i)
+        break;
       }
-    } catch (err) {
+    }
+    catch (err) {
       _d = true;
       _e = err;
-    } finally {
+    } finally
+    {
       try {
-        if (!_n && _i['return'] != null) _i['return']();
-      } finally {
-        if (_d) throw _e;
+        if (!_n && _i['return'] != null)
+        _i['return']();
+      } finally
+      {
+        if (_d)
+        throw _e;
       }
     }
     return _arr;
@@ -642,7 +719,8 @@
     var _arr = [];
     for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
       _arr.push(_step.value);
-      if (i && _arr.length === i) break;
+      if (i && _arr.length === i)
+      break;
     }
     return _arr;
   }
@@ -660,11 +738,13 @@
     };
   }
   function _toPrimitive(input, hint) {
-    if (typeof input !== 'object' || input === null) return input;
+    if (typeof input !== 'object' || input === null)
+    return input;
     var prim = input[Symbol.toPrimitive];
     if (prim !== undefined) {
       var res = prim.call(input, hint || 'default');
-      if (typeof res !== 'object') return res;
+      if (typeof res !== 'object')
+      return res;
       throw new TypeError('@@toPrimitive must return a primitive value.');
     }
     return (hint === 'string' ? String : Number)(input);
@@ -674,15 +754,21 @@
     return typeof key === 'symbol' ? key : String(key);
   }
   function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and set to use loose mode. ' + 'To use proposal-class-properties in spec mode with decorators, wait for ' + 'the next major version of decorators in stage 2.');
+    throw new Error('Decorating class property failed. Please ensure that ' +
+    'proposal-class-properties is enabled and set to use loose mode. ' +
+    'To use proposal-class-properties in spec mode with decorators, wait for ' +
+    'the next major version of decorators in stage 2.');
   }
   function _initializerDefineProperty(target, property, descriptor, context) {
-    if (!descriptor) return;
+    if (!descriptor)
+    return;
     Object.defineProperty(target, property, {
       enumerable: descriptor.enumerable,
       configurable: descriptor.configurable,
       writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+      value: descriptor.initializer ?
+      descriptor.initializer.call(context) :
+      void 0
     });
   }
   function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -695,7 +781,10 @@
     if ('value' in desc || desc.initializer) {
       desc.writable = true;
     }
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    desc = decorators.
+    slice().
+    reverse().
+    reduce(function (desc, decorator) {
       return decorator(target, property, desc) || desc;
     }, desc);
     if (context && desc.initializer !== void 0) {
@@ -735,7 +824,8 @@
     var descriptor = privateMap.get(receiver);
     if (descriptor.set) {
       descriptor.set.call(receiver, value);
-    } else {
+    } else
+    {
       if (!descriptor.writable) {
         throw new TypeError('attempted to set read only private field');
       }
@@ -802,7 +892,8 @@
         ['method', 'field'].forEach(function (kind) {
           elements.forEach(function (element) {
             var placement = element.placement;
-            if (element.kind === kind && (placement === 'static' || placement === 'prototype')) {
+            if (element.kind === kind && (
+            placement === 'static' || placement === 'prototype')) {
               var receiver = placement === 'static' ? F : proto;
               this.defineClassElement(receiver, element);
             }
@@ -834,7 +925,8 @@
           this.addElementPlacement(element, placements);
         }, this);
         elements.forEach(function (element) {
-          if (!_hasDecorators(element)) return newElements.push(element);
+          if (!_hasDecorators(element))
+          return newElements.push(element);
           var elementFinishersExtras = this.decorateElement(element, placements);
           newElements.push(elementFinishersExtras.element);
           newElements.push.apply(newElements, elementFinishersExtras.extras);
@@ -897,7 +989,8 @@
             elements = elementsAndFinisher.elements;
             for (var j = 0; j < elements.length - 1; j++) {
               for (var k = j + 1; k < elements.length; k++) {
-                if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) {
+                if (elements[j].key === elements[k].key &&
+                elements[j].placement === elements[k].placement) {
                   throw new TypeError('Duplicated element (' + elements[j].key + ')');
                 }
               }
@@ -921,11 +1014,13 @@
           configurable: true
         };
         Object.defineProperty(obj, Symbol.toStringTag, desc);
-        if (element.kind === 'field') obj.initializer = element.initializer;
+        if (element.kind === 'field')
+        obj.initializer = element.initializer;
         return obj;
       },
       toElementDescriptors: function (elementObjects) {
-        if (elementObjects === undefined) return;
+        if (elementObjects === undefined)
+        return;
         return _toArray(elementObjects).map(function (elementObject) {
           var element = this.toElementDescriptor(elementObject);
           this.disallowProperty(elementObject, 'finisher', 'An element descriptor');
@@ -936,12 +1031,22 @@
       toElementDescriptor: function (elementObject) {
         var kind = String(elementObject.kind);
         if (kind !== 'method' && kind !== 'field') {
-          throw new TypeError('An element descriptor\'s .kind property must be either "method" or' + ' "field", but a decorator created an element descriptor with' + ' .kind "' + kind + '"');
+          throw new TypeError('An element descriptor\'s .kind property must be either "method" or' +
+          ' "field", but a decorator created an element descriptor with' +
+          ' .kind "' +
+          kind +
+          '"');
         }
         var key = _toPropertyKey(elementObject.key);
         var placement = String(elementObject.placement);
-        if (placement !== 'static' && placement !== 'prototype' && placement !== 'own') {
-          throw new TypeError('An element descriptor\'s .placement property must be one of "static",' + ' "prototype" or "own", but a decorator created an element descriptor' + ' with .placement "' + placement + '"');
+        if (placement !== 'static' &&
+        placement !== 'prototype' &&
+        placement !== 'own') {
+          throw new TypeError('An element descriptor\'s .placement property must be one of "static",' +
+          ' "prototype" or "own", but a decorator created an element descriptor' +
+          ' with .placement "' +
+          placement +
+          '"');
         }
         var descriptor = elementObject.descriptor;
         this.disallowProperty(elementObject, 'elements', 'An element descriptor');
@@ -953,7 +1058,8 @@
         };
         if (kind !== 'field') {
           this.disallowProperty(elementObject, 'initializer', 'A method descriptor');
-        } else {
+        } else
+        {
           this.disallowProperty(descriptor, 'get', 'The property descriptor of a field descriptor');
           this.disallowProperty(descriptor, 'set', 'The property descriptor of a field descriptor');
           this.disallowProperty(descriptor, 'value', 'The property descriptor of a field descriptor');
@@ -986,7 +1092,10 @@
       toClassDescriptor: function (obj) {
         var kind = String(obj.kind);
         if (kind !== 'class') {
-          throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' + ' created a class descriptor with .kind "' + kind + '"');
+          throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator' +
+          ' created a class descriptor with .kind "' +
+          kind +
+          '"');
         }
         this.disallowProperty(obj, 'key', 'A class descriptor');
         this.disallowProperty(obj, 'placement', 'A class descriptor');
@@ -1030,19 +1139,22 @@
         configurable: true,
         enumerable: false
       };
-    } else if (def.kind === 'get') {
+    } else
+    if (def.kind === 'get') {
       descriptor = {
         get: def.value,
         configurable: true,
         enumerable: false
       };
-    } else if (def.kind === 'set') {
+    } else
+    if (def.kind === 'set') {
       descriptor = {
         set: def.value,
         configurable: true,
         enumerable: false
       };
-    } else if (def.kind === 'field') {
+    } else
+    if (def.kind === 'field') {
       descriptor = {
         configurable: true,
         writable: true,
@@ -1052,44 +1164,60 @@
     var element = {
       kind: def.kind === 'field' ? 'field' : 'method',
       key: key,
-      placement: def.static ? 'static' : def.kind === 'field' ? 'own' : 'prototype',
+      placement: def.static ?
+      'static' :
+      def.kind === 'field' ?
+      'own' :
+      'prototype',
       descriptor: descriptor
     };
-    if (def.decorators) element.decorators = def.decorators;
-    if (def.kind === 'field') element.initializer = def.value;
+    if (def.decorators)
+    element.decorators = def.decorators;
+    if (def.kind === 'field')
+    element.initializer = def.value;
     return element;
   }
   function _coalesceGetterSetter(element, other) {
     if (element.descriptor.get !== undefined) {
       other.descriptor.get = element.descriptor.get;
-    } else {
+    } else
+    {
       other.descriptor.set = element.descriptor.set;
     }
   }
   function _coalesceClassElements(elements) {
     var newElements = [];
     var isSameElement = function (other) {
-      return other.kind === 'method' && other.key === element.key && other.placement === element.placement;
+      return other.kind === 'method' &&
+      other.key === element.key &&
+      other.placement === element.placement;
     };
     for (var i = 0; i < elements.length; i++) {
       var element = elements[i];
       var other;
-      if (element.kind === 'method' && (other = newElements.find(isSameElement))) {
-        if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other.descriptor)) {
+      if (element.kind === 'method' && (
+      other = newElements.find(isSameElement))) {
+        if (_isDataDescriptor(element.descriptor) ||
+        _isDataDescriptor(other.descriptor)) {
           if (_hasDecorators(element) || _hasDecorators(other)) {
             throw new ReferenceError('Duplicated methods (' + element.key + ") can't be decorated.");
           }
           other.descriptor = element.descriptor;
-        } else {
+        } else
+        {
           if (_hasDecorators(element)) {
             if (_hasDecorators(other)) {
-              throw new ReferenceError("Decorators can't be placed on different accessors with for " + 'the same property (' + element.key + ').');
+              throw new ReferenceError("Decorators can't be placed on different accessors with for " +
+              'the same property (' +
+              element.key +
+              ').');
             }
             other.decorators = element.decorators;
           }
           _coalesceGetterSetter(element, other);
         }
-      } else {
+      } else
+      {
         newElements.push(element);
       }
     }
@@ -1099,7 +1227,8 @@
     return element.decorators && element.decorators.length;
   }
   function _isDataDescriptor(desc) {
-    return desc !== undefined && !(desc.value === undefined && desc.writable === undefined);
+    return desc !== undefined &&
+    !(desc.value === undefined && desc.writable === undefined);
   }
   function _optionalCallableProperty(obj, name) {
     var value = obj[name];
@@ -1132,7 +1261,8 @@
     _inherits(BabelRegExp, _RegExp);
     BabelRegExp.prototype.exec = function (str) {
       var result = _super.exec.call(this, str);
-      if (result) result.groups = buildGroups(result, this);
+      if (result)
+      result.groups = buildGroups(result, this);
       return result;
     };
     BabelRegExp.prototype[Symbol.replace] = function (str, substitution) {
@@ -1141,7 +1271,8 @@
         return _super[Symbol.replace].call(this, str, substitution.replace(/\$<([^>]+)>/g, function (_, name) {
           return '$' + groups[name];
         }));
-      } else if (typeof substitution === 'function') {
+      } else
+      if (typeof substitution === 'function') {
         var _this = this;
         return _super[Symbol.replace].call(this, str, function () {
           var args = [];
@@ -1151,7 +1282,8 @@
           }
           return substitution.apply(this, args);
         });
-      } else {
+      } else
+      {
         return _super[Symbol.replace].call(this, str, substitution);
       }
     };
@@ -1189,10 +1321,7 @@
   var createVector = function createVector() {
     var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
     var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    return {
-      x: x,
-      y: y
-    };
+    return { x: x, y: y };
   };
   var getMarkupValue = function getMarkupValue(value, size) {
     var scalar = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
@@ -1212,9 +1341,13 @@
     var strokeWidth = getMarkupValue(markup.borderWidth || markup.lineWidth, size, scale);
     var lineCap = markup.lineCap || 'round';
     var lineJoin = markup.lineJoin || 'round';
-    var dashes = typeof lineStyle === 'string' ? '' : lineStyle.map(function (v) {
+    var dashes = typeof lineStyle === 'string' ?
+    '' :
+    lineStyle.
+    map(function (v) {
       return getMarkupValue(v, size, scale);
-    }).join(',');
+    }).
+    join(',');
     var opacity = markup.opacity || 1;
     return {
       'stroke-linecap': lineCap,
@@ -1231,8 +1364,10 @@
   };
   var getMarkupRect = function getMarkupRect(rect, size) {
     var scalar = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-    var left = getMarkupValue(rect.x, size, scalar, 'width') || getMarkupValue(rect.left, size, scalar, 'width');
-    var top = getMarkupValue(rect.y, size, scalar, 'height') || getMarkupValue(rect.top, size, scalar, 'height');
+    var left = getMarkupValue(rect.x, size, scalar, 'width') ||
+    getMarkupValue(rect.left, size, scalar, 'width');
+    var top = getMarkupValue(rect.y, size, scalar, 'height') ||
+    getMarkupValue(rect.top, size, scalar, 'height');
     var width = getMarkupValue(rect.width, size, scalar, 'width');
     var height = getMarkupValue(rect.height, size, scalar, 'height');
     var right = getMarkupValue(rect.right, size, scalar, 'width');
@@ -1240,28 +1375,32 @@
     if (!isDefined(top)) {
       if (isDefined(height) && isDefined(bottom)) {
         top = size.height - height - bottom;
-      } else {
+      } else
+      {
         top = bottom;
       }
     }
     if (!isDefined(left)) {
       if (isDefined(width) && isDefined(right)) {
         left = size.width - width - right;
-      } else {
+      } else
+      {
         left = right;
       }
     }
     if (!isDefined(width)) {
       if (isDefined(left) && isDefined(right)) {
         width = size.width - left - right;
-      } else {
+      } else
+      {
         width = 0;
       }
     }
     if (!isDefined(height)) {
       if (isDefined(top) && isDefined(bottom)) {
         height = size.height - top - bottom;
-      } else {
+      } else
+      {
         height = 0;
       }
     }
@@ -1273,9 +1412,14 @@
     };
   };
   var pointsToPathShape = function pointsToPathShape(points) {
-    return points.map(function (point, index) {
-      return ''.concat(index === 0 ? 'M' : 'L', ' ').concat(point.x, ' ').concat(point.y);
-    }).join(' ');
+    return points.
+    map(function (point, index) {
+      return ''.
+      concat(index === 0 ? 'M' : 'L', ' ').
+      concat(point.x, ' ').
+      concat(point.y);
+    }).
+    join(' ');
   };
   var setAttributes = function setAttributes(element, attr) {
     return Object.keys(attr).forEach(function (key) {
@@ -1355,7 +1499,8 @@
       x2: target.x,
       y2: target.y
     });
-    if (!markup.lineDecoration) return;
+    if (!markup.lineDecoration)
+    return;
     begin.style.display = 'none';
     end.style.display = 'none';
     var v = vectorNormalize({
@@ -1370,7 +1515,13 @@
       var arrowBeginB = vectorRotate(origin, -2, arrowBeginCenter);
       setAttributes(begin, {
         style: 'display:block;',
-        d: 'M'.concat(arrowBeginA.x, ',').concat(arrowBeginA.y, ' L').concat(origin.x, ',').concat(origin.y, ' L').concat(arrowBeginB.x, ',').concat(arrowBeginB.y)
+        d: 'M'.
+        concat(arrowBeginA.x, ',').
+        concat(arrowBeginA.y, ' L').
+        concat(origin.x, ',').
+        concat(origin.y, ' L').
+        concat(arrowBeginB.x, ',').
+        concat(arrowBeginB.y)
       });
     }
     if (markup.lineDecoration.indexOf('arrow-end') !== -1) {
@@ -1380,7 +1531,13 @@
       var arrowEndB = vectorRotate(target, -2, arrowEndCenter);
       setAttributes(end, {
         style: 'display:block;',
-        d: 'M'.concat(arrowEndA.x, ',').concat(arrowEndA.y, ' L').concat(target.x, ',').concat(target.y, ' L').concat(arrowEndB.x, ',').concat(arrowEndB.y)
+        d: 'M'.
+        concat(arrowEndA.x, ',').
+        concat(arrowEndA.y, ' L').
+        concat(target.x, ',').
+        concat(target.y, ' L').
+        concat(arrowEndB.x, ',').
+        concat(arrowEndB.y)
       });
     }
   };
@@ -1397,9 +1554,7 @@
   };
   var createShape = function createShape(node) {
     return function (markup) {
-      return svg(node, {
-        id: markup.id
-      });
+      return svg(node, { id: markup.id });
     };
   };
   var createImage = function createImage(markup) {
@@ -1455,22 +1610,36 @@
     element.styles = getMarkupStyles(markup, size, scale);
     UPDATE_TYPE_ROUTES[type](element, markup, size, scale);
   };
-  var MARKUP_RECT = ['x', 'y', 'left', 'top', 'right', 'bottom', 'width', 'height'];
+  var MARKUP_RECT = [
+  'x',
+  'y',
+  'left',
+  'top',
+  'right',
+  'bottom',
+  'width',
+  'height'];
+
   var toOptionalFraction = function toOptionalFraction(value) {
-    return typeof value === 'string' && /%/.test(value) ? parseFloat(value) / 100 : value;
+    return typeof value === 'string' && /%/.test(value) ?
+    parseFloat(value) / 100 :
+    value;
   };
   // adds default markup properties, clones markup
   var prepareMarkup = function prepareMarkup(markup) {
-    var _markup = _slicedToArray(markup, 2),
-      type = _markup[0],
-      props = _markup[1];
-    var rect = props.points ? {} : MARKUP_RECT.reduce(function (prev, curr) {
+    var _markup = _slicedToArray(markup, 2),type = _markup[0],props = _markup[1];
+    var rect = props.points ?
+    {} :
+    MARKUP_RECT.reduce(function (prev, curr) {
       prev[curr] = toOptionalFraction(props[curr]);
       return prev;
     }, {});
-    return [type, Object.assign({
+    return [
+    type,
+    Object.assign({
       zIndex: 0
     }, props, rect)];
+
   };
   var sortMarkupByZIndex = function sortMarkupByZIndex(a, b) {
     if (a[1].zIndex > b[1].zIndex) {
@@ -1490,12 +1659,10 @@
         apis: ['width', 'height', 'crop', 'markup', 'resize', 'dirty']
       },
       write: function write(_ref) {
-        var root = _ref.root,
-          props = _ref.props;
-        if (!props.dirty) return;
-        var crop = props.crop,
-          resize = props.resize,
-          markup = props.markup;
+        var root = _ref.root,props = _ref.props;
+        if (!props.dirty)
+        return;
+        var crop = props.crop,resize = props.resize,markup = props.markup;
         var viewWidth = props.width;
         var viewHeight = props.height;
         var cropWidth = crop.width;
@@ -1506,8 +1673,10 @@
           var outputHeight = _size && _size.height;
           var outputFit = resize.mode;
           var outputUpscale = resize.upscale;
-          if (outputWidth && !outputHeight) outputHeight = outputWidth;
-          if (outputHeight && !outputWidth) outputWidth = outputHeight;
+          if (outputWidth && !outputHeight)
+          outputHeight = outputWidth;
+          if (outputHeight && !outputWidth)
+          outputWidth = outputHeight;
           var shouldUpscale = cropWidth < outputWidth && cropHeight < outputHeight;
           if (!shouldUpscale || shouldUpscale && outputUpscale) {
             var scalarWidth = outputWidth / cropWidth;
@@ -1515,11 +1684,13 @@
             if (outputFit === 'force') {
               cropWidth = outputWidth;
               cropHeight = outputHeight;
-            } else {
+            } else
+            {
               var scalar;
               if (outputFit === 'cover') {
                 scalar = Math.max(scalarWidth, scalarHeight);
-              } else if (outputFit === 'contain') {
+              } else
+              if (outputFit === 'contain') {
                 scalar = Math.min(scalarWidth, scalarHeight);
               }
               cropWidth = cropWidth * scalar;
@@ -1539,10 +1710,12 @@
         // get filter
         var markupFilter = root.query('GET_IMAGE_PREVIEW_MARKUP_FILTER');
         // draw new
-        markup.filter(markupFilter).map(prepareMarkup).sort(sortMarkupByZIndex).forEach(function (markup) {
-          var _markup = _slicedToArray(markup, 2),
-            type = _markup[0],
-            settings = _markup[1];
+        markup.
+        filter(markupFilter).
+        map(prepareMarkup).
+        sort(sortMarkupByZIndex).
+        forEach(function (markup) {
+          var _markup = _slicedToArray(markup, 2),type = _markup[0],settings = _markup[1];
           // create
           var element = createMarkupByType(type, settings);
           // update
@@ -1554,10 +1727,7 @@
     });
   };
   var createVector$1 = function createVector(x, y) {
-    return {
-      x: x,
-      y: y
-    };
+    return { x: x, y: y };
   };
   var vectorDot = function vectorDot(a, b) {
     return a.x * b.x + a.y * b.y;
@@ -1647,11 +1817,9 @@
   };
   var getCurrentCropSize = function getCurrentCropSize(imageSize) {
     var crop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var zoom = crop.zoom,
-      rotation = crop.rotation,
-      center = crop.center,
-      aspectRatio = crop.aspectRatio;
-    if (!aspectRatio) aspectRatio = imageSize.height / imageSize.width;
+    var zoom = crop.zoom,rotation = crop.rotation,center = crop.center,aspectRatio = crop.aspectRatio;
+    if (!aspectRatio)
+    aspectRatio = imageSize.height / imageSize.width;
     var canvasSize = calculateCanvasSize(imageSize, aspectRatio, zoom);
     var canvasCenter = {
       x: canvasSize.width * 0.5,
@@ -1665,10 +1833,7 @@
       center: canvasCenter
     };
     var shouldLimit = typeof crop.scaleToFit === 'undefined' || crop.scaleToFit;
-    var stageZoomFactor = getImageRectZoomFactor(imageSize, getCenteredCropRect(stage, aspectRatio), rotation, shouldLimit ? center : {
-      x: 0.5,
-      y: 0.5
-    });
+    var stageZoomFactor = getImageRectZoomFactor(imageSize, getCenteredCropRect(stage, aspectRatio), rotation, shouldLimit ? center : { x: 0.5, y: 0.5 });
     var scale = zoom * stageZoomFactor;
     // start drawing
     return {
@@ -1689,12 +1854,9 @@
     return _.utils.createView({
       name: 'image-bitmap',
       ignoreRect: true,
-      mixins: {
-        styles: ['scaleX', 'scaleY']
-      },
+      mixins: { styles: ['scaleX', 'scaleY'] },
       create: function create(_ref) {
-        var root = _ref.root,
-          props = _ref.props;
+        var root = _ref.root,props = _ref.props;
         root.appendChild(props.image);
       }
     });
@@ -1707,7 +1869,15 @@
       ignoreRect: true,
       mixins: {
         apis: ['crop', 'width', 'height'],
-        styles: ['originX', 'originY', 'translateX', 'translateY', 'scaleX', 'scaleY', 'rotateZ'],
+        styles: [
+        'originX',
+        'originY',
+        'translateX',
+        'translateY',
+        'scaleX',
+        'scaleY',
+        'rotateZ'],
+
         animations: {
           originX: IMAGE_SCALE_SPRING_PROPS,
           originY: IMAGE_SCALE_SPRING_PROPS,
@@ -1719,17 +1889,13 @@
         }
       },
       create: function create(_ref2) {
-        var root = _ref2.root,
-          props = _ref2.props;
+        var root = _ref2.root,props = _ref2.props;
         props.width = props.image.width;
         props.height = props.image.height;
-        root.ref.bitmap = root.appendChildView(root.createChildView(createBitmapView(_), {
-          image: props.image
-        }));
+        root.ref.bitmap = root.appendChildView(root.createChildView(createBitmapView(_), { image: props.image }));
       },
       write: function write(_ref3) {
-        var root = _ref3.root,
-          props = _ref3.props;
+        var root = _ref3.root,props = _ref3.props;
         var flip = props.crop.flip;
         var bitmap = root.ref.bitmap;
         bitmap.scaleX = flip.horizontal ? -1 : 1;
@@ -1744,37 +1910,44 @@
       tag: 'div',
       ignoreRect: true,
       mixins: {
-        apis: ['crop', 'markup', 'resize', 'width', 'height', 'dirty', 'background'],
+        apis: [
+        'crop',
+        'markup',
+        'resize',
+        'width',
+        'height',
+        'dirty',
+        'background'],
+
         styles: ['width', 'height', 'opacity'],
         animations: {
-          opacity: {
-            type: 'tween',
-            duration: 250
-          }
+          opacity: { type: 'tween', duration: 250 }
         }
       },
       didWriteView: function didWriteView(_ref4) {
-        var root = _ref4.root,
-          props = _ref4.props;
-        if (!props.background) return;
+        var root = _ref4.root,props = _ref4.props;
+        if (!props.background)
+        return;
         root.element.style.backgroundColor = props.background;
       },
       create: function create(_ref5) {
-        var root = _ref5.root,
-          props = _ref5.props;
+        var root = _ref5.root,props = _ref5.props;
         root.ref.image = root.appendChildView(root.createChildView(createImageCanvasWrapper(_), Object.assign({}, props)));
         root.ref.createMarkup = function () {
-          if (root.ref.markup) return;
+          if (root.ref.markup)
+          return;
           root.ref.markup = root.appendChildView(root.createChildView(createMarkupView(_), Object.assign({}, props)));
         };
         root.ref.destroyMarkup = function () {
-          if (!root.ref.markup) return;
+          if (!root.ref.markup)
+          return;
           root.removeChildView(root.ref.markup);
           root.ref.markup = null;
         };
         // set up transparency grid
         var transparencyIndicator = root.query('GET_IMAGE_PREVIEW_TRANSPARENCY_INDICATOR');
-        if (transparencyIndicator === null) return;
+        if (transparencyIndicator === null)
+        return;
         // grid pattern
         if (transparencyIndicator === 'grid') {
           root.element.dataset.transparencyIndicator = transparencyIndicator;
@@ -1785,15 +1958,8 @@
         }
       },
       write: function write(_ref6) {
-        var root = _ref6.root,
-          props = _ref6.props,
-          shouldOptimize = _ref6.shouldOptimize;
-        var crop = props.crop,
-          markup = props.markup,
-          resize = props.resize,
-          dirty = props.dirty,
-          width = props.width,
-          height = props.height;
+        var root = _ref6.root,props = _ref6.props,shouldOptimize = _ref6.shouldOptimize;
+        var crop = props.crop,markup = props.markup,resize = props.resize,dirty = props.dirty,width = props.width,height = props.height;
         root.ref.image.crop = crop;
         var stage = {
           x: 0,
@@ -1820,10 +1986,7 @@
         var rotation = Math.PI * 2 + crop.rotation % (Math.PI * 2);
         var cropAspectRatio = crop.aspectRatio || image.height / image.width;
         var shouldLimit = typeof crop.scaleToFit === 'undefined' || crop.scaleToFit;
-        var stageZoomFactor = getImageRectZoomFactor(image, getCenteredCropRect(stage, cropAspectRatio), rotation, shouldLimit ? crop.center : {
-          x: 0.5,
-          y: 0.5
-        });
+        var stageZoomFactor = getImageRectZoomFactor(image, getCenteredCropRect(stage, cropAspectRatio), rotation, shouldLimit ? crop.center : { x: 0.5, y: 0.5 });
         var scale = crop.zoom * stageZoomFactor;
         // update markup view
         if (markup && markup.length) {
@@ -1834,7 +1997,8 @@
           root.ref.markup.dirty = dirty;
           root.ref.markup.markup = markup;
           root.ref.markup.crop = getCurrentCropSize(image, crop);
-        } else if (root.ref.markup) {
+        } else
+        if (root.ref.markup) {
           root.ref.destroyMarkup();
         }
         // update image view
@@ -1872,15 +2036,11 @@
           scaleX: IMAGE_SCALE_SPRING_PROPS,
           scaleY: IMAGE_SCALE_SPRING_PROPS,
           translateY: IMAGE_SCALE_SPRING_PROPS,
-          opacity: {
-            type: 'tween',
-            duration: 400
-          }
+          opacity: { type: 'tween', duration: 400 }
         }
       },
       create: function create(_ref7) {
-        var root = _ref7.root,
-          props = _ref7.props;
+        var root = _ref7.root,props = _ref7.props;
         root.ref.clip = root.appendChildView(root.createChildView(createClipView(_), {
           id: props.id,
           image: props.image,
@@ -1892,15 +2052,9 @@
         }));
       },
       write: function write(_ref8) {
-        var root = _ref8.root,
-          props = _ref8.props,
-          shouldOptimize = _ref8.shouldOptimize;
+        var root = _ref8.root,props = _ref8.props,shouldOptimize = _ref8.shouldOptimize;
         var clip = root.ref.clip;
-        var image = props.image,
-          crop = props.crop,
-          markup = props.markup,
-          resize = props.resize,
-          dirty = props.dirty;
+        var image = props.image,crop = props.crop,markup = props.markup,resize = props.resize,dirty = props.dirty;
         clip.crop = crop;
         clip.markup = markup;
         clip.resize = resize;
@@ -1908,7 +2062,8 @@
         // don't update clip layout
         clip.opacity = shouldOptimize ? 0 : 1;
         // don't re-render if optimizing or hidden (width will be zero resulting in weird animations)
-        if (shouldOptimize || root.rect.element.hidden) return;
+        if (shouldOptimize || root.rect.element.hidden)
+        return;
         // calculate scaled preview image size
         var imageAspectRatio = image.height / image.width;
         var aspectRatio = crop.aspectRatio || imageAspectRatio;
@@ -1925,7 +2080,9 @@
           aspectRatio = panelAspectRatio;
         }
         // determine clip width and height
-        var clipHeight = fixedPreviewHeight !== null ? fixedPreviewHeight : Math.max(minPreviewHeight, Math.min(containerWidth * aspectRatio, maxPreviewHeight));
+        var clipHeight = fixedPreviewHeight !== null ?
+        fixedPreviewHeight :
+        Math.max(minPreviewHeight, Math.min(containerWidth * aspectRatio, maxPreviewHeight));
         var clipWidth = clipHeight / aspectRatio;
         if (clipWidth > containerWidth) {
           clipWidth = containerWidth;
@@ -1949,10 +2106,11 @@
       tag: 'div',
       ignoreRect: true,
       create: function create(_ref) {
-        var root = _ref.root,
-          props = _ref.props;
+        var root = _ref.root,props = _ref.props;
         if (!checkedMyBases && document.querySelector('base')) {
-          SVG_MASK = SVG_MASK.replace(/url\(\#/g, 'url(' + window.location.href.replace(window.location.hash, '') + '#');
+          SVG_MASK = SVG_MASK.replace(/url\(\#/g, 'url(' +
+          window.location.href.replace(window.location.hash, '') +
+          '#');
           checkedMyBases = true;
         }
         SVGMaskUniqueId++;
@@ -1962,10 +2120,7 @@
       mixins: {
         styles: ['opacity'],
         animations: {
-          opacity: {
-            type: 'spring',
-            mass: 25
-          }
+          opacity: { type: 'spring', mass: 25 }
         }
       }
     });
@@ -1976,10 +2131,7 @@
   var BitmapWorker = function BitmapWorker() {
     self.onmessage = function (e) {
       createImageBitmap(e.data.message.file).then(function (bitmap) {
-        self.postMessage({
-          id: e.data.id,
-          message: bitmap
-        }, [bitmap]);
+        self.postMessage({ id: e.data.id, message: bitmap }, [bitmap]);
       });
     };
   };
@@ -2012,11 +2164,7 @@
       var m43 = matrix[17];
       var m44 = matrix[18];
       var m45 = matrix[19];
-      var index = 0,
-        r = 0.0,
-        g = 0.0,
-        b = 0.0,
-        a = 0.0;
+      var index = 0,r = 0.0,g = 0.0,b = 0.0,a = 0.0;
       for (; index < l; index += 4) {
         r = data[index] / 255;
         g = data[index + 1] / 255;
@@ -2027,10 +2175,9 @@
         data[index + 2] = Math.max(0, Math.min((r * m31 + g * m32 + b * m33 + a * m34 + m35) * 255, 255));
         data[index + 3] = Math.max(0, Math.min((r * m41 + g * m42 + b * m43 + a * m44 + m45) * 255, 255));
       }
-      self.postMessage({
-        id: e.data.id,
-        message: imageData
-      }, [imageData.data.buffer]);
+      self.postMessage({ id: e.data.id, message: imageData }, [
+      imageData.data.buffer]
+      );
     };
   };
   var getImageSize = function getImageSize(url, cb) {
@@ -2113,7 +2260,8 @@
     var data = null;
     try {
       data = ctx.getImageData(0, 0, width, height).data;
-    } catch (e) {
+    }
+    catch (e) {
       return null;
     }
     var l = data.length;
@@ -2129,11 +2277,7 @@
     r = averageColor(r, l);
     g = averageColor(g, l);
     b = averageColor(b, l);
-    return {
-      r: r,
-      g: g,
-      b: b
-    };
+    return { r: r, g: g, b: b };
   };
   var averageColor = function averageColor(c, l) {
     return Math.floor(Math.sqrt(c / (l / 4)));
@@ -2150,7 +2294,8 @@
     var id;
     try {
       id = new ImageData(imageData.width, imageData.height);
-    } catch (e) {
+    }
+    catch (e) {
       var canvas = document.createElement('canvas');
       var ctx = canvas.getContext('2d');
       id = ctx.createImageData(imageData.width, imageData.height);
@@ -2180,7 +2325,9 @@
       return new Promise(function (resolve) {
         // will store image data for future filter updates
         if (!root.ref.imageData) {
-          root.ref.imageData = target.getContext('2d').getImageData(0, 0, target.width, target.height);
+          root.ref.imageData = target.
+          getContext('2d').
+          getImageData(0, 0, target.width, target.height);
         }
         // get image data reference
         var imageData = cloneImageData(root.ref.imageData);
@@ -2219,14 +2366,11 @@
     };
     // add new image
     var pushImage = function pushImage(_ref2) {
-      var root = _ref2.root,
-        props = _ref2.props,
-        image = _ref2.image;
+      var root = _ref2.root,props = _ref2.props,image = _ref2.image;
       var id = props.id;
-      var item = root.query('GET_ITEM', {
-        id: id
-      });
-      if (!item) return;
+      var item = root.query('GET_ITEM', { id: id });
+      if (!item)
+      return;
       var crop = item.getMetadata('crop') || {
         center: {
           x: 0.5,
@@ -2271,18 +2415,14 @@
       imageView.translateY = 0;
       // the preview is now ready to be drawn
       setTimeout(function () {
-        root.dispatch('DID_IMAGE_PREVIEW_SHOW', {
-          id: id
-        });
+        root.dispatch('DID_IMAGE_PREVIEW_SHOW', { id: id });
       }, 250);
     };
     var updateImage = function updateImage(_ref3) {
-      var root = _ref3.root,
-        props = _ref3.props;
-      var item = root.query('GET_ITEM', {
-        id: props.id
-      });
-      if (!item) return;
+      var root = _ref3.root,props = _ref3.props;
+      var item = root.query('GET_ITEM', { id: props.id });
+      if (!item)
+      return;
       var imageView = root.ref.images[root.ref.images.length - 1];
       imageView.crop = item.getMetadata('crop');
       imageView.background = root.query('GET_IMAGE_TRANSFORM_CANVAS_BACKGROUND_COLOR');
@@ -2294,18 +2434,17 @@
     };
     // replace image preview
     var didUpdateItemMetadata = function didUpdateItemMetadata(_ref4) {
-      var root = _ref4.root,
-        props = _ref4.props,
-        action = _ref4.action;
+      var root = _ref4.root,props = _ref4.props,action = _ref4.action;
       // only filter and crop trigger redraw
-      if (!/crop|filter|markup|resize/.test(action.change.key)) return;
+      if (!/crop|filter|markup|resize/.test(action.change.key))
+      return;
       // no images to update, exit
-      if (!root.ref.images.length) return;
+      if (!root.ref.images.length)
+      return;
       // no item found, exit
-      var item = root.query('GET_ITEM', {
-        id: props.id
-      });
-      if (!item) return;
+      var item = root.query('GET_ITEM', { id: props.id });
+      if (!item)
+      return;
       // for now, update existing image when filtering
       if (/filter/.test(action.change.key)) {
         var imageView = root.ref.images[root.ref.images.length - 1];
@@ -2317,9 +2456,7 @@
         var image = root.ref.images[root.ref.images.length - 1];
         // if aspect ratio has changed, we need to create a new image
         if (Math.abs(crop.aspectRatio - image.crop.aspectRatio) > 0.00001) {
-          var _imageView = shiftImage({
-            root: root
-          });
+          var _imageView = shiftImage({ root: root });
           pushImage({
             root: root,
             props: props,
@@ -2328,10 +2465,7 @@
         }
         // if not, we can update the current image
         else {
-          updateImage({
-            root: root,
-            props: props
-          });
+          updateImage({ root: root, props: props });
         }
       }
     };
@@ -2341,19 +2475,20 @@
       var userAgent = window.navigator.userAgent;
       var isFirefox = userAgent.match(/Firefox\/([0-9]+)\./);
       var firefoxVersion = isFirefox ? parseInt(isFirefox[1]) : null;
-      if (firefoxVersion <= 58) return false;
+      if (firefoxVersion <= 58)
+      return false;
       return 'createImageBitmap' in window && isBitmap(file);
     };
     /**
      * Write handler for when preview container has been created
      */
     var didCreatePreviewContainer = function didCreatePreviewContainer(_ref5) {
-      var root = _ref5.root,
-        props = _ref5.props;
+      var root = _ref5.root,props = _ref5.props;
       var id = props.id;
       // we need to get the file data to determine the eventual image size
       var item = root.query('GET_ITEM', id);
-      if (!item) return;
+      if (!item)
+      return;
       // get url to file (we'll revoke it later on when done)
       var fileURL = URL.createObjectURL(item.file);
       // determine image size of this item
@@ -2367,12 +2502,12 @@
       });
     };
     var drawPreview = function drawPreview(_ref6) {
-      var root = _ref6.root,
-        props = _ref6.props;
+      var root = _ref6.root,props = _ref6.props;
       var id = props.id;
       // we need to get the file data to determine the eventual image size
       var item = root.query('GET_ITEM', id);
-      if (!item) return;
+      if (!item)
+      return;
       // get url to file (we'll revoke it later on when done)
       var fileURL = URL.createObjectURL(item.file);
       // fallback
@@ -2389,10 +2524,10 @@
         var exif = item.getMetadata('exif') || {};
         var orientation = exif.orientation || -1;
         // get width and height from action, and swap if orientation is incorrect
-        var width = imageData.width,
-          height = imageData.height;
+        var width = imageData.width,height = imageData.height;
         // if no width or height, just return early.
-        if (!width || !height) return;
+        if (!width || !height)
+        return;
         if (orientation >= 5 && orientation <= 8) {
           var _ref7 = [height, width];
           width = _ref7[0];
@@ -2417,7 +2552,8 @@
         if (previewImageRatio > 1) {
           imageWidth = Math.min(width, previewContainerWidth * scaleFactor);
           imageHeight = imageWidth * previewImageRatio;
-        } else {
+        } else
+        {
           imageHeight = Math.min(height, previewContainerHeight * scaleFactor);
           imageWidth = imageHeight / previewImageRatio;
         }
@@ -2426,7 +2562,9 @@
         // done
         var done = function done() {
           // calculate average image color, disabled for now
-          var averageColor = root.query('GET_IMAGE_PREVIEW_CALCULATE_AVERAGE_IMAGE_COLOR') ? calculateAverageColor(data) : null;
+          var averageColor = root.query('GET_IMAGE_PREVIEW_CALCULATE_AVERAGE_IMAGE_COLOR') ?
+          calculateAverageColor(data) :
+          null;
           item.setMetadata('color', averageColor, true);
           // data has been transferred to canvas ( if was ImageBitmap )
           if ('close' in imageData) {
@@ -2435,17 +2573,14 @@
           // show the overlay
           root.ref.overlayShadow.opacity = 1;
           // create the first image
-          pushImage({
-            root: root,
-            props: props,
-            image: previewImage
-          });
+          pushImage({ root: root, props: props, image: previewImage });
         };
         // apply filter
         var filter = item.getMetadata('filter');
         if (filter) {
           applyFilter(root, filter, previewImage).then(done);
-        } else {
+        } else
+        {
           done();
         }
       };
@@ -2467,7 +2602,8 @@
           // yay we got our bitmap, let's continue showing the preview
           previewImageLoaded(imageBitmap);
         });
-      } else {
+      } else
+      {
         // create fallback preview
         loadPreviewFallback();
       }
@@ -2582,44 +2718,43 @@
    * Image Preview Plugin
    */
   var plugin = function plugin(fpAPI) {
-    var addFilter = fpAPI.addFilter,
-      utils = fpAPI.utils;
-    var Type = utils.Type,
-      createRoute = utils.createRoute,
-      isFile = utils.isFile;
+    var addFilter = fpAPI.addFilter,utils = fpAPI.utils;
+    var Type = utils.Type,createRoute = utils.createRoute,isFile = utils.isFile;
     // imagePreviewView
     var imagePreviewView = createImageWrapperView(fpAPI);
     // called for each view that is created right after the 'create' method
     addFilter('CREATE_VIEW', function (viewAPI) {
       // get reference to created view
-      var is = viewAPI.is,
-        view = viewAPI.view,
-        query = viewAPI.query;
+      var is = viewAPI.is,view = viewAPI.view,query = viewAPI.query;
       // only hook up to item view and only if is enabled for this cropper
-      if (!is('file') || !query('GET_ALLOW_IMAGE_PREVIEW')) return;
+      if (!is('file') || !query('GET_ALLOW_IMAGE_PREVIEW'))
+      return;
       // create the image preview plugin, but only do so if the item is an image
       var didLoadItem = function didLoadItem(_ref) {
-        var root = _ref.root,
-          props = _ref.props;
+        var root = _ref.root,props = _ref.props;
         var id = props.id;
         var item = query('GET_ITEM', id);
         // item could theoretically have been removed in the mean time
-        if (!item || !isFile(item.file) || item.archived) return;
+        if (!item || !isFile(item.file) || item.archived)
+        return;
         // get the file object
         var file = item.file;
         // exit if this is not an image
-        if (!isPreviewableImage(file)) return;
+        if (!isPreviewableImage(file))
+        return;
         // test if is filtered
-        if (!query('GET_IMAGE_PREVIEW_FILTER_ITEM')(item)) return;
+        if (!query('GET_IMAGE_PREVIEW_FILTER_ITEM')(item))
+        return;
         // exit if image size is too high and no createImageBitmap support
         // this would simply bring the browser to its knees and that is not what we want
         var supportsCreateImageBitmap = ('createImageBitmap' in (window || {}));
         var maxPreviewFileSize = query('GET_IMAGE_PREVIEW_MAX_FILE_SIZE');
-        if (!supportsCreateImageBitmap && maxPreviewFileSize && file.size > maxPreviewFileSize) return;
+        if (!supportsCreateImageBitmap &&
+        maxPreviewFileSize &&
+        file.size > maxPreviewFileSize)
+        return;
         // set preview view
-        root.ref.imagePreview = view.appendChildView(view.createChildView(imagePreviewView, {
-          id: id
-        }));
+        root.ref.imagePreview = view.appendChildView(view.createChildView(imagePreviewView, { id: id }));
         // update height if is fixed
         var fixedPreviewHeight = root.query('GET_IMAGE_PREVIEW_HEIGHT');
         if (fixedPreviewHeight) {
@@ -2629,29 +2764,28 @@
           });
         }
         // now ready
-        var queue = !supportsCreateImageBitmap && file.size > query('GET_IMAGE_PREVIEW_MAX_INSTANT_PREVIEW_FILE_SIZE');
-        root.dispatch('DID_IMAGE_PREVIEW_CONTAINER_CREATE', {
-          id: id
-        }, queue);
+        var queue = !supportsCreateImageBitmap &&
+        file.size > query('GET_IMAGE_PREVIEW_MAX_INSTANT_PREVIEW_FILE_SIZE');
+        root.dispatch('DID_IMAGE_PREVIEW_CONTAINER_CREATE', { id: id }, queue);
       };
       var rescaleItem = function rescaleItem(root, props) {
-        if (!root.ref.imagePreview) return;
+        if (!root.ref.imagePreview)
+        return;
         var id = props.id;
         // get item
-        var item = root.query('GET_ITEM', {
-          id: id
-        });
-        if (!item) return;
+        var item = root.query('GET_ITEM', { id: id });
+        if (!item)
+        return;
         // if is fixed height or panel has aspect ratio, exit here, height has already been defined
         var panelAspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
         var itemPanelAspectRatio = root.query('GET_ITEM_PANEL_ASPECT_RATIO');
         var fixedHeight = root.query('GET_IMAGE_PREVIEW_HEIGHT');
-        if (panelAspectRatio || itemPanelAspectRatio || fixedHeight) return;
+        if (panelAspectRatio || itemPanelAspectRatio || fixedHeight)
+        return;
         // no data!
-        var _root$ref = root.ref,
-          imageWidth = _root$ref.imageWidth,
-          imageHeight = _root$ref.imageHeight;
-        if (!imageWidth || !imageHeight) return;
+        var _root$ref = root.ref,imageWidth = _root$ref.imageWidth,imageHeight = _root$ref.imageHeight;
+        if (!imageWidth || !imageHeight)
+        return;
         // get height min and max
         var minPreviewHeight = root.query('GET_IMAGE_PREVIEW_MIN_HEIGHT');
         var maxPreviewHeight = root.query('GET_IMAGE_PREVIEW_MAX_HEIGHT');
@@ -2690,15 +2824,14 @@
         root.ref.shouldRescale = true;
       };
       var didUpdateItemMetadata = function didUpdateItemMetadata(_ref4) {
-        var root = _ref4.root,
-          action = _ref4.action;
-        if (action.change.key !== 'crop') return;
+        var root = _ref4.root,action = _ref4.action;
+        if (action.change.key !== 'crop')
+        return;
         // actions in next write operation
         root.ref.shouldRescale = true;
       };
       var didCalculatePreviewSize = function didCalculatePreviewSize(_ref5) {
-        var root = _ref5.root,
-          action = _ref5.action;
+        var root = _ref5.root,action = _ref5.action;
         // remember dimensions
         root.ref.imageWidth = action.width;
         root.ref.imageHeight = action.height;
@@ -2716,12 +2849,13 @@
         DID_IMAGE_PREVIEW_CALCULATE_SIZE: didCalculatePreviewSize,
         DID_UPDATE_ITEM_METADATA: didUpdateItemMetadata
       }, function (_ref6) {
-        var root = _ref6.root,
-          props = _ref6.props;
+        var root = _ref6.root,props = _ref6.props;
         // no preview view attached
-        if (!root.ref.imagePreview) return;
+        if (!root.ref.imagePreview)
+        return;
         // don't do anything while hidden
-        if (root.rect.element.hidden) return;
+        if (root.rect.element.hidden)
+        return;
         // resize the item panel
         if (root.ref.shouldRescale) {
           rescaleItem(root, props);
@@ -2744,9 +2878,12 @@
         // Enable or disable image preview
         allowImagePreview: [true, Type.BOOLEAN],
         // filters file items to determine which are shown as preview
-        imagePreviewFilterItem: [function () {
+        imagePreviewFilterItem: [
+        function () {
           return true;
-        }, Type.FUNCTION],
+        },
+        Type.FUNCTION],
+
         // Fixed preview height
         imagePreviewHeight: [null, Type.INT],
         // Min image height
@@ -2768,18 +2905,20 @@
         // Enables or disables the previewing of markup
         imagePreviewMarkupShow: [true, Type.BOOLEAN],
         // Allows filtering of markup to only show certain shapes
-        imagePreviewMarkupFilter: [function () {
+        imagePreviewMarkupFilter: [
+        function () {
           return true;
-        }, Type.FUNCTION]
+        },
+        Type.FUNCTION]
+
       }
     };
   };
   // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
   var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   if (isBrowser) {
-    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', {
-      detail: plugin
-    }));
+    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', { detail: plugin }));
   }
   return plugin;
 });
+//# sourceMappingURL=filepond-plugin-image-preview.js.map

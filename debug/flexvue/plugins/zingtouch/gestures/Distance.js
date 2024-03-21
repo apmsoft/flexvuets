@@ -31,7 +31,8 @@ class Distance extends Gesture {
      * The minimum amount in pixels the inputs must move until it is fired.
      * @type {Number}
      */
-    this.threshold = options && options.threshold ? options.threshold : DEFAULT_MIN_THRESHOLD;
+    this.threshold = options && options.threshold ?
+    options.threshold : DEFAULT_MIN_THRESHOLD;
     /**
      * The on start callback
      */
@@ -98,3 +99,4 @@ class Distance extends Gesture {
   }
 }
 export default Distance;
+//# sourceMappingURL=Distance.js.map

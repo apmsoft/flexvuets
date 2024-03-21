@@ -1,5 +1,4 @@
 "use strict";
-
 {
   const onReady = () => {
     // 2초 출력
@@ -18,3 +17,4 @@
   // document ready
   document.addEventListener("DOMContentLoaded", onReady);
 }
+//# sourceMappingURL=handler.js.map
