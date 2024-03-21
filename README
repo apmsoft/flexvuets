@@ -100,7 +100,7 @@ tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
     "release": "cp -fr ./debug/* ./release/v1",
     "clean": "tsc --build --clean",
     "clean_release": "rm -fr ./release/v1/*",
-    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./debug/css/tailwind.css --watch --minify"
+    "css": "npx tailwindcss -i ./tailwind.css -o ./debug/css/tailwind.css --watch --minify"
   },
   "author": "fancyupsoft.com",
   "license": "ISC",
