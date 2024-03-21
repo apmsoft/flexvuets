@@ -6,9 +6,9 @@
   "scripts": {
     "build": "tsc -P ./tsconfig.json && babel debug -d debug",
     "start": "tsc -P ./tsconfig.json --watch && babel debug --out-dir debug --watch",
-    "release": "cp -fr ./debug/* ./v1",
+    "release": "cp -fr ./debug/* ./release/v1",
     "clean": "tsc --build --clean",
-    "clean_release": "rm -fr ./v1/*",
+    "clean_release": "rm -fr ./release/v1/*",
     "tailwind": "npx tailwindcss -i ./tailwind.css -o ./debug/css/tailwind.css --watch --minify"
   },
   "author": "fancyupsoft.com",
