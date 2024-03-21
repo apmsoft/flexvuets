@@ -95,12 +95,12 @@ tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
   "description": "",
   "main": "index.js",
   "scripts": {
-    "debug": "echo \"Error: no debug specified\" && exit 1",
-    "build": "tsc -P ./tsconfig.json && babel debug -d debug --watch",
-    "release": "cp -fr ./debug/* ./release",
-    "release_clean": "rm -fr ./release/*",
+    "build": "tsc -P ./tsconfig.json && babel debug -d debug",
+    "start": "tsc -P ./tsconfig.json --watch && babel debug --out-dir debug --watch",
+    "release": "cp -fr ./debug/* ./release/v1",
     "clean": "tsc --build --clean",
-    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./dist/example/css/tailwind.css --watch --minify"
+    "clean_release": "rm -fr ./release/v1/*",
+    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./debug/css/tailwind.css --watch --minify"
   },
   "author": "fancyupsoft.com",
   "license": "ISC",
