@@ -27,5 +27,6 @@ npm i filepond-plugin-file-validate-type --save-dev
 npm i filepond-plugin-image-validate-size --save-dev
 
 #### apexcharts chart : https://apexcharts.com/docs/creating-first-javascript-chart/
-# 기타 charts :  https://velog.io/@fgh1937/Jong-JavaScript-Best-Chart-Libraries
+# examples : https://github.com/apexcharts/apexcharts.js/tree/main/samples/vanilla-js
+# demo : https://apexcharts.com/javascript-chart-demos/line-charts/data-labels/
 npm install apexcharts --save-dev
