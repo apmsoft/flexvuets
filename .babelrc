@@ -25,6 +25,7 @@
           ,"filepond-plugin-file-validate-size": "./node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js"
           ,"filepond-plugin-file-validate-type": "./node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js"
           ,"filepond-plugin-image-validate-size": "./node_modules/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js"
+          ,"apexcharts": "./node_modules/apexcharts/dist/apexcharts.esm.js"
         }
       }
     ]

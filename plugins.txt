@@ -25,3 +25,6 @@ npm i filepond-plugin-image-preview --save-dev
 npm i filepond-plugin-file-validate-size --save-dev
 npm i filepond-plugin-file-validate-type --save-dev
 npm i filepond-plugin-image-validate-size --save-dev
+
+# chart : https://apexcharts.com/docs/creating-first-javascript-chart/
+npm install apexcharts --save-dev
