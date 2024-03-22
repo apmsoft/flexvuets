@@ -18,6 +18,7 @@
           ,"@editorjs/checklist": "./node_modules/@editorjs/checklist/dist/checklist.mjs"
           ,"@editorjs/quote": "./node_modules/@editorjs/quote/dist/quote.mjs"
           ,"swiper/bundle": "./node_modules/swiper/swiper-bundle.min.mjs"
+          ,"vanilla-calendar-pro": "./node_modules/vanilla-calendar-pro/build/vanilla-calendar.min.mjs"
         }
       }
     ]

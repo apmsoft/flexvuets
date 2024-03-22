@@ -1,15 +1,20 @@
-# editorjs
+
+# editorjs : https://editorjs.io/getting-started/
 # plugins : https://github.com/orgs/editor-js/repositories?type=all
 npm i @editorjs/editorjs --save
-npm install --save-dev @editorjs/simple-image #드래드 앤 드롭으로 이미지 등록하면 됨
+
+npm install --save-dev @editorjs/simple-image
 npm install --save-dev @editorjs/header
 npm install --save-dev @editorjs/table
 npm install --save-dev @editorjs/link
 npm install --save-dev @editorjs/image
-
 npm install --save-dev @editorjs/raw
 npm install --save-dev @editorjs/checklist
 npm install --save-dev @editorjs/list
-npm install --save-dev @editorjs/embed # 유투브 url 주소 복사해서 그냥 붙여넣기 하면 됨
+npm install --save-dev @editorjs/embed
 npm install --save-dev @editorjs/quote
 npm install --save-dev @editorjs/code
+
+# date,time picker : https://github.com/uvarov-frontend/vanilla-calendar-pro
+# doc : https://vanilla-calendar.pro/docs/learn/additional-features/enable-time-picker
+npm install --save-dev vanilla-calendar-pro
