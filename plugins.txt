@@ -18,3 +18,6 @@ npm install --save-dev @editorjs/code
 # date,time picker : https://github.com/uvarov-frontend/vanilla-calendar-pro
 # doc : https://vanilla-calendar.pro/docs/learn/additional-features/enable-time-picker
 npm install --save-dev vanilla-calendar-pro
+
+# filepond : https://github.com/pqina/filepond
+npm install --save-dev filepond

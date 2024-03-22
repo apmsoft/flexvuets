@@ -9,8 +9,8 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
 };
 export default class Template {
   // template 파일 찾기
-  readFile(filename, _options = {}, _headers = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
+  readFile(filename_1) {
+    return __awaiter(this, arguments, void 0, function* (filename, _options = {}, _headers = {}) {
       const defaultHeaders = Object.assign({ 'Content-Type': 'text/plain' }, _headers);
       const options = Object.assign({ cache: 'default', headers: defaultHeaders }, _options);
       const response = yield fetch(filename, options);

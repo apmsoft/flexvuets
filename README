@@ -4,13 +4,16 @@ http://flexvue.fancyupsoft.com
 
 
 # TypeScript install
-npm install -D typescript
+npm install --save-dev -D typescript
 npx tsc --init
 
 npm install --save-dev @types/node
 npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
 npm install --save-dev @types/jquery
+
+# fs-extra
+npm install --save-dev fs-extra
 
 # tailwind css install
 https://tailwindcss.com/docs/installation

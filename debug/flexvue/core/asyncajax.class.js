@@ -17,8 +17,8 @@ export default class AsyncAjax {
    * @param _headers 전송할 헤더값
    * @returns
    */
-  execute(method, url, params = {}, _options = {}, _headers = null) {
-    return __awaiter(this, void 0, void 0, function* () {
+  execute(method_1, url_1) {
+    return __awaiter(this, arguments, void 0, function* (method, url, params = {}, _options = {}, _headers = null) {
       return new Promise((resolve, reject) => {
         // method
         const _method = method.toUpperCase();
@@ -30,7 +30,7 @@ export default class AsyncAjax {
         };
         // options
         let options = {
-          method: _method,
+          method: _method, // This needs to be narrowed down based on your actual use-case.
           url: url,
           data: params,
           cache: false,
