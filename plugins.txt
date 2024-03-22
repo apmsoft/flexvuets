@@ -19,5 +19,9 @@ npm install --save-dev @editorjs/code
 # doc : https://vanilla-calendar.pro/docs/learn/additional-features/enable-time-picker
 npm install --save-dev vanilla-calendar-pro
 
-# filepond : https://github.com/pqina/filepond
+# filepond : https://pqina.nl/filepond/
 npm install --save-dev filepond
+npm i filepond-plugin-image-preview --save-dev
+npm i filepond-plugin-file-validate-size --save-dev
+npm i filepond-plugin-file-validate-type --save-dev
+npm i filepond-plugin-image-validate-size --save-dev

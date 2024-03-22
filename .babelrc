@@ -19,6 +19,11 @@
           ,"@editorjs/quote": "./node_modules/@editorjs/quote/dist/quote.mjs"
           ,"swiper/bundle": "./node_modules/swiper/swiper-bundle.min.mjs"
           ,"vanilla-calendar-pro": "./node_modules/vanilla-calendar-pro/build/vanilla-calendar.min.mjs"
+          ,"filepond": "./node_modules/filepond/dist/filepond.esm.min.js"
+          ,"filepond-plugin-image-preview": "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.min.js"
+          ,"filepond-plugin-file-validate-size": "./node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js"
+          ,"filepond-plugin-file-validate-type": "./node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js"
+          ,"filepond-plugin-image-validate-size": "./node_modules/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js"
         }
       }
     ]

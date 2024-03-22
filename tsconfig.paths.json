@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "types": ["node", "jquery", "@ckeditor/ckeditor5-build-classic"],
+        "types": ["node", "jquery"],
         "baseUrl": ".",
         "paths" : {
             "src/*": ["src/*"],
