@@ -1,5 +1,5 @@
 
-# editorjs : https://editorjs.io/getting-started/
+#### editorjs : https://editorjs.io/getting-started/
 # plugins : https://github.com/orgs/editor-js/repositories?type=all
 npm i @editorjs/editorjs --save
 
@@ -15,17 +15,17 @@ npm install --save-dev @editorjs/embed
 npm install --save-dev @editorjs/quote
 npm install --save-dev @editorjs/code
 
-# date,time picker : https://github.com/uvarov-frontend/vanilla-calendar-pro
+#### date,time picker : https://github.com/uvarov-frontend/vanilla-calendar-pro
 # doc : https://vanilla-calendar.pro/docs/learn/additional-features/enable-time-picker
 npm install --save-dev vanilla-calendar-pro
 
-# filepond : https://pqina.nl/filepond/
+#### filepond : https://pqina.nl/filepond/
 npm install --save-dev filepond
 npm i filepond-plugin-image-preview --save-dev
 npm i filepond-plugin-file-validate-size --save-dev
 npm i filepond-plugin-file-validate-type --save-dev
 npm i filepond-plugin-image-validate-size --save-dev
 
-# chart : https://apexcharts.com/docs/creating-first-javascript-chart/
+#### apexcharts chart : https://apexcharts.com/docs/creating-first-javascript-chart/
 # 기타 charts :  https://velog.io/@fgh1937/Jong-JavaScript-Best-Chart-Libraries
 npm install apexcharts --save-dev
