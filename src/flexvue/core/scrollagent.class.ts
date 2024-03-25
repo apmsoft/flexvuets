@@ -21,7 +21,7 @@ export default class ScrollAgent {
 
     constructor(channel: string) {
         this.TAG = 'ScrollAgent';
-        this.version = '1.2';
+        this.version = '1.3';
         this.channel = channel;
         this.scrollerVertical = null;
         this.scrollerHorizontal = null;
