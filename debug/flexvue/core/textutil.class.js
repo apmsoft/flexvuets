@@ -87,4 +87,4 @@ const change_icons = (contents, _icons) => {
   }
   return contents;
 };
-export { phone_format, number_format, filesize_format, find_youtube_id, random_number, change_icons };
+export { phone_format, number_format, filesize_format, find_youtube_id, random_number, change_icons, parseDate };
