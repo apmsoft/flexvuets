@@ -48,6 +48,30 @@ const find_youtube_id = (url) => {
 const random_number = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+// 날짜 object
+const parseDate = (curdate) => {
+  const year = curdate.getFullYear();
+  let month = curdate.getMonth() + 1;
+  let day = curdate.getDate();
+  let hour = curdate.getHours();
+  let minute = curdate.getMinutes();
+  let second = curdate.getSeconds();
+  // 10미만인 분과 초를 2자리로 변경
+  month = month < 10 ? '0' + month : month;
+  hour = hour < 10 ? '0' + hour : hour;
+  day = day < 10 ? '0' + day : day;
+  minute = minute < 10 ? '0' + minute : minute;
+  second = second < 10 ? '0' + second : second;
+  const result = {
+    "Y": year,
+    "m": month,
+    "d": day,
+    "H": hour,
+    "i": minute,
+    "s": second
+  };
+  return result;
+};
 // 이모티콘 변경용 let nm = "dfds (우리립) (/rock) <small>dsafadsfads</small> (/paper)" -> (/rock) -> img icon
 const change_icons = (contents, _icons) => {
   if (!contents || contents.length < 1) {
