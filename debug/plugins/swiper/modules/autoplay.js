@@ -1,4 +1,4 @@
-import { g as getDocument } from '../shared/ssr-window.esm.mjs';
+import { g as getDocument } from "../shared/ssr-window.esm.mjs";
 
 /* eslint no-underscore-dangle: "off" */
 /* eslint no-use-before-define: "off" */
@@ -66,7 +66,7 @@ function Autoplay(_ref) {
   const getSlideDelay = () => {
     let activeSlideEl;
     if (swiper.virtual && swiper.params.virtual.enabled) {
-      activeSlideEl = swiper.slides.filter(slideEl => slideEl.classList.contains('swiper-slide-active'))[0];
+      activeSlideEl = swiper.slides.filter((slideEl) => slideEl.classList.contains('swiper-slide-active'))[0];
     } else {
       activeSlideEl = swiper.slides[swiper.activeIndex];
     }
@@ -74,7 +74,7 @@ function Autoplay(_ref) {
     const currentSlideDelay = parseInt(activeSlideEl.getAttribute('data-swiper-autoplay'), 10);
     return currentSlideDelay;
   };
-  const run = delayForce => {
+  const run = (delayForce) => {
     if (swiper.destroyed || !swiper.autoplay.running) return;
     cancelAnimationFrame(raf);
     calcTimeLeft();
@@ -193,14 +193,14 @@ function Autoplay(_ref) {
       resume();
     }
   };
-  const onPointerEnter = e => {
+  const onPointerEnter = (e) => {
     if (e.pointerType !== 'mouse') return;
     pausedByInteraction = true;
     pausedByPointerEnter = true;
     if (swiper.animating || swiper.autoplay.paused) return;
     pause(true);
   };
-  const onPointerLeave = e => {
+  const onPointerLeave = (e) => {
     if (e.pointerType !== 'mouse') return;
     pausedByPointerEnter = false;
     if (swiper.autoplay.paused) {
@@ -298,4 +298,5 @@ function Autoplay(_ref) {
     resume
   });
 }
+
 export { Autoplay as default };

@@ -1,4 +1,4 @@
-import ApexCharts from "../../../plugins/apexcharts/dist/apexcharts.esm.js";
+import ApexCharts from "../../../../${debugPath}/plugins/apexcharts/dist/apexcharts.esm.js";
 var options = {
   chart: {
     height: 350,

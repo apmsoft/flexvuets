@@ -55,7 +55,7 @@ class Utils {
     }
     let output = Object.assign({}, target);
     if (this.isObject(target) && this.isObject(source)) {
-      Object.keys(source).forEach(key => {
+      Object.keys(source).forEach((key) => {
         if (this.isObject(source[key])) {
           if (!(key in target)) {
             Object.assign(output, {
@@ -75,7 +75,7 @@ class Utils {
   }
   static extendArray(arrToExtend, resultArr) {
     let extendedArr = [];
-    arrToExtend.map(item => {
+    arrToExtend.map((item) => {
       extendedArr.push(Utils.extend(resultArr, item));
     });
     arrToExtend = extendedArr;

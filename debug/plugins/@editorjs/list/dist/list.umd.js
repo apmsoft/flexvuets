@@ -50,16 +50,16 @@
         icon: l,
         default: t.defaultStyle === "ordered" || !0
       }], this._data = {
-        style: this.settings.find(i => i.default === !0).name,
+        style: this.settings.find((i) => i.default === !0).name,
         items: []
       }, this.data = e;
     }
     render() {
-      return this._elements.wrapper = this.makeMainTag(this._data.style), this._data.items.length ? this._data.items.forEach(e => {
+      return this._elements.wrapper = this.makeMainTag(this._data.style), this._data.items.length ? this._data.items.forEach((e) => {
         this._elements.wrapper.appendChild(this._make("li", this.CSS.item, {
           innerHTML: e
         }));
-      }) : this._elements.wrapper.appendChild(this._make("li", this.CSS.item)), this.readOnly || this._elements.wrapper.addEventListener("keydown", e => {
+      }) : this._elements.wrapper.appendChild(this._make("li", this.CSS.item)), this.readOnly || this._elements.wrapper.addEventListener("keydown", (e) => {
         const [t, r] = [13, 8];
         switch (e.keyCode) {
           case t:
@@ -76,8 +76,8 @@
     }
     static get conversionConfig() {
       return {
-        export: e => e.items.join(". "),
-        import: e => ({
+        export: (e) => e.items.join(". "),
+        import: (e) => ({
           items: [e],
           style: "unordered"
         })
@@ -92,7 +92,7 @@
       };
     }
     renderSettings() {
-      return this.settings.map(e => ({
+      return this.settings.map((e) => ({
         ...e,
         isActive: this._data.style === e.name,
         closeOnActivate: !0,
@@ -130,7 +130,7 @@
       };
     }
     set data(e) {
-      e || (e = {}), this._data.style = e.style || this.settings.find(r => r.default === !0).name, this._data.items = e.items || [];
+      e || (e = {}), this._data.style = e.style || this.settings.find((r) => r.default === !0).name, this._data.items = e.items || [];
       const t = this._elements.wrapper;
       t && t.parentNode.replaceChild(this.render(), t);
     }
@@ -189,7 +189,7 @@
       };
       if (t === "LI") s.items = [e.innerHTML];else {
         const i = Array.from(e.querySelectorAll("LI"));
-        s.items = i.map(a => a.innerHTML).filter(a => !!a.trim());
+        s.items = i.map((a) => a.innerHTML).filter((a) => !!a.trim());
       }
       return s;
     }

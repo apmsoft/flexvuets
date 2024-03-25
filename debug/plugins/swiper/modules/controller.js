@@ -1,4 +1,4 @@
-import { n as nextTick, k as elementTransitionEnd } from '../shared/utils.mjs';
+import { n as nextTick, k as elementTransitionEnd } from "../shared/utils.mjs";
 
 /* eslint no-bitwise: ["error", { "allow": [">>"] }] */
 function Controller(_ref) {
@@ -14,6 +14,7 @@ function Controller(_ref) {
       by: 'slide' // or 'container'
     }
   });
+
   swiper.controller = {
     control: undefined
   };
@@ -149,7 +150,7 @@ function Controller(_ref) {
       if (controlElement && controlElement.swiper) {
         swiper.controller.control = controlElement.swiper;
       } else if (controlElement) {
-        const onControllerSwiper = e => {
+        const onControllerSwiper = (e) => {
           swiper.controller.control = e.detail[0];
           swiper.update();
           controlElement.removeEventListener('init', onControllerSwiper);
@@ -182,4 +183,5 @@ function Controller(_ref) {
     setTransition
   });
 }
+
 export { Controller as default };

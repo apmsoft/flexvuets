@@ -24,7 +24,7 @@ const plugin = ({
     const wildcardGroup = wildcard.slice(0, -2); // image/* -> image
     return mimeTypeGroup === wildcardGroup;
   };
-  const isValidMimeType = (acceptedTypes, userInputType) => acceptedTypes.some(acceptedType => {
+  const isValidMimeType = (acceptedTypes, userInputType) => acceptedTypes.some((acceptedType) => {
     // accepted is wildcard mime type
     if (/\*$/.test(acceptedType)) {
       return mimeTypeMatchesWildCard(userInputType, acceptedType);
@@ -33,7 +33,7 @@ const plugin = ({
     // is normal mime type
     return acceptedType === userInputType;
   });
-  const getItemType = item => {
+  const getItemType = (item) => {
     // if the item is a url we guess the mime type by the extension
     let type = '';
     if (isString(item)) {
@@ -63,7 +63,7 @@ const plugin = ({
 
     // use type detector
     return new Promise((resolve, reject) => {
-      typeDetector(item, type).then(detectedType => {
+      typeDetector(item, type).then((detectedType) => {
         if (isValidMimeType(acceptedFileTypes, detectedType)) {
           resolve();
         } else {
@@ -72,10 +72,10 @@ const plugin = ({
       }).catch(reject);
     });
   };
-  const applyMimeTypeMap = map => acceptedFileType => map[acceptedFileType] === null ? false : map[acceptedFileType] || acceptedFileType;
+  const applyMimeTypeMap = (map) => (acceptedFileType) => map[acceptedFileType] === null ? false : map[acceptedFileType] || acceptedFileType;
 
   // setup attribute mapping for accept
-  addFilter('SET_ATTRIBUTE_TO_OPTION_MAP', map => Object.assign(map, {
+  addFilter('SET_ATTRIBUTE_TO_OPTION_MAP', (map) => Object.assign(map, {
     accept: 'acceptedFileTypes'
   }));
 
@@ -110,7 +110,7 @@ const plugin = ({
     // if invalid, exit here
     const validationResult = validateFile(file, acceptedFileTypes, typeDetector);
     const handleRejection = () => {
-      const acceptedFileTypesMapped = acceptedFileTypes.map(applyMimeTypeMap(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES_MAP'))).filter(label => label !== false);
+      const acceptedFileTypesMapped = acceptedFileTypes.map(applyMimeTypeMap(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES_MAP'))).filter((label) => label !== false);
       const acceptedFileTypesMappedUnique = acceptedFileTypesMapped.filter((item, index) => acceptedFileTypesMapped.indexOf(item) === index);
       reject({
         status: {

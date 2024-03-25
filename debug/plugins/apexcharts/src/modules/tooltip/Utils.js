@@ -1,4 +1,4 @@
-import Utilities from '../../utils/Utils';
+import Utilities from "../../utils/Utils";
 
 /**
  * ApexCharts Tooltip.Utils Class to support Tooltip functionality.
@@ -60,11 +60,11 @@ export default class Utils {
     }
     let capturedSeries = null;
     let closest = null;
-    let seriesXValArr = w.globals.seriesXvalues.map(seriesXVal => {
-      return seriesXVal.filter(s => Utilities.isNumber(s));
+    let seriesXValArr = w.globals.seriesXvalues.map((seriesXVal) => {
+      return seriesXVal.filter((s) => Utilities.isNumber(s));
     });
-    let seriesYValArr = w.globals.seriesYvalues.map(seriesYVal => {
-      return seriesYVal.filter(s => Utilities.isNumber(s));
+    let seriesYValArr = w.globals.seriesYvalues.map((seriesYVal) => {
+      return seriesYVal.filter((s) => Utilities.isNumber(s));
     });
 
     // if X axis type is not category and tooltip is not shared, then we need to find the cursor position and get the nearest value
@@ -113,7 +113,7 @@ export default class Utils {
     let diffX = Math.abs(hoverX - currX);
 
     // find nearest point on x-axis
-    Xarrays.forEach(arrX => {
+    Xarrays.forEach((arrX) => {
       arrX.forEach((x, iX) => {
         const newDiff = Math.abs(hoverX - x);
         if (newDiff <= diffX) {
@@ -182,7 +182,7 @@ export default class Utils {
   isXoverlap(j) {
     let w = this.w;
     let xSameForAllSeriesJArr = [];
-    const seriesX = w.globals.seriesX.filter(s => typeof s[0] !== 'undefined');
+    const seriesX = w.globals.seriesX.filter((s) => typeof s[0] !== 'undefined');
     if (seriesX.length > 0) {
       for (let i = 0; i < seriesX.length - 1; i++) {
         if (typeof seriesX[i][j] !== 'undefined' && typeof seriesX[i + 1][j] !== 'undefined') {
@@ -232,7 +232,7 @@ export default class Utils {
       return indexB < indexA ? 1 : indexB > indexA ? -1 : 0;
     });
     let markers = [];
-    markersWraps.forEach(m => {
+    markersWraps.forEach((m) => {
       markers.push(m.querySelector('.apexcharts-marker'));
     });
     return markers;

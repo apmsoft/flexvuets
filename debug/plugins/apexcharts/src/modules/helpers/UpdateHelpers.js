@@ -1,8 +1,8 @@
-import Defaults from '../settings/Defaults';
-import Config from '../settings/Config';
-import CoreUtils from '../CoreUtils';
-import Graphics from '../Graphics';
-import Utils from '../../utils/Utils';
+import Defaults from "../settings/Defaults";
+import Config from "../settings/Config";
+import CoreUtils from "../CoreUtils";
+import Graphics from "../Graphics";
+import Utils from "../../utils/Utils";
 export default class UpdateHelpers {
   constructor(ctx) {
     this.ctx = ctx;
@@ -18,7 +18,7 @@ export default class UpdateHelpers {
    * @param {boolean} overwriteInitialConfig - should update the initial config or not
    */
   _updateOptions(options, redraw = false, animate = true, updateSyncedCharts = true, overwriteInitialConfig = false) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let charts = [this.ctx];
       if (updateSyncedCharts) {
         charts = this.ctx.getSyncedCharts();
@@ -87,7 +87,7 @@ export default class UpdateHelpers {
    * @param {array} series - New series which will override the existing
    */
   _updateSeries(newSeries, animate, overwriteInitialSeries = false) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const w = this.w;
       w.globals.shouldAnimate = animate;
       w.globals.dataChanged = true;
@@ -160,7 +160,7 @@ export default class UpdateHelpers {
   forceXAxisUpdate(options) {
     const w = this.w;
     const minmax = ['min', 'max'];
-    minmax.forEach(a => {
+    minmax.forEach((a) => {
       if (typeof options.xaxis[a] !== 'undefined') {
         w.config.xaxis[a] = options.xaxis[a];
         w.globals.lastXAxis[a] = options.xaxis[a];
@@ -208,7 +208,7 @@ export default class UpdateHelpers {
     }
     w.config.xaxis.min = xaxis.min;
     w.config.xaxis.max = xaxis.max;
-    const getLastYAxis = index => {
+    const getLastYAxis = (index) => {
       if (typeof yaxis[index] !== 'undefined') {
         w.config.yaxis[index].min = yaxis[index].min;
         w.config.yaxis[index].max = yaxis[index].max;

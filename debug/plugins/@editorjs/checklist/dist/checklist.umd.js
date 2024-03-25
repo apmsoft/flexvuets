@@ -66,10 +66,10 @@
     }
     static get conversionConfig() {
       return {
-        export: e => e.items.map(({
+        export: (e) => e.items.map(({
           text: t
         }) => t).join(". "),
-        import: e => ({
+        import: (e) => ({
           items: [{
             text: e,
             checked: !1
@@ -92,10 +92,10 @@
       return this._elements.wrapper = o("div", [this.CSS.baseBlock, this.CSS.wrapper]), this.data.items || (this.data.items = [{
         text: "",
         checked: !1
-      }]), this.data.items.forEach(e => {
+      }]), this.data.items.forEach((e) => {
         const t = this.createChecklistItem(e);
         this._elements.wrapper.appendChild(t);
-      }), this.readOnly ? this._elements.wrapper : (this._elements.wrapper.addEventListener("keydown", e => {
+      }), this.readOnly ? this._elements.wrapper : (this._elements.wrapper.addEventListener("keydown", (e) => {
         const [t, n] = [13, 8];
         switch (e.keyCode) {
           case t:
@@ -105,19 +105,19 @@
             this.backspace(e);
             break;
         }
-      }, !1), this._elements.wrapper.addEventListener("click", e => {
+      }, !1), this._elements.wrapper.addEventListener("click", (e) => {
         this.toggleCheckbox(e);
       }), this._elements.wrapper);
     }
     save() {
-      let e = this.items.map(t => {
+      let e = this.items.map((t) => {
         const n = this.getItemInput(t);
         return {
           text: m(n),
           checked: t.classList.contains(this.CSS.itemChecked)
         };
       });
-      return e = e.filter(t => t.text.trim().length !== 0), {
+      return e = e.filter((t) => t.text.trim().length !== 0), {
         items: e
       };
     }

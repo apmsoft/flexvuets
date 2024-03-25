@@ -739,14 +739,14 @@
     }) {
       const i = function (r) {
         const n = new FileReader();
-        n.readAsDataURL(r), n.onload = o => {
+        n.readAsDataURL(r), n.onload = (o) => {
           a(o.target.result);
         };
       };
       let c;
       this.config.uploader && typeof this.config.uploader.uploadByFile == "function" ? c = F.selectFiles({
         accept: this.config.types
-      }).then(r => {
+      }).then((r) => {
         i(r[0]);
         const n = this.config.uploader.uploadByFile(r[0]);
         return L(n) || console.warn("Custom uploader method uploadByFile should return a Promise"), n;
@@ -755,13 +755,13 @@
         data: this.config.additionalRequestData,
         accept: this.config.types,
         headers: this.config.additionalRequestHeaders,
-        beforeSend: r => {
+        beforeSend: (r) => {
           i(r[0]);
         },
         fieldName: this.config.field
-      }).then(r => r.body), c.then(r => {
+      }).then((r) => r.body), c.then((r) => {
         this.onUpload(r);
-      }).catch(r => {
+      }).catch((r) => {
         this.onError(r);
       });
     }
@@ -774,9 +774,9 @@
         }, this.config.additionalRequestData),
         type: F.contentType.JSON,
         headers: this.config.additionalRequestHeaders
-      }).then(c => c.body), i.then(c => {
+      }).then((c) => c.body), i.then((c) => {
         this.onUpload(c);
-      }).catch(c => {
+      }).catch((c) => {
         this.onError(c);
       });
     }
@@ -784,7 +784,7 @@
       onPreview: i
     }) {
       const c = new FileReader();
-      c.readAsDataURL(a), c.onload = n => {
+      c.readAsDataURL(a), c.onload = (n) => {
         i(n.target.result);
       };
       let r;
@@ -797,45 +797,45 @@
           data: n,
           type: F.contentType.JSON,
           headers: this.config.additionalRequestHeaders
-        }).then(o => o.body);
+        }).then((o) => o.body);
       }
-      r.then(n => {
+      r.then((n) => {
         this.onUpload(n);
-      }).catch(n => {
+      }).catch((n) => {
         this.onError(n);
       });
     }
   } /**
-    * Image Tool for the Editor.js
-    *
-    * @author CodeX <team@codex.so>
-    * @license MIT
-    * @see {@link https://github.com/editor-js/image}
-    *
-    * To developers.
-    * To simplify Tool structure, we split it to 4 parts:
-    *  1) index.js — main Tool's interface, public API and methods for working with data
-    *  2) uploader.js — module that has methods for sending files via AJAX: from device, by URL or File pasting
-    *  3) ui.js — module for UI manipulations: render, showing preloader, etc
-    *  4) tunes.js — working with Block Tunes: render buttons, handle clicks
-    *
-    * For debug purposes there is a testing server
-    * that can save uploaded files and return a Response {@link UploadResponseFormat}
-    *
-    *       $ node dev/server.js
-    *
-    * It will expose 8008 port, so you can pass http://localhost:8008 with the Tools config:
-    *
-    * image: {
-    *   class: ImageTool,
-    *   config: {
-    *     endpoints: {
-    *       byFile: 'http://localhost:8008/uploadFile',
-    *       byUrl: 'http://localhost:8008/fetchUrl',
-    *     }
-    *   },
-    * },
-    */
+  * Image Tool for the Editor.js
+  *
+  * @author CodeX <team@codex.so>
+  * @license MIT
+  * @see {@link https://github.com/editor-js/image}
+  *
+  * To developers.
+  * To simplify Tool structure, we split it to 4 parts:
+  *  1) index.js — main Tool's interface, public API and methods for working with data
+  *  2) uploader.js — module that has methods for sending files via AJAX: from device, by URL or File pasting
+  *  3) ui.js — module for UI manipulations: render, showing preloader, etc
+  *  4) tunes.js — working with Block Tunes: render buttons, handle clicks
+  *
+  * For debug purposes there is a testing server
+  * that can save uploaded files and return a Response {@link UploadResponseFormat}
+  *
+  *       $ node dev/server.js
+  *
+  * It will expose 8008 port, so you can pass http://localhost:8008 with the Tools config:
+  *
+  * image: {
+  *   class: ImageTool,
+  *   config: {
+  *     endpoints: {
+  *       byFile: 'http://localhost:8008/uploadFile',
+  *       byUrl: 'http://localhost:8008/fetchUrl',
+  *     }
+  *   },
+  * },
+  */
   class P {
     static get isReadOnlySupported() {
       return !0;
@@ -883,14 +883,14 @@
         actions: i.actions || []
       }, this.uploader = new A({
         config: this.config,
-        onUpload: o => this.onUpload(o),
-        onError: o => this.uploadingFailed(o)
+        onUpload: (o) => this.onUpload(o),
+        onError: (o) => this.uploadingFailed(o)
       }), this.ui = new T({
         api: c,
         config: this.config,
         onSelectFile: () => {
           this.uploader.uploadSelectedFile({
-            onPreview: o => {
+            onPreview: (o) => {
               this.ui.showPreloader(o);
             }
           });
@@ -909,7 +909,7 @@
       return this._data.caption = a.innerHTML, this.data;
     }
     renderSettings() {
-      return P.tunes.concat(this.config.actions).map(i => ({
+      return P.tunes.concat(this.config.actions).map((i) => ({
         icon: i.icon,
         label: this.api.i18n.t(i.title),
         name: i.name,
@@ -998,13 +998,13 @@
     setTune(a, i) {
       this._data[a] = i, this.ui.applyTune(a, i), a === "stretched" && Promise.resolve().then(() => {
         this.block.stretched = i;
-      }).catch(c => {
+      }).catch((c) => {
         console.error(c);
       });
     }
     uploadFile(a) {
       this.uploader.uploadByFile(a, {
-        onPreview: i => {
+        onPreview: (i) => {
           this.ui.showPreloader(i);
         }
       });

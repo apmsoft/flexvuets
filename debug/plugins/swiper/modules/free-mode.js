@@ -1,4 +1,5 @@
-import { d as now, k as elementTransitionEnd } from '../shared/utils.mjs';
+import { d as now, k as elementTransitionEnd } from "../shared/utils.mjs";
+
 function freeMode(_ref) {
   let {
     swiper,
@@ -232,4 +233,5 @@ function freeMode(_ref) {
     }
   });
 }
+
 export { freeMode as default };

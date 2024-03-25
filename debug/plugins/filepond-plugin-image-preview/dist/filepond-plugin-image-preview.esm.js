@@ -7,10 +7,10 @@
 /* eslint-disable */
 
 // test if file is of type image and can be viewed in canvas
-const isPreviewableImage = file => /^image/.test(file.type);
+const isPreviewableImage = (file) => /^image/.test(file.type);
 const vectorMultiply = (v, amount) => createVector(v.x * amount, v.y * amount);
 const vectorAdd = (a, b) => createVector(a.x + b.x, a.y + b.y);
-const vectorNormalize = v => {
+const vectorNormalize = (v) => {
   const l = Math.sqrt(v.x * v.x + v.y * v.y);
   if (l === 0) {
     return {
@@ -46,7 +46,7 @@ const getMarkupStyles = (markup, size, scale) => {
   const strokeWidth = getMarkupValue(markup.borderWidth || markup.lineWidth, size, scale);
   const lineCap = markup.lineCap || 'round';
   const lineJoin = markup.lineJoin || 'round';
-  const dashes = typeof lineStyle === 'string' ? '' : lineStyle.map(v => getMarkupValue(v, size, scale)).join(',');
+  const dashes = typeof lineStyle === 'string' ? '' : lineStyle.map((v) => getMarkupValue(v, size, scale)).join(',');
   const opacity = markup.opacity || 1;
   return {
     'stroke-linecap': lineCap,
@@ -58,7 +58,7 @@ const getMarkupStyles = (markup, size, scale) => {
     opacity
   };
 };
-const isDefined = value => value != null;
+const isDefined = (value) => value != null;
 const getMarkupRect = (rect, size, scalar = 1) => {
   let left = getMarkupValue(rect.x, size, scalar, 'width') || getMarkupValue(rect.left, size, scalar, 'width');
   let top = getMarkupValue(rect.y, size, scalar, 'height') || getMarkupValue(rect.top, size, scalar, 'height');
@@ -101,8 +101,8 @@ const getMarkupRect = (rect, size, scalar = 1) => {
     height: height || 0
   };
 };
-const pointsToPathShape = points => points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ');
-const setAttributes = (element, attr) => Object.keys(attr).forEach(key => element.setAttribute(key, attr[key]));
+const pointsToPathShape = (points) => points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ');
+const setAttributes = (element, attr) => Object.keys(attr).forEach((key) => element.setAttribute(key, attr[key]));
 const ns = 'http://www.w3.org/2000/svg';
 const svg = (tag, attr) => {
   const element = document.createElementNS(ns, tag);
@@ -111,11 +111,11 @@ const svg = (tag, attr) => {
   }
   return element;
 };
-const updateRect = element => setAttributes(element, {
+const updateRect = (element) => setAttributes(element, {
   ...element.rect,
   ...element.styles
 });
-const updateEllipse = element => {
+const updateEllipse = (element) => {
   const cx = element.rect.x + element.rect.width * 0.5;
   const cy = element.rect.y + element.rect.height * 0.5;
   const rx = element.rect.width * 0.5;
@@ -218,16 +218,16 @@ const updatePath = (element, markup, size, scale) => {
   setAttributes(element, {
     ...element.styles,
     fill: 'none',
-    d: pointsToPathShape(markup.points.map(point => ({
+    d: pointsToPathShape(markup.points.map((point) => ({
       x: getMarkupValue(point.x, size, scale, 'width'),
       y: getMarkupValue(point.y, size, scale, 'height')
     })))
   });
 };
-const createShape = node => markup => svg(node, {
+const createShape = (node) => (markup) => svg(node, {
   id: markup.id
 });
-const createImage = markup => {
+const createImage = (markup) => {
   const shape = svg('image', {
     id: markup.id,
     'stroke-linecap': 'round',
@@ -240,7 +240,7 @@ const createImage = markup => {
   shape.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', markup.src);
   return shape;
 };
-const createLine = markup => {
+const createLine = (markup) => {
   const shape = svg('g', {
     id: markup.id,
     'stroke-linecap': 'round',
@@ -279,10 +279,10 @@ const updateMarkupByType = (element, type, markup, size, scale) => {
   UPDATE_TYPE_ROUTES[type](element, markup, size, scale);
 };
 const MARKUP_RECT = ['x', 'y', 'left', 'top', 'right', 'bottom', 'width', 'height'];
-const toOptionalFraction = value => typeof value === 'string' && /%/.test(value) ? parseFloat(value) / 100 : value;
+const toOptionalFraction = (value) => typeof value === 'string' && /%/.test(value) ? parseFloat(value) / 100 : value;
 
 // adds default markup properties, clones markup
-const prepareMarkup = markup => {
+const prepareMarkup = (markup) => {
   const [type, props] = markup;
   const rect = props.points ? {} : MARKUP_RECT.reduce((prev, curr) => {
     prev[curr] = toOptionalFraction(props[curr]);
@@ -303,7 +303,7 @@ const sortMarkupByZIndex = (a, b) => {
   }
   return 0;
 };
-const createMarkupView = _ => _.utils.createView({
+const createMarkupView = (_) => _.utils.createView({
   name: 'image-preview-markup',
   tag: 'svg',
   ignoreRect: true,
@@ -368,7 +368,7 @@ const createMarkupView = _ => _.utils.createView({
     const markupFilter = root.query('GET_IMAGE_PREVIEW_MARKUP_FILTER');
 
     // draw new
-    markup.filter(markupFilter).map(prepareMarkup).sort(sortMarkupByZIndex).forEach(markup => {
+    markup.filter(markupFilter).map(prepareMarkup).sort(sortMarkupByZIndex).forEach((markup) => {
       const [type, settings] = markup;
 
       // create
@@ -509,7 +509,7 @@ const IMAGE_SCALE_SPRING_PROPS = {
 };
 
 // does horizontal and vertical flipping
-const createBitmapView = _ => _.utils.createView({
+const createBitmapView = (_) => _.utils.createView({
   name: 'image-bitmap',
   ignoreRect: true,
   mixins: {
@@ -524,7 +524,7 @@ const createBitmapView = _ => _.utils.createView({
 });
 
 // shifts and rotates image
-const createImageCanvasWrapper = _ => _.utils.createView({
+const createImageCanvasWrapper = (_) => _.utils.createView({
   name: 'image-canvas-wrapper',
   tag: 'div',
   ignoreRect: true,
@@ -567,7 +567,7 @@ const createImageCanvasWrapper = _ => _.utils.createView({
 });
 
 // clips canvas to correct aspect ratio
-const createClipView = _ => _.utils.createView({
+const createClipView = (_) => _.utils.createView({
   name: 'image-clip',
   tag: 'div',
   ignoreRect: true,
@@ -697,7 +697,7 @@ const createClipView = _ => _.utils.createView({
     imageView.scaleY = scale;
   }
 });
-const createImageView = _ => _.utils.createView({
+const createImageView = (_) => _.utils.createView({
   name: 'image-preview',
   tag: 'div',
   ignoreRect: true,
@@ -806,7 +806,7 @@ let SVG_MASK = `<svg width="500" height="200" viewBox="0 0 500 200" preserveAspe
     <rect x="0" width="500" height="200" fill="currentColor" mask="url(#mask-__UID__)"></rect>
 </svg>`;
 let SVGMaskUniqueId = 0;
-const createImageOverlayView = fpAPI => fpAPI.utils.createView({
+const createImageOverlayView = (fpAPI) => fpAPI.utils.createView({
   name: 'image-preview-overlay',
   tag: 'div',
   ignoreRect: true,
@@ -838,8 +838,8 @@ const createImageOverlayView = fpAPI => fpAPI.utils.createView({
  * Bitmap Worker
  */
 const BitmapWorker = function () {
-  self.onmessage = e => {
-    createImageBitmap(e.data.message.file).then(bitmap => {
+  self.onmessage = (e) => {
+    createImageBitmap(e.data.message.file).then((bitmap) => {
       self.postMessage({
         id: e.data.id,
         message: bitmap
@@ -852,7 +852,7 @@ const BitmapWorker = function () {
  * ColorMatrix Worker
  */
 const ColorMatrixWorker = function () {
-  self.onmessage = e => {
+  self.onmessage = (e) => {
     const imageData = e.data.message.imageData;
     const matrix = e.data.message.colorMatrix;
     const data = imageData.data;
@@ -910,13 +910,13 @@ const getImageSize = (url, cb) => {
 };
 const transforms = {
   1: () => [1, 0, 0, 1, 0, 0],
-  2: width => [-1, 0, 0, 1, width, 0],
+  2: (width) => [-1, 0, 0, 1, width, 0],
   3: (width, height) => [-1, 0, 0, -1, width, height],
   4: (width, height) => [1, 0, 0, -1, 0, height],
   5: () => [0, 1, 1, 0, 0, 0],
   6: (width, height) => [0, 1, -1, 0, height, 0],
   7: (width, height) => [0, -1, -1, 0, height, width],
-  8: width => [0, -1, 1, 0, 0, width]
+  8: (width) => [0, -1, 1, 0, 0, width]
 };
 const fixImageOrientation = (ctx, width, height, orientation) => {
   // no orientation supplied
@@ -950,10 +950,10 @@ const createPreviewImage = (data, width, height, orientation) => {
   ctx.drawImage(data, 0, 0, width, height);
   return canvas;
 };
-const isBitmap = file => /^image/.test(file.type) && !/svg/.test(file.type);
+const isBitmap = (file) => /^image/.test(file.type) && !/svg/.test(file.type);
 const MAX_WIDTH = 10;
 const MAX_HEIGHT = 10;
-const calculateAverageColor = image => {
+const calculateAverageColor = (image) => {
   const scalar = Math.min(MAX_WIDTH / image.width, MAX_HEIGHT / image.height);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -994,7 +994,7 @@ const cloneCanvas = (origin, target) => {
   ctx.drawImage(origin, 0, 0);
   return target;
 };
-const cloneImageData = imageData => {
+const cloneImageData = (imageData) => {
   let id;
   try {
     id = new ImageData(imageData.width, imageData.height);
@@ -1006,25 +1006,25 @@ const cloneImageData = imageData => {
   id.data.set(new Uint8ClampedArray(imageData.data));
   return id;
 };
-const loadImage = url => new Promise((resolve, reject) => {
+const loadImage = (url) => new Promise((resolve, reject) => {
   const img = new Image();
   img.crossOrigin = 'Anonymous';
   img.onload = () => {
     resolve(img);
   };
-  img.onerror = e => {
+  img.onerror = (e) => {
     reject(e);
   };
   img.src = url;
 });
-const createImageWrapperView = _ => {
+const createImageWrapperView = (_) => {
   // create overlay view
   const OverlayView = createImageOverlayView(_);
   const ImageView = createImageView(_);
   const {
     createWorker
   } = _.utils;
-  const applyFilter = (root, filter, target) => new Promise(resolve => {
+  const applyFilter = (root, filter, target) => new Promise((resolve) => {
     // will store image data for future filter updates
     if (!root.ref.imageData) {
       root.ref.imageData = target.getContext('2d').getImageData(0, 0, target.width, target.height);
@@ -1040,7 +1040,7 @@ const createImageWrapperView = _ => {
     worker.post({
       imageData,
       colorMatrix: filter
-    }, response => {
+    }, (response) => {
       // apply filtered colors
       target.getContext('2d').putImageData(response, 0, 0);
 
@@ -1198,7 +1198,7 @@ const createImageWrapperView = _ => {
       }
     }
   };
-  const canCreateImageBitmap = file => {
+  const canCreateImageBitmap = (file) => {
     // Firefox versions before 58 will freeze when running createImageBitmap
     // in a Web Worker so we detect those versions and return false for support
     const userAgent = window.navigator.userAgent;
@@ -1258,7 +1258,7 @@ const createImageWrapperView = _ => {
     };
 
     // image is now ready
-    const previewImageLoaded = imageData => {
+    const previewImageLoaded = (imageData) => {
       // the file url is no longer needed
       URL.revokeObjectURL(fileURL);
 
@@ -1347,7 +1347,7 @@ const createImageWrapperView = _ => {
       const worker = createWorker(BitmapWorker);
       worker.post({
         file: item.file
-      }, imageBitmap => {
+      }, (imageBitmap) => {
         // destroy worker
         worker.terminate();
 
@@ -1442,7 +1442,7 @@ const createImageWrapperView = _ => {
       root
     }) => {
       // we resize the image so memory on iOS 12 is released more quickly (it seems)
-      root.ref.images.forEach(imageView => {
+      root.ref.images.forEach((imageView) => {
         imageView.image.width = 1;
         imageView.image.height = 1;
       });
@@ -1450,7 +1450,7 @@ const createImageWrapperView = _ => {
     didWriteView: ({
       root
     }) => {
-      root.ref.images.forEach(imageView => {
+      root.ref.images.forEach((imageView) => {
         imageView.dirty = false;
       });
     },
@@ -1471,13 +1471,13 @@ const createImageWrapperView = _ => {
       root
     }) => {
       // views on death row
-      const viewsToRemove = root.ref.imageViewBin.filter(imageView => imageView.opacity === 0);
+      const viewsToRemove = root.ref.imageViewBin.filter((imageView) => imageView.opacity === 0);
 
       // views to retain
-      root.ref.imageViewBin = root.ref.imageViewBin.filter(imageView => imageView.opacity > 0);
+      root.ref.imageViewBin = root.ref.imageViewBin.filter((imageView) => imageView.opacity > 0);
 
       // remove these views
-      viewsToRemove.forEach(imageView => removeImageView(root, imageView));
+      viewsToRemove.forEach((imageView) => removeImageView(root, imageView));
       viewsToRemove.length = 0;
     })
   });
@@ -1486,7 +1486,7 @@ const createImageWrapperView = _ => {
 /**
  * Image Preview Plugin
  */
-const plugin = fpAPI => {
+const plugin = (fpAPI) => {
   const {
     addFilter,
     utils
@@ -1501,7 +1501,7 @@ const plugin = fpAPI => {
   const imagePreviewView = createImageWrapperView(fpAPI);
 
   // called for each view that is created right after the 'create' method
-  addFilter('CREATE_VIEW', viewAPI => {
+  addFilter('CREATE_VIEW', (viewAPI) => {
     // get reference to created view
     const {
       is,

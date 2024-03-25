@@ -20,7 +20,7 @@ function extend(target, src) {
   if (src === void 0) {
     src = {};
   }
-  Object.keys(src).forEach(key => {
+  Object.keys(src).forEach((key) => {
     if (typeof target[key] === 'undefined') target[key] = src[key];else if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
       extend(target[key], src[key]);
     }
@@ -141,4 +141,5 @@ function getWindow() {
   extend(win, ssrWindow);
   return win;
 }
+
 export { getWindow as a, getDocument as g };

@@ -1,4 +1,4 @@
-import Utils from '../utils/Utils';
+import Utils from "../utils/Utils";
 export default class Scales {
   constructor(ctx) {
     this.ctx = ctx;
@@ -555,7 +555,7 @@ export default class Scales {
         } else {
           seriesNames.push(yaxe.seriesName);
         }
-        seriesNames.forEach(name => {
+        seriesNames.forEach((name) => {
           cnf.series.forEach((s, si) => {
             if (s.name === name) {
               if (yi === si || assumeSeriesNameArrays) {
@@ -577,7 +577,7 @@ export default class Scales {
       }
     });
     axisSeriesMap.forEach((yaxe, yi) => {
-      yaxe.forEach(si => {
+      yaxe.forEach((si) => {
         seriesYAxisReverseMap[si] = yi;
       });
     });
@@ -601,7 +601,7 @@ export default class Scales {
       }
     }
     if (lastUnassignedYAxis) {
-      unassignedSeriesIndices.forEach(i => {
+      unassignedSeriesIndices.forEach((i) => {
         axisSeriesMap[lastUnassignedYAxis].push(i);
         seriesYAxisReverseMap[i] = lastUnassignedYAxis;
       });
@@ -609,8 +609,8 @@ export default class Scales {
 
     // We deliberately leave the zero-length yaxis array elements in for
     // compatibility with the old equivalence in number between sereis and yaxes.
-    gl.seriesYAxisMap = axisSeriesMap.map(x => x);
-    gl.seriesYAxisReverseMap = seriesYAxisReverseMap.map(x => x);
+    gl.seriesYAxisMap = axisSeriesMap.map((x) => x);
+    gl.seriesYAxisReverseMap = seriesYAxisReverseMap.map((x) => x);
     this.sameScaleInMultipleAxes(minYArr, maxYArr, axisSeriesMap);
   }
   sameScaleInMultipleAxes(minYArr, maxYArr, axisSeriesMap) {
@@ -624,9 +624,9 @@ export default class Scales {
         let minY = Number.MAX_VALUE;
         let maxY = -Number.MAX_VALUE;
         if (cnf.chart.stacked) {
-          let sumSeries = gl.seriesX[axisSeries[0]].map(x => Number.MIN_VALUE);
-          let posSeries = gl.seriesX[axisSeries[0]].map(x => Number.MIN_VALUE);
-          let negSeries = gl.seriesX[axisSeries[0]].map(x => Number.MIN_VALUE);
+          let sumSeries = gl.seriesX[axisSeries[0]].map((x) => Number.MIN_VALUE);
+          let posSeries = gl.seriesX[axisSeries[0]].map((x) => Number.MIN_VALUE);
+          let negSeries = gl.seriesX[axisSeries[0]].map((x) => Number.MIN_VALUE);
           // The first series bound to the axis sets the type for stacked series
           let seriesType = cnf.series[axisSeries[0]].type;
           for (let i = 0; i < axisSeries.length; i++) {
@@ -678,7 +678,7 @@ export default class Scales {
         // Set the scale for this yaxis
         this.setYScaleForIndex(ai, minY, maxY);
         // Set individual series min and max to nice values
-        axisSeries.forEach(si => {
+        axisSeries.forEach((si) => {
           minYArr[si] = gl.yAxisScale[ai].niceMin;
           maxYArr[si] = gl.yAxisScale[ai].niceMax;
         });

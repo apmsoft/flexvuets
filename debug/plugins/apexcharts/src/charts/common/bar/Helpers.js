@@ -1,7 +1,7 @@
-import Fill from '../../../modules/Fill';
-import Graphics from '../../../modules/Graphics';
-import Series from '../../../modules/Series';
-import Utils from '../../../utils/Utils';
+import Fill from "../../../modules/Fill";
+import Graphics from "../../../modules/Graphics";
+import Series from "../../../modules/Series";
+import Utils from "../../../utils/Utils";
 export default class Helpers {
   constructor(barCtx) {
     this.w = barCtx.w;
@@ -111,7 +111,7 @@ export default class Helpers {
   initializeStackedPrevVars(ctx) {
     const w = ctx.w;
     if (w.globals.hasSeriesGroups) {
-      w.globals.seriesGroups.forEach(group => {
+      w.globals.seriesGroups.forEach((group) => {
         if (!ctx[group]) ctx[group] = {};
         ctx[group].prevY = [];
         ctx[group].prevX = [];
@@ -132,7 +132,7 @@ export default class Helpers {
   initializeStackedXYVars(ctx) {
     const w = ctx.w;
     if (w.globals.hasSeriesGroups) {
-      w.globals.seriesGroups.forEach(group => {
+      w.globals.seriesGroups.forEach((group) => {
         if (!ctx[group]) ctx[group] = {};
         ctx[group].xArrj = [];
         ctx[group].xArrjF = [];
@@ -157,7 +157,7 @@ export default class Helpers {
     let seriesNumber = this.barCtx.barOptions.distributed ? j : i;
     if (this.barCtx.barOptions.colors.ranges.length > 0) {
       const colorRange = this.barCtx.barOptions.colors.ranges;
-      colorRange.map(range => {
+      colorRange.map((range) => {
         if (series[i][j] >= range.from && series[i][j] <= range.to) {
           fillColor = range.color;
         }
@@ -377,7 +377,7 @@ export default class Helpers {
       });
     };
     if (w.globals.seriesGoals[i] && w.globals.seriesGoals[i][j] && Array.isArray(w.globals.seriesGoals[i][j])) {
-      w.globals.seriesGoals[i][j].forEach(goal => {
+      w.globals.seriesGoals[i][j].forEach((goal) => {
         pushGoal(goal.value, goal);
       });
     }
@@ -418,7 +418,7 @@ export default class Helpers {
     let line = null;
     if (this.barCtx.isHorizontal) {
       if (Array.isArray(goalX)) {
-        goalX.forEach(goal => {
+        goalX.forEach((goal) => {
           // Need a tiny margin of 1 each side so goals don't disappear at extremeties
           if (goal.x >= -1 && goal.x <= graphics.w.globals.gridWidth + 1) {
             let sHeight = typeof goal.attrs.strokeHeight !== 'undefined' ? goal.attrs.strokeHeight : barHeight / 2;
@@ -430,7 +430,7 @@ export default class Helpers {
       }
     } else {
       if (Array.isArray(goalY)) {
-        goalY.forEach(goal => {
+        goalY.forEach((goal) => {
           // Need a tiny margin of 1 each side so goals don't disappear at extremeties
           if (goal.y >= -1 && goal.y <= graphics.w.globals.gridHeight + 1) {
             let sWidth = typeof goal.attrs.strokeWidth !== 'undefined' ? goal.attrs.strokeWidth : barWidth / 2;

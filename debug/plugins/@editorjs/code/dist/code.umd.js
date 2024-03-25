@@ -24,13 +24,13 @@
 ` && (t += 1), t;
   }
   const h = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 8L5 12L9 16"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 8L19 12L15 16"/></svg>'; /**
-                                                                                                                                                                                                                                                                                                                                                        * CodeTool for Editor.js
-                                                                                                                                                                                                                                                                                                                                                        *
-                                                                                                                                                                                                                                                                                                                                                        * @author CodeX (team@ifmo.su)
-                                                                                                                                                                                                                                                                                                                                                        * @copyright CodeX 2018
-                                                                                                                                                                                                                                                                                                                                                        * @license MIT
-                                                                                                                                                                                                                                                                                                                                                        * @version 2.0.0
-                                                                                                                                                                                                                                                                                                                                                        */
+  * CodeTool for Editor.js
+  *
+  * @author CodeX (team@ifmo.su)
+  * @copyright CodeX 2018
+  * @license MIT
+  * @version 2.0.0
+  */
   class c {
     static get isReadOnlySupported() {
       return !0;
@@ -59,7 +59,7 @@
     drawView() {
       const t = document.createElement("div"),
         e = document.createElement("textarea");
-      return t.classList.add(this.CSS.baseClass, this.CSS.wrapper), e.classList.add(this.CSS.textarea, this.CSS.input), e.textContent = this.data.code, e.placeholder = this.placeholder, this.readOnly && (e.disabled = !0), t.appendChild(e), e.addEventListener("keydown", s => {
+      return t.classList.add(this.CSS.baseClass, this.CSS.wrapper), e.classList.add(this.CSS.textarea, this.CSS.input), e.textContent = this.data.code, e.placeholder = this.placeholder, this.readOnly && (e.disabled = !0), t.appendChild(e), e.addEventListener("keydown", (s) => {
         switch (s.code) {
           case "Tab":
             this.tabHandler(s);

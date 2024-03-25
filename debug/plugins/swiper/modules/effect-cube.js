@@ -1,5 +1,6 @@
-import { e as effectInit } from '../shared/effect-init.mjs';
-import { c as createElement } from '../shared/utils.mjs';
+import { e as effectInit } from "../shared/effect-init.mjs";
+import { c as createElement } from "../shared/utils.mjs";
+
 function EffectCube(_ref) {
   let {
     swiper,
@@ -31,7 +32,7 @@ function EffectCube(_ref) {
   const recreateShadows = () => {
     // create new ones
     const isHorizontal = swiper.isHorizontal();
-    swiper.slides.forEach(slideEl => {
+    swiper.slides.forEach((slideEl) => {
       const progress = Math.max(Math.min(slideEl.progress, 1), -1);
       createSlideShadows(slideEl, progress, isHorizontal);
     });
@@ -135,14 +136,14 @@ function EffectCube(_ref) {
     wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${swiper.isHorizontal() ? 0 : wrapperRotate}deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`;
     wrapperEl.style.setProperty('--swiper-cube-translate-z', `${zFactor}px`);
   };
-  const setTransition = duration => {
+  const setTransition = (duration) => {
     const {
       el,
       slides
     } = swiper;
-    slides.forEach(slideEl => {
+    slides.forEach((slideEl) => {
       slideEl.style.transitionDuration = `${duration}ms`;
-      slideEl.querySelectorAll('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').forEach(subEl => {
+      slideEl.querySelectorAll('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').forEach((subEl) => {
         subEl.style.transitionDuration = `${duration}ms`;
       });
     });
@@ -171,4 +172,5 @@ function EffectCube(_ref) {
     })
   });
 }
+
 export { EffectCube as default };

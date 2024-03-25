@@ -1,10 +1,10 @@
-import BarDataLabels from './common/bar/DataLabels';
-import BarHelpers from './common/bar/Helpers';
-import CoreUtils from '../modules/CoreUtils';
-import Utils from '../utils/Utils';
-import Filters from '../modules/Filters';
-import Graphics from '../modules/Graphics';
-import Series from '../modules/Series';
+import BarDataLabels from "./common/bar/DataLabels";
+import BarHelpers from "./common/bar/Helpers";
+import CoreUtils from "../modules/CoreUtils";
+import Utils from "../utils/Utils";
+import Filters from "../modules/Filters";
+import Graphics from "../modules/Graphics";
+import Series from "../modules/Series";
 
 /**
  * ApexCharts Bar Class responsible for drawing both Columns and Bars.
@@ -43,7 +43,7 @@ class Bar {
     const coreUtils = new CoreUtils(this.ctx);
     this.stackedSeriesTotals = coreUtils.getStackedSeriesTotals(this.w.config.series.map((s, i) => {
       return barSeriesIndices.indexOf(i) === -1 ? i : -1;
-    }).filter(s => {
+    }).filter((s) => {
       return s !== -1;
     }));
     this.barHelpers = new BarHelpers(this);

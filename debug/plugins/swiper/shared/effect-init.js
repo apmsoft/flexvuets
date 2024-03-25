@@ -33,8 +33,8 @@ function effectInit(params) {
     if (recreateShadows) {
       if (!getEffectParams || !getEffectParams().slideShadows) return;
       // remove shadows
-      swiper.slides.forEach(slideEl => {
-        slideEl.querySelectorAll('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').forEach(shadowEl => shadowEl.remove());
+      swiper.slides.forEach((slideEl) => {
+        slideEl.querySelectorAll('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').forEach((shadowEl) => shadowEl.remove());
       });
       // create new one
       recreateShadows();
@@ -54,4 +54,5 @@ function effectInit(params) {
     });
   });
 }
+
 export { effectInit as e };

@@ -69,7 +69,7 @@
         });
       return o.dataset.placeholder = "Enter a caption", e.appendChild(t), this.data.url && (i.src = this.data.url), i.onload = () => {
         e.classList.remove(this.CSS.loading), r.appendChild(i), e.appendChild(r), e.appendChild(o), t.remove(), this._acceptTuneView();
-      }, i.onerror = h => {
+      }, i.onerror = (h) => {
         console.log("Failed to load an image", h);
       }, this.nodes.imageHolder = r, this.nodes.wrapper = e, this.nodes.image = i, this.nodes.caption = o, e;
     }
@@ -97,8 +97,8 @@
     }
     onDropHandler(e) {
       const t = new FileReader();
-      return t.readAsDataURL(e), new Promise(r => {
-        t.onload = i => {
+      return t.readAsDataURL(e), new Promise((r) => {
+        t.onload = (i) => {
           r({
             url: i.target.result,
             caption: e.name
@@ -131,7 +131,7 @@
             const {
               file: t
             } = e.detail;
-            this.onDropHandler(t).then(r => {
+            this.onDropHandler(t).then((r) => {
               this.data = r;
             });
             break;
@@ -160,7 +160,7 @@
       };
     }
     renderSettings() {
-      return this.tunes.map(e => ({
+      return this.tunes.map((e) => ({
         ...e,
         label: this.api.i18n.t(e.label),
         toggle: !0,
@@ -178,8 +178,8 @@
       this.data[e] = !this.data[e], this._acceptTuneView();
     }
     _acceptTuneView() {
-      this.tunes.forEach(e => {
-        this.nodes.imageHolder.classList.toggle(this.CSS.imageHolder + "--" + e.name.replace(/([A-Z])/g, t => `-${t[0].toLowerCase()}`), !!this.data[e.name]), e.name === "stretched" && this.api.blocks.stretchBlock(this.blockIndex, !!this.data.stretched);
+      this.tunes.forEach((e) => {
+        this.nodes.imageHolder.classList.toggle(this.CSS.imageHolder + "--" + e.name.replace(/([A-Z])/g, (t) => `-${t[0].toLowerCase()}`), !!this.data[e.name]), e.name === "stretched" && this.api.blocks.stretchBlock(this.blockIndex, !!this.data.stretched);
       });
     }
   }

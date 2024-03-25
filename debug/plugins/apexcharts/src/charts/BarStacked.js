@@ -1,7 +1,7 @@
-import CoreUtils from '../modules/CoreUtils';
-import Bar from './Bar';
-import Graphics from '../modules/Graphics';
-import Utils from '../utils/Utils';
+import CoreUtils from "../modules/CoreUtils";
+import Bar from "./Bar";
+import Graphics from "../modules/Graphics";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts BarStacked Class responsible for drawing both Stacked Columns and Bars.
@@ -89,9 +89,9 @@ class BarStacked extends Bar {
       this.barHelpers.initializeStackedXYVars(this);
 
       // where all stack bar disappear after collapsing the first series
-      if (this.groupCtx.prevY.length === 1 && this.groupCtx.prevY[0].every(val => isNaN(val))) {
-        this.groupCtx.prevY[0] = this.groupCtx.prevY[0].map(val => zeroH);
-        this.groupCtx.prevYF[0] = this.groupCtx.prevYF[0].map(val => 0);
+      if (this.groupCtx.prevY.length === 1 && this.groupCtx.prevY[0].every((val) => isNaN(val))) {
+        this.groupCtx.prevY[0] = this.groupCtx.prevY[0].map((val) => zeroH);
+        this.groupCtx.prevYF[0] = this.groupCtx.prevYF[0].map((val) => 0);
       }
       for (let j = 0; j < w.globals.dataPoints; j++) {
         const strokeWidth = this.barHelpers.getStrokeWidth(i, j, realIndex);
@@ -365,7 +365,7 @@ class BarStacked extends Bar {
 
       // if this.prevYF[0] is all 0 resulted from line #486
       // AND every arr starting from the second only contains NaN
-      if (this.groupCtx.prevYF[0]?.every(val => val === 0) && this.groupCtx.prevYF.slice(1, gsi).every(arr => arr.every(val => isNaN(val)))) {
+      if (this.groupCtx.prevYF[0]?.every((val) => val === 0) && this.groupCtx.prevYF.slice(1, gsi).every((arr) => arr.every((val) => isNaN(val)))) {
         barYPosition = zeroH;
       } else {
         // Nothing special

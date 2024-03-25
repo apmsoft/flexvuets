@@ -1,4 +1,4 @@
-import Utils from './../../utils/Utils';
+import Utils from "./../../utils/Utils";
 export default class Globals {
   initGlobalVars(gl) {
     gl.series = []; // the MAIN series array (y values)

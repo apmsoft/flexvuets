@@ -1,7 +1,7 @@
-import Formatters from '../Formatters';
-import Graphics from '../Graphics';
-import Utils from '../../utils/Utils';
-import DateTime from '../../utils/DateTime';
+import Formatters from "../Formatters";
+import Graphics from "../Graphics";
+import Utils from "../../utils/Utils";
+import DateTime from "../../utils/DateTime";
 export default class DimXAxis {
   constructor(dCtx) {
     this.w = dCtx.w;
@@ -70,7 +70,7 @@ export default class DimXAxis {
       if (rect.width * xaxisLabels.length > w.globals.svgWidth - this.dCtx.lgWidthForSideLegends - this.dCtx.yAxisWidth - this.dCtx.gridPad.left - this.dCtx.gridPad.right && w.config.xaxis.labels.rotate !== 0 || w.config.xaxis.labels.rotateAlways) {
         if (!w.globals.isBarHorizontal) {
           w.globals.rotateXLabels = true;
-          const getRotatedTextRects = text => {
+          const getRotatedTextRects = (text) => {
             return graphics.getTextRects(text, w.config.xaxis.labels.style.fontSize, w.config.xaxis.labels.style.fontFamily, `rotate(${w.config.xaxis.labels.rotate} 0 0)`, false);
           };
           xLabelrect = getRotatedTextRects(val);
@@ -110,7 +110,7 @@ export default class DimXAxis {
       };
     }
     const fontSize = w.config.xaxis.group.style?.fontSize || w.config.xaxis.labels.style.fontSize;
-    let xaxisLabels = w.globals.groups.map(g => g.title);
+    let xaxisLabels = w.globals.groups.map((g) => g.title);
     let rect;
 
     // prevent changing xaxisLabels to avoid issues in multi-yaxes - fix #522
@@ -162,7 +162,7 @@ export default class DimXAxis {
     let w = this.w;
     let rect;
     this.dCtx.timescaleLabels = w.globals.timescaleLabels.slice();
-    let labels = this.dCtx.timescaleLabels.map(label => label.value);
+    let labels = this.dCtx.timescaleLabels.map((label) => label.value);
 
     //  get the longest string from the labels array and also apply label formatter to it
     let val = labels.reduce((a, b) => {
@@ -194,8 +194,8 @@ export default class DimXAxis {
     gl.skipLastTimelinelabel = false;
     gl.skipFirstTimelinelabel = false;
     const isBarOpposite = w.config.yaxis[0].opposite && w.globals.isBarHorizontal;
-    const isCollapsed = i => gl.collapsedSeriesIndices.indexOf(i) !== -1;
-    const rightPad = yaxe => {
+    const isCollapsed = (i) => gl.collapsedSeriesIndices.indexOf(i) !== -1;
+    const rightPad = (yaxe) => {
       if (this.dCtx.timescaleLabels && this.dCtx.timescaleLabels.length) {
         // for timeline labels, we take the last label and check if it exceeds gridWidth
         const firstimescaleLabel = this.dCtx.timescaleLabels[0];

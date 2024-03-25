@@ -1,5 +1,6 @@
-import { c as classesToSelector } from '../shared/classes-to-selector.mjs';
-import { c as createElement, h as elementIndex, m as makeElementsArray } from '../shared/utils.mjs';
+import { c as classesToSelector } from "../shared/classes-to-selector.mjs";
+import { c as createElement, h as elementIndex, m as makeElementsArray } from "../shared/utils.mjs";
+
 function A11y(_ref) {
   let {
     swiper,
@@ -42,61 +43,61 @@ function A11y(_ref) {
   }
   function makeElFocusable(el) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('tabIndex', '0');
     });
   }
   function makeElNotFocusable(el) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('tabIndex', '-1');
     });
   }
   function addElRole(el, role) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('role', role);
     });
   }
   function addElRoleDescription(el, description) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('aria-roledescription', description);
     });
   }
   function addElControls(el, controls) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('aria-controls', controls);
     });
   }
   function addElLabel(el, label) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('aria-label', label);
     });
   }
   function addElId(el, id) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('id', id);
     });
   }
   function addElLive(el, live) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('aria-live', live);
     });
   }
   function disableEl(el) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('aria-disabled', true);
     });
   }
   function enableEl(el) {
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.setAttribute('aria-disabled', false);
     });
   }
@@ -165,7 +166,7 @@ function A11y(_ref) {
   function updatePagination() {
     const params = swiper.params.a11y;
     if (!hasPagination()) return;
-    swiper.pagination.bullets.forEach(bulletEl => {
+    swiper.pagination.bullets.forEach((bulletEl) => {
       if (swiper.params.pagination.clickable) {
         makeElFocusable(bulletEl);
         if (!swiper.params.pagination.renderBullet) {
@@ -201,7 +202,7 @@ function A11y(_ref) {
       });
     });
   };
-  const handleFocus = e => {
+  const handleFocus = (e) => {
     if (swiper.a11y.clicked) return;
     const slideEl = e.target.closest(`.${swiper.params.slideClass}, swiper-slide`);
     if (!slideEl || !swiper.slides.includes(slideEl)) return;
@@ -264,16 +265,16 @@ function A11y(_ref) {
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
     if (nextEl) {
-      nextEl.forEach(el => initNavEl(el, wrapperId, params.nextSlideMessage));
+      nextEl.forEach((el) => initNavEl(el, wrapperId, params.nextSlideMessage));
     }
     if (prevEl) {
-      prevEl.forEach(el => initNavEl(el, wrapperId, params.prevSlideMessage));
+      prevEl.forEach((el) => initNavEl(el, wrapperId, params.prevSlideMessage));
     }
 
     // Pagination
     if (hasClickablePagination()) {
       const paginationEl = makeElementsArray(swiper.pagination.el);
-      paginationEl.forEach(el => {
+      paginationEl.forEach((el) => {
         el.addEventListener('keydown', onEnterOrSpaceKey);
       });
     }
@@ -292,16 +293,16 @@ function A11y(_ref) {
     nextEl = makeElementsArray(nextEl);
     prevEl = makeElementsArray(prevEl);
     if (nextEl) {
-      nextEl.forEach(el => el.removeEventListener('keydown', onEnterOrSpaceKey));
+      nextEl.forEach((el) => el.removeEventListener('keydown', onEnterOrSpaceKey));
     }
     if (prevEl) {
-      prevEl.forEach(el => el.removeEventListener('keydown', onEnterOrSpaceKey));
+      prevEl.forEach((el) => el.removeEventListener('keydown', onEnterOrSpaceKey));
     }
 
     // Pagination
     if (hasClickablePagination()) {
       const paginationEl = makeElementsArray(swiper.pagination.el);
-      paginationEl.forEach(el => {
+      paginationEl.forEach((el) => {
         el.removeEventListener('keydown', onEnterOrSpaceKey);
       });
     }
@@ -337,4 +338,5 @@ function A11y(_ref) {
     destroy();
   });
 }
+
 export { A11y as default };

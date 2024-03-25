@@ -1,4 +1,4 @@
-import Utils from '../utils/Utils';
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Animation Class.
@@ -39,7 +39,7 @@ export default class Animations {
         }
       case 'swing':
         {
-          easing = pos => {
+          easing = (pos) => {
             let s = 1.70158;
             let ret = (pos -= 1) * pos * ((s + 1) * pos + s) + 1;
             return ret;
@@ -48,7 +48,7 @@ export default class Animations {
         }
       case 'bounce':
         {
-          easing = pos => {
+          easing = (pos) => {
             let ret = '';
             if (pos < 1 / 2.75) {
               ret = 7.5625 * pos * pos;
@@ -65,7 +65,7 @@ export default class Animations {
         }
       case 'elastic':
         {
-          easing = pos => {
+          easing = (pos) => {
             if (pos === !!pos) return pos;
             return Math.pow(2, -10 * pos) * Math.sin((pos - 0.075) * (2 * Math.PI) / 0.3) + 1;
           };
@@ -145,7 +145,7 @@ export default class Animations {
     me.morphSVG(el, realIndex, j, w.config.chart.type === 'line' && !w.globals.comboCharts ? 'stroke' : fill, pathFrom, pathTo, speed, delay * delayFactor);
   }
   showDelayedElements() {
-    this.w.globals.delayedElements.forEach(d => {
+    this.w.globals.delayedElements.forEach((d) => {
       const ele = d.el;
       ele.classList.remove('apexcharts-element-hidden');
       ele.classList.add('apexcharts-hidden-element-shown');
@@ -173,7 +173,7 @@ export default class Animations {
     if (!pathTo) {
       pathTo = el.attr('pathTo');
     }
-    const disableAnimationForCorrupPath = path => {
+    const disableAnimationForCorrupPath = (path) => {
       if (w.config.chart.type === 'radar') {
         // radar chart drops the path to bottom and hence a corrup path looks ugly
         // therefore, disable animation for such a case

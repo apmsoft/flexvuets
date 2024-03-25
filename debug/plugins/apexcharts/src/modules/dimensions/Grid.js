@@ -1,4 +1,4 @@
-import AxesUtils from '../axes/AxesUtils';
+import AxesUtils from "../axes/AxesUtils";
 export default class DimGrid {
   constructor(dCtx) {
     this.w = dCtx.w;
@@ -9,7 +9,7 @@ export default class DimGrid {
     if (w.globals.noData || w.globals.allSeriesCollapsed) {
       return 0;
     }
-    const hasBar = type => {
+    const hasBar = (type) => {
       return type === 'bar' || type === 'rangeBar' || type === 'candlestick' || type === 'boxPlot';
     };
     const type = w.config.chart.type;
@@ -18,7 +18,7 @@ export default class DimGrid {
     if (w.globals.comboBarCount > 0) {
       seriesLen = w.globals.comboBarCount;
     }
-    w.globals.collapsedSeries.forEach(c => {
+    w.globals.collapsedSeries.forEach((c) => {
       if (hasBar(c.type)) {
         seriesLen = seriesLen - 1;
       }
@@ -63,7 +63,7 @@ export default class DimGrid {
     const gl = w.globals;
     let gridShrinkOffset = this.dCtx.isSparkline || !w.globals.axisCharts ? 0 : 10;
     const titleSubtitle = ['title', 'subtitle'];
-    titleSubtitle.forEach(t => {
+    titleSubtitle.forEach((t) => {
       if (w.config[t].text !== undefined) {
         gridShrinkOffset += w.config[t].margin;
       } else {

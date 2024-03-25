@@ -1,7 +1,8 @@
-import { g as getDocument } from '../shared/ssr-window.esm.mjs';
-import { m as makeElementsArray, i as classesToTokens, c as createElement, n as nextTick, b as elementOffset } from '../shared/utils.mjs';
-import { c as createElementIfNotDefined } from '../shared/create-element-if-not-defined.mjs';
-import { c as classesToSelector } from '../shared/classes-to-selector.mjs';
+import { g as getDocument } from "../shared/ssr-window.esm.mjs";
+import { m as makeElementsArray, i as classesToTokens, c as createElement, n as nextTick, b as elementOffset } from "../shared/utils.mjs";
+import { c as createElementIfNotDefined } from "../shared/create-element-if-not-defined.mjs";
+import { c as classesToSelector } from "../shared/classes-to-selector.mjs";
+
 function Scrollbar(_ref) {
   let {
     swiper,
@@ -301,7 +302,7 @@ function Scrollbar(_ref) {
       el
     } = swiper.scrollbar;
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.classList.remove(params.horizontalClass, params.verticalClass);
       subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
     });
@@ -361,4 +362,5 @@ function Scrollbar(_ref) {
     destroy
   });
 }
+
 export { Scrollbar as default };

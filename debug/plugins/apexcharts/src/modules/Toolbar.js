@@ -1,14 +1,14 @@
-import Graphics from './Graphics';
-import Exports from './Exports';
-import Scales from './Scales';
-import Utils from './../utils/Utils';
-import icoPan from './../assets/ico-pan-hand.svg';
-import icoZoom from './../assets/ico-zoom-in.svg';
-import icoReset from './../assets/ico-home.svg';
-import icoZoomIn from './../assets/ico-plus.svg';
-import icoZoomOut from './../assets/ico-minus.svg';
-import icoSelect from './../assets/ico-select.svg';
-import icoMenu from './../assets/ico-menu.svg';
+import Graphics from "./Graphics";
+import Exports from "./Exports";
+import Scales from "./Scales";
+import Utils from "./../utils/Utils";
+import icoPan from "./../assets/ico-pan-hand.svg";
+import icoZoom from "./../assets/ico-zoom-in.svg";
+import icoReset from "./../assets/ico-home.svg";
+import icoZoomIn from "./../assets/ico-plus.svg";
+import icoZoomOut from "./../assets/ico-minus.svg";
+import icoSelect from "./../assets/ico-select.svg";
+import icoMenu from "./../assets/ico-menu.svg";
 
 /**
  * ApexCharts Toolbar Class for creating toolbar in axis based charts.
@@ -66,7 +66,7 @@ export default class Toolbar {
     };
     appendZoomControl('zoomIn', this.elZoomIn, icoZoomIn);
     appendZoomControl('zoomOut', this.elZoomOut, icoZoomOut);
-    const zoomSelectionCtrls = z => {
+    const zoomSelectionCtrls = (z) => {
       if (this.t[z] && w.config.chart[z].enabled) {
         toolbarControls.push({
           el: z === 'zoom' ? this.elZoom : this.elSelection,
@@ -161,7 +161,7 @@ export default class Toolbar {
     this.elZoomOut.addEventListener('click', this.handleZoomOut.bind(this));
     this.elPan.addEventListener('click', this.togglePanning.bind(this));
     this.elMenuIcon.addEventListener('click', this.toggleMenu.bind(this));
-    this.elMenuItems.forEach(m => {
+    this.elMenuItems.forEach((m) => {
       if (m.classList.contains('exportSVG')) {
         m.addEventListener('click', this.handleDownload.bind(this, 'svg'));
       } else if (m.classList.contains('exportPNG')) {
@@ -176,7 +176,7 @@ export default class Toolbar {
   }
   toggleZoomSelection(type) {
     const charts = this.ctx.getSyncedCharts();
-    charts.forEach(ch => {
+    charts.forEach((ch) => {
       ch.ctx.toolbar.toggleOtherControls();
       let el = type === 'selection' ? ch.ctx.toolbar.elSelection : ch.ctx.toolbar.elZoom;
       let enabledType = type === 'selection' ? 'selectionEnabled' : 'zoomEnabled';
@@ -214,7 +214,7 @@ export default class Toolbar {
   }
   togglePanning() {
     const charts = this.ctx.getSyncedCharts();
-    charts.forEach(ch => {
+    charts.forEach((ch) => {
       ch.ctx.toolbar.toggleOtherControls();
       ch.w.globals.panEnabled = !ch.w.globals.panEnabled;
       if (!ch.ctx.toolbar.elPan.classList.contains(ch.ctx.toolbar.selectedClass)) {
@@ -231,7 +231,7 @@ export default class Toolbar {
     w.globals.selectionEnabled = false;
     this.getToolbarIconsReference();
     const toggleEls = [this.elPan, this.elSelection, this.elZoom];
-    toggleEls.forEach(el => {
+    toggleEls.forEach((el) => {
       if (el) {
         el.classList.remove(this.selectedClass);
       }
@@ -361,7 +361,7 @@ export default class Toolbar {
   }
   handleZoomReset(e) {
     const charts = this.ctx.getSyncedCharts();
-    charts.forEach(ch => {
+    charts.forEach((ch) => {
       let w = ch.w;
 
       // forget lastXAxis min/max as reset button isn't resetting the x-axis completely if zoomX is called before

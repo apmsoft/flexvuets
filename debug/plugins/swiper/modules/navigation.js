@@ -1,5 +1,6 @@
-import { c as createElementIfNotDefined } from '../shared/create-element-if-not-defined.mjs';
-import { m as makeElementsArray } from '../shared/utils.mjs';
+import { c as createElementIfNotDefined } from "../shared/create-element-if-not-defined.mjs";
+import { m as makeElementsArray } from "../shared/utils.mjs";
+
 function Navigation(_ref) {
   let {
     swiper,
@@ -41,7 +42,7 @@ function Navigation(_ref) {
   function toggleEl(el, disabled) {
     const params = swiper.params.navigation;
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       if (subEl) {
         subEl.classList[disabled ? 'add' : 'remove'](...params.disabledClass.split(' '));
         if (subEl.tagName === 'BUTTON') subEl.disabled = disabled;
@@ -100,8 +101,8 @@ function Navigation(_ref) {
         el.classList.add(...params.lockClass.split(' '));
       }
     };
-    nextEl.forEach(el => initButton(el, 'next'));
-    prevEl.forEach(el => initButton(el, 'prev'));
+    nextEl.forEach((el) => initButton(el, 'next'));
+    prevEl.forEach((el) => initButton(el, 'prev'));
   }
   function destroy() {
     let {
@@ -114,8 +115,8 @@ function Navigation(_ref) {
       el.removeEventListener('click', dir === 'next' ? onNextClick : onPrevClick);
       el.classList.remove(...swiper.params.navigation.disabledClass.split(' '));
     };
-    nextEl.forEach(el => destroyButton(el, 'next'));
-    prevEl.forEach(el => destroyButton(el, 'prev'));
+    nextEl.forEach((el) => destroyButton(el, 'next'));
+    prevEl.forEach((el) => destroyButton(el, 'prev'));
   }
   on('init', () => {
     if (swiper.params.navigation.enabled === false) {
@@ -143,7 +144,7 @@ function Navigation(_ref) {
       update();
       return;
     }
-    [...nextEl, ...prevEl].filter(el => !!el).forEach(el => el.classList.add(swiper.params.navigation.lockClass));
+    [...nextEl, ...prevEl].filter((el) => !!el).forEach((el) => el.classList.add(swiper.params.navigation.lockClass));
   });
   on('click', (_s, e) => {
     let {
@@ -166,7 +167,7 @@ function Navigation(_ref) {
       } else {
         emit('navigationHide');
       }
-      [...nextEl, ...prevEl].filter(el => !!el).forEach(el => el.classList.toggle(swiper.params.navigation.hiddenClass));
+      [...nextEl, ...prevEl].filter((el) => !!el).forEach((el) => el.classList.toggle(swiper.params.navigation.hiddenClass));
     }
   });
   const enable = () => {
@@ -186,4 +187,5 @@ function Navigation(_ref) {
     destroy
   });
 }
+
 export { Navigation as default };

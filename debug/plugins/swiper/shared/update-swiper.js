@@ -2,12 +2,13 @@
 const paramsList = ['eventsPrefix', 'injectStyles', 'injectStylesUrls', 'modules', 'init', '_direction', 'oneWayMovement', 'swiperElementNodeName', 'touchEventsTarget', 'initialSlide', '_speed', 'cssMode', 'updateOnWindowResize', 'resizeObserver', 'nested', 'focusableElements', '_enabled', '_width', '_height', 'preventInteractionOnTransition', 'userAgent', 'url', '_edgeSwipeDetection', '_edgeSwipeThreshold', '_freeMode', '_autoHeight', 'setWrapperSize', 'virtualTranslate', '_effect', 'breakpoints', 'breakpointsBase', '_spaceBetween', '_slidesPerView', 'maxBackfaceHiddenSlides', '_grid', '_slidesPerGroup', '_slidesPerGroupSkip', '_slidesPerGroupAuto', '_centeredSlides', '_centeredSlidesBounds', '_slidesOffsetBefore', '_slidesOffsetAfter', 'normalizeSlideIndex', '_centerInsufficientSlides', '_watchOverflow', 'roundLengths', 'touchRatio', 'touchAngle', 'simulateTouch', '_shortSwipes', '_longSwipes', 'longSwipesRatio', 'longSwipesMs', '_followFinger', 'allowTouchMove', '_threshold', 'touchMoveStopPropagation', 'touchStartPreventDefault', 'touchStartForcePreventDefault', 'touchReleaseOnEdges', 'uniqueNavElements', '_resistance', '_resistanceRatio', '_watchSlidesProgress', '_grabCursor', 'preventClicks', 'preventClicksPropagation', '_slideToClickedSlide', '_loop', 'loopAdditionalSlides', 'loopAddBlankSlides', 'loopPreventsSliding', '_rewind', '_allowSlidePrev', '_allowSlideNext', '_swipeHandler', '_noSwiping', 'noSwipingClass', 'noSwipingSelector', 'passiveListeners', 'containerModifierClass', 'slideClass', 'slideActiveClass', 'slideVisibleClass', 'slideFullyVisibleClass', 'slideNextClass', 'slidePrevClass', 'slideBlankClass', 'wrapperClass', 'lazyPreloaderClass', 'lazyPreloadPrevNext', 'runCallbacksOnInit', 'observer', 'observeParents', 'observeSlideChildren',
 // modules
 'a11y', '_autoplay', '_controller', 'coverflowEffect', 'cubeEffect', 'fadeEffect', 'flipEffect', 'creativeEffect', 'cardsEffect', 'hashNavigation', 'history', 'keyboard', 'mousewheel', '_navigation', '_pagination', 'parallax', '_scrollbar', '_thumbs', 'virtual', 'zoom', 'control'];
+
 function isObject(o) {
   return typeof o === 'object' && o !== null && o.constructor && Object.prototype.toString.call(o).slice(8, -1) === 'Object' && !o.__swiper__;
 }
 function extend(target, src) {
   const noExtend = ['__proto__', 'constructor', 'prototype'];
-  Object.keys(src).filter(key => noExtend.indexOf(key) < 0).forEach(key => {
+  Object.keys(src).filter((key) => noExtend.indexOf(key) < 0).forEach((key) => {
     if (typeof target[key] === 'undefined') target[key] = src[key];else if (isObject(src[key]) && isObject(target[key]) && Object.keys(src[key]).length > 0) {
       if (src[key].__swiper__) target[key] = src[key];else extend(target[key], src[key]);
     } else {
@@ -37,9 +38,9 @@ function uniqueClasses(classNames) {
   if (classNames === void 0) {
     classNames = '';
   }
-  const classes = classNames.split(' ').map(c => c.trim()).filter(c => !!c);
+  const classes = classNames.split(' ').map((c) => c.trim()).filter((c) => !!c);
   const unique = [];
-  classes.forEach(c => {
+  classes.forEach((c) => {
     if (unique.indexOf(c) < 0) unique.push(c);
   });
   return unique.join(' ');
@@ -48,7 +49,7 @@ function attrToProp(attrName) {
   if (attrName === void 0) {
     attrName = '';
   }
-  return attrName.replace(/-[a-z]/g, l => l.toUpperCase().replace('-', ''));
+  return attrName.replace(/-[a-z]/g, (l) => l.toUpperCase().replace('-', ''));
 }
 function wrapperClass(className) {
   if (className === void 0) {
@@ -58,6 +59,7 @@ function wrapperClass(className) {
   if (!className.includes('swiper-wrapper')) return `swiper-wrapper ${className}`;
   return className;
 }
+
 function updateSwiper(_ref) {
   let {
     swiper,
@@ -69,7 +71,7 @@ function updateSwiper(_ref) {
     scrollbarEl,
     paginationEl
   } = _ref;
-  const updateParams = changedParams.filter(key => key !== 'children' && key !== 'direction' && key !== 'wrapperClass');
+  const updateParams = changedParams.filter((key) => key !== 'children' && key !== 'direction' && key !== 'wrapperClass');
   const {
     params: currentParams,
     pagination,
@@ -101,7 +103,7 @@ function updateSwiper(_ref) {
   if (changedParams.includes('navigation') && passedParams.navigation && (passedParams.navigation.prevEl || prevEl) && (passedParams.navigation.nextEl || nextEl) && (currentParams.navigation || currentParams.navigation === false) && navigation && !navigation.prevEl && !navigation.nextEl) {
     needNavigationInit = true;
   }
-  const destroyModule = mod => {
+  const destroyModule = (mod) => {
     if (!swiper[mod]) return;
     swiper[mod].destroy();
     if (mod === 'navigation') {
@@ -130,7 +132,7 @@ function updateSwiper(_ref) {
       loopNeedReloop = true;
     }
   }
-  updateParams.forEach(key => {
+  updateParams.forEach((key) => {
     if (isObject(currentParams[key]) && isObject(passedParams[key])) {
       Object.assign(currentParams[key], passedParams[key]);
       if ((key === 'navigation' || key === 'pagination' || key === 'scrollbar') && 'enabled' in passedParams[key] && !passedParams[key].enabled) {
@@ -230,4 +232,5 @@ function updateSwiper(_ref) {
   }
   swiper.update();
 }
+
 export { needsPagination as a, needsScrollbar as b, attrToProp as c, uniqueClasses as d, extend as e, isObject as i, needsNavigation as n, paramsList as p, updateSwiper as u, wrapperClass as w };

@@ -1,4 +1,5 @@
-import { a as getWindow } from '../shared/ssr-window.esm.mjs';
+import { a as getWindow } from "../shared/ssr-window.esm.mjs";
+
 function History(_ref) {
   let {
     swiper,
@@ -16,10 +17,10 @@ function History(_ref) {
   });
   let initialized = false;
   let paths = {};
-  const slugify = text => {
+  const slugify = (text) => {
     return text.toString().replace(/\s+/g, '-').replace(/[^\w-]+/g, '').replace(/--+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
   };
-  const getPathValues = urlOverride => {
+  const getPathValues = (urlOverride) => {
     const window = getWindow();
     let location;
     if (urlOverride) {
@@ -27,7 +28,7 @@ function History(_ref) {
     } else {
       location = window.location;
     }
-    const pathArray = location.pathname.slice(1).split('/').filter(part => part !== '');
+    const pathArray = location.pathname.slice(1).split('/').filter((part) => part !== '');
     const total = pathArray.length;
     const key = pathArray[total - 2];
     const value = pathArray[total - 1];
@@ -137,4 +138,5 @@ function History(_ref) {
     }
   });
 }
+
 export { History as default };

@@ -1,10 +1,10 @@
-import Graphics from '../../modules/Graphics';
-import Utils from '../../utils/Utils';
-import Helpers from './Helpers';
-import XAxisAnnotations from './XAxisAnnotations';
-import YAxisAnnotations from './YAxisAnnotations';
-import PointsAnnotations from './PointsAnnotations';
-import Options from './../settings/Options';
+import Graphics from "../../modules/Graphics";
+import Utils from "../../utils/Utils";
+import Helpers from "./Helpers";
+import XAxisAnnotations from "./XAxisAnnotations";
+import YAxisAnnotations from "./YAxisAnnotations";
+import PointsAnnotations from "./PointsAnnotations";
+import Options from "./../settings/Options";
 
 /**
  * ApexCharts Annotations Class for drawing lines/rects on both xaxis and yaxis.
@@ -229,7 +229,7 @@ export default class Annotations {
     annos = Utils.listToArray(annos);
 
     // delete the DOM elements
-    Array.prototype.forEach.call(annos, a => {
+    Array.prototype.forEach.call(annos, (a) => {
       while (a.firstChild) {
         a.removeChild(a.firstChild);
       }
@@ -244,7 +244,7 @@ export default class Annotations {
           w.globals.memory.methodsToExec.splice(i, 1);
         }
       });
-      Array.prototype.forEach.call(annos, a => {
+      Array.prototype.forEach.call(annos, (a) => {
         a.parentElement.removeChild(a);
       });
     }

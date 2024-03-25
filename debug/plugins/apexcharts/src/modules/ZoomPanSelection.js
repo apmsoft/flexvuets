@@ -1,7 +1,7 @@
-import Graphics from './Graphics';
-import Utils from './../utils/Utils';
-import Toolbar from './Toolbar';
-import Scales from './Scales';
+import Graphics from "./Graphics";
+import Utils from "./../utils/Utils";
+import Toolbar from "./Toolbar";
+import Scales from "./Scales";
 
 /**
  * ApexCharts Zoom Class for handling zooming and panning on axes based charts.
@@ -58,7 +58,7 @@ export default class ZoomPanSelection extends Toolbar {
     this.preselectedSelection();
     this.hoverArea = w.globals.dom.baseEl.querySelector(`${w.globals.chartClass} .apexcharts-svg`);
     this.hoverArea.classList.add('apexcharts-zoomable');
-    this.eventList.forEach(event => {
+    this.eventList.forEach((event) => {
       this.hoverArea.addEventListener(event, me.svgMouseEvents.bind(me, xyRatios), {
         capture: false,
         passive: true
@@ -362,7 +362,7 @@ export default class ZoomPanSelection extends Toolbar {
     }
 
     // update selection when selection rect is dragged
-    const getSelAttr = attr => {
+    const getSelAttr = (attr) => {
       return parseFloat(selRect.node.getAttribute(attr));
     };
     const draggedProps = {

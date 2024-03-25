@@ -1,6 +1,7 @@
-import { e as extend, i as isObject, c as attrToProp, p as paramsList } from './update-swiper.mjs';
-import { d as defaults } from './swiper-core.mjs';
-const formatValue = val => {
+import { e as extend, i as isObject, c as attrToProp, p as paramsList } from "./update-swiper.mjs";
+import { d as defaults } from "./swiper-core.mjs";
+
+const formatValue = (val) => {
   if (parseFloat(val) === Number(val)) return Number(val);
   if (val === 'true') return true;
   if (val === '') return true;
@@ -24,10 +25,10 @@ function getParams(element, propName, propValue) {
   const passedParams = {};
   extend(params, defaults);
   const localParamsList = [...paramsList, 'on'];
-  const allowedParams = localParamsList.map(key => key.replace(/_/, ''));
+  const allowedParams = localParamsList.map((key) => key.replace(/_/, ''));
 
   // First check props
-  localParamsList.forEach(paramName => {
+  localParamsList.forEach((paramName) => {
     paramName = paramName.replace('_', '');
     if (typeof element[paramName] !== 'undefined') {
       passedParams[paramName] = element[paramName];
@@ -44,8 +45,8 @@ function getParams(element, propName, propValue) {
       } : propValue
     });
   }
-  attrsList.forEach(attr => {
-    const moduleParam = modulesParamsList.filter(mParam => attr.name.indexOf(`${mParam}-`) === 0)[0];
+  attrsList.forEach((attr) => {
+    const moduleParam = modulesParamsList.filter((mParam) => attr.name.indexOf(`${mParam}-`) === 0)[0];
     if (moduleParam) {
       const parentObjName = attrToProp(moduleParam);
       const subObjName = attrToProp(attr.name.split(`${moduleParam}-`)[1]);
@@ -101,4 +102,5 @@ function getParams(element, propName, propValue) {
     passedParams
   };
 }
+
 export { getParams as g };

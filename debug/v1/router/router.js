@@ -1,7 +1,7 @@
-import UrlManager from "../../flexvue/core/urlmanager.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
-import { Notice } from "../observable/notice.class.js";
-import { Faq } from "../observable/faq.class.js";
+import UrlManager from "../../../${debugPath}/flexvue/core/urlmanager.class.js";
+import AsyncTask from "../../../${debugPath}/flexvue/core/asynctask.class.js";
+import { Notice } from "../../../${debugPath}/v1/observable/notice.class.js";
+import { Faq } from "../../../${debugPath}/v1/observable/faq.class.js";
 const onReady = () => {
   // 기본 클래스 선언
   new App();

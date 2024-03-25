@@ -1,6 +1,6 @@
-import Graphics from '../Graphics';
-import XAxis from './XAxis';
-import AxesUtils from './AxesUtils';
+import Graphics from "../Graphics";
+import XAxis from "./XAxis";
+import AxesUtils from "./AxesUtils";
 
 /**
  * ApexCharts Grid Class for drawing Cartesian Grid.
@@ -56,7 +56,7 @@ class Grid {
     let strokeSize = Array.isArray(w.config.stroke.width) ? 0 : w.config.stroke.width;
     if (Array.isArray(w.config.stroke.width)) {
       let strokeMaxSize = 0;
-      w.config.stroke.width.forEach(m => {
+      w.config.stroke.width.forEach((m) => {
         strokeMaxSize = Math.max(strokeMaxSize, m);
       });
       strokeSize = strokeMaxSize;

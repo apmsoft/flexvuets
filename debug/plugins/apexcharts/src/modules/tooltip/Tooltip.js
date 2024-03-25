@@ -1,12 +1,12 @@
-import Labels from './Labels';
-import Position from './Position';
-import Marker from './Marker';
-import Intersect from './Intersect';
-import AxesTooltip from './AxesTooltip';
-import Graphics from '../Graphics';
-import Series from '../Series';
-import XAxis from './../axes/XAxis';
-import Utils from './Utils';
+import Labels from "./Labels";
+import Position from "./Position";
+import Marker from "./Marker";
+import Intersect from "./Intersect";
+import AxesTooltip from "./AxesTooltip";
+import Graphics from "../Graphics";
+import Series from "../Series";
+import XAxis from "./../axes/XAxis";
+import Utils from "./Utils";
 
 /**
  * ApexCharts Core Tooltip Class to handle the tooltip generation.
@@ -125,7 +125,7 @@ export default class Tooltip {
       gYZ.classList.add('apexcharts-tooltip-text');
       gYZ.style.fontFamily = this.tConfig.style.fontFamily || w.config.chart.fontFamily;
       gYZ.style.fontSize = this.tConfig.style.fontSize;
-      ['y', 'goals', 'z'].forEach(g => {
+      ['y', 'goals', 'z'].forEach((g) => {
         const gValText = document.createElement('div');
         gValText.classList.add(`apexcharts-tooltip-${g}-group`);
         let txtLabel = document.createElement('span');
@@ -243,7 +243,7 @@ export default class Tooltip {
         ttItems: opts.ttItems
       };
       let events = ['mousemove', 'mouseup', 'touchmove', 'mouseout', 'touchend'];
-      events.map(ev => {
+      events.map((ev) => {
         return paths[p].addEventListener(ev, self.onSeriesHover.bind(self, extendedOpts), {
           capture: false,
           passive: true
@@ -292,7 +292,7 @@ export default class Tooltip {
       return;
     }
     if (chartGroups.length) {
-      chartGroups.forEach(ch => {
+      chartGroups.forEach((ch) => {
         const tooltipEl = this.getElTooltip(ch);
         const newOpts = {
           paths: opt.paths,
@@ -404,7 +404,7 @@ export default class Tooltip {
       if (xcrosshairs !== null) {
         xcrosshairs.classList.add('apexcharts-active');
       }
-      const hasYAxisTooltip = this.yaxisTooltips.filter(b => {
+      const hasYAxisTooltip = this.yaxisTooltips.filter((b) => {
         return b === true;
       });
       if (this.ycrosshairs !== null && hasYAxisTooltip.length) {
@@ -489,7 +489,7 @@ export default class Tooltip {
     } else if (e.type === 'mouseout' || e.type === 'touchend') {
       tooltipEl.classList.remove('apexcharts-active');
       if (w.config.legend.tooltipHoverFormatter) {
-        this.legendLabels.forEach(l => {
+        this.legendLabels.forEach((l) => {
           const defaultText = l.getAttribute('data:default-text');
           l.innerHTML = decodeURIComponent(defaultText);
         });
@@ -580,7 +580,7 @@ export default class Tooltip {
       }
     }
     if (w.config.legend.tooltipHoverFormatter) {
-      this.legendLabels.forEach(l => {
+      this.legendLabels.forEach((l) => {
         const defaultText = l.getAttribute('data:default-text');
         l.innerHTML = decodeURIComponent(defaultText);
       });
@@ -615,7 +615,7 @@ export default class Tooltip {
       let els = Array.from(this.legendLabels);
 
       // reset all legend values first
-      els.forEach(l => {
+      els.forEach((l) => {
         const legendName = l.getAttribute('data:default-text');
         l.innerHTML = decodeURIComponent(legendName);
       });

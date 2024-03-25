@@ -1,7 +1,7 @@
-import Data from '../modules/Data';
-import AxesUtils from '../modules/axes/AxesUtils';
-import Series from '../modules/Series';
-import Utils from '../utils/Utils';
+import Data from "../modules/Data";
+import AxesUtils from "../modules/axes/AxesUtils";
+import Series from "../modules/Series";
+import Utils from "../utils/Utils";
 class Exports {
   constructor(ctx) {
     this.ctx = ctx;
@@ -25,7 +25,7 @@ class Exports {
 
     // replace second occurrence of "xmlns" attribute with "xmlns:xlink" with correct url + add xmlns:svgjs
     let nXmlnsSeen = 0;
-    let result = svgData.replace(/xmlns="http:\/\/www.w3.org\/2000\/svg"/g, match => {
+    let result = svgData.replace(/xmlns="http:\/\/www.w3.org\/2000\/svg"/g, (match) => {
       nXmlnsSeen++;
       return nXmlnsSeen === 2 ? 'xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"' : match;
     });
@@ -59,7 +59,7 @@ class Exports {
     const xcrosshairs = w.globals.dom.baseEl.getElementsByClassName('apexcharts-xcrosshairs');
     const ycrosshairs = w.globals.dom.baseEl.getElementsByClassName('apexcharts-ycrosshairs');
     const zoomSelectionRects = w.globals.dom.baseEl.querySelectorAll('.apexcharts-zoom-rect, .apexcharts-selection-rect');
-    Array.prototype.forEach.call(zoomSelectionRects, z => {
+    Array.prototype.forEach.call(zoomSelectionRects, (z) => {
       z.setAttribute('width', 0);
     });
     if (xcrosshairs && xcrosshairs[0]) {
@@ -82,7 +82,7 @@ class Exports {
     return URL.createObjectURL(svgBlob);
   }
   dataURI(options) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const w = this.w;
       const scale = options ? options.scale || options.width / w.globals.svgWidth : 1;
       this.cleanup();
@@ -163,15 +163,15 @@ class Exports {
     let gSeries = w.globals.series.map((s, i) => {
       return w.globals.collapsedSeriesIndices.indexOf(i) === -1 ? s : [];
     });
-    const isTimeStamp = num => {
+    const isTimeStamp = (num) => {
       return w.config.xaxis.type === 'datetime' && String(num).length >= 10;
     };
-    const seriesMaxDataLength = Math.max(...series.map(s => {
+    const seriesMaxDataLength = Math.max(...series.map((s) => {
       return s.data ? s.data.length : 0;
     }));
     const dataFormat = new Data(this.ctx);
     const axesUtils = new AxesUtils(this.ctx);
-    const getCat = i => {
+    const getCat = (i) => {
       let cat = '';
 
       // pie / donut/ radial
@@ -275,7 +275,7 @@ class Exports {
       const categories = new Set();
       const data = {};
       series.forEach((s, sI) => {
-        s?.data.forEach(dataItem => {
+        s?.data.forEach((dataItem) => {
           let cat, value;
           if (dataFormat.isFormatXY()) {
             cat = dataItem.x;
@@ -296,7 +296,7 @@ class Exports {
       if (columns.length) {
         rows.push(columns.join(columnDelimiter));
       }
-      Array.from(categories).sort().forEach(cat => {
+      Array.from(categories).sort().forEach((cat) => {
         rows.push([isTimeStamp(cat) && w.config.xaxis.type === 'datetime' ? w.config.chart.toolbar.export.csv.dateFormatter(cat) : Utils.isNumber(cat) ? cat : cat.split(columnDelimiter).join(''), data[cat].join(columnDelimiter)]);
       });
     };

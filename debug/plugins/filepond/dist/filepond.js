@@ -2997,16 +2997,16 @@
 
       // chain filters
       matchingFilters.reduce(
-      // loop over promises passing value to next promise
-      function (current, next) {
-        return current.then(function (value) {
-          return next(value, utils);
-        });
-      },
-      // call initial filter, will return a promise
-      initialFilter(value, utils)
+        // loop over promises passing value to next promise
+        function (current, next) {
+          return current.then(function (value) {
+            return next(value, utils);
+          });
+        },
+        // call initial filter, will return a promise
+        initialFilter(value, utils)
 
-      // all executed
+        // all executed
       ).then(function (value) {
         return resolve(value);
       }).catch(function (error) {
@@ -4418,72 +4418,72 @@
 
       // remember request so we can abort it later
       state.request = processFn(
-      // the file to process
-      file,
-      // the metadata to send along
-      metadata,
-      // callbacks (load, error, progress, abort, transfer)
-      // load expects the body to be a server id if
-      // you want to make use of revert
-      function (response) {
-        // we put the response in state so we can access
-        // it outside of this method
-        state.response = isObject(response) ? response : {
-          type: 'load',
-          code: 200,
-          body: '' + response,
-          headers: {}
-        };
+        // the file to process
+        file,
+        // the metadata to send along
+        metadata,
+        // callbacks (load, error, progress, abort, transfer)
+        // load expects the body to be a server id if
+        // you want to make use of revert
+        function (response) {
+          // we put the response in state so we can access
+          // it outside of this method
+          state.response = isObject(response) ? response : {
+            type: 'load',
+            code: 200,
+            body: '' + response,
+            headers: {}
+          };
 
-        // update duration
-        state.duration = Date.now() - state.timestamp;
+          // update duration
+          state.duration = Date.now() - state.timestamp;
 
-        // force progress to 1 as we're now done
-        state.progress = 1;
+          // force progress to 1 as we're now done
+          state.progress = 1;
 
-        // actual load is done let's share results
-        api.fire('load', state.response.body);
+          // actual load is done let's share results
+          api.fire('load', state.response.body);
 
-        // we are really done
-        // if perceived progress is 1 ( wait for perceived progress to complete )
-        // or if server does not support progress ( null )
-        if (!allowMinimumUploadDuration || allowMinimumUploadDuration && state.perceivedProgress === 1) {
-          completeFn();
-        }
-      },
-      // error is expected to be an object with type, code, body
-      function (error) {
-        // cancel updater
-        state.perceivedPerformanceUpdater.clear();
+          // we are really done
+          // if perceived progress is 1 ( wait for perceived progress to complete )
+          // or if server does not support progress ( null )
+          if (!allowMinimumUploadDuration || allowMinimumUploadDuration && state.perceivedProgress === 1) {
+            completeFn();
+          }
+        },
+        // error is expected to be an object with type, code, body
+        function (error) {
+          // cancel updater
+          state.perceivedPerformanceUpdater.clear();
 
-        // update others about this error
-        api.fire('error', isObject(error) ? error : {
-          type: 'error',
-          code: 0,
-          body: '' + error
+          // update others about this error
+          api.fire('error', isObject(error) ? error : {
+            type: 'error',
+            code: 0,
+            body: '' + error
+          });
+        },
+        // actual processing progress
+        function (computable, current, total) {
+          // update actual duration
+          state.duration = Date.now() - state.timestamp;
+
+          // update actual progress
+          state.progress = computable ? current / total : null;
+          progressFn();
+        },
+        // abort does not expect a value
+        function () {
+          // stop updater
+          state.perceivedPerformanceUpdater.clear();
+
+          // fire the abort event so we can switch visuals
+          api.fire('abort', state.response ? state.response.body : null);
+        },
+        // register the id for this transfer
+        function (transferId) {
+          api.fire('transfer', transferId);
         });
-      },
-      // actual processing progress
-      function (computable, current, total) {
-        // update actual duration
-        state.duration = Date.now() - state.timestamp;
-
-        // update actual progress
-        state.progress = computable ? current / total : null;
-        progressFn();
-      },
-      // abort does not expect a value
-      function () {
-        // stop updater
-        state.perceivedPerformanceUpdater.clear();
-
-        // fire the abort event so we can switch visuals
-        api.fire('abort', state.response ? state.response.body : null);
-      },
-      // register the id for this transfer
-      function (transferId) {
-        api.fire('transfer', transferId);
-      });
     };
     var abort = function abort() {
       // no request running, can't abort
@@ -5433,12 +5433,12 @@
 
         // create a new blank item
         var item = createItem(
-        // where did this file come from
-        origin,
-        // an input file never has a server file reference
-        origin === FileOrigin.INPUT ? null : source,
-        // file mock data, if defined
-        options.file);
+          // where did this file come from
+          origin,
+          // an input file never has a server file reference
+          origin === FileOrigin.INPUT ? null : source,
+          // file mock data, if defined
+          options.file);
 
         // set initial meta data
         Object.keys(options.metadata || {}).forEach(function (key) {
@@ -7580,15 +7580,15 @@
     }
     root.ref.lastItemSpanwDate = spawnDate;
     root.appendChildView(root.createChildView(
-    // view type
-    item,
-    // props
-    {
-      spawnDate: spawnDate,
-      id: id,
-      opacity: opacity,
-      interactionMethod: interactionMethod
-    }), index);
+      // view type
+      item,
+      // props
+      {
+        spawnDate: spawnDate,
+        id: id,
+        opacity: opacity,
+        interactionMethod: interactionMethod
+      }), index);
   };
   var moveItem = function moveItem(item, x, y) {
     var vx = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
@@ -8703,10 +8703,10 @@
       }
       links = getLinksFromTransferURLData(dataTransfer);
     } catch (e) {
+
+
       // nope nope nope (probably IE trouble)
-    }
-    return links;
-  };
+    }return links;};
   var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {
     var data = dataTransfer.getData('url');
     if (typeof data === 'string' && data.length) {
@@ -9867,12 +9867,12 @@
 
     // create the data store, this will contain all our app info
     var store = createStore(
-    // initial state (should be serializable)
-    createInitialState(defaultOptions),
-    // queries
-    [queries, createOptionQueries(defaultOptions)],
-    // action handlers
-    [actions, createOptionActions(defaultOptions)]);
+      // initial state (should be serializable)
+      createInitialState(defaultOptions),
+      // queries
+      [queries, createOptionQueries(defaultOptions)],
+      // action handlers
+      [actions, createOptionActions(defaultOptions)]);
 
     // set initial options
     store.dispatch('SET_OPTIONS', {

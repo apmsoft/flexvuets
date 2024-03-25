@@ -1,9 +1,9 @@
-import CoreUtils from '../CoreUtils';
-import Dimensions from '../dimensions/Dimensions';
-import Graphics from '../Graphics';
-import Series from '../Series';
-import Utils from '../../utils/Utils';
-import Helpers from './Helpers';
+import CoreUtils from "../CoreUtils";
+import Dimensions from "../dimensions/Dimensions";
+import Graphics from "../Graphics";
+import Series from "../Series";
+import Utils from "../../utils/Utils";
+import Helpers from "./Helpers";
 
 /**
  * ApexCharts Legend Class to draw legend.
@@ -51,10 +51,10 @@ class Legend {
     let fillcolor = w.globals.colors.slice();
     if (w.config.chart.type === 'heatmap') {
       const ranges = w.config.plotOptions.heatmap.colorScale.ranges;
-      legendNames = ranges.map(colorScale => {
+      legendNames = ranges.map((colorScale) => {
         return colorScale.name ? colorScale.name : colorScale.from + ' - ' + colorScale.to;
       });
-      fillcolor = ranges.map(color => color.color);
+      fillcolor = ranges.map((color) => color.color);
     } else if (this.isBarsDistributed) {
       legendNames = w.globals.labels.slice();
     }
@@ -215,7 +215,7 @@ class Legend {
       elLegendWrap.style.right = 25 + w.config.legend.offsetX + 'px';
     }
     const fixedHeigthWidth = ['width', 'height'];
-    fixedHeigthWidth.forEach(hw => {
+    fixedHeigthWidth.forEach((hw) => {
       if (elLegendWrap.style[hw]) {
         elLegendWrap.style[hw] = parseInt(w.config.legend[hw], 10) + 'px';
       }

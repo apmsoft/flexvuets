@@ -1,6 +1,6 @@
-import Graphics from './Graphics';
-import Filters from './Filters';
-import Utils from '../utils/Utils';
+import Graphics from "./Graphics";
+import Filters from "./Filters";
+import Utils from "../utils/Utils";
 class Crosshairs {
   constructor(ctx) {
     this.ctx = ctx;

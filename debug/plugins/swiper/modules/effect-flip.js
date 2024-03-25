@@ -1,8 +1,9 @@
-import { c as createShadow } from '../shared/create-shadow.mjs';
-import { e as effectInit } from '../shared/effect-init.mjs';
-import { e as effectTarget } from '../shared/effect-target.mjs';
-import { e as effectVirtualTransitionEnd } from '../shared/effect-virtual-transition-end.mjs';
-import { g as getSlideTransformEl } from '../shared/utils.mjs';
+import { c as createShadow } from "../shared/create-shadow.mjs";
+import { e as effectInit } from "../shared/effect-init.mjs";
+import { e as effectTarget } from "../shared/effect-target.mjs";
+import { e as effectVirtualTransitionEnd } from "../shared/effect-virtual-transition-end.mjs";
+import { g as getSlideTransformEl } from "../shared/utils.mjs";
+
 function EffectFlip(_ref) {
   let {
     swiper,
@@ -30,7 +31,7 @@ function EffectFlip(_ref) {
   const recreateShadows = () => {
     // Set shadows
     swiper.params.flipEffect;
-    swiper.slides.forEach(slideEl => {
+    swiper.slides.forEach((slideEl) => {
       let progress = slideEl.progress;
       if (swiper.params.flipEffect.limitRotation) {
         progress = Math.max(Math.min(slideEl.progress, 1), -1);
@@ -81,11 +82,11 @@ function EffectFlip(_ref) {
       targetEl.style.transform = transform;
     }
   };
-  const setTransition = duration => {
-    const transformElements = swiper.slides.map(slideEl => getSlideTransformEl(slideEl));
-    transformElements.forEach(el => {
+  const setTransition = (duration) => {
+    const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
+    transformElements.forEach((el) => {
       el.style.transitionDuration = `${duration}ms`;
-      el.querySelectorAll('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').forEach(shadowEl => {
+      el.querySelectorAll('.swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left').forEach((shadowEl) => {
         shadowEl.style.transitionDuration = `${duration}ms`;
       });
     });
@@ -113,4 +114,5 @@ function EffectFlip(_ref) {
     })
   });
 }
+
 export { EffectFlip as default };

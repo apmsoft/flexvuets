@@ -1,4 +1,4 @@
-import Utils from '../utils/Utils';
+import Utils from "../utils/Utils";
 export default class Events {
   constructor(ctx) {
     this.ctx = ctx;
@@ -41,8 +41,8 @@ export default class Events {
     const w = this.w;
     const me = this.ctx;
     let clickableArea = w.globals.dom.baseEl.querySelector(w.globals.chartClass);
-    this.ctx.eventList.forEach(event => {
-      clickableArea.addEventListener(event, e => {
+    this.ctx.eventList.forEach((event) => {
+      clickableArea.addEventListener(event, (e) => {
         const opts = Object.assign({}, w, {
           seriesIndex: w.globals.capturedSeriesIndex,
           dataPointIndex: w.globals.capturedDataPointIndex
@@ -66,7 +66,7 @@ export default class Events {
         passive: true
       });
     });
-    this.ctx.eventList.forEach(event => {
+    this.ctx.eventList.forEach((event) => {
       w.globals.dom.baseEl.addEventListener(event, this.documentEvent, {
         passive: true
       });

@@ -20,7 +20,7 @@ class CoreUtils {
     // chart type, therefore, if the types of all series match the chart type,
     // this should not be considered a combo chart.
     if (series.length && typeof series[0].type !== 'undefined') {
-      series.forEach(s => {
+      series.forEach((s) => {
         if (s.type === 'bar' || s.type === 'column' || s.type === 'candlestick' || s.type === 'boxPlot') {
           comboBarCount++;
         }
@@ -81,14 +81,14 @@ class CoreUtils {
   getStackedSeriesTotalsByGroups() {
     const w = this.w;
     let total = [];
-    w.globals.seriesGroups.forEach(sg => {
+    w.globals.seriesGroups.forEach((sg) => {
       let includedIndexes = [];
       w.config.series.forEach((s, si) => {
         if (sg.indexOf(s.name) > -1) {
           includedIndexes.push(si);
         }
       });
-      const excludedIndices = w.globals.series.map((_, fi) => includedIndexes.indexOf(fi) === -1 ? fi : -1).filter(f => f !== -1);
+      const excludedIndices = w.globals.series.map((_, fi) => includedIndexes.indexOf(fi) === -1 ? fi : -1).filter((f) => f !== -1);
       total.push(this.getStackedSeriesTotals(excludedIndices));
     });
     return total;
@@ -97,10 +97,10 @@ class CoreUtils {
     let r = [];
     if (index === null) {
       // non-plot chart types - pie / donut / circle
-      r = this.w.config.series.filter(d => d !== null);
+      r = this.w.config.series.filter((d) => d !== null);
     } else {
       // axis charts - supporting multiple series
-      r = this.w.config.series[index].data.filter(d => d !== null);
+      r = this.w.config.series[index].data.filter((d) => d !== null);
     }
     return r.length === 0;
   }
@@ -120,16 +120,16 @@ class CoreUtils {
   // maxValsInArrayIndex is the index of series[] which has the largest number of items
   getLargestSeries() {
     const w = this.w;
-    w.globals.maxValsInArrayIndex = w.globals.series.map(a => a.length).indexOf(Math.max.apply(Math, w.globals.series.map(a => a.length)));
+    w.globals.maxValsInArrayIndex = w.globals.series.map((a) => a.length).indexOf(Math.max.apply(Math, w.globals.series.map((a) => a.length)));
   }
   getLargestMarkerSize() {
     const w = this.w;
     let size = 0;
-    w.globals.markers.size.forEach(m => {
+    w.globals.markers.size.forEach((m) => {
       size = Math.max(size, m);
     });
     if (w.config.markers.discrete && w.config.markers.discrete.length) {
-      w.config.markers.discrete.forEach(m => {
+      w.config.markers.discrete.forEach((m) => {
         size = Math.max(size, m.size);
       });
     }
@@ -288,7 +288,7 @@ class CoreUtils {
     w.globals.seriesLog = series.map((s, i) => {
       let yAxisIndex = w.globals.seriesYAxisReverseMap[i];
       if (w.config.yaxis[yAxisIndex] && w.config.yaxis[yAxisIndex].logarithmic) {
-        return s.map(d => {
+        return s.map((d) => {
           if (d === null) return null;
           return this.getLogVal(w.config.yaxis[yAxisIndex].logBase, d, i);
         });
@@ -326,7 +326,7 @@ class CoreUtils {
         let minY = Number.MIN_VALUE;
         let range = 1;
         gl.seriesLog.forEach((s, si) => {
-          s.forEach(v => {
+          s.forEach((v) => {
             if (w.config.yaxis[si] && w.config.yaxis[si].logarithmic) {
               maxY = Math.max(v, maxY);
               minY = Math.min(v, minY);

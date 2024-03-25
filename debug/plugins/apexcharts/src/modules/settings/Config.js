@@ -1,6 +1,6 @@
-import Defaults from './Defaults';
-import Utils from './../../utils/Utils';
-import Options from './Options';
+import Defaults from "./Defaults";
+import Utils from "./../../utils/Utils";
+import Options from "./Options";
 
 /**
  * ApexCharts Config Class for extending user options with pre-defined ApexCharts config.
@@ -108,7 +108,7 @@ export default class Config {
       opts.yaxis = Utils.extendArray(opts.yaxis, options.yAxis);
     }
     let isLogY = false;
-    opts.yaxis.forEach(y => {
+    opts.yaxis.forEach((y) => {
       if (y.logarithmic) {
         isLogY = true;
       }

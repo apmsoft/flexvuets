@@ -1,10 +1,10 @@
-import Animations from '../modules/Animations';
-import Fill from '../modules/Fill';
-import Utils from '../utils/Utils';
-import Graphics from '../modules/Graphics';
-import Filters from '../modules/Filters';
-import Scales from '../modules/Scales';
-import Helpers from './common/circle/Helpers';
+import Animations from "../modules/Animations";
+import Fill from "../modules/Fill";
+import Utils from "../utils/Utils";
+import Graphics from "../modules/Graphics";
+import Filters from "../modules/Filters";
+import Scales from "../modules/Scales";
+import Helpers from "./common/circle/Helpers";
 /**
  * ApexCharts Pie Class for drawing Pie / Donut Charts.
  * @module Pie
@@ -60,7 +60,7 @@ class Pie {
     if (total === 0) {
       total = 0.00001;
     }
-    series.forEach(m => {
+    series.forEach((m) => {
       this.maxY = Math.max(this.maxY, m);
     });
 
@@ -118,7 +118,7 @@ class Pie {
     let elG = self.drawArcs(sectorAngleArr, series);
 
     // add slice dataLabels at the end
-    this.sliceLabels.forEach(s => {
+    this.sliceLabels.forEach((s) => {
       elG.add(s);
     });
     elSeries.attr({
@@ -370,7 +370,7 @@ class Pie {
         if (opts.i === w.config.series.length - 1) {
           animations.animationCompleted(el);
         }
-      }).during(pos => {
+      }).during((pos) => {
         currAngle = fromAngle + (angle - fromAngle) * pos;
         if (opts.animateStartingPos) {
           currAngle = prevAngle + (angle - prevAngle) * pos;
@@ -423,7 +423,7 @@ class Pie {
     } else {
       // reset all elems
       let allEls = w.globals.dom.baseEl.getElementsByClassName('apexcharts-pie-area');
-      Array.prototype.forEach.call(allEls, pieSlice => {
+      Array.prototype.forEach.call(allEls, (pieSlice) => {
         pieSlice.setAttribute('data:pieClicked', 'false');
         let origPath = pieSlice.getAttribute('data:pathOrig');
         if (origPath) {
@@ -678,7 +678,7 @@ class Pie {
       makeSliceOut,
       printLabel
     }) => {
-      Array.prototype.forEach.call(slices, s => {
+      Array.prototype.forEach.call(slices, (s) => {
         if (s.getAttribute('data:pieClicked') === 'true') {
           if (makeSliceOut) {
             sliceOut = true;

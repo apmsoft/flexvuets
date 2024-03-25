@@ -1,7 +1,8 @@
-import { e as effectInit } from '../shared/effect-init.mjs';
-import { e as effectTarget } from '../shared/effect-target.mjs';
-import { e as effectVirtualTransitionEnd } from '../shared/effect-virtual-transition-end.mjs';
-import { g as getSlideTransformEl } from '../shared/utils.mjs';
+import { e as effectInit } from "../shared/effect-init.mjs";
+import { e as effectTarget } from "../shared/effect-target.mjs";
+import { e as effectVirtualTransitionEnd } from "../shared/effect-virtual-transition-end.mjs";
+import { g as getSlideTransformEl } from "../shared/utils.mjs";
+
 function EffectFade(_ref) {
   let {
     swiper,
@@ -34,9 +35,9 @@ function EffectFade(_ref) {
       targetEl.style.transform = `translate3d(${tx}px, ${ty}px, 0px)`;
     }
   };
-  const setTransition = duration => {
-    const transformElements = swiper.slides.map(slideEl => getSlideTransformEl(slideEl));
-    transformElements.forEach(el => {
+  const setTransition = (duration) => {
+    const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
+    transformElements.forEach((el) => {
       el.style.transitionDuration = `${duration}ms`;
     });
     effectVirtualTransitionEnd({
@@ -61,4 +62,5 @@ function EffectFade(_ref) {
     })
   });
 }
+
 export { EffectFade as default };

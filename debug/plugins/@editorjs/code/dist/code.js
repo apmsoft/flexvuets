@@ -1,19 +1,9 @@
-(function () {
-  "use strict";
-
-  try {
-    if (typeof document < "u") {
-      var e = document.createElement("style");
-      e.appendChild(document.createTextNode(".ce-code__textarea{min-height:200px;font-family:Menlo,Monaco,Consolas,Courier New,monospace;color:#41314e;line-height:1.6em;font-size:12px;background:#f8f7fa;border:1px solid #f1f1f4;box-shadow:none;white-space:pre;word-wrap:normal;overflow-x:auto;resize:vertical}")), document.head.appendChild(e);
-    }
-  } catch (o) {
-    console.error("vite-plugin-css-injected-by-js", o);
-  }
-})();
+(function () {"use strict";try {if (typeof document < "u") {var e = document.createElement("style");e.appendChild(document.createTextNode(".ce-code__textarea{min-height:200px;font-family:Menlo,Monaco,Consolas,Courier New,monospace;color:#41314e;line-height:1.6em;font-size:12px;background:#f8f7fa;border:1px solid #f1f1f4;box-shadow:none;white-space:pre;word-wrap:normal;overflow-x:auto;resize:vertical}")), document.head.appendChild(e);}} catch (o) {console.error("vite-plugin-css-injected-by-js", o);}})();
 function l(c, t) {
   let r = "";
   for (; r !== `
-` && t > 0;) t = t - 1, r = c.substr(t, 1);
+` && t > 0;)
+  t = t - 1, r = c.substr(t, 1);
   return r === `
 ` && (t += 1), t;
 }
@@ -57,12 +47,7 @@ class d {
    * @param {object} options.api - Editor.js API
    * @param {boolean} options.readOnly - read only mode flag
    */
-  constructor({
-    data: t,
-    config: e,
-    api: r,
-    readOnly: a
-  }) {
+  constructor({ data: t, config: e, api: r, readOnly: a }) {
     this.api = r, this.readOnly = a, this.placeholder = this.api.i18n.t(e.placeholder || d.DEFAULT_PLACEHOLDER), this.CSS = {
       baseClass: this.api.styles.block,
       input: this.api.styles.input,
@@ -82,9 +67,8 @@ class d {
    * @private
    */
   drawView() {
-    const t = document.createElement("div"),
-      e = document.createElement("textarea");
-    return t.classList.add(this.CSS.baseClass, this.CSS.wrapper), e.classList.add(this.CSS.textarea, this.CSS.input), e.textContent = this.data.code, e.placeholder = this.placeholder, this.readOnly && (e.disabled = !0), t.appendChild(e), e.addEventListener("keydown", r => {
+    const t = document.createElement("div"),e = document.createElement("textarea");
+    return t.classList.add(this.CSS.baseClass, this.CSS.wrapper), e.classList.add(this.CSS.textarea, this.CSS.input), e.textContent = this.data.code, e.placeholder = this.placeholder, this.readOnly && (e.disabled = !0), t.appendChild(e), e.addEventListener("keydown", (r) => {
       switch (r.code) {
         case "Tab":
           this.tabHandler(r);
@@ -194,18 +178,18 @@ class d {
    */
   tabHandler(t) {
     t.stopPropagation(), t.preventDefault();
-    const e = t.target,
-      r = t.shiftKey,
-      a = e.selectionStart,
-      s = e.value,
-      n = "  ";
+    const e = t.target,r = t.shiftKey,a = e.selectionStart,s = e.value,n = "  ";
     let i;
-    if (!r) i = a + n.length, e.value = s.substring(0, a) + n + s.substring(a);else {
+    if (!r)
+    i = a + n.length, e.value = s.substring(0, a) + n + s.substring(a);else
+    {
       const o = l(s, a);
-      if (s.substr(o, n.length) !== n) return;
+      if (s.substr(o, n.length) !== n)
+      return;
       e.value = s.substring(0, o) + s.substring(o + n.length), i = a - n.length;
     }
     e.setSelectionRange(i, i);
   }
 }
-export { d as default };
+export {
+  d as default };

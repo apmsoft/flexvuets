@@ -1,10 +1,10 @@
-import '../libs/Treemap-squared';
-import Graphics from '../modules/Graphics';
-import Animations from '../modules/Animations';
-import Fill from '../modules/Fill';
-import Helpers from './common/treemap/Helpers';
-import Filters from '../modules/Filters';
-import Utils from '../utils/Utils';
+import "../libs/Treemap-squared";
+import Graphics from "../modules/Graphics";
+import Animations from "../modules/Animations";
+import Fill from "../modules/Fill";
+import Helpers from "./common/treemap/Helpers";
+import Filters from "../modules/Filters";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts TreemapChart Class.
@@ -29,15 +29,15 @@ export default class TreemapChart {
     });
     if (w.globals.noData) return ret;
     let ser = [];
-    series.forEach(s => {
-      let d = s.map(v => {
+    series.forEach((s) => {
+      let d = s.map((v) => {
         return Math.abs(v);
       });
       ser.push(d);
     });
     this.negRange = this.helpers.checkColorRange();
     w.config.series.forEach((s, i) => {
-      s.data.forEach(l => {
+      s.data.forEach((l) => {
         if (!Array.isArray(this.labels[i])) this.labels[i] = [];
         this.labels[i].push(l.x);
       });

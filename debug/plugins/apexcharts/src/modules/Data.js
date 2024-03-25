@@ -1,8 +1,8 @@
-import CoreUtils from './CoreUtils';
-import DateTime from './../utils/DateTime';
-import Series from './Series';
-import Utils from '../utils/Utils';
-import Defaults from './settings/Defaults';
+import CoreUtils from "./CoreUtils";
+import DateTime from "./../utils/DateTime";
+import Series from "./Series";
+import Utils from "../utils/Utils";
+import Defaults from "./settings/Defaults";
 export default class Data {
   constructor(ctx) {
     this.ctx = ctx;
@@ -207,7 +207,7 @@ export default class Data {
   handleRangeDataFormat(format, ser, i) {
     const rangeStart = [];
     const rangeEnd = [];
-    const uniqueKeys = ser[i].data.filter((thing, index, self) => index === self.findIndex(t => t.x === thing.x)).map((r, index) => {
+    const uniqueKeys = ser[i].data.filter((thing, index, self) => index === self.findIndex((t) => t.x === thing.x)).map((r, index) => {
       return {
         x: r.x,
         overlaps: [],
@@ -238,7 +238,7 @@ export default class Data {
         // CAUTION: mutating config object by adding a new property
         // TODO: As this is specifically for timeline rangebar charts, update the docs mentioning the series only supports xy format
         ser[i].data[j].rangeName = id;
-        const uI = uniqueKeys.findIndex(t => t.x === x);
+        const uI = uniqueKeys.findIndex((t) => t.x === x);
         uniqueKeys[uI].y.push(y);
         rangeStart.push(y.y1);
         rangeEnd.push(y.y2);
@@ -325,7 +325,7 @@ export default class Data {
     gl.hasSeriesGroups = ser[0]?.group;
     if (gl.hasSeriesGroups) {
       let buckets = [];
-      let groups = [...new Set(ser.map(s => s.group))];
+      let groups = [...new Set(ser.map((s) => s.group))];
       ser.forEach((s, i) => {
         let index = groups.indexOf(s.group);
         if (!buckets[index]) buckets[index] = [];
@@ -394,7 +394,7 @@ export default class Data {
           }
         }
         gl.labels.push(this.twoDSeriesX);
-        const singleArray = ser[i].data.map(d => Utils.parseNumber(d));
+        const singleArray = ser[i].data.map((d) => Utils.parseNumber(d));
         gl.series.push(singleArray);
       }
       gl.seriesZ.push(this.threeDSeries);
@@ -445,8 +445,8 @@ export default class Data {
       // user provided labels in x prop in [{ x: 3, y: 55 }] data, and those labels are already stored in gl.labels[0], so just re-arrange the gl.labels array
       gl.labels = gl.labels[0];
       if (gl.seriesRange.length) {
-        gl.seriesRange.map(srt => {
-          srt.forEach(sr => {
+        gl.seriesRange.map((srt) => {
+          srt.forEach((sr) => {
             if (gl.labels.indexOf(sr.x) < 0 && sr.x) {
               gl.labels.push(sr.x);
             }
@@ -475,7 +475,7 @@ export default class Data {
           // in case there is a combo chart (boxplot/scatter)
           // and there are duplicated x values, we need to eliminate duplicates
           const seriesDataFiltered = cnf.series.map((serie, s) => {
-            return serie.data.filter((v, i, a) => a.findIndex(t => t.x === v.x) === i);
+            return serie.data.filter((v, i, a) => a.findIndex((t) => t.x === v.x) === i);
           });
           const len = seriesDataFiltered.reduce((p, c, i, a) => a[p].length > c.length ? p : i, 0);
           for (let i = 0; i < seriesDataFiltered[len].length; i++) {
@@ -513,7 +513,7 @@ export default class Data {
     // Finally, pass the labelArr in gl.labels which will be printed on x-axis
     gl.labels = labelArr;
     if (cnf.xaxis.convertedCatToNumeric) {
-      gl.categoryLabels = labelArr.map(l => {
+      gl.categoryLabels = labelArr.map((l) => {
         return cnf.xaxis.labels.formatter(l);
       });
     }
@@ -577,7 +577,7 @@ export default class Data {
     let yAxisIndexes = [];
     w.globals.seriesYAxisMap.forEach((yAxisArr, yi) => {
       let collapsedCount = 0;
-      yAxisArr.forEach(seriesIndex => {
+      yAxisArr.forEach((seriesIndex) => {
         if (w.globals.collapsedSeriesIndices.indexOf(seriesIndex) !== -1) {
           collapsedCount++;
         }
@@ -589,6 +589,6 @@ export default class Data {
         yAxisIndexes.push(yi);
       }
     });
-    w.globals.ignoreYAxisIndexes = yAxisIndexes.map(x => x);
+    w.globals.ignoreYAxisIndexes = yAxisIndexes.map((x) => x);
   }
 }

@@ -1,6 +1,6 @@
-import Utils from '../utils/Utils';
-import DateTime from '../utils/DateTime';
-import Scales from './Scales';
+import Utils from "../utils/Utils";
+import DateTime from "../utils/DateTime";
+import Scales from "./Scales";
 
 /**
  * Range is used to generates values between min and max.
@@ -64,7 +64,7 @@ class Range {
       gl.dataPoints = Math.max(gl.dataPoints, series[i].length);
       const seriesType = cnf.series[i].type;
       if (gl.categoryLabels.length) {
-        gl.dataPoints = gl.categoryLabels.filter(label => typeof label !== 'undefined').length;
+        gl.dataPoints = gl.categoryLabels.filter((label) => typeof label !== 'undefined').length;
       }
       if (gl.labels.length && cnf.xaxis.type !== 'datetime' && gl.series.reduce((a, c) => a + c.length, 0) !== 0) {
         // the condition cnf.xaxis.type !== 'datetime' fixes #3897 and #3905
@@ -115,7 +115,7 @@ class Range {
           }
           highestY = maxY;
           if (gl.seriesGoals[i] && gl.seriesGoals[i][j] && Array.isArray(gl.seriesGoals[i][j])) {
-            gl.seriesGoals[i][j].forEach(g => {
+            gl.seriesGoals[i][j].forEach((g) => {
               if (minY !== Number.MIN_VALUE) {
                 minY = Math.min(minY, g.value);
                 lowestY = minY;
@@ -238,7 +238,7 @@ class Range {
     // for horizontal bar charts, we need to check xaxis min/max as user may have specified there
     if (gl.isBarHorizontal) {
       const minmax = ['min', 'max'];
-      minmax.forEach(m => {
+      minmax.forEach((m) => {
         if (cnf.xaxis[m] !== undefined && typeof cnf.xaxis[m] === 'number') {
           m === 'min' ? gl.minY = cnf.xaxis[m] : gl.maxY = cnf.xaxis[m];
         }
@@ -457,15 +457,15 @@ class Range {
     if (!gl.series.length) return;
     let seriesGroups = gl.seriesGroups;
     if (!seriesGroups.length) {
-      seriesGroups = [this.w.config.series.map(serie => serie.name)];
+      seriesGroups = [this.w.config.series.map((serie) => serie.name)];
     }
     let stackedPoss = {};
     let stackedNegs = {};
-    seriesGroups.forEach(group => {
+    seriesGroups.forEach((group) => {
       stackedPoss[group] = [];
       stackedNegs[group] = [];
-      const indicesOfSeriesInGroup = this.w.config.series.map((serie, si) => group.indexOf(serie.name) > -1 ? si : null).filter(f => f !== null);
-      indicesOfSeriesInGroup.forEach(i => {
+      const indicesOfSeriesInGroup = this.w.config.series.map((serie, si) => group.indexOf(serie.name) > -1 ? si : null).filter((f) => f !== null);
+      indicesOfSeriesInGroup.forEach((i) => {
         for (let j = 0; j < gl.series[gl.maxValsInArrayIndex].length; j++) {
           if (typeof stackedPoss[group][j] === 'undefined') {
             stackedPoss[group][j] = 0;

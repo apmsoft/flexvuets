@@ -1,5 +1,6 @@
-import { g as getDocument } from '../shared/ssr-window.esm.mjs';
-import { s as setCSSProperty, e as elementChildren, c as createElement } from '../shared/utils.mjs';
+import { g as getDocument } from "../shared/ssr-window.esm.mjs";
+import { s as setCSSProperty, e as elementChildren, c as createElement } from "../shared/utils.mjs";
+
 function Virtual(_ref) {
   let {
     swiper,
@@ -120,7 +121,7 @@ function Virtual(_ref) {
     }
     if (previousFrom === from && previousTo === to && !force) {
       if (swiper.slidesGrid !== previousSlidesGrid && offset !== previousOffset) {
-        swiper.slides.forEach(slideEl => {
+        swiper.slides.forEach((slideEl) => {
           slideEl.style[offsetProp] = `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`;
         });
       }
@@ -150,7 +151,7 @@ function Virtual(_ref) {
     }
     const prependIndexes = [];
     const appendIndexes = [];
-    const getSlideIndex = index => {
+    const getSlideIndex = (index) => {
       let slideIndex = index;
       if (index < 0) {
         slideIndex = slides.length + index;
@@ -161,14 +162,14 @@ function Virtual(_ref) {
       return slideIndex;
     };
     if (force) {
-      swiper.slides.filter(el => el.matches(`.${swiper.params.slideClass}, swiper-slide`)).forEach(slideEl => {
+      swiper.slides.filter((el) => el.matches(`.${swiper.params.slideClass}, swiper-slide`)).forEach((slideEl) => {
         slideEl.remove();
       });
     } else {
       for (let i = previousFrom; i <= previousTo; i += 1) {
         if (i < from || i > to) {
           const slideIndex = getSlideIndex(i);
-          swiper.slides.filter(el => el.matches(`.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"], swiper-slide[data-swiper-slide-index="${slideIndex}"]`)).forEach(slideEl => {
+          swiper.slides.filter((el) => el.matches(`.${swiper.params.slideClass}[data-swiper-slide-index="${slideIndex}"], swiper-slide[data-swiper-slide-index="${slideIndex}"]`)).forEach((slideEl) => {
             slideEl.remove();
           });
         }
@@ -187,7 +188,7 @@ function Virtual(_ref) {
         }
       }
     }
-    appendIndexes.forEach(index => {
+    appendIndexes.forEach((index) => {
       swiper.slidesEl.append(renderSlide(slides[index], index));
     });
     if (isLoop) {
@@ -197,11 +198,11 @@ function Virtual(_ref) {
       }
     } else {
       prependIndexes.sort((a, b) => b - a);
-      prependIndexes.forEach(index => {
+      prependIndexes.forEach((index) => {
         swiper.slidesEl.prepend(renderSlide(slides[index], index));
       });
     }
-    elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach(slideEl => {
+    elementChildren(swiper.slidesEl, '.swiper-slide, swiper-slide').forEach((slideEl) => {
       slideEl.style[offsetProp] = `${offset - Math.abs(swiper.cssOverflowAdjustment())}px`;
     });
     onRendered();
@@ -232,7 +233,7 @@ function Virtual(_ref) {
     if (swiper.params.virtual.cache) {
       const cache = swiper.virtual.cache;
       const newCache = {};
-      Object.keys(cache).forEach(cachedIndex => {
+      Object.keys(cache).forEach((cachedIndex) => {
         const cachedEl = cache[cachedIndex];
         const cachedElIndex = cachedEl.getAttribute('data-swiper-slide-index');
         if (cachedElIndex) {
@@ -253,7 +254,7 @@ function Virtual(_ref) {
         if (swiper.params.virtual.cache) {
           delete swiper.virtual.cache[slidesIndexes[i]];
           // shift cache indexes
-          Object.keys(swiper.virtual.cache).forEach(key => {
+          Object.keys(swiper.virtual.cache).forEach((key) => {
             if (key > slidesIndexes) {
               swiper.virtual.cache[key - 1] = swiper.virtual.cache[key];
               swiper.virtual.cache[key - 1].setAttribute('data-swiper-slide-index', key - 1);
@@ -269,7 +270,7 @@ function Virtual(_ref) {
       if (swiper.params.virtual.cache) {
         delete swiper.virtual.cache[slidesIndexes];
         // shift cache indexes
-        Object.keys(swiper.virtual.cache).forEach(key => {
+        Object.keys(swiper.virtual.cache).forEach((key) => {
           if (key > slidesIndexes) {
             swiper.virtual.cache[key - 1] = swiper.virtual.cache[key];
             swiper.virtual.cache[key - 1].setAttribute('data-swiper-slide-index', key - 1);
@@ -296,7 +297,7 @@ function Virtual(_ref) {
     if (!swiper.params.virtual.enabled) return;
     let domSlidesAssigned;
     if (typeof swiper.passedParams.virtual.slides === 'undefined') {
-      const slides = [...swiper.slidesEl.children].filter(el => el.matches(`.${swiper.params.slideClass}, swiper-slide`));
+      const slides = [...swiper.slidesEl.children].filter((el) => el.matches(`.${swiper.params.slideClass}, swiper-slide`));
       if (slides && slides.length) {
         swiper.virtual.slides = [...slides];
         domSlidesAssigned = true;
@@ -340,4 +341,5 @@ function Virtual(_ref) {
     update
   });
 }
+
 export { Virtual as default };

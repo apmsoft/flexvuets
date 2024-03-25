@@ -38,10 +38,10 @@
             time_continue: "start",
             list: "list"
           };
-          return t = t.slice(1).split("&").map(e => {
+          return t = t.slice(1).split("&").map((e) => {
             const [s, n] = e.split("=");
             return !o && s === "v" ? (o = n, null) : !i[s] || n === "LL" || n.startsWith("RDMM") || n.startsWith("FL") ? null : `${i[s]}=${n}`;
-          }).filter(e => !!e), o + "?" + t.join("&");
+          }).filter((e) => !!e), o + "?" + t.join("&");
         }
       },
       coub: {
@@ -99,7 +99,7 @@
         html: '<iframe frameborder="0" style="border:none;width:540px;height:100px;" style="width:100%;" height="100"></iframe>',
         height: 100,
         width: 540,
-        id: o => o.join("/")
+        id: (o) => o.join("/")
       },
       "yandex-music-playlist": {
         regex: /https?:\/\/music\.yandex\.ru\/users\/([^\/\?\&]*)\/playlists\/([0-9]*)/,
@@ -107,7 +107,7 @@
         html: '<iframe frameborder="0" style="border:none;width:540px;height:400px;" width="540" height="400"></iframe>',
         height: 400,
         width: 540,
-        id: o => o.join("/")
+        id: (o) => o.join("/")
       },
       codepen: {
         regex: /https?:\/\/codepen\.io\/([^\/\?\&]*)\/pen\/([^\/\?\&]*)/,
@@ -115,7 +115,7 @@
         html: "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
         height: 300,
         width: 600,
-        id: o => o.join("/embed/")
+        id: (o) => o.join("/embed/")
       },
       instagram: {
         regex: /https?:\/\/www\.instagram\.com\/p\/([^\/\?\&]+)\/?.*/,
@@ -130,19 +130,19 @@
         html: '<iframe width="600" height="600" style="margin: 0 auto;" frameborder="0" scrolling="no" allowtransparency="true"></iframe>',
         height: 300,
         width: 600,
-        id: o => o.join("/status/")
+        id: (o) => o.join("/status/")
       },
       pinterest: {
         regex: /https?:\/\/([^\/\?\&]*).pinterest.com\/pin\/([^\/\?\&]*)\/?$/,
         embedUrl: "https://assets.pinterest.com/ext/embed.html?id=<%= remote_id %>",
         html: "<iframe scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%; min-height: 400px; max-height: 1000px;'></iframe>",
-        id: o => o[1]
+        id: (o) => o[1]
       },
       facebook: {
         regex: /https?:\/\/www.facebook.com\/([^\/\?\&]*)\/(.*)/,
         embedUrl: "https://www.facebook.com/plugins/post.php?href=https://www.facebook.com/<%= remote_id %>&width=500",
         html: "<iframe scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%; min-height: 500px; max-height: 1000px;'></iframe>",
-        id: o => o.join("/")
+        id: (o) => o.join("/")
       },
       aparat: {
         regex: /(?:http[s]?:\/\/)?(?:www.)?aparat\.com\/v\/([^\/\?\&]+)\/?/,
@@ -162,7 +162,7 @@
         html: '<iframe width="100%" height="350" frameborder="0" style="margin: 0 auto;"></iframe>',
         height: 300,
         width: 600,
-        id: o => `${o.join("/")}.js`
+        id: (o) => `${o.join("/")}.js`
       }
     },
     u = "";
@@ -270,7 +270,7 @@
           embedUrl: n,
           width: r,
           height: a,
-          id: l = f => f.shift()
+          id: l = (f) => f.shift()
         } = d.services[i],
         m = s.exec(e).slice(1),
         h = n.replace(/<%= remote_id %>/g, l(m));

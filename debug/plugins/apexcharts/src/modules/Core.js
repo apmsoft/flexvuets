@@ -1,22 +1,22 @@
-import Bar from '../charts/Bar';
-import BarStacked from '../charts/BarStacked';
-import BoxCandleStick from '../charts/BoxCandleStick';
-import CoreUtils from './CoreUtils';
-import Crosshairs from './Crosshairs';
-import HeatMap from '../charts/HeatMap';
-import Globals from '../modules/settings/Globals';
-import Pie from '../charts/Pie';
-import Radar from '../charts/Radar';
-import Radial from '../charts/Radial';
-import RangeBar from '../charts/RangeBar';
-import Legend from './legend/Legend';
-import Line from '../charts/Line';
-import Treemap from '../charts/Treemap';
-import Graphics from './Graphics';
-import Range from './Range';
-import Utils from '../utils/Utils';
-import Scales from './Scales';
-import TimeScale from './TimeScale';
+import Bar from "../charts/Bar";
+import BarStacked from "../charts/BarStacked";
+import BoxCandleStick from "../charts/BoxCandleStick";
+import CoreUtils from "./CoreUtils";
+import Crosshairs from "./Crosshairs";
+import HeatMap from "../charts/HeatMap";
+import Globals from "../modules/settings/Globals";
+import Pie from "../charts/Pie";
+import Radar from "../charts/Radar";
+import Radial from "../charts/Radial";
+import RangeBar from "../charts/RangeBar";
+import Legend from "./legend/Legend";
+import Line from "../charts/Line";
+import Treemap from "../charts/Treemap";
+import Graphics from "./Graphics";
+import Range from "./Range";
+import Utils from "../utils/Utils";
+import Scales from "./Scales";
+import TimeScale from "./TimeScale";
 
 /**
  * ApexCharts Core Class responsible for major calculations and creating elements.
@@ -401,7 +401,7 @@ export default class Core {
   }
   resetGlobals() {
     const resetxyValues = () => {
-      return this.w.config.series.map(s => []);
+      return this.w.config.series.map((s) => []);
     };
     const globalObj = new Globals();
     let gl = this.w.globals;
@@ -469,7 +469,7 @@ export default class Core {
     if (typeof w.config.chart.events.selection !== 'function') {
       let targets = Array.isArray(w.config.chart.brush.targets) ? w.config.chart.brush.targets : [w.config.chart.brush.target];
       // retro compatibility with single target option
-      targets.forEach(target => {
+      targets.forEach((target) => {
         let targetChart = ApexCharts.getChartByID(target);
         targetChart.w.globals.brushSource = this.ctx;
         if (typeof targetChart.w.config.chart.events.zoomed !== 'function') {
@@ -484,7 +484,7 @@ export default class Core {
         }
       });
       w.config.chart.events.selection = (chart, e) => {
-        targets.forEach(target => {
+        targets.forEach((target) => {
           let targetChart = ApexCharts.getChartByID(target);
           targetChart.ctx.updateHelpers._updateOptions({
             xaxis: {

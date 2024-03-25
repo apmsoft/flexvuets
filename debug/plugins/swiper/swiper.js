@@ -10,4 +10,4 @@
  * Released on: February 27, 2024
  */
 
-export { S as Swiper, S as default } from './shared/swiper-core.mjs';
+export { S as Swiper, S as default } from "./shared/swiper-core.mjs";

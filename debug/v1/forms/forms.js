@@ -1,4 +1,4 @@
-import Forms from "../../flexvue/core/forms.class.js";
+import Forms from "../../../${debugPath}/flexvue/core/forms.class.js";
 {
   const onReady = () => {
     new Forms('#thePostForm').doSubmit((form_params) => {

@@ -23,7 +23,7 @@ function Grid(_ref) {
     }
     return spaceBetween;
   };
-  const initSlides = slides => {
+  const initSlides = (slides) => {
     const {
       slidesPerView
     } = swiper.params;
@@ -45,7 +45,7 @@ function Grid(_ref) {
   };
   const unsetSlides = () => {
     if (swiper.slides) {
-      swiper.slides.forEach(slide => {
+      swiper.slides.forEach((slide) => {
         if (slide.swiperSlideGridSet) {
           slide.style.height = '';
           slide.style[swiper.getDirectionLabel('margin-top')] = '';
@@ -151,4 +151,5 @@ function Grid(_ref) {
     updateWrapperSize
   };
 }
+
 export { Grid as default };

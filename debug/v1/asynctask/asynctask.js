@@ -1,4 +1,4 @@
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import AsyncTask from "../../../${debugPath}/flexvue/core/asynctask.class.js";
 const onReady = () => {
   // application/json
   const json_params = JSON.stringify({
@@ -13,7 +13,7 @@ const onReady = () => {
   });
   // AsyncTask
   new AsyncTask().execute('GET', '../js/values/strings.js', post_params, {
-    mode: 'no-cors' // no-cors, cors, *same-origin
+    mode: 'cors' // no-cors, cors, *same-origin
     //redirect : 'follow'
   }, {
     'Content-Type': 'application/json',

@@ -1,12 +1,12 @@
-import CoreUtils from '../modules/CoreUtils';
-import Graphics from '../modules/Graphics';
-import Fill from '../modules/Fill';
-import DataLabels from '../modules/DataLabels';
-import Markers from '../modules/Markers';
-import Scatter from './Scatter';
-import Utils from '../utils/Utils';
-import Helpers from './common/line/Helpers';
-import { svgPath, spline } from '../libs/monotone-cubic';
+import CoreUtils from "../modules/CoreUtils";
+import Graphics from "../modules/Graphics";
+import Fill from "../modules/Fill";
+import DataLabels from "../modules/DataLabels";
+import Markers from "../modules/Markers";
+import Scatter from "./Scatter";
+import Utils from "../utils/Utils";
+import Helpers from "./common/line/Helpers";
+import { svgPath, spline } from "../libs/monotone-cubic";
 /**
  * ApexCharts Line Class responsible for drawing Line / Area / RangeArea Charts.
  * This class is also responsible for generating values for Bubble/Scatter charts, so need to rename it to Axis Charts to avoid confusions
@@ -443,7 +443,7 @@ class Line {
       if (stackSeries) {
         if (i > 0 && w.globals.collapsedSeries.length < w.config.series.length - 1) {
           // a collapsed series in a stacked bar chart may provide wrong result for the next series, hence find the prevIndex of prev series which is not collapsed - fixes apexcharts.js#1372
-          const prevIndex = pi => {
+          const prevIndex = (pi) => {
             let pii = pi;
             for (let cpi = 0; cpi < w.globals.series.length; cpi++) {
               if (w.globals.collapsedSeriesIndices.indexOf(pi) > -1) {
@@ -618,7 +618,7 @@ class Line {
       const shouldRenderMonotone = type === 'rangeArea' ? xArrj.length === w.globals.dataPoints : j === series[i].length - 2;
       const smoothInputs = xArrj.map((_, i) => {
         return [xArrj[i], yArrj[i]];
-      }).filter(_ => _[1] !== null);
+      }).filter((_) => _[1] !== null);
       if (shouldRenderMonotone && smoothInputs.length > 1) {
         const points = spline.points(smoothInputs);
         linePath += svgPath(points);

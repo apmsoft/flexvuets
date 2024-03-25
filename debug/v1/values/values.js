@@ -1,7 +1,7 @@
-import Arrays from "../js/values/arrays.js";
-import Sysmsg from "../js/values/sysmsg.js";
-import Strings from "../js/values/strings.js";
-import Numbers from "../js/values/numbers.js";
+import Arrays from "../../../${debugPath}/v1/js/values/arrays.js";
+import Sysmsg from "../../../${debugPath}/v1/js/values/sysmsg.js";
+import Strings from "../../../${debugPath}/v1/js/values/strings.js";
+import Numbers from "../../../${debugPath}/v1/js/values/numbers.js";
 window.Sysmsg = Sysmsg;
 window.Arrays = Arrays;
 window.Strings = Strings;

@@ -1,4 +1,4 @@
-import Graphics from './Graphics';
+import Graphics from "./Graphics";
 export default class TitleSubtitle {
   constructor(ctx) {
     this.ctx = ctx;

@@ -1,7 +1,8 @@
-import { e as elementChildren, c as createElement } from './utils.mjs';
+import { e as elementChildren, c as createElement } from "./utils.mjs";
+
 function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
   if (swiper.params.createElements) {
-    Object.keys(checkProps).forEach(key => {
+    Object.keys(checkProps).forEach((key) => {
       if (!params[key] && params.auto === true) {
         let element = elementChildren(swiper.el, `.${checkProps[key]}`)[0];
         if (!element) {
@@ -16,4 +17,5 @@ function createElementIfNotDefined(swiper, originalParams, params, checkProps) {
   }
   return params;
 }
+
 export { createElementIfNotDefined as c };

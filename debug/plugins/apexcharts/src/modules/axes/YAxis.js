@@ -1,6 +1,6 @@
-import Graphics from '../Graphics';
-import Utils from '../../utils/Utils';
-import AxesUtils from './AxesUtils';
+import Graphics from "../Graphics";
+import Utils from "../../utils/Utils";
+import AxesUtils from "./AxesUtils";
 
 /**
  * ApexCharts YAxis Class for drawing Y-Axis.

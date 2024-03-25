@@ -1,6 +1,6 @@
-import Scatter from './../charts/Scatter';
-import Graphics from './Graphics';
-import Filters from './Filters';
+import Scatter from "./../charts/Scatter";
+import Graphics from "./Graphics";
+import Filters from "./Filters";
 
 /**
  * ApexCharts DataLabels Class for drawing dataLabels on Axes based Charts.
@@ -99,7 +99,7 @@ class DataLabels {
           }
         }
         let text = '';
-        const getText = v => {
+        const getText = (v) => {
           return w.config.dataLabels.formatter(v, {
             ctx: this.ctx,
             seriesIndex: i,

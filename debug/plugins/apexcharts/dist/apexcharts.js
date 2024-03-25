@@ -1845,7 +1845,11 @@ this.node.removeAttribute('svgjs:data');if(Object.keys(this.dom).length){this.no
 return this;},// set given data to the elements data property
 setData:function setData(o){this.dom=o;return this;},is:function is(obj){return _is(this,obj);}}});SVG.easing={'-':function _(pos){return pos;},'<>':function _(pos){return-Math.cos(pos*Math.PI)/2+0.5;},'>':function _(pos){return Math.sin(pos*Math.PI/2);},'<':function _(pos){return-Math.cos(pos*Math.PI/2)+1;}};SVG.morph=function(pos){return function(from,to){return new SVG.MorphObj(from,to).at(pos);};};SVG.Situation=SVG.invent({create:function create(o){this.init=false;this.reversed=false;this.reversing=false;this.duration=new SVG.Number(o.duration).valueOf();this.delay=new SVG.Number(o.delay).valueOf();this.start=+new Date()+this.delay;this.finish=this.start+this.duration;this.ease=o.ease;// this.loop is incremented from 0 to this.loops
 // it is also incremented when in an infinite loop (when this.loops is true)
-this.loop=0;this.loops=false;this.animations={// functionToCall: [list of morphable objects]
+this.loop=0;this.loops=false;this.animations={
+
+
+
+// functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={// holds all attributes which are not represented from a function svg.js provides
 // e.g. someAttr: SVG.Number
@@ -1961,7 +1965,9 @@ fullBox(this);}});SVG.BBox=SVG.invent({// Initialize
 create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// get values if element is given
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
-var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{// the element is NOT in the dom, throw error
+var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+// the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
 }// find native bbox

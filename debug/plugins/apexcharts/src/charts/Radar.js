@@ -1,11 +1,11 @@
-import Fill from '../modules/Fill';
-import Graphics from '../modules/Graphics';
-import Markers from '../modules/Markers';
-import DataLabels from '../modules/DataLabels';
-import Filters from '../modules/Filters';
-import Utils from '../utils/Utils';
-import Helpers from './common/circle/Helpers';
-import CoreUtils from '../modules/CoreUtils';
+import Fill from "../modules/Fill";
+import Graphics from "../modules/Graphics";
+import Markers from "../modules/Markers";
+import DataLabels from "../modules/DataLabels";
+import Filters from "../modules/Filters";
+import Utils from "../utils/Utils";
+import Helpers from "./common/circle/Helpers";
+import CoreUtils from "../modules/CoreUtils";
 
 /**
  * ApexCharts Radar Class for Spider/Radar Charts.
@@ -208,7 +208,7 @@ class Radar {
       const xaxisTexts = this.drawXAxisTexts();
       ret.add(xaxisTexts);
     }
-    allSeries.forEach(elS => {
+    allSeries.forEach((elS) => {
       ret.add(elS);
     });
     ret.add(this.yaxisLabels);
@@ -254,7 +254,7 @@ class Radar {
       const polygon = this.graphics.drawPolygon(p, Array.isArray(strokeColors) ? strokeColors[i] : strokeColors, Array.isArray(strokeWidth) ? strokeWidth[i] : strokeWidth, w.globals.radarPolygons.fill.colors[i]);
       parent.add(polygon);
     });
-    lines.forEach(l => {
+    lines.forEach((l) => {
       parent.add(l);
     });
     if (w.config.yaxis[0].show) {

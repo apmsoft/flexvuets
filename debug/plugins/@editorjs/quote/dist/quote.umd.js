@@ -124,8 +124,8 @@
       };
     }
     renderSettings() {
-      const t = e => e[0].toUpperCase() + e.substr(1);
-      return this.settings.map(e => ({
+      const t = (e) => e[0].toUpperCase() + e.substr(1);
+      return this.settings.map((e) => ({
         icon: e.icon,
         label: this.api.i18n.t(`Align ${t(e.name)}`),
         onActivate: () => this._toggleTune(e.name),

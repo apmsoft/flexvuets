@@ -11,9 +11,10 @@
  */
 
 import { h, ref, onUpdated, provide, watch, nextTick, onMounted, onBeforeUnmount, onBeforeUpdate, computed, inject } from 'vue';
-import { S as Swiper$1 } from './shared/swiper-core.mjs';
-import { g as getParams, a as getChangedParams, u as updateOnVirtualData, m as mountSwiper } from './shared/update-on-virtual-data.mjs';
-import { e as extend, u as updateSwiper, d as uniqueClasses, w as wrapperClass, n as needsNavigation, b as needsScrollbar, a as needsPagination } from './shared/update-swiper.mjs';
+import { S as Swiper$1 } from "./shared/swiper-core.mjs";
+import { g as getParams, a as getChangedParams, u as updateOnVirtualData, m as mountSwiper } from "./shared/update-on-virtual-data.mjs";
+import { e as extend, u as updateSwiper, d as uniqueClasses, w as wrapperClass, n as needsNavigation, b as needsScrollbar, a as needsPagination } from "./shared/update-swiper.mjs";
+
 function getChildren(originalSlots, slidesRef, oldSlidesRef) {
   if (originalSlots === void 0) {
     originalSlots = {};
@@ -29,7 +30,7 @@ function getChildren(originalSlots, slidesRef, oldSlidesRef) {
     if (!Array.isArray(els)) {
       return;
     }
-    els.forEach(vnode => {
+    els.forEach((vnode) => {
       const isFragment = typeof vnode.type === 'symbol';
       if (slotName === 'default') slotName = 'container-end';
       if (isFragment && vnode.children) {
@@ -41,7 +42,7 @@ function getChildren(originalSlots, slidesRef, oldSlidesRef) {
       }
     });
   };
-  Object.keys(originalSlots).forEach(slotName => {
+  Object.keys(originalSlots).forEach((slotName) => {
     if (typeof originalSlots[slotName] !== 'function') return;
     const els = originalSlots[slotName]();
     getSlidesFromElements(els, slotName);
@@ -53,9 +54,10 @@ function getChildren(originalSlots, slidesRef, oldSlidesRef) {
     slots
   };
 }
+
 function renderVirtual(swiperRef, slides, virtualData) {
   if (!virtualData) return null;
-  const getSlideIndex = index => {
+  const getSlideIndex = (index) => {
     let slideIndex = index;
     if (index < 0) {
       slideIndex = slides.length + index;
@@ -82,7 +84,7 @@ function renderVirtual(swiperRef, slides, virtualData) {
       slidesToRender.push(slides[getSlideIndex(i)]);
     }
   }
-  return slidesToRender.map(slide => {
+  return slidesToRender.map((slide) => {
     if (!slide.props) slide.props = {};
     if (!slide.props.style) slide.props.style = {};
     slide.props.swiperRef = swiperRef;
@@ -92,6 +94,7 @@ function renderVirtual(swiperRef, slides, virtualData) {
     }, slide.children);
   });
 }
+
 const Swiper = {
   name: 'Swiper',
   props: {
@@ -606,7 +609,7 @@ const Swiper = {
       const extendWith = {
         cache: false,
         slides: slidesRef.value,
-        renderExternal: data => {
+        renderExternal: (data) => {
           virtualData.value = data;
         },
         renderExternalUpdate: false
@@ -624,7 +627,7 @@ const Swiper = {
       const {
         passedParams: newPassedParams
       } = getParams(props, false);
-      const changedParams = getChangedParams(newPassedParams, oldPassedParamsRef.value, slidesRef.value, oldSlidesRef.value, c => c.props && c.props.key);
+      const changedParams = getChangedParams(newPassedParams, oldPassedParamsRef.value, slidesRef.value, oldSlidesRef.value, (c) => c.props && c.props.key);
       oldPassedParamsRef.value = newPassedParams;
       if ((changedParams.length || breakpointChanged.value) && swiperRef.value && !swiperRef.value.destroyed) {
         updateSwiper({
@@ -706,6 +709,7 @@ const Swiper = {
     };
   }
 };
+
 const SwiperSlide = {
   name: 'SwiperSlide',
   props: {
@@ -805,10 +809,12 @@ const SwiperSlide = {
     };
   }
 };
+
 const useSwiperSlide = () => {
   return inject('swiperSlide');
 };
 const useSwiper = () => {
   return inject('swiper');
 };
+
 export { Swiper, SwiperSlide, useSwiper, useSwiperSlide };

@@ -1,6 +1,6 @@
-import Formatters from '../Formatters';
-import DateTime from '../../utils/DateTime';
-import Utils from './Utils';
+import Formatters from "../Formatters";
+import DateTime from "../../utils/DateTime";
+import Utils from "./Utils";
 
 /**
  * ApexCharts Tooltip.Labels Class to draw texts on the tooltip.
@@ -66,7 +66,7 @@ export default class Labels {
     const w = this.w;
     let val;
     let goalVals = [];
-    const hasGoalValues = gi => {
+    const hasGoalValues = (gi) => {
       return w.globals.seriesGoals[gi] && w.globals.seriesGoals[gi][j] && Array.isArray(w.globals.seriesGoals[gi][j]);
     };
     const {
@@ -97,7 +97,7 @@ export default class Labels {
       }
       const tIndex = w.config.tooltip.inverseOrder ? inverset : t;
       if (w.globals.axisCharts) {
-        const getValBySeriesIndex = index => {
+        const getValBySeriesIndex = (index) => {
           if (w.globals.isRangeData) {
             return f.yLbFormatter(w.globals.seriesRangeStart?.[index]?.[j], {
               series: w.globals.seriesRangeStart,
@@ -129,7 +129,7 @@ export default class Labels {
           pColor = w.globals.colors[tIndex];
           val = getValBySeriesIndex(tIndex);
           if (hasGoalValues(tIndex)) {
-            goalVals = w.globals.seriesGoals[tIndex][j].map(goal => {
+            goalVals = w.globals.seriesGoals[tIndex][j].map((goal) => {
               return {
                 attrs: goal,
                 val: f.yLbFormatter(goal.value, {
@@ -148,7 +148,7 @@ export default class Labels {
           }
           val = getValBySeriesIndex(i);
           if (hasGoalValues(i) && Array.isArray(w.globals.seriesGoals[i][j])) {
-            goalVals = w.globals.seriesGoals[i][j].map(goal => {
+            goalVals = w.globals.seriesGoals[i][j].map((goal) => {
               return {
                 attrs: goal,
                 val: f.yLbFormatter(goal.value, {

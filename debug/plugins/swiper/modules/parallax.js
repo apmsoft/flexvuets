@@ -1,4 +1,5 @@
-import { e as elementChildren } from '../shared/utils.mjs';
+import { e as elementChildren } from "../shared/utils.mjs";
+
 function Parallax(_ref) {
   let {
     swiper,
@@ -69,7 +70,7 @@ function Parallax(_ref) {
     if (swiper.isElement) {
       elements.push(...elementChildren(swiper.hostEl, elementsSelector));
     }
-    elements.forEach(subEl => {
+    elements.forEach((subEl) => {
       setTransform(subEl, progress);
     });
     slides.forEach((slideEl, slideIndex) => {
@@ -78,7 +79,7 @@ function Parallax(_ref) {
         slideProgress += Math.ceil(slideIndex / 2) - progress * (snapGrid.length - 1);
       }
       slideProgress = Math.min(Math.max(slideProgress, -1), 1);
-      slideEl.querySelectorAll(`${elementsSelector}, [data-swiper-parallax-rotate]`).forEach(subEl => {
+      slideEl.querySelectorAll(`${elementsSelector}, [data-swiper-parallax-rotate]`).forEach((subEl) => {
         setTransform(subEl, slideProgress);
       });
     });
@@ -95,7 +96,7 @@ function Parallax(_ref) {
     if (swiper.isElement) {
       elements.push(...hostEl.querySelectorAll(elementsSelector));
     }
-    elements.forEach(parallaxEl => {
+    elements.forEach((parallaxEl) => {
       let parallaxDuration = parseInt(parallaxEl.getAttribute('data-swiper-parallax-duration'), 10) || duration;
       if (duration === 0) parallaxDuration = 0;
       parallaxEl.style.transitionDuration = `${parallaxDuration}ms`;
@@ -119,4 +120,5 @@ function Parallax(_ref) {
     setTransition(duration);
   });
 }
+
 export { Parallax as default };

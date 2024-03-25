@@ -1,4 +1,4 @@
-import Utils from './../utils/Utils';
+import Utils from "./../utils/Utils";
 
 /**
  * ApexCharts Filters Class for setting hover/active states on the paths.
@@ -43,7 +43,7 @@ class Filters {
     } = attrs;
     el.unfilter(true);
     let filter = new window.SVG.Filter();
-    el.filter(add => {
+    el.filter((add) => {
       const shadowAttr = w.config.chart.dropShadow;
       if (shadowAttr.enabled) {
         filter = this.addShadow(add, i, shadowAttr);
@@ -70,7 +70,7 @@ class Filters {
     } = attrs;
     el.unfilter(true);
     let filter = new window.SVG.Filter();
-    el.filter(add => {
+    el.filter((add) => {
       const shadowAttr = w.config.chart.dropShadow;
       if (shadowAttr.enabled) {
         filter = this.addShadow(add, i, shadowAttr);
@@ -156,7 +156,7 @@ class Filters {
       }
     }
     color = Array.isArray(color) ? color[i] : color;
-    el.filter(add => {
+    el.filter((add) => {
       let shadowBlur = null;
       if (Utils.isSafari() || Utils.isFirefox() || Utils.isIE()) {
         // safari/firefox/IE have some alternative way to use this filter
@@ -185,7 +185,7 @@ class Filters {
     }
   }
   _scaleFilterSize(el) {
-    const setAttributes = attrs => {
+    const setAttributes = (attrs) => {
       for (let key in attrs) {
         if (attrs.hasOwnProperty(key)) {
           el.setAttribute(key, attrs[key]);

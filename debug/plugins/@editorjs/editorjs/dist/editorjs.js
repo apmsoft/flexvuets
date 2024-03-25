@@ -2,46 +2,43 @@ var Rt = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
 function Pe(s) {
   return s && s.__esModule && Object.prototype.hasOwnProperty.call(s, "default") ? s.default : s;
 }
-function Te() {}
+function Te() {
+}
 Object.assign(Te, {
   default: Te,
   register: Te,
-  revert: function () {},
+  revert: function () {
+  },
   __esModule: !0
 });
 Element.prototype.matches || (Element.prototype.matches = Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector || function (s) {
   const e = (this.document || this.ownerDocument).querySelectorAll(s);
   let t = e.length;
-  for (; --t >= 0 && e.item(t) !== this;);
+  for (; --t >= 0 && e.item(t) !== this;)
+  ;
   return t > -1;
 });
 Element.prototype.closest || (Element.prototype.closest = function (s) {
   let e = this;
-  if (!document.documentElement.contains(e)) return null;
+  if (!document.documentElement.contains(e))
+  return null;
   do {
-    if (e.matches(s)) return e;
+    if (e.matches(s))
+    return e;
     e = e.parentElement || e.parentNode;
   } while (e !== null);
   return null;
 });
 Element.prototype.prepend || (Element.prototype.prepend = function (e) {
   const t = document.createDocumentFragment();
-  Array.isArray(e) || (e = [e]), e.forEach(o => {
+  Array.isArray(e) || (e = [e]), e.forEach((o) => {
     const i = o instanceof Node;
     t.appendChild(i ? o : document.createTextNode(o));
   }), this.insertBefore(t, this.firstChild);
 });
 Element.prototype.scrollIntoViewIfNeeded || (Element.prototype.scrollIntoViewIfNeeded = function (s) {
   s = arguments.length === 0 ? !0 : !!s;
-  const e = this.parentNode,
-    t = window.getComputedStyle(e, null),
-    o = parseInt(t.getPropertyValue("border-top-width")),
-    i = parseInt(t.getPropertyValue("border-left-width")),
-    n = this.offsetTop - e.offsetTop < e.scrollTop,
-    r = this.offsetTop - e.offsetTop + this.clientHeight - o > e.scrollTop + e.clientHeight,
-    a = this.offsetLeft - e.offsetLeft < e.scrollLeft,
-    l = this.offsetLeft - e.offsetLeft + this.clientWidth - i > e.scrollLeft + e.clientWidth,
-    d = n && !r;
+  const e = this.parentNode,t = window.getComputedStyle(e, null),o = parseInt(t.getPropertyValue("border-top-width")),i = parseInt(t.getPropertyValue("border-left-width")),n = this.offsetTop - e.offsetTop < e.scrollTop,r = this.offsetTop - e.offsetTop + this.clientHeight - o > e.scrollTop + e.clientHeight,a = this.offsetLeft - e.offsetLeft < e.scrollLeft,l = this.offsetLeft - e.offsetLeft + this.clientWidth - i > e.scrollLeft + e.clientWidth,d = n && !r;
   (n || r) && s && (e.scrollTop = this.offsetTop - e.offsetTop - e.clientHeight / 2 - o + this.clientHeight / 2), (a || l) && s && (e.scrollLeft = this.offsetLeft - e.offsetLeft - e.clientWidth / 2 - i + this.clientWidth / 2), (n || r || a || l) && !s && this.scrollIntoView(d);
 });
 window.requestIdleCallback = window.requestIdleCallback || function (s) {
@@ -59,7 +56,7 @@ window.cancelIdleCallback = window.cancelIdleCallback || function (s) {
   clearTimeout(s);
 };
 let Dt = (s = 21) => crypto.getRandomValues(new Uint8Array(s)).reduce((e, t) => (t &= 63, t < 36 ? e += t.toString(36) : t < 62 ? e += (t - 26).toString(36).toUpperCase() : t > 62 ? e += "-" : e += "_", e), "");
-var at = /* @__PURE__ */(s => (s.VERBOSE = "VERBOSE", s.INFO = "INFO", s.WARN = "WARN", s.ERROR = "ERROR", s))(at || {});
+var at = /* @__PURE__ */((s) => (s.VERBOSE = "VERBOSE", s.INFO = "INFO", s.WARN = "WARN", s.ERROR = "ERROR", s))(at || {});
 const k = {
     BACKSPACE: 8,
     TAB: 9,
@@ -76,8 +73,7 @@ const k = {
     DELETE: 46,
     META: 91,
     SLASH: 191
-  },
-  Pt = {
+  },Pt = {
     LEFT: 0,
     WHEEL: 1,
     RIGHT: 2,
@@ -85,23 +81,25 @@ const k = {
     FORWARD: 4
   };
 function me(s, e, t = "log", o, i = "color: inherit") {
-  if (!("console" in window) || !window.console[t]) return;
-  const n = ["info", "log", "warn", "error"].includes(t),
-    r = [];
+  if (!("console" in window) || !window.console[t])
+  return;
+  const n = ["info", "log", "warn", "error"].includes(t),r = [];
   switch (me.logLevel) {
     case "ERROR":
-      if (t !== "error") return;
+      if (t !== "error")
+      return;
       break;
     case "WARN":
-      if (!["error", "warn"].includes(t)) return;
+      if (!["error", "warn"].includes(t))
+      return;
       break;
     case "INFO":
-      if (!n || s) return;
+      if (!n || s)
+      return;
       break;
   }
   o && r.push(o);
-  const a = "Editor.js 2.29.0",
-    l = `line-height: 1em;
+  const a = "Editor.js 2.29.0",l = `line-height: 1em;
             color: #006FEA;
             display: inline-block;
             font-size: 11px;
@@ -114,14 +112,14 @@ function me(s, e, t = "log", o, i = "color: inherit") {
   s && (n ? (r.unshift(l, i), e = `%c${a}%c ${e}`) : e = `( ${a} )${e}`);
   try {
     n ? o ? console[t](`${e} %o`, ...r) : console[t](e, ...r) : console[t](e);
-  } catch {}
+  } catch {
+  }
 }
 me.logLevel = "VERBOSE";
 function Ft(s) {
   me.logLevel = s;
 }
-const T = me.bind(window, !1),
-  Y = me.bind(window, !0);
+const T = me.bind(window, !1),Y = me.bind(window, !0);
 function oe(s) {
   return Object.prototype.toString.call(s).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
 }
@@ -147,21 +145,17 @@ function W(s) {
   return s ? Object.keys(s).length === 0 && s.constructor === Object : !0;
 }
 function lt(s) {
-  return s > 47 && s < 58 ||
-  // number keys
-  s === 32 || s === 13 ||
-  // Space bar & return key(s)
-  s === 229 ||
-  // processing key input for certain languages — Chinese, Japanese, etc.
-  s > 64 && s < 91 ||
-  // letter keys
-  s > 95 && s < 112 ||
-  // Numpad keys
-  s > 185 && s < 193 ||
-  // ;=,-./` (in order)
+  return s > 47 && s < 58 || // number keys
+  s === 32 || s === 13 || // Space bar & return key(s)
+  s === 229 || // processing key input for certain languages — Chinese, Japanese, etc.
+  s > 64 && s < 91 || // letter keys
+  s > 95 && s < 112 || // Numpad keys
+  s > 185 && s < 193 || // ;=,-./` (in order)
   s > 218 && s < 223;
 }
-async function zt(s, e = () => {}, t = () => {}) {
+async function zt(s, e = () => {
+}, t = () => {
+}) {
   async function o(i, n, r) {
     try {
       await i.function(i.data), await n(Qe(i.data) ? {} : i.data);
@@ -176,8 +170,7 @@ function ct(s) {
 }
 function xe(s, e) {
   return function () {
-    const t = this,
-      o = arguments;
+    const t = this,o = arguments;
     window.setTimeout(() => s.apply(t, o), e);
   };
 }
@@ -190,20 +183,14 @@ function jt(s) {
 function et(s, e, t) {
   let o;
   return (...i) => {
-    const n = this,
-      r = () => {
+    const n = this,r = () => {
         o = null, t || s.apply(n, i);
-      },
-      a = t && !o;
+      },a = t && !o;
     window.clearTimeout(o), o = window.setTimeout(r, e), a && s.apply(n, i);
   };
 }
 function Ie(s, e, t = void 0) {
-  let o,
-    i,
-    n,
-    r = null,
-    a = 0;
+  let o,i,n,r = null,a = 0;
   t || (t = {});
   const l = function () {
     a = t.leading === !1 ? 0 : Date.now(), r = null, n = s.apply(o, i), r || (o = i = null);
@@ -221,21 +208,19 @@ function $t() {
       mac: !1,
       x11: !1,
       linux: !1
-    },
-    e = Object.keys(s).find(t => window.navigator.appVersion.toLowerCase().indexOf(t) !== -1);
+    },e = Object.keys(s).find((t) => window.navigator.appVersion.toLowerCase().indexOf(t) !== -1);
   return e && (s[e] = !0), s;
 }
 function re(s) {
   return s[0].toUpperCase() + s.slice(1);
 }
 function Me(s, ...e) {
-  if (!e.length) return s;
+  if (!e.length)
+  return s;
   const t = e.shift();
-  if (D(s) && D(t)) for (const o in t) D(t[o]) ? (s[o] || Object.assign(s, {
-    [o]: {}
-  }), Me(s[o], t[o])) : Object.assign(s, {
-    [o]: t[o]
-  });
+  if (D(s) && D(t))
+  for (const o in t)
+  D(t[o]) ? (s[o] || Object.assign(s, { [o]: {} }), Me(s[o], t[o])) : Object.assign(s, { [o]: t[o] });
   return Me(s, ...e);
 }
 function ye(s) {
@@ -245,7 +230,8 @@ function ye(s) {
 function Wt(s) {
   try {
     return new URL(s).href;
-  } catch {}
+  } catch {
+  }
   return s.substring(0, 2) === "//" ? window.location.protocol + s : window.location.origin + s;
 }
 function Yt() {
@@ -262,9 +248,7 @@ function Le(s, e, t) {
   s && Y(o, "warn");
 }
 function le(s, e, t) {
-  const o = t.value ? "value" : "get",
-    i = t[o],
-    n = `#${e}Cache`;
+  const o = t.value ? "value" : "get",i = t[o],n = `#${e}Cache`;
   if (t[o] = function (...r) {
     return this[n] === void 0 && (this[n] = i.apply(this, ...r)), this[n];
   }, o === "get" && t.set) {
@@ -281,8 +265,7 @@ function te() {
 }
 const tt = typeof window < "u" && window.navigator && window.navigator.platform && (/iP(ad|hone|od)/.test(window.navigator.platform) || window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1);
 function Vt(s, e) {
-  const t = Array.isArray(s) || D(s),
-    o = Array.isArray(e) || D(e);
+  const t = Array.isArray(s) || D(s),o = Array.isArray(e) || D(e);
   return t || o ? JSON.stringify(s) === JSON.stringify(e) : s === e;
 }
 class c {
@@ -293,7 +276,24 @@ class c {
    * @returns {boolean}
    */
   static isSingleTag(e) {
-    return e.tagName && ["AREA", "BASE", "BR", "COL", "COMMAND", "EMBED", "HR", "IMG", "INPUT", "KEYGEN", "LINK", "META", "PARAM", "SOURCE", "TRACK", "WBR"].includes(e.tagName);
+    return e.tagName && [
+    "AREA",
+    "BASE",
+    "BR",
+    "COL",
+    "COMMAND",
+    "EMBED",
+    "HR",
+    "IMG",
+    "INPUT",
+    "KEYGEN",
+    "LINK",
+    "META",
+    "PARAM",
+    "SOURCE",
+    "TRACK",
+    "WBR"].
+    includes(e.tagName);
   }
   /**
    * Check if element is BR or WBR
@@ -302,7 +302,10 @@ class c {
    * @returns {boolean}
    */
   static isLineBreakTag(e) {
-    return e && e.tagName && ["BR", "WBR"].includes(e.tagName);
+    return e && e.tagName && [
+    "BR",
+    "WBR"].
+    includes(e.tagName);
   }
   /**
    * Helper for making Elements with class name and attributes
@@ -315,7 +318,8 @@ class c {
   static make(e, t = null, o = {}) {
     const i = document.createElement(e);
     Array.isArray(t) ? i.classList.add(...t) : t && i.classList.add(t);
-    for (const n in o) Object.prototype.hasOwnProperty.call(o, n) && (i[n] = o[n]);
+    for (const n in o)
+    Object.prototype.hasOwnProperty.call(o, n) && (i[n] = o[n]);
     return i;
   }
   /**
@@ -334,7 +338,7 @@ class c {
    * @param  {Element|Element[]|DocumentFragment|Text|Text[]} elements - element or elements list
    */
   static append(e, t) {
-    Array.isArray(t) ? t.forEach(o => e.appendChild(o)) : e.appendChild(t);
+    Array.isArray(t) ? t.forEach((o) => e.appendChild(o)) : e.appendChild(t);
   }
   /**
    * Append element or a couple to the beginning of the parent elements
@@ -343,7 +347,7 @@ class c {
    * @param {Element|Element[]} elements - element or elements list
    */
   static prepend(e, t) {
-    Array.isArray(t) ? (t = t.reverse(), t.forEach(o => e.prepend(o))) : e.prepend(t);
+    Array.isArray(t) ? (t = t.reverse(), t.forEach((o) => e.prepend(o))) : e.prepend(t);
   }
   /**
    * Swap two elements in parent
@@ -353,8 +357,7 @@ class c {
    * @deprecated
    */
   static swap(e, t) {
-    const o = document.createElement("div"),
-      i = e.parentNode;
+    const o = document.createElement("div"),i = e.parentNode;
     i.insertBefore(o, e), i.insertBefore(e, t), i.insertBefore(t, o), i.removeChild(o);
   }
   /**
@@ -394,7 +397,7 @@ class c {
    * Returns CSS selector for all text inputs
    */
   static get allInputsSelector() {
-    return "[contenteditable=true], textarea, input:not([type]), " + ["text", "password", "email", "number", "search", "tel", "url"].map(t => `input[type="${t}"]`).join(", ");
+    return "[contenteditable=true], textarea, input:not([type]), " + ["text", "password", "email", "number", "search", "tel", "url"].map((t) => `input[type="${t}"]`).join(", ");
   }
   /**
    * Find all contenteditable, textarea and editable input elements passed holder contains
@@ -415,11 +418,16 @@ class c {
    * @returns {Node} - it can be text Node or Element Node, so that caret will able to work with it
    */
   static getDeepestNode(e, t = !1) {
-    const o = t ? "lastChild" : "firstChild",
-      i = t ? "previousSibling" : "nextSibling";
+    const o = t ? "lastChild" : "firstChild",i = t ? "previousSibling" : "nextSibling";
     if (e && e.nodeType === Node.ELEMENT_NODE && e[o]) {
       let n = e[o];
-      if (c.isSingleTag(n) && !c.isNativeInput(n) && !c.isLineBreakTag(n)) if (n[i]) n = n[i];else if (n.parentNode[i]) n = n.parentNode[i];else return n.parentNode;
+      if (c.isSingleTag(n) && !c.isNativeInput(n) && !c.isLineBreakTag(n))
+      if (n[i])
+      n = n[i];else
+      if (n.parentNode[i])
+      n = n.parentNode[i];else
+
+      return n.parentNode;
       return this.getDeepestNode(n, t);
     }
     return e;
@@ -461,7 +469,10 @@ class c {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static isNativeInput(e) {
-    const t = ["INPUT", "TEXTAREA"];
+    const t = [
+    "INPUT",
+    "TEXTAREA"];
+
     return e && e.tagName ? t.includes(e.tagName) : !1;
   }
   /**
@@ -472,7 +483,8 @@ class c {
    */
   static canSetCaret(e) {
     let t = !0;
-    if (c.isNativeInput(e)) switch (e.type) {
+    if (c.isNativeInput(e))
+    switch (e.type) {
       case "file":
       case "checkbox":
       case "radio":
@@ -483,7 +495,9 @@ class c {
       case "reset":
         t = !1;
         break;
-    } else t = c.isContentEditable(e);
+    } else
+
+    t = c.isContentEditable(e);
     return t;
   }
   /**
@@ -520,8 +534,10 @@ class c {
   static isEmpty(e, t) {
     e.normalize();
     const o = [e];
-    for (; o.length > 0;) if (e = o.shift(), !!e) {
-      if (this.isLeaf(e) && !this.isNodeEmpty(e, t)) return !1;
+    for (; o.length > 0;)
+    if (e = o.shift(), !!e) {
+      if (this.isLeaf(e) && !this.isNodeEmpty(e, t))
+      return !1;
       e.childNodes && o.push(...Array.from(e.childNodes));
     }
     return !0;
@@ -551,7 +567,47 @@ class c {
    * @returns {string[]}
    */
   static get blockElements() {
-    return ["address", "article", "aside", "blockquote", "canvas", "div", "dl", "dt", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hgroup", "hr", "li", "main", "nav", "noscript", "ol", "output", "p", "pre", "ruby", "section", "table", "tbody", "thead", "tr", "tfoot", "ul", "video"];
+    return [
+    "address",
+    "article",
+    "aside",
+    "blockquote",
+    "canvas",
+    "div",
+    "dl",
+    "dt",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hgroup",
+    "hr",
+    "li",
+    "main",
+    "nav",
+    "noscript",
+    "ol",
+    "output",
+    "p",
+    "pre",
+    "ruby",
+    "section",
+    "table",
+    "tbody",
+    "thead",
+    "tr",
+    "tfoot",
+    "ul",
+    "video"];
+
   }
   /**
    * Check if passed content includes only inline elements
@@ -562,7 +618,7 @@ class c {
   static containsOnlyInlineElements(e) {
     let t;
     G(e) ? (t = document.createElement("div"), t.innerHTML = e) : t = e;
-    const o = i => !c.blockElements.includes(i.tagName.toLowerCase()) && Array.from(i.children).every(o);
+    const o = (i) => !c.blockElements.includes(i.tagName.toLowerCase()) && Array.from(i.children).every(o);
     return Array.from(t.children).every(o);
   }
   /**
@@ -599,11 +655,7 @@ class c {
    * @param el - element to compute offset
    */
   static offset(e) {
-    const t = e.getBoundingClientRect(),
-      o = window.pageXOffset || document.documentElement.scrollLeft,
-      i = window.pageYOffset || document.documentElement.scrollTop,
-      n = t.top + i,
-      r = t.left + o;
+    const t = e.getBoundingClientRect(),o = window.pageXOffset || document.documentElement.scrollLeft,i = window.pageYOffset || document.documentElement.scrollTop,n = t.top + i,r = t.left + o;
     return {
       top: n,
       left: r,
@@ -633,22 +685,19 @@ const qt = {
       Filter: "",
       "Nothing found": ""
     }
-  },
-  Zt = {
+  },Zt = {
     Text: "",
     Link: "",
     Bold: "",
     Italic: ""
-  },
-  Gt = {
+  },Gt = {
     link: {
       "Add a link": ""
     },
     stub: {
       "The block can not be displayed correctly.": ""
     }
-  },
-  Jt = {
+  },Jt = {
     delete: {
       Delete: "",
       "Click to delete": ""
@@ -659,14 +708,12 @@ const qt = {
     moveDown: {
       "Move down": ""
     }
-  },
-  ht = {
+  },ht = {
     ui: qt,
     toolNames: Zt,
     tools: Gt,
     blockTunes: Jt
-  },
-  ie = class {
+  },ie = class {
     /**
      * Type-safe translation for internal UI texts:
      * Perform translation of the string by namespace and a key
@@ -719,6 +766,7 @@ const qt = {
 let z = ie;
 z.currentDictionary = ht;
 class ut extends Error {}
+
 class Ee {
   constructor() {
     this.subscribers = {};
@@ -740,9 +788,8 @@ class Ee {
    */
   once(e, t) {
     e in this.subscribers || (this.subscribers[e] = []);
-    const o = i => {
-      const n = t(i),
-        r = this.subscribers[e].indexOf(o);
+    const o = (i) => {
+      const n = t(i),r = this.subscribers[e].indexOf(o);
       return r !== -1 && this.subscribers[e].splice(r, 1), n;
     };
     this.subscribers[e].push(o);
@@ -770,7 +817,8 @@ class Ee {
       console.warn(`EventDispatcher .off(): there is no subscribers for event "${e.toString()}". Probably, .off() called before .on()`);
       return;
     }
-    for (let o = 0; o < this.subscribers[e].length; o++) if (this.subscribers[e][o] === t) {
+    for (let o = 0; o < this.subscribers[e].length; o++)
+    if (this.subscribers[e][o] === t) {
       delete this.subscribers[e][o];
       break;
     }
@@ -904,15 +952,15 @@ class Fe {
    * @param {boolean|AddEventListenerOptions} options - useCapture or {capture, passive, once}
    */
   on(e, t, o, i = !1) {
-    const n = Xt("l"),
-      r = {
+    const n = Xt("l"),r = {
         id: n,
         element: e,
         eventType: t,
         handler: o,
         options: i
       };
-    if (!this.findOne(e, t, o)) return this.allListeners.push(r), e.addEventListener(t, o, i), n;
+    if (!this.findOne(e, t, o))
+    return this.allListeners.push(r), e.addEventListener(t, o, i), n;
   }
   /**
    * Removes event listener from element
@@ -961,13 +1009,13 @@ class Fe {
   findAll(e, t, o) {
     let i;
     const n = e ? this.findByEventTarget(e) : [];
-    return e && t && o ? i = n.filter(r => r.eventType === t && r.handler === o) : e && t ? i = n.filter(r => r.eventType === t) : i = n, i;
+    return e && t && o ? i = n.filter((r) => r.eventType === t && r.handler === o) : e && t ? i = n.filter((r) => r.eventType === t) : i = n, i;
   }
   /**
    * Removes all listeners
    */
   removeAll() {
-    this.allListeners.map(e => {
+    this.allListeners.map((e) => {
       e.element.removeEventListener(e.eventType, e.handler, e.options);
     }), this.allListeners = [];
   }
@@ -984,8 +1032,9 @@ class Fe {
    * @returns {Array} listeners that found on element
    */
   findByEventTarget(e) {
-    return this.allListeners.filter(t => {
-      if (t.element === e) return t;
+    return this.allListeners.filter((t) => {
+      if (t.element === e)
+      return t;
     });
   }
   /**
@@ -995,8 +1044,9 @@ class Fe {
    * @returns {ListenerData[]} listeners that found on element
    */
   findByType(e) {
-    return this.allListeners.filter(t => {
-      if (t.eventType === e) return t;
+    return this.allListeners.filter((t) => {
+      if (t.eventType === e)
+      return t;
     });
   }
   /**
@@ -1006,8 +1056,9 @@ class Fe {
    * @returns {ListenerData[]} listeners that found on element
    */
   findByHandler(e) {
-    return this.allListeners.filter(t => {
-      if (t.handler === e) return t;
+    return this.allListeners.filter((t) => {
+      if (t.handler === e)
+      return t;
     });
   }
   /**
@@ -1017,7 +1068,7 @@ class Fe {
    * @returns {ListenerData}
    */
   findById(e) {
-    return this.allListeners.find(t => t.id === e);
+    return this.allListeners.find((t) => t.id === e);
   }
 }
 class y {
@@ -1027,10 +1078,7 @@ class y {
    * @param options.config - Module config
    * @param options.eventsDispatcher - Common event bus
    */
-  constructor({
-    config: e,
-    eventsDispatcher: t
-  }) {
+  constructor({ config: e, eventsDispatcher: t }) {
     if (this.nodes = {}, this.listeners = new Fe(), this.readOnlyMutableListeners = {
       /**
        * Assigns event listener on DOM element and pushes into special array that might be removed
@@ -1041,16 +1089,20 @@ class y {
        * @param {boolean|AddEventListenerOptions} options - Listening options
        */
       on: (o, i, n, r = !1) => {
-        this.mutableListenerIds.push(this.listeners.on(o, i, n, r));
+        this.mutableListenerIds.push(
+          this.listeners.on(o, i, n, r)
+        );
       },
       /**
        * Clears all mutable listeners
        */
       clearAll: () => {
-        for (const o of this.mutableListenerIds) this.listeners.offById(o);
+        for (const o of this.mutableListenerIds)
+        this.listeners.offById(o);
         this.mutableListenerIds = [];
       }
-    }, this.mutableListenerIds = [], new.target === y) throw new TypeError("Constructors for abstract class Module are not allowed.");
+    }, this.mutableListenerIds = [], new.target === y)
+    throw new TypeError("Constructors for abstract class Module are not allowed.");
     this.config = e, this.eventsDispatcher = t;
   }
   /**
@@ -1109,7 +1161,8 @@ class b {
    */
   static get anchorElement() {
     const e = window.getSelection();
-    if (!e) return null;
+    if (!e)
+    return null;
     const t = e.anchorNode;
     return t ? c.isElement(t) ? t : t.parentElement : null;
   }
@@ -1146,7 +1199,8 @@ class b {
    * @param selection - Selection object to check
    */
   static isSelectionAtEditor(e) {
-    if (!e) return !1;
+    if (!e)
+    return !1;
     let t = e.anchorNode || e.focusNode;
     t && t.nodeType === Node.TEXT_NODE && (t = t.parentNode);
     let o = null;
@@ -1158,7 +1212,8 @@ class b {
    * @param range - range to check
    */
   static isRangeAtEditor(e) {
-    if (!e) return;
+    if (!e)
+    return;
     let t = e.startContainer;
     t && t.nodeType === Node.TEXT_NODE && (t = t.parentNode);
     let o = null;
@@ -1192,18 +1247,20 @@ class b {
    * @returns {DOMRect | ClientRect}
    */
   static get rect() {
-    let e = document.selection,
-      t,
-      o = {
+    let e = document.selection,t,o = {
         x: 0,
         y: 0,
         width: 0,
         height: 0
       };
-    if (e && e.type !== "Control") return e = e, t = e.createRange(), o.x = t.boundingLeft, o.y = t.boundingTop, o.width = t.boundingWidth, o.height = t.boundingHeight, o;
-    if (!window.getSelection) return T("Method window.getSelection is not supported", "warn"), o;
-    if (e = window.getSelection(), e.rangeCount === null || isNaN(e.rangeCount)) return T("Method SelectionUtils.rangeCount is not supported", "warn"), o;
-    if (e.rangeCount === 0) return o;
+    if (e && e.type !== "Control")
+    return e = e, t = e.createRange(), o.x = t.boundingLeft, o.y = t.boundingTop, o.width = t.boundingWidth, o.height = t.boundingHeight, o;
+    if (!window.getSelection)
+    return T("Method window.getSelection is not supported", "warn"), o;
+    if (e = window.getSelection(), e.rangeCount === null || isNaN(e.rangeCount))
+    return T("Method SelectionUtils.rangeCount is not supported", "warn"), o;
+    if (e.rangeCount === 0)
+    return o;
     if (t = e.getRangeAt(0).cloneRange(), t.getBoundingClientRect && (o = t.getBoundingClientRect()), o.x === 0 && o.y === 0) {
       const i = document.createElement("span");
       if (i.getBoundingClientRect) {
@@ -1238,8 +1295,7 @@ class b {
    * @param offset - offset of cursor
    */
   static setCursor(e, t = 0) {
-    const o = document.createRange(),
-      i = window.getSelection();
+    const o = document.createRange(),i = window.getSelection();
     return c.isNativeInput(e) ? c.canSetCaret(e) ? (e.focus(), e.selectionStart = e.selectionEnd = t, e.getBoundingClientRect()) : void 0 : (o.setStart(e, t), o.setEnd(e, t), i.removeAllRanges(), i.addRange(o), o.getBoundingClientRect());
   }
   /**
@@ -1256,7 +1312,8 @@ class b {
    */
   static addFakeCursor() {
     const e = b.range;
-    if (e === null) return;
+    if (e === null)
+    return;
     const t = c.make("span", "codex-editor__fake-cursor");
     t.dataset.mutationFree = "true", e.collapse(), e.insertNode(t);
   }
@@ -1299,7 +1356,8 @@ class b {
    * Restore saved SelectionUtils's range
    */
   restore() {
-    if (!this.savedSelectionRange) return;
+    if (!this.savedSelectionRange)
+    return;
     const e = window.getSelection();
     e.removeAllRanges(), e.addRange(this.savedSelectionRange);
   }
@@ -1313,8 +1371,7 @@ class b {
    * Collapse current selection
    */
   collapseToEnd() {
-    const e = window.getSelection(),
-      t = document.createRange();
+    const e = window.getSelection(),t = document.createRange();
     t.selectNodeContents(e.focusNode), t.collapse(!1), e.removeAllRanges(), e.addRange(t);
   }
   /**
@@ -1328,11 +1385,15 @@ class b {
   findParentTag(e, t, o = 10) {
     const i = window.getSelection();
     let n = null;
-    return !i || !i.anchorNode || !i.focusNode ? null : ([/** the Node in which the selection begins */
-    i.anchorNode, /** the Node in which the selection ends */
-    i.focusNode].forEach(a => {
+    return !i || !i.anchorNode || !i.focusNode ? null : ([
+    /** the Node in which the selection begins */
+    i.anchorNode,
+    /** the Node in which the selection ends */
+    i.focusNode].
+    forEach((a) => {
       let l = o;
-      for (; l > 0 && a.parentNode && !(a.tagName === e && (n = a, t && a.classList && !a.classList.contains(t) && (n = null), n));) a = a.parentNode, l--;
+      for (; l > 0 && a.parentNode && !(a.tagName === e && (n = a, t && a.classList && !a.classList.contains(t) && (n = null), n));)
+      a = a.parentNode, l--;
     }), n);
   }
   /**
@@ -1348,25 +1409,17 @@ class b {
   }
 }
 function Qt(s, e) {
-  const {
-    type: t,
-    target: o,
-    addedNodes: i,
-    removedNodes: n
-  } = s;
-  if (o === e) return !0;
+  const { type: t, target: o, addedNodes: i, removedNodes: n } = s;
+  if (o === e)
+  return !0;
   if (["characterData", "attributes"].includes(t)) {
     const l = o.nodeType === Node.TEXT_NODE ? o.parentNode : o;
     return e.contains(l);
   }
-  const r = Array.from(i).some(l => e.contains(l)),
-    a = Array.from(n).some(l => e.contains(l));
+  const r = Array.from(i).some((l) => e.contains(l)),a = Array.from(n).some((l) => e.contains(l));
   return r || a;
 }
-const Ae = "redactor dom changed",
-  pt = "block changed",
-  ft = "fake cursor is about to be toggled",
-  gt = "fake cursor have been set";
+const Ae = "redactor dom changed",pt = "block changed",ft = "fake cursor is about to be toggled",gt = "fake cursor have been set";
 function ot(s, e) {
   return s.mergeable && s.name === e.name;
 }
@@ -1380,7 +1433,7 @@ function to(s, e) {
     [t]: s
   } : (t !== void 0 && T("Conversion «import» property must be a string or function. String means key of tool data to import. Function accepts a imported string and return composed tool data."), {});
 }
-var X = /* @__PURE__ */(s => (s.APPEND_CALLBACK = "appendCallback", s.RENDERED = "rendered", s.MOVED = "moved", s.UPDATED = "updated", s.REMOVED = "removed", s.ON_PASTE = "onPaste", s))(X || {});
+var X = /* @__PURE__ */((s) => (s.APPEND_CALLBACK = "appendCallback", s.RENDERED = "rendered", s.MOVED = "moved", s.UPDATED = "updated", s.REMOVED = "removed", s.ON_PASTE = "onPaste", s))(X || {});
 class R extends Ee {
   /**
    * @param options - block constructor options
@@ -1402,19 +1455,20 @@ class R extends Ee {
     super(), this.cachedInputs = [], this.toolRenderedElement = null, this.tunesInstances = /* @__PURE__ */new Map(), this.defaultTunesInstances = /* @__PURE__ */new Map(), this.unavailableTunesData = {}, this.inputIndex = 0, this.editorEventBus = null, this.handleFocus = () => {
       this.dropInputsCache(), this.updateCurrentInput();
     }, this.didMutated = (l = void 0) => {
-      const d = l === void 0,
-        u = l instanceof InputEvent;
+      const d = l === void 0,u = l instanceof InputEvent;
       !d && !u && this.detectToolRootChange(l);
       let h;
-      d || u ? h = !0 : h = !(l.length > 0 && l.every(x => {
-        const {
-          addedNodes: p,
-          removedNodes: m,
-          target: L
-        } = x;
-        return [...Array.from(p), ...Array.from(m), L].some(S => (c.isElement(S) || (S = S.parentElement), S && S.closest('[data-mutation-free="true"]') !== null));
-      })), h && (this.dropInputsCache(), this.updateCurrentInput(), this.call("updated"
-      /* UPDATED */), this.emit("didMutated", this));
+      d || u ? h = !0 : h = !(l.length > 0 && l.every((x) => {
+        const { addedNodes: p, removedNodes: m, target: L } = x;
+        return [
+        ...Array.from(p),
+        ...Array.from(m),
+        L].
+        some((S) => (c.isElement(S) || (S = S.parentElement), S && S.closest('[data-mutation-free="true"]') !== null));
+      })), h && (this.dropInputsCache(), this.updateCurrentInput(), this.call(
+        "updated"
+        /* UPDATED */
+      ), this.emit("didMutated", this));
     }, this.name = o.name, this.id = e, this.settings = o.settings, this.config = o.settings.config || {}, this.api = i, this.editorEventBus = a || null, this.blockAPI = new ee(this), this.tool = o, this.toolInstance = o.create(t, this.blockAPI, n), this.tunes = o.tunes, this.composeTunes(r), this.holder = this.compose(), window.requestIdleCallback(() => {
       this.watchBlockMutations(), this.addInputEvents();
     });
@@ -1439,7 +1493,8 @@ class R extends Ee {
    * @returns {HTMLElement[]}
    */
   get inputs() {
-    if (this.cachedInputs.length !== 0) return this.cachedInputs;
+    if (this.cachedInputs.length !== 0)
+    return this.cachedInputs;
     const e = c.findAllInputs(this.holder);
     return this.inputIndex > e.length - 1 && (this.inputIndex = e.length - 1), this.cachedInputs = e, e;
   }
@@ -1457,7 +1512,7 @@ class R extends Ee {
    * @param {HTMLElement | Node} element - HTML Element to set as current input
    */
   set currentInput(e) {
-    const t = this.inputs.findIndex(o => o === e || o.contains(e));
+    const t = this.inputs.findIndex((o) => o === e || o.contains(e));
     t !== -1 && (this.inputIndex = t);
   }
   /**
@@ -1499,7 +1554,7 @@ class R extends Ee {
    * @returns {object}
    */
   get data() {
-    return this.save().then(e => e && !W(e.data) ? e.data : {});
+    return this.save().then((e) => e && !W(e.data) ? e.data : {});
   }
   /**
    * Returns tool's sanitizer config
@@ -1530,8 +1585,7 @@ class R extends Ee {
    * @returns {boolean}
    */
   get isEmpty() {
-    const e = c.isEmpty(this.pluginsContent, "/"),
-      t = !this.hasMedia;
+    const e = c.isEmpty(this.pluginsContent, "/"),t = !this.hasMedia;
     return e && t;
   }
   /**
@@ -1540,7 +1594,16 @@ class R extends Ee {
    * @returns {boolean}
    */
   get hasMedia() {
-    const e = ["img", "iframe", "video", "audio", "source", "input", "textarea", "twitterwidget"];
+    const e = [
+    "img",
+    "iframe",
+    "video",
+    "audio",
+    "source",
+    "input",
+    "textarea",
+    "twitterwidget"];
+
     return !!this.holder.querySelector(e.join(","));
   }
   /**
@@ -1552,13 +1615,8 @@ class R extends Ee {
   set selected(e) {
     var i, n;
     this.holder.classList.toggle(R.CSS.selected, e);
-    const t = e === !0 && b.isRangeInsideContainer(this.holder),
-      o = e === !1 && b.isFakeCursorInsideContainer(this.holder);
-    (t || o) && ((i = this.editorEventBus) == null || i.emit(ft, {
-      state: e
-    }), t ? b.addFakeCursor() : b.removeFakeCursor(this.holder), (n = this.editorEventBus) == null || n.emit(gt, {
-      state: e
-    }));
+    const t = e === !0 && b.isRangeInsideContainer(this.holder),o = e === !1 && b.isFakeCursorInsideContainer(this.holder);
+    (t || o) && ((i = this.editorEventBus) == null || i.emit(ft, { state: e }), t ? b.addFakeCursor() : b.removeFakeCursor(this.holder), (n = this.editorEventBus) == null || n.emit(gt, { state: e }));
   }
   /**
    * Returns True if it is Selected
@@ -1610,7 +1668,10 @@ class R extends Ee {
    */
   call(e, t) {
     if (M(this.toolInstance[e])) {
-      e === "appendCallback" && T("`appendCallback` hook is deprecated and will be removed in the next major release. Use `rendered` hook instead", "warn");
+      e === "appendCallback" && T(
+        "`appendCallback` hook is deprecated and will be removed in the next major release. Use `rendered` hook instead",
+        "warn"
+      );
       try {
         this.toolInstance[e].call(this.toolInstance, t);
       } catch (o) {
@@ -1633,10 +1694,13 @@ class R extends Ee {
    * @returns {object}
    */
   async save() {
-    const e = await this.toolInstance.save(this.pluginsContent),
-      t = this.unavailableTunesData;
-    [...this.tunesInstances.entries(), ...this.defaultTunesInstances.entries()].forEach(([n, r]) => {
-      if (M(r.save)) try {
+    const e = await this.toolInstance.save(this.pluginsContent),t = this.unavailableTunesData;
+    [
+    ...this.tunesInstances.entries(),
+    ...this.defaultTunesInstances.entries()].
+    forEach(([n, r]) => {
+      if (M(r.save))
+      try {
         t[n] = r.save();
       } catch (a) {
         T(`Tune ${r.constructor.name} save method throws an Error %o`, "warn", a);
@@ -1644,13 +1708,13 @@ class R extends Ee {
     });
     const o = window.performance.now();
     let i;
-    return Promise.resolve(e).then(n => (i = window.performance.now(), {
+    return Promise.resolve(e).then((n) => (i = window.performance.now(), {
       id: this.id,
       tool: this.name,
       data: n,
       tunes: t,
       time: i - o
-    })).catch(n => {
+    })).catch((n) => {
       T(`Saving process for ${this.name} tool failed due to the ${n}`, "log", "red");
     });
   }
@@ -1671,11 +1735,11 @@ class R extends Ee {
    * Splits block tunes settings into 2 groups: popover items and custom html.
    */
   getTunes() {
-    const e = document.createElement("div"),
-      t = [],
-      o = typeof this.toolInstance.renderSettings == "function" ? this.toolInstance.renderSettings() : [],
-      i = [...this.tunesInstances.values(), ...this.defaultTunesInstances.values()].map(n => n.render());
-    return [o, i].flat().forEach(n => {
+    const e = document.createElement("div"),t = [],o = typeof this.toolInstance.renderSettings == "function" ? this.toolInstance.renderSettings() : [],i = [
+      ...this.tunesInstances.values(),
+      ...this.defaultTunesInstances.values()].
+      map((n) => n.render());
+    return [o, i].flat().forEach((n) => {
       c.isElement(n) ? e.appendChild(n) : Array.isArray(n) ? t.push(...n) : t.push(n);
     }), [t, e];
   }
@@ -1704,9 +1768,10 @@ class R extends Ee {
    */
   async getActiveToolboxEntry() {
     const e = this.tool.toolbox;
-    if (e.length === 1) return Promise.resolve(this.tool.toolbox[0]);
+    if (e.length === 1)
+    return Promise.resolve(this.tool.toolbox[0]);
     const t = await this.data;
-    return e.find(i => Object.entries(i.data).some(([n, r]) => t[n] && Vt(t[n], r)));
+    return e.find((i) => Object.entries(i.data).some(([n, r]) => t[n] && Vt(t[n], r)));
   }
   /**
    * Exports Block data as string using conversion config
@@ -1721,13 +1786,12 @@ class R extends Ee {
    * @returns {HTMLDivElement}
    */
   compose() {
-    const e = c.make("div", R.CSS.wrapper),
-      t = c.make("div", R.CSS.content),
-      o = this.toolInstance.render();
+    const e = c.make("div", R.CSS.wrapper),t = c.make("div", R.CSS.content),o = this.toolInstance.render();
     e.dataset.id = this.id, this.toolRenderedElement = o, t.appendChild(this.toolRenderedElement);
     let i = t;
-    return [...this.tunesInstances.values(), ...this.defaultTunesInstances.values()].forEach(n => {
-      if (M(n.wrap)) try {
+    return [...this.tunesInstances.values(), ...this.defaultTunesInstances.values()].forEach((n) => {
+      if (M(n.wrap))
+      try {
         i = n.wrap(i);
       } catch (r) {
         T(`Tune ${n.constructor.name} wrap method throws an Error %o`, "warn", r);
@@ -1741,7 +1805,7 @@ class R extends Ee {
    * @private
    */
   composeTunes(e) {
-    Array.from(this.tunes.values()).forEach(t => {
+    Array.from(this.tunes.values()).forEach((t) => {
       (t.isInternal ? this.defaultTunesInstances : this.tunesInstances).set(t.name, t.create(e[t.name], this.blockAPI));
     }), Object.entries(e).forEach(([t, o]) => {
       this.tunesInstances.has(t) || (this.unavailableTunesData[t] = o);
@@ -1751,7 +1815,7 @@ class R extends Ee {
    * Adds focus event listeners to all inputs and contenteditable
    */
   addInputEvents() {
-    this.inputs.forEach(e => {
+    this.inputs.forEach((e) => {
       e.addEventListener("focus", this.handleFocus), c.isNativeInput(e) && e.addEventListener("input", this.didMutated);
     });
   }
@@ -1759,7 +1823,7 @@ class R extends Ee {
    * removes focus event listeners from all inputs and contenteditable
    */
   removeInputEvents() {
-    this.inputs.forEach(e => {
+    this.inputs.forEach((e) => {
       e.removeEventListener("focus", this.handleFocus), c.isNativeInput(e) && e.removeEventListener("input", this.didMutated);
     });
   }
@@ -1768,11 +1832,9 @@ class R extends Ee {
    */
   watchBlockMutations() {
     var e;
-    this.redactorDomChangedCallback = t => {
-      const {
-        mutations: o
-      } = t;
-      o.some(n => Qt(n, this.toolRenderedElement)) && this.didMutated(o);
+    this.redactorDomChangedCallback = (t) => {
+      const { mutations: o } = t;
+      o.some((n) => Qt(n, this.toolRenderedElement)) && this.didMutated(o);
     }, (e = this.editorEventBus) == null || e.on(Ae, this.redactorDomChangedCallback);
   }
   /**
@@ -1789,7 +1851,7 @@ class R extends Ee {
    * @param mutations - records of block content mutations
    */
   detectToolRootChange(e) {
-    e.forEach(t => {
+    e.forEach((t) => {
       if (Array.from(t.removedNodes).includes(this.toolRenderedElement)) {
         const i = t.addedNodes[t.addedNodes.length - 1];
         this.toolRenderedElement = i;
@@ -1815,7 +1877,7 @@ class oo extends y {
         replace: r
       });
       return new ee(l);
-    }, this.composeBlockData = async e => {
+    }, this.composeBlockData = async (e) => {
       const t = this.Editor.Tools.blockTools.get(e);
       return new R({
         tool: t,
@@ -1825,42 +1887,37 @@ class oo extends y {
         tunesData: {}
       }).data;
     }, this.update = async (e, t) => {
-      const {
-          BlockManager: o
-        } = this.Editor,
-        i = o.getBlockById(e);
-      if (i === void 0) throw new Error(`Block with id "${e}" not found`);
+      const { BlockManager: o } = this.Editor,i = o.getBlockById(e);
+      if (i === void 0)
+      throw new Error(`Block with id "${e}" not found`);
       const n = await o.update(i, t);
       return new ee(n);
     }, this.convert = (e, t, o) => {
       var h, f;
-      const {
-          BlockManager: i,
-          Tools: n
-        } = this.Editor,
-        r = i.getBlockById(e);
-      if (!r) throw new Error(`Block with id "${e}" not found`);
-      const a = n.blockTools.get(r.name),
-        l = n.blockTools.get(t);
-      if (!l) throw new Error(`Block Tool with type "${t}" not found`);
-      const d = ((h = a == null ? void 0 : a.conversionConfig) == null ? void 0 : h.export) !== void 0,
-        u = ((f = l.conversionConfig) == null ? void 0 : f.import) !== void 0;
-      if (d && u) i.convert(r, t, o);else {
-        const x = [d ? !1 : re(r.name), u ? !1 : re(t)].filter(Boolean).join(" and ");
+      const { BlockManager: i, Tools: n } = this.Editor,r = i.getBlockById(e);
+      if (!r)
+      throw new Error(`Block with id "${e}" not found`);
+      const a = n.blockTools.get(r.name),l = n.blockTools.get(t);
+      if (!l)
+      throw new Error(`Block Tool with type "${t}" not found`);
+      const d = ((h = a == null ? void 0 : a.conversionConfig) == null ? void 0 : h.export) !== void 0,u = ((f = l.conversionConfig) == null ? void 0 : f.import) !== void 0;
+      if (d && u)
+      i.convert(r, t, o);else
+      {
+        const x = [
+        d ? !1 : re(r.name),
+        u ? !1 : re(t)].
+        filter(Boolean).join(" and ");
         throw new Error(`Conversion from "${r.name}" to "${t}" is not possible. ${x} tool(s) should provide a "conversionConfig"`);
       }
     }, this.insertMany = (e, t = this.Editor.BlockManager.blocks.length - 1) => {
       this.validateIndex(t);
-      const o = e.map(({
-        id: i,
-        type: n,
-        data: r
-      }) => this.Editor.BlockManager.composeBlock({
+      const o = e.map(({ id: i, type: n, data: r }) => this.Editor.BlockManager.composeBlock({
         id: i,
         tool: n || this.config.defaultBlock,
         data: r
       }));
-      return this.Editor.BlockManager.insertMany(o, t), o.map(i => new ee(i));
+      return this.Editor.BlockManager.insertMany(o, t), o.map((i) => new ee(i));
     };
   }
   /**
@@ -1871,15 +1928,15 @@ class oo extends y {
   get methods() {
     return {
       clear: () => this.clear(),
-      render: e => this.render(e),
-      renderFromHTML: e => this.renderFromHTML(e),
-      delete: e => this.delete(e),
+      render: (e) => this.render(e),
+      renderFromHTML: (e) => this.renderFromHTML(e),
+      delete: (e) => this.delete(e),
       swap: (e, t) => this.swap(e, t),
       move: (e, t) => this.move(e, t),
-      getBlockByIndex: e => this.getBlockByIndex(e),
-      getById: e => this.getById(e),
+      getBlockByIndex: (e) => this.getBlockByIndex(e),
+      getById: (e) => this.getById(e),
       getCurrentBlockIndex: () => this.getCurrentBlockIndex(),
-      getBlockIndex: e => this.getBlockIndex(e),
+      getBlockIndex: (e) => this.getBlockIndex(e),
       getBlocksCount: () => this.getBlocksCount(),
       stretchBlock: (e, t = !0) => this.stretchBlock(e, t),
       insertNewBlock: () => this.insertNewBlock(),
@@ -1949,7 +2006,10 @@ class oo extends y {
    * @deprecated — use 'move' instead
    */
   swap(e, t) {
-    T("`blocks.swap()` method is deprecated and will be removed in the next major release. Use `block.move()` method instead", "info"), this.Editor.BlockManager.swap(e, t);
+    T(
+      "`blocks.swap()` method is deprecated and will be removed in the next major release. Use `block.move()` method instead",
+      "info"
+    ), this.Editor.BlockManager.swap(e, t);
   }
   /**
    * Move block from one index to another
@@ -1987,7 +2047,8 @@ class oo extends y {
    * @param {OutputData} data — Saved Editor data
    */
   async render(e) {
-    if (e === void 0 || e.blocks === void 0) throw new Error("Incorrect data passed to the render() method");
+    if (e === void 0 || e.blocks === void 0)
+    throw new Error("Incorrect data passed to the render() method");
     this.Editor.ModificationsObserver.disable(), await this.Editor.BlockManager.clear(), await this.Editor.Renderer.render(e.blocks), this.Editor.ModificationsObserver.enable();
   }
   /**
@@ -2007,7 +2068,11 @@ class oo extends y {
    * @deprecated Use BlockAPI interface to stretch Blocks
    */
   stretchBlock(e, t = !0) {
-    Le(!0, "blocks.stretchBlock()", "BlockAPI");
+    Le(
+      !0,
+      "blocks.stretchBlock()",
+      "BlockAPI"
+    );
     const o = this.Editor.BlockManager.getBlockByIndex(e);
     o && (o.stretched = t);
   }
@@ -2027,9 +2092,12 @@ class oo extends y {
    * @param index - index to validate
    */
   validateIndex(e) {
-    if (typeof e != "number") throw new Error("Index should be a number");
-    if (e < 0) throw new Error("Index should be greater than or equal to 0");
-    if (e === null) throw new Error("Index should be greater than or equal to 0");
+    if (typeof e != "number")
+    throw new Error("Index should be a number");
+    if (e < 0)
+    throw new Error("Index should be greater than or equal to 0");
+    if (e === null)
+    throw new Error("Index should be greater than or equal to 0");
   }
 }
 class io extends y {
@@ -2118,9 +2186,12 @@ class He extends y {
    * @param tool - Tool object
    */
   getMethodsForTool(e) {
-    return Object.assign(this.methods, {
-      t: t => z.t(He.getNamespace(e), t)
-    });
+    return Object.assign(
+      this.methods,
+      {
+        t: (t) => z.t(He.getNamespace(e), t)
+      }
+    );
   }
 }
 class so extends y {
@@ -2152,9 +2223,12 @@ class so extends y {
    * @param tool - tool object
    */
   getMethodsForTool(e) {
-    return Object.assign(this.methods, {
-      i18n: this.Editor.I18nAPI.getMethodsForTool(e)
-    });
+    return Object.assign(
+      this.methods,
+      {
+        i18n: this.Editor.I18nAPI.getMethodsForTool(e)
+      }
+    );
   }
 }
 class ro extends y {
@@ -2192,7 +2266,7 @@ class ao extends y {
     return {
       on: (e, t, o, i) => this.on(e, t, o, i),
       off: (e, t, o, i) => this.off(e, t, o, i),
-      offById: e => this.offById(e)
+      offById: (e) => this.offById(e)
     };
   }
   /**
@@ -2226,8 +2300,7 @@ class ao extends y {
     this.listeners.offById(e);
   }
 }
-var _e = {},
-  lo = {
+var _e = {},lo = {
     get exports() {
       return _e;
     },
@@ -2242,32 +2315,22 @@ var _e = {},
     return function (t) {
       var o = {};
       function i(n) {
-        if (o[n]) return o[n].exports;
-        var r = o[n] = {
-          i: n,
-          l: !1,
-          exports: {}
-        };
+        if (o[n])
+        return o[n].exports;
+        var r = o[n] = { i: n, l: !1, exports: {} };
         return t[n].call(r.exports, r, r.exports, i), r.l = !0, r.exports;
       }
       return i.m = t, i.c = o, i.d = function (n, r, a) {
-        i.o(n, r) || Object.defineProperty(n, r, {
-          enumerable: !0,
-          get: a
-        });
+        i.o(n, r) || Object.defineProperty(n, r, { enumerable: !0, get: a });
       }, i.r = function (n) {
-        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
-          value: "Module"
-        }), Object.defineProperty(n, "__esModule", {
-          value: !0
-        });
+        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(n, "__esModule", { value: !0 });
       }, i.t = function (n, r) {
-        if (1 & r && (n = i(n)), 8 & r || 4 & r && typeof n == "object" && n && n.__esModule) return n;
+        if (1 & r && (n = i(n)), 8 & r || 4 & r && typeof n == "object" && n && n.__esModule)
+        return n;
         var a = /* @__PURE__ */Object.create(null);
-        if (i.r(a), Object.defineProperty(a, "default", {
-          enumerable: !0,
-          value: n
-        }), 2 & r && typeof n != "string") for (var l in n) i.d(a, l, function (d) {
+        if (i.r(a), Object.defineProperty(a, "default", { enumerable: !0, value: n }), 2 & r && typeof n != "string")
+        for (var l in n)
+        i.d(a, l, function (d) {
           return n[d];
         }.bind(null, l));
         return a;
@@ -2282,24 +2345,20 @@ var _e = {},
         return Object.prototype.hasOwnProperty.call(n, r);
       }, i.p = "/", i(i.s = 0);
     }([function (t, o, i) {
-      i(1),
-      /*!
+      i(1), /*!
       * Codex JavaScript Notification module
       * https://github.com/codex-team/js-notifier
       */
       t.exports = function () {
-        var n = i(6),
-          r = "cdx-notify--bounce-in",
-          a = null;
-        return {
-          show: function (l) {
+        var n = i(6),r = "cdx-notify--bounce-in",a = null;
+        return { show: function (l) {
             if (l.message) {
               (function () {
-                if (a) return !0;
+                if (a)
+                return !0;
                 a = n.getWrapper(), document.body.appendChild(a);
               })();
-              var d = null,
-                u = l.time || 8e3;
+              var d = null,u = l.time || 8e3;
               switch (l.type) {
                 case "confirm":
                   d = n.confirm(l);
@@ -2314,17 +2373,12 @@ var _e = {},
               }
               a.appendChild(d), d.classList.add(r);
             }
-          }
-        };
+          } };
       }();
     }, function (t, o, i) {
       var n = i(2);
       typeof n == "string" && (n = [[t.i, n, ""]]);
-      var r = {
-        hmr: !0,
-        transform: void 0,
-        insertInto: void 0
-      };
+      var r = { hmr: !0, transform: void 0, insertInto: void 0 };
       i(4)(n, r), n.locals && (t.exports = n.locals);
     }, function (t, o, i) {
       (t.exports = i(3)(!1)).push([t.i, `.cdx-notify--error{background:#fffbfb!important}.cdx-notify--error::before{background:#fb5d5d!important}.cdx-notify__input{max-width:130px;padding:5px 10px;background:#f7f7f7;border:0;border-radius:3px;font-size:13px;color:#656b7c;outline:0}.cdx-notify__input:-ms-input-placeholder{color:#656b7c}.cdx-notify__input::placeholder{color:#656b7c}.cdx-notify__input:focus:-ms-input-placeholder{color:rgba(101,107,124,.3)}.cdx-notify__input:focus::placeholder{color:rgba(101,107,124,.3)}.cdx-notify__button{border:none;border-radius:3px;font-size:13px;padding:5px 10px;cursor:pointer}.cdx-notify__button:last-child{margin-left:10px}.cdx-notify__button--cancel{background:#f2f5f7;box-shadow:0 2px 1px 0 rgba(16,19,29,0);color:#656b7c}.cdx-notify__button--cancel:hover{background:#eee}.cdx-notify__button--confirm{background:#34c992;box-shadow:0 1px 1px 0 rgba(18,49,35,.05);color:#fff}.cdx-notify__button--confirm:hover{background:#33b082}.cdx-notify__btns-wrapper{display:-ms-flexbox;display:flex;-ms-flex-flow:row nowrap;flex-flow:row nowrap;margin-top:5px}.cdx-notify__cross{position:absolute;top:5px;right:5px;width:10px;height:10px;padding:5px;opacity:.54;cursor:pointer}.cdx-notify__cross::after,.cdx-notify__cross::before{content:'';position:absolute;left:9px;top:5px;height:12px;width:2px;background:#575d67}.cdx-notify__cross::before{transform:rotate(-45deg)}.cdx-notify__cross::after{transform:rotate(45deg)}.cdx-notify__cross:hover{opacity:1}.cdx-notifies{position:fixed;z-index:2;bottom:20px;left:20px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif}.cdx-notify{position:relative;width:220px;margin-top:15px;padding:13px 16px;background:#fff;box-shadow:0 11px 17px 0 rgba(23,32,61,.13);border-radius:5px;font-size:14px;line-height:1.4em;word-wrap:break-word}.cdx-notify::before{content:'';position:absolute;display:block;top:0;left:0;width:3px;height:calc(100% - 6px);margin:3px;border-radius:5px;background:0 0}@keyframes bounceIn{0%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1)}}.cdx-notify--bounce-in{animation-name:bounceIn;animation-duration:.6s;animation-iteration-count:1}.cdx-notify--success{background:#fafffe!important}.cdx-notify--success::before{background:#41ffb1!important}`, ""]);
@@ -2334,12 +2388,11 @@ var _e = {},
         return n.toString = function () {
           return this.map(function (r) {
             var a = function (l, d) {
-              var u = l[1] || "",
-                h = l[3];
-              if (!h) return u;
+              var u = l[1] || "",h = l[3];
+              if (!h)
+              return u;
               if (d && typeof btoa == "function") {
-                var f = (p = h, "/*# sourceMappingURL=data:application/json;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(p)))) + " */"),
-                  x = h.sources.map(function (m) {
+                var f = (p = h, "/*# sourceMappingURL=data:application/json;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(p)))) + " */"),x = h.sources.map(function (m) {
                     return "/*# sourceURL=" + h.sourceRoot + m + " */";
                   });
                 return [u].concat(x).concat([f]).join(`
@@ -2364,23 +2417,21 @@ var _e = {},
         }, n;
       };
     }, function (t, o, i) {
-      var n,
-        r,
-        a = {},
-        l = (n = function () {
+      var n,r,a = {},l = (n = function () {
           return window && document && document.all && !window.atob;
         }, function () {
           return r === void 0 && (r = n.apply(this, arguments)), r;
-        }),
-        d = function (v) {
+        }),d = function (v) {
           var g = {};
           return function (w) {
-            if (typeof w == "function") return w();
+            if (typeof w == "function")
+            return w();
             if (g[w] === void 0) {
               var E = function (I) {
                 return document.querySelector(I);
               }.call(this, w);
-              if (window.HTMLIFrameElement && E instanceof window.HTMLIFrameElement) try {
+              if (window.HTMLIFrameElement && E instanceof window.HTMLIFrameElement)
+              try {
                 E = E.contentDocument.head;
               } catch {
                 E = null;
@@ -2389,52 +2440,43 @@ var _e = {},
             }
             return g[w];
           };
-        }(),
-        u = null,
-        h = 0,
-        f = [],
-        x = i(5);
+        }(),u = null,h = 0,f = [],x = i(5);
       function p(v, g) {
         for (var w = 0; w < v.length; w++) {
-          var E = v[w],
-            I = a[E.id];
+          var E = v[w],I = a[E.id];
           if (I) {
             I.refs++;
-            for (var C = 0; C < I.parts.length; C++) I.parts[C](E.parts[C]);
-            for (; C < E.parts.length; C++) I.parts.push(H(E.parts[C], g));
+            for (var C = 0; C < I.parts.length; C++)
+            I.parts[C](E.parts[C]);
+            for (; C < E.parts.length; C++)
+            I.parts.push(H(E.parts[C], g));
           } else {
             var O = [];
-            for (C = 0; C < E.parts.length; C++) O.push(H(E.parts[C], g));
-            a[E.id] = {
-              id: E.id,
-              refs: 1,
-              parts: O
-            };
+            for (C = 0; C < E.parts.length; C++)
+            O.push(H(E.parts[C], g));
+            a[E.id] = { id: E.id, refs: 1, parts: O };
           }
         }
       }
       function m(v, g) {
         for (var w = [], E = {}, I = 0; I < v.length; I++) {
-          var C = v[I],
-            O = g.base ? C[0] + g.base : C[0],
-            B = {
-              css: C[1],
-              media: C[2],
-              sourceMap: C[3]
-            };
-          E[O] ? E[O].parts.push(B) : w.push(E[O] = {
-            id: O,
-            parts: [B]
-          });
+          var C = v[I],O = g.base ? C[0] + g.base : C[0],B = { css: C[1], media: C[2], sourceMap: C[3] };
+          E[O] ? E[O].parts.push(B) : w.push(E[O] = { id: O, parts: [B] });
         }
         return w;
       }
       function L(v, g) {
         var w = d(v.insertInto);
-        if (!w) throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+        if (!w)
+        throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
         var E = f[f.length - 1];
-        if (v.insertAt === "top") E ? E.nextSibling ? w.insertBefore(g, E.nextSibling) : w.appendChild(g) : w.insertBefore(g, w.firstChild), f.push(g);else if (v.insertAt === "bottom") w.appendChild(g);else {
-          if (typeof v.insertAt != "object" || !v.insertAt.before) throw new Error(`[Style Loader]
+        if (v.insertAt === "top")
+        E ? E.nextSibling ? w.insertBefore(g, E.nextSibling) : w.appendChild(g) : w.insertBefore(g, w.firstChild), f.push(g);else
+        if (v.insertAt === "bottom")
+        w.appendChild(g);else
+        {
+          if (typeof v.insertAt != "object" || !v.insertAt.before)
+          throw new Error(`[Style Loader]
 
  Invalid value for parameter 'insertAt' ('options.insertAt') found.
  Must be 'top', 'bottom', or Object.
@@ -2445,7 +2487,8 @@ var _e = {},
         }
       }
       function A(v) {
-        if (v.parentNode === null) return !1;
+        if (v.parentNode === null)
+        return !1;
         v.parentNode.removeChild(v);
         var g = f.indexOf(v);
         g >= 0 && f.splice(g, 1);
@@ -2462,33 +2505,33 @@ var _e = {},
       function H(v, g) {
         var w, E, I, C;
         if (g.transform && v.css) {
-          if (!(C = g.transform(v.css))) return function () {};
+          if (!(C = g.transform(v.css)))
+          return function () {
+          };
           v.css = C;
         }
         if (g.singleton) {
           var O = h++;
           w = u || (u = S(g)), E = ce.bind(null, w, O, !1), I = ce.bind(null, w, O, !0);
-        } else v.sourceMap && typeof URL == "function" && typeof URL.createObjectURL == "function" && typeof URL.revokeObjectURL == "function" && typeof Blob == "function" && typeof btoa == "function" ? (w = function (B) {
+        } else
+        v.sourceMap && typeof URL == "function" && typeof URL.createObjectURL == "function" && typeof URL.revokeObjectURL == "function" && typeof Blob == "function" && typeof btoa == "function" ? (w = function (B) {
           var j = document.createElement("link");
           return B.attrs.type === void 0 && (B.attrs.type = "text/css"), B.attrs.rel = "stylesheet", Z(j, B.attrs), L(B, j), j;
         }(g), E = function (B, j, de) {
-          var Q = de.css,
-            Ce = de.sourceMap,
-            Ot = j.convertToAbsoluteUrls === void 0 && Ce;
+          var Q = de.css,Ce = de.sourceMap,Ot = j.convertToAbsoluteUrls === void 0 && Ce;
           (j.convertToAbsoluteUrls || Ot) && (Q = x(Q)), Ce && (Q += `
 /*# sourceMappingURL=data:application/json;base64,` + btoa(unescape(encodeURIComponent(JSON.stringify(Ce)))) + " */");
-          var Nt = new Blob([Q], {
-              type: "text/css"
-            }),
-            Ge = B.href;
+          var Nt = new Blob([Q], { type: "text/css" }),Ge = B.href;
           B.href = URL.createObjectURL(Nt), Ge && URL.revokeObjectURL(Ge);
         }.bind(null, w, g), I = function () {
           A(w), w.href && URL.revokeObjectURL(w.href);
         }) : (w = S(g), E = function (B, j) {
-          var de = j.css,
-            Q = j.media;
-          if (Q && B.setAttribute("media", Q), B.styleSheet) B.styleSheet.cssText = de;else {
-            for (; B.firstChild;) B.removeChild(B.firstChild);
+          var de = j.css,Q = j.media;
+          if (Q && B.setAttribute("media", Q), B.styleSheet)
+          B.styleSheet.cssText = de;else
+          {
+            for (; B.firstChild;)
+            B.removeChild(B.firstChild);
             B.appendChild(document.createTextNode(de));
           }
         }.bind(null, w), I = function () {
@@ -2496,13 +2539,16 @@ var _e = {},
         });
         return E(v), function (B) {
           if (B) {
-            if (B.css === v.css && B.media === v.media && B.sourceMap === v.sourceMap) return;
+            if (B.css === v.css && B.media === v.media && B.sourceMap === v.sourceMap)
+            return;
             E(v = B);
-          } else I();
+          } else
+          I();
         };
       }
       t.exports = function (v, g) {
-        if (typeof DEBUG < "u" && DEBUG && typeof document != "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+        if (typeof DEBUG < "u" && DEBUG && typeof document != "object")
+        throw new Error("The style-loader cannot be used in a non-browser environment");
         (g = g || {}).attrs = typeof g.attrs == "object" ? g.attrs : {}, g.singleton || typeof g.singleton == "boolean" || (g.singleton = l()), g.insertInto || (g.insertInto = "head"), g.insertAt || (g.insertAt = "bottom");
         var w = m(v, g);
         return p(w, g), function (E) {
@@ -2513,35 +2559,36 @@ var _e = {},
           for (E && p(m(E, g), g), C = 0; C < I.length; C++) {
             var B;
             if ((B = I[C]).refs === 0) {
-              for (var j = 0; j < B.parts.length; j++) B.parts[j]();
+              for (var j = 0; j < B.parts.length; j++)
+              B.parts[j]();
               delete a[B.id];
             }
           }
         };
       };
-      var U,
-        J = (U = [], function (v, g) {
+      var U,J = (U = [], function (v, g) {
           return U[v] = g, U.filter(Boolean).join(`
 `);
         });
       function ce(v, g, w, E) {
         var I = w ? "" : E.css;
-        if (v.styleSheet) v.styleSheet.cssText = J(g, I);else {
-          var C = document.createTextNode(I),
-            O = v.childNodes;
+        if (v.styleSheet)
+        v.styleSheet.cssText = J(g, I);else
+        {
+          var C = document.createTextNode(I),O = v.childNodes;
           O[g] && v.removeChild(O[g]), O.length ? v.insertBefore(C, O[g]) : v.appendChild(C);
         }
       }
     }, function (t, o) {
       t.exports = function (i) {
         var n = typeof window < "u" && window.location;
-        if (!n) throw new Error("fixUrls requires window.location");
-        if (!i || typeof i != "string") return i;
-        var r = n.protocol + "//" + n.host,
-          a = r + n.pathname.replace(/\/[^\/]*$/, "/");
+        if (!n)
+        throw new Error("fixUrls requires window.location");
+        if (!i || typeof i != "string")
+        return i;
+        var r = n.protocol + "//" + n.host,a = r + n.pathname.replace(/\/[^\/]*$/, "/");
         return i.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function (l, d) {
-          var u,
-            h = d.trim().replace(/^"(.*)"$/, function (f, x) {
+          var u,h = d.trim().replace(/^"(.*)"$/, function (f, x) {
               return x;
             }).replace(/^'(.*)'$/, function (f, x) {
               return x;
@@ -2551,41 +2598,21 @@ var _e = {},
       };
     }, function (t, o, i) {
       var n, r, a, l, d, u, h, f, x;
-      t.exports = (n = "cdx-notifies", r = "cdx-notify", a = "cdx-notify__cross", l = "cdx-notify__button--confirm", d = "cdx-notify__button--cancel", u = "cdx-notify__input", h = "cdx-notify__button", f = "cdx-notify__btns-wrapper", {
-        alert: x = function (p) {
-          var m = document.createElement("DIV"),
-            L = document.createElement("DIV"),
-            A = p.message,
-            S = p.style;
+      t.exports = (n = "cdx-notifies", r = "cdx-notify", a = "cdx-notify__cross", l = "cdx-notify__button--confirm", d = "cdx-notify__button--cancel", u = "cdx-notify__input", h = "cdx-notify__button", f = "cdx-notify__btns-wrapper", { alert: x = function (p) {
+          var m = document.createElement("DIV"),L = document.createElement("DIV"),A = p.message,S = p.style;
           return m.classList.add(r), S && m.classList.add(r + "--" + S), m.innerHTML = A, L.classList.add(a), L.addEventListener("click", m.remove.bind(m)), m.appendChild(L), m;
-        },
-        confirm: function (p) {
-          var m = x(p),
-            L = document.createElement("div"),
-            A = document.createElement("button"),
-            S = document.createElement("button"),
-            Z = m.querySelector("." + a),
-            H = p.cancelHandler,
-            U = p.okHandler;
+        }, confirm: function (p) {
+          var m = x(p),L = document.createElement("div"),A = document.createElement("button"),S = document.createElement("button"),Z = m.querySelector("." + a),H = p.cancelHandler,U = p.okHandler;
           return L.classList.add(f), A.innerHTML = p.okText || "Confirm", S.innerHTML = p.cancelText || "Cancel", A.classList.add(h), S.classList.add(h), A.classList.add(l), S.classList.add(d), H && typeof H == "function" && (S.addEventListener("click", H), Z.addEventListener("click", H)), U && typeof U == "function" && A.addEventListener("click", U), A.addEventListener("click", m.remove.bind(m)), S.addEventListener("click", m.remove.bind(m)), L.appendChild(A), L.appendChild(S), m.appendChild(L), m;
-        },
-        prompt: function (p) {
-          var m = x(p),
-            L = document.createElement("div"),
-            A = document.createElement("button"),
-            S = document.createElement("input"),
-            Z = m.querySelector("." + a),
-            H = p.cancelHandler,
-            U = p.okHandler;
+        }, prompt: function (p) {
+          var m = x(p),L = document.createElement("div"),A = document.createElement("button"),S = document.createElement("input"),Z = m.querySelector("." + a),H = p.cancelHandler,U = p.okHandler;
           return L.classList.add(f), A.innerHTML = p.okText || "Ok", A.classList.add(h), A.classList.add(l), S.classList.add(u), p.placeholder && S.setAttribute("placeholder", p.placeholder), p.default && (S.value = p.default), p.inputType && (S.type = p.inputType), H && typeof H == "function" && Z.addEventListener("click", H), U && typeof U == "function" && A.addEventListener("click", function () {
             U(S.value);
           }), A.addEventListener("click", m.remove.bind(m)), L.appendChild(S), L.appendChild(A), m.appendChild(L), m;
-        },
-        getWrapper: function () {
+        }, getWrapper: function () {
           var p = document.createElement("DIV");
           return p.classList.add(n), p;
-        }
-      });
+        } });
     }]);
   });
 })(lo);
@@ -2606,10 +2633,7 @@ class uo extends y {
    * @param moduleConfiguration.config - Editor's config
    * @param moduleConfiguration.eventsDispatcher - Editor's event dispatcher
    */
-  constructor({
-    config: e,
-    eventsDispatcher: t
-  }) {
+  constructor({ config: e, eventsDispatcher: t }) {
     super({
       config: e,
       eventsDispatcher: t
@@ -2620,7 +2644,7 @@ class uo extends y {
    */
   get methods() {
     return {
-      show: e => this.show(e)
+      show: (e) => this.show(e)
     };
   }
   /**
@@ -2639,7 +2663,7 @@ class po extends y {
   get methods() {
     const e = () => this.isEnabled;
     return {
-      toggle: t => this.toggle(t),
+      toggle: (t) => this.toggle(t),
       get isEnabled() {
         return e();
       }
@@ -2661,8 +2685,7 @@ class po extends y {
     return this.Editor.ReadOnly.isEnabled;
   }
 }
-var Oe = {},
-  fo = {
+var Oe = {},fo = {
     get exports() {
       return Oe;
     },
@@ -2675,14 +2698,13 @@ var Oe = {},
     s.exports = o();
   })(Rt, function () {
     function t(h) {
-      var f = h.tags,
-        x = Object.keys(f),
-        p = x.map(function (m) {
+      var f = h.tags,x = Object.keys(f),p = x.map(function (m) {
           return typeof f[m];
         }).every(function (m) {
           return m === "object" || m === "boolean" || m === "function";
         });
-      if (!p) throw new Error("The configuration was invalid");
+      if (!p)
+      throw new Error("The configuration was invalid");
       this.config = h;
     }
     var o = ["P", "LI", "TD", "TH", "DIV", "H1", "H2", "H3", "H4", "H5", "H6", "PRE"];
@@ -2694,31 +2716,29 @@ var Oe = {},
       return n.indexOf(h.nodeName) !== -1;
     }
     t.prototype.clean = function (h) {
-      const f = document.implementation.createHTMLDocument(),
-        x = f.createElement("div");
+      const f = document.implementation.createHTMLDocument(),x = f.createElement("div");
       return x.innerHTML = h, this._sanitize(f, x), x.innerHTML;
     }, t.prototype._sanitize = function (h, f) {
-      var x = a(h, f),
-        p = x.firstChild();
-      if (p) do {
-        if (p.nodeType === Node.TEXT_NODE) if (p.data.trim() === "" && (p.previousElementSibling && i(p.previousElementSibling) || p.nextElementSibling && i(p.nextElementSibling))) {
+      var x = a(h, f),p = x.firstChild();
+      if (p)
+      do {
+        if (p.nodeType === Node.TEXT_NODE)
+        if (p.data.trim() === "" && (p.previousElementSibling && i(p.previousElementSibling) || p.nextElementSibling && i(p.nextElementSibling))) {
           f.removeChild(p), this._sanitize(h, f);
           break;
-        } else continue;
+        } else
+        continue;
         if (p.nodeType === Node.COMMENT_NODE) {
           f.removeChild(p), this._sanitize(h, f);
           break;
         }
-        var m = r(p),
-          L;
+        var m = r(p),L;
         m && (L = Array.prototype.some.call(p.childNodes, i));
-        var A = !!f.parentNode,
-          S = i(f) && i(p) && A,
-          Z = p.nodeName.toLowerCase(),
-          H = l(this.config, Z, p),
-          U = m && L;
+        var A = !!f.parentNode,S = i(f) && i(p) && A,Z = p.nodeName.toLowerCase(),H = l(this.config, Z, p),U = m && L;
         if (U || d(p, H) || !this.config.keepNestedBlockElements && S) {
-          if (!(p.nodeName === "SCRIPT" || p.nodeName === "STYLE")) for (; p.childNodes.length > 0;) f.insertBefore(p.childNodes[0], p);
+          if (!(p.nodeName === "SCRIPT" || p.nodeName === "STYLE"))
+          for (; p.childNodes.length > 0;)
+          f.insertBefore(p.childNodes[0], p);
           f.removeChild(p), this._sanitize(h, f);
           break;
         }
@@ -2730,7 +2750,12 @@ var Oe = {},
       } while (p = x.nextSibling());
     };
     function a(h, f) {
-      return h.createTreeWalker(f, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT, null, !1);
+      return h.createTreeWalker(
+        f,
+        NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT,
+        null,
+        !1
+      );
     }
     function l(h, f, x) {
       return typeof h.tags[f] == "function" ? h.tags[f](x) : h.tags[f];
@@ -2747,7 +2772,7 @@ var Oe = {},
 })(fo);
 const go = Oe;
 function bt(s, e) {
-  return s.map(t => {
+  return s.map((t) => {
     const o = M(e) ? e(t.tool) : e;
     return W(o) || (t.data = ze(t.data, o)), t;
   });
@@ -2762,14 +2787,14 @@ function ze(s, e) {
   return Array.isArray(s) ? bo(s, e) : D(s) ? mo(s, e) : G(s) ? ko(s, e) : s;
 }
 function bo(s, e) {
-  return s.map(t => ze(t, e));
+  return s.map((t) => ze(t, e));
 }
 function mo(s, e) {
   const t = {};
   for (const o in s) {
-    if (!Object.prototype.hasOwnProperty.call(s, o)) continue;
-    const i = s[o],
-      n = vo(e[o]) ? e[o] : e;
+    if (!Object.prototype.hasOwnProperty.call(s, o))
+    continue;
+    const i = s[o],n = vo(e[o]) ? e[o] : e;
     t[o] = ze(i, n);
   }
   return t;
@@ -2832,7 +2857,7 @@ class yo extends y {
   get methods() {
     return {
       findParentTag: (e, t) => this.findParentTag(e, t),
-      expandToTag: e => this.expandToTag(e)
+      expandToTag: (e) => this.expandToTag(e)
     };
   }
   /**
@@ -2893,8 +2918,8 @@ class Bo extends y {
     return {
       close: () => this.close(),
       open: () => this.open(),
-      toggleBlockSettings: e => this.toggleBlockSettings(e),
-      toggleToolbox: e => this.toggleToolbox(e)
+      toggleBlockSettings: (e) => this.toggleBlockSettings(e),
+      toggleToolbox: (e) => this.toggleToolbox(e)
     };
   }
   /**
@@ -2934,8 +2959,7 @@ class Bo extends y {
     e ?? !this.Editor.Toolbar.toolbox.opened ? (this.Editor.Toolbar.moveAndOpen(), this.Editor.Toolbar.toolbox.open()) : this.Editor.Toolbar.toolbox.close();
   }
 }
-var Ne = {},
-  Co = {
+var Ne = {},Co = {
     get exports() {
       return Ne;
     },
@@ -2960,32 +2984,22 @@ var Ne = {},
     return function (t) {
       var o = {};
       function i(n) {
-        if (o[n]) return o[n].exports;
-        var r = o[n] = {
-          i: n,
-          l: !1,
-          exports: {}
-        };
+        if (o[n])
+        return o[n].exports;
+        var r = o[n] = { i: n, l: !1, exports: {} };
         return t[n].call(r.exports, r, r.exports, i), r.l = !0, r.exports;
       }
       return i.m = t, i.c = o, i.d = function (n, r, a) {
-        i.o(n, r) || Object.defineProperty(n, r, {
-          enumerable: !0,
-          get: a
-        });
+        i.o(n, r) || Object.defineProperty(n, r, { enumerable: !0, get: a });
       }, i.r = function (n) {
-        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
-          value: "Module"
-        }), Object.defineProperty(n, "__esModule", {
-          value: !0
-        });
+        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(n, "__esModule", { value: !0 });
       }, i.t = function (n, r) {
-        if (1 & r && (n = i(n)), 8 & r || 4 & r && typeof n == "object" && n && n.__esModule) return n;
+        if (1 & r && (n = i(n)), 8 & r || 4 & r && typeof n == "object" && n && n.__esModule)
+        return n;
         var a = /* @__PURE__ */Object.create(null);
-        if (i.r(a), Object.defineProperty(a, "default", {
-          enumerable: !0,
-          value: n
-        }), 2 & r && typeof n != "string") for (var l in n) i.d(a, l, function (d) {
+        if (i.r(a), Object.defineProperty(a, "default", { enumerable: !0, value: n }), 2 & r && typeof n != "string")
+        for (var l in n)
+        i.d(a, l, function (d) {
           return n[d];
         }.bind(null, l));
         return a;
@@ -3007,41 +3021,21 @@ var Ne = {},
       });
       class n {
         constructor() {
-          this.nodes = {
-            wrapper: null,
-            content: null
-          }, this.showed = !1, this.offsetTop = 10, this.offsetLeft = 10, this.offsetRight = 10, this.hidingDelay = 0, this.handleWindowScroll = () => {
+          this.nodes = { wrapper: null, content: null }, this.showed = !1, this.offsetTop = 10, this.offsetLeft = 10, this.offsetRight = 10, this.hidingDelay = 0, this.handleWindowScroll = () => {
             this.showed && this.hide(!0);
-          }, this.loadStyles(), this.prepare(), window.addEventListener("scroll", this.handleWindowScroll, {
-            passive: !0
-          });
+          }, this.loadStyles(), this.prepare(), window.addEventListener("scroll", this.handleWindowScroll, { passive: !0 });
         }
         get CSS() {
-          return {
-            tooltip: "ct",
-            tooltipContent: "ct__content",
-            tooltipShown: "ct--shown",
-            placement: {
-              left: "ct--left",
-              bottom: "ct--bottom",
-              right: "ct--right",
-              top: "ct--top"
-            }
-          };
+          return { tooltip: "ct", tooltipContent: "ct__content", tooltipShown: "ct--shown", placement: { left: "ct--left", bottom: "ct--bottom", right: "ct--right", top: "ct--top" } };
         }
         show(a, l, d) {
           this.nodes.wrapper || this.prepare(), this.hidingTimeout && clearTimeout(this.hidingTimeout);
-          const u = Object.assign({
-            placement: "bottom",
-            marginTop: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0,
-            delay: 70,
-            hidingDelay: 0
-          }, d);
-          if (u.hidingDelay && (this.hidingDelay = u.hidingDelay), this.nodes.content.innerHTML = "", typeof l == "string") this.nodes.content.appendChild(document.createTextNode(l));else {
-            if (!(l instanceof Node)) throw Error("[CodeX Tooltip] Wrong type of «content» passed. It should be an instance of Node or String. But " + typeof l + " given.");
+          const u = Object.assign({ placement: "bottom", marginTop: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, delay: 70, hidingDelay: 0 }, d);
+          if (u.hidingDelay && (this.hidingDelay = u.hidingDelay), this.nodes.content.innerHTML = "", typeof l == "string")
+          this.nodes.content.appendChild(document.createTextNode(l));else
+          {
+            if (!(l instanceof Node))
+            throw Error("[CodeX Tooltip] Wrong type of «content» passed. It should be an instance of Node or String. But " + typeof l + " given.");
             this.nodes.content.appendChild(l);
           }
           switch (this.nodes.wrapper.classList.remove(...Object.values(this.CSS.placement)), u.placement) {
@@ -3063,7 +3057,8 @@ var Ne = {},
           }, u.delay) : (this.nodes.wrapper.classList.add(this.CSS.tooltipShown), this.showed = !0);
         }
         hide(a = !1) {
-          if (this.hidingDelay && !a) return this.hidingTimeout && clearTimeout(this.hidingTimeout), void (this.hidingTimeout = setTimeout(() => {
+          if (this.hidingDelay && !a)
+          return this.hidingTimeout && clearTimeout(this.hidingTimeout), void (this.hidingTimeout = setTimeout(() => {
             this.hide(!0);
           }, this.hidingDelay));
           this.nodes.wrapper.classList.remove(this.CSS.tooltipShown), this.showed = !1, this.showingTimeout && clearTimeout(this.showingTimeout);
@@ -3083,36 +3078,25 @@ var Ne = {},
         }
         loadStyles() {
           const a = "codex-tooltips-style";
-          if (document.getElementById(a)) return;
-          const l = i(2),
-            d = this.make("style", null, {
-              textContent: l.toString(),
-              id: a
-            });
+          if (document.getElementById(a))
+          return;
+          const l = i(2),d = this.make("style", null, { textContent: l.toString(), id: a });
           this.prepend(document.head, d);
         }
         placeBottom(a, l) {
-          const d = a.getBoundingClientRect(),
-            u = d.left + a.clientWidth / 2 - this.nodes.wrapper.offsetWidth / 2,
-            h = d.bottom + window.pageYOffset + this.offsetTop + l.marginTop;
+          const d = a.getBoundingClientRect(),u = d.left + a.clientWidth / 2 - this.nodes.wrapper.offsetWidth / 2,h = d.bottom + window.pageYOffset + this.offsetTop + l.marginTop;
           this.applyPlacement("bottom", u, h);
         }
         placeTop(a, l) {
-          const d = a.getBoundingClientRect(),
-            u = d.left + a.clientWidth / 2 - this.nodes.wrapper.offsetWidth / 2,
-            h = d.top + window.pageYOffset - this.nodes.wrapper.clientHeight - this.offsetTop;
+          const d = a.getBoundingClientRect(),u = d.left + a.clientWidth / 2 - this.nodes.wrapper.offsetWidth / 2,h = d.top + window.pageYOffset - this.nodes.wrapper.clientHeight - this.offsetTop;
           this.applyPlacement("top", u, h);
         }
         placeLeft(a, l) {
-          const d = a.getBoundingClientRect(),
-            u = d.left - this.nodes.wrapper.offsetWidth - this.offsetLeft - l.marginLeft,
-            h = d.top + window.pageYOffset + a.clientHeight / 2 - this.nodes.wrapper.offsetHeight / 2;
+          const d = a.getBoundingClientRect(),u = d.left - this.nodes.wrapper.offsetWidth - this.offsetLeft - l.marginLeft,h = d.top + window.pageYOffset + a.clientHeight / 2 - this.nodes.wrapper.offsetHeight / 2;
           this.applyPlacement("left", u, h);
         }
         placeRight(a, l) {
-          const d = a.getBoundingClientRect(),
-            u = d.right + this.offsetRight + l.marginRight,
-            h = d.top + window.pageYOffset + a.clientHeight / 2 - this.nodes.wrapper.offsetHeight / 2;
+          const d = a.getBoundingClientRect(),u = d.right + this.offsetRight + l.marginRight,h = d.top + window.pageYOffset + a.clientHeight / 2 - this.nodes.wrapper.offsetHeight / 2;
           this.applyPlacement("right", u, h);
         }
         applyPlacement(a, l, d) {
@@ -3121,14 +3105,15 @@ var Ne = {},
         make(a, l = null, d = {}) {
           const u = document.createElement(a);
           Array.isArray(l) ? u.classList.add(...l) : l && u.classList.add(l);
-          for (const h in d) d.hasOwnProperty(h) && (u[h] = d[h]);
+          for (const h in d)
+          d.hasOwnProperty(h) && (u[h] = d[h]);
           return u;
         }
         append(a, l) {
-          Array.isArray(l) ? l.forEach(d => a.appendChild(d)) : a.appendChild(l);
+          Array.isArray(l) ? l.forEach((d) => a.appendChild(d)) : a.appendChild(l);
         }
         prepend(a, l) {
-          Array.isArray(l) ? (l = l.reverse()).forEach(d => a.prepend(d)) : a.prepend(l);
+          Array.isArray(l) ? (l = l.reverse()).forEach((d) => a.prepend(d)) : a.prepend(l);
         }
       }
     }, function (t, o) {
@@ -3160,10 +3145,7 @@ class Mo extends y {
    * @param moduleConfiguration.config - Editor's config
    * @param moduleConfiguration.eventsDispatcher - Editor's event dispatcher
    */
-  constructor({
-    config: e,
-    eventsDispatcher: t
-  }) {
+  constructor({ config: e, eventsDispatcher: t }) {
     super({
       config: e,
       eventsDispatcher: t
@@ -3239,7 +3221,7 @@ function mt(s, e) {
   return Object.entries(s).forEach(([o, i]) => {
     if (D(i)) {
       const n = e ? `${e}.${o}` : o;
-      Object.values(i).every(a => G(a)) ? t[o] = n : t[o] = mt(i, n);
+      Object.values(i).every((a) => G(a)) ? t[o] = n : t[o] = mt(i, n);
       return;
     }
     t[o] = i;
@@ -3248,23 +3230,12 @@ function mt(s, e) {
 const K = mt(ht);
 function Ao(s, e) {
   const t = {};
-  return Object.keys(s).forEach(o => {
+  return Object.keys(s).forEach((o) => {
     const i = e[o];
     i !== void 0 ? t[i] = s[o] : t[o] = s[o];
   }), t;
 }
-const _o = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 12L9 7.1C9 7.04477 9.04477 7 9.1 7H10.4C11.5 7 14 7.1 14 9.5C14 9.5 14 12 11 12M9 12V16.8C9 16.9105 9.08954 17 9.2 17H12.5C14 17 15 16 15 14.5C15 11.7046 11 12 11 12M9 12H11"/></svg>',
-  kt = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 10L11.8586 14.8586C11.9367 14.9367 12.0633 14.9367 12.1414 14.8586L17 10"/></svg>',
-  Oo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 15L11.8586 10.1414C11.9367 10.0633 12.0633 10.0633 12.1414 10.1414L17 15"/></svg>',
-  No = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 8L12 12M12 12L16 16M12 12L16 8M12 12L8 16"/></svg>',
-  Ro = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/></svg>',
-  Do = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M13.34 10C12.4223 12.7337 11 17 11 17"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M14.21 7H14.2"/></svg>',
-  it = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7.69998 12.6L7.67896 12.62C6.53993 13.7048 6.52012 15.5155 7.63516 16.625V16.625C8.72293 17.7073 10.4799 17.7102 11.5712 16.6314L13.0263 15.193C14.0703 14.1609 14.2141 12.525 13.3662 11.3266L13.22 11.12"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M16.22 11.12L16.3564 10.9805C17.2895 10.0265 17.3478 8.5207 16.4914 7.49733V7.49733C15.5691 6.39509 13.9269 6.25143 12.8271 7.17675L11.3901 8.38588C10.0935 9.47674 9.95706 11.4241 11.0888 12.6852L11.12 12.72"/></svg>',
-  Po = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M9.40999 7.29999H9.4"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M14.6 7.29999H14.59"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M9.30999 12H9.3"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M14.6 12H14.59"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M9.40999 16.7H9.4"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M14.6 16.7H14.59"/></svg>',
-  Fo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 7V12M12 17V12M17 12H12M12 12H7"/></svg>',
-  Ho = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5" stroke="currentColor" stroke-width="2"/><line x1="15.4142" x2="19" y1="15" y2="18.5858" stroke="currentColor" stroke-linecap="round" stroke-width="2"/></svg>',
-  zo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M15.7795 11.5C15.7795 11.5 16.053 11.1962 16.5497 10.6722C17.4442 9.72856 17.4701 8.2475 16.5781 7.30145V7.30145C15.6482 6.31522 14.0873 6.29227 13.1288 7.25073L11.8796 8.49999"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8.24517 12.3883C8.24517 12.3883 7.97171 12.6922 7.47504 13.2161C6.58051 14.1598 6.55467 15.6408 7.44666 16.5869V16.5869C8.37653 17.5731 9.93744 17.5961 10.8959 16.6376L12.1452 15.3883"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M17.7802 15.1032L16.597 14.9422C16.0109 14.8624 15.4841 15.3059 15.4627 15.8969L15.4199 17.0818"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6.39064 9.03238L7.58432 9.06668C8.17551 9.08366 8.6522 8.58665 8.61056 7.99669L8.5271 6.81397"/><line x1="12.1142" x2="11.7" y1="12.2" y2="11.7858" stroke="currentColor" stroke-linecap="round" stroke-width="2"/></svg>',
-  Uo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" stroke="currentColor" stroke-width="2" rx="4"/><line x1="12" x2="12" y1="9" y2="12" stroke="currentColor" stroke-linecap="round" stroke-width="2"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 15.02V15.01"/></svg>';
+const _o = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 12L9 7.1C9 7.04477 9.04477 7 9.1 7H10.4C11.5 7 14 7.1 14 9.5C14 9.5 14 12 11 12M9 12V16.8C9 16.9105 9.08954 17 9.2 17H12.5C14 17 15 16 15 14.5C15 11.7046 11 12 11 12M9 12H11"/></svg>',kt = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 10L11.8586 14.8586C11.9367 14.9367 12.0633 14.9367 12.1414 14.8586L17 10"/></svg>',Oo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 15L11.8586 10.1414C11.9367 10.0633 12.0633 10.0633 12.1414 10.1414L17 15"/></svg>',No = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 8L12 12M12 12L16 16M12 12L16 8M12 12L8 16"/></svg>',Ro = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/></svg>',Do = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M13.34 10C12.4223 12.7337 11 17 11 17"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M14.21 7H14.2"/></svg>',it = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7.69998 12.6L7.67896 12.62C6.53993 13.7048 6.52012 15.5155 7.63516 16.625V16.625C8.72293 17.7073 10.4799 17.7102 11.5712 16.6314L13.0263 15.193C14.0703 14.1609 14.2141 12.525 13.3662 11.3266L13.22 11.12"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M16.22 11.12L16.3564 10.9805C17.2895 10.0265 17.3478 8.5207 16.4914 7.49733V7.49733C15.5691 6.39509 13.9269 6.25143 12.8271 7.17675L11.3901 8.38588C10.0935 9.47674 9.95706 11.4241 11.0888 12.6852L11.12 12.72"/></svg>',Po = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M9.40999 7.29999H9.4"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M14.6 7.29999H14.59"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M9.30999 12H9.3"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M14.6 12H14.59"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M9.40999 16.7H9.4"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2.6" d="M14.6 16.7H14.59"/></svg>',Fo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 7V12M12 17V12M17 12H12M12 12H7"/></svg>',Ho = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5" stroke="currentColor" stroke-width="2"/><line x1="15.4142" x2="19" y1="15" y2="18.5858" stroke="currentColor" stroke-linecap="round" stroke-width="2"/></svg>',zo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M15.7795 11.5C15.7795 11.5 16.053 11.1962 16.5497 10.6722C17.4442 9.72856 17.4701 8.2475 16.5781 7.30145V7.30145C15.6482 6.31522 14.0873 6.29227 13.1288 7.25073L11.8796 8.49999"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8.24517 12.3883C8.24517 12.3883 7.97171 12.6922 7.47504 13.2161C6.58051 14.1598 6.55467 15.6408 7.44666 16.5869V16.5869C8.37653 17.5731 9.93744 17.5961 10.8959 16.6376L12.1452 15.3883"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M17.7802 15.1032L16.597 14.9422C16.0109 14.8624 15.4841 15.3059 15.4627 15.8969L15.4199 17.0818"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6.39064 9.03238L7.58432 9.06668C8.17551 9.08366 8.6522 8.58665 8.61056 7.99669L8.5271 6.81397"/><line x1="12.1142" x2="11.7" y1="12.2" y2="11.7858" stroke="currentColor" stroke-linecap="round" stroke-width="2"/></svg>',Uo = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><rect width="14" height="14" x="5" y="5" stroke="currentColor" stroke-width="2" rx="4"/><line x1="12" x2="12" y1="9" y2="12" stroke="currentColor" stroke-linecap="round" stroke-width="2"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 15.02V15.01"/></svg>';
 class _ {
   /**
    * Constructs popover item instance
@@ -3407,8 +3378,7 @@ class _ {
         ...this.params,
         ...e,
         confirmation: e.confirmation
-      },
-      o = this.make(t);
+      },o = this.make(t);
     this.nodes.root.innerHTML = o.innerHTML, this.nodes.root.classList.add(_.CSS.confirmationState), this.confirmationState = e, this.enableSpecialHoverAndFocusBehavior();
   }
   /**
@@ -3423,9 +3393,7 @@ class _ {
    * This is needed to prevent item from being highlighted as hovered/focused just after click.
    */
   enableSpecialHoverAndFocusBehavior() {
-    this.nodes.root.classList.add(_.CSS.noHover), this.nodes.root.classList.add(_.CSS.noFocus), this.nodes.root.addEventListener("mouseleave", this.removeSpecialHoverBehavior, {
-      once: !0
-    });
+    this.nodes.root.classList.add(_.CSS.noHover), this.nodes.root.classList.add(_.CSS.noFocus), this.nodes.root.addEventListener("mouseleave", this.removeSpecialHoverBehavior, { once: !0 });
   }
   /**
    * Disables special focus and hover behavior
@@ -3439,11 +3407,14 @@ class _ {
    * @param item - item to activate or bring to confirmation mode
    */
   activateOrEnableConfirmationMode(e) {
-    if (e.confirmation === void 0) try {
+    if (e.confirmation === void 0)
+    try {
       e.onActivate(e), this.disableConfirmationMode();
     } catch {
       this.animateError();
-    } else this.enableConfirmationMode(e.confirmation);
+    } else
+
+    this.enableConfirmationMode(e.confirmation);
   }
   /**
    * Animates item which symbolizes that error occured while executing 'onActivate()' callback
@@ -3509,7 +3480,8 @@ const he = class {
    * @returns {number} index of focused node
    */
   leafNodesAndReturnIndex(s) {
-    if (this.items.length === 0) return this.cursor;
+    if (this.items.length === 0)
+    return this.cursor;
     let e = this.cursor;
     return e === -1 ? e = s === he.directions.RIGHT ? -1 : 0 : this.items[e].classList.remove(this.focusedCssClass), s === he.directions.RIGHT ? e = (e + 1) % this.items.length : e = (this.items.length + e - 1) % this.items.length, c.canSetCaret(this.items[e]) && xe(() => b.setCursor(this.items[e]), 50)(), this.items[e].classList.add(this.focusedCssClass), e;
   }
@@ -3524,8 +3496,9 @@ class q {
    * @param {FlipperOptions} options - different constructing settings
    */
   constructor(e) {
-    this.iterator = null, this.activated = !1, this.flipCallbacks = [], this.onKeyDown = t => {
-      if (this.isEventReadyForHandling(t)) switch (q.usedKeys.includes(t.keyCode) && t.preventDefault(), t.keyCode) {
+    this.iterator = null, this.activated = !1, this.flipCallbacks = [], this.onKeyDown = (t) => {
+      if (this.isEventReadyForHandling(t))
+      switch (q.usedKeys.includes(t.keyCode) && t.preventDefault(), t.keyCode) {
         case k.TAB:
           this.handleTabPress(t);
           break;
@@ -3556,7 +3529,14 @@ class q {
    *  - to skip external behaviours only for these keys, when filler is activated (@see BlockEvents@arrowRightAndDown)
    */
   static get usedKeys() {
-    return [k.TAB, k.LEFT, k.RIGHT, k.ENTER, k.UP, k.DOWN];
+    return [
+    k.TAB,
+    k.LEFT,
+    k.RIGHT,
+    k.ENTER,
+    k.UP,
+    k.DOWN];
+
   }
   /**
    * Active tab/arrows handling by flipper
@@ -3611,7 +3591,7 @@ class q {
    * @param cb - function to stop executing
    */
   removeOnFlip(e) {
-    this.flipCallbacks = this.flipCallbacks.filter(t => t !== e);
+    this.flipCallbacks = this.flipCallbacks.filter((t) => t !== e);
   }
   /**
    * Drops flipper's iterator cursor
@@ -3658,7 +3638,7 @@ class q {
    * Fired after flipping in any direction
    */
   flipCallback() {
-    this.iterator.currentItem && this.iterator.currentItem.scrollIntoViewIfNeeded(), this.flipCallbacks.forEach(e => e());
+    this.iterator.currentItem && this.iterator.currentItem.scrollIntoViewIfNeeded(), this.flipCallbacks.forEach((e) => e());
   }
 }
 class pe {
@@ -3678,11 +3658,7 @@ class pe {
    * @param options.onSearch - search callback
    * @param options.placeholder - input placeholder
    */
-  constructor({
-    items: e,
-    onSearch: t,
-    placeholder: o
-  }) {
+  constructor({ items: e, onSearch: t, placeholder: o }) {
     this.listeners = new Fe(), this.items = e, this.onSearch = t, this.render(o);
   }
   /**
@@ -3735,7 +3711,7 @@ class pe {
    * Returns list of found items for the current search query
    */
   get foundItems() {
-    return this.items.filter(e => this.checkItem(e));
+    return this.items.filter((e) => this.checkItem(e));
   }
   /**
    * Contains logic for checking whether passed item conforms the search query
@@ -3744,8 +3720,7 @@ class pe {
    */
   checkItem(e) {
     var i;
-    const t = ((i = e.title) == null ? void 0 : i.toLowerCase()) || "",
-      o = this.searchQuery.toLowerCase();
+    const t = ((i = e.title) == null ? void 0 : i.toLowerCase()) || "",o = this.searchQuery.toLowerCase();
     return t.includes(o);
   }
 }
@@ -3766,7 +3741,10 @@ const ue = class {
    * Locks scroll in a hard way (via setting fixed position to body element)
    */
   lockHard() {
-    this.scrollPosition = window.pageYOffset, document.documentElement.style.setProperty("--window-scroll-offset", `${this.scrollPosition}px`), document.body.classList.add(ue.CSS.scrollLockedHard);
+    this.scrollPosition = window.pageYOffset, document.documentElement.style.setProperty(
+      "--window-scroll-offset",
+      `${this.scrollPosition}px`
+    ), document.body.classList.add(ue.CSS.scrollLockedHard);
   }
   /**
    * Unlocks hard scroll lock
@@ -3780,13 +3758,11 @@ vt.CSS = {
   scrollLocked: "ce-scroll-locked",
   scrollLockedHard: "ce-scroll-locked--hard"
 };
-var jo = Object.defineProperty,
-  $o = Object.getOwnPropertyDescriptor,
-  Wo = (s, e, t, o) => {
-    for (var i = o > 1 ? void 0 : o ? $o(e, t) : e, n = s.length - 1, r; n >= 0; n--) (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
+var jo = Object.defineProperty,$o = Object.getOwnPropertyDescriptor,Wo = (s, e, t, o) => {
+    for (var i = o > 1 ? void 0 : o ? $o(e, t) : e, n = s.length - 1, r; n >= 0; n--)
+    (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
     return o && i && jo(e, t, i), i;
-  },
-  be = /* @__PURE__ */(s => (s.Close = "close", s))(be || {});
+  },be = /* @__PURE__ */((s) => (s.Close = "close", s))(be || {});
 const N = class extends Ee {
   /**
    * Constructs the instance
@@ -3805,8 +3781,8 @@ const N = class extends Ee {
       nothingFound: "Nothing found",
       search: "Search"
     }, this.onFlip = () => {
-      this.items.find(t => t.isFocused).onFocus();
-    }, this.items = s.items.map(e => new _(e)), s.scopeElement !== void 0 && (this.scopeElement = s.scopeElement), s.messages && (this.messages = {
+      this.items.find((t) => t.isFocused).onFocus();
+    }, this.items = s.items.map((e) => new _(e)), s.scopeElement !== void 0 && (this.scopeElement = s.scopeElement), s.messages && (this.messages = {
       ...this.messages,
       ...s.messages
     }), s.customContentFlippableItems && (this.customContentFlippableItems = s.customContentFlippableItems), this.make(), s.customContent && this.addCustomContent(s.customContent), s.searchable && this.addSearch(), this.initializeFlipper();
@@ -3854,8 +3830,10 @@ const N = class extends Ee {
    * Closes popover
    */
   hide() {
-    this.nodes.popover.classList.remove(N.CSS.popoverOpened), this.nodes.popover.classList.remove(N.CSS.popoverOpenTop), this.nodes.overlay.classList.add(N.CSS.overlayHidden), this.flipper.deactivate(), this.items.forEach(s => s.reset()), this.search !== void 0 && this.search.clear(), te() && this.scrollLocker.unlock(), this.emit("close"
-    /* Close */);
+    this.nodes.popover.classList.remove(N.CSS.popoverOpened), this.nodes.popover.classList.remove(N.CSS.popoverOpenTop), this.nodes.overlay.classList.add(N.CSS.overlayHidden), this.flipper.deactivate(), this.items.forEach((s) => s.reset()), this.search !== void 0 && this.search.clear(), te() && this.scrollLocker.unlock(), this.emit(
+      "close"
+      /* Close */
+    );
   }
   /**
    * Clears memory
@@ -3869,9 +3847,9 @@ const N = class extends Ee {
   make() {
     this.nodes.popover = c.make("div", [N.CSS.popover]), this.nodes.nothingFoundMessage = c.make("div", [N.CSS.nothingFoundMessage], {
       textContent: this.messages.nothingFound
-    }), this.nodes.popover.appendChild(this.nodes.nothingFoundMessage), this.nodes.items = c.make("div", [N.CSS.items]), this.items.forEach(s => {
+    }), this.nodes.popover.appendChild(this.nodes.nothingFoundMessage), this.nodes.items = c.make("div", [N.CSS.items]), this.items.forEach((s) => {
       this.nodes.items.appendChild(s.getElement());
-    }), this.nodes.popover.appendChild(this.nodes.items), this.listeners.on(this.nodes.popover, "click", s => {
+    }), this.nodes.popover.appendChild(this.nodes.items), this.listeners.on(this.nodes.popover, "click", (s) => {
       const e = this.getTargetItem(s);
       e !== void 0 && this.handleItemClick(e);
     }), this.nodes.wrapper = c.make("div"), this.nodes.overlay = c.make("div", [N.CSS.overlay, N.CSS.overlayHidden]), this.listeners.on(this.nodes.overlay, "click", () => {
@@ -3886,11 +3864,11 @@ const N = class extends Ee {
       items: this.items,
       placeholder: this.messages.search,
       onSearch: (e, t) => {
-        this.items.forEach(i => {
+        this.items.forEach((i) => {
           const n = !t.includes(i);
           i.toggleHidden(n);
         }), this.toggleNothingFoundMessage(t.length === 0), this.toggleCustomContent(e !== "");
-        const o = e === "" ? this.flippableElements : t.map(i => i.getElement());
+        const o = e === "" ? this.flippableElements : t.map((i) => i.getElement());
         this.flipper.isActivated && (this.flipper.deactivate(), this.flipper.activate(o));
       }
     });
@@ -3911,7 +3889,7 @@ const N = class extends Ee {
    * @param event - event to retrieve popover item from
    */
   getTargetItem(s) {
-    return this.items.find(e => s.composedPath().includes(e.getElement()));
+    return this.items.find((e) => s.composedPath().includes(e.getElement()));
   }
   /**
    * Handles item clicks
@@ -3919,7 +3897,7 @@ const N = class extends Ee {
    * @param item - item to handle click of
    */
   handleItemClick(s) {
-    s.isDisabled || (this.items.filter(e => e !== s).forEach(e => e.reset()), s.handleClick(), this.toggleItemActivenessIfNeeded(s), s.closeOnActivate && this.hide());
+    s.isDisabled || (this.items.filter((e) => e !== s).forEach((e) => e.reset()), s.handleClick(), this.toggleItemActivenessIfNeeded(s), s.closeOnActivate && this.hide());
   }
   /**
    * Creates Flipper instance which allows to navigate between popover items via keyboard
@@ -3928,7 +3906,12 @@ const N = class extends Ee {
     this.flipper = new q({
       items: this.flippableElements,
       focusedItemClass: _.CSS.focused,
-      allowedKeys: [k.TAB, k.UP, k.DOWN, k.ENTER]
+      allowedKeys: [
+      k.TAB,
+      k.UP,
+      k.DOWN,
+      k.ENTER]
+
     }), this.flipper.onFlip(this.onFlip);
   }
   /**
@@ -3936,12 +3919,13 @@ const N = class extends Ee {
    * Contains both usual popover items elements and custom html content.
    */
   get flippableElements() {
-    const s = this.items.map(t => t.getElement());
+    const s = this.items.map((t) => t.getElement());
     return (this.customContentFlippableItems || []).concat(s);
   }
   get height() {
     let s = 0;
-    if (this.nodes.popover === null) return s;
+    if (this.nodes.popover === null)
+    return s;
     const e = this.nodes.popover.cloneNode(!0);
     return e.style.visibility = "hidden", e.style.position = "absolute", e.style.top = "-1000px", e.classList.add(N.CSS.popoverOpened), document.body.appendChild(e), s = e.offsetHeight, e.remove(), s;
   }
@@ -3950,12 +3934,7 @@ const N = class extends Ee {
    * It should happen when there is enough space below or not enough space above
    */
   get shouldOpenBottom() {
-    const s = this.nodes.popover.getBoundingClientRect(),
-      e = this.scopeElement.getBoundingClientRect(),
-      t = this.height,
-      o = s.top + t,
-      i = s.top - t,
-      n = Math.min(window.innerHeight, e.bottom);
+    const s = this.nodes.popover.getBoundingClientRect(),e = this.scopeElement.getBoundingClientRect(),t = this.height,o = s.top + t,i = s.top - t,n = Math.min(window.innerHeight, e.bottom);
     return i < e.top || o <= n;
   }
   /**
@@ -3985,19 +3964,21 @@ const N = class extends Ee {
    */
   toggleItemActivenessIfNeeded(s) {
     if (s.toggle === !0 && s.toggleActive(), typeof s.toggle == "string") {
-      const e = this.items.filter(t => t.toggle === s.toggle);
+      const e = this.items.filter((t) => t.toggle === s.toggle);
       if (e.length === 1) {
         s.toggleActive();
         return;
       }
-      e.forEach(t => {
+      e.forEach((t) => {
         t.toggleActive(t === s);
       });
     }
   }
 };
 let je = N;
-Wo([le], je.prototype, "height", 1);
+Wo([
+le],
+je.prototype, "height", 1);
 class Yo extends y {
   constructor() {
     super(...arguments), this.opened = !1, this.selection = new b(), this.onPopoverClose = () => {
@@ -4056,7 +4037,7 @@ class Yo extends y {
     const [t, o] = e.getTunes();
     this.eventsDispatcher.emit(this.events.opened), this.popover = new je({
       searchable: !0,
-      items: t.map(i => this.resolveTuneAliases(i)),
+      items: t.map((i) => this.resolveTuneAliases(i)),
       customContent: o,
       customContentFlippableItems: this.getControls(o),
       scopeElement: this.Editor.API.methods.ui.nodes.redactor,
@@ -4084,10 +4065,9 @@ class Yo extends y {
    * @param container - container to query controls inside of
    */
   getControls(e) {
-    const {
-        StylesAPI: t
-      } = this.Editor,
-      o = e.querySelectorAll(`.${t.classes.settingsButton}, ${c.allInputsSelector}`);
+    const { StylesAPI: t } = this.Editor,o = e.querySelectorAll(
+        `.${t.classes.settingsButton}, ${c.allInputsSelector}`
+      );
     return Array.from(o);
   }
   /**
@@ -4096,9 +4076,7 @@ class Yo extends y {
    * @param item - item with resolved aliases
    */
   resolveTuneAliases(e) {
-    const t = Ao(e, {
-      label: "title"
-    });
+    const t = Ao(e, { label: "title" });
     return e.confirmation && (t.confirmation = this.resolveTuneAliases(e.confirmation)), t;
   }
 }
@@ -4127,7 +4105,10 @@ class $ extends y {
    * Create UI of Conversion Toolbar
    */
   make() {
-    this.nodes.wrapper = c.make("div", [$.CSS.conversionToolbarWrapper, ...(this.isRtl ? [this.Editor.UI.CSS.editorRtlFix] : [])]), this.nodes.tools = c.make("div", $.CSS.conversionToolbarTools);
+    this.nodes.wrapper = c.make("div", [
+    $.CSS.conversionToolbarWrapper,
+    ...(this.isRtl ? [this.Editor.UI.CSS.editorRtlFix] : [])]
+    ), this.nodes.tools = c.make("div", $.CSS.conversionToolbarTools);
     const e = c.make("div", $.CSS.conversionToolbarLabel, {
       textContent: z.ui(K.ui.inlineToolbar.converter, "Convert to")
     });
@@ -4152,7 +4133,7 @@ class $ extends y {
    */
   open() {
     this.filterTools(), this.opened = !0, this.nodes.wrapper.classList.add($.CSS.conversionToolbarShowed), window.requestAnimationFrame(() => {
-      this.flipper.activate(this.tools.map(e => e.button).filter(e => !e.classList.contains($.CSS.conversionToolHidden))), this.flipper.focusFirst(), M(this.togglingCallback) && this.togglingCallback(!0);
+      this.flipper.activate(this.tools.map((e) => e.button).filter((e) => !e.classList.contains($.CSS.conversionToolHidden))), this.flipper.focusFirst(), M(this.togglingCallback) && this.togglingCallback(!0);
     });
   }
   /**
@@ -4175,12 +4156,7 @@ class $ extends y {
    * @param blockDataOverrides - If this conversion fired by the one of multiple Toolbox items, extend converted data with this item's "data" overrides
    */
   async replaceWithBlock(e, t) {
-    const {
-      BlockManager: o,
-      BlockSelection: i,
-      InlineToolbar: n,
-      Caret: r
-    } = this.Editor;
+    const { BlockManager: o, BlockSelection: i, InlineToolbar: n, Caret: r } = this.Editor;
     o.convert(this.Editor.BlockManager.currentBlock, e, t), i.clearSelection(), this.close(), n.close(), window.requestAnimationFrame(() => {
       r.setToBlock(this.Editor.BlockManager.currentBlock, r.positions.END);
     });
@@ -4194,7 +4170,9 @@ class $ extends y {
     Array.from(e.entries()).forEach(([t, o]) => {
       var n;
       const i = o.conversionConfig;
-      !i || !i.import || (n = o.toolbox) == null || n.forEach(r => this.addToolIfValid(t, r));
+      !i || !i.import || (n = o.toolbox) == null || n.forEach(
+        (r) => this.addToolIfValid(t, r)
+      );
     });
   }
   /**
@@ -4214,8 +4192,7 @@ class $ extends y {
    */
   addTool(e, t) {
     var r;
-    const o = c.make("div", [$.CSS.conversionTool]),
-      i = c.make("div", [$.CSS.conversionToolIcon]);
+    const o = c.make("div", [$.CSS.conversionTool]),i = c.make("div", [$.CSS.conversionToolIcon]);
     o.dataset.tool = e, i.innerHTML = t.icon, c.append(o, i), c.append(o, c.text(z.t(K.toolNames, t.title || re(e))));
     const n = (r = this.Editor.Tools.blockTools.get(e)) == null ? void 0 : r.shortcut;
     if (n) {
@@ -4236,14 +4213,11 @@ class $ extends y {
    * Hide current Tool and show others
    */
   async filterTools() {
-    const {
-        currentBlock: e
-      } = this.Editor.BlockManager,
-      t = await e.getActiveToolboxEntry();
+    const { currentBlock: e } = this.Editor.BlockManager,t = await e.getActiveToolboxEntry();
     function o(i, n) {
       return i.icon === n.icon && i.title === n.title;
     }
-    this.tools.forEach(i => {
+    this.tools.forEach((i) => {
       let n = !1;
       if (t) {
         const r = o(t, i.toolboxItem);
@@ -4261,8 +4235,7 @@ class $ extends y {
     });
   }
 }
-var De = {},
-  Ko = {
+var De = {},Ko = {
     get exports() {
       return De;
     },
@@ -4284,32 +4257,22 @@ var De = {},
     return function (t) {
       var o = {};
       function i(n) {
-        if (o[n]) return o[n].exports;
-        var r = o[n] = {
-          i: n,
-          l: !1,
-          exports: {}
-        };
+        if (o[n])
+        return o[n].exports;
+        var r = o[n] = { i: n, l: !1, exports: {} };
         return t[n].call(r.exports, r, r.exports, i), r.l = !0, r.exports;
       }
       return i.m = t, i.c = o, i.d = function (n, r, a) {
-        i.o(n, r) || Object.defineProperty(n, r, {
-          enumerable: !0,
-          get: a
-        });
+        i.o(n, r) || Object.defineProperty(n, r, { enumerable: !0, get: a });
       }, i.r = function (n) {
-        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
-          value: "Module"
-        }), Object.defineProperty(n, "__esModule", {
-          value: !0
-        });
+        typeof Symbol < "u" && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, { value: "Module" }), Object.defineProperty(n, "__esModule", { value: !0 });
       }, i.t = function (n, r) {
-        if (1 & r && (n = i(n)), 8 & r || 4 & r && typeof n == "object" && n && n.__esModule) return n;
+        if (1 & r && (n = i(n)), 8 & r || 4 & r && typeof n == "object" && n && n.__esModule)
+        return n;
         var a = /* @__PURE__ */Object.create(null);
-        if (i.r(a), Object.defineProperty(a, "default", {
-          enumerable: !0,
-          value: n
-        }), 2 & r && typeof n != "string") for (var l in n) i.d(a, l, function (d) {
+        if (i.r(a), Object.defineProperty(a, "default", { enumerable: !0, value: n }), 2 & r && typeof n != "string")
+        for (var l in n)
+        i.d(a, l, function (d) {
           return n[d];
         }.bind(null, l));
         return a;
@@ -4338,109 +4301,41 @@ var De = {},
         function l(d) {
           var u = this;
           (function (h, f) {
-            if (!(h instanceof f)) throw new TypeError("Cannot call a class as a function");
+            if (!(h instanceof f))
+            throw new TypeError("Cannot call a class as a function");
           })(this, l), this.commands = {}, this.keys = {}, this.name = d.name, this.parseShortcutName(d.name), this.element = d.on, this.callback = d.callback, this.executeShortcut = function (h) {
             u.execute(h);
           }, this.element.addEventListener("keydown", this.executeShortcut, !1);
         }
-        return r(l, null, [{
-          key: "supportedCommands",
-          get: function () {
-            return {
-              SHIFT: ["SHIFT"],
-              CMD: ["CMD", "CONTROL", "COMMAND", "WINDOWS", "CTRL"],
-              ALT: ["ALT", "OPTION"]
-            };
-          }
-        }, {
-          key: "keyCodes",
-          get: function () {
-            return {
-              0: 48,
-              1: 49,
-              2: 50,
-              3: 51,
-              4: 52,
-              5: 53,
-              6: 54,
-              7: 55,
-              8: 56,
-              9: 57,
-              A: 65,
-              B: 66,
-              C: 67,
-              D: 68,
-              E: 69,
-              F: 70,
-              G: 71,
-              H: 72,
-              I: 73,
-              J: 74,
-              K: 75,
-              L: 76,
-              M: 77,
-              N: 78,
-              O: 79,
-              P: 80,
-              Q: 81,
-              R: 82,
-              S: 83,
-              T: 84,
-              U: 85,
-              V: 86,
-              W: 87,
-              X: 88,
-              Y: 89,
-              Z: 90,
-              BACKSPACE: 8,
-              ENTER: 13,
-              ESCAPE: 27,
-              LEFT: 37,
-              UP: 38,
-              RIGHT: 39,
-              DOWN: 40,
-              INSERT: 45,
-              DELETE: 46,
-              ".": 190
-            };
-          }
-        }]), r(l, [{
-          key: "parseShortcutName",
-          value: function (d) {
+        return r(l, null, [{ key: "supportedCommands", get: function () {
+            return { SHIFT: ["SHIFT"], CMD: ["CMD", "CONTROL", "COMMAND", "WINDOWS", "CTRL"], ALT: ["ALT", "OPTION"] };
+          } }, { key: "keyCodes", get: function () {
+            return { 0: 48, 1: 49, 2: 50, 3: 51, 4: 52, 5: 53, 6: 54, 7: 55, 8: 56, 9: 57, A: 65, B: 66, C: 67, D: 68, E: 69, F: 70, G: 71, H: 72, I: 73, J: 74, K: 75, L: 76, M: 77, N: 78, O: 79, P: 80, Q: 81, R: 82, S: 83, T: 84, U: 85, V: 86, W: 87, X: 88, Y: 89, Z: 90, BACKSPACE: 8, ENTER: 13, ESCAPE: 27, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, INSERT: 45, DELETE: 46, ".": 190 };
+          } }]), r(l, [{ key: "parseShortcutName", value: function (d) {
             d = d.split("+");
             for (var u = 0; u < d.length; u++) {
               d[u] = d[u].toUpperCase();
               var h = !1;
-              for (var f in l.supportedCommands) if (l.supportedCommands[f].includes(d[u])) {
+              for (var f in l.supportedCommands)
+              if (l.supportedCommands[f].includes(d[u])) {
                 h = this.commands[f] = !0;
                 break;
               }
               h || (this.keys[d[u]] = !0);
             }
-            for (var x in l.supportedCommands) this.commands[x] || (this.commands[x] = !1);
-          }
-        }, {
-          key: "execute",
-          value: function (d) {
-            var u,
-              h = {
-                CMD: d.ctrlKey || d.metaKey,
-                SHIFT: d.shiftKey,
-                ALT: d.altKey
-              },
-              f = !0;
-            for (u in this.commands) this.commands[u] !== h[u] && (f = !1);
-            var x,
-              p = !0;
-            for (x in this.keys) p = p && d.keyCode === l.keyCodes[x];
+            for (var x in l.supportedCommands)
+            this.commands[x] || (this.commands[x] = !1);
+          } }, { key: "execute", value: function (d) {
+            var u,h = { CMD: d.ctrlKey || d.metaKey, SHIFT: d.shiftKey, ALT: d.altKey },f = !0;
+            for (u in this.commands)
+            this.commands[u] !== h[u] && (f = !1);
+            var x,p = !0;
+            for (x in this.keys)
+            p = p && d.keyCode === l.keyCodes[x];
             f && p && this.callback(d);
-          }
-        }, {
-          key: "remove",
-          value: function () {
+          } }, { key: "remove", value: function () {
             this.element.removeEventListener("keydown", this.executeShortcut);
-          }
-        }]), l;
+          } }]), l;
       }();
       o.default = a;
     }]).default;
@@ -4457,13 +4352,15 @@ class Vo {
    * @param shortcut - shortcut options
    */
   add(e) {
-    if (this.findShortcut(e.on, e.name)) throw Error(`Shortcut ${e.name} is already registered for ${e.on}. Please remove it before add a new handler.`);
+    if (this.findShortcut(e.on, e.name))
+    throw Error(
+      `Shortcut ${e.name} is already registered for ${e.on}. Please remove it before add a new handler.`
+    );
     const o = new Xo({
         name: e.name,
         on: e.on,
         callback: e.handler
-      }),
-      i = this.registeredShortcuts.get(e.on) || [];
+      }),i = this.registeredShortcuts.get(e.on) || [];
     this.registeredShortcuts.set(e.on, [...i, o]);
   }
   /**
@@ -4474,10 +4371,11 @@ class Vo {
    */
   remove(e, t) {
     const o = this.findShortcut(e, t);
-    if (!o) return;
+    if (!o)
+    return;
     o.remove();
     const i = this.registeredShortcuts.get(e);
-    this.registeredShortcuts.set(e, i.filter(n => n !== o));
+    this.registeredShortcuts.set(e, i.filter((n) => n !== o));
   }
   /**
    * Get Shortcut instance if exist
@@ -4487,19 +4385,15 @@ class Vo {
    * @returns {number} index - shortcut index if exist
    */
   findShortcut(e, t) {
-    return (this.registeredShortcuts.get(e) || []).find(({
-      name: i
-    }) => i === t);
+    return (this.registeredShortcuts.get(e) || []).find(({ name: i }) => i === t);
   }
 }
 const ae = new Vo();
-var qo = Object.defineProperty,
-  Zo = Object.getOwnPropertyDescriptor,
-  xt = (s, e, t, o) => {
-    for (var i = o > 1 ? void 0 : o ? Zo(e, t) : e, n = s.length - 1, r; n >= 0; n--) (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
+var qo = Object.defineProperty,Zo = Object.getOwnPropertyDescriptor,xt = (s, e, t, o) => {
+    for (var i = o > 1 ? void 0 : o ? Zo(e, t) : e, n = s.length - 1, r; n >= 0; n--)
+    (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
     return o && i && qo(e, t, i), i;
-  },
-  ke = /* @__PURE__ */(s => (s.Opened = "toolbox-opened", s.Closed = "toolbox-closed", s.BlockAdded = "toolbox-block-added", s))(ke || {});
+  },ke = /* @__PURE__ */((s) => (s.Opened = "toolbox-opened", s.Closed = "toolbox-closed", s.BlockAdded = "toolbox-block-added", s))(ke || {});
 const wt = class extends Ee {
   /**
    * Toolbox constructor
@@ -4508,16 +4402,14 @@ const wt = class extends Ee {
    * @param options.api - Editor API methods
    * @param options.tools - Tools available to check whether some of them should be displayed at the Toolbox or not
    */
-  constructor({
-    api: s,
-    tools: e,
-    i18nLabels: t
-  }) {
+  constructor({ api: s, tools: e, i18nLabels: t }) {
     super(), this.opened = !1, this.nodes = {
       toolbox: null
     }, this.onPopoverClose = () => {
-      this.opened = !1, this.emit("toolbox-closed"
-      /* Closed */);
+      this.opened = !1, this.emit(
+        "toolbox-closed"
+        /* Closed */
+      );
     }, this.api = s, this.tools = e, this.i18nLabels = t;
   }
   /**
@@ -4580,16 +4472,20 @@ const wt = class extends Ee {
    */
   open() {
     var s;
-    this.isEmpty || ((s = this.popover) == null || s.show(), this.opened = !0, this.emit("toolbox-opened"
-    /* Opened */));
+    this.isEmpty || ((s = this.popover) == null || s.show(), this.opened = !0, this.emit(
+      "toolbox-opened"
+      /* Opened */
+    ));
   }
   /**
    * Close Toolbox
    */
   close() {
     var s;
-    (s = this.popover) == null || s.hide(), this.opened = !1, this.emit("toolbox-closed"
-    /* Closed */);
+    (s = this.popover) == null || s.hide(), this.opened = !1, this.emit(
+      "toolbox-closed"
+      /* Closed */
+    );
   }
   /**
    * Close Toolbox
@@ -4599,7 +4495,7 @@ const wt = class extends Ee {
   }
   get toolsToBeDisplayed() {
     const s = [];
-    return this.tools.forEach(e => {
+    return this.tools.forEach((e) => {
       e.toolbox && s.push(e);
     }), s;
   }
@@ -4613,7 +4509,7 @@ const wt = class extends Ee {
       },
       secondaryLabel: t.shortcut ? ye(t.shortcut) : ""
     });
-    return this.toolsToBeDisplayed.reduce((e, t) => (Array.isArray(t.toolbox) ? t.toolbox.forEach(o => {
+    return this.toolsToBeDisplayed.reduce((e, t) => (Array.isArray(t.toolbox) ? t.toolbox.forEach((o) => {
       e.push(s(o, t));
     }) : t.toolbox !== void 0 && e.push(s(t.toolbox, t)), e), []);
   }
@@ -4621,7 +4517,7 @@ const wt = class extends Ee {
    * Iterate all tools and enable theirs shortcuts if specified
    */
   enableShortcuts() {
-    this.toolsToBeDisplayed.forEach(s => {
+    this.toolsToBeDisplayed.forEach((s) => {
       const e = s.shortcut;
       e && this.enableShortcutForTool(s.name, e);
     });
@@ -4636,16 +4532,17 @@ const wt = class extends Ee {
     ae.add({
       name: e,
       on: this.api.ui.nodes.redactor,
-      handler: t => {
+      handler: (t) => {
         t.preventDefault();
-        const o = this.api.blocks.getCurrentBlockIndex(),
-          i = this.api.blocks.getBlockByIndex(o);
-        if (i) try {
+        const o = this.api.blocks.getCurrentBlockIndex(),i = this.api.blocks.getBlockByIndex(o);
+        if (i)
+        try {
           this.api.blocks.convert(i.id, s), window.requestAnimationFrame(() => {
             this.api.caret.setToBlock(o, "end");
           });
           return;
-        } catch {}
+        } catch {
+        }
         this.insertNewBlock(s);
       }
     });
@@ -4655,7 +4552,7 @@ const wt = class extends Ee {
    * Fired when the Read-Only mode is activated
    */
   removeAllShortcuts() {
-    this.toolsToBeDisplayed.forEach(s => {
+    this.toolsToBeDisplayed.forEach((s) => {
       const e = s.shortcut;
       e && ae.remove(this.api.ui.nodes.redactor, e);
     });
@@ -4668,24 +4565,35 @@ const wt = class extends Ee {
    * @param blockDataOverrides - predefined Block data
    */
   async insertNewBlock(s, e) {
-    const t = this.api.blocks.getCurrentBlockIndex(),
-      o = this.api.blocks.getBlockByIndex(t);
-    if (!o) return;
+    const t = this.api.blocks.getCurrentBlockIndex(),o = this.api.blocks.getBlockByIndex(t);
+    if (!o)
+    return;
     const i = o.isEmpty ? t : t + 1;
     let n;
     if (e) {
       const a = await this.api.blocks.composeBlockData(s);
       n = Object.assign(a, e);
     }
-    const r = this.api.blocks.insert(s, n, void 0, i, void 0, o.isEmpty);
+    const r = this.api.blocks.insert(
+      s,
+      n,
+      void 0,
+      i,
+      void 0,
+      o.isEmpty
+    );
     r.call(X.APPEND_CALLBACK), this.api.caret.setToBlock(i), this.emit("toolbox-block-added", {
       block: r
     }), this.api.toolbar.close();
   }
 };
 let $e = wt;
-xt([le], $e.prototype, "toolsToBeDisplayed", 1);
-xt([le], $e.prototype, "toolboxItemsToBeDisplayed", 1);
+xt([
+le],
+$e.prototype, "toolsToBeDisplayed", 1);
+xt([
+le],
+$e.prototype, "toolboxItemsToBeDisplayed", 1);
 const yt = "block hovered";
 class Go extends y {
   /**
@@ -4694,10 +4602,7 @@ class Go extends y {
    * @param moduleConfiguration.config - Editor's config
    * @param moduleConfiguration.eventsDispatcher - Editor's event dispatcher
    */
-  constructor({
-    config: e,
-    eventsDispatcher: t
-  }) {
+  constructor({ config: e, eventsDispatcher: t }) {
     super({
       config: e,
       eventsDispatcher: t
@@ -4791,9 +4696,7 @@ class Go extends y {
   toggleReadOnly(e) {
     e ? (this.destroy(), this.Editor.BlockSettings.destroy(), this.disableModuleBindings()) : window.requestIdleCallback(() => {
       this.drawUI(), this.enableModuleBindings();
-    }, {
-      timeout: 2e3
-    });
+    }, { timeout: 2e3 });
   }
   /**
    * Move Toolbar to the passed (or current) Block
@@ -4805,16 +4708,10 @@ class Go extends y {
       T("Can't open Toolbar since Editor initialization is not finished yet", "warn");
       return;
     }
-    if (this.toolboxInstance.opened && this.toolboxInstance.close(), this.Editor.BlockSettings.opened && this.Editor.BlockSettings.close(), !e) return;
+    if (this.toolboxInstance.opened && this.toolboxInstance.close(), this.Editor.BlockSettings.opened && this.Editor.BlockSettings.close(), !e)
+    return;
     this.hoveredBlock = e;
-    const t = e.holder,
-      {
-        isMobile: o
-      } = this.Editor.UI,
-      i = e.pluginsContent,
-      n = window.getComputedStyle(i),
-      r = parseInt(n.paddingTop, 10),
-      a = t.offsetHeight;
+    const t = e.holder,{ isMobile: o } = this.Editor.UI,i = e.pluginsContent,n = window.getComputedStyle(i),r = parseInt(n.paddingTop, 10),a = t.offsetHeight;
     let l;
     o ? l = t.offsetTop + a : l = t.offsetTop + r, this.nodes.wrapper.style.top = `${Math.floor(l)}px`, this.Editor.BlockManager.blocks.length === 1 && e.isEmpty ? this.blockTunesToggler.hide() : this.blockTunesToggler.show(), this.open();
   }
@@ -4844,7 +4741,7 @@ class Go extends y {
    * Draws Toolbar elements
    */
   make() {
-    this.nodes.wrapper = c.make("div", this.CSS.toolbar), ["content", "actions"].forEach(i => {
+    this.nodes.wrapper = c.make("div", this.CSS.toolbar), ["content", "actions"].forEach((i) => {
       this.nodes[i] = c.make("div", this.CSS[i]);
     }), c.append(this.nodes.wrapper, this.nodes.content), c.append(this.nodes.content, this.nodes.actions), this.nodes.plusButton = c.make("div", this.CSS.plusButton, {
       innerHTML: Fo
@@ -4859,8 +4756,7 @@ class Go extends y {
     }), this.nodes.settingsToggler = c.make("span", this.CSS.settingsToggler, {
       innerHTML: Po
     }), c.append(this.nodes.actions, this.nodes.settingsToggler);
-    const t = c.make("div"),
-      o = c.text(z.ui(K.ui.blockTunes.toggler, "Click to tune"));
+    const t = c.make("div"),o = c.text(z.ui(K.ui.blockTunes.toggler, "Click to tune"));
     t.appendChild(o), t.appendChild(c.make("div", this.CSS.plusButtonShortcut, {
       textContent: ye("CMD + /")
     })), ge(this.nodes.settingsToggler, t, {
@@ -4882,14 +4778,8 @@ class Go extends y {
       this.Editor.UI.nodes.wrapper.classList.add(this.CSS.openedToolboxHolderModifier);
     }), this.toolboxInstance.on(ke.Closed, () => {
       this.Editor.UI.nodes.wrapper.classList.remove(this.CSS.openedToolboxHolderModifier);
-    }), this.toolboxInstance.on(ke.BlockAdded, ({
-      block: e
-    }) => {
-      const {
-          BlockManager: t,
-          Caret: o
-        } = this.Editor,
-        i = t.getBlockById(e.id);
+    }), this.toolboxInstance.on(ke.BlockAdded, ({ block: e }) => {
+      const { BlockManager: t, Caret: o } = this.Editor,i = t.getBlockById(e.id);
       i.inputs.length === 0 && (i === t.lastBlock ? (t.insertAtEnd(), o.setToBlock(t.lastBlock)) : o.setToBlock(t.nextBlock));
     }), this.toolboxInstance.make();
   }
@@ -4904,10 +4794,10 @@ class Go extends y {
    * Enable bindings
    */
   enableModuleBindings() {
-    this.readOnlyMutableListeners.on(this.nodes.settingsToggler, "mousedown", e => {
+    this.readOnlyMutableListeners.on(this.nodes.settingsToggler, "mousedown", (e) => {
       var t;
       e.stopPropagation(), this.settingsTogglerClicked(), (t = this.toolboxInstance) != null && t.opened && this.toolboxInstance.close(), Re(!0);
-    }, !0), te() || this.eventsDispatcher.on(yt, e => {
+    }, !0), te() || this.eventsDispatcher.on(yt, (e) => {
       var t;
       this.Editor.BlockSettings.opened || (t = this.toolboxInstance) != null && t.opened || this.moveAndOpen(e.block);
     });
@@ -4946,12 +4836,7 @@ class Go extends y {
     this.removeAllNodes(), this.toolboxInstance && this.toolboxInstance.destroy();
   }
 }
-var Be = /* @__PURE__ */(s => (s[s.Block = 0] = "Block", s[s.Inline = 1] = "Inline", s[s.Tune = 2] = "Tune", s))(Be || {}),
-  ve = /* @__PURE__ */(s => (s.Shortcut = "shortcut", s.Toolbox = "toolbox", s.EnabledInlineTools = "inlineToolbar", s.EnabledBlockTunes = "tunes", s.Config = "config", s))(ve || {}),
-  Et = /* @__PURE__ */(s => (s.Shortcut = "shortcut", s.SanitizeConfig = "sanitize", s))(Et || {}),
-  se = /* @__PURE__ */(s => (s.IsEnabledLineBreaks = "enableLineBreaks", s.Toolbox = "toolbox", s.ConversionConfig = "conversionConfig", s.IsReadOnlySupported = "isReadOnlySupported", s.PasteConfig = "pasteConfig", s))(se || {}),
-  We = /* @__PURE__ */(s => (s.IsInline = "isInline", s.Title = "title", s))(We || {}),
-  Bt = /* @__PURE__ */(s => (s.IsTune = "isTune", s))(Bt || {});
+var Be = /* @__PURE__ */((s) => (s[s.Block = 0] = "Block", s[s.Inline = 1] = "Inline", s[s.Tune = 2] = "Tune", s))(Be || {}),ve = /* @__PURE__ */((s) => (s.Shortcut = "shortcut", s.Toolbox = "toolbox", s.EnabledInlineTools = "inlineToolbar", s.EnabledBlockTunes = "tunes", s.Config = "config", s))(ve || {}),Et = /* @__PURE__ */((s) => (s.Shortcut = "shortcut", s.SanitizeConfig = "sanitize", s))(Et || {}),se = /* @__PURE__ */((s) => (s.IsEnabledLineBreaks = "enableLineBreaks", s.Toolbox = "toolbox", s.ConversionConfig = "conversionConfig", s.IsReadOnlySupported = "isReadOnlySupported", s.PasteConfig = "pasteConfig", s))(se || {}),We = /* @__PURE__ */((s) => (s.IsInline = "isInline", s.Title = "title", s))(We || {}),Bt = /* @__PURE__ */((s) => (s.IsTune = "isTune", s))(Bt || {});
 class Ye {
   /**
    * @class
@@ -4979,13 +4864,15 @@ class Ye {
    * Calls Tool's reset method
    */
   reset() {
-    if (M(this.constructable.reset)) return this.constructable.reset();
+    if (M(this.constructable.reset))
+    return this.constructable.reset();
   }
   /**
    * Calls Tool's prepare method
    */
   prepare() {
-    if (M(this.constructable.prepare)) return this.constructable.prepare({
+    if (M(this.constructable.prepare))
+    return this.constructable.prepare({
       toolName: this.name,
       config: this.settings
     });
@@ -5029,10 +4916,7 @@ class Jo extends y {
    * @param moduleConfiguration.config - Editor's config
    * @param moduleConfiguration.eventsDispatcher - Editor's event dispatcher
    */
-  constructor({
-    config: e,
-    eventsDispatcher: t
-  }) {
+  constructor({ config: e, eventsDispatcher: t }) {
     super({
       config: e,
       eventsDispatcher: t
@@ -5062,9 +4946,7 @@ class Jo extends y {
   toggleReadOnly(e) {
     e ? (this.destroy(), this.Editor.ConversionToolbar.destroy()) : window.requestIdleCallback(() => {
       this.make();
-    }, {
-      timeout: 2e3
-    });
+    }, { timeout: 2e3 });
   }
   /**
    *  Moving / appearance
@@ -5107,7 +4989,10 @@ class Jo extends y {
    * Making DOM
    */
   make() {
-    this.nodes.wrapper = c.make("div", [this.CSS.inlineToolbar, ...(this.isRtl ? [this.Editor.UI.CSS.editorRtlFix] : [])]), this.nodes.togglerAndButtonsWrapper = c.make("div", this.CSS.togglerAndButtonsWrapper), this.nodes.buttons = c.make("div", this.CSS.buttonsWrapper), this.nodes.actions = c.make("div", this.CSS.actionsWrapper), this.listeners.on(this.nodes.wrapper, "mousedown", e => {
+    this.nodes.wrapper = c.make("div", [
+    this.CSS.inlineToolbar,
+    ...(this.isRtl ? [this.Editor.UI.CSS.editorRtlFix] : [])]
+    ), this.nodes.togglerAndButtonsWrapper = c.make("div", this.CSS.togglerAndButtonsWrapper), this.nodes.buttons = c.make("div", this.CSS.buttonsWrapper), this.nodes.actions = c.make("div", this.CSS.actionsWrapper), this.listeners.on(this.nodes.wrapper, "mousedown", (e) => {
       e.target.closest(`.${this.CSS.actionsWrapper}`) || e.preventDefault();
     }), c.append(this.nodes.wrapper, [this.nodes.togglerAndButtonsWrapper, this.nodes.actions]), c.append(this.Editor.UI.nodes.wrapper, this.nodes.wrapper), this.addConversionToggler(), c.append(this.nodes.togglerAndButtonsWrapper, this.nodes.buttons), this.prepareConversionToolbar(), window.requestAnimationFrame(() => {
       this.recalculateWidth();
@@ -5117,21 +5002,19 @@ class Jo extends y {
    * Shows Inline Toolbar
    */
   open() {
-    if (this.opened) return;
+    if (this.opened)
+    return;
     this.nodes.wrapper.classList.add(this.CSS.inlineToolbarShowed), this.buttonsList = this.nodes.buttons.querySelectorAll(`.${this.CSS.inlineToolButton}`), this.opened = !0;
     let e = Array.from(this.buttonsList);
-    e.unshift(this.nodes.conversionToggler), e = e.filter(t => !t.hidden), this.flipper.activate(e);
+    e.unshift(this.nodes.conversionToggler), e = e.filter((t) => !t.hidden), this.flipper.activate(e);
   }
   /**
    * Move Toolbar to the selected text
    */
   move() {
-    const e = b.rect,
-      t = this.Editor.UI.nodes.wrapper.getBoundingClientRect(),
-      o = {
+    const e = b.rect,t = this.Editor.UI.nodes.wrapper.getBoundingClientRect(),o = {
         x: e.x - t.x,
-        y: e.y + e.height -
-        // + window.scrollY
+        y: e.y + e.height - // + window.scrollY
         t.top + this.toolbarVerticalMargin
       };
     o.x + this.width + t.x > this.Editor.UI.contentRect.right && (o.x = this.Editor.UI.contentRect.right - this.width - t.x), this.nodes.wrapper.style.left = Math.floor(o.x) + "px", this.nodes.wrapper.style.top = Math.floor(o.y) + "px";
@@ -5140,18 +5023,21 @@ class Jo extends y {
    * Clear orientation classes and reset position
    */
   reset() {
-    this.nodes.wrapper.classList.remove(this.CSS.inlineToolbarLeftOriented, this.CSS.inlineToolbarRightOriented), this.nodes.wrapper.style.left = "0", this.nodes.wrapper.style.top = "0";
+    this.nodes.wrapper.classList.remove(
+      this.CSS.inlineToolbarLeftOriented,
+      this.CSS.inlineToolbarRightOriented
+    ), this.nodes.wrapper.style.left = "0", this.nodes.wrapper.style.top = "0";
   }
   /**
    * Need to show Inline Toolbar or not
    */
   allowedToShow() {
-    const e = ["IMG", "INPUT"],
-      t = b.get(),
-      o = b.text;
-    if (!t || !t.anchorNode || t.isCollapsed || o.length < 1) return !1;
+    const e = ["IMG", "INPUT"],t = b.get(),o = b.text;
+    if (!t || !t.anchorNode || t.isCollapsed || o.length < 1)
+    return !1;
     const i = c.isElement(t.anchorNode) ? t.anchorNode : t.anchorNode.parentElement;
-    if (t && e.includes(i.tagName) || i.closest('[contenteditable="true"]') === null) return !1;
+    if (t && e.includes(i.tagName) || i.closest('[contenteditable="true"]') === null)
+    return !1;
     const r = this.Editor.BlockManager.getBlock(t.anchorNode);
     return r ? r.tool.inlineTools.size !== 0 : !1;
   }
@@ -5171,7 +5057,7 @@ class Jo extends y {
       innerHTML: kt
     });
     this.nodes.conversionToggler.appendChild(this.nodes.conversionTogglerContent), this.nodes.conversionToggler.appendChild(e), this.nodes.togglerAndButtonsWrapper.appendChild(this.nodes.conversionToggler), this.listeners.on(this.nodes.conversionToggler, "click", () => {
-      this.Editor.ConversionToolbar.toggle(t => {
+      this.Editor.ConversionToolbar.toggle((t) => {
         !t && this.opened ? this.flipper.activate() : this.opened && this.flipper.deactivate();
       });
     }), te() === !1 && ge(this.nodes.conversionToggler, z.ui(K.ui.inlineToolbar.converter, "Convert to"), {
@@ -5183,15 +5069,7 @@ class Jo extends y {
    * Changes Conversion Dropdown content for current block's Tool
    */
   async setConversionTogglerContent() {
-    const {
-        BlockManager: e
-      } = this.Editor,
-      {
-        currentBlock: t
-      } = e,
-      o = t.name,
-      i = t.tool.conversionConfig,
-      n = i && i.export;
+    const { BlockManager: e } = this.Editor,{ currentBlock: t } = e,o = t.name,i = t.tool.conversionConfig,n = i && i.export;
     this.nodes.conversionToggler.hidden = !n, this.nodes.conversionToggler.classList.toggle(this.CSS.conversionTogglerHidden, !n);
     const r = (await t.getActiveToolboxEntry()) || {};
     this.nodes.conversionTogglerContent.innerHTML = r.icon || r.title || re(o);
@@ -5213,9 +5091,8 @@ class Jo extends y {
    * @param {boolean} needToShowConversionToolbar - pass false to not to show Conversion Toolbar (e.g. for Footnotes-like tools)
    */
   async addToolsFiltered(e = !0) {
-    const t = b.get(),
-      o = this.Editor.BlockManager.getBlock(t.anchorNode);
-    this.nodes.buttons.innerHTML = "", this.nodes.actions.innerHTML = "", this.toolsInstances = /* @__PURE__ */new Map(), Array.from(o.tool.inlineTools.values()).forEach(i => {
+    const t = b.get(),o = this.Editor.BlockManager.getBlock(t.anchorNode);
+    this.nodes.buttons.innerHTML = "", this.nodes.actions.innerHTML = "", this.toolsInstances = /* @__PURE__ */new Map(), Array.from(o.tool.inlineTools.values()).forEach((i) => {
       this.addTool(i);
     }), e && this.Editor.ConversionToolbar.hasTools() ? await this.setConversionTogglerContent() : this.nodes.conversionToggler.hidden = !0, this.recalculateWidth();
   }
@@ -5225,8 +5102,7 @@ class Jo extends y {
    * @param {InlineTool} tool - InlineTool object
    */
   addTool(e) {
-    const t = e.create(),
-      o = t.render();
+    const t = e.create(),o = t.render();
     if (!o) {
       T("Render method must return an instance of Node", "warn", e.name);
       return;
@@ -5235,15 +5111,19 @@ class Jo extends y {
       const a = t.renderActions();
       this.nodes.actions.appendChild(a);
     }
-    this.listeners.on(o, "click", a => {
+    this.listeners.on(o, "click", (a) => {
       this.toolClicked(t), a.preventDefault();
     });
     const i = this.getToolShortcut(e.name);
-    if (i) try {
+    if (i)
+    try {
       this.enableShortcuts(t, i);
-    } catch {}
-    const n = c.make("div"),
-      r = z.t(K.toolNames, e.title || re(e.name));
+    } catch {
+    }
+    const n = c.make("div"),r = z.t(
+        K.toolNames,
+        e.title || re(e.name)
+      );
     n.appendChild(c.text(r)), i && n.appendChild(c.make("div", this.CSS.inlineToolbarShortcut, {
       textContent: ye(i)
     })), te() === !1 && ge(o, n, {
@@ -5257,11 +5137,7 @@ class Jo extends y {
    * @param toolName — Tool name
    */
   getToolShortcut(e) {
-    const {
-        Tools: t
-      } = this.Editor,
-      o = t.inlineTools.get(e),
-      i = t.internal.inlineTools;
+    const { Tools: t } = this.Editor,o = t.inlineTools.get(e),i = t.internal.inlineTools;
     return Array.from(i.keys()).includes(e) ? this.inlineTools[e][Et.Shortcut] : o.shortcut;
   }
   /**
@@ -5273,10 +5149,8 @@ class Jo extends y {
   enableShortcuts(e, t) {
     ae.add({
       name: t,
-      handler: o => {
-        const {
-          currentBlock: i
-        } = this.Editor.BlockManager;
+      handler: (o) => {
+        const { currentBlock: i } = this.Editor.BlockManager;
         i && i.tool.enabledInlineTools && (o.preventDefault(), this.toolClicked(e));
       },
       on: this.Editor.UI.nodes.redactor
@@ -5295,7 +5169,7 @@ class Jo extends y {
    * Check Tools` state by selection
    */
   checkToolsState() {
-    this.toolsInstances.forEach(e => {
+    this.toolsInstances.forEach((e) => {
       e.checkState(b.get());
     });
   }
@@ -5316,7 +5190,10 @@ class Jo extends y {
   enableFlipper() {
     this.flipper = new q({
       focusedItemClass: this.CSS.focusedButton,
-      allowedKeys: [k.ENTER, k.TAB]
+      allowedKeys: [
+      k.ENTER,
+      k.TAB]
+
     });
   }
 }
@@ -5396,9 +5273,7 @@ class Qo extends y {
    * @param {ClipboardEvent} event - clipboard event
    */
   handleCommandC(e) {
-    const {
-      BlockSelection: t
-    } = this.Editor;
+    const { BlockSelection: t } = this.Editor;
     t.anyBlockSelected && t.copySelectedBlocks(e);
   }
   /**
@@ -5407,14 +5282,9 @@ class Qo extends y {
    * @param {ClipboardEvent} event - clipboard event
    */
   handleCommandX(e) {
-    const {
-      BlockSelection: t,
-      BlockManager: o,
-      Caret: i
-    } = this.Editor;
+    const { BlockSelection: t, BlockManager: o, Caret: i } = this.Editor;
     t.anyBlockSelected && t.copySelectedBlocks(e).then(() => {
-      const n = o.removeSelectedBlocks(),
-        r = o.insertDefaultBlockAtIndex(n, !0);
+      const n = o.removeSelectedBlocks(),r = o.insertDefaultBlockAtIndex(n, !0);
       i.setToBlock(r, i.positions.START), t.clearSelection(e);
     });
   }
@@ -5424,12 +5294,9 @@ class Qo extends y {
    * @param {KeyboardEvent} event - keydown
    */
   tabPressed(e) {
-    const {
-      InlineToolbar: t,
-      ConversionToolbar: o,
-      Caret: i
-    } = this.Editor;
-    if (o.opened || t.opened) return;
+    const { InlineToolbar: t, ConversionToolbar: o, Caret: i } = this.Editor;
+    if (o.opened || t.opened)
+    return;
     (e.shiftKey ? i.navigatePrevious(!0) : i.navigateNext(!0)) && e.preventDefault();
   }
   /**
@@ -5450,11 +5317,9 @@ class Qo extends y {
    * @param {KeyboardEvent} event - keydown
    */
   enter(e) {
-    const {
-      BlockManager: t,
-      UI: o
-    } = this.Editor;
-    if (t.currentBlock.tool.isLineBreaksEnabled || o.someToolbarOpened && o.someFlipperButtonFocused || e.shiftKey) return;
+    const { BlockManager: t, UI: o } = this.Editor;
+    if (t.currentBlock.tool.isLineBreaksEnabled || o.someToolbarOpened && o.someFlipperButtonFocused || e.shiftKey)
+    return;
     let n = this.Editor.BlockManager.currentBlock;
     this.Editor.Caret.isAtStart && !this.Editor.BlockManager.currentBlock.hasMedia ? this.Editor.BlockManager.insertDefaultBlockAtIndex(this.Editor.BlockManager.currentBlockIndex) : this.Editor.Caret.isAtEnd ? n = this.Editor.BlockManager.insertDefaultBlockAtIndex(this.Editor.BlockManager.currentBlockIndex + 1) : n = this.Editor.BlockManager.split(), this.Editor.Caret.setToBlock(n), this.Editor.Toolbar.moveAndOpen(n), e.preventDefault();
   }
@@ -5464,20 +5329,15 @@ class Qo extends y {
    * @param {KeyboardEvent} event - keydown
    */
   backspace(e) {
-    const {
-        BlockManager: t,
-        Caret: o
-      } = this.Editor,
-      {
-        currentBlock: i,
-        previousBlock: n
-      } = t;
-    if (!b.isCollapsed || !o.isAtStart) return;
+    const { BlockManager: t, Caret: o } = this.Editor,{ currentBlock: i, previousBlock: n } = t;
+    if (!b.isCollapsed || !o.isAtStart)
+    return;
     if (e.preventDefault(), this.Editor.Toolbar.close(), !(i.currentInput === i.firstInput)) {
       o.navigatePrevious();
       return;
     }
-    if (n === null) return;
+    if (n === null)
+    return;
     if (n.isEmpty) {
       t.removeBlock(n);
       return;
@@ -5498,20 +5358,15 @@ class Qo extends y {
    * @param {KeyboardEvent} event - keydown
    */
   delete(e) {
-    const {
-        BlockManager: t,
-        Caret: o
-      } = this.Editor,
-      {
-        currentBlock: i,
-        nextBlock: n
-      } = t;
-    if (!b.isCollapsed || !o.isAtEnd) return;
+    const { BlockManager: t, Caret: o } = this.Editor,{ currentBlock: i, nextBlock: n } = t;
+    if (!b.isCollapsed || !o.isAtEnd)
+    return;
     if (e.preventDefault(), this.Editor.Toolbar.close(), !(i.currentInput === i.lastInput)) {
       o.navigateNext();
       return;
     }
-    if (n === null) return;
+    if (n === null)
+    return;
     if (n.isEmpty) {
       t.removeBlock(n);
       return;
@@ -5529,11 +5384,7 @@ class Qo extends y {
    * @param blockToMerge - what Block we want to merge
    */
   mergeBlocks(e, t) {
-    const {
-      BlockManager: o,
-      Caret: i,
-      Toolbar: n
-    } = this.Editor;
+    const { BlockManager: o, Caret: i, Toolbar: n } = this.Editor;
     i.createShadow(e.pluginsContent), o.mergeBlocks(e, t).then(() => {
       window.requestAnimationFrame(() => {
         i.restoreCaret(e.pluginsContent), e.pluginsContent.normalize(), n.close();
@@ -5547,7 +5398,8 @@ class Qo extends y {
    */
   arrowRightAndDown(e) {
     const t = q.usedKeys.includes(e.keyCode) && (!e.shiftKey || e.keyCode === k.TAB);
-    if (this.Editor.UI.someToolbarOpened && t) return;
+    if (this.Editor.UI.someToolbarOpened && t)
+    return;
     this.Editor.Toolbar.close();
     const o = this.Editor.Caret.isAtEnd || this.Editor.BlockSelection.anyBlockSelected;
     if (e.shiftKey && e.keyCode === k.DOWN && o) {
@@ -5569,7 +5421,8 @@ class Qo extends y {
    */
   arrowLeftAndUp(e) {
     if (this.Editor.UI.someToolbarOpened) {
-      if (q.usedKeys.includes(e.keyCode) && (!e.shiftKey || e.keyCode === k.TAB)) return;
+      if (q.usedKeys.includes(e.keyCode) && (!e.shiftKey || e.keyCode === k.TAB))
+      return;
       this.Editor.UI.closeAllToolbars();
     }
     this.Editor.Toolbar.close();
@@ -5592,11 +5445,7 @@ class Qo extends y {
    * @param {KeyboardEvent} event - keyboard event
    */
   needToolbarClosing(e) {
-    const t = e.keyCode === k.ENTER && this.Editor.Toolbar.toolbox.opened,
-      o = e.keyCode === k.ENTER && this.Editor.BlockSettings.opened,
-      i = e.keyCode === k.ENTER && this.Editor.InlineToolbar.opened,
-      n = e.keyCode === k.ENTER && this.Editor.ConversionToolbar.opened,
-      r = e.keyCode === k.TAB;
+    const t = e.keyCode === k.ENTER && this.Editor.Toolbar.toolbox.opened,o = e.keyCode === k.ENTER && this.Editor.BlockSettings.opened,i = e.keyCode === k.ENTER && this.Editor.InlineToolbar.opened,n = e.keyCode === k.ENTER && this.Editor.ConversionToolbar.opened,r = e.keyCode === k.TAB;
     return !(e.shiftKey || r || t || o || i || n);
   }
   /**
@@ -5693,10 +5542,7 @@ class Se {
    * @param {number} fromIndex - block to move
    */
   move(e, t) {
-    const o = this.blocks.splice(t, 1)[0],
-      i = e - 1,
-      n = Math.max(0, i),
-      r = this.blocks[n];
+    const o = this.blocks.splice(t, 1)[0],i = e - 1,n = Math.max(0, i),r = this.blocks[n];
     e > 0 ? this.insertToDOM(o, "afterend", r) : this.insertToDOM(o, "beforebegin", r), this.blocks.splice(e, 0, o);
     const a = this.composeBlockEvent("move", {
       fromIndex: t,
@@ -5733,7 +5579,8 @@ class Se {
    * @param block - new block
    */
   replace(e, t) {
-    if (this.blocks[e] === void 0) throw Error("Incorrect index");
+    if (this.blocks[e] === void 0)
+    throw Error("Incorrect index");
     this.blocks[e].holder.replaceWith(t.holder), this.blocks[e] = t;
   }
   /**
@@ -5744,15 +5591,18 @@ class Se {
    */
   insertMany(e, t) {
     const o = new DocumentFragment();
-    for (const i of e) o.appendChild(i.holder);
+    for (const i of e)
+    o.appendChild(i.holder);
     if (this.length > 0) {
       if (t > 0) {
         const i = Math.min(t - 1, this.length - 1);
         this.blocks[i].holder.after(o);
-      } else t === 0 && this.workingArea.prepend(o);
+      } else
+      t === 0 && this.workingArea.prepend(o);
       this.blocks.splice(t, 0, ...e);
-    } else this.blocks.push(...e), this.workingArea.appendChild(o);
-    e.forEach(i => i.call(X.RENDERED));
+    } else
+    this.blocks.push(...e), this.workingArea.appendChild(o);
+    e.forEach((i) => i.call(X.RENDERED));
   }
   /**
    * Remove block
@@ -5766,7 +5616,7 @@ class Se {
    * Remove all blocks
    */
   removeAll() {
-    this.workingArea.innerHTML = "", this.blocks.forEach(e => e.call(X.REMOVED)), this.blocks.length = 0;
+    this.workingArea.innerHTML = "", this.blocks.forEach((e) => e.call(X.REMOVED)), this.blocks.length = 0;
   }
   /**
    * Insert Block after passed target
@@ -5819,10 +5669,7 @@ class Se {
     });
   }
 }
-const nt = "block-removed",
-  st = "block-added",
-  ei = "block-moved",
-  rt = "block-changed";
+const nt = "block-removed",st = "block-added",ei = "block-moved",rt = "block-changed";
 class ti {
   constructor() {
     this.completed = Promise.resolve();
@@ -5904,7 +5751,7 @@ class oi extends y {
    * @returns {Block | undefined}
    */
   get nextContentfulBlock() {
-    return this.blocks.slice(this.currentBlockIndex + 1).find(t => !!t.inputs.length);
+    return this.blocks.slice(this.currentBlockIndex + 1).find((t) => !!t.inputs.length);
   }
   /**
    * Return first Block with inputs before current Block
@@ -5912,7 +5759,7 @@ class oi extends y {
    * @returns {Block | undefined}
    */
   get previousContentfulBlock() {
-    return this.blocks.slice(0, this.currentBlockIndex).reverse().find(t => !!t.inputs.length);
+    return this.blocks.slice(0, this.currentBlockIndex).reverse().find((t) => !!t.inputs.length);
   }
   /**
    * Returns previous Block instance
@@ -5936,7 +5783,7 @@ class oi extends y {
    * @returns {boolean}
    */
   get isEditorEmpty() {
-    return this.blocks.every(e => e.isEmpty);
+    return this.blocks.every((e) => e.isEmpty);
   }
   /**
    * Should be called after Editor.UI preparation
@@ -5947,7 +5794,11 @@ class oi extends y {
     this._blocks = new Proxy(e, {
       set: Se.set,
       get: Se.get
-    }), this.listeners.on(document, "copy", t => this.Editor.BlockEvents.handleCommandC(t));
+    }), this.listeners.on(
+      document,
+      "copy",
+      (t) => this.Editor.BlockEvents.handleCommandC(t)
+    );
   }
   /**
    * Toggle read-only state
@@ -5978,9 +5829,7 @@ class oi extends y {
     id: o = void 0,
     tunes: i = {}
   }) {
-    const n = this.Editor.ReadOnly.isEnabled,
-      r = this.Editor.Tools.blockTools.get(e),
-      a = new R({
+    const n = this.Editor.ReadOnly.isEnabled,r = this.Editor.Tools.blockTools.get(e),a = new R({
         id: o,
         data: t,
         tool: r,
@@ -5990,9 +5839,7 @@ class oi extends y {
       }, this.eventsDispatcher);
     return n || window.requestIdleCallback(() => {
       this.bindBlockEvents(a);
-    }, {
-      timeout: 2e3
-    }), a;
+    }, { timeout: 2e3 }), a;
   }
   /**
    * Insert new block into _blocks
@@ -6048,14 +5895,12 @@ class oi extends y {
    * @param data - new data
    */
   async update(e, t) {
-    const o = await e.data,
-      i = this.composeBlock({
+    const o = await e.data,i = this.composeBlock({
         id: e.id,
         tool: e.name,
         data: Object.assign({}, o, t),
         tunes: e.tunes
-      }),
-      n = this.getBlockIndex(e);
+      }),n = this.getBlockIndex(e);
     return this._blocks.replace(n, i), this.blockDidMutated(rt, i, {
       index: n
     }), i;
@@ -6107,9 +5952,7 @@ class oi extends y {
    * @returns {Block} inserted Block
    */
   insertDefaultBlockAtIndex(e, t = !1) {
-    const o = this.composeBlock({
-      tool: this.config.defaultBlock
-    });
+    const o = this.composeBlock({ tool: this.config.defaultBlock });
     return this._blocks[e] = o, this.blockDidMutated(st, o, {
       index: e
     }), t ? this.currentBlockIndex = e : e <= this.currentBlockIndex && this.currentBlockIndex++, o;
@@ -6140,9 +5983,10 @@ class oi extends y {
    * @param addLastBlock - if true, adds new default block at the end. @todo remove this logic and use event-bus instead
    */
   removeBlock(e, t = !0) {
-    return new Promise(o => {
+    return new Promise((o) => {
       const i = this._blocks.indexOf(e);
-      if (!this.validateIndex(i)) throw new Error("Can't find a Block to remove");
+      if (!this.validateIndex(i))
+      throw new Error("Can't find a Block to remove");
       e.destroy(), this._blocks.remove(i), this.blockDidMutated(nt, e, {
         index: i
       }), this.currentBlockIndex >= i && this.currentBlockIndex--, this.blocks.length ? i === 0 && (this.currentBlockIndex = 0) : (this.currentBlockIndex = -1, t && this.insert()), o();
@@ -6156,7 +6000,8 @@ class oi extends y {
    */
   removeSelectedBlocks() {
     let e;
-    for (let t = this.blocks.length - 1; t >= 0; t--) this.blocks[t].selected && (this.removeBlock(this.blocks[t]), e = t);
+    for (let t = this.blocks.length - 1; t >= 0; t--)
+    this.blocks[t].selected && (this.removeBlock(this.blocks[t]), e = t);
     return e;
   }
   /**
@@ -6165,7 +6010,8 @@ class oi extends y {
    * Removes all blocks
    */
   removeAllBlocks() {
-    for (let e = this.blocks.length - 1; e >= 0; e--) this._blocks.remove(e);
+    for (let e = this.blocks.length - 1; e >= 0; e--)
+    this._blocks.remove(e);
     this.currentBlockIndex = -1, this.insert(), this.currentBlock.firstInput.focus();
   }
   /**
@@ -6176,15 +6022,12 @@ class oi extends y {
    * @returns {Block}
    */
   split() {
-    const e = this.Editor.Caret.extractFragmentFromCaretPosition(),
-      t = c.make("div");
+    const e = this.Editor.Caret.extractFragmentFromCaretPosition(),t = c.make("div");
     t.appendChild(e);
     const o = {
       text: c.isEmpty(t) ? "" : t.innerHTML
     };
-    return this.insert({
-      data: o
-    });
+    return this.insert({ data: o });
   }
   /**
    * Returns Block by passed index
@@ -6210,7 +6053,7 @@ class oi extends y {
    * @returns {Block}
    */
   getBlockById(e) {
-    return this._blocks.array.find(t => t.id === e);
+    return this._blocks.array.find((t) => t.id === e);
   }
   /**
    * Get Block instance by html element
@@ -6219,10 +6062,9 @@ class oi extends y {
    */
   getBlock(e) {
     c.isElement(e) || (e = e.parentNode);
-    const t = this._blocks.nodes,
-      o = e.closest(`.${R.CSS.wrapper}`),
-      i = t.indexOf(o);
-    if (i >= 0) return this._blocks[i];
+    const t = this._blocks.nodes,o = e.closest(`.${R.CSS.wrapper}`),i = t.indexOf(o);
+    if (i >= 0)
+    return this._blocks[i];
   }
   /**
    * 1) Find first-level Block from passed child Node
@@ -6234,9 +6076,11 @@ class oi extends y {
   setCurrentBlockByChildNode(e) {
     c.isElement(e) || (e = e.parentNode);
     const t = e.closest(`.${R.CSS.wrapper}`);
-    if (!t) return;
+    if (!t)
+    return;
     const o = t.closest(`.${this.Editor.UI.CSS.editorWrapper}`);
-    if (o != null && o.isEqualNode(this.Editor.UI.nodes.wrapper)) return this.currentBlockIndex = this._blocks.nodes.indexOf(t), this.currentBlock.updateCurrentInput(), this.currentBlock;
+    if (o != null && o.isEqualNode(this.Editor.UI.nodes.wrapper))
+    return this.currentBlockIndex = this._blocks.nodes.indexOf(t), this.currentBlock.updateCurrentInput(), this.currentBlock;
   }
   /**
    * Return block which contents passed node
@@ -6245,10 +6089,11 @@ class oi extends y {
    * @returns {Block}
    */
   getBlockByChildNode(e) {
-    if (!e || !(e instanceof Node)) return;
+    if (!e || !(e instanceof Node))
+    return;
     c.isElement(e) || (e = e.parentNode);
     const t = e.closest(`.${R.CSS.wrapper}`);
-    return this.blocks.find(o => o.holder === t);
+    return this.blocks.find((o) => o.holder === t);
   }
   /**
    * Swap Blocks Position
@@ -6289,11 +6134,15 @@ class oi extends y {
    * @param blockDataOverrides - optional new Block data overrides
    */
   async convert(e, t, o) {
-    if (!(await e.save())) throw new Error("Could not convert Block. Failed to extract original Block data.");
+    if (!(await e.save()))
+    throw new Error("Could not convert Block. Failed to extract original Block data.");
     const n = this.Editor.Tools.blockTools.get(t);
-    if (!n) throw new Error(`Could not convert Block. Tool «${t}» not found.`);
-    const r = await e.exportDataAsString(),
-      a = V(r, n.sanitizeConfig);
+    if (!n)
+    throw new Error(`Could not convert Block. Tool «${t}» not found.`);
+    const r = await e.exportDataAsString(),a = V(
+        r,
+        n.sanitizeConfig
+      );
     let l = to(a, n.conversionConfig);
     o && (l = Object.assign(l, o)), this.replace(e, n.name, l);
   }
@@ -6313,7 +6162,7 @@ class oi extends y {
    */
   async clear(e = !1) {
     const t = new ti();
-    this.blocks.forEach(o => {
+    this.blocks.forEach((o) => {
       t.add(async () => {
         await this.removeBlock(o, !1);
       });
@@ -6324,7 +6173,7 @@ class oi extends y {
    * This is called when editor is destroyed
    */
   async destroy() {
-    await Promise.all(this.blocks.map(e => e.destroy()));
+    await Promise.all(this.blocks.map((e) => e.destroy()));
   }
   /**
    * Bind Block events
@@ -6332,18 +6181,16 @@ class oi extends y {
    * @param {Block} block - Block to which event should be bound
    */
   bindBlockEvents(e) {
-    const {
-      BlockEvents: t
-    } = this.Editor;
-    this.readOnlyMutableListeners.on(e.holder, "keydown", o => {
+    const { BlockEvents: t } = this.Editor;
+    this.readOnlyMutableListeners.on(e.holder, "keydown", (o) => {
       t.keydown(o);
-    }), this.readOnlyMutableListeners.on(e.holder, "keyup", o => {
+    }), this.readOnlyMutableListeners.on(e.holder, "keyup", (o) => {
       t.keyup(o);
-    }), this.readOnlyMutableListeners.on(e.holder, "dragover", o => {
+    }), this.readOnlyMutableListeners.on(e.holder, "dragover", (o) => {
       t.dragOver(o);
-    }), this.readOnlyMutableListeners.on(e.holder, "dragleave", o => {
+    }), this.readOnlyMutableListeners.on(e.holder, "dragleave", (o) => {
       t.dragLeave(o);
-    }), e.on("didMutated", o => this.blockDidMutated(rt, o, {
+    }), e.on("didMutated", (o) => this.blockDidMutated(rt, o, {
       index: this.getBlockIndex(o)
     }));
   }
@@ -6357,7 +6204,11 @@ class oi extends y {
    * Enables all module handlers and bindings for all Blocks
    */
   enableModuleBindings() {
-    this.readOnlyMutableListeners.on(document, "cut", e => this.Editor.BlockEvents.handleCommandX(e)), this.blocks.forEach(e => {
+    this.readOnlyMutableListeners.on(
+      document,
+      "cut",
+      (e) => this.Editor.BlockEvents.handleCommandX(e)
+    ), this.blocks.forEach((e) => {
       this.bindBlockEvents(e);
     });
   }
@@ -6430,10 +6281,8 @@ class ii extends y {
    * @returns {boolean}
    */
   get allBlocksSelected() {
-    const {
-      BlockManager: e
-    } = this.Editor;
-    return e.blocks.every(t => t.selected === !0);
+    const { BlockManager: e } = this.Editor;
+    return e.blocks.every((t) => t.selected === !0);
   }
   /**
    * Set selected all blocks
@@ -6441,10 +6290,8 @@ class ii extends y {
    * @param {boolean} state - state to set
    */
   set allBlocksSelected(e) {
-    const {
-      BlockManager: t
-    } = this.Editor;
-    t.blocks.forEach(o => {
+    const { BlockManager: t } = this.Editor;
+    t.blocks.forEach((o) => {
       o.selected = e;
     }), this.clearCache();
   }
@@ -6454,10 +6301,8 @@ class ii extends y {
    * @returns {boolean}
    */
   get anyBlockSelected() {
-    const {
-      BlockManager: e
-    } = this.Editor;
-    return this.anyBlockSelectedCache === null && (this.anyBlockSelectedCache = e.blocks.some(t => t.selected === !0)), this.anyBlockSelectedCache;
+    const { BlockManager: e } = this.Editor;
+    return this.anyBlockSelectedCache === null && (this.anyBlockSelectedCache = e.blocks.some((t) => t.selected === !0)), this.anyBlockSelectedCache;
   }
   /**
    * Return selected Blocks array
@@ -6465,7 +6310,7 @@ class ii extends y {
    * @returns {Block[]}
    */
   get selectedBlocks() {
-    return this.Editor.BlockManager.blocks.filter(e => e.selected);
+    return this.Editor.BlockManager.blocks.filter((e) => e.selected);
   }
   /**
    * Module Preparation
@@ -6475,11 +6320,8 @@ class ii extends y {
   prepare() {
     this.selection = new b(), ae.add({
       name: "CMD+A",
-      handler: e => {
-        const {
-          BlockManager: t,
-          ReadOnly: o
-        } = this.Editor;
+      handler: (e) => {
+        const { BlockManager: t, ReadOnly: o } = this.Editor;
         if (o.isEnabled) {
           e.preventDefault(), this.selectAllBlocks();
           return;
@@ -6504,9 +6346,7 @@ class ii extends y {
    * @param {number?} index - Block index according to the BlockManager's indexes
    */
   unSelectBlockByIndex(e) {
-    const {
-      BlockManager: t
-    } = this.Editor;
+    const { BlockManager: t } = this.Editor;
     let o;
     isNaN(e) ? o = t.currentBlock : o = t.getBlockByIndex(e), o.selected = !1, this.clearCache();
   }
@@ -6517,14 +6357,9 @@ class ii extends y {
    * @param {boolean} restoreSelection - if true, restore saved selection
    */
   clearSelection(e, t = !1) {
-    const {
-      BlockManager: o,
-      Caret: i,
-      RectangleSelection: n
-    } = this.Editor;
+    const { BlockManager: o, Caret: i, RectangleSelection: n } = this.Editor;
     this.needToSelectAll = !1, this.nativeInputSelected = !1, this.readyToBlockSelection = !1;
-    const r = e && e instanceof KeyboardEvent,
-      a = r && lt(e.keyCode);
+    const r = e && e instanceof KeyboardEvent,a = r && lt(e.keyCode);
     if (this.anyBlockSelected && r && a && !b.isSelectionExists) {
       const l = o.removeSelectedBlocks();
       o.insertDefaultBlockAtIndex(l, !0), i.setToBlock(o.currentBlock), xe(() => {
@@ -6547,19 +6382,18 @@ class ii extends y {
   copySelectedBlocks(e) {
     e.preventDefault();
     const t = c.make("div");
-    this.selectedBlocks.forEach(n => {
-      const r = V(n.holder.innerHTML, this.sanitizerConfig),
-        a = c.make("p");
+    this.selectedBlocks.forEach((n) => {
+      const r = V(n.holder.innerHTML, this.sanitizerConfig),a = c.make("p");
       a.innerHTML = r, t.appendChild(a);
     });
-    const o = Array.from(t.childNodes).map(n => n.textContent).join(`
+    const o = Array.from(t.childNodes).map((n) => n.textContent).join(`
 
-`),
-      i = t.innerHTML;
-    return e.clipboardData.setData("text/plain", o), e.clipboardData.setData("text/html", i), Promise.all(this.selectedBlocks.map(n => n.save())).then(n => {
+`),i = t.innerHTML;
+    return e.clipboardData.setData("text/plain", o), e.clipboardData.setData("text/html", i), Promise.all(this.selectedBlocks.map((n) => n.save())).then((n) => {
       try {
         e.clipboardData.setData(this.Editor.Paste.MIME_TYPE, JSON.stringify(n));
-      } catch {}
+      } catch {
+      }
     });
   }
   /**
@@ -6568,10 +6402,7 @@ class ii extends y {
    * @param {number?} index - Block index according to the BlockManager's indexes
    */
   selectBlockByIndex(e) {
-    const {
-        BlockManager: t
-      } = this.Editor,
-      o = t.getBlockByIndex(e);
+    const { BlockManager: t } = this.Editor,o = t.getBlockByIndex(e);
     o !== void 0 && this.selectBlock(o);
   }
   /**
@@ -6614,8 +6445,7 @@ class ii extends y {
       this.readyToBlockSelection = !0;
       return;
     }
-    const t = this.Editor.BlockManager.getBlock(e.target),
-      o = t.inputs;
+    const t = this.Editor.BlockManager.getBlock(e.target),o = t.inputs;
     if (o.length > 1 && !this.readyToBlockSelection) {
       this.readyToBlockSelection = !0;
       return;
@@ -6662,22 +6492,20 @@ class we extends y {
    * @returns {boolean}
    */
   get isAtStart() {
-    const {
-      currentBlock: e
-    } = this.Editor.BlockManager;
-    if (!e.focusable) return !0;
-    const t = b.get(),
-      o = c.getDeepestNode(e.currentInput);
+    const { currentBlock: e } = this.Editor.BlockManager;
+    if (!e.focusable)
+    return !0;
+    const t = b.get(),o = c.getDeepestNode(e.currentInput);
     let i = t.focusNode;
-    if (c.isNativeInput(o)) return o.selectionEnd === 0;
-    if (!t.anchorNode) return !1;
+    if (c.isNativeInput(o))
+    return o.selectionEnd === 0;
+    if (!t.anchorNode)
+    return !1;
     let n = i.textContent.search(/\S/);
     n === -1 && (n = 0);
     let r = t.focusOffset;
-    return i.nodeType !== Node.TEXT_NODE && i.childNodes.length && (i.childNodes[r] ? (i = i.childNodes[r], r = 0) : (i = i.childNodes[r - 1], r = i.textContent.length)), (c.isLineBreakTag(o) || c.isEmpty(o)) && this.getHigherLevelSiblings(i, "left").every(d => {
-      const u = c.isLineBreakTag(d),
-        h = d.children.length === 1 && c.isLineBreakTag(d.children[0]),
-        f = u || h;
+    return i.nodeType !== Node.TEXT_NODE && i.childNodes.length && (i.childNodes[r] ? (i = i.childNodes[r], r = 0) : (i = i.childNodes[r - 1], r = i.textContent.length)), (c.isLineBreakTag(o) || c.isEmpty(o)) && this.getHigherLevelSiblings(i, "left").every((d) => {
+      const u = c.isLineBreakTag(d),h = d.children.length === 1 && c.isLineBreakTag(d.children[0]),f = u || h;
       return c.isEmpty(d) && !f;
     }) && r === n ? !0 : o === null || i === o && r <= n;
   }
@@ -6687,19 +6515,21 @@ class we extends y {
    * @returns {boolean}
    */
   get isAtEnd() {
-    const {
-      currentBlock: e
-    } = this.Editor.BlockManager;
-    if (!e.focusable) return !0;
+    const { currentBlock: e } = this.Editor.BlockManager;
+    if (!e.focusable)
+    return !0;
     const t = b.get();
     let o = t.focusNode;
     const i = c.getDeepestNode(e.currentInput, !0);
-    if (c.isNativeInput(i)) return i.selectionEnd === i.value.length;
-    if (!t.focusNode) return !1;
+    if (c.isNativeInput(i))
+    return i.selectionEnd === i.value.length;
+    if (!t.focusNode)
+    return !1;
     let n = t.focusOffset;
     if (o.nodeType !== Node.TEXT_NODE && o.childNodes.length && (o.childNodes[n - 1] ? (o = o.childNodes[n - 1], n = o.textContent.length) : (o = o.childNodes[0], n = 0)), c.isLineBreakTag(i) || c.isEmpty(i)) {
       const a = this.getHigherLevelSiblings(o, "right");
-      if (a.every((d, u) => u === a.length - 1 && c.isLineBreakTag(d) || c.isEmpty(d) && !c.isLineBreakTag(d)) && n === o.textContent.length) return !0;
+      if (a.every((d, u) => u === a.length - 1 && c.isLineBreakTag(d) || c.isEmpty(d) && !c.isLineBreakTag(d)) && n === o.textContent.length)
+      return !0;
     }
     const r = i.textContent.replace(/\s+$/, "");
     return o === i && n >= r.length;
@@ -6717,10 +6547,7 @@ class we extends y {
    */
   setToBlock(e, t = this.positions.DEFAULT, o = 0) {
     var d;
-    const {
-      BlockManager: i,
-      BlockSelection: n
-    } = this.Editor;
+    const { BlockManager: i, BlockSelection: n } = this.Editor;
     if (n.clearSelection(), !e.focusable) {
       (d = window.getSelection()) == null || d.removeAllRanges(), n.selectBlock(e), i.currentBlock = e;
       return;
@@ -6736,9 +6563,9 @@ class we extends y {
       default:
         r = e.currentInput;
     }
-    if (!r) return;
-    const a = c.getDeepestNode(r, t === this.positions.END),
-      l = c.getContentLength(a);
+    if (!r)
+    return;
+    const a = c.getDeepestNode(r, t === this.positions.END),l = c.getContentLength(a);
     switch (!0) {
       case t === this.positions.START:
         o = 0;
@@ -6759,10 +6586,7 @@ class we extends y {
    * @param {number} offset - caret offset regarding to the text node
    */
   setToInput(e, t = this.positions.DEFAULT, o = 0) {
-    const {
-        currentBlock: i
-      } = this.Editor.BlockManager,
-      n = c.getDeepestNode(e);
+    const { currentBlock: i } = this.Editor.BlockManager,n = c.getDeepestNode(e);
     switch (t) {
       case this.positions.START:
         this.set(n, 0);
@@ -6782,13 +6606,7 @@ class we extends y {
    * @param {number} offset - offset
    */
   set(e, t = 0) {
-    const {
-        top: i,
-        bottom: n
-      } = b.setCursor(e, t),
-      {
-        innerHeight: r
-      } = window;
+    const { top: i, bottom: n } = b.setCursor(e, t),{ innerHeight: r } = window;
     i < 0 ? window.scrollBy(0, i - 30) : n > r && window.scrollBy(0, n - r + 30);
   }
   /**
@@ -6797,7 +6615,10 @@ class we extends y {
    */
   setToTheLastBlock() {
     const e = this.Editor.BlockManager.lastBlock;
-    if (e) if (e.tool.isDefault && e.isEmpty) this.setToBlock(e);else {
+    if (e)
+    if (e.tool.isDefault && e.isEmpty)
+    this.setToBlock(e);else
+    {
       const t = this.Editor.BlockManager.insertAtEnd();
       this.setToBlock(t);
     }
@@ -6808,13 +6629,10 @@ class we extends y {
   extractFragmentFromCaretPosition() {
     const e = b.get();
     if (e.rangeCount) {
-      const t = e.getRangeAt(0),
-        o = this.Editor.BlockManager.currentBlock.currentInput;
-      if (t.deleteContents(), o) if (c.isNativeInput(o)) {
-        const i = o,
-          n = document.createDocumentFragment(),
-          r = i.value.substring(0, i.selectionStart),
-          a = i.value.substring(i.selectionStart);
+      const t = e.getRangeAt(0),o = this.Editor.BlockManager.currentBlock.currentInput;
+      if (t.deleteContents(), o)
+      if (c.isNativeInput(o)) {
+        const i = o,n = document.createDocumentFragment(),r = i.value.substring(0, i.selectionStart),a = i.value.substring(i.selectionStart);
         return n.textContent = a, i.value = r, n;
       } else {
         const i = t.cloneRange();
@@ -6830,22 +6648,14 @@ class we extends y {
    * @param {boolean} force - pass true to skip check for caret position
    */
   navigateNext(e = !1) {
-    const {
-        BlockManager: t
-      } = this.Editor,
-      {
-        currentBlock: o,
-        nextBlock: i
-      } = t,
-      {
-        nextInput: n
-      } = o,
-      r = this.isAtEnd;
+    const { BlockManager: t } = this.Editor,{ currentBlock: o, nextBlock: i } = t,{ nextInput: n } = o,r = this.isAtEnd;
     let a = i;
     const l = e || r;
-    if (n && l) return this.setToInput(n, this.positions.START), !0;
+    if (n && l)
+    return this.setToInput(n, this.positions.START), !0;
     if (a === null) {
-      if (o.tool.isDefault || !l) return !1;
+      if (o.tool.isDefault || !l)
+      return !1;
       a = t.insertAtEnd();
     }
     return l ? (this.setToBlock(a, this.positions.START), !0) : !1;
@@ -6858,15 +6668,10 @@ class we extends y {
    * @param {boolean} force - pass true to skip check for caret position
    */
   navigatePrevious(e = !1) {
-    const {
-      currentBlock: t,
-      previousBlock: o
-    } = this.Editor.BlockManager;
-    if (!t) return !1;
-    const {
-        previousInput: i
-      } = t,
-      n = e || this.isAtStart;
+    const { currentBlock: t, previousBlock: o } = this.Editor.BlockManager;
+    if (!t)
+    return !1;
+    const { previousInput: i } = t,n = e || this.isAtStart;
     return i && n ? (this.setToInput(i, this.positions.END), !0) : o !== null && n ? (this.setToBlock(o, this.positions.END), !0) : !1;
   }
   /**
@@ -6885,7 +6690,8 @@ class we extends y {
    */
   restoreCaret(e) {
     const t = e.querySelector(`.${we.CSS.shadowCaret}`);
-    if (!t) return;
+    if (!t)
+    return;
     new b().expandToTag(t);
     const i = document.createRange();
     i.selectNode(t), i.extractContents();
@@ -6896,15 +6702,11 @@ class we extends y {
    * @param {string} content - content to insert
    */
   insertContentAtCaretPosition(e) {
-    const t = document.createDocumentFragment(),
-      o = document.createElement("div"),
-      i = b.get(),
-      n = b.range;
-    o.innerHTML = e, Array.from(o.childNodes).forEach(d => t.appendChild(d)), t.childNodes.length === 0 && t.appendChild(new Text());
+    const t = document.createDocumentFragment(),o = document.createElement("div"),i = b.get(),n = b.range;
+    o.innerHTML = e, Array.from(o.childNodes).forEach((d) => t.appendChild(d)), t.childNodes.length === 0 && t.appendChild(new Text());
     const r = t.lastChild;
     n.deleteContents(), n.insertNode(t);
-    const a = document.createRange(),
-      l = r.nodeType === Node.TEXT_NODE ? r : r.firstChild;
+    const a = document.createRange(),l = r.nodeType === Node.TEXT_NODE ? r : r.firstChild;
     l !== null && l.textContent !== null && a.setStart(l, l.textContent.length), i.removeAllRanges(), i.addRange(a);
   }
   /**
@@ -6928,9 +6730,11 @@ class we extends y {
   getHigherLevelSiblings(e, t) {
     let o = e;
     const i = [];
-    for (; o.parentNode && o.parentNode.contentEditable !== "true";) o = o.parentNode;
+    for (; o.parentNode && o.parentNode.contentEditable !== "true";)
+    o = o.parentNode;
     const n = t === "left" ? "previousSibling" : "nextSibling";
-    for (; o[n];) o = o[n], i.push(o);
+    for (; o[n];)
+    o = o[n], i.push(o);
     return i;
   }
 }
@@ -6938,14 +6742,11 @@ class ni extends y {
   constructor() {
     super(...arguments), this.onMouseUp = () => {
       this.listeners.off(document, "mouseover", this.onMouseOver), this.listeners.off(document, "mouseup", this.onMouseUp);
-    }, this.onMouseOver = e => {
-      const {
-        BlockManager: t,
-        BlockSelection: o
-      } = this.Editor;
-      if (e.relatedTarget === null && e.target === null) return;
-      const i = t.getBlockByChildNode(e.relatedTarget) || this.lastSelectedBlock,
-        n = t.getBlockByChildNode(e.target);
+    }, this.onMouseOver = (e) => {
+      const { BlockManager: t, BlockSelection: o } = this.Editor;
+      if (e.relatedTarget === null && e.target === null)
+      return;
+      const i = t.getBlockByChildNode(e.relatedTarget) || this.lastSelectedBlock,n = t.getBlockByChildNode(e.target);
       if (!(!i || !n) && n !== i) {
         if (i === this.firstSelectedBlock) {
           b.get().removeAllRanges(), i.selected = !0, n.selected = !0, o.clearCache();
@@ -6965,7 +6766,7 @@ class ni extends y {
    * @returns {Promise}
    */
   async prepare() {
-    this.listeners.on(document, "mousedown", e => {
+    this.listeners.on(document, "mousedown", (e) => {
       this.enableCrossBlockSelection(e);
     });
   }
@@ -6975,10 +6776,9 @@ class ni extends y {
    * @param {MouseEvent} event - mouse down event
    */
   watchSelection(e) {
-    if (e.button !== Pt.LEFT) return;
-    const {
-      BlockManager: t
-    } = this.Editor;
+    if (e.button !== Pt.LEFT)
+    return;
+    const { BlockManager: t } = this.Editor;
     this.firstSelectedBlock = t.getBlock(e.target), this.lastSelectedBlock = this.firstSelectedBlock, this.listeners.on(document, "mouseover", this.onMouseOver), this.listeners.on(document, "mouseup", this.onMouseUp);
   }
   /**
@@ -6994,13 +6794,9 @@ class ni extends y {
    * @param {boolean} next - if true, toggle next block. Previous otherwise
    */
   toggleBlockSelectedState(e = !0) {
-    const {
-      BlockManager: t,
-      BlockSelection: o
-    } = this.Editor;
+    const { BlockManager: t, BlockSelection: o } = this.Editor;
     this.lastSelectedBlock || (this.lastSelectedBlock = this.firstSelectedBlock = t.currentBlock), this.firstSelectedBlock === this.lastSelectedBlock && (this.firstSelectedBlock.selected = !0, o.clearCache(), b.get().removeAllRanges());
-    const i = t.blocks.indexOf(this.lastSelectedBlock) + (e ? 1 : -1),
-      n = t.blocks[i];
+    const i = t.blocks.indexOf(this.lastSelectedBlock) + (e ? 1 : -1),n = t.blocks[i];
     n && (this.lastSelectedBlock.selected !== n.selected ? (n.selected = !0, o.clearCache()) : (this.lastSelectedBlock.selected = !1, o.clearCache()), this.lastSelectedBlock = n, this.Editor.InlineToolbar.close(), n.holder.scrollIntoView({
       block: "nearest"
     }));
@@ -7011,14 +6807,9 @@ class ni extends y {
    * @param {Event} reason - event caused clear of selection
    */
   clear(e) {
-    const {
-        BlockManager: t,
-        BlockSelection: o,
-        Caret: i
-      } = this.Editor,
-      n = t.blocks.indexOf(this.firstSelectedBlock),
-      r = t.blocks.indexOf(this.lastSelectedBlock);
-    if (o.anyBlockSelected && n > -1 && r > -1 && e && e instanceof KeyboardEvent) switch (e.keyCode) {
+    const { BlockManager: t, BlockSelection: o, Caret: i } = this.Editor,n = t.blocks.indexOf(this.firstSelectedBlock),r = t.blocks.indexOf(this.lastSelectedBlock);
+    if (o.anyBlockSelected && n > -1 && r > -1 && e && e instanceof KeyboardEvent)
+    switch (e.keyCode) {
       case k.DOWN:
       case k.RIGHT:
         i.setToBlock(t.blocks[Math.max(n, r)], i.positions.END);
@@ -7038,9 +6829,7 @@ class ni extends y {
    * @param {MouseEvent} event - mouse down event
    */
   enableCrossBlockSelection(e) {
-    const {
-      UI: t
-    } = this.Editor;
+    const { UI: t } = this.Editor;
     b.isCollapsed || this.Editor.BlockSelection.clearSelection(e), t.nodes.redactor.contains(e.target) ? this.watchSelection(e) : this.Editor.BlockSelection.clearSelection(e);
   }
   /**
@@ -7050,13 +6839,7 @@ class ni extends y {
    * @param {Block} lastBlock - last block in range
    */
   toggleBlocksSelectedState(e, t) {
-    const {
-        BlockManager: o,
-        BlockSelection: i
-      } = this.Editor,
-      n = o.blocks.indexOf(e),
-      r = o.blocks.indexOf(t),
-      a = e.selected !== t.selected;
+    const { BlockManager: o, BlockSelection: i } = this.Editor,n = o.blocks.indexOf(e),r = o.blocks.indexOf(t),a = e.selected !== t.selected;
     for (let l = Math.min(n, r); l <= Math.max(n, r); l++) {
       const d = o.blocks[l];
       d !== this.firstSelectedBlock && d !== (a ? e : t) && (o.blocks[l].selected = !o.blocks[l].selected, i.clearCache());
@@ -7085,14 +6868,12 @@ class si extends y {
    * Add drag events listeners to editor zone
    */
   enableModuleBindings() {
-    const {
-      UI: e
-    } = this.Editor;
-    this.readOnlyMutableListeners.on(e.nodes.holder, "drop", async t => {
+    const { UI: e } = this.Editor;
+    this.readOnlyMutableListeners.on(e.nodes.holder, "drop", async (t) => {
       await this.processDrop(t);
     }, !0), this.readOnlyMutableListeners.on(e.nodes.holder, "dragstart", () => {
       this.processDragStart();
-    }), this.readOnlyMutableListeners.on(e.nodes.holder, "dragover", t => {
+    }), this.readOnlyMutableListeners.on(e.nodes.holder, "dragover", (t) => {
       this.processDragOver(t);
     }, !0);
   }
@@ -7113,11 +6894,13 @@ class si extends y {
       Caret: o,
       Paste: i
     } = this.Editor;
-    e.preventDefault(), t.blocks.forEach(r => {
+    e.preventDefault(), t.blocks.forEach((r) => {
       r.dropTarget = !1;
     }), b.isAtEditor && !b.isCollapsed && this.isStartedAtEditor && document.execCommand("delete"), this.isStartedAtEditor = !1;
     const n = t.setCurrentBlockByChildNode(e.target);
-    if (n) this.Editor.Caret.setToBlock(n, o.positions.END);else {
+    if (n)
+    this.Editor.Caret.setToBlock(n, o.positions.END);else
+    {
       const r = t.setCurrentBlockByChildNode(t.lastBlock.holder);
       this.Editor.Caret.setToBlock(r, o.positions.END);
     }
@@ -7144,16 +6927,13 @@ class ri extends y {
    * @param options.config - Editor configuration object
    * @param options.eventsDispatcher - common Editor event bus
    */
-  constructor({
-    config: e,
-    eventsDispatcher: t
-  }) {
+  constructor({ config: e, eventsDispatcher: t }) {
     super({
       config: e,
       eventsDispatcher: t
-    }), this.disabled = !1, this.batchingTimeout = null, this.batchingOnChangeQueue = /* @__PURE__ */new Map(), this.batchTime = 400, this.mutationObserver = new MutationObserver(o => {
+    }), this.disabled = !1, this.batchingTimeout = null, this.batchingOnChangeQueue = /* @__PURE__ */new Map(), this.batchTime = 400, this.mutationObserver = new MutationObserver((o) => {
       this.redactorChanged(o);
-    }), this.eventsDispatcher.on(pt, o => {
+    }), this.eventsDispatcher.on(pt, (o) => {
       this.particularBlockChanged(o.event);
     }), this.eventsDispatcher.on(ft, () => {
       this.disable();
@@ -7165,12 +6945,15 @@ class ri extends y {
    * Enables onChange event
    */
   enable() {
-    this.mutationObserver.observe(this.Editor.UI.nodes.redactor, {
-      childList: !0,
-      subtree: !0,
-      characterData: !0,
-      attributes: !0
-    }), this.disabled = !1;
+    this.mutationObserver.observe(
+      this.Editor.UI.nodes.redactor,
+      {
+        childList: !0,
+        subtree: !0,
+        characterData: !0,
+        attributes: !0
+      }
+    ), this.disabled = !1;
   }
   /**
    * Disables onChange event
@@ -7202,24 +6985,25 @@ class ri extends y {
 }
 const Ct = class extends y {
   constructor() {
-    super(...arguments), this.MIME_TYPE = "application/x-editor-js", this.toolsTags = {}, this.tagsByTool = {}, this.toolsPatterns = [], this.toolsFiles = {}, this.exceptionList = [], this.processTool = s => {
+    super(...arguments), this.MIME_TYPE = "application/x-editor-js", this.toolsTags = {}, this.tagsByTool = {}, this.toolsPatterns = [], this.toolsFiles = {}, this.exceptionList = [], this.processTool = (s) => {
       try {
         const e = s.create({}, {}, !1);
         if (s.pasteConfig === !1) {
           this.exceptionList.push(s.name);
           return;
         }
-        if (!M(e.onPaste)) return;
+        if (!M(e.onPaste))
+        return;
         this.getTagsConfig(s), this.getFilesConfig(s), this.getPatternsConfig(s);
       } catch (e) {
-        T(`Paste handling for «${s.name}» Tool hasn't been set up because of the error`, "warn", e);
+        T(
+          `Paste handling for «${s.name}» Tool hasn't been set up because of the error`,
+          "warn",
+          e
+        );
       }
-    }, this.handlePasteEvent = async s => {
-      const {
-          BlockManager: e,
-          Toolbar: t
-        } = this.Editor,
-        o = e.setCurrentBlockByChildNode(s.target);
+    }, this.handlePasteEvent = async (s) => {
+      const { BlockManager: e, Toolbar: t } = this.Editor,o = e.setCurrentBlockByChildNode(s.target);
       !o || this.isNativeBehaviour(s.target) && !s.clipboardData.types.includes("Files") || o && this.exceptionList.includes(o.name) || (s.preventDefault(), this.processDataTransfer(s.clipboardData), t.close());
     };
   }
@@ -7244,27 +7028,21 @@ const Ct = class extends y {
    * @param {boolean} isDragNDrop - true if data transfer comes from drag'n'drop events
    */
   async processDataTransfer(s, e = !1) {
-    const {
-        Tools: t
-      } = this.Editor,
-      o = s.types;
+    const { Tools: t } = this.Editor,o = s.types;
     if ((o.includes ? o.includes("Files") : o.contains("Files")) && !W(this.toolsFiles)) {
       await this.processFiles(s.files);
       return;
     }
-    const n = s.getData(this.MIME_TYPE),
-      r = s.getData("text/plain");
+    const n = s.getData(this.MIME_TYPE),r = s.getData("text/plain");
     let a = s.getData("text/html");
-    if (n) try {
+    if (n)
+    try {
       this.insertEditorJSData(JSON.parse(n));
       return;
-    } catch {}
+    } catch {
+    }
     e && r.trim() && a.trim() && (a = "<p>" + (a.trim() ? a : r) + "</p>");
-    const l = Object.keys(this.toolsTags).reduce((h, f) => (h[f.toLowerCase()] = this.toolsTags[f].sanitizationConfig ?? {}, h), {}),
-      d = Object.assign({}, l, t.getAllInlineToolsSanitizeConfig(), {
-        br: {}
-      }),
-      u = V(a, d);
+    const l = Object.keys(this.toolsTags).reduce((h, f) => (h[f.toLowerCase()] = this.toolsTags[f].sanitizationConfig ?? {}, h), {}),d = Object.assign({}, l, t.getAllInlineToolsSanitizeConfig(), { br: {} }),u = V(a, d);
     !u.trim() || u.trim() === r || !c.isHTMLString(u) ? await this.processText(r) : await this.processText(u, !0);
   }
   /**
@@ -7274,18 +7052,17 @@ const Ct = class extends y {
    * @param {boolean} isHTML - if passed string is HTML, this parameter should be true
    */
   async processText(s, e = !1) {
-    const {
-        Caret: t,
-        BlockManager: o
-      } = this.Editor,
-      i = e ? this.processHTML(s) : this.processPlain(s);
-    if (!i.length) return;
+    const { Caret: t, BlockManager: o } = this.Editor,i = e ? this.processHTML(s) : this.processPlain(s);
+    if (!i.length)
+    return;
     if (i.length === 1) {
       i[0].isBlock ? this.processSingleBlock(i.pop()) : this.processInlinePaste(i.pop());
       return;
     }
     const r = o.currentBlock && o.currentBlock.tool.isDefault && o.currentBlock.isEmpty;
-    i.map(async (a, l) => this.insertBlock(a, l === 0 && r)), o.currentBlock && t.setToBlock(o.currentBlock, t.positions.END);
+    i.map(
+      async (a, l) => this.insertBlock(a, l === 0 && r)
+    ), o.currentBlock && t.setToBlock(o.currentBlock, t.positions.END);
   }
   /**
    * Set onPaste callback handler
@@ -7321,14 +7098,17 @@ const Ct = class extends y {
    * @param tool - BlockTool object
    */
   getTagsConfig(s) {
-    if (s.pasteConfig === !1) return;
-    const e = s.pasteConfig.tags || [],
-      t = [];
-    e.forEach(o => {
+    if (s.pasteConfig === !1)
+    return;
+    const e = s.pasteConfig.tags || [],t = [];
+    e.forEach((o) => {
       const i = this.collectTagNames(o);
-      t.push(...i), i.forEach(n => {
+      t.push(...i), i.forEach((n) => {
         if (Object.prototype.hasOwnProperty.call(this.toolsTags, n)) {
-          T(`Paste handler for «${s.name}» Tool on «${n}» tag is skipped because it is already used by «${this.toolsTags[n].tool.name}» Tool.`, "warn");
+          T(
+            `Paste handler for «${s.name}» Tool on «${n}» tag is skipped because it is already used by «${this.toolsTags[n].tool.name}» Tool.`,
+            "warn"
+          );
           return;
         }
         const r = D(o) ? o[n] : null;
@@ -7337,7 +7117,7 @@ const Ct = class extends y {
           sanitizationConfig: r
         };
       });
-    }), this.tagsByTool[s.name] = t.map(o => o.toUpperCase());
+    }), this.tagsByTool[s.name] = t.map((o) => o.toUpperCase());
   }
   /**
    * Get files` types and extensions to substitute by Tool
@@ -7345,15 +7125,11 @@ const Ct = class extends y {
    * @param tool - BlockTool object
    */
   getFilesConfig(s) {
-    if (s.pasteConfig === !1) return;
-    const {
-      files: e = {}
-    } = s.pasteConfig;
-    let {
-      extensions: t,
-      mimeTypes: o
-    } = e;
-    !t && !o || (t && !Array.isArray(t) && (T(`«extensions» property of the onDrop config for «${s.name}» Tool should be an array`), t = []), o && !Array.isArray(o) && (T(`«mimeTypes» property of the onDrop config for «${s.name}» Tool should be an array`), o = []), o && (o = o.filter(i => jt(i) ? !0 : (T(`MIME type value «${i}» for the «${s.name}» Tool is not a valid MIME type`, "warn"), !1))), this.toolsFiles[s.name] = {
+    if (s.pasteConfig === !1)
+    return;
+    const { files: e = {} } = s.pasteConfig;
+    let { extensions: t, mimeTypes: o } = e;
+    !t && !o || (t && !Array.isArray(t) && (T(`«extensions» property of the onDrop config for «${s.name}» Tool should be an array`), t = []), o && !Array.isArray(o) && (T(`«mimeTypes» property of the onDrop config for «${s.name}» Tool should be an array`), o = []), o && (o = o.filter((i) => jt(i) ? !0 : (T(`MIME type value «${i}» for the «${s.name}» Tool is not a valid MIME type`, "warn"), !1))), this.toolsFiles[s.name] = {
       extensions: t || [],
       mimeTypes: o || []
     });
@@ -7365,7 +7141,10 @@ const Ct = class extends y {
    */
   getPatternsConfig(s) {
     s.pasteConfig === !1 || !s.pasteConfig.patterns || W(s.pasteConfig.patterns) || Object.entries(s.pasteConfig.patterns).forEach(([e, t]) => {
-      t instanceof RegExp || T(`Pattern ${t} for «${s.name}» Tool is skipped because it should be a Regexp instance.`, "warn"), this.toolsPatterns.push({
+      t instanceof RegExp || T(
+        `Pattern ${t} for «${s.name}» Tool is skipped because it should be a Regexp instance.`,
+        "warn"
+      ), this.toolsPatterns.push({
         key: e,
         pattern: t,
         tool: s
@@ -7387,15 +7166,17 @@ const Ct = class extends y {
    * @param {FileList} items - pasted or dropped items
    */
   async processFiles(s) {
-    const {
-      BlockManager: e
-    } = this.Editor;
+    const { BlockManager: e } = this.Editor;
     let t;
-    t = await Promise.all(Array.from(s).map(n => this.processFile(n))), t = t.filter(n => !!n);
+    t = await Promise.all(
+      Array.from(s).map((n) => this.processFile(n))
+    ), t = t.filter((n) => !!n);
     const i = e.currentBlock.tool.isDefault && e.currentBlock.isEmpty;
-    t.forEach((n, r) => {
-      e.paste(n.type, n.event, r === 0 && i);
-    });
+    t.forEach(
+      (n, r) => {
+        e.paste(n.type, n.event, r === 0 && i);
+      }
+    );
   }
   /**
    * Get information about file and find Tool to handle it
@@ -7403,20 +7184,15 @@ const Ct = class extends y {
    * @param {File} file - file to process
    */
   async processFile(s) {
-    const e = Ut(s),
-      t = Object.entries(this.toolsFiles).find(([n, {
-        mimeTypes: r,
-        extensions: a
-      }]) => {
-        const [l, d] = s.type.split("/"),
-          u = a.find(f => f.toLowerCase() === e.toLowerCase()),
-          h = r.find(f => {
+    const e = Ut(s),t = Object.entries(this.toolsFiles).find(([n, { mimeTypes: r, extensions: a }]) => {
+        const [l, d] = s.type.split("/"),u = a.find((f) => f.toLowerCase() === e.toLowerCase()),h = r.find((f) => {
             const [x, p] = f.split("/");
             return x === l && (p === d || p === "*");
           });
         return !!u || !!h;
       });
-    if (!t) return;
+    if (!t)
+    return;
     const [o] = t;
     return {
       event: this.composePasteEvent("file", {
@@ -7432,14 +7208,9 @@ const Ct = class extends y {
    * @returns {PasteData[]}
    */
   processHTML(s) {
-    const {
-        Tools: e
-      } = this.Editor,
-      t = c.make("DIV");
-    return t.innerHTML = s, this.getNodes(t).map(i => {
-      let n,
-        r = e.defaultTool,
-        a = !1;
+    const { Tools: e } = this.Editor,t = c.make("DIV");
+    return t.innerHTML = s, this.getNodes(t).map((i) => {
+      let n,r = e.defaultTool,a = !1;
       switch (i.nodeType) {
         case Node.DOCUMENT_FRAGMENT_NODE:
           n = c.make("div"), n.appendChild(i);
@@ -7448,22 +7219,17 @@ const Ct = class extends y {
           n = i, a = !0, this.toolsTags[n.tagName] && (r = this.toolsTags[n.tagName].tool);
           break;
       }
-      const {
-          tags: l
-        } = r.pasteConfig || {
-          tags: []
-        },
-        d = l.reduce((f, x) => (this.collectTagNames(x).forEach(m => {
+      const { tags: l } = r.pasteConfig || { tags: [] },d = l.reduce((f, x) => (this.collectTagNames(x).forEach((m) => {
           const L = D(x) ? x[m] : null;
           f[m.toLowerCase()] = L || {};
-        }), f), {}),
-        u = Object.assign({}, d, r.baseSanitizeConfig);
+        }), f), {}),u = Object.assign({}, d, r.baseSanitizeConfig);
       if (n.tagName.toLowerCase() === "table") {
         const f = V(n.outerHTML, u);
         n = c.make("div", void 0, {
           innerHTML: f
         }).firstChild;
-      } else n.innerHTML = V(n.innerHTML, u);
+      } else
+      n.innerHTML = V(n.innerHTML, u);
       const h = this.composePasteEvent("tag", {
         data: n
       });
@@ -7473,9 +7239,8 @@ const Ct = class extends y {
         tool: r.name,
         event: h
       };
-    }).filter(i => {
-      const n = c.isEmpty(i.content),
-        r = c.isSingleTag(i.content);
+    }).filter((i) => {
+      const n = c.isEmpty(i.content),r = c.isSingleTag(i.content);
       return !n || r;
     });
   }
@@ -7486,12 +7251,11 @@ const Ct = class extends y {
    * @returns {PasteData[]}
    */
   processPlain(s) {
-    const {
-      defaultBlock: e
-    } = this.config;
-    if (!s) return [];
+    const { defaultBlock: e } = this.config;
+    if (!s)
+    return [];
     const t = e;
-    return s.split(/\r?\n/).filter(o => o.trim()).map(o => {
+    return s.split(/\r?\n/).filter((o) => o.trim()).map((o) => {
       const i = c.make("div");
       i.textContent = o;
       const n = this.composePasteEvent("tag", {
@@ -7511,13 +7275,7 @@ const Ct = class extends y {
    * @param {PasteData} dataToInsert - data of Block to insert
    */
   async processSingleBlock(s) {
-    const {
-        Caret: e,
-        BlockManager: t
-      } = this.Editor,
-      {
-        currentBlock: o
-      } = t;
+    const { Caret: e, BlockManager: t } = this.Editor,{ currentBlock: o } = t;
     if (!o || s.tool !== o.name || !c.containsOnlyInlineElements(s.content.innerHTML)) {
       this.insertBlock(s, (o == null ? void 0 : o.tool.isDefault) && o.isEmpty);
       return;
@@ -7533,26 +7291,24 @@ const Ct = class extends y {
    * @param {PasteData} dataToInsert - data of Block to insert
    */
   async processInlinePaste(s) {
-    const {
-        BlockManager: e,
-        Caret: t
-      } = this.Editor,
-      {
-        content: o
-      } = s;
+    const { BlockManager: e, Caret: t } = this.Editor,{ content: o } = s;
     if (e.currentBlock && e.currentBlock.tool.isDefault && o.textContent.length < Ct.PATTERN_PROCESSING_MAX_LENGTH) {
       const n = await this.processPattern(o.textContent);
       if (n) {
-        const r = e.currentBlock && e.currentBlock.tool.isDefault && e.currentBlock.isEmpty,
-          a = e.paste(n.tool, n.event, r);
+        const r = e.currentBlock && e.currentBlock.tool.isDefault && e.currentBlock.isEmpty,a = e.paste(n.tool, n.event, r);
         t.setToBlock(a, t.positions.END);
         return;
       }
     }
     if (e.currentBlock && e.currentBlock.currentInput) {
       const n = e.currentBlock.tool.baseSanitizeConfig;
-      document.execCommand("insertHTML", !1, V(o.innerHTML, n));
-    } else this.insertBlock(s);
+      document.execCommand(
+        "insertHTML",
+        !1,
+        V(o.innerHTML, n)
+      );
+    } else
+    this.insertBlock(s);
   }
   /**
    * Get patterns` matches
@@ -7561,7 +7317,7 @@ const Ct = class extends y {
    * @returns {Promise<{event: PasteEvent, tool: string}>}
    */
   async processPattern(s) {
-    const e = this.toolsPatterns.find(o => {
+    const e = this.toolsPatterns.find((o) => {
       const i = o.pattern.exec(s);
       return i ? s === i.shift() : !1;
     });
@@ -7581,13 +7337,7 @@ const Ct = class extends y {
    * @returns {void}
    */
   insertBlock(s, e = !1) {
-    const {
-        BlockManager: t,
-        Caret: o
-      } = this.Editor,
-      {
-        currentBlock: i
-      } = t;
+    const { BlockManager: t, Caret: o } = this.Editor,{ currentBlock: i } = t;
     let n;
     if (e && i && i.isEmpty) {
       n = t.paste(s.tool, s.event, !0), o.setToBlock(n, o.positions.END);
@@ -7602,15 +7352,11 @@ const Ct = class extends y {
    * @returns {void}
    */
   insertEditorJSData(s) {
-    const {
-      BlockManager: e,
-      Caret: t,
-      Tools: o
-    } = this.Editor;
-    bt(s, n => o.blockTools.get(n).sanitizeConfig).forEach(({
-      tool: n,
-      data: r
-    }, a) => {
+    const { BlockManager: e, Caret: t, Tools: o } = this.Editor;
+    bt(
+      s,
+      (n) => o.blockTools.get(n).sanitizeConfig
+    ).forEach(({ tool: n, data: r }, a) => {
       let l = !1;
       a === 0 && (l = e.currentBlock && e.currentBlock.tool.isDefault && e.currentBlock.isEmpty);
       const d = e.insert({
@@ -7629,22 +7375,15 @@ const Ct = class extends y {
    * @param {Node} destNode - destination node
    */
   processElementNode(s, e, t) {
-    const o = Object.keys(this.toolsTags),
-      i = s,
-      {
-        tool: n
-      } = this.toolsTags[i.tagName] || {},
-      r = this.tagsByTool[n == null ? void 0 : n.name] || [],
-      a = o.includes(i.tagName),
-      l = c.blockElements.includes(i.tagName.toLowerCase()),
-      d = Array.from(i.children).some(({
-        tagName: h
-      }) => o.includes(h) && !r.includes(h)),
-      u = Array.from(i.children).some(({
-        tagName: h
-      }) => c.blockElements.includes(h.toLowerCase()));
-    if (!l && !a && !d) return t.appendChild(i), [...e, t];
-    if (a && !d || l && !u && !d) return [...e, t, i];
+    const o = Object.keys(this.toolsTags),i = s,{ tool: n } = this.toolsTags[i.tagName] || {},r = this.tagsByTool[n == null ? void 0 : n.name] || [],a = o.includes(i.tagName),l = c.blockElements.includes(i.tagName.toLowerCase()),d = Array.from(i.children).some(
+        ({ tagName: h }) => o.includes(h) && !r.includes(h)
+      ),u = Array.from(i.children).some(
+        ({ tagName: h }) => c.blockElements.includes(h.toLowerCase())
+      );
+    if (!l && !a && !d)
+    return t.appendChild(i), [...e, t];
+    if (a && !d || l && !u && !d)
+    return [...e, t, i];
   }
   /**
    * Recursively divide HTML string to two types of nodes:
@@ -7658,12 +7397,14 @@ const Ct = class extends y {
     const e = Array.from(s.childNodes);
     let t;
     const o = (i, n) => {
-      if (c.isEmpty(n) && !c.isSingleTag(n)) return i;
+      if (c.isEmpty(n) && !c.isSingleTag(n))
+      return i;
       const r = i[i.length - 1];
       let a = new DocumentFragment();
       switch (r && c.isFragment(r) && (a = i.pop()), n.nodeType) {
         case Node.ELEMENT_NODE:
-          if (t = this.processElementNode(n, i, a), t) return t;
+          if (t = this.processElementNode(n, i, a), t)
+          return t;
           break;
         case Node.TEXT_NODE:
           return a.appendChild(n), [...i, a];
@@ -7702,13 +7443,7 @@ class ai extends y {
    * Set initial state
    */
   async prepare() {
-    const {
-        Tools: e
-      } = this.Editor,
-      {
-        blockTools: t
-      } = e,
-      o = [];
+    const { Tools: e } = this.Editor,{ blockTools: t } = e,o = [];
     Array.from(t.entries()).forEach(([i, n]) => {
       n.isReadOnlySupported || o.push(i);
     }), this.toolsDontSupportReadOnly = o, this.config.readOnly && o.length > 0 && this.throwCriticalError(), this.toggle(this.config.readOnly);
@@ -7723,8 +7458,10 @@ class ai extends y {
     e && this.toolsDontSupportReadOnly.length > 0 && this.throwCriticalError();
     const t = this.readOnlyEnabled;
     this.readOnlyEnabled = e;
-    for (const i in this.Editor) this.Editor[i].toggleReadOnly && this.Editor[i].toggleReadOnly(e);
-    if (t === e) return this.readOnlyEnabled;
+    for (const i in this.Editor)
+    this.Editor[i].toggleReadOnly && this.Editor[i].toggleReadOnly(e);
+    if (t === e)
+    return this.readOnlyEnabled;
     const o = await this.Editor.Saver.save();
     return await this.Editor.BlockManager.clear(), await this.Editor.Renderer.render(o.blocks), this.readOnlyEnabled;
   }
@@ -7732,7 +7469,9 @@ class ai extends y {
    * Throws an error about tools which don't support read-only mode
    */
   throwCriticalError() {
-    throw new ut(`To enable read-only mode all connected tools should support it. Tools ${this.toolsDontSupportReadOnly.join(", ")} don't support read-only mode.`);
+    throw new ut(
+      `To enable read-only mode all connected tools should support it. Tools ${this.toolsDontSupportReadOnly.join(", ")} don't support read-only mode.`
+    );
   }
 }
 class fe extends y {
@@ -7769,9 +7508,11 @@ class fe extends y {
   startSelection(e, t) {
     const o = document.elementFromPoint(e - window.pageXOffset, t - window.pageYOffset);
     o.closest(`.${this.Editor.Toolbar.CSS.toolbar}`) || (this.Editor.BlockSelection.allBlocksSelected = !1, this.clearSelection(), this.stackOfSelected = []);
-    const n = [`.${R.CSS.content}`, `.${this.Editor.Toolbar.CSS.toolbar}`, `.${this.Editor.InlineToolbar.CSS.inlineToolbar}`],
-      r = o.closest("." + this.Editor.UI.CSS.editorWrapper),
-      a = n.some(l => !!o.closest(l));
+    const n = [
+      `.${R.CSS.content}`,
+      `.${this.Editor.Toolbar.CSS.toolbar}`,
+      `.${this.Editor.InlineToolbar.CSS.inlineToolbar}`],
+      r = o.closest("." + this.Editor.UI.CSS.editorWrapper),a = n.some((l) => !!o.closest(l));
     !r || a || (this.mousedown = !0, this.startX = e, this.startY = t);
   }
   /**
@@ -7796,18 +7537,16 @@ class fe extends y {
    * Sets Module necessary event handlers
    */
   enableModuleBindings() {
-    const {
-      container: e
-    } = this.genHTML();
-    this.listeners.on(e, "mousedown", t => {
+    const { container: e } = this.genHTML();
+    this.listeners.on(e, "mousedown", (t) => {
       this.processMouseDown(t);
-    }, !1), this.listeners.on(document.body, "mousemove", Ie(t => {
+    }, !1), this.listeners.on(document.body, "mousemove", Ie((t) => {
       this.processMouseMove(t);
     }, 10), {
       passive: !0
     }), this.listeners.on(document.body, "mouseleave", () => {
       this.processMouseLeave();
-    }), this.listeners.on(window, "scroll", Ie(t => {
+    }), this.listeners.on(window, "scroll", Ie((t) => {
       this.processScroll(t);
     }, 10), {
       passive: !0
@@ -7821,7 +7560,8 @@ class fe extends y {
    * @param {MouseEvent} mouseEvent - mouse event payload
    */
   processMouseDown(e) {
-    if (e.button !== this.MAIN_MOUSE_BUTTON) return;
+    if (e.button !== this.MAIN_MOUSE_BUTTON)
+    return;
     e.target.closest(c.allInputsSelector) !== null || this.startSelection(e.pageX, e.pageY);
   }
   /**
@@ -7868,13 +7608,7 @@ class fe extends y {
    * @returns {Object<string, Element>}
    */
   genHTML() {
-    const {
-        UI: e
-      } = this.Editor,
-      t = e.nodes.holder.querySelector("." + e.CSS.editorWrapper),
-      o = c.make("div", fe.CSS.overlay, {}),
-      i = c.make("div", fe.CSS.overlayContainer, {}),
-      n = c.make("div", fe.CSS.rect, {});
+    const { UI: e } = this.Editor,t = e.nodes.holder.querySelector("." + e.CSS.editorWrapper),o = c.make("div", fe.CSS.overlay, {}),i = c.make("div", fe.CSS.overlayContainer, {}),n = c.make("div", fe.CSS.rect, {});
     return i.appendChild(n), o.appendChild(i), t.appendChild(o), this.overlayRectangle = n, {
       container: t,
       overlay: o
@@ -7886,7 +7620,8 @@ class fe extends y {
    * @param {number} speed - speed of scrolling
    */
   scrollVertical(e) {
-    if (!(this.inScrollZone && this.mousedown)) return;
+    if (!(this.inScrollZone && this.mousedown))
+    return;
     const t = window.pageYOffset;
     window.scrollBy(0, e), this.mouseY += window.pageYOffset - t, setTimeout(() => {
       this.scrollVertical(e);
@@ -7898,15 +7633,10 @@ class fe extends y {
    * @param {MouseEvent} event - mouse event
    */
   changingRectangle(e) {
-    if (!this.mousedown) return;
+    if (!this.mousedown)
+    return;
     e.pageY !== void 0 && (this.mouseX = e.pageX, this.mouseY = e.pageY);
-    const {
-        rightPos: t,
-        leftPos: o,
-        index: i
-      } = this.genInfoForMouseSelection(),
-      n = this.startX > t && this.mouseX > t,
-      r = this.startX < o && this.mouseX < o;
+    const { rightPos: t, leftPos: o, index: i } = this.genInfoForMouseSelection(),n = this.startX > t && this.mouseX > t,r = this.startX < o && this.mouseX < o;
     this.rectCrossesBlocks = !(n || r), this.isRectSelectionActivated || (this.rectCrossesBlocks = !1, this.isRectSelectionActivated = !0, this.shrinkRectangleToPoint(), this.overlayRectangle.style.display = "block"), this.updateRectangleSize(), this.Editor.Toolbar.close(), i !== void 0 && (this.trySelectNextBlock(i), this.inverseSelection(), b.get().removeAllRanges());
   }
   /**
@@ -7920,8 +7650,12 @@ class fe extends y {
    */
   inverseSelection() {
     const t = this.Editor.BlockManager.getBlockByIndex(this.stackOfSelected[0]).selected;
-    if (this.rectCrossesBlocks && !t) for (const o of this.stackOfSelected) this.Editor.BlockSelection.selectBlockByIndex(o);
-    if (!this.rectCrossesBlocks && t) for (const o of this.stackOfSelected) this.Editor.BlockSelection.unSelectBlockByIndex(o);
+    if (this.rectCrossesBlocks && !t)
+    for (const o of this.stackOfSelected)
+    this.Editor.BlockSelection.selectBlockByIndex(o);
+    if (!this.rectCrossesBlocks && t)
+    for (const o of this.stackOfSelected)
+    this.Editor.BlockSelection.unSelectBlockByIndex(o);
   }
   /**
    * Updates size of rectangle
@@ -7935,16 +7669,10 @@ class fe extends y {
    * @returns {object} index - index next Block, leftPos - start of left border of Block, rightPos - right border
    */
   genInfoForMouseSelection() {
-    const t = document.body.offsetWidth / 2,
-      o = this.mouseY - window.pageYOffset,
-      i = document.elementFromPoint(t, o),
-      n = this.Editor.BlockManager.getBlockByChildNode(i);
+    const t = document.body.offsetWidth / 2,o = this.mouseY - window.pageYOffset,i = document.elementFromPoint(t, o),n = this.Editor.BlockManager.getBlockByChildNode(i);
     let r;
-    n !== void 0 && (r = this.Editor.BlockManager.blocks.findIndex(h => h.holder === n.holder));
-    const a = this.Editor.BlockManager.lastBlock.holder.querySelector("." + R.CSS.content),
-      l = Number.parseInt(window.getComputedStyle(a).width, 10) / 2,
-      d = t - l,
-      u = t + l;
+    n !== void 0 && (r = this.Editor.BlockManager.blocks.findIndex((h) => h.holder === n.holder));
+    const a = this.Editor.BlockManager.lastBlock.holder.querySelector("." + R.CSS.content),l = Number.parseInt(window.getComputedStyle(a).width, 10) / 2,d = t - l,u = t + l;
     return {
       index: r,
       leftPos: d,
@@ -7965,31 +7693,29 @@ class fe extends y {
    * @param {object} index - index of new block in the reactor
    */
   trySelectNextBlock(e) {
-    const t = this.stackOfSelected[this.stackOfSelected.length - 1] === e,
-      o = this.stackOfSelected.length,
-      i = 1,
-      n = -1,
-      r = 0;
-    if (t) return;
+    const t = this.stackOfSelected[this.stackOfSelected.length - 1] === e,o = this.stackOfSelected.length,i = 1,n = -1,r = 0;
+    if (t)
+    return;
     const a = this.stackOfSelected[o - 1] - this.stackOfSelected[o - 2] > 0;
     let l = r;
     o > 1 && (l = a ? i : n);
-    const d = e > this.stackOfSelected[o - 1] && l === i,
-      u = e < this.stackOfSelected[o - 1] && l === n,
-      f = !(d || u || l === r);
+    const d = e > this.stackOfSelected[o - 1] && l === i,u = e < this.stackOfSelected[o - 1] && l === n,f = !(d || u || l === r);
     if (!f && (e > this.stackOfSelected[o - 1] || this.stackOfSelected[o - 1] === void 0)) {
       let m = this.stackOfSelected[o - 1] + 1 || e;
-      for (m; m <= e; m++) this.addBlockInSelection(m);
+      for (m; m <= e; m++)
+      this.addBlockInSelection(m);
       return;
     }
     if (!f && e < this.stackOfSelected[o - 1]) {
-      for (let m = this.stackOfSelected[o - 1] - 1; m >= e; m--) this.addBlockInSelection(m);
+      for (let m = this.stackOfSelected[o - 1] - 1; m >= e; m--)
+      this.addBlockInSelection(m);
       return;
     }
-    if (!f) return;
-    let x = o - 1,
-      p;
-    for (e > this.stackOfSelected[o - 1] ? p = () => e > this.stackOfSelected[x] : p = () => e < this.stackOfSelected[x]; p();) this.rectCrossesBlocks && this.Editor.BlockSelection.unSelectBlockByIndex(this.stackOfSelected[x]), this.stackOfSelected.pop(), x--;
+    if (!f)
+    return;
+    let x = o - 1,p;
+    for (e > this.stackOfSelected[o - 1] ? p = () => e > this.stackOfSelected[x] : p = () => e < this.stackOfSelected[x]; p();)
+    this.rectCrossesBlocks && this.Editor.BlockSelection.unSelectBlockByIndex(this.stackOfSelected[x]), this.stackOfSelected.pop(), x--;
   }
 }
 class li extends y {
@@ -7999,18 +7725,12 @@ class li extends y {
    * @param blocksData - blocks to render
    */
   async render(e) {
-    return new Promise(t => {
-      const {
-        Tools: o,
-        BlockManager: i
-      } = this.Editor;
-      if (e.length === 0) i.insert();else {
-        const n = e.map(({
-          type: r,
-          data: a,
-          tunes: l,
-          id: d
-        }) => {
+    return new Promise((t) => {
+      const { Tools: o, BlockManager: i } = this.Editor;
+      if (e.length === 0)
+      i.insert();else
+      {
+        const n = e.map(({ type: r, data: a, tunes: l, id: d }) => {
           o.available.has(r) === !1 && (Y(`Tool «${r}» is not found. Check 'tools' property at the Editor.js config.`, "warn"), a = this.composeStubDataForTool(r, a, d), r = o.stubTool);
           let u;
           try {
@@ -8037,9 +7757,7 @@ class li extends y {
       }
       window.requestIdleCallback(() => {
         t();
-      }, {
-        timeout: 2e3
-      });
+      }, { timeout: 2e3 });
     });
   }
   /**
@@ -8050,9 +7768,7 @@ class li extends y {
    * @param [id] - id of unavailable block
    */
   composeStubDataForTool(e, t, o) {
-    const {
-      Tools: i
-    } = this.Editor;
+    const { Tools: i } = this.Editor;
     let n = e;
     if (i.unavailable.has(e)) {
       const r = i.unavailable.get(e).toolbox;
@@ -8075,18 +7791,12 @@ class ci extends y {
    * @returns {OutputData}
    */
   async save() {
-    const {
-        BlockManager: e,
-        Tools: t
-      } = this.Editor,
-      o = e.blocks,
-      i = [];
+    const { BlockManager: e, Tools: t } = this.Editor,o = e.blocks,i = [];
     try {
-      o.forEach(a => {
+      o.forEach((a) => {
         i.push(this.getSavedData(a));
       });
-      const n = await Promise.all(i),
-        r = await bt(n, a => t.blockTools.get(a).sanitizeConfig);
+      const n = await Promise.all(i),r = await bt(n, (a) => t.blockTools.get(a).sanitizeConfig);
       return this.makeOutput(r);
     } catch (n) {
       Y("Saving failed due to the Error %o", "error", n);
@@ -8099,8 +7809,7 @@ class ci extends y {
    * @returns {ValidatedData} - Tool's validated data
    */
   async getSavedData(e) {
-    const t = await e.save(),
-      o = t && (await e.validate(t.data));
+    const t = await e.save(),o = t && (await e.validate(t.data));
     return {
       ...t,
       isValid: o
@@ -8114,13 +7823,7 @@ class ci extends y {
    */
   makeOutput(e) {
     const t = [];
-    return e.forEach(({
-      id: o,
-      tool: i,
-      data: n,
-      tunes: r,
-      isValid: a
-    }) => {
+    return e.forEach(({ id: o, tool: i, data: n, tunes: r, isValid: a }) => {
       if (!a) {
         T(`Block «${i}» skipped because saved data is invalid`);
         return;
@@ -8183,12 +7886,7 @@ class Ke {
    * @param {object} params.api - editor.js api
    * @param {boolean} readOnly - read only mode flag
    */
-  constructor({
-    data: e,
-    config: t,
-    api: o,
-    readOnly: i
-  }) {
+  constructor({ data: e, config: t, api: o, readOnly: i }) {
     this.api = o, this.readOnly = i, this._CSS = {
       block: this.api.styles.block,
       wrapper: "ce-paragraph"
@@ -8201,10 +7899,9 @@ class Ke {
    * @param {KeyboardEvent} e - key up event
    */
   onKeyUp(e) {
-    if (e.code !== "Backspace" && e.code !== "Delete") return;
-    const {
-      textContent: t
-    } = this._element;
+    if (e.code !== "Backspace" && e.code !== "Delete")
+    return;
+    const { textContent: t } = this._element;
     t === "" && (this._element.innerHTML = "");
   }
   /**
@@ -8462,9 +8159,7 @@ class qe {
   /**
    * @param api - Editor.js API
    */
-  constructor({
-    api: e
-  }) {
+  constructor({ api: e }) {
     this.commandLink = "createLink", this.commandUnlink = "unlink", this.ENTER_KEY = 13, this.CSS = {
       button: "ce-inline-tool",
       buttonActive: "ce-inline-tool--active",
@@ -8502,7 +8197,7 @@ class qe {
    * Input for the link
    */
   renderActions() {
-    return this.nodes.input = document.createElement("input"), this.nodes.input.placeholder = this.i18n.t("Add a link"), this.nodes.input.classList.add(this.CSS.input), this.nodes.input.addEventListener("keydown", e => {
+    return this.nodes.input = document.createElement("input"), this.nodes.input.placeholder = this.i18n.t("Add a link"), this.nodes.input.classList.add(this.CSS.input), this.nodes.input.addEventListener("keydown", (e) => {
       e.keyCode === this.ENTER_KEY && this.enterPressed(e);
     }), this.nodes.input;
   }
@@ -8531,7 +8226,8 @@ class qe {
       this.nodes.button.innerHTML = zo, this.nodes.button.classList.add(this.CSS.buttonUnlink), this.nodes.button.classList.add(this.CSS.buttonActive), this.openActions();
       const t = e.getAttribute("href");
       this.nodes.input.value = t !== "null" ? t : "", this.selection.save();
-    } else this.nodes.button.innerHTML = it, this.nodes.button.classList.remove(this.CSS.buttonUnlink), this.nodes.button.classList.remove(this.CSS.buttonActive);
+    } else
+    this.nodes.button.innerHTML = it, this.nodes.button.classList.remove(this.CSS.buttonUnlink), this.nodes.button.classList.remove(this.CSS.buttonActive);
     return !!e;
   }
   /**
@@ -8616,10 +8312,9 @@ class qe {
    * @param {string} link - string to process
    */
   addProtocol(e) {
-    if (/^(\w+):(\/\/)?/.test(e)) return e;
-    const t = /^\/[^/\s]/.test(e),
-      o = e.substring(0, 1) === "#",
-      i = /^\/\/[^/\s]/.test(e);
+    if (/^(\w+):(\/\/)?/.test(e))
+    return e;
+    const t = /^\/[^/\s]/.test(e),o = e.substring(0, 1) === "#",i = /^\/\/[^/\s]/.test(e);
     return !t && !o && !i && (e = "http://" + e), e;
   }
   /**
@@ -8646,10 +8341,7 @@ class St {
    * @param options.data - stub tool data
    * @param options.api - Editor.js API
    */
-  constructor({
-    data: e,
-    api: t
-  }) {
+  constructor({ data: e, api: t }) {
     this.CSS = {
       wrapper: "ce-stub",
       info: "ce-stub__info",
@@ -8679,13 +8371,9 @@ class St {
    * @returns {HTMLElement}
    */
   make() {
-    const e = c.make("div", this.CSS.wrapper),
-      t = Uo,
-      o = c.make("div", this.CSS.info),
-      i = c.make("div", this.CSS.title, {
+    const e = c.make("div", this.CSS.wrapper),t = Uo,o = c.make("div", this.CSS.info),i = c.make("div", this.CSS.title, {
         textContent: this.title
-      }),
-      n = c.make("div", this.CSS.subtitle, {
+      }),n = c.make("div", this.CSS.subtitle, {
         textContent: this.subtitle
       });
     return e.innerHTML = t, o.appendChild(i), o.appendChild(n), e.appendChild(o), e;
@@ -8768,10 +8456,9 @@ class P extends Map {
     return new P(e);
   }
 }
-var pi = Object.defineProperty,
-  fi = Object.getOwnPropertyDescriptor,
-  It = (s, e, t, o) => {
-    for (var i = o > 1 ? void 0 : o ? fi(e, t) : e, n = s.length - 1, r; n >= 0; n--) (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
+var pi = Object.defineProperty,fi = Object.getOwnPropertyDescriptor,It = (s, e, t, o) => {
+    for (var i = o > 1 ? void 0 : o ? fi(e, t) : e, n = s.length - 1, r; n >= 0; n--)
+    (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
     return o && i && pi(e, t, i), i;
   };
 class Ze extends Ye {
@@ -8820,18 +8507,20 @@ class Ze extends Ye {
    * config. This is made to allow user to override default tool's toolbox representation (single/multiple entries)
    */
   get toolbox() {
-    const e = this.constructable[se.Toolbox],
-      t = this.config[ve.Toolbox];
-    if (!W(e) && t !== !1) return t ? Array.isArray(e) ? Array.isArray(t) ? t.map((o, i) => {
+    const e = this.constructable[se.Toolbox],t = this.config[ve.Toolbox];
+    if (!W(e) && t !== !1)
+    return t ? Array.isArray(e) ? Array.isArray(t) ? t.map((o, i) => {
       const n = e[i];
       return n ? {
         ...n,
         ...o
       } : o;
-    }) : [t] : Array.isArray(t) ? t : [{
+    }) : [t] : Array.isArray(t) ? t : [
+    {
       ...e,
       ...t
-    }] : Array.isArray(e) ? e : [e];
+    }] :
+    Array.isArray(e) ? e : [e];
   }
   /**
    * Returns Tool conversion configuration
@@ -8858,11 +8547,12 @@ class Ze extends Ye {
     return this.constructable[se.PasteConfig] ?? {};
   }
   get sanitizeConfig() {
-    const e = super.sanitizeConfig,
-      t = this.baseSanitizeConfig;
-    if (W(e)) return t;
+    const e = super.sanitizeConfig,t = this.baseSanitizeConfig;
+    if (W(e))
+    return t;
     const o = {};
-    for (const i in e) if (Object.prototype.hasOwnProperty.call(e, i)) {
+    for (const i in e)
+    if (Object.prototype.hasOwnProperty.call(e, i)) {
       const n = e[i];
       D(n) ? o[i] = Object.assign({}, t, n) : o[i] = n;
     }
@@ -8870,11 +8560,15 @@ class Ze extends Ye {
   }
   get baseSanitizeConfig() {
     const e = {};
-    return Array.from(this.inlineTools.values()).forEach(t => Object.assign(e, t.sanitizeConfig)), Array.from(this.tunes.values()).forEach(t => Object.assign(e, t.sanitizeConfig)), e;
+    return Array.from(this.inlineTools.values()).forEach((t) => Object.assign(e, t.sanitizeConfig)), Array.from(this.tunes.values()).forEach((t) => Object.assign(e, t.sanitizeConfig)), e;
   }
 }
-It([le], Ze.prototype, "sanitizeConfig", 1);
-It([le], Ze.prototype, "baseSanitizeConfig", 1);
+It([
+le],
+Ze.prototype, "sanitizeConfig", 1);
+It([
+le],
+Ze.prototype, "baseSanitizeConfig", 1);
 class gi {
   /**
    * @class
@@ -8891,12 +8585,7 @@ class gi {
    * @param name - tool name
    */
   get(e) {
-    const {
-        class: t,
-        isInternal: o = !1,
-        ...i
-      } = this.config[e],
-      n = this.getConstructor(t);
+    const { class: t, isInternal: o = !1, ...i } = this.config[e],n = this.getConstructor(t);
     return new n({
       name: e,
       constructable: t,
@@ -8929,9 +8618,7 @@ class Mt {
    *
    * @param {API} api — Editor's API
    */
-  constructor({
-    api: e
-  }) {
+  constructor({ api: e }) {
     this.CSS = {
       animation: "wobble"
     }, this.api = e;
@@ -8951,11 +8638,10 @@ class Mt {
    * Handle clicks on 'move down' button
    */
   handleClick() {
-    const e = this.api.blocks.getCurrentBlockIndex(),
-      t = this.api.blocks.getBlockByIndex(e + 1);
-    if (!t) throw new Error("Unable to move Block down since it is already the last");
-    const o = t.holder,
-      i = o.getBoundingClientRect();
+    const e = this.api.blocks.getCurrentBlockIndex(),t = this.api.blocks.getBlockByIndex(e + 1);
+    if (!t)
+    throw new Error("Unable to move Block down since it is already the last");
+    const o = t.holder,i = o.getBoundingClientRect();
     let n = Math.abs(window.innerHeight - o.offsetHeight);
     i.top < window.innerHeight && (n = window.scrollY + o.offsetHeight), window.scrollTo(0, n), this.api.blocks.move(e + 1), this.api.toolbar.toggleBlockSettings(!0);
   }
@@ -8967,9 +8653,7 @@ class Lt {
    *
    * @param {API} api - Editor's API
    */
-  constructor({
-    api: e
-  }) {
+  constructor({ api: e }) {
     this.api = e;
   }
   /**
@@ -9000,9 +8684,7 @@ class At {
    *
    * @param {API} api - Editor's API
    */
-  constructor({
-    api: e
-  }) {
+  constructor({ api: e }) {
     this.CSS = {
       animation: "wobble"
     }, this.api = e;
@@ -9022,23 +8704,18 @@ class At {
    * Move current block up
    */
   handleClick() {
-    const e = this.api.blocks.getCurrentBlockIndex(),
-      t = this.api.blocks.getBlockByIndex(e),
-      o = this.api.blocks.getBlockByIndex(e - 1);
-    if (e === 0 || !t || !o) throw new Error("Unable to move Block up since it is already the first");
-    const i = t.holder,
-      n = o.holder,
-      r = i.getBoundingClientRect(),
-      a = n.getBoundingClientRect();
+    const e = this.api.blocks.getCurrentBlockIndex(),t = this.api.blocks.getBlockByIndex(e),o = this.api.blocks.getBlockByIndex(e - 1);
+    if (e === 0 || !t || !o)
+    throw new Error("Unable to move Block up since it is already the first");
+    const i = t.holder,n = o.holder,r = i.getBoundingClientRect(),a = n.getBoundingClientRect();
     let l;
     a.top > 0 ? l = Math.abs(r.top) - Math.abs(a.top) : l = Math.abs(r.top) + a.height, window.scrollBy(0, -1 * l), this.api.blocks.move(e - 1), this.api.toolbar.toggleBlockSettings(!0);
   }
 }
 At.isTune = !0;
-var bi = Object.defineProperty,
-  mi = Object.getOwnPropertyDescriptor,
-  ki = (s, e, t, o) => {
-    for (var i = o > 1 ? void 0 : o ? mi(e, t) : e, n = s.length - 1, r; n >= 0; n--) (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
+var bi = Object.defineProperty,mi = Object.getOwnPropertyDescriptor,ki = (s, e, t, o) => {
+    for (var i = o > 1 ? void 0 : o ? mi(e, t) : e, n = s.length - 1, r; n >= 0; n--)
+    (r = s[n]) && (i = (o ? r(e, t, i) : r(i)) || i);
     return o && i && bi(e, t, i), i;
   };
 class _t extends y {
@@ -9095,20 +8772,22 @@ class _t extends y {
    * @returns {Promise<void>}
    */
   async prepare() {
-    if (this.validateTools(), this.config.tools = Me({}, this.internalTools, this.config.tools), !Object.prototype.hasOwnProperty.call(this.config, "tools") || Object.keys(this.config.tools).length === 0) throw Error("Can't start without tools");
+    if (this.validateTools(), this.config.tools = Me({}, this.internalTools, this.config.tools), !Object.prototype.hasOwnProperty.call(this.config, "tools") || Object.keys(this.config.tools).length === 0)
+    throw Error("Can't start without tools");
     const e = this.prepareConfig();
     this.factory = new gi(e, this.config, this.Editor.API);
     const t = this.getListOfPrepareFunctions(e);
-    if (t.length === 0) return Promise.resolve();
-    await zt(t, o => {
+    if (t.length === 0)
+    return Promise.resolve();
+    await zt(t, (o) => {
       this.toolPrepareMethodSuccess(o);
-    }, o => {
+    }, (o) => {
       this.toolPrepareMethodFallback(o);
     }), this.prepareBlockTools();
   }
   getAllInlineToolsSanitizeConfig() {
     const e = {};
-    return Array.from(this.inlineTools.values()).forEach(t => {
+    return Array.from(this.inlineTools.values()).forEach((t) => {
       Object.assign(e, t.sanitizeConfig);
     }), e;
   }
@@ -9116,7 +8795,7 @@ class _t extends y {
    * Calls each Tool reset method to clean up anything set by Tool
    */
   destroy() {
-    Object.values(this.available).forEach(async e => {
+    Object.values(this.available).forEach(async (e) => {
       M(e.reset) && (await e.reset());
     });
   }
@@ -9169,9 +8848,13 @@ class _t extends y {
   toolPrepareMethodSuccess(e) {
     const t = this.factory.get(e.toolName);
     if (t.isInline()) {
-      const i = ["render", "surround", "checkState"].filter(n => !t.create()[n]);
+      const i = ["render", "surround", "checkState"].filter((n) => !t.create()[n]);
       if (i.length) {
-        T(`Incorrect Inline Tool: ${t.name}. Some of required methods is not implemented %o`, "warn", i), this.toolsUnavailable.set(t.name, t);
+        T(
+          `Incorrect Inline Tool: ${t.name}. Some of required methods is not implemented %o`,
+          "warn",
+          i
+        ), this.toolsUnavailable.set(t.name, t);
         return;
       }
     }
@@ -9196,7 +8879,8 @@ class _t extends y {
     return Object.entries(e).forEach(([o, i]) => {
       t.push({
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        function: M(i.class.prepare) ? i.class.prepare : () => {},
+        function: M(i.class.prepare) ? i.class.prepare : () => {
+        },
         data: {
           toolName: o,
           config: i.config
@@ -9208,7 +8892,7 @@ class _t extends y {
    * Assign enabled Inline Tools and Block Tunes for Block Tool
    */
   prepareBlockTools() {
-    Array.from(this.blockTools.values()).forEach(e => {
+    Array.from(this.blockTools.values()).forEach((e) => {
       this.assignInlineToolsToBlockTool(e), this.assignBlockTunesToBlockTool(e);
     });
   }
@@ -9220,10 +8904,14 @@ class _t extends y {
   assignInlineToolsToBlockTool(e) {
     if (this.config.inlineToolbar !== !1) {
       if (e.enabledInlineTools === !0) {
-        e.inlineTools = new P(Array.isArray(this.config.inlineToolbar) ? this.config.inlineToolbar.map(t => [t, this.inlineTools.get(t)]) : Array.from(this.inlineTools.entries()));
+        e.inlineTools = new P(
+          Array.isArray(this.config.inlineToolbar) ? this.config.inlineToolbar.map((t) => [t, this.inlineTools.get(t)]) : Array.from(this.inlineTools.entries())
+        );
         return;
       }
-      Array.isArray(e.enabledInlineTools) && (e.inlineTools = new P(e.enabledInlineTools.map(t => [t, this.inlineTools.get(t)])));
+      Array.isArray(e.enabledInlineTools) && (e.inlineTools = new P(
+        e.enabledInlineTools.map((t) => [t, this.inlineTools.get(t)])
+      ));
     }
   }
   /**
@@ -9234,12 +8922,16 @@ class _t extends y {
   assignBlockTunesToBlockTool(e) {
     if (e.enabledBlockTunes !== !1) {
       if (Array.isArray(e.enabledBlockTunes)) {
-        const t = new P(e.enabledBlockTunes.map(o => [o, this.blockTunes.get(o)]));
+        const t = new P(
+          e.enabledBlockTunes.map((o) => [o, this.blockTunes.get(o)])
+        );
         e.tunes = new P([...t, ...this.blockTunes.internalTools]);
         return;
       }
       if (Array.isArray(this.config.tunes)) {
-        const t = new P(this.config.tunes.map(o => [o, this.blockTunes.get(o)]));
+        const t = new P(
+          this.config.tunes.map((o) => [o, this.blockTunes.get(o)])
+        );
         e.tunes = new P([...t, ...this.blockTunes.internalTools]);
         return;
       }
@@ -9250,10 +8942,15 @@ class _t extends y {
    * Validate Tools configuration objects and throw Error for user if it is invalid
    */
   validateTools() {
-    for (const e in this.config.tools) if (Object.prototype.hasOwnProperty.call(this.config.tools, e)) {
-      if (e in this.internalTools) return;
+    for (const e in this.config.tools)
+    if (Object.prototype.hasOwnProperty.call(this.config.tools, e)) {
+      if (e in this.internalTools)
+      return;
       const t = this.config.tools[e];
-      if (!M(t) && !M(t.class)) throw Error(`Tool «${e}» must be a constructor function or an object with function in the «class» property`);
+      if (!M(t) && !M(t.class))
+      throw Error(
+        `Tool «${e}» must be a constructor function or an object with function in the «class» property`
+      );
     }
   }
   /**
@@ -9261,13 +8958,14 @@ class _t extends y {
    */
   prepareConfig() {
     const e = {};
-    for (const t in this.config.tools) D(this.config.tools[t]) ? e[t] = this.config.tools[t] : e[t] = {
-      class: this.config.tools[t]
-    };
+    for (const t in this.config.tools)
+    D(this.config.tools[t]) ? e[t] = this.config.tools[t] : e[t] = { class: this.config.tools[t] };
     return e;
   }
 }
-ki([le], _t.prototype, "getAllInlineToolsSanitizeConfig", 1);
+ki([
+le],
+_t.prototype, "getAllInlineToolsSanitizeConfig", 1);
 const vi = `:root{--selectionColor: #e1f2ff;--inlineSelectionColor: #d4ecff;--bg-light: #eff2f5;--grayText: #707684;--color-dark: #1D202B;--color-active-icon: #388AE5;--color-gray-border: rgba(201, 201, 204, .48);--content-width: 650px;--narrow-mode-right-padding: 50px;--toolbox-buttons-size: 26px;--toolbox-buttons-size--mobile: 36px;--icon-size: 20px;--icon-size--mobile: 28px;--block-padding-vertical: .4em;--color-line-gray: #EFF0F1 }.codex-editor{position:relative;-webkit-box-sizing:border-box;box-sizing:border-box;z-index:1}.codex-editor .hide{display:none}.codex-editor__redactor [contenteditable]:empty:after{content:"\\feff"}@media (min-width: 651px){.codex-editor--narrow .codex-editor__redactor{margin-right:50px}}@media (min-width: 651px){.codex-editor--narrow.codex-editor--rtl .codex-editor__redactor{margin-left:50px;margin-right:0}}@media (min-width: 651px){.codex-editor--narrow .ce-toolbar__actions{right:-5px}}.codex-editor-copyable{position:absolute;height:1px;width:1px;top:-400%;opacity:.001}.codex-editor-overlay{position:fixed;top:0px;left:0px;right:0px;bottom:0px;z-index:999;pointer-events:none;overflow:hidden}.codex-editor-overlay__container{position:relative;pointer-events:auto;z-index:0}.codex-editor-overlay__rectangle{position:absolute;pointer-events:none;background-color:#2eaadc33;border:1px solid transparent}.codex-editor svg{max-height:100%}.codex-editor path{stroke:currentColor}.codex-editor ::-moz-selection{background-color:#d4ecff}.codex-editor ::selection{background-color:#d4ecff}.codex-editor--toolbox-opened [contentEditable=true][data-placeholder]:focus:before{opacity:0!important}.ce-scroll-locked{overflow:hidden}.ce-scroll-locked--hard{overflow:hidden;top:calc(-1 * var(--window-scroll-offset));position:fixed;width:100%}.ce-toolbar{position:absolute;left:0;right:0;top:0;-webkit-transition:opacity .1s ease;transition:opacity .1s ease;will-change:opacity,top;display:none}.ce-toolbar--opened{display:block}.ce-toolbar__content{max-width:650px;margin:0 auto;position:relative}.ce-toolbar__plus{color:#1d202b;cursor:pointer;width:26px;height:26px;border-radius:7px;display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-ms-flex-negative:0;flex-shrink:0}@media (max-width: 650px){.ce-toolbar__plus{width:36px;height:36px}}@media (hover: hover){.ce-toolbar__plus:hover{background-color:#eff2f5}}.ce-toolbar__plus--active{background-color:#eff2f5;-webkit-animation:bounceIn .75s 1;animation:bounceIn .75s 1;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.ce-toolbar__plus-shortcut{opacity:.6;word-spacing:-2px;margin-top:5px}@media (max-width: 650px){.ce-toolbar__plus{position:absolute;background-color:#fff;border:1px solid #E8E8EB;-webkit-box-shadow:0 3px 15px -3px rgba(13,20,33,.13);box-shadow:0 3px 15px -3px #0d142121;border-radius:6px;z-index:2;position:static}.ce-toolbar__plus--left-oriented:before{left:15px;margin-left:0}.ce-toolbar__plus--right-oriented:before{left:auto;right:15px;margin-left:0}}.ce-toolbar__actions{position:absolute;right:100%;opacity:0;display:-webkit-box;display:-ms-flexbox;display:flex;padding-right:5px}.ce-toolbar__actions--opened{opacity:1}@media (max-width: 650px){.ce-toolbar__actions{right:auto}}.ce-toolbar__settings-btn{color:#1d202b;width:26px;height:26px;border-radius:7px;display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left:3px;cursor:pointer;user-select:none}@media (max-width: 650px){.ce-toolbar__settings-btn{width:36px;height:36px}}@media (hover: hover){.ce-toolbar__settings-btn:hover{background-color:#eff2f5}}.ce-toolbar__settings-btn--active{background-color:#eff2f5;-webkit-animation:bounceIn .75s 1;animation:bounceIn .75s 1;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}@media (min-width: 651px){.ce-toolbar__settings-btn{width:24px}}.ce-toolbar__settings-btn--hidden{display:none}@media (max-width: 650px){.ce-toolbar__settings-btn{position:absolute;background-color:#fff;border:1px solid #E8E8EB;-webkit-box-shadow:0 3px 15px -3px rgba(13,20,33,.13);box-shadow:0 3px 15px -3px #0d142121;border-radius:6px;z-index:2;position:static}.ce-toolbar__settings-btn--left-oriented:before{left:15px;margin-left:0}.ce-toolbar__settings-btn--right-oriented:before{left:auto;right:15px;margin-left:0}}.ce-toolbar__plus svg,.ce-toolbar__settings-btn svg{width:24px;height:24px}@media (min-width: 651px){.codex-editor--narrow .ce-toolbar__plus{left:5px}}@media (min-width: 651px){.codex-editor--narrow .ce-toolbox .ce-popover{right:0;left:auto;left:initial}}.ce-inline-toolbar{--y-offset: 8px;position:absolute;background-color:#fff;border:1px solid #E8E8EB;-webkit-box-shadow:0 3px 15px -3px rgba(13,20,33,.13);box-shadow:0 3px 15px -3px #0d142121;border-radius:6px;z-index:2;opacity:0;visibility:hidden;-webkit-transition:opacity .25s ease;transition:opacity .25s ease;will-change:opacity,left,top;top:0;left:0;z-index:3}.ce-inline-toolbar--left-oriented:before{left:15px;margin-left:0}.ce-inline-toolbar--right-oriented:before{left:auto;right:15px;margin-left:0}.ce-inline-toolbar--showed{opacity:1;visibility:visible}.ce-inline-toolbar [hidden]{display:none!important}.ce-inline-toolbar__toggler-and-button-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;padding:0 6px}.ce-inline-toolbar__buttons{display:-webkit-box;display:-ms-flexbox;display:flex}.ce-inline-toolbar__dropdown{display:-webkit-box;display:-ms-flexbox;display:flex;padding:6px;margin:0 6px 0 -6px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;cursor:pointer;border-right:1px solid rgba(201,201,204,.48);-webkit-box-sizing:border-box;box-sizing:border-box}@media (hover: hover){.ce-inline-toolbar__dropdown:hover{background:#eff2f5}}.ce-inline-toolbar__dropdown--hidden{display:none}.ce-inline-toolbar__dropdown-content,.ce-inline-toolbar__dropdown-arrow{display:-webkit-box;display:-ms-flexbox;display:flex}.ce-inline-toolbar__dropdown-content svg,.ce-inline-toolbar__dropdown-arrow svg{width:20px;height:20px}.ce-inline-toolbar__shortcut{opacity:.6;word-spacing:-3px;margin-top:3px}.ce-inline-tool{display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:6px 1px;cursor:pointer;border:0;outline:none;background-color:transparent;vertical-align:bottom;color:inherit;margin:0;border-radius:0;line-height:normal}.ce-inline-tool svg{width:20px;height:20px}@media (max-width: 650px){.ce-inline-tool svg{width:28px;height:28px}}@media (hover: hover){.ce-inline-tool:hover{background-color:#eff2f5}}.ce-inline-tool--active{color:#388ae5}.ce-inline-tool--focused{background:rgba(34,186,255,.08)!important}.ce-inline-tool--focused{-webkit-box-shadow:inset 0 0 0px 1px rgba(7,161,227,.08);box-shadow:inset 0 0 0 1px #07a1e314}.ce-inline-tool--focused-animated{-webkit-animation-name:buttonClicked;animation-name:buttonClicked;-webkit-animation-duration:.25s;animation-duration:.25s}.ce-inline-tool--link .icon--unlink,.ce-inline-tool--unlink .icon--link{display:none}.ce-inline-tool--unlink .icon--unlink{display:inline-block;margin-bottom:-1px}.ce-inline-tool-input{outline:none;border:0;border-radius:0 0 4px 4px;margin:0;font-size:13px;padding:10px;width:100%;-webkit-box-sizing:border-box;box-sizing:border-box;display:none;font-weight:500;border-top:1px solid rgba(201,201,204,.48);-webkit-appearance:none;font-family:inherit}@media (max-width: 650px){.ce-inline-tool-input{font-size:15px;font-weight:500}}.ce-inline-tool-input::-webkit-input-placeholder{color:#707684}.ce-inline-tool-input::-moz-placeholder{color:#707684}.ce-inline-tool-input:-ms-input-placeholder{color:#707684}.ce-inline-tool-input::-ms-input-placeholder{color:#707684}.ce-inline-tool-input::placeholder{color:#707684}.ce-inline-tool-input--showed{display:block}.ce-conversion-toolbar{position:absolute;background-color:#fff;border:1px solid #E8E8EB;-webkit-box-shadow:0 3px 15px -3px rgba(13,20,33,.13);box-shadow:0 3px 15px -3px #0d142121;border-radius:6px;z-index:2;opacity:0;visibility:hidden;will-change:transform,opacity;-webkit-transition:opacity .1s ease,-webkit-transform .1s ease;transition:opacity .1s ease,-webkit-transform .1s ease;transition:transform .1s ease,opacity .1s ease;transition:transform .1s ease,opacity .1s ease,-webkit-transform .1s ease;-webkit-transform:translateY(-8px);transform:translateY(-8px);left:-1px;width:190px;margin-top:5px;-webkit-box-sizing:content-box;box-sizing:content-box}.ce-conversion-toolbar--left-oriented:before{left:15px;margin-left:0}.ce-conversion-toolbar--right-oriented:before{left:auto;right:15px;margin-left:0}.ce-conversion-toolbar--showed{opacity:1;visibility:visible;-webkit-transform:none;transform:none}.ce-conversion-toolbar [hidden]{display:none!important}.ce-conversion-toolbar__buttons{display:-webkit-box;display:-ms-flexbox;display:flex}.ce-conversion-toolbar__label{color:#707684;font-size:11px;font-weight:500;letter-spacing:.33px;padding:10px 10px 5px;text-transform:uppercase}.ce-conversion-tool{display:-webkit-box;display:-ms-flexbox;display:flex;padding:5px 10px;font-size:14px;line-height:20px;font-weight:500;cursor:pointer;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.ce-conversion-tool--hidden{display:none}.ce-conversion-tool--focused{background:rgba(34,186,255,.08)!important}.ce-conversion-tool--focused{-webkit-box-shadow:inset 0 0 0px 1px rgba(7,161,227,.08);box-shadow:inset 0 0 0 1px #07a1e314}.ce-conversion-tool--focused-animated{-webkit-animation-name:buttonClicked;animation-name:buttonClicked;-webkit-animation-duration:.25s;animation-duration:.25s}.ce-conversion-tool:hover{background:#eff2f5}.ce-conversion-tool__icon{display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;width:26px;height:26px;-webkit-box-shadow:0 0 0 1px rgba(201,201,204,.48);box-shadow:0 0 0 1px #c9c9cc7a;border-radius:5px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;background:#fff;-webkit-box-sizing:content-box;box-sizing:content-box;-ms-flex-negative:0;flex-shrink:0;margin-right:10px}.ce-conversion-tool__icon svg{width:20px;height:20px}@media (max-width: 650px){.ce-conversion-tool__icon{width:36px;height:36px;border-radius:8px}.ce-conversion-tool__icon svg{width:28px;height:28px}}.ce-conversion-tool--last{margin-right:0!important}.ce-conversion-tool--active{color:#388ae5!important}.ce-conversion-tool--active{-webkit-animation:bounceIn .75s 1;animation:bounceIn .75s 1;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.ce-conversion-tool__secondary-label{color:#707684;font-size:12px;margin-left:auto;white-space:nowrap;letter-spacing:-.1em;padding-right:5px;margin-bottom:-2px;opacity:.6}@media (max-width: 650px){.ce-conversion-tool__secondary-label{display:none}}.ce-settings__button{display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:6px 1px;border-radius:3px;cursor:pointer;border:0;outline:none;background-color:transparent;vertical-align:bottom;color:inherit;margin:0;line-height:32px}.ce-settings__button svg{width:20px;height:20px}@media (max-width: 650px){.ce-settings__button svg{width:28px;height:28px}}@media (hover: hover){.ce-settings__button:hover{background-color:#eff2f5}}.ce-settings__button--active{color:#388ae5}.ce-settings__button--focused{background:rgba(34,186,255,.08)!important}.ce-settings__button--focused{-webkit-box-shadow:inset 0 0 0px 1px rgba(7,161,227,.08);box-shadow:inset 0 0 0 1px #07a1e314}.ce-settings__button--focused-animated{-webkit-animation-name:buttonClicked;animation-name:buttonClicked;-webkit-animation-duration:.25s;animation-duration:.25s}.ce-settings__button:not(:nth-child(3n+3)){margin-right:3px}.ce-settings__button:nth-child(n+4){margin-top:3px}.ce-settings__button--disabled{cursor:not-allowed!important}.ce-settings__button--disabled{opacity:.3}.ce-settings__button--selected{color:#388ae5}@media (min-width: 651px){.codex-editor--narrow .ce-settings .ce-popover{right:0;left:auto;left:initial}}@-webkit-keyframes fade-in{0%{opacity:0}to{opacity:1}}@keyframes fade-in{0%{opacity:0}to{opacity:1}}.ce-block{-webkit-animation:fade-in .3s ease;animation:fade-in .3s ease;-webkit-animation-fill-mode:none;animation-fill-mode:none;-webkit-animation-fill-mode:initial;animation-fill-mode:initial}.ce-block:first-of-type{margin-top:0}.ce-block--selected .ce-block__content{background:#e1f2ff}.ce-block--selected .ce-block__content [contenteditable]{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.ce-block--selected .ce-block__content img,.ce-block--selected .ce-block__content .ce-stub{opacity:.55}.ce-block--stretched .ce-block__content{max-width:none}.ce-block__content{position:relative;max-width:650px;margin:0 auto;-webkit-transition:background-color .15s ease;transition:background-color .15s ease}.ce-block--drop-target .ce-block__content:before{content:"";position:absolute;top:100%;left:-20px;margin-top:-1px;height:8px;width:8px;border:solid #388AE5;border-width:1px 1px 0 0;-webkit-transform-origin:right;transform-origin:right;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.ce-block--drop-target .ce-block__content:after{content:"";position:absolute;top:100%;height:1px;width:100%;color:#388ae5;background:repeating-linear-gradient(90deg,#388AE5,#388AE5 1px,#fff 1px,#fff 6px)}.ce-block a{cursor:pointer;-webkit-text-decoration:underline;text-decoration:underline}.ce-block b{font-weight:700}.ce-block i{font-style:italic}@-webkit-keyframes bounceIn{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{-webkit-transform:scale3d(.9,.9,.9);transform:scale3d(.9,.9,.9)}20%{-webkit-transform:scale3d(1.03,1.03,1.03);transform:scale3d(1.03,1.03,1.03)}60%{-webkit-transform:scale3d(1,1,1);transform:scaleZ(1)}}@keyframes bounceIn{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{-webkit-transform:scale3d(.9,.9,.9);transform:scale3d(.9,.9,.9)}20%{-webkit-transform:scale3d(1.03,1.03,1.03);transform:scale3d(1.03,1.03,1.03)}60%{-webkit-transform:scale3d(1,1,1);transform:scaleZ(1)}}@-webkit-keyframes selectionBounce{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}50%{-webkit-transform:scale3d(1.01,1.01,1.01);transform:scale3d(1.01,1.01,1.01)}70%{-webkit-transform:scale3d(1,1,1);transform:scaleZ(1)}}@keyframes selectionBounce{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}50%{-webkit-transform:scale3d(1.01,1.01,1.01);transform:scale3d(1.01,1.01,1.01)}70%{-webkit-transform:scale3d(1,1,1);transform:scaleZ(1)}}@-webkit-keyframes buttonClicked{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{-webkit-transform:scale3d(.95,.95,.95);transform:scale3d(.95,.95,.95)}60%{-webkit-transform:scale3d(1.02,1.02,1.02);transform:scale3d(1.02,1.02,1.02)}80%{-webkit-transform:scale3d(1,1,1);transform:scaleZ(1)}}@keyframes buttonClicked{0%,20%,40%,60%,80%,to{-webkit-animation-timing-function:cubic-bezier(.215,.61,.355,1);animation-timing-function:cubic-bezier(.215,.61,.355,1)}0%{-webkit-transform:scale3d(.95,.95,.95);transform:scale3d(.95,.95,.95)}60%{-webkit-transform:scale3d(1.02,1.02,1.02);transform:scale3d(1.02,1.02,1.02)}80%{-webkit-transform:scale3d(1,1,1);transform:scaleZ(1)}}.cdx-block{padding:.4em 0}.cdx-block::-webkit-input-placeholder{line-height:normal!important}.cdx-input{border:1px solid rgba(201,201,204,.48);-webkit-box-shadow:inset 0 1px 2px 0 rgba(35,44,72,.06);box-shadow:inset 0 1px 2px #232c480f;border-radius:3px;padding:10px 12px;outline:none;width:100%;-webkit-box-sizing:border-box;box-sizing:border-box}.cdx-input[data-placeholder]:before{position:static!important}.cdx-input[data-placeholder]:before{display:inline-block;width:0;white-space:nowrap;pointer-events:none}.cdx-settings-button{display:-webkit-inline-box;display:-ms-inline-flexbox;display:inline-flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:6px 1px;border-radius:3px;cursor:pointer;border:0;outline:none;background-color:transparent;vertical-align:bottom;color:inherit;margin:0;min-width:26px;min-height:26px}.cdx-settings-button svg{width:20px;height:20px}@media (max-width: 650px){.cdx-settings-button svg{width:28px;height:28px}}@media (hover: hover){.cdx-settings-button:hover{background-color:#eff2f5}}.cdx-settings-button--focused{background:rgba(34,186,255,.08)!important}.cdx-settings-button--focused{-webkit-box-shadow:inset 0 0 0px 1px rgba(7,161,227,.08);box-shadow:inset 0 0 0 1px #07a1e314}.cdx-settings-button--focused-animated{-webkit-animation-name:buttonClicked;animation-name:buttonClicked;-webkit-animation-duration:.25s;animation-duration:.25s}.cdx-settings-button--active{color:#388ae5}.cdx-settings-button svg{width:auto;height:auto}@media (max-width: 650px){.cdx-settings-button{width:36px;height:36px;border-radius:8px}}.cdx-loader{position:relative;border:1px solid rgba(201,201,204,.48)}.cdx-loader:before{content:"";position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-11px 0 0 -11px;border:2px solid rgba(201,201,204,.48);border-left-color:#388ae5;border-radius:50%;-webkit-animation:cdxRotation 1.2s infinite linear;animation:cdxRotation 1.2s infinite linear}@-webkit-keyframes cdxRotation{0%{-webkit-transform:rotate(0deg);transform:rotate(0)}to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes cdxRotation{0%{-webkit-transform:rotate(0deg);transform:rotate(0)}to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.cdx-button{padding:13px;border-radius:3px;border:1px solid rgba(201,201,204,.48);font-size:14.9px;background:#fff;-webkit-box-shadow:0 2px 2px 0 rgba(18,30,57,.04);box-shadow:0 2px 2px #121e390a;color:#707684;text-align:center;cursor:pointer}@media (hover: hover){.cdx-button:hover{background:#FBFCFE;-webkit-box-shadow:0 1px 3px 0 rgba(18,30,57,.08);box-shadow:0 1px 3px #121e3914}}.cdx-button svg{height:20px;margin-right:.2em;margin-top:-2px}.ce-stub{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:12px 18px;margin:10px 0;border-radius:10px;background:#eff2f5;border:1px solid #EFF0F1;color:#707684;font-size:14px}.ce-stub svg{width:20px;height:20px}.ce-stub__info{margin-left:14px}.ce-stub__title{font-weight:500;text-transform:capitalize}.codex-editor.codex-editor--rtl{direction:rtl}.codex-editor.codex-editor--rtl .cdx-list{padding-left:0;padding-right:40px}.codex-editor.codex-editor--rtl .ce-toolbar__plus{right:-26px;left:auto}.codex-editor.codex-editor--rtl .ce-toolbar__actions{right:auto;left:-26px}@media (max-width: 650px){.codex-editor.codex-editor--rtl .ce-toolbar__actions{margin-left:0;margin-right:auto;padding-right:0;padding-left:10px}}.codex-editor.codex-editor--rtl .ce-settings{left:5px;right:auto}.codex-editor.codex-editor--rtl .ce-settings:before{right:auto;left:25px}.codex-editor.codex-editor--rtl .ce-settings__button:not(:nth-child(3n+3)){margin-left:3px;margin-right:0}.codex-editor.codex-editor--rtl .ce-conversion-tool__icon{margin-right:0;margin-left:10px}.codex-editor.codex-editor--rtl .ce-inline-toolbar__dropdown{border-right:0px solid transparent;border-left:1px solid rgba(201,201,204,.48);margin:0 -6px 0 6px}.codex-editor.codex-editor--rtl .ce-inline-toolbar__dropdown .icon--toggler-down{margin-left:0;margin-right:4px}@media (min-width: 651px){.codex-editor--narrow.codex-editor--rtl .ce-toolbar__plus{left:0px;right:5px}}@media (min-width: 651px){.codex-editor--narrow.codex-editor--rtl .ce-toolbar__actions{left:-5px}}.cdx-search-field{--icon-margin-right: 10px;background:rgba(232,232,235,.49);border:1px solid rgba(226,226,229,.2);border-radius:6px;padding:2px;display:grid;grid-template-columns:auto auto 1fr;grid-template-rows:auto}.cdx-search-field__icon{width:26px;height:26px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-right:var(--icon-margin-right)}.cdx-search-field__icon svg{width:20px;height:20px;color:#707684}.cdx-search-field__input{font-size:14px;outline:none;font-weight:500;font-family:inherit;border:0;background:transparent;margin:0;padding:0;line-height:22px;min-width:calc(100% - 26px - var(--icon-margin-right))}.cdx-search-field__input::-webkit-input-placeholder{color:#707684;font-weight:500}.cdx-search-field__input::-moz-placeholder{color:#707684;font-weight:500}.cdx-search-field__input:-ms-input-placeholder{color:#707684;font-weight:500}.cdx-search-field__input::-ms-input-placeholder{color:#707684;font-weight:500}.cdx-search-field__input::placeholder{color:#707684;font-weight:500}.ce-popover{--border-radius: 6px;--width: 200px;--max-height: 270px;--padding: 6px;--offset-from-target: 8px;--color-border: #e8e8eb;--color-shadow: rgba(13,20,33,.13);--color-background: white;--color-text-primary: black;--color-text-secondary: #707684;--color-border-icon: rgba(201, 201, 204, .48);--color-border-icon-disabled: #EFF0F1;--color-text-icon-active: #388AE5;--color-background-icon-active: rgba(56, 138, 229, .1);--color-background-item-focus: rgba(34, 186, 255, .08);--color-shadow-item-focus: rgba(7, 161, 227, .08);--color-background-item-hover: #eff2f5;--color-background-item-confirm: #E24A4A;--color-background-item-confirm-hover: #CE4343;min-width:var(--width);width:var(--width);max-height:var(--max-height);border-radius:var(--border-radius);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-box-shadow:0 3px 15px -3px var(--color-shadow);box-shadow:0 3px 15px -3px var(--color-shadow);position:absolute;left:0;top:calc(100% + var(--offset-from-target));background:var(--color-background);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;z-index:4;opacity:0;max-height:0;pointer-events:none;padding:0;border:none}.ce-popover--opened{opacity:1;padding:var(--padding);max-height:var(--max-height);pointer-events:auto;-webkit-animation:panelShowing .1s ease;animation:panelShowing .1s ease;border:1px solid var(--color-border)}@media (max-width: 650px){.ce-popover--opened{-webkit-animation:panelShowingMobile .25s ease;animation:panelShowingMobile .25s ease}}.ce-popover__items{overflow-y:auto;-ms-scroll-chaining:none;overscroll-behavior:contain}@media (max-width: 650px){.ce-popover__overlay{position:fixed;top:0;bottom:0;left:0;right:0;background:#1D202B;z-index:3;opacity:.5;-webkit-transition:opacity .12s ease-in;transition:opacity .12s ease-in;will-change:opacity;visibility:visible}}.ce-popover__overlay--hidden{display:none}.ce-popover--open-top{top:calc(-1 * (var(--offset-from-target) + var(--popover-height)))}@media (max-width: 650px){.ce-popover{--offset: 5px;position:fixed;max-width:none;min-width:calc(100% - var(--offset) * 2);left:var(--offset);right:var(--offset);bottom:calc(var(--offset) + env(safe-area-inset-bottom));top:auto;border-radius:10px}.ce-popover .ce-popover__search{display:none}}.ce-popover__search,.ce-popover__custom-content:not(:empty){margin-bottom:5px}.ce-popover__nothing-found-message{color:#707684;display:none;cursor:default;padding:3px;font-size:14px;line-height:20px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ce-popover__nothing-found-message--displayed{display:block}.ce-popover__custom-content:not(:empty){padding:4px}@media (min-width: 651px){.ce-popover__custom-content:not(:empty){padding:0}}.ce-popover__custom-content--hidden{display:none}.ce-popover-item{--border-radius: 6px;--icon-size: 20px;--icon-size-mobile: 28px;border-radius:var(--border-radius);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:3px;color:var(--color-text-primary);-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}@media (max-width: 650px){.ce-popover-item{padding:4px}}.ce-popover-item:not(:last-of-type){margin-bottom:1px}.ce-popover-item__icon{border-radius:5px;width:26px;height:26px;-webkit-box-shadow:0 0 0 1px var(--color-border-icon);box-shadow:0 0 0 1px var(--color-border-icon);background:#fff;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;margin-right:10px}.ce-popover-item__icon svg{width:20px;height:20px}@media (max-width: 650px){.ce-popover-item__icon{width:36px;height:36px;border-radius:8px}.ce-popover-item__icon svg{width:var(--icon-size-mobile);height:var(--icon-size-mobile)}}.ce-popover-item__title{font-size:14px;line-height:20px;font-weight:500;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}@media (max-width: 650px){.ce-popover-item__title{font-size:16px}}.ce-popover-item__secondary-title{color:var(--color-text-secondary);font-size:12px;margin-left:auto;white-space:nowrap;letter-spacing:-.1em;padding-right:5px;margin-bottom:-2px;opacity:.6}@media (max-width: 650px){.ce-popover-item__secondary-title{display:none}}.ce-popover-item--active{background:var(--color-background-icon-active);color:var(--color-text-icon-active)}.ce-popover-item--active .ce-popover-item__icon{-webkit-box-shadow:none;box-shadow:none}.ce-popover-item--disabled{color:var(--color-text-secondary);cursor:default;pointer-events:none}.ce-popover-item--disabled .ce-popover-item__icon{-webkit-box-shadow:0 0 0 1px var(--color-border-icon-disabled);box-shadow:0 0 0 1px var(--color-border-icon-disabled)}.ce-popover-item--focused:not(.ce-popover-item--no-focus){background:var(--color-background-item-focus)!important}.ce-popover-item--focused:not(.ce-popover-item--no-focus){-webkit-box-shadow:inset 0 0 0px 1px var(--color-shadow-item-focus);box-shadow:inset 0 0 0 1px var(--color-shadow-item-focus)}.ce-popover-item--hidden{display:none}@media (hover: hover){.ce-popover-item:hover{cursor:pointer}.ce-popover-item:hover:not(.ce-popover-item--no-hover){background-color:var(--color-background-item-hover)}.ce-popover-item:hover .ce-popover-item__icon{-webkit-box-shadow:none;box-shadow:none}}.ce-popover-item--confirmation{background:var(--color-background-item-confirm)}.ce-popover-item--confirmation .ce-popover-item__icon{color:var(--color-background-item-confirm)}.ce-popover-item--confirmation .ce-popover-item__title{color:#fff}@media (hover: hover){.ce-popover-item--confirmation:not(.ce-popover-item--no-hover):hover{background:var(--color-background-item-confirm-hover)}}.ce-popover-item--confirmation:not(.ce-popover-item--no-focus).ce-popover-item--focused{background:var(--color-background-item-confirm-hover)!important}.ce-popover-item--confirmation .ce-popover-item__icon,.ce-popover-item--active .ce-popover-item__icon,.ce-popover-item--focused .ce-popover-item__icon{-webkit-box-shadow:none;box-shadow:none}@-webkit-keyframes panelShowing{0%{opacity:0;-webkit-transform:translateY(-8px) scale(.9);transform:translateY(-8px) scale(.9)}70%{opacity:1;-webkit-transform:translateY(2px);transform:translateY(2px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes panelShowing{0%{opacity:0;-webkit-transform:translateY(-8px) scale(.9);transform:translateY(-8px) scale(.9)}70%{opacity:1;-webkit-transform:translateY(2px);transform:translateY(2px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@-webkit-keyframes panelShowingMobile{0%{opacity:0;-webkit-transform:translateY(14px) scale(.98);transform:translateY(14px) scale(.98)}70%{opacity:1;-webkit-transform:translateY(-4px);transform:translateY(-4px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes panelShowingMobile{0%{opacity:0;-webkit-transform:translateY(14px) scale(.98);transform:translateY(14px) scale(.98)}70%{opacity:1;-webkit-transform:translateY(-4px);transform:translateY(-4px)}to{-webkit-transform:translateY(0);transform:translateY(0)}}.wobble{-webkit-animation-name:wobble;animation-name:wobble;-webkit-animation-duration:.4s;animation-duration:.4s}@-webkit-keyframes wobble{0%{-webkit-transform:translate3d(0,0,0);transform:translateZ(0)}15%{-webkit-transform:translate3d(-9%,0,0);transform:translate3d(-9%,0,0)}30%{-webkit-transform:translate3d(9%,0,0);transform:translate3d(9%,0,0)}45%{-webkit-transform:translate3d(-4%,0,0);transform:translate3d(-4%,0,0)}60%{-webkit-transform:translate3d(4%,0,0);transform:translate3d(4%,0,0)}75%{-webkit-transform:translate3d(-1%,0,0);transform:translate3d(-1%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translateZ(0)}}@keyframes wobble{0%{-webkit-transform:translate3d(0,0,0);transform:translateZ(0)}15%{-webkit-transform:translate3d(-9%,0,0);transform:translate3d(-9%,0,0)}30%{-webkit-transform:translate3d(9%,0,0);transform:translate3d(9%,0,0)}45%{-webkit-transform:translate3d(-4%,0,0);transform:translate3d(-4%,0,0)}60%{-webkit-transform:translate3d(4%,0,0);transform:translate3d(4%,0,0)}75%{-webkit-transform:translate3d(-1%,0,0);transform:translate3d(-1%,0,0)}to{-webkit-transform:translate3d(0,0,0);transform:translateZ(0)}}
 `;
 class xi extends y {
@@ -9297,7 +8995,8 @@ class xi extends y {
    * @returns {DOMRect}
    */
   get contentRect() {
-    if (this.contentRectCache) return this.contentRectCache;
+    if (this.contentRectCache)
+    return this.contentRectCache;
     const e = this.nodes.wrapper.querySelector(`.${R.CSS.content}`);
     return e ? (this.contentRectCache = e.getBoundingClientRect(), this.contentRectCache) : {
       width: 650,
@@ -9333,9 +9032,7 @@ class xi extends y {
    * Check if Editor is empty and set CSS class to wrapper
    */
   checkEmptiness() {
-    const {
-      BlockManager: e
-    } = this.Editor;
+    const { BlockManager: e } = this.Editor;
     this.nodes.wrapper.classList.toggle(this.CSS.editorEmpty, e.isEditorEmpty);
   }
   /**
@@ -9345,12 +9042,7 @@ class xi extends y {
    * @returns {boolean}
    */
   get someToolbarOpened() {
-    const {
-      Toolbar: e,
-      BlockSettings: t,
-      InlineToolbar: o,
-      ConversionToolbar: i
-    } = this.Editor;
+    const { Toolbar: e, BlockSettings: t, InlineToolbar: o, ConversionToolbar: i } = this.Editor;
     return t.opened || o.opened || i.opened || e.toolbox.opened;
   }
   /**
@@ -9369,12 +9061,7 @@ class xi extends y {
    * Close all Editor's toolbars
    */
   closeAllToolbars() {
-    const {
-      Toolbar: e,
-      BlockSettings: t,
-      InlineToolbar: o,
-      ConversionToolbar: i
-    } = this.Editor;
+    const { Toolbar: e, BlockSettings: t, InlineToolbar: o, ConversionToolbar: i } = this.Editor;
     t.close(), o.close(), i.close(), e.toolbox.close();
   }
   /**
@@ -9387,14 +9074,18 @@ class xi extends y {
    * Makes Editor.js interface
    */
   make() {
-    this.nodes.holder = c.getHolder(this.config.holder), this.nodes.wrapper = c.make("div", [this.CSS.editorWrapper, ...(this.isRtl ? [this.CSS.editorRtlFix] : [])]), this.nodes.redactor = c.make("div", this.CSS.editorZone), this.nodes.holder.offsetWidth < this.contentRect.width && this.nodes.wrapper.classList.add(this.CSS.editorWrapperNarrow), this.nodes.redactor.style.paddingBottom = this.config.minHeight + "px", this.nodes.wrapper.appendChild(this.nodes.redactor), this.nodes.holder.appendChild(this.nodes.wrapper);
+    this.nodes.holder = c.getHolder(this.config.holder), this.nodes.wrapper = c.make("div", [
+    this.CSS.editorWrapper,
+    ...(this.isRtl ? [this.CSS.editorRtlFix] : [])]
+    ), this.nodes.redactor = c.make("div", this.CSS.editorZone), this.nodes.holder.offsetWidth < this.contentRect.width && this.nodes.wrapper.classList.add(this.CSS.editorWrapperNarrow), this.nodes.redactor.style.paddingBottom = this.config.minHeight + "px", this.nodes.wrapper.appendChild(this.nodes.redactor), this.nodes.holder.appendChild(this.nodes.wrapper);
   }
   /**
    * Appends CSS
    */
   loadStyles() {
     const e = "editor-js-styles";
-    if (c.get(e)) return;
+    if (c.get(e))
+    return;
     const t = c.make("style", null, {
       id: e,
       textContent: vi.toString()
@@ -9405,21 +9096,21 @@ class xi extends y {
    * Bind events on the Editor.js interface
    */
   enableModuleBindings() {
-    this.readOnlyMutableListeners.on(this.nodes.redactor, "click", o => {
+    this.readOnlyMutableListeners.on(this.nodes.redactor, "click", (o) => {
       this.redactorClicked(o);
-    }, !1), this.readOnlyMutableListeners.on(this.nodes.redactor, "mousedown", o => {
+    }, !1), this.readOnlyMutableListeners.on(this.nodes.redactor, "mousedown", (o) => {
       this.documentTouched(o);
     }, {
       capture: !0,
       passive: !0
-    }), this.readOnlyMutableListeners.on(this.nodes.redactor, "touchstart", o => {
+    }), this.readOnlyMutableListeners.on(this.nodes.redactor, "touchstart", (o) => {
       this.documentTouched(o);
     }, {
       capture: !0,
       passive: !0
-    }), this.readOnlyMutableListeners.on(document, "keydown", o => {
+    }), this.readOnlyMutableListeners.on(document, "keydown", (o) => {
       this.documentKeydown(o);
-    }, !0), this.readOnlyMutableListeners.on(document, "mousedown", o => {
+    }, !0), this.readOnlyMutableListeners.on(document, "mousedown", (o) => {
       this.documentClicked(o);
     }, !0);
     const t = et(() => {
@@ -9436,7 +9127,7 @@ class xi extends y {
    */
   watchBlockHoveredEvents() {
     let e;
-    this.readOnlyMutableListeners.on(this.nodes.redactor, "mousemove", Ie(t => {
+    this.readOnlyMutableListeners.on(this.nodes.redactor, "mousemove", Ie((t) => {
       const o = t.target.closest(".ce-block");
       this.Editor.BlockSelection.anyBlockSelected || o && e !== o && (e = o, this.eventsDispatcher.emit(yt, {
         block: this.Editor.BlockManager.getBlockByChildNode(o)
@@ -9485,11 +9176,7 @@ class xi extends y {
    * @param {KeyboardEvent} event - keyboard event
    */
   defaultBehaviour(e) {
-    const {
-        currentBlock: t
-      } = this.Editor.BlockManager,
-      o = e.target.closest(`.${this.CSS.editorWrapper}`),
-      i = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+    const { currentBlock: t } = this.Editor.BlockManager,o = e.target.closest(`.${this.CSS.editorWrapper}`),i = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     if (t !== void 0 && o === null) {
       this.Editor.BlockEvents.keydown(e);
       return;
@@ -9500,14 +9187,9 @@ class xi extends y {
    * @param {KeyboardEvent} event - keyboard event
    */
   backspacePressed(e) {
-    const {
-      BlockManager: t,
-      BlockSelection: o,
-      Caret: i
-    } = this.Editor;
+    const { BlockManager: t, BlockSelection: o, Caret: i } = this.Editor;
     if (o.anyBlockSelected && !b.isSelectionExists) {
-      const n = t.removeSelectedBlocks(),
-        r = t.insertDefaultBlockAtIndex(n, !0);
+      const n = t.removeSelectedBlocks(),r = t.insertDefaultBlockAtIndex(n, !0);
       i.setToBlock(r, i.positions.START), o.clearSelection(e), e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation();
     }
   }
@@ -9526,11 +9208,7 @@ class xi extends y {
    * @param {KeyboardEvent} event - keyboard event
    */
   enterPressed(e) {
-    const {
-        BlockManager: t,
-        BlockSelection: o
-      } = this.Editor,
-      i = t.currentBlockIndex >= 0;
+    const { BlockManager: t, BlockSelection: o } = this.Editor,i = t.currentBlockIndex >= 0;
     if (o.anyBlockSelected && !b.isSelectionExists) {
       o.clearSelection(e), e.preventDefault(), e.stopImmediatePropagation(), e.stopPropagation();
       return;
@@ -9548,12 +9226,11 @@ class xi extends y {
    */
   documentClicked(e) {
     var a, l;
-    if (!e.isTrusted) return;
+    if (!e.isTrusted)
+    return;
     const t = e.target;
     this.nodes.holder.contains(t) || b.isAtEditor || (this.Editor.BlockManager.dropPointer(), this.Editor.Toolbar.close());
-    const i = (a = this.Editor.BlockSettings.nodes.wrapper) == null ? void 0 : a.contains(t),
-      n = (l = this.Editor.Toolbar.nodes.settingsToggler) == null ? void 0 : l.contains(t),
-      r = i || n;
+    const i = (a = this.Editor.BlockSettings.nodes.wrapper) == null ? void 0 : a.contains(t),n = (l = this.Editor.Toolbar.nodes.settingsToggler) == null ? void 0 : l.contains(t),r = i || n;
     if (this.Editor.BlockSettings.opened && !r) {
       this.Editor.BlockSettings.close();
       const d = this.Editor.BlockManager.getBlockByChildNode(t);
@@ -9575,8 +9252,7 @@ class xi extends y {
   documentTouched(e) {
     let t = e.target;
     if (t === this.nodes.redactor) {
-      const o = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX,
-        i = e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
+      const o = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX,i = e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
       t = document.elementFromPoint(o, i);
     }
     try {
@@ -9596,13 +9272,12 @@ class xi extends y {
    *      - otherwise, add a new empty Block and set a Caret to that
    */
   redactorClicked(e) {
-    if (!b.isCollapsed) return;
-    const t = e.target,
-      o = e.metaKey || e.ctrlKey;
+    if (!b.isCollapsed)
+    return;
+    const t = e.target,o = e.metaKey || e.ctrlKey;
     if (c.isAnchor(t) && o) {
       e.stopImmediatePropagation(), e.stopPropagation();
-      const i = t.getAttribute("href"),
-        n = Wt(i);
+      const i = t.getAttribute("href"),n = Wt(i);
       Kt(n);
       return;
     }
@@ -9616,27 +9291,16 @@ class xi extends y {
    * @param event - click event
    */
   processBottomZoneClick(e) {
-    const t = this.Editor.BlockManager.getBlockByIndex(-1),
-      o = c.offset(t.holder).bottom,
-      i = e.pageY,
-      {
-        BlockSelection: n
-      } = this.Editor;
-    if (e.target instanceof Element && e.target.isEqualNode(this.nodes.redactor) &&
-    /**
+    const t = this.Editor.BlockManager.getBlockByIndex(-1),o = c.offset(t.holder).bottom,i = e.pageY,{ BlockSelection: n } = this.Editor;
+    if (e.target instanceof Element && e.target.isEqualNode(this.nodes.redactor) && /**
     * If there is cross block selection started, target will be equal to redactor so we need additional check
     */
-    !n.anyBlockSelected &&
-    /**
+    !n.anyBlockSelected && /**
     * Prevent caret jumping (to last block) when clicking between blocks
     */
     o < i) {
       e.stopImmediatePropagation(), e.stopPropagation();
-      const {
-        BlockManager: a,
-        Caret: l,
-        Toolbar: d
-      } = this.Editor;
+      const { BlockManager: a, Caret: l, Toolbar: d } = this.Editor;
       (!a.lastBlock.tool.isDefault || !a.lastBlock.isEmpty) && a.insertAtEnd(), l.setToTheLastBlock(), d.moveAndOpen(a.lastBlock);
     }
   }
@@ -9645,17 +9309,14 @@ class xi extends y {
    * Uses for showing the Inline Toolbar
    */
   selectionChanged() {
-    const {
-        CrossBlockSelection: e,
-        BlockSelection: t
-      } = this.Editor,
-      o = b.anchorElement;
+    const { CrossBlockSelection: e, BlockSelection: t } = this.Editor,o = b.anchorElement;
     if (e.isCrossBlockSelectionStarted && t.anyBlockSelected && b.get().removeAllRanges(), !o) {
       b.range || this.Editor.InlineToolbar.close();
       return;
     }
     const i = o.closest(`.${R.CSS.content}`) === null;
-    if (i && (this.Editor.InlineToolbar.containsNode(o) || this.Editor.InlineToolbar.close(), !(o.dataset.inlineToolbar === "true"))) return;
+    if (i && (this.Editor.InlineToolbar.containsNode(o) || this.Editor.InlineToolbar.close(), !(o.dataset.inlineToolbar === "true")))
+    return;
     this.Editor.BlockManager.currentBlock || this.Editor.BlockManager.setCurrentBlockByChildNode(o);
     const n = i !== !0;
     this.Editor.InlineToolbar.tryToShow(!0, n);
@@ -9711,14 +9372,9 @@ class yi {
       t = i, o = n;
     }), Promise.resolve().then(async () => {
       this.configuration = e, this.validate(), this.init(), await this.start(), await this.render();
-      const {
-        BlockManager: i,
-        Caret: n,
-        UI: r,
-        ModificationsObserver: a
-      } = this.moduleInstances;
+      const { BlockManager: i, Caret: n, UI: r, ModificationsObserver: a } = this.moduleInstances;
       r.checkEmptiness(), a.enable(), this.configuration.autofocus && n.setToBlock(i.blocks[0], n.positions.START), t();
-    }).catch(i => {
+    }).catch((i) => {
       T(`Editor.js is not ready because of ${i}`, "error"), o(i);
     });
   }
@@ -9742,11 +9398,9 @@ class yi {
       p: !0,
       b: !0,
       a: !0
-    }, this.config.hideToolbar = this.config.hideToolbar ? this.config.hideToolbar : !1, this.config.tools = this.config.tools || {}, this.config.i18n = this.config.i18n || {}, this.config.data = this.config.data || {
-      blocks: []
-    }, this.config.onReady = this.config.onReady || (() => {}), this.config.onChange = this.config.onChange || (() => {}), this.config.inlineToolbar = this.config.inlineToolbar !== void 0 ? this.config.inlineToolbar : !0, (W(this.config.data) || !this.config.data.blocks || this.config.data.blocks.length === 0) && (this.config.data = {
-      blocks: [t]
-    }), this.config.readOnly = this.config.readOnly || !1, (o = this.config.i18n) != null && o.messages && z.setDictionary(this.config.i18n.messages), this.config.i18n.direction = ((i = this.config.i18n) == null ? void 0 : i.direction) || "ltr";
+    }, this.config.hideToolbar = this.config.hideToolbar ? this.config.hideToolbar : !1, this.config.tools = this.config.tools || {}, this.config.i18n = this.config.i18n || {}, this.config.data = this.config.data || { blocks: [] }, this.config.onReady = this.config.onReady || (() => {
+    }), this.config.onChange = this.config.onChange || (() => {
+    }), this.config.inlineToolbar = this.config.inlineToolbar !== void 0 ? this.config.inlineToolbar : !0, (W(this.config.data) || !this.config.data.blocks || this.config.data.blocks.length === 0) && (this.config.data = { blocks: [t] }), this.config.readOnly = this.config.readOnly || !1, (o = this.config.i18n) != null && o.messages && z.setDictionary(this.config.i18n.messages), this.config.i18n.direction = ((i = this.config.i18n) == null ? void 0 : i.direction) || "ltr";
   }
   /**
    * Returns private property
@@ -9760,13 +9414,13 @@ class yi {
    * Checks for required fields in Editor's config
    */
   validate() {
-    const {
-      holderId: e,
-      holder: t
-    } = this.config;
-    if (e && t) throw Error("«holderId» and «holder» param can't assign at the same time.");
-    if (G(t) && !c.get(t)) throw Error(`element with ID «${t}» is missing. Pass correct holder's ID.`);
-    if (t && D(t) && !c.isElement(t)) throw Error("«holder» value must be an Element node");
+    const { holderId: e, holder: t } = this.config;
+    if (e && t)
+    throw Error("«holderId» and «holder» param can't assign at the same time.");
+    if (G(t) && !c.get(t))
+    throw Error(`element with ID «${t}» is missing. Pass correct holder's ID.`);
+    if (t && D(t) && !c.isElement(t))
+    throw Error("«holder» value must be an Element node");
   }
   /**
    * Initializes modules:
@@ -9784,14 +9438,27 @@ class yi {
    * @returns {Promise<void>}
    */
   async start() {
-    await ["Tools", "UI", "BlockManager", "Paste", "BlockSelection", "RectangleSelection", "CrossBlockSelection", "ReadOnly"].reduce((t, o) => t.then(async () => {
-      try {
-        await this.moduleInstances[o].prepare();
-      } catch (i) {
-        if (i instanceof ut) throw new Error(i.message);
-        T(`Module ${o} was skipped because of %o`, "warn", i);
-      }
-    }), Promise.resolve());
+    await [
+    "Tools",
+    "UI",
+    "BlockManager",
+    "Paste",
+    "BlockSelection",
+    "RectangleSelection",
+    "CrossBlockSelection",
+    "ReadOnly"].
+    reduce(
+      (t, o) => t.then(async () => {
+        try {
+          await this.moduleInstances[o].prepare();
+        } catch (i) {
+          if (i instanceof ut)
+          throw new Error(i.message);
+          T(`Module ${o} was skipped because of %o`, "warn", i);
+        }
+      }),
+      Promise.resolve()
+    );
   }
   /**
    * Render initial data
@@ -9820,7 +9487,8 @@ class yi {
    *  - ...
    */
   configureModules() {
-    for (const e in this.moduleInstances) Object.prototype.hasOwnProperty.call(this.moduleInstances, e) && (this.moduleInstances[e].state = this.getModulesDiff(e));
+    for (const e in this.moduleInstances)
+    Object.prototype.hasOwnProperty.call(this.moduleInstances, e) && (this.moduleInstances[e].state = this.getModulesDiff(e));
   }
   /**
    * Return modules without passed name
@@ -9829,7 +9497,8 @@ class yi {
    */
   getModulesDiff(e) {
     const t = {};
-    for (const o in this.moduleInstances) o !== e && (t[o] = this.moduleInstances[o]);
+    for (const o in this.moduleInstances)
+    o !== e && (t[o] = this.moduleInstances[o]);
     return t;
   }
 }
@@ -9849,7 +9518,8 @@ class Ei {
    * @param {EditorConfig|string|undefined} [configuration] - user configuration
    */
   constructor(e) {
-    let t = () => {};
+    let t = () => {
+    };
     D(e) && M(e.onReady) && (t = e.onReady);
     const o = new yi(e);
     this.isReady = o.isReady.then(() => {
@@ -9862,15 +9532,15 @@ class Ei {
    * @param {Core} editor — Editor's instance
    */
   exportAPI(e) {
-    const t = ["configuration"],
-      o = () => {
-        Object.values(e.moduleInstances).forEach(n => {
+    const t = ["configuration"],o = () => {
+        Object.values(e.moduleInstances).forEach((n) => {
           M(n.destroy) && n.destroy(), n.listeners.removeAll();
         }), Io(), e = null;
-        for (const n in this) Object.prototype.hasOwnProperty.call(this, n) && delete this[n];
+        for (const n in this)
+        Object.prototype.hasOwnProperty.call(this, n) && delete this[n];
         Object.setPrototypeOf(this, null);
       };
-    t.forEach(n => {
+    t.forEach((n) => {
       this[n] = e[n];
     }), this.destroy = o, Object.setPrototypeOf(this, e.moduleInstances.API.methods), delete this.exportAPI, Object.entries({
       blocks: {
@@ -9895,4 +9565,5 @@ class Ei {
     });
   }
 }
-export { Ei as default };
+export {
+  Ei as default };

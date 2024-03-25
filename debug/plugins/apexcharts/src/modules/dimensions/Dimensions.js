@@ -1,8 +1,8 @@
-import YAxis from '../axes/YAxis';
-import Helpers from './Helpers';
-import DimXAxis from './XAxis';
-import DimYAxis from './YAxis';
-import Grid from './Grid';
+import YAxis from "../axes/YAxis";
+import Helpers from "./Helpers";
+import DimXAxis from "./XAxis";
+import DimYAxis from "./YAxis";
+import Grid from "./Grid";
 
 /**
  * ApexCharts Dimensions Class for calculating rects of all elements that are drawn and will be drawn.
@@ -224,7 +224,7 @@ export default class Dimensions {
     }
     let minYAxisWidth = 0;
     let maxYAxisWidth = 0;
-    w.config.yaxis.forEach(y => {
+    w.config.yaxis.forEach((y) => {
       minYAxisWidth += y.labels.minWidth;
       maxYAxisWidth += y.labels.maxWidth;
     });

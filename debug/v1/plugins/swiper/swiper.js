@@ -1,4 +1,4 @@
-import Swiper from "../../../plugins/swiper/swiper-bundle.min.mjs";
+import Swiper from "../../../../${debugPath}/plugins/swiper/swiper-bundle.min.mjs";
 const onReady = () => {
   const swiper = new Swiper('.swiper', {
     // Optional parameters

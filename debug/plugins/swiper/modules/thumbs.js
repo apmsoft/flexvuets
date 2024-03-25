@@ -1,5 +1,6 @@
-import { g as getDocument } from '../shared/ssr-window.esm.mjs';
-import { l as isObject, e as elementChildren } from '../shared/utils.mjs';
+import { g as getDocument } from "../shared/ssr-window.esm.mjs";
+import { l as isObject, e as elementChildren } from "../shared/utils.mjs";
+
 function Thumb(_ref) {
   let {
     swiper,
@@ -85,10 +86,10 @@ function Thumb(_ref) {
       thumbsToActivate = 1;
     }
     thumbsToActivate = Math.floor(thumbsToActivate);
-    thumbsSwiper.slides.forEach(slideEl => slideEl.classList.remove(thumbActiveClass));
+    thumbsSwiper.slides.forEach((slideEl) => slideEl.classList.remove(thumbActiveClass));
     if (thumbsSwiper.params.loop || thumbsSwiper.params.virtual && thumbsSwiper.params.virtual.enabled) {
       for (let i = 0; i < thumbsToActivate; i += 1) {
-        elementChildren(thumbsSwiper.slidesEl, `[data-swiper-slide-index="${swiper.realIndex + i}"]`).forEach(slideEl => {
+        elementChildren(thumbsSwiper.slidesEl, `[data-swiper-slide-index="${swiper.realIndex + i}"]`).forEach((slideEl) => {
           slideEl.classList.add(thumbActiveClass);
         });
       }
@@ -106,7 +107,7 @@ function Thumb(_ref) {
       let newThumbsIndex;
       let direction;
       if (thumbsSwiper.params.loop) {
-        const newThumbsSlide = thumbsSwiper.slides.filter(slideEl => slideEl.getAttribute('data-swiper-slide-index') === `${swiper.realIndex}`)[0];
+        const newThumbsSlide = thumbsSwiper.slides.filter((slideEl) => slideEl.getAttribute('data-swiper-slide-index') === `${swiper.realIndex}`)[0];
         newThumbsIndex = thumbsSwiper.slides.indexOf(newThumbsSlide);
         direction = swiper.activeIndex > swiper.previousIndex ? 'next' : 'prev';
       } else {
@@ -142,7 +143,7 @@ function Thumb(_ref) {
           init();
           update(true);
         } else if (thumbsElement) {
-          const onThumbsSwiper = e => {
+          const onThumbsSwiper = (e) => {
             thumbs.swiper = e.detail[0];
             thumbsElement.removeEventListener('init', onThumbsSwiper);
             init();
@@ -187,4 +188,5 @@ function Thumb(_ref) {
     update
   });
 }
+
 export { Thumb as default };

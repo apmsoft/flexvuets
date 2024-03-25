@@ -1,5 +1,5 @@
-import Graphics from '../Graphics';
-import AxesUtils from './AxesUtils';
+import Graphics from "../Graphics";
+import AxesUtils from "./AxesUtils";
 
 /**
  * ApexCharts XAxis Class for drawing X-Axis.
@@ -183,7 +183,7 @@ export default class XAxis {
           cssClass: (isLeafGroup ? 'apexcharts-xaxis-label ' : 'apexcharts-xaxis-group-label ') + cssClass
         });
         elXaxisTexts.add(elText);
-        elText.on('click', e => {
+        elText.on('click', (e) => {
           if (typeof w.config.chart.events.xAxisLabelClick === 'function') {
             const opts = Object.assign({}, w, {
               labelIndex: i
@@ -279,7 +279,7 @@ export default class XAxis {
           maxWidth: ylabels.maxWidth
         });
         elYaxisTexts.add(elLabel);
-        elLabel.on('click', e => {
+        elLabel.on('click', (e) => {
           if (typeof w.config.chart.events.xAxisLabelClick === 'function') {
             const opts = Object.assign({}, w, {
               labelIndex: i
@@ -395,7 +395,7 @@ export default class XAxis {
         xAxis.setAttribute('transform', `translate(0, ${-offsetHeight})`);
         let tSpan = xAxisTexts[xat].childNodes;
         if (w.config.xaxis.labels.trim) {
-          Array.prototype.forEach.call(tSpan, ts => {
+          Array.prototype.forEach.call(tSpan, (ts) => {
             graphics.placeTextWithEllipsis(ts, ts.textContent, w.globals.xAxisLabelsHeight - (w.config.legend.position === 'bottom' ? 20 : 10));
           });
         }
@@ -405,7 +405,7 @@ export default class XAxis {
       for (let xat = 0; xat < xAxisTexts.length; xat++) {
         let tSpan = xAxisTexts[xat].childNodes;
         if (w.config.xaxis.labels.trim && w.config.xaxis.type !== 'datetime') {
-          Array.prototype.forEach.call(tSpan, ts => {
+          Array.prototype.forEach.call(tSpan, (ts) => {
             graphics.placeTextWithEllipsis(ts, ts.textContent, width);
           });
         }

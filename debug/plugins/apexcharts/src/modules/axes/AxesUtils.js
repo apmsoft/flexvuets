@@ -1,7 +1,7 @@
-import Formatters from '../Formatters';
-import Graphics from '../Graphics';
-import CoreUtils from '../CoreUtils';
-import DateTime from '../../utils/DateTime';
+import Formatters from "../Formatters";
+import Graphics from "../Graphics";
+import CoreUtils from "../CoreUtils";
+import DateTime from "../../utils/DateTime";
 export default class AxesUtils {
   constructor(ctx) {
     this.ctx = ctx;
@@ -32,9 +32,9 @@ export default class AxesUtils {
         });
       }
     }
-    const determineHighestUnit = unit => {
+    const determineHighestUnit = (unit) => {
       let highestUnit = null;
-      timescaleLabels.forEach(t => {
+      timescaleLabels.forEach((t) => {
         if (t.unit === 'month') {
           highestUnit = 'year';
         } else if (t.unit === 'day') {
@@ -121,7 +121,7 @@ export default class AxesUtils {
   isYAxisHidden(index) {
     const w = this.w;
     const coreUtils = new CoreUtils(this.ctx);
-    let allCollapsed = !w.globals.seriesYAxisMap[index].some(si => {
+    let allCollapsed = !w.globals.seriesYAxisMap[index].some((si) => {
       return w.globals.collapsedSeriesIndices.indexOf(si) === -1;
     });
     return allCollapsed || !w.config.yaxis[index].show || !w.config.yaxis[index].showForNullSeries && coreUtils.isSeriesNull(index);

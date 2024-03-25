@@ -1,4 +1,4 @@
-import * as TextUtil from "../../flexvue/core/textutil.class.js";
+import * as TextUtil from "../../../${debugPath}/flexvue/core/textutil.class.js";
 const onReady = () => {
   const $el = document.querySelector('#echo_contents');
   // phone_format

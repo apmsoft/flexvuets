@@ -1,6 +1,6 @@
-import Bar from './Bar';
-import Graphics from '../modules/Graphics';
-import Utils from '../utils/Utils';
+import Bar from "./Bar";
+import Graphics from "../modules/Graphics";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts RangeBar Class responsible for drawing Range/Timeline Bars.
@@ -217,8 +217,8 @@ class RangeBar extends Bar {
     let rangeName = w.config.series[i].data[j].rangeName;
     const x = w.config.series[i].data[j].x;
     const labelX = Array.isArray(x) ? x.join(' ') : x;
-    const rowIndex = w.globals.labels.map(_ => Array.isArray(_) ? _.join(' ') : _).indexOf(labelX);
-    const overlappedIndex = w.globals.seriesRange[i].findIndex(tx => tx.x === labelX && tx.overlaps.length > 0);
+    const rowIndex = w.globals.labels.map((_) => Array.isArray(_) ? _.join(' ') : _).indexOf(labelX);
+    const overlappedIndex = w.globals.seriesRange[i].findIndex((tx) => tx.x === labelX && tx.overlaps.length > 0);
     if (this.isHorizontal) {
       if (w.config.plotOptions.bar.rangeBarGroupRows) {
         barYPosition = srty + yDivision * rowIndex;

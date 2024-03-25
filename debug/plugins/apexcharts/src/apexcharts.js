@@ -1,19 +1,19 @@
-import Annotations from './modules/annotations/Annotations';
-import Base from './modules/Base';
-import CoreUtils from './modules/CoreUtils';
-import DataLabels from './modules/DataLabels';
-import Defaults from './modules/settings/Defaults';
-import Exports from './modules/Exports';
-import Grid from './modules/axes/Grid';
-import Markers from './modules/Markers';
-import Range from './modules/Range';
-import Utils from './utils/Utils';
-import XAxis from './modules/axes/XAxis';
-import YAxis from './modules/axes/YAxis';
-import InitCtxVariables from './modules/helpers/InitCtxVariables';
-import Destroy from './modules/helpers/Destroy';
-import { addResizeListener, removeResizeListener } from './utils/Resize';
-import apexCSS from './assets/apexcharts.css';
+import Annotations from "./modules/annotations/Annotations";
+import Base from "./modules/Base";
+import CoreUtils from "./modules/CoreUtils";
+import DataLabels from "./modules/DataLabels";
+import Defaults from "./modules/settings/Defaults";
+import Exports from "./modules/Exports";
+import Grid from "./modules/axes/Grid";
+import Markers from "./modules/Markers";
+import Range from "./modules/Range";
+import Utils from "./utils/Utils";
+import XAxis from "./modules/axes/XAxis";
+import YAxis from "./modules/axes/YAxis";
+import InitCtxVariables from "./modules/helpers/InitCtxVariables";
+import Destroy from "./modules/helpers/Destroy";
+import { addResizeListener, removeResizeListener } from "./utils/Resize";
+import apexCSS from "./assets/apexcharts.css";
 
 /**
  *
@@ -93,7 +93,7 @@ export default class ApexCharts {
           }
           this.events.fireEvent('mounted', [this, this.w]);
           resolve(graphData);
-        }).catch(e => {
+        }).catch((e) => {
           reject(e);
           // handle error in case no data or element not found
         });
@@ -131,7 +131,7 @@ export default class ApexCharts {
     const combo = CoreUtils.checkComboSeries(ser, w.config.chart.type);
     gl.comboCharts = combo.comboCharts;
     gl.comboBarCount = combo.comboBarCount;
-    const allSeriesAreEmpty = ser.every(s => s.data && s.data.length === 0);
+    const allSeriesAreEmpty = ser.every((s) => s.data && s.data.length === 0);
     if (ser.length === 0 || allSeriesAreEmpty) {
       this.series.handleNoData();
     }
@@ -279,7 +279,7 @@ export default class ApexCharts {
         } else {
           const tools = w.config.chart.toolbar.tools;
           let toolsArr = ['zoom', 'zoomin', 'zoomout', 'selection', 'pan', 'reset'];
-          toolsArr.forEach(t => {
+          toolsArr.forEach((t) => {
             tools[t] = false;
           });
         }
@@ -288,7 +288,7 @@ export default class ApexCharts {
         }
       }
       if (w.globals.memory.methodsToExec.length > 0) {
-        w.globals.memory.methodsToExec.forEach(fn => {
+        w.globals.memory.methodsToExec.forEach((fn) => {
           fn.method(fn.params, false, fn.context);
         });
       }
@@ -422,7 +422,7 @@ export default class ApexCharts {
         this.events.fireEvent('updated', [this, this.w]);
         this.w.globals.isDirty = true;
         resolve(this);
-      }).catch(e => {
+      }).catch((e) => {
         reject(e);
       });
     });
@@ -436,7 +436,7 @@ export default class ApexCharts {
     let allCharts = [this];
     if (chartGroups.length) {
       allCharts = [];
-      chartGroups.forEach(ch => {
+      chartGroups.forEach((ch) => {
         allCharts.push(ch);
       });
     }
@@ -447,16 +447,16 @@ export default class ApexCharts {
    * Get charts in the same "group" (excluding the instance which is called upon) to perform operations on the other charts of the same group (eg., tooltip hovering)
    */
   getGroupedCharts() {
-    return Apex._chartInstances.filter(ch => {
+    return Apex._chartInstances.filter((ch) => {
       if (ch.group) {
         return true;
       }
-    }).map(ch => this.w.config.chart.group === ch.group ? ch.chart : this);
+    }).map((ch) => this.w.config.chart.group === ch.group ? ch.chart : this);
   }
   static getChartByID(id) {
     const chartId = Utils.escapeString(id);
     if (!Apex._chartInstances) return undefined;
-    const c = Apex._chartInstances.filter(ch => ch.id === chartId)[0];
+    const c = Apex._chartInstances.filter((ch) => ch.id === chartId)[0];
     return c && c.chart;
   }
 

@@ -23,13 +23,13 @@
     d = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 7L6 12M6 17L6 12M6 12L12 12M12 7V12M12 17L12 12"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M16 15.9C16 15.9 16.3768 17 17.8 17C19.5 17 20 15.6199 20 14.7C20 12.7323 17.6745 12.0486 16.1635 12.9894C16.094 13.0327 16 12.9846 16 12.9027V10.1C16 10.0448 16.0448 10 16.1 10H19.8"/></svg>',
     u = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 7L6 12M6 17L6 12M6 12L12 12M12 7V12M12 17L12 12"/><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M19.5 10C16.5 10.5 16 13.3285 16 15M16 15V15C16 16.1046 16.8954 17 18 17H18.3246C19.3251 17 20.3191 16.3492 20.2522 15.3509C20.0612 12.4958 16 12.6611 16 15Z"/></svg>',
     g = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 7L9 12M9 17V12M9 12L15 12M15 7V12M15 17L15 12"/></svg>'; /**
-                                                                                                                                                                                                                                           * Header block for the Editor.js.
-                                                                                                                                                                                                                                           *
-                                                                                                                                                                                                                                           * @author CodeX (team@ifmo.su)
-                                                                                                                                                                                                                                           * @copyright CodeX 2018
-                                                                                                                                                                                                                                           * @license MIT
-                                                                                                                                                                                                                                           * @version 2.0.0
-                                                                                                                                                                                                                                           */
+  * Header block for the Editor.js.
+  *
+  * @author CodeX (team@ifmo.su)
+  * @copyright CodeX 2018
+  * @license MIT
+  * @version 2.0.0
+  */
   class c {
     constructor({
       data: e,
@@ -50,7 +50,7 @@
       return this._element;
     }
     renderSettings() {
-      return this.levels.map(e => ({
+      return this.levels.map((e) => ({
         icon: e.svg,
         label: this.api.i18n.t(`Heading ${e.number}`),
         onActivate: () => this.setLevel(e.number),
@@ -110,12 +110,12 @@
       return e.innerHTML = this._data.text || "", e.classList.add(this._CSS.wrapper), e.contentEditable = this.readOnly ? "false" : "true", e.dataset.placeholder = this.api.i18n.t(this._settings.placeholder || ""), e;
     }
     get currentLevel() {
-      let e = this.levels.find(t => t.number === this._data.level);
+      let e = this.levels.find((t) => t.number === this._data.level);
       return e || (e = this.defaultLevel), e;
     }
     get defaultLevel() {
       if (this._settings.defaultLevel) {
-        const e = this.levels.find(t => t.number === this._settings.defaultLevel);
+        const e = this.levels.find((t) => t.number === this._settings.defaultLevel);
         if (e) return e;
         console.warn("(ง'̀-'́)ง Heading Tool: the default level specified was not found in available levels");
       }
@@ -147,7 +147,7 @@
         tag: "H6",
         svg: u
       }];
-      return this._settings.levels ? e.filter(t => this._settings.levels.includes(t.number)) : e;
+      return this._settings.levels ? e.filter((t) => this._settings.levels.includes(t.number)) : e;
     }
     onPaste(e) {
       const t = e.detail.data;

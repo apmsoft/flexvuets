@@ -1,6 +1,7 @@
-import { c as classesToSelector } from '../shared/classes-to-selector.mjs';
-import { c as createElementIfNotDefined } from '../shared/create-element-if-not-defined.mjs';
-import { m as makeElementsArray, f as elementOuterSize, h as elementIndex, a as elementParents } from '../shared/utils.mjs';
+import { c as classesToSelector } from "../shared/classes-to-selector.mjs";
+import { c as createElementIfNotDefined } from "../shared/create-element-if-not-defined.mjs";
+import { m as makeElementsArray, f as elementOuterSize, h as elementIndex, a as elementParents } from "../shared/utils.mjs";
+
 function Pagination(_ref) {
   let {
     swiper,
@@ -24,8 +25,8 @@ function Pagination(_ref) {
       // 'bullets' or 'progressbar' or 'fraction' or 'custom'
       dynamicBullets: false,
       dynamicMainBullets: 1,
-      formatFractionCurrent: number => number,
-      formatFractionTotal: number => number,
+      formatFractionCurrent: (number) => number,
+      formatFractionTotal: (number) => number,
       bulletClass: `${pfx}-bullet`,
       bulletActiveClass: `${pfx}-bullet-active`,
       modifierClass: `${pfx}-`,
@@ -108,7 +109,7 @@ function Pagination(_ref) {
       let midIndex;
       if (params.dynamicBullets) {
         bulletSize = elementOuterSize(bullets[0], swiper.isHorizontal() ? 'width' : 'height', true);
-        el.forEach(subEl => {
+        el.forEach((subEl) => {
           subEl.style[swiper.isHorizontal() ? 'width' : 'height'] = `${bulletSize * (params.dynamicMainBullets + 4)}px`;
         });
         if (params.dynamicMainBullets > 1 && previousIndex !== undefined) {
@@ -123,12 +124,12 @@ function Pagination(_ref) {
         lastIndex = firstIndex + (Math.min(bullets.length, params.dynamicMainBullets) - 1);
         midIndex = (lastIndex + firstIndex) / 2;
       }
-      bullets.forEach(bulletEl => {
-        const classesToRemove = [...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map(suffix => `${params.bulletActiveClass}${suffix}`)].map(s => typeof s === 'string' && s.includes(' ') ? s.split(' ') : s).flat();
+      bullets.forEach((bulletEl) => {
+        const classesToRemove = [...['', '-next', '-next-next', '-prev', '-prev-prev', '-main'].map((suffix) => `${params.bulletActiveClass}${suffix}`)].map((s) => typeof s === 'string' && s.includes(' ') ? s.split(' ') : s).flat();
         bulletEl.classList.remove(...classesToRemove);
       });
       if (el.length > 1) {
-        bullets.forEach(bullet => {
+        bullets.forEach((bullet) => {
           const bulletIndex = elementIndex(bullet);
           if (bulletIndex === current) {
             bullet.classList.add(...params.bulletActiveClass.split(' '));
@@ -173,17 +174,17 @@ function Pagination(_ref) {
         const dynamicBulletsLength = Math.min(bullets.length, params.dynamicMainBullets + 4);
         const bulletsOffset = (bulletSize * dynamicBulletsLength - bulletSize) / 2 - midIndex * bulletSize;
         const offsetProp = rtl ? 'right' : 'left';
-        bullets.forEach(bullet => {
+        bullets.forEach((bullet) => {
           bullet.style[swiper.isHorizontal() ? offsetProp : 'top'] = `${bulletsOffset}px`;
         });
       }
     }
     el.forEach((subEl, subElIndex) => {
       if (params.type === 'fraction') {
-        subEl.querySelectorAll(classesToSelector(params.currentClass)).forEach(fractionEl => {
+        subEl.querySelectorAll(classesToSelector(params.currentClass)).forEach((fractionEl) => {
           fractionEl.textContent = params.formatFractionCurrent(current + 1);
         });
-        subEl.querySelectorAll(classesToSelector(params.totalClass)).forEach(totalEl => {
+        subEl.querySelectorAll(classesToSelector(params.totalClass)).forEach((totalEl) => {
           totalEl.textContent = params.formatFractionTotal(total);
         });
       }
@@ -202,7 +203,7 @@ function Pagination(_ref) {
         } else {
           scaleY = scale;
         }
-        subEl.querySelectorAll(classesToSelector(params.progressbarFillClass)).forEach(progressEl => {
+        subEl.querySelectorAll(classesToSelector(params.progressbarFillClass)).forEach((progressEl) => {
           progressEl.style.transform = `translate3d(0,0,0) scaleX(${scaleX}) scaleY(${scaleY})`;
           progressEl.style.transitionDuration = `${swiper.params.speed}ms`;
         });
@@ -256,7 +257,7 @@ function Pagination(_ref) {
       }
     }
     swiper.pagination.bullets = [];
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       if (params.type !== 'custom') {
         subEl.innerHTML = paginationHTML || '';
       }
@@ -289,7 +290,7 @@ function Pagination(_ref) {
       el = [...swiper.el.querySelectorAll(params.el)];
       // check if it belongs to another nested Swiper
       if (el.length > 1) {
-        el = el.filter(subEl => {
+        el = el.filter((subEl) => {
           if (elementParents(subEl, '.swiper')[0] !== swiper.el) return false;
           return true;
         })[0];
@@ -300,7 +301,7 @@ function Pagination(_ref) {
       el
     });
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       if (params.type === 'bullets' && params.clickable) {
         subEl.classList.add(...(params.clickableClass || '').split(' '));
       }
@@ -330,7 +331,7 @@ function Pagination(_ref) {
     let el = swiper.pagination.el;
     if (el) {
       el = makeElementsArray(el);
-      el.forEach(subEl => {
+      el.forEach((subEl) => {
         subEl.classList.remove(params.hiddenClass);
         subEl.classList.remove(params.modifierClass + params.type);
         subEl.classList.remove(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
@@ -340,7 +341,7 @@ function Pagination(_ref) {
         }
       });
     }
-    if (swiper.pagination.bullets) swiper.pagination.bullets.forEach(subEl => subEl.classList.remove(...params.bulletActiveClass.split(' ')));
+    if (swiper.pagination.bullets) swiper.pagination.bullets.forEach((subEl) => subEl.classList.remove(...params.bulletActiveClass.split(' ')));
   }
   on('changeDirection', () => {
     if (!swiper.pagination || !swiper.pagination.el) return;
@@ -349,7 +350,7 @@ function Pagination(_ref) {
       el
     } = swiper.pagination;
     el = makeElementsArray(el);
-    el.forEach(subEl => {
+    el.forEach((subEl) => {
       subEl.classList.remove(params.horizontalClass, params.verticalClass);
       subEl.classList.add(swiper.isHorizontal() ? params.horizontalClass : params.verticalClass);
     });
@@ -385,7 +386,7 @@ function Pagination(_ref) {
     } = swiper.pagination;
     if (el) {
       el = makeElementsArray(el);
-      el.forEach(subEl => subEl.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.pagination.lockClass));
+      el.forEach((subEl) => subEl.classList[swiper.enabled ? 'remove' : 'add'](swiper.params.pagination.lockClass));
     }
   });
   on('lock unlock', () => {
@@ -402,7 +403,7 @@ function Pagination(_ref) {
       } else {
         emit('paginationHide');
       }
-      el.forEach(subEl => subEl.classList.toggle(swiper.params.pagination.hiddenClass));
+      el.forEach((subEl) => subEl.classList.toggle(swiper.params.pagination.hiddenClass));
     }
   });
   const enable = () => {
@@ -412,7 +413,7 @@ function Pagination(_ref) {
     } = swiper.pagination;
     if (el) {
       el = makeElementsArray(el);
-      el.forEach(subEl => subEl.classList.remove(swiper.params.pagination.paginationDisabledClass));
+      el.forEach((subEl) => subEl.classList.remove(swiper.params.pagination.paginationDisabledClass));
     }
     init();
     render();
@@ -425,7 +426,7 @@ function Pagination(_ref) {
     } = swiper.pagination;
     if (el) {
       el = makeElementsArray(el);
-      el.forEach(subEl => subEl.classList.add(swiper.params.pagination.paginationDisabledClass));
+      el.forEach((subEl) => subEl.classList.add(swiper.params.pagination.paginationDisabledClass));
     }
     destroy();
   };
@@ -438,4 +439,5 @@ function Pagination(_ref) {
     destroy
   });
 }
+
 export { Pagination as default };

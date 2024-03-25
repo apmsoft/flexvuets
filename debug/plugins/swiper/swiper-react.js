@@ -11,9 +11,10 @@
  */
 
 import React, { useEffect, useLayoutEffect, useContext, createContext, forwardRef, useState, useRef } from 'react';
-import { S as Swiper$1 } from './shared/swiper-core.mjs';
-import { g as getParams, m as mountSwiper, a as getChangedParams, u as updateOnVirtualData } from './shared/update-on-virtual-data.mjs';
-import { d as uniqueClasses, w as wrapperClass, n as needsNavigation, b as needsScrollbar, a as needsPagination, e as extend, u as updateSwiper } from './shared/update-swiper.mjs';
+import { S as Swiper$1 } from "./shared/swiper-core.mjs";
+import { g as getParams, m as mountSwiper, a as getChangedParams, u as updateOnVirtualData } from "./shared/update-on-virtual-data.mjs";
+import { d as uniqueClasses, w as wrapperClass, n as needsNavigation, b as needsScrollbar, a as needsPagination, e as extend, u as updateSwiper } from "./shared/update-swiper.mjs";
+
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -28,16 +29,17 @@ function _extends() {
   };
   return _extends.apply(this, arguments);
 }
+
 function isChildSwiperSlide(child) {
   return child.type && child.type.displayName && child.type.displayName.includes('SwiperSlide');
 }
 function processChildren(c) {
   const slides = [];
-  React.Children.toArray(c).forEach(child => {
+  React.Children.toArray(c).forEach((child) => {
     if (isChildSwiperSlide(child)) {
       slides.push(child);
     } else if (child.props && child.props.children) {
-      processChildren(child.props.children).forEach(slide => slides.push(slide));
+      processChildren(child.props.children).forEach((slide) => slides.push(slide));
     }
   });
   return slides;
@@ -50,7 +52,7 @@ function getChildren(c) {
     'wrapper-start': [],
     'wrapper-end': []
   };
-  React.Children.toArray(c).forEach(child => {
+  React.Children.toArray(c).forEach((child) => {
     if (isChildSwiperSlide(child)) {
       slides.push(child);
     } else if (child.props && child.props.slot && slots[child.props.slot]) {
@@ -58,7 +60,7 @@ function getChildren(c) {
     } else if (child.props && child.props.children) {
       const foundSlides = processChildren(child.props.children);
       if (foundSlides.length > 0) {
-        foundSlides.forEach(slide => slides.push(slide));
+        foundSlides.forEach((slide) => slides.push(slide));
       } else {
         slots['container-end'].push(child);
       }
@@ -71,9 +73,10 @@ function getChildren(c) {
     slots
   };
 }
+
 function renderVirtual(swiper, slides, virtualData) {
   if (!virtualData) return null;
-  const getSlideIndex = index => {
+  const getSlideIndex = (index) => {
     let slideIndex = index;
     if (index < 0) {
       slideIndex = slides.length + index;
@@ -108,11 +111,13 @@ function renderVirtual(swiper, slides, virtualData) {
     });
   });
 }
+
 function useIsomorphicLayoutEffect(callback, deps) {
   // eslint-disable-next-line
   if (typeof window === 'undefined') return useEffect(callback, deps);
   return useLayoutEffect(callback, deps);
 }
+
 const SwiperSlideContext = /*#__PURE__*/createContext(null);
 const useSwiperSlide = () => {
   return useContext(SwiperSlideContext);
@@ -121,6 +126,7 @@ const SwiperContext = /*#__PURE__*/createContext(null);
 const useSwiper = () => {
   return useContext(SwiperContext);
 };
+
 const Swiper = /*#__PURE__*/forwardRef(function (_temp, externalElRef) {
   let {
     className,
@@ -192,13 +198,13 @@ const Swiper = /*#__PURE__*/forwardRef(function (_temp, externalElRef) {
   }
   const attachEvents = () => {
     if (eventsAssigned || !events || !swiperRef.current) return;
-    Object.keys(events).forEach(eventName => {
+    Object.keys(events).forEach((eventName) => {
       swiperRef.current.on(eventName, events[eventName]);
     });
   };
   const detachEvents = () => {
     if (!events || !swiperRef.current) return;
-    Object.keys(events).forEach(eventName => {
+    Object.keys(events).forEach((eventName) => {
       swiperRef.current.off(eventName, events[eventName]);
     });
   };
@@ -245,7 +251,7 @@ const Swiper = /*#__PURE__*/forwardRef(function (_temp, externalElRef) {
   // watch for params change
   useIsomorphicLayoutEffect(() => {
     attachEvents();
-    const changedParams = getChangedParams(passedParams, oldPassedParamsRef.current, slides, oldSlides.current, c => c.key);
+    const changedParams = getChangedParams(passedParams, oldPassedParamsRef.current, slides, oldSlides.current, (c) => c.key);
     oldPassedParamsRef.current = passedParams;
     oldSlides.current = slides;
     if (changedParams.length && swiperRef.current && !swiperRef.current.destroyed) {
@@ -304,6 +310,7 @@ const Swiper = /*#__PURE__*/forwardRef(function (_temp, externalElRef) {
   }), slots['container-end']));
 });
 Swiper.displayName = 'Swiper';
+
 const SwiperSlide = /*#__PURE__*/forwardRef(function (_temp, externalRef) {
   let {
     tag: Tag = 'div',
@@ -383,4 +390,5 @@ const SwiperSlide = /*#__PURE__*/forwardRef(function (_temp, externalRef) {
   })));
 });
 SwiperSlide.displayName = 'SwiperSlide';
+
 export { Swiper, SwiperSlide, useSwiper, useSwiperSlide };

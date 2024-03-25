@@ -1,8 +1,9 @@
-import { c as createShadow } from '../shared/create-shadow.mjs';
-import { e as effectInit } from '../shared/effect-init.mjs';
-import { e as effectTarget } from '../shared/effect-target.mjs';
-import { e as effectVirtualTransitionEnd } from '../shared/effect-virtual-transition-end.mjs';
-import { g as getSlideTransformEl } from '../shared/utils.mjs';
+import { c as createShadow } from "../shared/create-shadow.mjs";
+import { e as effectInit } from "../shared/effect-init.mjs";
+import { e as effectTarget } from "../shared/effect-target.mjs";
+import { e as effectVirtualTransitionEnd } from "../shared/effect-virtual-transition-end.mjs";
+import { g as getSlideTransformEl } from "../shared/utils.mjs";
+
 function EffectCreative(_ref) {
   let {
     swiper,
@@ -29,7 +30,7 @@ function EffectCreative(_ref) {
       }
     }
   });
-  const getTranslateValue = value => {
+  const getTranslateValue = (value) => {
     if (typeof value === 'string') return value;
     return `${value}px`;
   };
@@ -115,11 +116,11 @@ function EffectCreative(_ref) {
       }
     }
   };
-  const setTransition = duration => {
-    const transformElements = swiper.slides.map(slideEl => getSlideTransformEl(slideEl));
-    transformElements.forEach(el => {
+  const setTransition = (duration) => {
+    const transformElements = swiper.slides.map((slideEl) => getSlideTransformEl(slideEl));
+    transformElements.forEach((el) => {
       el.style.transitionDuration = `${duration}ms`;
-      el.querySelectorAll('.swiper-slide-shadow').forEach(shadowEl => {
+      el.querySelectorAll('.swiper-slide-shadow').forEach((shadowEl) => {
         shadowEl.style.transitionDuration = `${duration}ms`;
       });
     });
@@ -143,4 +144,5 @@ function EffectCreative(_ref) {
     })
   });
 }
+
 export { EffectCreative as default };

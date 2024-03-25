@@ -1,5 +1,6 @@
-import { e as extend, p as paramsList, i as isObject, n as needsNavigation, a as needsPagination, b as needsScrollbar } from './update-swiper.mjs';
-import { d as defaults } from './swiper-core.mjs';
+import { e as extend, p as paramsList, i as isObject, n as needsNavigation, a as needsPagination, b as needsScrollbar } from "./update-swiper.mjs";
+import { d as defaults } from "./swiper-core.mjs";
+
 function getParams(obj, splitEvents) {
   if (obj === void 0) {
     obj = {};
@@ -16,9 +17,9 @@ function getParams(obj, splitEvents) {
   params._emitClasses = true;
   params.init = false;
   const rest = {};
-  const allowedParams = paramsList.map(key => key.replace(/_/, ''));
+  const allowedParams = paramsList.map((key) => key.replace(/_/, ''));
   const plainObj = Object.assign({}, obj);
-  Object.keys(plainObj).forEach(key => {
+  Object.keys(plainObj).forEach((key) => {
     if (typeof obj[key] === 'undefined') return;
     if (allowedParams.indexOf(key) >= 0) {
       if (isObject(obj[key])) {
@@ -40,7 +41,7 @@ function getParams(obj, splitEvents) {
       rest[key] = obj[key];
     }
   });
-  ['navigation', 'pagination', 'scrollbar'].forEach(key => {
+  ['navigation', 'pagination', 'scrollbar'].forEach((key) => {
     if (params[key] === true) params[key] = {};
     if (params[key] === false) delete params[key];
   });
@@ -51,6 +52,7 @@ function getParams(obj, splitEvents) {
     events
   };
 }
+
 function mountSwiper(_ref, swiperParams) {
   let {
     el,
@@ -76,10 +78,11 @@ function mountSwiper(_ref, swiperParams) {
   }
   swiper.init(el);
 }
+
 function getChangedParams(swiperParams, oldParams, children, oldChildren, getKey) {
   const keys = [];
   if (!oldParams) return keys;
-  const addKey = key => {
+  const addKey = (key) => {
     if (keys.indexOf(key) < 0) keys.push(key);
   };
   if (children && oldChildren) {
@@ -88,8 +91,8 @@ function getChangedParams(swiperParams, oldParams, children, oldChildren, getKey
     if (oldChildrenKeys.join('') !== childrenKeys.join('')) addKey('children');
     if (oldChildren.length !== children.length) addKey('children');
   }
-  const watchParams = paramsList.filter(key => key[0] === '_').map(key => key.replace(/_/, ''));
-  watchParams.forEach(key => {
+  const watchParams = paramsList.filter((key) => key[0] === '_').map((key) => key.replace(/_/, ''));
+  watchParams.forEach((key) => {
     if (key in swiperParams && key in oldParams) {
       if (isObject(swiperParams[key]) && isObject(oldParams[key])) {
         const newKeys = Object.keys(swiperParams[key]);
@@ -97,12 +100,12 @@ function getChangedParams(swiperParams, oldParams, children, oldChildren, getKey
         if (newKeys.length !== oldKeys.length) {
           addKey(key);
         } else {
-          newKeys.forEach(newKey => {
+          newKeys.forEach((newKey) => {
             if (swiperParams[key][newKey] !== oldParams[key][newKey]) {
               addKey(key);
             }
           });
-          oldKeys.forEach(oldKey => {
+          oldKeys.forEach((oldKey) => {
             if (swiperParams[key][oldKey] !== oldParams[key][oldKey]) addKey(key);
           });
         }
@@ -113,7 +116,8 @@ function getChangedParams(swiperParams, oldParams, children, oldChildren, getKey
   });
   return keys;
 }
-const updateOnVirtualData = swiper => {
+
+const updateOnVirtualData = (swiper) => {
   if (!swiper || swiper.destroyed || !swiper.params.virtual || swiper.params.virtual && !swiper.params.virtual.enabled) return;
   swiper.updateSlides();
   swiper.updateProgress();
@@ -122,4 +126,5 @@ const updateOnVirtualData = swiper => {
     swiper.parallax.setTranslate();
   }
 };
+
 export { getChangedParams as a, getParams as g, mountSwiper as m, updateOnVirtualData as u };

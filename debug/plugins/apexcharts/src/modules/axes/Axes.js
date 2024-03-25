@@ -1,5 +1,5 @@
-import XAxis from './XAxis';
-import YAxis from './YAxis';
+import XAxis from "./XAxis";
+import YAxis from "./YAxis";
 export default class Axes {
   constructor(ctx) {
     this.ctx = ctx;

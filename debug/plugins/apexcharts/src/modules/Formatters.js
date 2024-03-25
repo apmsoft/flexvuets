@@ -1,5 +1,5 @@
-import DateTime from '../utils/DateTime';
-import Utils from '../utils/Utils';
+import DateTime from "../utils/DateTime";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Formatter Class for setting value formatters for axes as well as tooltips.
@@ -28,7 +28,7 @@ class Formatters {
   }
   defaultGeneralFormatter(val) {
     if (Array.isArray(val)) {
-      return val.map(v => {
+      return val.map((v) => {
         return v;
       });
     } else {
@@ -53,16 +53,16 @@ class Formatters {
   }
   setLabelFormatters() {
     let w = this.w;
-    w.globals.xaxisTooltipFormatter = val => {
+    w.globals.xaxisTooltipFormatter = (val) => {
       return this.defaultGeneralFormatter(val);
     };
-    w.globals.ttKeyFormatter = val => {
+    w.globals.ttKeyFormatter = (val) => {
       return this.defaultGeneralFormatter(val);
     };
-    w.globals.ttZFormatter = val => {
+    w.globals.ttZFormatter = (val) => {
       return val;
     };
-    w.globals.legendFormatter = val => {
+    w.globals.legendFormatter = (val) => {
       return this.defaultGeneralFormatter(val);
     };
 
@@ -70,7 +70,7 @@ class Formatters {
     if (w.config.xaxis.labels.formatter !== undefined) {
       w.globals.xLabelFormatter = w.config.xaxis.labels.formatter;
     } else {
-      w.globals.xLabelFormatter = val => {
+      w.globals.xLabelFormatter = (val) => {
         if (Utils.isNumber(val)) {
           if (!w.config.xaxis.convertedCatToNumeric && w.config.xaxis.type === 'numeric') {
             if (Utils.isNumber(w.config.xaxis.decimalsInFloat)) {
@@ -123,10 +123,10 @@ class Formatters {
       if (yaxe.labels.formatter !== undefined) {
         w.globals.yLabelFormatters[i] = yaxe.labels.formatter;
       } else {
-        w.globals.yLabelFormatters[i] = val => {
+        w.globals.yLabelFormatters[i] = (val) => {
           if (!w.globals.xyCharts) return val;
           if (Array.isArray(val)) {
-            return val.map(v => {
+            return val.map((v) => {
               return this.defaultYFormatter(v, yaxe, i);
             });
           } else {

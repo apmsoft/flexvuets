@@ -1,15 +1,4 @@
-(function () {
-  "use strict";
-
-  try {
-    if (typeof document < "u") {
-      var e = document.createElement("style");
-      e.appendChild(document.createTextNode('.embed-tool--loading .embed-tool__caption{display:none}.embed-tool--loading .embed-tool__preloader{display:block}.embed-tool--loading .embed-tool__content{display:none}.embed-tool__preloader{display:none;position:relative;height:200px;box-sizing:border-box;border-radius:5px;border:1px solid #e6e9eb}.embed-tool__preloader:before{content:"";position:absolute;z-index:3;left:50%;top:50%;width:30px;height:30px;margin-top:-25px;margin-left:-15px;border-radius:50%;border:2px solid #cdd1e0;border-top-color:#388ae5;box-sizing:border-box;animation:embed-preloader-spin 2s infinite linear}.embed-tool__url{position:absolute;bottom:20px;left:50%;transform:translate(-50%);max-width:250px;color:#7b7e89;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.embed-tool__content{width:100%}.embed-tool__caption{margin-top:7px}.embed-tool__caption[contentEditable=true][data-placeholder]:before{position:absolute;content:attr(data-placeholder);color:#707684;font-weight:400;opacity:0}.embed-tool__caption[contentEditable=true][data-placeholder]:empty:before{opacity:1}.embed-tool__caption[contentEditable=true][data-placeholder]:empty:focus:before{opacity:0}@keyframes embed-preloader-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}')), document.head.appendChild(e);
-    }
-  } catch (o) {
-    console.error("vite-plugin-css-injected-by-js", o);
-  }
-})();
+(function () {"use strict";try {if (typeof document < "u") {var e = document.createElement("style");e.appendChild(document.createTextNode('.embed-tool--loading .embed-tool__caption{display:none}.embed-tool--loading .embed-tool__preloader{display:block}.embed-tool--loading .embed-tool__content{display:none}.embed-tool__preloader{display:none;position:relative;height:200px;box-sizing:border-box;border-radius:5px;border:1px solid #e6e9eb}.embed-tool__preloader:before{content:"";position:absolute;z-index:3;left:50%;top:50%;width:30px;height:30px;margin-top:-25px;margin-left:-15px;border-radius:50%;border:2px solid #cdd1e0;border-top-color:#388ae5;box-sizing:border-box;animation:embed-preloader-spin 2s infinite linear}.embed-tool__url{position:absolute;bottom:20px;left:50%;transform:translate(-50%);max-width:250px;color:#7b7e89;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.embed-tool__content{width:100%}.embed-tool__caption{margin-top:7px}.embed-tool__caption[contentEditable=true][data-placeholder]:before{position:absolute;content:attr(data-placeholder);color:#707684;font-weight:400;opacity:0}.embed-tool__caption[contentEditable=true][data-placeholder]:empty:before{opacity:1}.embed-tool__caption[contentEditable=true][data-placeholder]:empty:focus:before{opacity:0}@keyframes embed-preloader-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}')), document.head.appendChild(e);}} catch (o) {console.error("vite-plugin-css-injected-by-js", o);}})();
 const g = {
   vimeo: {
     regex: /(?:http[s]?:\/\/)?(?:www.)?(?:player.)?vimeo\.co(?:.+\/([^\/]\d+)(?:#t=[\d]+)?s?$)/,
@@ -25,7 +14,8 @@ const g = {
     height: 320,
     width: 580,
     id: ([o, t]) => {
-      if (!t && o) return o;
+      if (!t && o)
+      return o;
       const i = {
         start: "start",
         end: "end",
@@ -34,10 +24,10 @@ const g = {
         time_continue: "start",
         list: "list"
       };
-      return t = t.slice(1).split("&").map(e => {
+      return t = t.slice(1).split("&").map((e) => {
         const [s, n] = e.split("=");
         return !o && s === "v" ? (o = n, null) : !i[s] || n === "LL" || n.startsWith("RDMM") || n.startsWith("FL") ? null : `${i[s]}=${n}`;
-      }).filter(e => !!e), o + "?" + t.join("&");
+      }).filter((e) => !!e), o + "?" + t.join("&");
     }
   },
   coub: {
@@ -95,7 +85,7 @@ const g = {
     html: '<iframe frameborder="0" style="border:none;width:540px;height:100px;" style="width:100%;" height="100"></iframe>',
     height: 100,
     width: 540,
-    id: o => o.join("/")
+    id: (o) => o.join("/")
   },
   "yandex-music-playlist": {
     regex: /https?:\/\/music\.yandex\.ru\/users\/([^\/\?\&]*)\/playlists\/([0-9]*)/,
@@ -103,7 +93,7 @@ const g = {
     html: '<iframe frameborder="0" style="border:none;width:540px;height:400px;" width="540" height="400"></iframe>',
     height: 400,
     width: 540,
-    id: o => o.join("/")
+    id: (o) => o.join("/")
   },
   codepen: {
     regex: /https?:\/\/codepen\.io\/([^\/\?\&]*)\/pen\/([^\/\?\&]*)/,
@@ -111,7 +101,7 @@ const g = {
     html: "<iframe height='300' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
     height: 300,
     width: 600,
-    id: o => o.join("/embed/")
+    id: (o) => o.join("/embed/")
   },
   instagram: {
     regex: /https?:\/\/www\.instagram\.com\/p\/([^\/\?\&]+)\/?.*/,
@@ -126,19 +116,19 @@ const g = {
     html: '<iframe width="600" height="600" style="margin: 0 auto;" frameborder="0" scrolling="no" allowtransparency="true"></iframe>',
     height: 300,
     width: 600,
-    id: o => o.join("/status/")
+    id: (o) => o.join("/status/")
   },
   pinterest: {
     regex: /https?:\/\/([^\/\?\&]*).pinterest.com\/pin\/([^\/\?\&]*)\/?$/,
     embedUrl: "https://assets.pinterest.com/ext/embed.html?id=<%= remote_id %>",
     html: "<iframe scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%; min-height: 400px; max-height: 1000px;'></iframe>",
-    id: o => o[1]
+    id: (o) => o[1]
   },
   facebook: {
     regex: /https?:\/\/www.facebook.com\/([^\/\?\&]*)\/(.*)/,
     embedUrl: "https://www.facebook.com/plugins/post.php?href=https://www.facebook.com/<%= remote_id %>&width=500",
     html: "<iframe scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%; min-height: 500px; max-height: 1000px;'></iframe>",
-    id: o => o.join("/")
+    id: (o) => o.join("/")
   },
   aparat: {
     regex: /(?:http[s]?:\/\/)?(?:www.)?aparat\.com\/v\/([^\/\?\&]+)\/?/,
@@ -158,7 +148,7 @@ const g = {
     html: '<iframe width="100%" height="350" frameborder="0" style="margin: 0 auto;"></iframe>',
     height: 300,
     width: 600,
-    id: o => `${o.join("/")}.js`
+    id: (o) => `${o.join("/")}.js`
   }
 };
 function u(o, t, i) {
@@ -189,11 +179,7 @@ class m {
    *   api - Editor.js API
    *   readOnly - read-only mode flag
    */
-  constructor({
-    data: t,
-    api: i,
-    readOnly: e
-  }) {
+  constructor({ data: t, api: i, readOnly: e }) {
     this.api = i, this._data = {}, this.element = null, this.readOnly = e, this.data = t;
   }
   /**
@@ -206,15 +192,9 @@ class m {
    * @param {string} [data.caption] - caption
    */
   set data(t) {
-    if (!(t instanceof Object)) throw Error("Embed Tool data should be object");
-    const {
-      service: i,
-      source: e,
-      embed: s,
-      width: n,
-      height: r,
-      caption: a = ""
-    } = t;
+    if (!(t instanceof Object))
+    throw Error("Embed Tool data should be object");
+    const { service: i, source: e, embed: s, width: n, height: r, caption: a = "" } = t;
     this._data = {
       service: i || this.data.service,
       source: e || this.data.source,
@@ -263,13 +243,7 @@ class m {
       const a = document.createElement("div");
       return this.element = a, a;
     }
-    const {
-        html: t
-      } = m.services[this.data.service],
-      i = document.createElement("div"),
-      e = document.createElement("div"),
-      s = document.createElement("template"),
-      n = this.createPreloader();
+    const { html: t } = m.services[this.data.service],i = document.createElement("div"),e = document.createElement("div"),s = document.createElement("template"),n = this.createPreloader();
     i.classList.add(this.CSS.baseClass, this.CSS.container, this.CSS.containerLoading), e.classList.add(this.CSS.input, this.CSS.caption), i.appendChild(n), e.contentEditable = !this.readOnly, e.dataset.placeholder = this.api.i18n.t("Enter a caption"), e.innerHTML = this.data.caption || "", s.innerHTML = t, s.content.firstChild.setAttribute("src", this.data.embed), s.content.firstChild.classList.add(this.CSS.content);
     const r = this.embedIsReady(i);
     return i.appendChild(s.content.firstChild), i.appendChild(e), r.then(() => {
@@ -282,8 +256,7 @@ class m {
    * @returns {HTMLElement}
    */
   createPreloader() {
-    const t = document.createElement("preloader"),
-      i = document.createElement("div");
+    const t = document.createElement("preloader"),i = document.createElement("div");
     return i.textContent = this.data.source, t.classList.add(this.CSS.preloader), i.classList.add(this.CSS.url), t.appendChild(i), t;
   }
   /**
@@ -300,19 +273,7 @@ class m {
    * @param {PasteEvent} event - event with pasted data
    */
   onPaste(t) {
-    const {
-        key: i,
-        data: e
-      } = t.detail,
-      {
-        regex: s,
-        embedUrl: n,
-        width: r,
-        height: a,
-        id: l = c => c.shift()
-      } = m.services[i],
-      d = s.exec(e).slice(1),
-      h = n.replace(/<%= remote_id %>/g, l(d));
+    const { key: i, data: e } = t.detail,{ regex: s, embedUrl: n, width: r, height: a, id: l = (c) => c.shift() } = m.services[i],d = s.exec(e).slice(1),h = n.replace(/<%= remote_id %>/g, l(d));
     this.data = {
       service: i,
       source: e,
@@ -326,23 +287,11 @@ class m {
    *
    * @param {EmbedConfig} config - configuration of embed block element
    */
-  static prepare({
-    config: t = {}
-  }) {
-    const {
-      services: i = {}
-    } = t;
+  static prepare({ config: t = {} }) {
+    const { services: i = {} } = t;
     let e = Object.entries(g);
-    const s = Object.entries(i).filter(([r, a]) => typeof a == "boolean" && a === !0).map(([r]) => r),
-      n = Object.entries(i).filter(([r, a]) => typeof a == "object").filter(([r, a]) => m.checkServiceConfig(a)).map(([r, a]) => {
-        const {
-          regex: l,
-          embedUrl: d,
-          html: h,
-          height: c,
-          width: p,
-          id: f
-        } = a;
+    const s = Object.entries(i).filter(([r, a]) => typeof a == "boolean" && a === !0).map(([r]) => r),n = Object.entries(i).filter(([r, a]) => typeof a == "object").filter(([r, a]) => m.checkServiceConfig(a)).map(([r, a]) => {
+        const { regex: l, embedUrl: d, html: h, height: c, width: p, id: f } = a;
         return [r, {
           regex: l,
           embedUrl: d,
@@ -361,14 +310,7 @@ class m {
    * @returns {boolean}
    */
   static checkServiceConfig(t) {
-    const {
-      regex: i,
-      embedUrl: e,
-      html: s,
-      height: n,
-      width: r,
-      id: a
-    } = t;
+    const { regex: i, embedUrl: e, html: s, height: n, width: r, id: a } = t;
     let l = i && i instanceof RegExp && e && typeof e == "string" && s && typeof s == "string";
     return l = l && (a !== void 0 ? a instanceof Function : !0), l = l && (n !== void 0 ? Number.isFinite(n) : !0), l = l && (r !== void 0 ? Number.isFinite(r) : !0), l;
   }
@@ -408,4 +350,5 @@ class m {
     });
   }
 }
-export { m as default };
+export {
+  m as default };

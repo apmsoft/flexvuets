@@ -7,7 +7,7 @@ function appendSlide(slides) {
   if (params.loop) {
     swiper.loopDestroy();
   }
-  const appendElement = slideEl => {
+  const appendElement = (slideEl) => {
     if (typeof slideEl === 'string') {
       const tempDOM = document.createElement('div');
       tempDOM.innerHTML = slideEl;
@@ -32,6 +32,7 @@ function appendSlide(slides) {
     swiper.update();
   }
 }
+
 function prependSlide(slides) {
   const swiper = this;
   const {
@@ -43,7 +44,7 @@ function prependSlide(slides) {
     swiper.loopDestroy();
   }
   let newActiveIndex = activeIndex + 1;
-  const prependElement = slideEl => {
+  const prependElement = (slideEl) => {
     if (typeof slideEl === 'string') {
       const tempDOM = document.createElement('div');
       tempDOM.innerHTML = slideEl;
@@ -70,6 +71,7 @@ function prependSlide(slides) {
   }
   swiper.slideTo(newActiveIndex, 0, false);
 }
+
 function addSlide(index, slides) {
   const swiper = this;
   const {
@@ -123,6 +125,7 @@ function addSlide(index, slides) {
     swiper.slideTo(newActiveIndex, 0, false);
   }
 }
+
 function removeSlide(slidesIndexes) {
   const swiper = this;
   const {
@@ -162,6 +165,7 @@ function removeSlide(slidesIndexes) {
     swiper.slideTo(newActiveIndex, 0, false);
   }
 }
+
 function removeAllSlides() {
   const swiper = this;
   const slidesIndexes = [];
@@ -170,6 +174,7 @@ function removeAllSlides() {
   }
   swiper.removeSlide(slidesIndexes);
 }
+
 function Manipulation(_ref) {
   let {
     swiper
@@ -182,4 +187,5 @@ function Manipulation(_ref) {
     removeAllSlides: removeAllSlides.bind(swiper)
   });
 }
+
 export { Manipulation as default };

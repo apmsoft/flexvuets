@@ -1,5 +1,5 @@
-import Graphics from './Graphics';
-import Utils from '../utils/Utils';
+import Graphics from "./Graphics";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Series Class for interaction with the Series of the chart.
@@ -126,12 +126,12 @@ export default class Series {
   highlightRangeInSeries(e, targetElement) {
     const w = this.w;
     const allHeatMapElements = w.globals.dom.baseEl.getElementsByClassName('apexcharts-heatmap-rect');
-    const activeInactive = action => {
+    const activeInactive = (action) => {
       for (let i = 0; i < allHeatMapElements.length; i++) {
         allHeatMapElements[i].classList[action](this.legendInactiveClass);
       }
     };
-    const removeInactiveClassFromHoveredRange = range => {
+    const removeInactiveClassFromHoveredRange = (range) => {
       for (let i = 0; i < allHeatMapElements.length; i++) {
         const val = parseInt(allHeatMapElements[i].getAttribute('val'), 10);
         if (val >= range.from && val <= range.to) {
@@ -177,7 +177,7 @@ export default class Series {
     if (w.globals.comboCharts) {
       return this.w.config.series.map((s, i) => {
         return s.type === 'bar' || s.type === 'column' ? i : -1;
-      }).filter(i => {
+      }).filter((i) => {
         return i !== -1;
       });
     }
@@ -205,11 +205,11 @@ export default class Series {
       }
       w.globals.previousPaths.push(dArr);
     }
-    const getPaths = chartType => {
+    const getPaths = (chartType) => {
       return w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${chartType}-series .apexcharts-series`);
     };
     const chartTypes = ['line', 'area', 'bar', 'rangebar', 'rangeArea', 'candlestick', 'radar'];
-    chartTypes.forEach(type => {
+    chartTypes.forEach((type) => {
       const paths = getPaths(type);
       for (let p = 0; p < paths.length; p++) {
         pushPaths(paths, p, type);
@@ -223,7 +223,7 @@ export default class Series {
         let seriesEls = w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${w.config.chart.type} .apexcharts-series[data\\:realIndex='${h}'] rect`);
         let dArr = [];
         for (let i = 0; i < seriesEls.length; i++) {
-          const getAttr = x => {
+          const getAttr = (x) => {
             return seriesEls[i].getAttribute(x);
           };
           const rect = {
@@ -336,7 +336,7 @@ export default class Series {
   }
   filteredSeriesX() {
     const w = this.w;
-    const filteredSeriesX = w.globals.seriesX.map(ser => ser.length > 0 ? ser : []);
+    const filteredSeriesX = w.globals.seriesX.map((ser) => ser.length > 0 ? ser : []);
     return filteredSeriesX;
   }
 }

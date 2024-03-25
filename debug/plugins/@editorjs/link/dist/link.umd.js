@@ -988,9 +988,9 @@
       const w = this.make("div", this.CSS.inputHolder);
       return this.nodes.progress = this.make("label", this.CSS.progress), this.nodes.input = this.make("div", [this.CSS.input, this.CSS.inputEl], {
         contentEditable: !this.readOnly
-      }), this.nodes.input.dataset.placeholder = this.api.i18n.t("Link"), this.readOnly || (this.nodes.input.addEventListener("paste", d => {
+      }), this.nodes.input.dataset.placeholder = this.api.i18n.t("Link"), this.readOnly || (this.nodes.input.addEventListener("paste", (d) => {
         this.startFetching(d);
-      }), this.nodes.input.addEventListener("keydown", d => {
+      }), this.nodes.input.addEventListener("keydown", (d) => {
         const [v, c] = [13, 65],
           i = d.ctrlKey || d.metaKey;
         switch (d.keyCode) {
@@ -1040,7 +1040,7 @@
       this.nodes.progress.classList.add(this.CSS.progressLoading);
     }
     hideProgress() {
-      return new Promise(w => {
+      return new Promise((w) => {
         this.nodes.progress.classList.remove(this.CSS.progressLoading), this.nodes.progress.classList.add(this.CSS.progressLoaded), setTimeout(w, 500);
       });
     }

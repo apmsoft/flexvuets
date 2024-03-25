@@ -16,7 +16,7 @@ export function addResizeListener(el, fn) {
       called = true;
     }
   }
-  let ro = new ResizeObserver(r => {
+  let ro = new ResizeObserver((r) => {
     // ROs fire immediately after being created,
     // per spec: https://drafts.csswg.org/resize-observer/#ref-for-element%E2%91%A3
     // we don't want that so we just discard the first run
@@ -27,7 +27,7 @@ export function addResizeListener(el, fn) {
   });
   if (el.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
     // Document fragment, observe children instead (needed for Shadow DOM, see #1332)
-    Array.from(el.children).forEach(c => ro.observe(c));
+    Array.from(el.children).forEach((c) => ro.observe(c));
   } else {
     ro.observe(el);
   }

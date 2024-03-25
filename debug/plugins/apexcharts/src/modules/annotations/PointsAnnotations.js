@@ -1,5 +1,5 @@
-import Utils from '../../utils/Utils';
-import Helpers from './Helpers';
+import Utils from "../../utils/Utils";
+import Helpers from "./Helpers";
 export default class PointAnnotations {
   constructor(annoCtx) {
     this.w = annoCtx.w;

@@ -28,7 +28,7 @@
  * @param {Array} points
  * @returns {Array}
  */
-export const tangents = points => {
+export const tangents = (points) => {
   const m = finiteDifferences(points);
   const n = points.length - 1;
   const ε = 1e-6;
@@ -61,7 +61,7 @@ export const tangents = points => {
  * @param {Array} points
  * @returns {String}
  */
-export const svgPath = points => {
+export const svgPath = (points) => {
   let p = '';
   for (let i = 0; i < points.length; i++) {
     const point = points[i];

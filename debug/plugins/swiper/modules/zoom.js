@@ -1,5 +1,6 @@
-import { a as getWindow } from '../shared/ssr-window.esm.mjs';
-import { e as elementChildren, a as elementParents, b as elementOffset, j as getTranslate } from '../shared/utils.mjs';
+import { a as getWindow } from "../shared/ssr-window.esm.mjs";
+import { e as elementChildren, a as elementParents, b as elementOffset, j as getTranslate } from "../shared/utils.mjs";
+
 function Zoom(_ref) {
   let {
     swiper,
@@ -106,13 +107,13 @@ function Zoom(_ref) {
   function eventWithinSlide(e) {
     const slideSelector = getSlideSelector();
     if (e.target.matches(slideSelector)) return true;
-    if (swiper.slides.filter(slideEl => slideEl.contains(e.target)).length > 0) return true;
+    if (swiper.slides.filter((slideEl) => slideEl.contains(e.target)).length > 0) return true;
     return false;
   }
   function eventWithinZoomContainer(e) {
     const selector = `.${swiper.params.zoom.containerClass}`;
     if (e.target.matches(selector)) return true;
-    if ([...swiper.hostEl.querySelectorAll(selector)].filter(containerEl => containerEl.contains(e.target)).length > 0) return true;
+    if ([...swiper.hostEl.querySelectorAll(selector)].filter((containerEl) => containerEl.contains(e.target)).length > 0) return true;
     return false;
   }
 
@@ -162,7 +163,7 @@ function Zoom(_ref) {
     if (!eventWithinSlide(e)) return;
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
-    const pointerIndex = evCache.findIndex(cachedEv => cachedEv.pointerId === e.pointerId);
+    const pointerIndex = evCache.findIndex((cachedEv) => cachedEv.pointerId === e.pointerId);
     if (pointerIndex >= 0) evCache[pointerIndex] = e;
     if (evCache.length < 2) {
       return;
@@ -186,7 +187,7 @@ function Zoom(_ref) {
     if (e.pointerType === 'mouse' && e.type === 'pointerout') return;
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
-    const pointerIndex = evCache.findIndex(cachedEv => cachedEv.pointerId === e.pointerId);
+    const pointerIndex = evCache.findIndex((cachedEv) => cachedEv.pointerId === e.pointerId);
     if (pointerIndex >= 0) evCache.splice(pointerIndex, 1);
     if (!fakeGestureTouched || !fakeGestureMoved) {
       return;
@@ -532,7 +533,7 @@ function Zoom(_ref) {
     // Scale image
     swiper.wrapperEl.addEventListener('pointerdown', onGestureStart, passiveListener);
     swiper.wrapperEl.addEventListener('pointermove', onGestureChange, activeListenerWithCapture);
-    ['pointerup', 'pointercancel', 'pointerout'].forEach(eventName => {
+    ['pointerup', 'pointercancel', 'pointerout'].forEach((eventName) => {
       swiper.wrapperEl.addEventListener(eventName, onGestureEnd, passiveListener);
     });
 
@@ -551,7 +552,7 @@ function Zoom(_ref) {
     // Scale image
     swiper.wrapperEl.removeEventListener('pointerdown', onGestureStart, passiveListener);
     swiper.wrapperEl.removeEventListener('pointermove', onGestureChange, activeListenerWithCapture);
-    ['pointerup', 'pointercancel', 'pointerout'].forEach(eventName => {
+    ['pointerup', 'pointercancel', 'pointerout'].forEach((eventName) => {
       swiper.wrapperEl.removeEventListener(eventName, onGestureEnd, passiveListener);
     });
 
@@ -597,4 +598,5 @@ function Zoom(_ref) {
     toggle: zoomToggle
   });
 }
+
 export { Zoom as default };

@@ -1,5 +1,5 @@
-import { a as getWindow } from '../shared/ssr-window.esm.mjs';
-import { n as nextTick, d as now } from '../shared/utils.mjs';
+import { a as getWindow } from "../shared/ssr-window.esm.mjs";
+import { n as nextTick, d as now } from "../shared/utils.mjs";
 
 /* eslint-disable consistent-return */
 function Mousewheel(_ref) {
@@ -220,6 +220,7 @@ function Mousewheel(_ref) {
       if (recentWheelEvents.length >= 2) {
         recentWheelEvents.shift(); // only store the last N events
       }
+
       const prevEvent = recentWheelEvents.length ? recentWheelEvents[recentWheelEvents.length - 1] : undefined;
       recentWheelEvents.push(newEvent);
 
@@ -293,6 +294,7 @@ function Mousewheel(_ref) {
           if (recentWheelEvents.length >= 15) {
             recentWheelEvents.shift(); // only store the last N events
           }
+
           const prevEvent = recentWheelEvents.length ? recentWheelEvents[recentWheelEvents.length - 1] : undefined;
           const firstEvent = recentWheelEvents[0];
           recentWheelEvents.push(newEvent);
@@ -313,6 +315,7 @@ function Mousewheel(_ref) {
               swiper.slideToClosest(swiper.params.speed, true, undefined, snapToThreshold);
             }, 0); // no delay; move on next tick
           }
+
           if (!timeout) {
             // if we get here, then we haven't detected the end of a momentum scroll, so
             // we'll consider a scroll "complete" when there haven't been any wheel events
@@ -386,4 +389,5 @@ function Mousewheel(_ref) {
     disable
   });
 }
+
 export { Mousewheel as default };

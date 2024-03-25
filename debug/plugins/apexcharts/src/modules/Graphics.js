@@ -1,6 +1,6 @@
-import Animations from './Animations';
-import Filters from './Filters';
-import Utils from '../utils/Utils';
+import Animations from "./Animations";
+import Filters from "./Filters";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Graphics Class for all drawing operations.
@@ -402,7 +402,7 @@ class Graphics {
   }
   drawPattern(style, width, height, stroke = '#a8a8a8', strokeWidth = 0, opacity = 1) {
     let w = this.w;
-    let p = w.globals.dom.Paper.pattern(width, height, add => {
+    let p = w.globals.dom.Paper.pattern(width, height, (add) => {
       if (style === 'horizontalLines') {
         add.line(0, 0, height, 0).stroke({
           color: stroke,
@@ -454,7 +454,7 @@ class Graphics {
     }
     let radial = !!(w.config.chart.type === 'donut' || w.config.chart.type === 'pie' || w.config.chart.type === 'polarArea' || w.config.chart.type === 'bubble');
     if (colorStops === null || colorStops.length === 0) {
-      g = w.globals.dom.Paper.gradient(radial ? 'radial' : 'linear', stop => {
+      g = w.globals.dom.Paper.gradient(radial ? 'radial' : 'linear', (stop) => {
         stop.at(stop1, gfrom, opacityFrom);
         stop.at(stop2, gto, opacityTo);
         stop.at(stop3, gto, opacityTo);
@@ -463,9 +463,9 @@ class Graphics {
         }
       });
     } else {
-      g = w.globals.dom.Paper.gradient(radial ? 'radial' : 'linear', stop => {
+      g = w.globals.dom.Paper.gradient(radial ? 'radial' : 'linear', (stop) => {
         let gradientStops = Array.isArray(colorStops[i]) ? colorStops[i] : colorStops;
-        gradientStops.forEach(s => {
+        gradientStops.forEach((s) => {
           stop.at(s.offset / 100, s.color, s.opacity);
         });
       });
@@ -550,7 +550,7 @@ class Graphics {
     };
     let elText;
     if (Array.isArray(text)) {
-      elText = w.globals.dom.Paper.text(add => {
+      elText = w.globals.dom.Paper.text((add) => {
         for (let i = 0; i < text.length; i++) {
           truncatedText = text[i];
           if (maxWidth) {
@@ -569,7 +569,7 @@ class Graphics {
           ...commonProps
         });
       }
-      elText = isPlainText ? w.globals.dom.Paper.plain(text) : w.globals.dom.Paper.text(add => add.tspan(truncatedText));
+      elText = isPlainText ? w.globals.dom.Paper.plain(text) : w.globals.dom.Paper.text((add) => add.tspan(truncatedText));
     }
     elText.attr({
       x,
@@ -597,7 +597,7 @@ class Graphics {
    */
   createGroupWithAttributes(x, y, lines, opts) {
     let elPoint = this.group();
-    lines.forEach(line => elPoint.add(line));
+    lines.forEach((line) => elPoint.add(line));
     elPoint.attr({
       class: opts.class ? opts.class : '',
       cy: y,
@@ -757,8 +757,8 @@ class Graphics {
         w.globals.selectedDataPoints = [];
         const elPaths = w.globals.dom.Paper.select('.apexcharts-series path').members;
         const elCircles = w.globals.dom.Paper.select('.apexcharts-series circle, .apexcharts-series rect').members;
-        const deSelect = els => {
-          Array.prototype.forEach.call(els, el => {
+        const deSelect = (els) => {
+          Array.prototype.forEach.call(els, (el) => {
             el.node.setAttribute('selected', 'false');
             filters.getDefaultFilter(el, i);
           });

@@ -1,7 +1,7 @@
-import DateTime from '../utils/DateTime';
-import Dimensions from './dimensions/Dimensions';
-import Graphics from './Graphics';
-import Utils from '../utils/Utils';
+import DateTime from "../utils/DateTime";
+import Dimensions from "./dimensions/Dimensions";
+import Graphics from "./Graphics";
+import Utils from "../utils/Utils";
 const MINUTES_IN_DAY = 24 * 60;
 const SECONDS_IN_DAY = MINUTES_IN_DAY * 60;
 const MIN_ZOOM_DAYS = 10 / SECONDS_IN_DAY;
@@ -126,7 +126,7 @@ class TimeScale {
     // first, we will adjust the month values index
     // as in the upper function, it is starting from 0
     // we will start them from 1
-    const adjustedMonthInTimeScaleArray = this.timeScaleArray.map(ts => {
+    const adjustedMonthInTimeScaleArray = this.timeScaleArray.map((ts) => {
       let defaultReturn = {
         position: ts.position,
         unit: ts.unit,
@@ -162,7 +162,7 @@ class TimeScale {
       }
       return ts;
     });
-    const filteredTimeScale = adjustedMonthInTimeScaleArray.filter(ts => {
+    const filteredTimeScale = adjustedMonthInTimeScaleArray.filter((ts) => {
       let modulo = 1;
       let ticks = Math.ceil(w.globals.gridWidth / 120);
       let value = ts.value;
@@ -743,7 +743,7 @@ class TimeScale {
   }
   formatDates(filteredTimeScale) {
     const w = this.w;
-    const reformattedTimescaleArray = filteredTimeScale.map(ts => {
+    const reformattedTimescaleArray = filteredTimeScale.map((ts) => {
       let value = ts.value.toString();
       let dt = new DateTime(this.ctx);
       const raw = this.createRawDateString(ts, value);
@@ -784,7 +784,7 @@ class TimeScale {
     // check arr length
     arr[0].value &&
     // check arr[0] contains value
-    arr.every(lb => lb.value.length === arr[0].value.length) // check every arr label value is the same as the first one
+    arr.every((lb) => lb.value.length === arr[0].value.length) // check every arr label value is the same as the first one
     ) {
       equalLabelLengthFlag = true; // These labels got same length
       constantLabelWidth = graphics.getTextRects(arr[0].value).width; // The constant label width to use
@@ -807,7 +807,7 @@ class TimeScale {
         return item;
       }
     });
-    filteredArray = filteredArray.filter(f => f !== null);
+    filteredArray = filteredArray.filter((f) => f !== null);
     return filteredArray;
   }
   _getYear(currentYear, month, yrCounter) {

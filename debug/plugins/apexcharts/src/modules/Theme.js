@@ -1,4 +1,4 @@
-import Utils from '../utils/Utils';
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Theme Class for setting the colors and palettes.
@@ -81,7 +81,7 @@ export default class Theme {
     // if user specified fewer colors than no. of series, push the same colors again
     this.pushExtraColors(w.globals.colors);
     const colorTypes = ['fill', 'stroke'];
-    colorTypes.forEach(c => {
+    colorTypes.forEach((c) => {
       if (w.config[c].colors === undefined) {
         w.globals[c].colors = this.isColorFn ? w.config.colors : defaultColors;
       } else {

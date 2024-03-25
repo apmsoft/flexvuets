@@ -94,7 +94,7 @@
             textContent: e.label
           });
         o.dataset.index = t, o.appendChild(i), o.appendChild(r), this.wrapper.appendChild(o), this.itemEls.push(o);
-      }), this.wrapper.addEventListener("click", e => {
+      }), this.wrapper.addEventListener("click", (e) => {
         this.popoverClicked(e);
       }), this.wrapper;
     }
@@ -127,7 +127,7 @@
       }), this.wrapper.classList.add(c.CSS.popoverOpened);
     }
     close() {
-      this.wrapper.classList.remove(c.CSS.popoverOpened), this.itemEls.forEach(e => {
+      this.wrapper.classList.remove(c.CSS.popoverOpened), this.itemEls.forEach((e) => {
         this.clearConfirmationState(e);
       });
     }
@@ -221,7 +221,7 @@
       }, this.resize(), this.fill(), this.focusedCell = {
         row: 0,
         column: 0
-      }, this.documentClicked = r => {
+      }, this.documentClicked = (r) => {
         const n = r.target.closest(`.${s.table}`) !== null,
           h = r.target.closest(`.${s.wrapper}`) === null;
         (n || h) && this.hideToolboxes();
@@ -234,9 +234,9 @@
       return this.wrapper;
     }
     bindEvents() {
-      document.addEventListener("click", this.documentClicked), this.table.addEventListener("mousemove", H(150, e => this.onMouseMoveInTable(e)), {
+      document.addEventListener("click", this.documentClicked), this.table.addEventListener("mousemove", H(150, (e) => this.onMouseMoveInTable(e)), {
         passive: !0
-      }), this.table.onkeypress = e => this.onKeyPressListener(e), this.table.addEventListener("keydown", e => this.onKeyDownListener(e)), this.table.addEventListener("focusin", e => this.focusInTableListener(e));
+      }), this.table.onkeypress = (e) => this.onKeyPressListener(e), this.table.addEventListener("keydown", (e) => this.onKeyDownListener(e)), this.table.addEventListener("focusin", (e) => this.focusInTableListener(e));
     }
     createColumnToolbox() {
       return new u({
@@ -513,7 +513,7 @@
     unselectColumn() {
       if (this.selectedColumn <= 0) return;
       let e = this.table.querySelectorAll(`.${s.cellSelected}`);
-      Array.from(e).forEach(t => {
+      Array.from(e).forEach((t) => {
         t.classList.remove(s.cellSelected);
       }), this.selectedColumn = 0;
     }
@@ -526,11 +526,11 @@
         x: n,
         y: h
       } = R(this.table, e);
-      return n >= 0 && (o = this.binSearch(this.numberOfColumns, l => this.getCell(1, l), ({
+      return n >= 0 && (o = this.binSearch(this.numberOfColumns, (l) => this.getCell(1, l), ({
         fromLeftBorder: l
       }) => n < l, ({
         fromRightBorder: l
-      }) => n > i - l)), h >= 0 && (t = this.binSearch(this.numberOfRows, l => this.getCell(l, 1), ({
+      }) => n > i - l)), h >= 0 && (t = this.binSearch(this.numberOfRows, (l) => this.getCell(l, 1), ({
         fromTopBorder: l
       }) => h < l, ({
         fromBottomBorder: l
@@ -558,7 +558,7 @@
       for (let t = 1; t <= this.numberOfRows; t++) {
         const o = this.table.querySelector(`.${s.row}:nth-child(${t})`),
           i = Array.from(o.querySelectorAll(`.${s.cell}`));
-        i.every(n => !n.textContent.trim()) || e.push(i.map(n => n.innerHTML));
+        i.every((n) => !n.textContent.trim()) || e.push(i.map((n) => n.innerHTML));
       }
       return e;
     }
@@ -636,7 +636,7 @@
     onPaste(e) {
       const t = e.detail.data,
         o = t.querySelector(":scope > thead, tr:first-of-type th"),
-        r = Array.from(t.querySelectorAll("tr")).map(n => Array.from(n.querySelectorAll("th, td")).map(l => l.innerHTML));
+        r = Array.from(t.querySelectorAll("tr")).map((n) => Array.from(n.querySelectorAll("th, td")).map((l) => l.innerHTML));
       this.data = {
         withHeadings: o !== null,
         content: r

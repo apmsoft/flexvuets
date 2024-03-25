@@ -1,4 +1,5 @@
-import { g as getSlideTransformEl } from './utils.mjs';
+import { g as getSlideTransformEl } from "./utils.mjs";
+
 function effectTarget(effectParams, slideEl) {
   const transformEl = getSlideTransformEl(slideEl);
   if (transformEl !== slideEl) {
@@ -7,4 +8,5 @@ function effectTarget(effectParams, slideEl) {
   }
   return transformEl;
 }
+
 export { effectTarget as e };

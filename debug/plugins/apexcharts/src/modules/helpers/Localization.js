@@ -1,5 +1,5 @@
-import Utils from '../../utils/Utils';
-import en from '../../locales/en.json';
+import Utils from "../../utils/Utils";
+import en from "../../locales/en.json";
 export default class Localization {
   constructor(ctx) {
     this.ctx = ctx;
@@ -15,7 +15,7 @@ export default class Localization {
     }
 
     // find the locale from the array of locales which user has set (either by chart.defaultLocale or by calling setLocale() method.)
-    const selectedLocale = locales.filter(c => c.name === localeName)[0];
+    const selectedLocale = locales.filter((c) => c.name === localeName)[0];
     if (selectedLocale) {
       // create a complete locale object by extending defaults so you don't get undefined errors.
       let ret = Utils.extend(en, selectedLocale);

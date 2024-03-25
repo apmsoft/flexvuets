@@ -1,5 +1,5 @@
-import Graphics from '../Graphics';
-import Utils from '../../utils/Utils';
+import Graphics from "../Graphics";
+import Utils from "../../utils/Utils";
 export default class Helpers {
   constructor(lgCtx) {
     this.w = lgCtx.w;
@@ -113,7 +113,7 @@ export default class Helpers {
           cs: w.globals.ancillaryCollapsedSeries,
           csi: w.globals.ancillaryCollapsedSeriesIndices
         }];
-        seriesToMakeVisible.forEach(r => {
+        seriesToMakeVisible.forEach((r) => {
           this.riseCollapsedSeries(r.cs, r.csi, realIndex);
         });
       } else {

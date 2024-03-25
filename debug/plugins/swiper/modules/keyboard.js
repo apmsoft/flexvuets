@@ -1,5 +1,5 @@
-import { g as getDocument, a as getWindow } from '../shared/ssr-window.esm.mjs';
-import { a as elementParents, b as elementOffset } from '../shared/utils.mjs';
+import { g as getDocument, a as getWindow } from "../shared/ssr-window.esm.mjs";
+import { a as elementParents, b as elementOffset } from "../shared/utils.mjs";
 
 /* eslint-disable consistent-return */
 function Keyboard(_ref) {
@@ -113,4 +113,5 @@ function Keyboard(_ref) {
     disable
   });
 }
+
 export { Keyboard as default };

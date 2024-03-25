@@ -1,24 +1,26 @@
-import { a as getWindow, g as getDocument } from './ssr-window.esm.mjs';
+import { a as getWindow, g as getDocument } from "./ssr-window.esm.mjs";
+
 function classesToTokens(classes) {
   if (classes === void 0) {
     classes = '';
   }
-  return classes.trim().split(' ').filter(c => !!c.trim());
+  return classes.trim().split(' ').filter((c) => !!c.trim());
 }
+
 function deleteProps(obj) {
   const object = obj;
-  Object.keys(object).forEach(key => {
+  Object.keys(object).forEach((key) => {
     try {
       object[key] = null;
     } catch (e) {
+
       // no getter for object
-    }
-    try {
+    }try {
       delete object[key];
     } catch (e) {
+
       // something got wrong
-    }
-  });
+    }});
 }
 function nextTick(callback, delay) {
   if (delay === void 0) {
@@ -55,7 +57,7 @@ function getTranslate(el, axis) {
   if (window.WebKitCSSMatrix) {
     curTransform = curStyle.transform || curStyle.webkitTransform;
     if (curTransform.split(',').length > 6) {
-      curTransform = curTransform.split(', ').map(a => a.replace(',', '.')).join(', ');
+      curTransform = curTransform.split(', ').map((a) => a.replace(',', '.')).join(', ');
     }
     // Some old versions of Webkit choke when 'none' is passed; pass
     // empty string instead in this case
@@ -98,7 +100,7 @@ function extend() {
   for (let i = 1; i < arguments.length; i += 1) {
     const nextSource = i < 0 || arguments.length <= i ? undefined : arguments[i];
     if (nextSource !== undefined && nextSource !== null && !isNode(nextSource)) {
-      const keysArray = Object.keys(Object(nextSource)).filter(key => noExtend.indexOf(key) < 0);
+      const keysArray = Object.keys(Object(nextSource)).filter((key) => noExtend.indexOf(key) < 0);
       for (let nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex += 1) {
         const nextKey = keysArray[nextIndex];
         const desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
@@ -182,16 +184,16 @@ function elementChildren(element, selector) {
   if (selector === void 0) {
     selector = '';
   }
-  return [...element.children].filter(el => el.matches(selector));
+  return [...element.children].filter((el) => el.matches(selector));
 }
 function showWarning(text) {
   try {
     console.warn(text);
     return;
   } catch (err) {
+
     // err
-  }
-}
+  }}
 function createElement(tag, classes) {
   if (classes === void 0) {
     classes = [];
@@ -284,6 +286,7 @@ function elementOuterSize(el, size, includeMargins) {
   return el.offsetWidth;
 }
 function makeElementsArray(el) {
-  return (Array.isArray(el) ? el : [el]).filter(e => !!e);
+  return (Array.isArray(el) ? el : [el]).filter((e) => !!e);
 }
+
 export { elementParents as a, elementOffset as b, createElement as c, now as d, elementChildren as e, elementOuterSize as f, getSlideTransformEl as g, elementIndex as h, classesToTokens as i, getTranslate as j, elementTransitionEnd as k, isObject as l, makeElementsArray as m, nextTick as n, elementStyle as o, elementNextAll as p, elementPrevAll as q, animateCSSModeScroll as r, setCSSProperty as s, showWarning as t, extend as u, deleteProps as v };

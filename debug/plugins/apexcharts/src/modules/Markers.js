@@ -1,6 +1,6 @@
-import Filters from './Filters';
-import Graphics from './Graphics';
-import Utils from '../utils/Utils';
+import Filters from "./Filters";
+import Graphics from "./Graphics";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Markers Class for drawing points on y values in axes charts.
@@ -25,7 +25,7 @@ export default class Markers {
         }
       }
     } else {
-      w.globals.markers.size = w.config.series.map(s => w.config.markers.size);
+      w.globals.markers.size = w.config.series.map((s) => w.config.markers.size);
     }
   }
   plotChartMarkers(pointsPos, seriesIndex, j, pSize, alwaysDrawMarker = false) {
@@ -113,7 +113,7 @@ export default class Markers {
     // discrete markers is an option where user can specify a particular marker with different shape, size and color
 
     if (dataPointIndex !== null && m.discrete.length) {
-      m.discrete.map(marker => {
+      m.discrete.map((marker) => {
         if (marker.seriesIndex === seriesIndex && marker.dataPointIndex === dataPointIndex) {
           pStyle.pointStrokeColor = marker.strokeColor;
           pStyle.pointFillColor = marker.fillColor;

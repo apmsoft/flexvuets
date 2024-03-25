@@ -7,11 +7,11 @@
 /* eslint-disable */
 
 // test if file is of type image
-const isImage = file => /^image/.test(file.type);
-const getImageSize = file => new Promise((resolve, reject) => {
+const isImage = (file) => /^image/.test(file.type);
+const getImageSize = (file) => new Promise((resolve, reject) => {
   const image = document.createElement('img');
   image.src = URL.createObjectURL(file);
-  image.onerror = err => {
+  image.onerror = (err) => {
     clearInterval(intervalId);
     reject(err);
   };
@@ -104,7 +104,7 @@ const plugin = ({
     const measure = query('GET_IMAGE_VALIDATE_SIZE_MEASURE');
     validateFile(file, bounds, measure).then(() => {
       resolve(file);
-    }).catch(error => {
+    }).catch((error) => {
       const status = error ? {
         TOO_SMALL: {
           label: query('GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_SIZE_TOO_SMALL'),

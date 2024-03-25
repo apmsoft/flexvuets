@@ -1,6 +1,6 @@
-import Config from './settings/Config';
-import Utils from '../utils/Utils';
-import CoreUtils from './CoreUtils';
+import Config from "./settings/Config";
+import Utils from "../utils/Utils";
+import CoreUtils from "./CoreUtils";
 
 /**
  * ApexCharts Responsive Class to override options for different screen sizes.

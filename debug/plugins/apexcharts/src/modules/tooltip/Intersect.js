@@ -1,4 +1,4 @@
-import Utils from '../../utils/Utils';
+import Utils from "../../utils/Utils";
 
 /**
  * ApexCharts Tooltip.Intersect Class.
@@ -242,7 +242,7 @@ class Intersect {
       //   j = Math.ceil(hoverY / yDivisor)
       // }
 
-      const handleXForColumns = x => {
+      const handleXForColumns = (x) => {
         if (w.globals.isXNumeric) {
           x = cx - bw / 2;
         } else {

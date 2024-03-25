@@ -1,6 +1,6 @@
-import Utils from '../../utils/Utils';
-import DateTime from '../../utils/DateTime';
-import Formatters from '../Formatters';
+import Utils from "../../utils/Utils";
+import DateTime from "../../utils/DateTime";
+import Formatters from "../Formatters";
 
 /**
  * ApexCharts Default Class for setting default options for all chart types.
@@ -79,7 +79,7 @@ const getRangeValues = ({
     seriesName
   };
 };
-const buildRangeTooltipHTML = opts => {
+const buildRangeTooltipHTML = (opts) => {
   let {
     color,
     seriesName,
@@ -374,7 +374,7 @@ export default class Defaults {
     };
   }
   rangeBar() {
-    const handleTimelineTooltip = opts => {
+    const handleTimelineTooltip = (opts) => {
       const {
         color,
         seriesName,
@@ -394,7 +394,7 @@ export default class Defaults {
         end: endVal
       });
     };
-    const handleRangeColumnTooltip = opts => {
+    const handleRangeColumnTooltip = (opts) => {
       const {
         color,
         seriesName,
@@ -534,7 +534,7 @@ export default class Defaults {
     };
   }
   rangeArea() {
-    const handleRangeAreaTooltip = opts => {
+    const handleRangeAreaTooltip = (opts) => {
       const {
         color,
         seriesName,
@@ -661,7 +661,7 @@ export default class Defaults {
     const defaultFormatter = opts.xaxis.labels.formatter;
     let labels = opts.xaxis.categories && opts.xaxis.categories.length ? opts.xaxis.categories : opts.labels;
     if (cats && cats.length) {
-      labels = cats.map(c => {
+      labels = cats.map((c) => {
         return Array.isArray(c) ? c : String(c);
       });
     }
@@ -961,7 +961,7 @@ export default class Defaults {
       },
       xaxis: {
         labels: {
-          formatter: val => val,
+          formatter: (val) => val,
           style: {
             colors: ['#a8a8a8'],
             fontSize: '11px'
