@@ -4,4 +4,5 @@ interface Window {
     Arrays : Arrays;
     Sysmsg : Sysmsg;
     Strings : Strings;
+    Numbers: Numbers;
 }

@@ -3,7 +3,7 @@ interface StringsInterface {
 }
 
 const Strings : StringsInterface = {
-    "name" : "이름"
+    "app_name" : "flexvuets"
 }
 
 export default Strings;
