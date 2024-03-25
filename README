@@ -78,7 +78,7 @@ interface Window {
   "plugins": [
     [ "module-resolver", {
         "alias": {
-          "src": "./debug"
+          "@path": "./debug/v1"
           ,"@flexvue":"./debug/flexvue"
           // ,"@editorjs/editorjs": "./debug/plugins/@editorjs/editorjs/dist/editorjs.mjs"
           // ,"@editorjs/simple-image": "./debug/plugins/@editorjs/simple-image/dist/simple-image.mjs"
@@ -132,7 +132,7 @@ interface Window {
       "types": ["node", "jquery"],
       "baseUrl": ".",
       "paths" : {
-          "src/*": ["src/*"],
+          "@path/*": ["src/v1/*"],
           "@flexvue/*": ["src/flexvue/*"],
           // "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
           // "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
@@ -150,10 +150,6 @@ interface Window {
   }
 }
 
-
-# 파일 하나씩 또는 디렉토리 단위로
-tsc src/flexvue/flexvue.ts -outFile ./dist/flexvue/flexvue.js
-tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
 
 # nodejs build setting
 >> package.json
