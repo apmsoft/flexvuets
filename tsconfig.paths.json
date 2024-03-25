@@ -1,10 +1,15 @@
 {
     "compilerOptions": {
         "types": ["node", "jquery"],
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths" : {
             "@path/*": ["src/v1/*"],
-            "@flexvue/*": ["src/flexvue/*"],
+            "@flexvue/asynctask": ["src/flexvue/core/asynctask.class.ts"],
+            "@flexvue/forms": ["src/flexvue/core/forms.class.ts"],
+            "@flexvue/urlmanager": ["src/flexvue/core/urlmanager.class.ts"],
+            "@flexvue/scrollagent": ["src/flexvue/core/scrollagent.class.ts"],
+            "@flexvue/textutil": ["src/flexvue/core/textutil.class.ts"],
+            "@flexvue/asyncajax": ["src/flexvue/core/asyncajax.class.ts"],
             "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
             "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
             "@editorjs/header": ["node_modules/@editorjs/header"],

@@ -1,4 +1,4 @@
-import * as TextUtil from '@flexvue/core/textutil.class.js';
+import * as TextUtil from '@flexvue/textutil';
 
 const onReady = () : void =>
 {

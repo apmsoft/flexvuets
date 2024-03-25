@@ -12,7 +12,7 @@ const onReady = () => {
     post_params.append(key, value);
   });
   // AsyncTask
-  new AsyncTask().execute('GET', 'src/res/values/strings.json', post_params, {
+  new AsyncTask().execute('GET', '../js/values/strings.js', post_params, {
     mode: 'no-cors' // no-cors, cors, *same-origin
     //redirect : 'follow'
   }, {

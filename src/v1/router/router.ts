@@ -1,5 +1,5 @@
-import UrlManager from '@flexvue/core/urlmanager.class.js';
-import AsyncTask from '@flexvue/core/asynctask.class.js';
+import UrlManager from '@flexvue/urlmanager';
+import AsyncTask from '@flexvue/asynctask';
 
 import {Notice} from '@path/observable/notice.class.js';
 import {Faq} from '@path/observable/faq.class.js';

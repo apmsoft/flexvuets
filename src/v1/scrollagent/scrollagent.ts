@@ -1,4 +1,4 @@
-import ScrollAgent from '@flexvue/core/scrollagent.class.js';
+import ScrollAgent from '@flexvue/scrollagent';
 
 const onReady = () : void =>
 {

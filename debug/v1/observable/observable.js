@@ -1,5 +1,5 @@
-import { Notice } from "../observable/notice.class.js";
-import { Faq } from "../observable/faq.class.js";
+import { Notice } from "./notice.class.js";
+import { Faq } from "./faq.class.js";
 import Forms from "../../flexvue/core/forms.class.js";
 const onReady = () => {
   const _n = new Notice();

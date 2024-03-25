@@ -1,4 +1,4 @@
-import UrlManager from '@flexvue/core/urlmanager.class.js';
+import UrlManager from '@flexvue/urlmanager';
 import Arrays from '@path/js/values/arrays.js';
 import Sysmsg from '@path/js/values/sysmsg.js';
 import Strings from '@path/js/values/strings.js';

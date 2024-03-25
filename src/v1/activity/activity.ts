@@ -1,4 +1,4 @@
-import UrlManager from '@flexvue/core/urlmanager.class.js';
+import UrlManager from '@flexvue/urlmanager';
 
 
 const onReady = () : void =>

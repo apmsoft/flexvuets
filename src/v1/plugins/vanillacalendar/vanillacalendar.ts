@@ -1,7 +1,7 @@
 import VanillaCalendar from 'vanilla-calendar-pro';
 import { IOptions } from 'vanilla-calendar-pro/types';
 
-import Forms from '@flexvue/core/forms.class.js';
+import Forms from '@flexvue/forms';
 
 const onReady = () : void =>
 {
