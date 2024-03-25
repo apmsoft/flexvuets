@@ -1,8 +1,8 @@
-import * as FilePond from "../../../../node_modules/filepond/dist/filepond.esm.min.js";
-import FilePondPluginImagePreview from "../../../../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.min.js";
-import FilePondPluginImageValidateSize from "../../../../node_modules/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js";
-import FilePondPluginFileValidateSize from "../../../../node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js";
-import FilePondPluginFileValidateType from "../../../../node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js";
+import * as FilePond from "../../../plugins/filepond/dist/filepond.esm.min.js";
+import FilePondPluginImagePreview from "../../../plugins/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.min.js";
+import FilePondPluginImageValidateSize from "../../../plugins/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js";
+import FilePondPluginFileValidateSize from "../../../plugins/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js";
+import FilePondPluginFileValidateType from "../../../plugins/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js";
 const onReady = () => {
   // filepond
   FilePond.registerPlugin(FilePondPluginFileValidateSize, FilePondPluginFileValidateType, FilePondPluginImagePreview, FilePondPluginImageValidateSize);

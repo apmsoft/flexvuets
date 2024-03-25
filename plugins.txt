@@ -3,30 +3,37 @@
 # plugins : https://github.com/orgs/editor-js/repositories?type=all
 npm i @editorjs/editorjs --save
 
-npm install --save-dev @editorjs/simple-image
-npm install --save-dev @editorjs/header
-npm install --save-dev @editorjs/table
-npm install --save-dev @editorjs/link
-npm install --save-dev @editorjs/image
-npm install --save-dev @editorjs/raw
-npm install --save-dev @editorjs/checklist
-npm install --save-dev @editorjs/list
-npm install --save-dev @editorjs/embed
-npm install --save-dev @editorjs/quote
-npm install --save-dev @editorjs/code
+npm install @editorjs/simple-image --save
+npm install @editorjs/header --save
+npm install @editorjs/table --save
+npm install @editorjs/link --save
+npm install @editorjs/image --save
+npm install @editorjs/raw --save
+npm install @editorjs/checklist --save
+npm install @editorjs/list --save
+npm install @editorjs/embed --save
+npm install @editorjs/quote --save
+npm install @editorjs/code --save
+
+
+#### swiperjs : https://swiperjs.com/get-started
+# demos : https://swiperjs.com/demos
+npm install swiper --save
+
 
 #### date,time picker : https://github.com/uvarov-frontend/vanilla-calendar-pro
 # doc : https://vanilla-calendar.pro/docs/learn/additional-features/enable-time-picker
-npm install --save-dev vanilla-calendar-pro
+npm install vanilla-calendar-pro --save
 
 #### filepond : https://pqina.nl/filepond/
-npm install --save-dev filepond
-npm i filepond-plugin-image-preview --save-dev
-npm i filepond-plugin-file-validate-size --save-dev
-npm i filepond-plugin-file-validate-type --save-dev
-npm i filepond-plugin-image-validate-size --save-dev
+npm install filepond --save
+npm i filepond-plugin-image-preview --save
+npm i filepond-plugin-file-validate-size --save
+npm i filepond-plugin-file-validate-type --save
+npm i filepond-plugin-image-validate-size --save
+
 
 #### apexcharts chart : https://apexcharts.com/docs/creating-first-javascript-chart/
 # examples : https://github.com/apexcharts/apexcharts.js/tree/main/samples/vanilla-js
 # demo : https://apexcharts.com/javascript-chart-demos/line-charts/data-labels/
-npm install apexcharts --save-dev
+npm install apexcharts --save
