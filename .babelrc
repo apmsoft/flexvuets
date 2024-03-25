@@ -11,7 +11,6 @@
           ,"@flexvue/urlmanager":"./debug/flexvue/core/urlmanager.class.js"
           ,"@flexvue/scrollagent":"./debug/flexvue/core/scrollagent.class.js"
           ,"@flexvue/textutil":"./debug/flexvue/core/textutil.class.js"
-          ,"@flexvue/asyncajax":"./debug/flexvue/core/asyncajax.class.js"
           ,"@editorjs/editorjs": "./debug/plugins/@editorjs/editorjs/dist/editorjs.mjs"
           ,"@editorjs/simple-image": "./debug/plugins/@editorjs/simple-image/dist/simple-image.mjs"
           ,"@editorjs/header": "./debug/plugins/@editorjs/header/dist/header.mjs"
