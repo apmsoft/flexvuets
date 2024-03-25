@@ -63,24 +63,80 @@ npm install -D @tailwindcss/aspect-ratio
 >> babel
 .babelrc
 {
+  "sourceMaps": false,
+  "retainLines": true,
+  "presets": ["@babel/preset-typescript"],
   "plugins": [
     [ "module-resolver", {
         "alias": {
           "src": "./debug"
           ,"@flexvue":"./debug/flexvue"
+          // ,"@editorjs/editorjs": "./node_modules/@editorjs/editorjs/dist/editorjs.mjs"
+          // ,"@editorjs/simple-image": "./node_modules/@editorjs/simple-image/dist/simple-image.mjs"
+          // ,"@editorjs/header": "./node_modules/@editorjs/header/dist/header.mjs"
+          // ,"@editorjs/link": "./node_modules/@editorjs/link/dist/link.mjs"
+          // ,"@editorjs/image": "./node_modules/@editorjs/image/dist/image.mjs"
+          // ,"@editorjs/table": "./node_modules/@editorjs/table/dist/table.mjs"
+          // ,"@editorjs/code": "./node_modules/@editorjs/code/dist/code.mjs"
+          // ,"@editorjs/list": "./node_modules/@editorjs/list/dist/list.mjs"
+          // ,"@editorjs/embed": "./node_modules/@editorjs/embed/dist/embed.mjs"
+          // ,"@editorjs/checklist": "./node_modules/@editorjs/checklist/dist/checklist.mjs"
+          // ,"@editorjs/quote": "./node_modules/@editorjs/quote/dist/quote.mjs"
+          // ,"swiper/bundle": "./node_modules/swiper/swiper-bundle.min.mjs"
+          // ,"vanilla-calendar-pro": "./node_modules/vanilla-calendar-pro/build/vanilla-calendar.min.mjs"
+          // ,"filepond": "./node_modules/filepond/dist/filepond.esm.min.js"
+          // ,"filepond-plugin-image-preview": "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.min.js"
+          // ,"filepond-plugin-file-validate-size": "./node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js"
+          // ,"filepond-plugin-file-validate-type": "./node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js"
+          // ,"filepond-plugin-image-validate-size": "./node_modules/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js"
+          // ,"apexcharts": "./node_modules/apexcharts/dist/apexcharts.esm.js"
         }
       }
     ]
   ]
 }
 
+>> hintrc
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off" // 이미지의 대체 텍스트가 없어도 경고를 생성하지 않도록 설정
+      }
+    ],
+    "axe/forms": [
+      "default",
+      {
+        "label": "off" // 폼 요소에 레이블이 없어도 경고를 생성하지 않도록 설정
+      }
+    ]
+  }
+}
+
 >> tsconfig.paths.json
 {
   "compilerOptions": {
+      "types": ["node", "jquery"],
       "baseUrl": ".",
       "paths" : {
           "src/*": ["src/*"],
           "@flexvue/*": ["src/flexvue/*"],
+          // "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
+          // "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
+          // "@editorjs/header": ["node_modules/@editorjs/header"],
+          // "@editorjs/link": ["node_modules/@editorjs/link"],
+          // "@editorjs/image": ["node_modules/@editorjs/image"],
+          // "@editorjs/table": ["node_modules/@editorjs/table"],
+          // "@editorjs/code": ["node_modules/@editorjs/code"],
+          // "@editorjs/list": ["node_modules/@editorjs/list"],
+          // "@editorjs/embed": ["node_modules/@editorjs/embed"],
+          // "@editorjs/checklist": ["node_modules/@editorjs/checklist"],
+          // "@editorjs/quote": ["node_modules/@editorjs/quote"],
+          // "swiper/bundle": ["node_modules/swiper"],
       }
   }
 }
@@ -115,8 +171,46 @@ tsc src/flexvue/flexvue.ts -outDir ./dist/flexvue/
   }
 }
 
+>> create file export-plugin.js : package.json 의 dependencies 로 설치된 프로그램만 자동 복사
+const fs = require('fs-extra');
+const path = require('path');
+
+// package.json 파일의 경로
+const packageJsonPath = path.join(__dirname, 'package.json');
+
+// package.json 파일 읽기
+fs.readFile(packageJsonPath, 'utf8', (err, data) => {
+  if (err) {
+    console.error('Error reading package.json:', err);
+    return;
+  }
+
+  // package.json 파싱
+  const packageJson = JSON.parse(data);
+
+  // dependencies에서 패키지 목록 추출export
+  const dependencies = packageJson.dependencies || {};
+
+  // 복사할 디렉토리
+  const destinationDir = path.join(__dirname, 'debug', 'plugins');
+
+  // 각 패키지의 파일 복사
+  Object.keys(dependencies).forEach(dependency => {
+    const packagePath = path.join(__dirname, 'node_modules', dependency);
+    fs.copy(packagePath, path.join(destinationDir, dependency), err => {
+      if (err) {
+        console.error(`Error copying files for ${dependency}:`, err);
+      } else {
+        console.log(`Files copied successfully for ${dependency}.`);
+      }
+    });
+  });
+});
+
+>> npm run debug
 >> npm run build
 >> npm run clean
+>> npm run css // tailwindcss
 
->> npm run release
->> npm run clean_release
+>> npm run release // release 폴더로 debug 작업물 복사
+>> npm run clean_release // release 폴더 및 파일 전체 삭제

@@ -1,19 +1,20 @@
 {
-  "extends": [
-    "development"
-  ],
-  "hints": {
-    "axe/text-alternatives": [
-      "default",
-      {
-        "image-alt": "off"
-      }
+    "extends": [
+      "development"
     ],
-    "axe/forms": [
-      "default",
-      {
-        "label": "off"
-      }
-    ]
+    "hints": {
+      "axe/text-alternatives": [
+        "default",
+        {
+          "image-alt": "off"
+        }
+      ],
+      "axe/forms": [
+        "default",
+        {
+          "label": "off"
+        }
+      ]
+    }
   }
-}
+  
