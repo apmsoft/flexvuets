@@ -23,7 +23,16 @@ npx tailwindcss init
 npm install -D @tailwindcss/forms
 npm install -D @tailwindcss/aspect-ratio
 
-# tsconfig.json
+>> global.d.ts
+interface Window {
+  observable: Observable;
+  Observer : Observer;
+  Arrays : Arrays;
+  Sysmsg : Sysmsg;
+  Strings : Strings;
+}
+
+>> tsconfig.json
 {
   "compilerOptions": {
     "target": "es6",
@@ -65,7 +74,7 @@ npm install -D @tailwindcss/aspect-ratio
 {
   "sourceMaps": false,
   "retainLines": true,
-  "presets": ["@babel/preset-typescript"],
+  // "presets": ["@babel/preset-typescript"],
   "plugins": [
     [ "module-resolver", {
         "alias": {

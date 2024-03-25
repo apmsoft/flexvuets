@@ -1,4 +1,7 @@
 interface Window {
     observable: Observable;
-    Observer : Observer
+    Observer : Observer;
+    Arrays : Arrays;
+    Sysmsg : Sysmsg;
+    Strings : Strings;
 }
