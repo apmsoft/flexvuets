@@ -1,8 +1,8 @@
 import UrlManager from '@flexvue/core/urlmanager.class.js';
-import Arrays from '../js/values/arrays.js';
-import Sysmsg from '../js/values/sysmsg.js';
-import Strings from '../js/values/strings.js';
-import Numbers from '../js/values/numbers.js';
+import Arrays from '@path/js/values/arrays.js';
+import Sysmsg from '@path/js/values/sysmsg.js';
+import Strings from '@path/js/values/strings.js';
+import Numbers from '@path/js/values/numbers.js';
 
 window.Sysmsg = Sysmsg;
 window.Arrays = Arrays;

@@ -5,7 +5,7 @@
   "plugins": [
     [ "module-resolver", {
         "alias": {
-          "src": "./debug"
+          "@path": "./debug/v1"
           ,"@flexvue":"./debug/flexvue"
           ,"@editorjs/editorjs": "./debug/plugins/@editorjs/editorjs/dist/editorjs.mjs"
           ,"@editorjs/simple-image": "./debug/plugins/@editorjs/simple-image/dist/simple-image.mjs"

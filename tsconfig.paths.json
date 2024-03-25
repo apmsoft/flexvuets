@@ -3,7 +3,7 @@
         "types": ["node", "jquery"],
         "baseUrl": ".",
         "paths" : {
-            "src/*": ["src/*"],
+            "@path/*": ["src/v1/*"],
             "@flexvue/*": ["src/flexvue/*"],
             "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
             "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
