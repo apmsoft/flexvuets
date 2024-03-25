@@ -6,7 +6,9 @@ const onReady = () => {
   // vertical
   const noticeScrollAgent = new ScrollAgent('notice');
   const noticePreTopPos = noticeScrollAgent.getPos();
-  noticeScrollAgent.addScrollListener('vertical', '#notice');
+  noticeScrollAgent.addScrollListener('vertical', '#notice', function (pos = 0) {
+    Log.d('current', pos);
+  });
   noticeScrollAgent.scrollTo({ top: noticePreTopPos });
   // scroll to bottom
   (_a = document.querySelector('#btn_vbottom')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function (e) {

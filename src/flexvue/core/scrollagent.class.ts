@@ -52,23 +52,32 @@ export default class ScrollAgent {
         }
     }
 
-    addScrollListener(mode: ScrollMode, scrollTarget: string): void {
+    addScrollListener(mode: ScrollMode, scrollTarget: string, callback : Function | null = null): void {
+        const self = this;
         if(mode === 'vertical'){
             this.scrollerVertical = document.querySelector<HTMLElement>(scrollTarget);
             if(this.scrollerVertical){
                 this.scrollerVertical.dataset.scrollch = this.channel;
-                this.startVertical();
+                this.startVertical(function(pos : number){
+                    if(typeof callback === 'function'){
+                        callback(pos);
+                    }
+                });
             }
         } else if(mode === 'horizontal'){
             this.scrollerHorizontal = document.querySelector<HTMLElement>(scrollTarget);
             if(this.scrollerHorizontal){
                 this.scrollerHorizontal.dataset.scrollch = this.channel;
-                this.startHorizontal();
+                this.startHorizontal(function(pos : number){
+                    if(typeof callback === 'function'){
+                        callback(pos);
+                    }
+                });
             }
         }
     }
 
-    startVertical(): void {
+    startVertical(callback : Function ): void {
         // 스크롤 캡쳐
         if (this.scrollerVertical) {
             this.scrollerVertical.addEventListener("scroll", (event: Event) => {
@@ -92,6 +101,8 @@ export default class ScrollAgent {
                         }
                     }
                 }
+
+                callback(tpos);
             });
 
             // try {
@@ -106,16 +117,19 @@ export default class ScrollAgent {
     }
 
 
-    startHorizontal(): void {
+    startHorizontal(callback : Function): void {
         const self = this;
         if (this.scrollerHorizontal) {
             this.scrollerHorizontal.addEventListener("scroll", (event: Event) => {
                 const target = event.target as HTMLElement;
                 const _ch = target.dataset.scrollch;
+                const lpos = this.scrollerHorizontal!.scrollLeft;
                 if (_ch === self.channel) {
                     // Log.d("+++++ >" + _ch + ' ' + tpos);
-                    ScrollObserver._setPos(this.channel, this.scrollerHorizontal!.scrollLeft);
+                    ScrollObserver._setPos(this.channel, lpos);
                 }
+
+                callback(lpos);
             });
         }
     }

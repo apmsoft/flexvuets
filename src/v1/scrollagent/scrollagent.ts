@@ -8,7 +8,9 @@ const onReady = () : void =>
     // vertical
     const noticeScrollAgent = new ScrollAgent('notice');
     const noticePreTopPos = noticeScrollAgent.getPos();
-    noticeScrollAgent.addScrollListener('vertical', '#notice');
+    noticeScrollAgent.addScrollListener('vertical', '#notice', function(pos : GLfloat = 0){
+        Log.d('current',pos);
+    });
     noticeScrollAgent.scrollTo({top: noticePreTopPos});
 
     // scroll to bottom

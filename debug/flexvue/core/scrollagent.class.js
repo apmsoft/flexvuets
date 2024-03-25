@@ -27,23 +27,32 @@ export default class ScrollAgent {
       }
     }
   }
-  addScrollListener(mode, scrollTarget) {
+  addScrollListener(mode, scrollTarget, callback = null) {
+    const self = this;
     if (mode === 'vertical') {
       this.scrollerVertical = document.querySelector(scrollTarget);
       if (this.scrollerVertical) {
         this.scrollerVertical.dataset.scrollch = this.channel;
-        this.startVertical();
+        this.startVertical(function (pos) {
+          if (typeof callback === 'function') {
+            callback(pos);
+          }
+        });
       }
     } else
     if (mode === 'horizontal') {
       this.scrollerHorizontal = document.querySelector(scrollTarget);
       if (this.scrollerHorizontal) {
         this.scrollerHorizontal.dataset.scrollch = this.channel;
-        this.startHorizontal();
+        this.startHorizontal(function (pos) {
+          if (typeof callback === 'function') {
+            callback(pos);
+          }
+        });
       }
     }
   }
-  startVertical() {
+  startVertical(callback) {
     // 스크롤 캡쳐
     if (this.scrollerVertical) {
       this.scrollerVertical.addEventListener("scroll", (event) => {
@@ -66,6 +75,7 @@ export default class ScrollAgent {
             }
           }
         }
+        callback(tpos);
       });
       // try {
       //     window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
@@ -76,16 +86,18 @@ export default class ScrollAgent {
       this.wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
     }
   }
-  startHorizontal() {
+  startHorizontal(callback) {
     const self = this;
     if (this.scrollerHorizontal) {
       this.scrollerHorizontal.addEventListener("scroll", (event) => {
         const target = event.target;
         const _ch = target.dataset.scrollch;
+        const lpos = this.scrollerHorizontal.scrollLeft;
         if (_ch === self.channel) {
           // Log.d("+++++ >" + _ch + ' ' + tpos);
-          ScrollObserver._setPos(this.channel, this.scrollerHorizontal.scrollLeft);
+          ScrollObserver._setPos(this.channel, lpos);
         }
+        callback(lpos);
       });
     }
   }
