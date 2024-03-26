@@ -174,9 +174,8 @@ module.exports = {
   "version": "3.0",
   "description": "",
   "scripts": {
-    "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug",
+    "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug --watch",
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
-    "start": "tsc -P ./tsconfig.json --watch && babel debug --out-dir debug --watch",
     "export-plugins": "node export-plugins.js",
     "release": "cp -fr ./debug/* ./release",
     "clean": "tsc --build --clean",
