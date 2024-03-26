@@ -194,7 +194,7 @@ module.exports = {
   }
 }
 
->> create file : export-plugin.js (package.json 의 dependencies 로 설치된 프로그램만 자동 복사)
+>> create file : export-plugins.js (package.json 의 dependencies 로 설치된 프로그램만 자동 복사)
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -232,7 +232,8 @@ fs.readFile(packageJsonPath, 'utf8', (err, data) => {
 
 >> create directory : src, debug, release
 
->> create or copy directory : src/flevvue, plugins, v1, t1
+>> create or copy directory : src/flevvue, v1, t1
+>> create directory : src/plugins
 
 >> npm run debug
 >> npm run build
