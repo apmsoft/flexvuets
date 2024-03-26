@@ -6,8 +6,10 @@ interface Config {
     debug_colors : {
         [key: string]: string;
     };
-    cache: string;
     host : string;
+    _options_ : {
+        [key: string]: any;
+    };
     _headers_: {
         [key: string]: string;
     };
@@ -40,9 +42,16 @@ const config: Config = {
         id: '#left',
         state: ''
     },
-    cache: 'default',
+    _options_ : {
+        cache: 'no-cache',
+        mode : 'cors',
+        verify : false
+    },
     _headers_: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Methods': '*'
     },
     _fileupload_headers_: {
         'Access-Control-Allow-Origin': '*',
