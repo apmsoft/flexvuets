@@ -23,7 +23,7 @@ npx tailwindcss init
 npm install -D @tailwindcss/forms
 npm install -D @tailwindcss/aspect-ratio
 
->> global.d.ts
+>> create file : global.d.ts
 interface Window {
   observable: Observable;
   Observer : Observer;
@@ -33,7 +33,7 @@ interface Window {
   Numbers : Numbers;
 }
 
->> tsconfig.json
+>> create file : tsconfig.json
 {
   "compilerOptions": {
     "target": "es6",
@@ -72,7 +72,7 @@ interface Window {
 }
 
 >> babel
-.babel.config.js
+>> create file : babel.config.js
 
 const debugPath = process.env.DEBUG_PATH || './debug';
 module.exports = {
@@ -115,7 +115,7 @@ module.exports = {
     ]
   }
 
->> hintrc
+>> create file : ".hintrc" 
 {
   "extends": [
     "development"
@@ -136,7 +136,7 @@ module.exports = {
   }
 }
 
->> tsconfig.paths.json
+>> create file : tsconfig.paths.json
 {
   "compilerOptions": {
       "types": ["node", "jquery"],
@@ -195,7 +195,7 @@ module.exports = {
   }
 }
 
->> create file export-plugin.js : package.json 의 dependencies 로 설치된 프로그램만 자동 복사
+>> create file : export-plugin.js (package.json 의 dependencies 로 설치된 프로그램만 자동 복사)
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -231,7 +231,9 @@ fs.readFile(packageJsonPath, 'utf8', (err, data) => {
   });
 });
 
->> create src, debug, release
+>> create directory : src, debug, release
+
+>> create or copy directory : src/flevvue, v1, t1
 
 >> npm run debug
 >> npm run build
