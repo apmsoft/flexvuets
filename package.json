@@ -3,7 +3,7 @@
   "version": "2.5.1",
   "description": "",
   "scripts": {
-    "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug --watch",
+    "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json --watch && babel --config-file ./babel.config.js debug -d debug --watch",
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
     "export-plugins": "node export-plugins.js",
     "release": "cp -fr ./debug/* ./release",
