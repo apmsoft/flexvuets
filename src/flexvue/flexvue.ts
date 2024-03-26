@@ -17,8 +17,6 @@ interface Config {
         [key: string]: string;
     };
     src : string;
-    src8: string;
-    src9: string;
     _history_state: {
         id: string;
         state: string;
@@ -61,9 +59,7 @@ const config: Config = {
     },
 
     host: 'http://',
-    src : 'src',
-    src9: 'server9000.php',
-    src8: 'server8000.php'
+    src : 'src'
 };
 
 interface Observer {
