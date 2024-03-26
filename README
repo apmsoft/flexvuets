@@ -170,10 +170,9 @@ module.exports = {
 # nodejs build setting
 >> package.json
 {
-  "name": "flexvue",
+  "name": "flexvuets",
   "version": "3.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug",
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
@@ -185,7 +184,7 @@ module.exports = {
     "css-v1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/v1/css/tailwind.css --watch --minify",
     "css-t1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/t1/css/tailwind.css --watch --minify"
   },
-  "author": "fancyupsoft.com",
+  "author": "http://flexvue.fancyupsoft.com",
   "license": "MIT",
   "dependencies": {
 
