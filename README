@@ -238,7 +238,8 @@ fs.readFile(packageJsonPath, 'utf8', (err, data) => {
 >> npm run debug
 >> npm run build
 >> npm run clean
->> npm run css // tailwindcss
+>> npm run css-v1 // tailwindcss
+>> npm run css-t1 // tailwindcss
 
 >> npm run release // release 폴더로 debug 작업물 복사
 >> npm run clean_release // release 폴더 및 파일 전체 삭제
