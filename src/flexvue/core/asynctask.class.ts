@@ -25,6 +25,8 @@ export default class AsyncTask {
         let options: ExtendedRequestInit = {
             method: _method,
             cache: 'no-cache',
+            mode : 'cors',
+            verify : false,
             headers: new Headers(headers)
         };
 
