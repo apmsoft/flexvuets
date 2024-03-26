@@ -10,7 +10,7 @@ npx tsc --init
 npm install --save-dev @types/node
 npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
-npm install --save-dev @types/jquery
+// npm install --save-dev @types/jquery
 
 # fs-extra
 npm install --save-dev fs-extra
@@ -57,7 +57,8 @@ interface Window {
     "module": "ESNext",
     "outDir": "debug",
     "rootDir": "src",
-    "types": ["node", "jquery"],
+    // "types": ["node", "jquery"],
+    "types": ["node"],
   },
   "include": [
     "src/**/*",
@@ -180,12 +181,12 @@ module.exports = {
     "css-t1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/t1/css/tailwind.css --watch --minify"
   },
   "author": "fancyupsoft.com",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "typescript": "^4.5.5"
+
   },
   "devDependencies": {
-    "ts-node": "^10.5.0"
+
   }
 }
 
@@ -224,6 +225,8 @@ fs.readFile(packageJsonPath, 'utf8', (err, data) => {
     });
   });
 });
+
+>> create src, debug, release
 
 >> npm run debug
 >> npm run build
