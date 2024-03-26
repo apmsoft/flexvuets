@@ -6,17 +6,17 @@ interface Config {
     debug_colors : {
         [key: string]: string;
     };
-    cache    : string;
-    host     : string;
+    cache: string;
+    host : string;
     _headers_: {
         [key: string]: string;
     };
     _fileupload_headers_: {
         [key: string]: string;
     };
-    asset         : string;
-    src           : string;
-    res           : string;
+    src : string;
+    src8: string;
+    src9: string;
     _history_state: {
         id: string;
         state: string;
@@ -36,8 +36,11 @@ const config: Config = {
         'w' : '#d05b13',
         'e' : '#E82C35'
     },
+    _history_state: {
+        id: '#left',
+        state: ''
+    },
     cache: 'default',
-    host: 'http://',
     _headers_: {
         'Content-Type': 'application/json'
     },
@@ -47,13 +50,11 @@ const config: Config = {
         'Access-Control-Allow-Methods': '*',
         'Authorization-Access-Token': ''
     },
-    asset: 'v1',
-    src: 'src',
-    res: 'res',
-    _history_state: {
-        id: '#left',
-        state: ''
-    }
+
+    host: 'http://',
+    src : 'src',
+    src9: 'server9000.php',
+    src8: 'server8000.php'
 };
 
 interface Observer {
