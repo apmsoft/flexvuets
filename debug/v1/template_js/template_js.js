@@ -1,4 +1,4 @@
-import AsyncTask from "../../../${debugPath}/flexvue/core/asynctask.class.js";
+import AsyncTask from "../../flexvue/core/asynctask.class.js";
 const onReady = () => {
   ProgressBars.show();
   new AsyncTask().doImport(new URL(`../template_js/tpl/test.tpl.js`, import.meta.url).href).

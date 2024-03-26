@@ -1,4 +1,4 @@
 const Strings = {
-  "name": "이름"
+  "app_name": "flexvuets"
 };
 export default Strings;

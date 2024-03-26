@@ -1,5 +1,5 @@
-import {Notice} from '@path/observable/notice.class.js';
-import {Faq} from '@path/observable/faq.class.js';
+import {Notice} from '@v1/observable/notice.class.js';
+import {Faq} from '@v1/observable/faq.class.js';
 import Forms from '@flexvue/forms';
 
 const onReady = () : void =>

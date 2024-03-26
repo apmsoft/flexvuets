@@ -1,13 +1,13 @@
-import EditorJS from "../../../../${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs";
-import SimpleImage from "../../../../${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs";
-import Header from "../../../../${debugPath}/plugins/@editorjs/header/dist/header.mjs";
-import List from "../../../../${debugPath}/plugins/@editorjs/list/dist/list.mjs";
-import CodeTool from "../../../../${debugPath}/plugins/@editorjs/code/dist/code.mjs";
-import LinkTool from "../../../../${debugPath}/plugins/@editorjs/link/dist/link.mjs";
-import Embed from "../../../../${debugPath}/plugins/@editorjs/embed/dist/embed.mjs";
-import Table from "../../../../${debugPath}/plugins/@editorjs/table/dist/table.mjs";
-import Checklist from "../../../../${debugPath}/plugins/@editorjs/checklist/dist/checklist.mjs";
-import Quote from "../../../../${debugPath}/plugins/@editorjs/quote/dist/quote.mjs";
+import EditorJS from "../../../plugins/@editorjs/editorjs/dist/editorjs.mjs";
+import SimpleImage from "../../../plugins/@editorjs/simple-image/dist/simple-image.mjs";
+import Header from "../../../plugins/@editorjs/header/dist/header.mjs";
+import List from "../../../plugins/@editorjs/list/dist/list.mjs";
+import CodeTool from "../../../plugins/@editorjs/code/dist/code.mjs";
+import LinkTool from "../../../plugins/@editorjs/link/dist/link.mjs";
+import Embed from "../../../plugins/@editorjs/embed/dist/embed.mjs";
+import Table from "../../../plugins/@editorjs/table/dist/table.mjs";
+import Checklist from "../../../plugins/@editorjs/checklist/dist/checklist.mjs";
+import Quote from "../../../plugins/@editorjs/quote/dist/quote.mjs";
 const onReady = () => {
   const editor = new EditorJS({
     autofocus: true,

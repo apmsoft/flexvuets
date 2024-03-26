@@ -1,5 +1,5 @@
-import VanillaCalendar from "../../../../${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs";
-import Forms from "../../../../${debugPath}/flexvue/core/forms.class.js";
+import VanillaCalendar from "../../../plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs";
+import Forms from "../../../flexvue/core/forms.class.js";
 const onReady = () => {
   const dateOptions = {
     input: true,
