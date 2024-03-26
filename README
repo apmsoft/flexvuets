@@ -171,10 +171,13 @@ module.exports = {
   "scripts": {
     "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug",
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
-    "release": "cp -fr ./debug/* ./release/v1",
+    "start": "tsc -P ./tsconfig.json --watch && babel debug --out-dir debug --watch",
+    "export-plugins": "node export-plugins.js",
+    "release": "cp -fr ./debug/* ./release",
     "clean": "tsc --build --clean",
-    "clean_release": "rm -fr ./release/v1/*",
-    "css": "npx tailwindcss -i ./tailwind.css -o ./debug/css/tailwind.css --watch --minify"
+    "clean-release": "rm -fr ./release/*",
+    "css-v1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/v1/css/tailwind.css --watch --minify",
+    "css-t1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/t1/css/tailwind.css --watch --minify"
   },
   "author": "fancyupsoft.com",
   "license": "ISC",

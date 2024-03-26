@@ -10,10 +10,11 @@
     "release": "cp -fr ./debug/* ./release",
     "clean": "tsc --build --clean",
     "clean-release": "rm -fr ./release/*",
-    "css": "npx tailwindcss -i ./tailwind.css -o ./debug/example/css/tailwind.css --watch --minify"
+    "css-v1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/v1/css/tailwind.css --watch --minify",
+    "css-t1": "npx tailwindcss -i ./tailwind.css -o ./debug/debug/t1/css/tailwind.css --watch --minify"
   },
   "author": "http://flexvue.fancyupsoft.com",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@editorjs/checklist": "^1.6.0",
     "@editorjs/code": "^2.9.0",
