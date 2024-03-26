@@ -988,6 +988,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1014,9 +1016,7 @@
         * @param ease function || string Function which should be used for easing or easing keyword
         * @param delay Number indicating the delay before the animation starts
         * @return target || this
-        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;
-            o = o.duration;
-          }
+        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}
           var situation = new SVG.Situation({
             duration: o || 1000,
             delay: delay || 0,
@@ -1537,6 +1537,9 @@
 
 
 
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1547,10 +1550,7 @@
     inherit: SVG.Box, // Define Parent
     parent: SVG.Element, // Constructor
     construct: { // Get bounding box
-      bbox: function () {
-        return new SVG.BBox(this);
-      }
-    }
+      bbox: function () {return new SVG.BBox(this);} }
   });
   SVG.BBox.prototype.constructor = SVG.BBox;
   SVG.Matrix = SVG.invent({
@@ -2290,14 +2290,14 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
         this.type = type;}, // Inherit from
       inherit: SVG.Container, // Add class methods
       extend: { // Add a color stop
-        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);
-        },
+        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);},
         // Update gradient
         update: function (block) {
           // remove all stops

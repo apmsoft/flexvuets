@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="./css/tailwind.css?v=1" rel="stylesheet">
+    <link async href="./css/fontawesome-all.css" rel="stylesheet">
+
+    <script defer src="../flexvue/flexvue.js?v=1"></script>
+</head>
+
+<body>
+
+    <!--left-->
+    <div id="left" class="fvue--layout z-0 h-screen bg-blue-lightd6 dark:bg-gray-600 2xl:pb-1">
+        <div class="fvue--layout--container">
+
+            <div class="fvue--layout--header py-3 bg-blue-lightd6 dark:bg-gray-600">
+                <div class="fvue--layout--header--row py-1 px-3">
+                    <div class="fvue--layout--icon">
+
+                    </div>
+                    <div class="fvue--layout--title text-gray-800 dark:text-gray-300">
+                        <a href="./" id="left_title"></a>
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation">
+                        <!-- <button type="button" class="text-gray-500 dark:text-gray-300" title="새소식" id="btn-alarm">
+                            <i class="far fa-bell"></i>
+                        </button> -->
+                        <button type="button" class="ml-3 text-gray-500 dark:text-gray-300" title="logout" id="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="fvue--layout--main h-full">
+                <div class="flex flex-row h-full">
+                    <!--row 1-->
+                    <div id="left-col-1" class="flex-none overflow-y-auto bg-blue-lightd6 dark:bg-gray-600">
+
+                    </div>
+
+                    <!--row 2-->
+                    <div id="left-col-2" class="flex-none w-60 overflow-y-auto bg-blue-default dark:bg-gray-900">
+
+                    </div>
+
+                    <!--row 3-->
+                    <div id="left-col-3" class="flex-auto  bg-white dark:bg-gray-700 h-full">
+                        <div class="flex flex-col bg-gray-light dark:bg-gray-800 h-full px-5 pt-5 pb-5 rounded-l-3xl">
+                            <div class="flex-none">
+                                <button type="button" id="btn-close-window" class="btn py-1 px-3 bg-white dark:bg-gray-500 text-gray-400 dark:text-gray-200 border-0 text-sm">
+                                    <i class="fa-solid fa-arrows-left-right-to-line"></i>
+                                </button>
+                                <button type="button" id="btn-open-window" class="btn py-1 px-3 bg-blue-default text-white border-0 text-sm hidden">
+                                    <i class="fa-solid fa-right-left"></i>
+                                </button>
+                            </div>
+                            <div id="left_docs_contents" class="flex-1 pt-10 pb-3 h-full dark:bg-gray-800 overflow-y-auto dark:text-gray-300">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900 bg-opacity-70 flex content-center flex-wrap">
+    </div>
+
+    <!--tooltip-->
+    <div id="tooltip" class="py-4 absolute w-full left-0 top-0 lg:px-4 z-8 hidden">
+        <div class="p-2 bg-indigo-800 w-full rounded-lg text-center text-indigo-100 leading-none" role="alert">
+            <span class="font-semibold mr-2 text-left flex-auto">성공적으로 클립보드에 저장하였습니다.<br/><small>Ctrl+C 키를 불러 복사하세요</small></span>
+        </div>
+    </div>
+    <div class="none loading ck-editor__editable .ck.ck-toolbar ck-reset_all bottom_transitioned bottomside_transitioned bottomthird_transitioned"></div>
+</body>
+
+<script defer type="module" src="js/index.js?v=1"></script>
+<script async src="https://unpkg.com/@popperjs/core@2.9.1/dist/umd/popper.min.js" charset="utf-8"></script>
+<script>
+function openPopover(event,popoverID){
+    let element = event.target;
+    while(element.nodeName !== "DIV"){
+        element = element.parentNode;
+    }
+    var popper = Popper.createPopper(element, document.getElementById(popoverID), {
+        placement: 'bottom'
+    });
+    document.getElementById(popoverID).classList.toggle("hidden");
+}
+</script>
+</html>
