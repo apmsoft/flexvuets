@@ -233,7 +233,7 @@ fs.readFile(packageJsonPath, 'utf8', (err, data) => {
 
 >> create directory : src, debug, release
 
->> create or copy directory : src/flevvue, v1, t1
+>> create or copy directory : src/flevvue, plugins, v1, t1
 
 >> npm run debug
 >> npm run build
