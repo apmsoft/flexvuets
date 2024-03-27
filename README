@@ -21,8 +21,11 @@ https://tailwindcss.com/docs/installation
 
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
-npm install -D @tailwindcss/forms
-npm install -D @tailwindcss/aspect-ratio
+npm install -D @tailwindcss/forms --save-dev
+npm install -D @tailwindcss/aspect-ratio --save-dev
+npm install -D postcss --save-dev
+npm install -D prettier --save-dev
+npm install -D prettier-plugin-tailwindcss --save-dev
 
 >> create file : global.d.ts
 interface Window {
