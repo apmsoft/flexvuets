@@ -6,6 +6,11 @@ interface Config {
     debug_colors : {
         [key: string]: string;
     };
+    surport_langs: string[],
+    _history_state: {
+        id: string;
+        state: string;
+    };
     host : string;
     _options_ : {
         [key: string]: any;
@@ -17,10 +22,6 @@ interface Config {
         [key: string]: string;
     };
     src : string;
-    _history_state: {
-        id: string;
-        state: string;
-    };
     [propName : string]: any
 }
 
@@ -59,7 +60,8 @@ const config: Config = {
     },
 
     host: 'http://',
-    src : 'src'
+    src : 'src',
+    surport_langs: []
 };
 
 interface Observer {
@@ -281,8 +283,13 @@ class App {
     }
 
     static getLocale(): string {
-        let language = App.lang;
-        return language;
+        let language = '';
+        config.surport_langs.forEach(function(lng){
+            if(App.lang == lng){
+                language = '_'+lng;
+            }
+        });
+        return (language) ? language : '';
     }
 
     private findPlatform(data: WebBrowser[]): string {
