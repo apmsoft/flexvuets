@@ -5,4 +5,5 @@ interface Window {
     Sysmsg : Sysmsg;
     Strings : Strings;
     Numbers: Numbers;
+    flutter_inappwebview : flutter_inappwebview;
 }
