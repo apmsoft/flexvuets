@@ -2,22 +2,11 @@ import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
 
-import {Notice} from '@v1/observable/notice.class.js';
-import {Faq} from '@v1/observable/faq.class.js';
 
 const onReady = () : void =>
 {
     // 기본 클래스 선언
     new App();
-
-    // observable test /--------------------------
-    const _n = new Notice();
-    const _f = new Faq();
-
-    window.observable = new Observable(['public','sub']);
-    // public 채널 구독
-    window.observable.subscribe('public', _n);
-    window.observable.subscribe('public', _f);
 
     // 뒤로 가기 시 실행
     new Activity().onBackPressed( state =>{
