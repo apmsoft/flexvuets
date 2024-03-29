@@ -36,8 +36,8 @@ const onReady = () : void =>
             '/edit': new URL('../js/notice.class.js', import.meta.url).href 
         },
         '/bbs/faq': {
-            '/list': new URL('../js/notice.class.js', import.meta.url).href ,
-            '/edit': new URL('../js/notice.class.js', import.meta.url).href ,
+            '/list': new URL('../js/faq.class.js', import.meta.url).href ,
+            '/edit': new URL('../js/faq.class.js', import.meta.url).href ,
         }
     };
 
