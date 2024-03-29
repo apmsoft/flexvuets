@@ -1,5 +1,6 @@
 export interface Response {
-    result : string;
+    result : "true" | "false";
+    msg_code? : string | number;
     msg : string | Record<string,any>
     [propName : string] : any
 }
