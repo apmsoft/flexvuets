@@ -15,6 +15,7 @@ module.exports = {
             ,"@flexvue/urlmanager":`./${debugPath}/flexvue/core/urlmanager.class.js`
             ,"@flexvue/scrollagent":`./${debugPath}/flexvue/core/scrollagent.class.js`
             ,"@flexvue/textutil":`./${debugPath}/flexvue/core/textutil.class.js`
+            ,"@flexvue/types":`./${debugPath}/flexvue/core/types.interface.js`
             ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
             ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
             ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`

@@ -1,12 +1,12 @@
-import {DataTypeInterface} from '../datatype.interface.js';
+import {Template as InterfaceTemplate} from '@flexvue/types';
 
 const fn = (name : string) => `####${name}<<<<`;
-class Template
+class Template implements InterfaceTemplate
 {
     constructor(){
     }
 
-    render(message : DataTypeInterface) { // 동기
+    render(message : Record<string,any> ={}) { // 동기
         return (`
             <h3 class="mt-4 text-red-800"><IMPORT 동기 템플릿 클래스></h3>
             <p>${fn(message.name)}</p>

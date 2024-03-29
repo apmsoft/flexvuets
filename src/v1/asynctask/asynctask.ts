@@ -1,5 +1,5 @@
 import AsyncTask from '@flexvue/asynctask';
-
+import {Response} from '@flexvue/types';
 
 const onReady = () : void =>
 {
@@ -35,7 +35,8 @@ const onReady = () : void =>
             'Authorization-Access-Token':'Y29tZmFuY3l1cHN'
         }
     )
-    .then( resp =>{
+    .then( data =>{
+        const resp : Response = data;
         Log.d('resp >>> ',resp);
         document.querySelector<HTMLDivElement>('#echo_contents')!.innerHTML = JSON.stringify(resp,null,2);
     })
