@@ -5,8 +5,6 @@ class ComponentActivity {
   doList(params = {}) {
     Activity.onStart('#left');
     Log.v(this.TAG, 'doList', params);
-    // observable
-    window.observable.notify('public', `observer <public> : ${this.TAG}::doList`);
   }
   doPost(params = {}) {
     Activity.onStart('#left');

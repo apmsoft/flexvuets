@@ -1,17 +1,8 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
-import { Notice } from "../observable/notice.class.js";
-import { Faq } from "../observable/faq.class.js";
 const onReady = () => {
   // 기본 클래스 선언
   new App();
-  // observable test /--------------------------
-  const _n = new Notice();
-  const _f = new Faq();
-  window.observable = new Observable(['public', 'sub']);
-  // public 채널 구독
-  window.observable.subscribe('public', _n);
-  window.observable.subscribe('public', _f);
   // 뒤로 가기 시 실행
   new Activity().onBackPressed((state) => {
     Log.clear();
@@ -36,8 +27,8 @@ const onReady = () => {
       '/edit': new URL('../js/notice.class.js', import.meta.url).href
     },
     '/bbs/faq': {
-      '/list': new URL('../js/notice.class.js', import.meta.url).href,
-      '/edit': new URL('../js/notice.class.js', import.meta.url).href
+      '/list': new URL('../js/faq.class.js', import.meta.url).href,
+      '/edit': new URL('../js/faq.class.js', import.meta.url).href
     }
   };
   // FastRouter
