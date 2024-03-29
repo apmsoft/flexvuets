@@ -1,5 +1,5 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import FastRouter from "../../flexvue/core/fastrouter.class.js";
 import { Notice } from "../observable/notice.class.js";
 import { Faq } from "../observable/faq.class.js";
 const onReady = () => {
@@ -31,51 +31,30 @@ const onReady = () => {
   // routes 경로 설정
   const routes = {
     '/': new URL('../js/dashboard.class.js', import.meta.url).href,
-    '/bbs/notice': new URL('../js/notice.class.js', import.meta.url).href,
-    '/bbs/faq': new URL('../js/faq.class.js', import.meta.url).href
+    '/bbs/notice': {
+      '/list': new URL('../js/notice.class.js', import.meta.url).href,
+      '/edit': new URL('../js/notice.class.js', import.meta.url).href
+    },
+    '/bbs/faq': {
+      '/list': new URL('../js/notice.class.js', import.meta.url).href,
+      '/edit': new URL('../js/notice.class.js', import.meta.url).href
+    }
   };
+  // FastRouter
+  const fastRouter = new FastRouter(routes);
+  fastRouter.addRoute('/bbs/notice/list', 'doList');
+  fastRouter.addRoute('/bbs/notice/edit', 'doEdit');
+  fastRouter.addRoute('/bbs/faq/list', 'doList');
+  fastRouter.addRoute('/bbs/faq/edit', 'doEdit');
   // Router
   new Router(urlManager.hash).filter(function (pathinfo) {
     if (pathinfo.url == '') {
       return;
     }
     Log.d('pathinfo', pathinfo);
-    // make module path
-    const path = pathinfo.parse_path.length > 0 ? pathinfo.parse_path.slice(0, -1).join('') : pathinfo.path;
-    Log.d('path', path);
-    // find mymodule path
-    const mymodule_path = routes[path];
-    Log.d('mymodule_path', mymodule_path);
-    if (typeof mymodule_path !== 'undefined' && mymodule_path !== null) {
-      let mode = pathinfo.parse_path.slice(-1);
-      mode = mode.length > 0 ? mode : pathinfo.path;
-      Log.d('mode', mode);
-      // dynamic import mymodule
-      new AsyncTask().doImport(mymodule_path).
-      then((Module) => {
-        const componentActivity = new Module.ComponentActivity();
-        if (mode == '/') {
-          componentActivity.doList(pathinfo.parse_query);
-        } else
-        if (mode == '/post') {
-          componentActivity.doPost(pathinfo.parse_query);
-        } else
-        if (mode == '/edit') {
-          componentActivity.doEdit(pathinfo.parse_query);
-        } else
-        if (mode == '/reply') {
-          componentActivity.doReply(pathinfo.parse_query);
-        } else
-        if (mode == '/view') {
-          componentActivity.doView(pathinfo.parse_query);
-        } else
-        if (mode == '/list') {
-          componentActivity.doList(pathinfo.parse_query);
-        }
-      });
-    }
+    // FastRouter
+    fastRouter.listen(pathinfo.path, pathinfo.parse_query);
   });
-  // <-----router
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);

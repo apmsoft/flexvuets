@@ -24,6 +24,8 @@ export default class AsyncTask {
       let options = {
         method: _method,
         cache: 'no-cache',
+        mode: 'cors',
+        verify: false,
         headers: new Headers(headers)
       };
       if (_method != 'GET') {

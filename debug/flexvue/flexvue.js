@@ -11,10 +11,20 @@ const config = {
     'w': '#d05b13',
     'e': '#E82C35'
   },
-  cache: 'default',
-  host: 'http://',
+  _history_state: {
+    id: '#left',
+    state: ''
+  },
+  _options_: {
+    cache: 'no-cache',
+    mode: 'cors',
+    verify: false
+  },
   _headers_: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': '*',
+    'Access-Control-Allow-Methods': '*'
   },
   _fileupload_headers_: {
     'Access-Control-Allow-Origin': '*',
@@ -22,13 +32,9 @@ const config = {
     'Access-Control-Allow-Methods': '*',
     'Authorization-Access-Token': ''
   },
-  asset: 'v1',
+  host: 'http://',
   src: 'src',
-  res: 'res',
-  _history_state: {
-    id: '#left',
-    state: ''
-  }
+  surport_langs: []
 };
 class Observable {
   constructor(channel) {
@@ -204,8 +210,13 @@ class App {
     App.lang = this.getLanguage() || '';
   }
   static getLocale() {
-    let language = App.lang;
-    return language;
+    let language = '';
+    config.surport_langs.forEach(function (lng) {
+      if (App.lang == lng) {
+        language = '_' + lng;
+      }
+    });
+    return language ? language : '';
   }
   findPlatform(data) {
     for (let i = 0; i < data.length; i++) {

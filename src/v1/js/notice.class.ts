@@ -6,18 +6,17 @@ class ComponentActivity{
     doList (params : any | object = {}) {
         Activity.onStart('#left');
         Log.v(this.TAG, 'doList', params);
-        Log.d(App.getLocale());
 
         // observable
         window.observable.notify('public', `observer <public> : ${this.TAG}::doList` );
     }
     doPost (params : any | object = {}) {
         Activity.onStart('#left');
-        Log.v(this.TAG, 'doList', params);
+        Log.v(this.TAG, 'doPost', params);
     }
     doEdit (params : any | object = {}) {
         Activity.onStart('#left');
-        Log.v(this.TAG, 'doList', params);
+        Log.v(this.TAG, 'doEdit', params);
     }
 };
 

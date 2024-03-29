@@ -20,7 +20,8 @@ const onReady = () => {
     // 'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization-Access-Token': 'Y29tZmFuY3l1cHN'
   }).
-  then((resp) => {
+  then((data) => {
+    const resp = data;
     Log.d('resp >>> ', resp);
     document.querySelector('#echo_contents').innerHTML = JSON.stringify(resp, null, 2);
   }).
