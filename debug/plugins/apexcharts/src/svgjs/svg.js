@@ -1056,6 +1056,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1107,9 +1109,7 @@
         */dequeue: function () {// stop current animation
           this.stop(); // get next animation from queue
           this.situation = this.situations.shift();if (this.situation) {if (this.situation instanceof SVG.Situation) {this.start();} else {// If it is not a SVG.Situation, then it is a function, we execute it
-              this.situation.call(this);}}return this;
-        },
-        // updates all animations to the current state of the element
+              this.situation.call(this);}}return this;}, // updates all animations to the current state of the element
         // this is important when one property could be changed from another property
         initAnimations: function () {
           var source;
@@ -1639,6 +1639,9 @@
 
 
 
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1679,12 +1682,9 @@
       create: function (x, y) {var i,source,base = { x: 0, y: 0 }; // ensure source as object
         source = Array.isArray(x) ? { x: x[0], y: x[1] } : typeof x === 'object' ? { x: x.x, y: x.y } : x != null ? { x: x, y: y != null ? y : x } : base; // If y has no value, then x is used has its value
         // merge source
-        this.x = source.x;this.y = source.y;},
-      // Add methods
-      extend: {
-        // Clone point
-        clone: function () {
-          return new SVG.Point(this);
+        this.x = source.x;this.y = source.y;}, // Add methods
+      extend: { // Clone point
+        clone: function () {return new SVG.Point(this);
         },
         // Morph one point into another
         morph: function (x, y) {
@@ -2324,6 +2324,7 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2340,8 +2341,7 @@
       construct: { // Create gradient element in defs
         gradient: function (type, block) {return this.defs().gradient(type, block);} } }); // Add animatable methods to both gradient and fx module
   SVG.extend(SVG.Gradient, SVG.FX, { // From position
-      from: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) : this.attr({ x1: new SVG.Number(x),
-            y1: new SVG.Number(y)
+      from: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) : this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y)
           });
       },
       // To position
