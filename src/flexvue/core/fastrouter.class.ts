@@ -2,27 +2,27 @@ interface FastRouteMapping {
     [key: string]: string | FastRouteMapping;
 }
 
+interface PathInfo {
+    url: string;
+    path: string;
+    parse_path: string[];
+    query_string: string;
+    parse_query: { [key: string]: any };
+}
+
 export default class FastRouter {
     private routerAddresses: { [key: string]: string | FastRouteMapping } = {};
-    private dispatch: Record<string, any> = {};
+    private dispatch: Record<string, string | null> = {};
     private importCache: { [key: string]: any } = {};
+    private init: boolean;
+    private hash: string | undefined | null;
 
-    constructor(routes: { [key: string]: any } = {}) {
-        this.extractRoutes(routes);
+    constructor(hash?: string) {
+        this.init = false;
+        this.hash = hash;
     }
 
-    private extractRoutes(routes: { [key: string]: any }, parentRoute: string = ''): void {
-        for (const route in routes) {
-            if (typeof routes[route] === 'object') {
-                this.routerAddresses[parentRoute + route] = {};
-                this.extractRoutes(routes[route], parentRoute + route);
-            } else {
-                this.routerAddresses[parentRoute + route] = routes[route] as string;
-            }
-        }
-    }
-
-    public addRoute(route: string, method: string, classpath: string | null = null): void {
+    public addRoute(route: string, method: string | null, classpath: string | null = null): void {
         if (classpath) {
             const existingRoute = this.routerAddresses[route];
             if (existingRoute === undefined) {
@@ -37,7 +37,7 @@ export default class FastRouter {
         }
     }
 
-    public async listen(route: string, params: null | string | object = {}): Promise<void> {
+    public async dispatcher(route: string, params: null | string | object = {}): Promise<void> {
         const mymodule_path = this.routerAddresses[route] as string | undefined;
         if (mymodule_path) {
             try {
@@ -48,7 +48,7 @@ export default class FastRouter {
                 }
                 const activity = new module.ComponentActivity();
                 const method = this.dispatch[route];
-                if (typeof activity[method] === 'function') {
+                if (method != null && typeof activity[method] === 'function') {
                     activity[method](params);
                 } else {
                     throw new Error(`Method '${method}' not found in module '${mymodule_path}'`);
@@ -57,5 +57,53 @@ export default class FastRouter {
                 throw new Error("Error loading module: " + error);
             }
         }
+    }
+
+    public listen (callback: (pathInfo: PathInfo) => void): void {
+        window.addEventListener('hashchange', (evt) => {
+            const pathinfo = this.pathinfo(window.location.hash.replace('#', ''));
+            callback(pathinfo);
+        });
+
+        if (!this.init) {
+            let _hash = this.hash ? this.hash.replace('#', '') : '';
+            this.init = true;
+            const pathinfo = this.pathinfo(_hash);
+            callback(pathinfo);
+        }
+    }
+
+    pathinfo(hash: string): PathInfo 
+    {
+        const pathinfo: PathInfo = {
+            'url': '',
+            'path': '/',
+            'parse_path': [],
+            'query_string': '',
+            'parse_query': {}
+        };
+
+        pathinfo.url = '#' + hash;
+
+        const path_pattern = /[\/](\w+)/gi;
+        if (path_pattern.test(hash)) {
+            let path = hash.match(path_pattern) || [];
+            const parse_path = path.map(h => {
+                const pathname = h.replace(/\/$/, '');
+                pathinfo.parse_path.push(pathname);
+                return pathname;
+            });
+
+            let send_params: { [key: string]: any } = {};
+            const params_pattern = /(\w+)=(.*)/g;
+            if (params_pattern.test(hash)) {
+                pathinfo.query_string = hash.match(params_pattern)?.[0] || '';
+                pathinfo.parse_query = Object.assign(send_params, Object.fromEntries(new URLSearchParams(pathinfo.query_string)));
+            }
+
+            pathinfo.path = parse_path.join('');
+        }
+
+        return pathinfo;
     }
 }

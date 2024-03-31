@@ -8,22 +8,12 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
   });
 };
 export default class FastRouter {
-  constructor(routes = {}) {
+  constructor(hash) {
     this.routerAddresses = {};
     this.dispatch = {};
     this.importCache = {};
-    this.extractRoutes(routes);
-  }
-  extractRoutes(routes, parentRoute = '') {
-    for (const route in routes) {
-      if (typeof routes[route] === 'object') {
-        this.routerAddresses[parentRoute + route] = {};
-        this.extractRoutes(routes[route], parentRoute + route);
-      } else
-      {
-        this.routerAddresses[parentRoute + route] = routes[route];
-      }
-    }
+    this.init = false;
+    this.hash = hash;
   }
   addRoute(route, method, classpath = null) {
     if (classpath) {
@@ -40,7 +30,7 @@ export default class FastRouter {
       this.dispatch[route] = method;
     }
   }
-  listen(route_1) {
+  dispatcher(route_1) {
     return __awaiter(this, arguments, void 0, function* (route, params = {}) {
       const mymodule_path = this.routerAddresses[route];
       if (mymodule_path) {
@@ -52,7 +42,7 @@ export default class FastRouter {
           }
           const activity = new module.ComponentActivity();
           const method = this.dispatch[route];
-          if (typeof activity[method] === 'function') {
+          if (method != null && typeof activity[method] === 'function') {
             activity[method](params);
           } else
           {
@@ -64,5 +54,45 @@ export default class FastRouter {
         }
       }
     });
+  }
+  listen(callback) {
+    window.addEventListener('hashchange', (evt) => {
+      const pathinfo = this.pathinfo(window.location.hash.replace('#', ''));
+      callback(pathinfo);
+    });
+    if (!this.init) {
+      let _hash = this.hash ? this.hash.replace('#', '') : '';
+      this.init = true;
+      const pathinfo = this.pathinfo(_hash);
+      callback(pathinfo);
+    }
+  }
+  pathinfo(hash) {
+    var _a;
+    const pathinfo = {
+      'url': '',
+      'path': '/',
+      'parse_path': [],
+      'query_string': '',
+      'parse_query': {}
+    };
+    pathinfo.url = '#' + hash;
+    const path_pattern = /[\/](\w+)/gi;
+    if (path_pattern.test(hash)) {
+      let path = hash.match(path_pattern) || [];
+      const parse_path = path.map((h) => {
+        const pathname = h.replace(/\/$/, '');
+        pathinfo.parse_path.push(pathname);
+        return pathname;
+      });
+      let send_params = {};
+      const params_pattern = /(\w+)=(.*)/g;
+      if (params_pattern.test(hash)) {
+        pathinfo.query_string = ((_a = hash.match(params_pattern)) === null || _a === void 0 ? void 0 : _a[0]) || '';
+        pathinfo.parse_query = Object.assign(send_params, Object.fromEntries(new URLSearchParams(pathinfo.query_string)));
+      }
+      pathinfo.path = parse_path.join('');
+    }
+    return pathinfo;
   }
 }

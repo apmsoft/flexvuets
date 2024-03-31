@@ -15,32 +15,28 @@ const onReady = () => {
       window.location.hash = `#${path}`;
     });
   });
+  const urlManager = new UrlManager(document.location.toString());
   /**
    * router /===========================================>
    */
-  const urlManager = new UrlManager(document.location.toString());
-  // routes 경로 설정
-  const routes = {
-    '/': new URL('../js/dashboard.class.js', import.meta.url).href,
-    '/bbs/faq': {
-      '/list': new URL('../js/faq.class.js', import.meta.url).href
-    }
-  };
-  // FastRouter
-  const fastRouter = new FastRouter(routes);
-  fastRouter.addRoute('/bbs/notice/list', 'doList', new URL('../js/notice.class.js', import.meta.url).href);
-  fastRouter.addRoute('/bbs/notice/edit', 'doEdit', new URL('../js/notice.class.js', import.meta.url).href);
-  fastRouter.addRoute('/bbs/faq/list', 'doList');
-  fastRouter.addRoute('/bbs/faq/edit', 'doEdit', new URL('../js/faq.class.js', import.meta.url).href);
-  // Router
-  new Router(urlManager.hash).filter(function (pathinfo) {
-    if (pathinfo.url == '') {
-      return;
-    }
-    Log.d('pathinfo', pathinfo);
+  try {
     // FastRouter
-    fastRouter.listen(pathinfo.path, pathinfo.parse_query);
-  });
+    const fastRouter = new FastRouter(urlManager.hash);
+    fastRouter.addRoute('/', null, null);
+    fastRouter.addRoute('/bbs/notice/list', 'doList', new URL('../js/notice.class.js', import.meta.url).href);
+    fastRouter.addRoute('/bbs/notice/edit', 'doEdit', new URL('../js/notice.class.js', import.meta.url).href);
+    fastRouter.addRoute('/bbs/faq/list', 'doList', new URL('../js/faq.class.js', import.meta.url).href);
+    fastRouter.addRoute('/bbs/faq/edit', 'doEdit', new URL('../js/faq.class.js', import.meta.url).href);
+    fastRouter.listen((pathinfo) => {
+      Log.d('pathinfo', pathinfo);
+      if (pathinfo.path) {
+        fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);
+      }
+    });
+  }
+  catch (err) {
+    Log.e(err);
+  }
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);
