@@ -4,10 +4,11 @@ interface FastRouteMapping {
 
 export default class FastRouter {
     private routerAddresses: { [key: string]: string | FastRouteMapping } = {};
-    private dispatch: Record<string, any> = {};
-    private importCache: { [key: string]: any } = {};
+    private dispatch : Record<string, any> ={
 
-    constructor(routes: { [key: string]: any } = {}) {
+    }
+
+    constructor(routes: { [key: string]: any }) {
         this.extractRoutes(routes);
     }
 
@@ -22,39 +23,31 @@ export default class FastRouter {
         }
     }
 
-    public addRoute(route: string, method: string, classpath: string | null = null): void {
-        if (classpath) {
-            const existingRoute = this.routerAddresses[route];
-            if (existingRoute === undefined) {
-                this.routerAddresses[route] = classpath;
-            } else {
-                throw new Error(`Route '${route}' is already defined.`);
-            }
-        }
+    public addRoute(route: string, method: string): void {
         const mymodule_path = this.routerAddresses[route] as string | undefined;
-        if (mymodule_path !== undefined) {
+        if (mymodule_path) {
             this.dispatch[route] = method;
+            // Log.d('addRoute',this.dispatch);
         }
     }
 
-    public async listen(route: string, params: null | string | object = {}): Promise<void> {
+    public async listen(route: string, params : null | string | object = {}): Promise<void> {
         const mymodule_path = this.routerAddresses[route] as string | undefined;
+        // Log.d('findRoute',mymodule_path);
         if (mymodule_path) {
             try {
-                let module = this.importCache[mymodule_path];
-                if (!module) {
-                    module = await import(mymodule_path);
-                    this.importCache[mymodule_path] = module;
-                }
+                const module = await import(mymodule_path);
                 const activity = new module.ComponentActivity();
                 const method = this.dispatch[route];
+                // Log.d('findRoute', method);
                 if (typeof activity[method] === 'function') {
+                    Log.d('findRoute', 'function ok');
                     activity[method](params);
                 } else {
-                    throw new Error(`Method '${method}' not found in module '${mymodule_path}'`);
+                    Log.e(`Method '${method}' not found in module '${mymodule_path}'`);
                 }
             } catch (error) {
-                throw new Error("Error loading module: " + error);
+                Log.e("Error loading module:", error);
             }
         }
     }
