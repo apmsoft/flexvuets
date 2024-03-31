@@ -43,7 +43,7 @@ export default class AsyncTask {
             throw new Error(String(response.status));
         }
 
-        let result;
+        let result : any;
         if (contentType && contentType.includes('application/json')) {
             result = await response.json();
         } else if (contentType && contentType.includes('text')) {

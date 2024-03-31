@@ -31,22 +31,22 @@ const onReady = () : void =>
     // routes 경로 설정
     const routes : {[key:string]: any} = {
         '/'   : new URL('../js/dashboard.class.js', import.meta.url).href,
-        '/bbs/notice': {
-            '/list': new URL('../js/notice.class.js', import.meta.url).href ,
-            '/edit': new URL('../js/notice.class.js', import.meta.url).href 
-        },
+        // '/bbs/notice': {
+        //     '/list': new URL('../js/notice.class.js', import.meta.url).href ,
+        //     '/edit': new URL('../js/notice.class.js', import.meta.url).href 
+        // },
         '/bbs/faq': {
             '/list': new URL('../js/faq.class.js', import.meta.url).href ,
-            '/edit': new URL('../js/faq.class.js', import.meta.url).href ,
+            // '/edit': new URL('../js/faq.class.js', import.meta.url).href ,
         }
     };
 
     // FastRouter
     const fastRouter = new FastRouter(routes);
-    fastRouter.addRoute('/bbs/notice/list', 'doList');
-    fastRouter.addRoute('/bbs/notice/edit', 'doEdit');
+    fastRouter.addRoute('/bbs/notice/list', 'doList', new URL('../js/notice.class.js', import.meta.url).href);
+    fastRouter.addRoute('/bbs/notice/edit', 'doEdit', new URL('../js/notice.class.js', import.meta.url).href);
     fastRouter.addRoute('/bbs/faq/list', 'doList');
-    fastRouter.addRoute('/bbs/faq/edit', 'doEdit');
+    fastRouter.addRoute('/bbs/faq/edit', 'doEdit', new URL('../js/faq.class.js', import.meta.url).href);
 
     // Router
     new Router(urlManager.hash).filter(function(pathinfo : PathInfo)

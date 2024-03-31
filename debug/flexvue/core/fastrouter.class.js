@@ -8,9 +8,10 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
   });
 };
 export default class FastRouter {
-  constructor(routes) {
+  constructor(routes = {}) {
     this.routerAddresses = {};
     this.dispatch = {};
+    this.importCache = {};
     this.extractRoutes(routes);
   }
   extractRoutes(routes, parentRoute = '') {
@@ -24,33 +25,42 @@ export default class FastRouter {
       }
     }
   }
-  addRoute(route, method) {
+  addRoute(route, method, classpath = null) {
+    if (classpath) {
+      const existingRoute = this.routerAddresses[route];
+      if (existingRoute === undefined) {
+        this.routerAddresses[route] = classpath;
+      } else
+      {
+        throw new Error(`Route '${route}' is already defined.`);
+      }
+    }
     const mymodule_path = this.routerAddresses[route];
-    if (mymodule_path) {
+    if (mymodule_path !== undefined) {
       this.dispatch[route] = method;
-      // Log.d('addRoute',this.dispatch);
     }
   }
   listen(route_1) {
     return __awaiter(this, arguments, void 0, function* (route, params = {}) {
       const mymodule_path = this.routerAddresses[route];
-      // Log.d('findRoute',mymodule_path);
       if (mymodule_path) {
         try {
-          const module = yield import(mymodule_path);
+          let module = this.importCache[mymodule_path];
+          if (!module) {
+            module = yield import(mymodule_path);
+            this.importCache[mymodule_path] = module;
+          }
           const activity = new module.ComponentActivity();
           const method = this.dispatch[route];
-          // Log.d('findRoute', method);
           if (typeof activity[method] === 'function') {
-            Log.d('findRoute', 'function ok');
             activity[method](params);
           } else
           {
-            Log.e(`Method '${method}' not found in module '${mymodule_path}'`);
+            throw new Error(`Method '${method}' not found in module '${mymodule_path}'`);
           }
         }
         catch (error) {
-          Log.e("Error loading module:", error);
+          throw new Error("Error loading module: " + error);
         }
       }
     });
