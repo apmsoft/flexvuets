@@ -22,13 +22,8 @@ const onReady = () => {
   // routes 경로 설정
   const routes = {
     '/': new URL('../js/dashboard.class.js', import.meta.url).href,
-    // '/bbs/notice': {
-    //     '/list': new URL('../js/notice.class.js', import.meta.url).href ,
-    //     '/edit': new URL('../js/notice.class.js', import.meta.url).href 
-    // },
     '/bbs/faq': {
       '/list': new URL('../js/faq.class.js', import.meta.url).href
-      // '/edit': new URL('../js/faq.class.js', import.meta.url).href ,
     }
   };
   // FastRouter
