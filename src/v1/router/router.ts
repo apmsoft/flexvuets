@@ -37,7 +37,8 @@ const onReady = () : void =>
         fastRouter.addRoute('/bbs/faq/list', 'doList', new URL('../js/faq.class.js', import.meta.url).href);
         fastRouter.addRoute('/bbs/faq/edit', 'doEdit', new URL('../js/faq.class.js', import.meta.url).href);
 
-        fastRouter.listen((pathinfo) => {
+        fastRouter.listen((pathinfo) => 
+        {
             Log.d( 'pathinfo',pathinfo );
             if (pathinfo.path) {
                 fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);

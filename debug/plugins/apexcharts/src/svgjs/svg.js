@@ -1078,6 +1078,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1136,9 +1138,7 @@
             // }
             for (var j = source.length; j--;) {// The condition is because some methods return a normal number instead
               // of a SVG.Number
-              if (s.animations[i][j] instanceof SVG.Number) {source[j] = new SVG.Number(source[j]);}s.animations[i][j] = source[j].morph(s.animations[i][j]);}}
-          for (var i in s.attrs) {
-            s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i]);
+              if (s.animations[i][j] instanceof SVG.Number) {source[j] = new SVG.Number(source[j]);}s.animations[i][j] = source[j].morph(s.animations[i][j]);}}for (var i in s.attrs) {s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i]);
           }
           for (var i in s.styles) {
             s.styles[i] = new SVG.MorphObj(this.target().style(i), s.styles[i]);
@@ -1672,6 +1672,9 @@
 
 
 
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1724,10 +1727,7 @@
           for (var v_ in a) this.attr(v_, a[v_]);} else if (v === null) {// remove value
           this.node.removeAttribute(a);} else if (v == null) {// act as a getter if the first and only argument is not an object
           v = this.node.getAttribute(a);return v == null ? SVG.defaults.attrs[a] : SVG.regex.isNumber.test(v) ? parseFloat(v) : v;} else {// BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
-          if (a == 'stroke-width') {
-            this.attr('stroke', parseFloat(v) > 0 ? this._stroke : null);
-          } else if (a == 'stroke') {
-            this._stroke = v;
+          if (a == 'stroke-width') {this.attr('stroke', parseFloat(v) > 0 ? this._stroke : null);} else if (a == 'stroke') {this._stroke = v;
           }
 
           // convert image fill and stroke to patterns
@@ -2335,6 +2335,7 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2352,8 +2353,7 @@
         gradient: function (type, block) {return this.defs().gradient(type, block);} } }); // Add animatable methods to both gradient and fx module
   SVG.extend(SVG.Gradient, SVG.FX, { // From position
       from: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) : this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y) });}, // To position
-      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });
-      }
+      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });}
     });
 
   // Base gradient generation
