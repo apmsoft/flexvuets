@@ -1,40 +1,18 @@
-ES6+, TypeScript, Tailwind CSS
+#!/bin/bash
 
-http://flexvue.fancyupsoft.com
-
-
-
-# 설치 방법 1 =================
->> git clone https://github.com/apmsoft/flexvuets.git
->> mv flexvuets 새로운프로젝트명
->> cd 설치경로
->> rm -rf .git
->> chmod +x install.sh
->> ./install.sh
-
-# 설치 방법 2 =================
->> git clone https://github.com/apmsoft/flexvuets.git
->> mv flexvuets 새로운프로젝트명
->> cd 설치경로
->> rm -rf .git
->> 아래 명령어를 하나씩 치면서 설치
-
-# TypeScript install
+# TypeScript 설치
 npm install --save-dev -D typescript
 npx tsc --init
 
 npm install --save-dev @types/node
 npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
-npm install concurrently --save-dev // 여러 명령을 병렬로 실행할 수 있는 도구
-// npm install --save-dev @types/jquery
+npm install concurrently --save-dev
 
-# fs-extra
+# fs-extra 설치
 npm install --save-dev fs-extra
 
-# tailwind css install
-https://tailwindcss.com/docs/installation
-
+# Tailwind CSS 설치
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
 npm install -D @tailwindcss/forms --save-dev
@@ -43,18 +21,18 @@ npm install -D postcss --save-dev
 npm install -D prettier --save-dev
 npm install -D prettier-plugin-tailwindcss --save-dev
 
->> create file : global.d.ts
-interface Window {
+# global.d.ts 파일 생성
+echo "interface Window {
   observable: Observable;
   Observer : Observer;
   Arrays : Arrays;
   Sysmsg : Sysmsg;
   Strings : Strings;
   Numbers : Numbers;
-}
+}" > global.d.ts
 
->> create file : tsconfig.json
-{
+# tsconfig.json 파일 생성
+echo '{
   "compilerOptions": {
     "target": "es6",
     "lib": [
@@ -89,12 +67,10 @@ interface Window {
     "node_modules","**/*.spec.ts"
   ],
   "extends": "./tsconfig.paths.json",
-}
+}' > tsconfig.json
 
->> babel
->> create file : babel.config.js
-
-const debugPath = process.env.DEBUG_PATH || './debug';
+# babel.config.js 파일 생성
+echo 'const debugPath = process.env.DEBUG_PATH || './debug';
 module.exports = {
     "sourceMaps": false,
     "retainLines": true,
@@ -102,14 +78,14 @@ module.exports = {
     "plugins": [
       [ "module-resolver", {
           "alias": {
-            "@path": `./${debugPath}`
-            ,"@v1": `./${debugPath}/v1`
-            ,"@t1": `./${debugPath}/t1`
-            ,"@flexvue/asynctask":`./${debugPath}/flexvue/core/asynctask.class.js`
-            ,"@flexvue/forms":`./${debugPath}/flexvue/core/forms.class.js`
-            ,"@flexvue/urlmanager":`./${debugPath}/flexvue/core/urlmanager.class.js`
-            ,"@flexvue/scrollagent":`./${debugPath}/flexvue/core/scrollagent.class.js`
-            ,"@flexvue/textutil":`./${debugPath}/flexvue/core/textutil.class.js`
+            "@path": `./${debugPath}`,
+            "@v1": `./${debugPath}/v1`,
+            "@t1": `./${debugPath}/t1`,
+            "@flexvue/asynctask":`./${debugPath}/flexvue/core/asynctask.class.js`,
+            "@flexvue/forms":`./${debugPath}/flexvue/core/forms.class.js`,
+            "@flexvue/urlmanager":`./${debugPath}/flexvue/core/urlmanager.class.js`,
+            "@flexvue/scrollagent":`./${debugPath}/flexvue/core/scrollagent.class.js`,
+            "@flexvue/textutil":`./${debugPath}/flexvue/core/textutil.class.js`
             // ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
             // ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
             // ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`
@@ -135,8 +111,8 @@ module.exports = {
     ]
   }
 
->> create file : ".hintrc" 
-{
+# .hintrc 파일 생성
+echo '{
   "extends": [
     "development"
   ],
@@ -144,20 +120,20 @@ module.exports = {
     "axe/text-alternatives": [
       "default",
       {
-        "image-alt": "off" // 이미지의 대체 텍스트가 없어도 경고를 생성하지 않도록 설정
+        "image-alt": "off"
       }
     ],
     "axe/forms": [
       "default",
       {
-        "label": "off" // 폼 요소에 레이블이 없어도 경고를 생성하지 않도록 설정
+        "label": "off"
       }
     ]
   }
-}
+}' > .hintrc
 
->> create file : tsconfig.paths.json
-{
+# tsconfig.paths.json 파일 생성
+echo '{
   "compilerOptions": {
       "types": ["node", "jquery"],
       "baseUrl": "./",
@@ -184,12 +160,10 @@ module.exports = {
           // "swiper/bundle": ["node_modules/swiper"],
       }
   }
-}
+}' > tsconfig.paths.json
 
-
-# nodejs build setting
->> package.json
-{
+# package.json에 빌드 스크립트 추가
+echo '{
   "name": "flexvuets",
   "version": "3.0",
   "description": "",
@@ -212,10 +186,10 @@ module.exports = {
   "devDependencies": {
 
   }
-}
+}' > package.json
 
->> create file : export-plugins.js (package.json 의 dependencies 로 설치된 프로그램만 자동 복사)
-const fs = require('fs-extra');
+# export-plugins.js 파일 생성
+echo 'const fs = require('fs-extra');
 const path = require('path');
 
 // package.json 파일의 경로
@@ -248,19 +222,13 @@ fs.readFile(packageJsonPath, 'utf8', (err, data) => {
       }
     });
   });
-});
+});' > export-plugins.js
 
->> create directory : src, debug, release
+# src, debug, release 디렉토리 생성
+mkdir -p src debug release
 
->> create or copy directory : src/flevvue, v1, t1
->> create directory : debug/plugins
+# src/flevvue, v1, t1 디렉토리 생성 혹은 복사
+mkdir -p src/flevvue src/v1 src/t1
 
-# 실행 명령어
->> npm run debug
->> npm run build
->> npm run clean
->> npm run css-v1 // tailwindcss
->> npm run css-t1 // tailwindcss
-
->> npm run release // release 폴더로 debug 작업물 복사
->> npm run clean_release // release 폴더 및 파일 전체 삭제
+# debug/plugins 디렉토리 생성
+mkdir -p debug/plugins
