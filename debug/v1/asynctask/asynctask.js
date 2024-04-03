@@ -12,7 +12,7 @@ const onReady = () => {
     post_params.append(key, value);
   });
   // AsyncTask, 옵션 | 헤더
-  new AsyncTask().execute('POST', 'http://test.com', post_params, {
+  new AsyncTask().execute('POST', 'http://127.0.0.1:5500/test/list', post_params, {
     mode: 'cors' // no-cors, cors, *same-origin
     //redirect : 'follow'
   }, {
@@ -29,21 +29,20 @@ const onReady = () => {
     Log.e(e);
   });
   // AsyncTask , 헤더
-  new AsyncTask().execute('GET', 'http://test.com', {}, {
-    'Content-Type': 'text/plain'
+  new AsyncTask().execute('GET', 'http://127.0.0.1:5500/ddd/list', {}, {
+    'Content-Type': 'application/json'
   }).
   then((data) => {
     const resp = data;
-    Log.d('numbers >>> ', resp);
+    Log.d('arrays >>> ', resp);
   }).
   catch((e) => {
     Log.e(e);
   });
   // AsyncTask , 헤더+옵션
-  new AsyncTask().execute('GET', 'http://test.com', {}, {
+  new AsyncTask().execute('GET', 'http://127.0.0.1:5500/ddd/view/1', {}, {
     mode: 'cors',
-    'Content-Type': 'application/json',
-    'Authorization-Access-Token': 'Y29tZmFuY3l1cHN'
+    'Content-Type': 'application/json'
   }).
   then((data) => {
     const resp = data;
@@ -52,6 +51,7 @@ const onReady = () => {
   catch((e) => {
     Log.e(e);
   });
+  // import js
   new AsyncTask().doImport('../../v1/js/values/arrays.js').
   then((data) => {
     const resp = data;

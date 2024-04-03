@@ -1100,6 +1100,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1162,18 +1172,8 @@
         * @param jumpToEnd A Boolean indicating whether to complete the current animation immediately.
         * @param clearQueue A Boolean indicating whether to remove queued animation as well.
         * @return this
-        */stop: function (jumpToEnd, clearQueue) {var active = this.active;this.active = false;
-          if (clearQueue) {
-            this.clearQueue();
-          }
-          if (jumpToEnd && this.situation) {
-            // initialize the situation if it was not
-            !active && this.startCurrent();
-            this.atEnd();
-          }
-          this.stopAnimFrame();
-          return this.clearCurrent();
-        },
+        */stop: function (jumpToEnd, clearQueue) {var active = this.active;this.active = false;if (clearQueue) {this.clearQueue();}if (jumpToEnd && this.situation) {// initialize the situation if it was not
+            !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();},
         after: function (fn) {
           var c = this.last(),
             wrapper = function wrapper(e) {
@@ -1705,6 +1705,21 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1763,51 +1778,36 @@
           else if (SVG.Color.isColor(v)) {v = new SVG.Color(v);} // parse array values
           else if (Array.isArray(v)) {v = new SVG.Array(v);} // if the passed attribute is leading...
           if (a == 'leading') {// ... call the leading method instead
-            if (this.leading) {this.leading(v);}} else {
-            // set given attribute on node
-            typeof n === 'string' ? this.node.setAttributeNS(n, a, v.toString()) : this.node.setAttribute(a, v.toString());
-          }
+            if (this.leading) {this.leading(v);}} else {// set given attribute on node
+            typeof n === 'string' ? this.node.setAttributeNS(n, a, v.toString()) : this.node.setAttribute(a, v.toString());} // rebuild if required
+          if (this.rebuild && (a == 'font-size' || a == 'x')) {this.rebuild(a, v);}}return this;} });SVG.extend(SVG.Element, { // Add transformations
+      transform: function (o, relative) {// get target in case of the fx module, otherwise reference this
+        var target = this,matrix,bbox;
 
-          // rebuild if required
-          if (this.rebuild && (a == 'font-size' || a == 'x')) {
-            this.rebuild(a, v);
-          }
+        // act as a getter
+        if (typeof o !== 'object') {
+          // get current matrix
+          matrix = new SVG.Matrix(target).extract();
+          return typeof o === 'string' ? matrix[o] : matrix;
         }
-        return this;
+
+        // get current matrix
+        matrix = new SVG.Matrix(target);
+
+        // ensure relative flag
+        relative = !!relative || !!o.relative;
+
+        // act on matrix
+        if (o.a != null) {
+          matrix = relative
+          // relative
+          ? matrix.multiply(new SVG.Matrix(o))
+          // absolute
+          : new SVG.Matrix(o);
+        }
+        return this.attr('transform', matrix);
       }
     });
-  SVG.extend(SVG.Element, {
-    // Add transformations
-    transform: function (o, relative) {
-      // get target in case of the fx module, otherwise reference this
-      var target = this,
-        matrix,
-        bbox;
-
-      // act as a getter
-      if (typeof o !== 'object') {
-        // get current matrix
-        matrix = new SVG.Matrix(target).extract();
-        return typeof o === 'string' ? matrix[o] : matrix;
-      }
-
-      // get current matrix
-      matrix = new SVG.Matrix(target);
-
-      // ensure relative flag
-      relative = !!relative || !!o.relative;
-
-      // act on matrix
-      if (o.a != null) {
-        matrix = relative
-        // relative
-        ? matrix.multiply(new SVG.Matrix(o))
-        // absolute
-        : new SVG.Matrix(o);
-      }
-      return this.attr('transform', matrix);
-    }
-  });
   SVG.extend(SVG.Element, {
     // Reset all transformations
     untransform: function () {
@@ -2346,6 +2346,11 @@
 
 
 
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2367,14 +2372,9 @@
   SVG.extend(SVG.Defs, { // define gradient
       gradient: function (type, block) {return this.put(new SVG.Gradient(type)).update(block);} });SVG.Stop = SVG.invent({ // Initialize node
       create: 'stop', // Inherit from
-      inherit: SVG.Element,
-      // Add class methods
-      extend: {
-        // add color stops
-        update: function (o) {
-          if (typeof o === 'number' || o instanceof SVG.Number) {
-            o = {
-              offset: arguments[0],
+      inherit: SVG.Element, // Add class methods
+      extend: { // add color stops
+        update: function (o) {if (typeof o === 'number' || o instanceof SVG.Number) {o = { offset: arguments[0],
               color: arguments[1],
               opacity: arguments[2]
             };
