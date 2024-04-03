@@ -3,7 +3,7 @@
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2022 Fonticons, Inc.
  */
- .fa {
+.fa {
   font-family: var(--fa-style-family, "Font Awesome 6 Free");
   font-weight: var(--fa-style, 900); }
 
@@ -7765,7 +7765,9 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../fonts/fa-regular-400.woff2") format("woff2"), url("../fonts/fa-regular-400.ttf") format("truetype"); }
+  src: url("../fonts/fa-regular-400.woff2") format("woff2"), url("../fonts/fa-regular-400.ttf") format("truetype");
+}
+  
 
 .far,
 .fa-regular {
