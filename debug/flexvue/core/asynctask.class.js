@@ -13,15 +13,17 @@ export default class AsyncTask {
    * @param method 전송방식
    * @param url 서버 접속 경로
    * @param params 전송할 데이터
-   * @param _options 옵션
-   * @param _headers 전송할 헤더값
+   * @param options 옵션
    */
   execute(method_1, url_1) {
-    return __awaiter(this, arguments, void 0, function* (method, url, params = {}, _options = {}, _headers = null) {
+    return __awaiter(this, arguments, void 0, function* (method, url, params = {}, ...options) {
       const _method = method.toUpperCase();
       let redirect_url = url;
-      let headers = _headers || (_method == 'GET' ? { 'Content-Type': 'text/plain' } : { 'Content-Type': 'application/json' });
-      let options = {
+      let headers = options.find((opt) => typeof opt === 'object' && !Array.isArray(opt));
+      let otherOptions = options.filter((opt) => opt !== headers);
+      otherOptions = otherOptions.filter((opt) => opt !== null);
+      headers = headers || (_method == 'GET' ? { 'Content-Type': 'text/plain' } : { 'Content-Type': 'application/json' });
+      let requestOptions = {
         method: _method,
         cache: 'no-cache',
         mode: 'cors',
@@ -29,12 +31,16 @@ export default class AsyncTask {
         headers: new Headers(headers)
       };
       if (_method != 'GET') {
-        options.body = JSON.stringify(params);
+        requestOptions.body = JSON.stringify(params);
       }
-      Object.entries(_options).forEach(([key, value]) => {
-        options[key] = value;
+      otherOptions.forEach((opt) => {
+        if (opt !== null) {
+          Object.entries(opt).forEach(([key, value]) => {
+            requestOptions[key] = value;
+          });
+        }
       });
-      const response = yield fetch(redirect_url, options);
+      const response = yield fetch(redirect_url, requestOptions);
       const contentType = response.headers.get('content-type');
       if (!response.ok) {
         throw new Error(String(response.status));

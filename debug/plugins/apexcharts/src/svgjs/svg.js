@@ -1080,6 +1080,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1138,31 +1158,11 @@
             // }
             for (var j = source.length; j--;) {// The condition is because some methods return a normal number instead
               // of a SVG.Number
-              if (s.animations[i][j] instanceof SVG.Number) {source[j] = new SVG.Number(source[j]);}s.animations[i][j] = source[j].morph(s.animations[i][j]);}}for (var i in s.attrs) {s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i]);
-          }
-          for (var i in s.styles) {
-            s.styles[i] = new SVG.MorphObj(this.target().style(i), s.styles[i]);
-          }
-          s.initialTransformation = this.target().matrixify();
-          s.init = true;
-          return this;
-        },
-        clearQueue: function () {
-          this.situations = [];
-          return this;
-        },
-        clearCurrent: function () {
-          this.situation = null;
-          return this;
-        },
-        /** stops the animation immediately
+              if (s.animations[i][j] instanceof SVG.Number) {source[j] = new SVG.Number(source[j]);}s.animations[i][j] = source[j].morph(s.animations[i][j]);}}for (var i in s.attrs) {s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i]);}for (var i in s.styles) {s.styles[i] = new SVG.MorphObj(this.target().style(i), s.styles[i]);}s.initialTransformation = this.target().matrixify();s.init = true;return this;}, clearQueue: function () {this.situations = [];return this;}, clearCurrent: function () {this.situation = null;return this;}, /** stops the animation immediately
         * @param jumpToEnd A Boolean indicating whether to complete the current animation immediately.
         * @param clearQueue A Boolean indicating whether to remove queued animation as well.
         * @return this
-        */
-        stop: function (jumpToEnd, clearQueue) {
-          var active = this.active;
-          this.active = false;
+        */stop: function (jumpToEnd, clearQueue) {var active = this.active;this.active = false;
           if (clearQueue) {
             this.clearQueue();
           }
@@ -1675,6 +1675,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1727,43 +1757,13 @@
           for (var v_ in a) this.attr(v_, a[v_]);} else if (v === null) {// remove value
           this.node.removeAttribute(a);} else if (v == null) {// act as a getter if the first and only argument is not an object
           v = this.node.getAttribute(a);return v == null ? SVG.defaults.attrs[a] : SVG.regex.isNumber.test(v) ? parseFloat(v) : v;} else {// BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
-          if (a == 'stroke-width') {this.attr('stroke', parseFloat(v) > 0 ? this._stroke : null);} else if (a == 'stroke') {this._stroke = v;
-          }
-
-          // convert image fill and stroke to patterns
-          if (a == 'fill' || a == 'stroke') {
-            if (SVG.regex.isImage.test(v)) {
-              v = this.doc().defs().image(v, 0, 0);
-            }
-            if (v instanceof SVG.Image) {
-              v = this.doc().defs().pattern(0, 0, function () {
-                this.add(v);
-              });
-            }
-          }
-
-          // ensure correct numeric values (also accepts NaN and Infinity)
-          if (typeof v === 'number') {
-            v = new SVG.Number(v);
-          }
-
-          // ensure full hex color
-          else if (SVG.Color.isColor(v)) {
-            v = new SVG.Color(v);
-          }
-
-          // parse array values
-          else if (Array.isArray(v)) {
-            v = new SVG.Array(v);
-          }
-
-          // if the passed attribute is leading...
-          if (a == 'leading') {
-            // ... call the leading method instead
-            if (this.leading) {
-              this.leading(v);
-            }
-          } else {
+          if (a == 'stroke-width') {this.attr('stroke', parseFloat(v) > 0 ? this._stroke : null);} else if (a == 'stroke') {this._stroke = v;} // convert image fill and stroke to patterns
+          if (a == 'fill' || a == 'stroke') {if (SVG.regex.isImage.test(v)) {v = this.doc().defs().image(v, 0, 0);}if (v instanceof SVG.Image) {v = this.doc().defs().pattern(0, 0, function () {this.add(v);});}} // ensure correct numeric values (also accepts NaN and Infinity)
+          if (typeof v === 'number') {v = new SVG.Number(v);} // ensure full hex color
+          else if (SVG.Color.isColor(v)) {v = new SVG.Color(v);} // parse array values
+          else if (Array.isArray(v)) {v = new SVG.Array(v);} // if the passed attribute is leading...
+          if (a == 'leading') {// ... call the leading method instead
+            if (this.leading) {this.leading(v);}} else {
             // set given attribute on node
             typeof n === 'string' ? this.node.setAttributeNS(n, a, v.toString()) : this.node.setAttribute(a, v.toString());
           }
@@ -2336,6 +2336,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2353,41 +2363,31 @@
         gradient: function (type, block) {return this.defs().gradient(type, block);} } }); // Add animatable methods to both gradient and fx module
   SVG.extend(SVG.Gradient, SVG.FX, { // From position
       from: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) : this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y) });}, // To position
-      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });}
-    });
+      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });} }); // Base gradient generation
+  SVG.extend(SVG.Defs, { // define gradient
+      gradient: function (type, block) {return this.put(new SVG.Gradient(type)).update(block);} });SVG.Stop = SVG.invent({ // Initialize node
+      create: 'stop', // Inherit from
+      inherit: SVG.Element,
+      // Add class methods
+      extend: {
+        // add color stops
+        update: function (o) {
+          if (typeof o === 'number' || o instanceof SVG.Number) {
+            o = {
+              offset: arguments[0],
+              color: arguments[1],
+              opacity: arguments[2]
+            };
+          }
 
-  // Base gradient generation
-  SVG.extend(SVG.Defs, {
-    // define gradient
-    gradient: function (type, block) {
-      return this.put(new SVG.Gradient(type)).update(block);
-    }
-  });
-  SVG.Stop = SVG.invent({
-    // Initialize node
-    create: 'stop',
-    // Inherit from
-    inherit: SVG.Element,
-    // Add class methods
-    extend: {
-      // add color stops
-      update: function (o) {
-        if (typeof o === 'number' || o instanceof SVG.Number) {
-          o = {
-            offset: arguments[0],
-            color: arguments[1],
-            opacity: arguments[2]
-          };
+          // set attributes
+          if (o.opacity != null) this.attr('stop-opacity', o.opacity);
+          if (o.color != null) this.attr('stop-color', o.color);
+          if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));
+          return this;
         }
-
-        // set attributes
-        if (o.opacity != null) this.attr('stop-opacity', o.opacity);
-        if (o.color != null) this.attr('stop-color', o.color);
-        if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));
-        return this;
       }
-    }
-  });
+    });
   SVG.Pattern = SVG.invent({
     // Initialize node
     create: 'pattern',
