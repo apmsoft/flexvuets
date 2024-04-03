@@ -1,49 +1,55 @@
+type OptionsRequestInit = RequestInit & { [key: string]: any };
+
 export default class AsyncTask {
     /**
      *
      * @param method 전송방식
      * @param url 서버 접속 경로
      * @param params 전송할 데이터
-     * @param _options 옵션
-     * @param _headers 전송할 헤더값
+     * @param options 옵션
      */
     async execute(
         method: string,
         url: string,
         params: Record<string, any> = {},
-        _options: Record<string, any> = {},
-        _headers: Record<string, string> | null = null
+        ...options: (Record<string, any> | Record<string, string> | null)[]
     ): Promise<any> {
         const _method = method.toUpperCase();
 
         let redirect_url = url;
 
+        let headers = options.find(opt => typeof opt === 'object' && !Array.isArray(opt)) as Record<string, string> | null;
+        let otherOptions = options.filter(opt => opt !== headers);
+        otherOptions = otherOptions.filter(opt => opt !== null);
 
-        let headers = _headers || ((_method == 'GET') ? {'Content-Type': 'text/plain'} : {'Content-Type': 'application/json'});
-
-        type ExtendedRequestInit = RequestInit & { [key: string]: any };
-        let options: ExtendedRequestInit = {
+        headers = headers || ((_method == 'GET') ? {'Content-Type': 'text/plain'} : {'Content-Type': 'application/json'});
+        let requestOptions: OptionsRequestInit = {
             method: _method,
             cache: 'no-cache',
-            mode : 'cors',
-            verify : false,
+            mode: 'cors',
+            verify: false,
             headers: new Headers(headers)
         };
 
         if (_method != 'GET') {
-            options.body = JSON.stringify(params);
+            requestOptions.body = JSON.stringify(params);
         }
-        Object.entries(_options).forEach(([key, value]) => {
-            options[key] = value;
+
+        otherOptions.forEach(opt => {
+            if (opt !== null) {
+                Object.entries(opt).forEach(([key, value]) => {
+                    requestOptions[key] = value;
+                });
+            }
         });
 
-        const response = await fetch(redirect_url, options);
+        const response = await fetch(redirect_url, requestOptions);
         const contentType = response.headers.get('content-type');
         if (!response.ok) {
             throw new Error(String(response.status));
         }
 
-        let result : any;
+        let result: any;
         if (contentType && contentType.includes('application/json')) {
             result = await response.json();
         } else if (contentType && contentType.includes('text')) {
