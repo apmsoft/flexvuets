@@ -85,7 +85,7 @@ class ComponentActivity
                         self.doList({page: 1});
                     }).catch(e =>{
                         alert(resp.msg);
-                        window.window.observable.notify('exception',e);
+                        window.observable.notify('exception',e);
                     })
                     .finally(()=>{ 
                         ProgressBars.close(); 
@@ -104,7 +104,7 @@ class ComponentActivity
         })
         .catch(e =>{
             alert(e.msg);
-            window.window.observable.notify('exception',e);
+            window.observable.notify('exception',e);
         })
         .finally(()=>{ 
             ProgressBars.close(); 

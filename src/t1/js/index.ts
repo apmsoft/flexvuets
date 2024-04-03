@@ -9,7 +9,6 @@ import Numbers from '@t1/js/values/numbers.js';
 
 import Navigation from '@t1/js/nav.class.js';
 import {MyException} from '@t1/js/exception.class.js';
-import { Module } from 'module';
 
 window.Sysmsg = Sysmsg;
 window.Arrays = Arrays;

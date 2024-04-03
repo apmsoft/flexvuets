@@ -25,7 +25,7 @@ class MyException {
                 }
                 return;
             }else if(e.msg_code == 'w_stay_logged_in'){
-                window.location.href = "index.html";
+                window.location.href = "index.html#/";
                 return;
             }
         }
