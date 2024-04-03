@@ -29,8 +29,6 @@ class MyException {
                 return;
             }
         }
-
-        alert(e.msg);
     }
 }
 

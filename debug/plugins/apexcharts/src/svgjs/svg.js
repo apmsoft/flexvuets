@@ -1116,6 +1116,10 @@
 
 
 
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1180,11 +1184,7 @@
         * @return this
         */stop: function (jumpToEnd, clearQueue) {var active = this.active;this.active = false;if (clearQueue) {this.clearQueue();}if (jumpToEnd && this.situation) {// initialize the situation if it was not
             !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();}, after: function (fn) {var c = this.last(),wrapper = function wrapper(e) {if (e.detail.situation == c) {fn.call(this, c);this.off('finished.fx', wrapper); // prevent memory leak
-              }
-            };
-          this.target().on('finished.fx', wrapper);
-          return this._callStart();
-        },
+              }};this.target().on('finished.fx', wrapper);return this._callStart();},
         // adds a callback which is called whenever one animation step is performed
         during: function (fn) {
           var c = this.last(),
@@ -1729,6 +1729,12 @@
 
 
 
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1795,16 +1801,10 @@
         if (typeof o !== 'object') {// get current matrix
           matrix = new SVG.Matrix(target).extract();return typeof o === 'string' ? matrix[o] : matrix;} // get current matrix
         matrix = new SVG.Matrix(target); // ensure relative flag
-        relative = !!relative || !!o.relative;
-
-        // act on matrix
-        if (o.a != null) {
-          matrix = relative
-          // relative
-          ? matrix.multiply(new SVG.Matrix(o))
-          // absolute
-          : new SVG.Matrix(o);
-        }
+        relative = !!relative || !!o.relative; // act on matrix
+        if (o.a != null) {matrix = relative // relative
+          ? matrix.multiply(new SVG.Matrix(o)) // absolute
+          : new SVG.Matrix(o);}
         return this.attr('transform', matrix);
       }
     });
@@ -2354,6 +2354,8 @@
 
 
 
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2377,9 +2379,7 @@
       create: 'stop', // Inherit from
       inherit: SVG.Element, // Add class methods
       extend: { // add color stops
-        update: function (o) {if (typeof o === 'number' || o instanceof SVG.Number) {o = { offset: arguments[0], color: arguments[1], opacity: arguments[2] };
-          }
-
+        update: function (o) {if (typeof o === 'number' || o instanceof SVG.Number) {o = { offset: arguments[0], color: arguments[1], opacity: arguments[2] };}
           // set attributes
           if (o.opacity != null) this.attr('stop-opacity', o.opacity);
           if (o.color != null) this.attr('stop-color', o.color);
