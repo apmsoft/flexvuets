@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    html,body {
+        -webkit-tap-highlight-color: transparent;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        @apply w-full h-full min-h-full block max-h-full overflow-hidden relative;
+    }
+
+    head {
+        @apply hidden;
+    }
+
+    h1 {
+        @apply text-4xl;
+    }
+    h2 {
+        @apply text-2xl;
+    }
+    h3 {
+        @apply text-xl;
+    }
+    h4 {
+        @apply text-base;
+    }
+    h5 {
+        @apply text-sm;
+    }
+    h6 {
+        @apply text-xs;
+    }
+
+    @font-face {
+        font-family: 'NanumBarunGothic';
+        font-style: normal;
+        font-weight: normal;
+        src: url(./fonts/NanumBarunGothicSubset.eot);
+        src: url(./fonts/NanumBarunGothicSubset.eot?#iefix) format('embedded-opentype'),
+            url(./fonts/NanumBarunGothicSubset.woff2) format('woff2'),
+            url(./fonts/NanumBarunGothicSubset.woff) format('woff'),
+            url(./fonts/NanumBarunGothicSubset.ttf) format('truetype');
+    }
+    @font-face {
+        font-family: 'NanumBarunGothic';
+        font-weight: 400;
+        src: url(./fonts/NanumBarunGothicSubset.eot);
+        src: url(./fonts/NanumBarunGothicSubset.eot?#iefix) format('embedded-opentype'),
+            url(./fonts/NanumBarunGothicSubset.woff2) format('woff2'),
+            url(./fonts/NanumBarunGothicSubset.woff) format('woff'),
+            url(./fonts/NanumBarunGothicSubset.ttf) format('truetype');
+    }
+    @font-face {
+    font-family: './fonts/NanumBarunGothic';
+    font-style: normal;
+    font-weight: bold;
+    src: url(./fonts/NanumBarunGothicBoldSubset.eot);
+    src: url(./fonts/NanumBarunGothicBoldSubset.eot?#iefix) format('embedded-opentype'),
+        url(./fonts/NanumBarunGothicBoldSubset.woff2) format('woff2'),
+        url(./fonts/NanumBarunGothicBoldSubset.woff) format('woff'),
+        url(./fonts/NanumBarunGothicBoldSubset.ttf) format('truetype');
+    }
+    @font-face {
+        font-family: './fonts/NanumBarunGothic';
+        font-weight: 300;
+        src: url(./fonts/NanumBarunGothicLightSubset.eot);
+        src: url(./fonts/NanumBarunGothicLightSubset.eot?#iefix) format('embedded-opentype'),
+            url(./fonts/NanumBarunGothicLightSubset.woff2) format('woff2'),
+            url(./fonts/NanumBarunGothicLightSubset.woff) format('woff'),
+            url(./fonts/NanumBarunGothicLightSubset.ttf) format('truetype');
+    }
+    @font-face {
+        font-family: './fonts/NanumBarunGothic';
+        font-weight: 200;
+        src: url(./fonts/NanumBarunGothicUltraLightSubset.eot);
+        src: url(./fonts/NanumBarunGothicUltraLightSubset.eot?#iefix) format('embedded-opentype'),
+            url(./fonts/NanumBarunGothicUltraLightSubset.woff2) format('woff2'),
+            url(./fonts/NanumBarunGothicUltraLightSubset.woff) format('woff'),
+            url(./fonts/NanumBarunGothicUltraLightSubset.ttf) format('truetype');
+    }
+
+
+}
+@layer components {
+    .img-fluid {
+        @apply max-w-full mx-auto;
+    }
+
+    #left {
+        @apply left-0 top-0
+    }
+
+    #right, #rightside, #rightthird{
+        left: 100%;
+        @apply top-0
+    }
+
+    #bottom, #bottomside, #bottomthird {
+        top: 100%;
+        @apply left-0
+    }
+
+    /** button back button */
+    #right_back_button, #rightside_back_button, #rightthird_back_button, #bottom_back_button, #bottomside_back_button, #bottomthird_back_button{
+        @apply cursor-pointer
+    }
+
+    /** title */
+    #right_title, #rightside_title, #rightthird_title, #bottom_title, #bottomside_title, #bottomthird_title{
+        @apply cursor-pointer
+    }
+
+    .fvue--layout {
+        will-change: transform;
+        transition: -webkit-transform .3s cubic-bezier(.215, .61, .355, 1);
+        transition: -moz-transform .3s cubic-bezier(.215, .61, .355, 1);
+        transition: -ms-transform .3s cubic-bezier(.215, .61, .355, 1);
+        transition: transform .3s cubic-bezier(.215, .61, .355, 1);
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+    }
+    .fvue--layout--container {
+        @apply flex flex-col h-full;
+    }
+    .fvue--layout--header {
+        @apply flex-grow-0 p-2 shadow-sm;
+    }
+    .fvue--layout--header--row {
+        @apply flex;
+    }
+    .fvue--layout--icon {
+        @apply flex-initial;
+    }
+    .fvue--layout--title {
+        @apply flex-initial;
+    }
+    .fvue--layout--spacer {
+        @apply flex-auto text-center;
+    }
+    .fvue--layout--navigation {
+        @apply flex-initial text-right;
+    }
+    .fvue--layout--main {
+        @apply flex-grow overflow-y-auto;
+    }
+    .fvue--layout--footer {
+        @apply flex-grow-0;
+    }
+
+    .drawer_transitioned {
+        -ms-transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        -moz-transform: translateX(100%);
+        transform: translateX(100%);
+        animation: colorchange 10ms;
+        -webkit-animation: colorchange 10ms;
+        -webkit-animation-delay: .3s;
+        -webkit-animation-fill-mode: forwards;
+        -moz-animation: colorchange 10ms;
+        -moz-animation-delay: .3s;
+        -moz-animation-fill-mode: forwards;
+        -ms-animation: colorchange 10ms;
+        -ms-animation-delay: .3s;
+        -ms-animation-fill-mode: forwards
+    }
+
+    .transitioned {
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        transform: translateX(-100%)    ;
+        -o-transform: translateX(-100%);
+    }
+
+    .rightside_transitioned {
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        transform: translateX(-100%)    ;
+        -o-transform: translateX(-100%);
+    }
+
+    .rightthird_transitioned {
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        transform: translateX(-100%)    ;
+        -o-transform: translateX(-100%);
+    }
+
+    .bottom_transitioned {
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        transform: translateY(-100%)    ;
+        -o-transform: translateY(-100%);
+    }
+
+    .bottomside_transitioned {
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        transform: translateY(-100%)    ;
+        -o-transform: translateY(-100%);
+    }
+
+    .bottomthird_transitioned {
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        transform: translateY(-100%)    ;
+        -o-transform: translateY(-100%);
+    }
+
+    @keyframes colorchange {
+        from, to {
+            background: rgba(0, 0, 0, .7)
+        }
+    }
+    @-webkit-keyframes colorchange {
+        from, to {
+            background: rgba(0, 0, 0, .7)
+        }
+    }
+    @-moz-keyframes colorchange {
+        from, to {
+            background: rgba(0, 0, 0, .7)
+        }
+    }
+    @-ms-keyframes colorchange {
+        from, to {
+            background: rgba(0, 0, 0, .7)
+        }
+    }
+
+    .btn {
+        @apply text-center border dark:border-0 align-middle rounded-lg font-semibold
+    }
+
+    .btn-primary {
+        @apply bg-blue-500 text-white hover:bg-blue-700
+    }
+
+    .btn-secondary {
+        @apply bg-gray-700 text-white hover:bg-gray-800
+    }
+
+    .btn-default {
+        @apply bg-gray-300 text-gray-700 hover:bg-gray-400
+    }
+
+    .mt-1\/2vh {
+        margin-top : 50vh;
+    }
+
+    .loading {
+        z-index: 1000;
+        top: 45%;
+        left: calc(50% - 60px);
+        height: 120px;
+        @apply fixed mx-auto
+    }
+
+    .card {
+        @apply border rounded-lg w-full py-4 px-5 bg-white dark:bg-gray-700 dark:border-gray-700
+    }
+
+    .form-container {
+        @apply flex flex-col space-y-4
+    }
+
+    .form-row {
+        @apply flex flex-col lg:flex-row
+    }
+
+    .form-label{
+        @apply w-auto md:w-24 text-gray-500 dark:text-gray-300
+    }
+
+    .form-input {
+        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 focus:bg-white focus:border-blue-500 dark:focus:border-gray-500 focus:outline-none
+    }
+
+    .form-textarea {
+        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 focus:bg-white focus:border-blue-500 dark:focus:border-gray-500 focus:outline-none
+    }
+
+    .form-radio { /* checked:bg-red-600 checked:border-transparent checked:ring-red-600*/
+        @apply appearance-none h-5 w-5 rounded-full focus:outline-none ring-offset-2 ring-2 ring-gray-300
+    }
+
+    .form-checkbox { /*checked:bg-red-600 checked:border-transparent checked:ring-red-600*/
+        @apply appearance-none h-5 w-5 rounded-md focus:outline-none ring-offset-2 ring-2 ring-gray-300
+    }
+
+    .form-select {
+        @apply appearance-none py-2 pl-3 w-full border rounded-lg text-gray-500 dark:bg-gray-600 dark:text-gray-300 pr-8
+    }
+
+    .text-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .overflow-unset {
+        overflow: unset !important;
+    }
+
+    /** 토글버튼**/
+    .toggle__dot {
+        top: -.25rem;
+        left: -.25rem;
+        transition: all 0.3s ease-in-out;
+    }
+    input:checked ~ .toggle__dot {
+        transform: translateX(100%);
+        background-color: #3b82f6;
+    }
+
+    /** ck-editor */
+    .ck-editor__editable{
+        min-height:400px;
+    }
+
+    @media (min-width: 640px) {
+        .sm\:overflow-unset {
+            overflow: unset !important;
+        }
+    }
+
+    @media  (min-width: 768px) {
+        .md\:overflow-unset {
+            overflow: unset !important;
+        }
+
+    }
+
+    @media (min-width: 1024px) {
+        .lg\:overflow-unset {
+            overflow: unset !important;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .xl\:overflow-unset {
+            overflow: unset !important;
+        }
+    }
+}
+
+@layer utilities {
+
+}
