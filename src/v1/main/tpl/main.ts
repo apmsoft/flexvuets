@@ -9,7 +9,7 @@ class Template implements InterfaceTemplate
         return (`
         <div class="flex flex-col">
             <div class="relative bg-dark pb-5">
-                <div class="swiper h-[300px] lg:h-[700px]">
+                <div class="swiper mySwiper h-[300px] lg:h-[700px]">
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper">
                         <!-- Slides -->

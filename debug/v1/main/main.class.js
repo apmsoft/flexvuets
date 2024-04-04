@@ -24,6 +24,22 @@ class ComponentActivity {
       // scroll top
       document.querySelector('#left-layout--main').scrollTo({ top: 0, behavior: 'smooth' });
       const swiper = new Swiper('.mySwiper', {
+        grabCursor: true,
+        effect: "creative",
+        creativeEffect: {
+          prev: {
+            shadow: true,
+            translate: ["-120%", 0, -500]
+          },
+          next: {
+            shadow: true,
+            translate: ["120%", 0, -500]
+          }
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
         // Optional parameters
         direction: 'horizontal',
         loop: true,
