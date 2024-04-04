@@ -10,8 +10,8 @@
     "release": "cp -fr ./debug/* ./release",
     "clean": "tsc --build --clean",
     "clean-release": "rm -fr ./release/*",
-    "css-v1": "npx tailwindcss -i ./tailwind-v1.css -o ./debug/debug/v1/css/tailwind.css --watch --minify",
-    "css-t1": "npx tailwindcss -i ./tailwind-t1.css -o ./debug/debug/t1/css/tailwind.css --watch --minify"
+    "css-v1": "npx tailwindcss -i ./tailwind-v1.css -o ./debug/v1/css/tailwind.css --watch --minify",
+    "css-t1": "npx tailwindcss -i ./tailwind-t1.css -o ./debug/t1/css/tailwind.css --watch --minify"
   },
   "author": "http://flexvue.fancyupsoft.com",
   "license": "MIT",
