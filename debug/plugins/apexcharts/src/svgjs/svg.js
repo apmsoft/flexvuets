@@ -1128,6 +1128,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1193,10 +1195,8 @@
         */stop: function (jumpToEnd, clearQueue) {var active = this.active;this.active = false;if (clearQueue) {this.clearQueue();}if (jumpToEnd && this.situation) {// initialize the situation if it was not
             !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();}, after: function (fn) {var c = this.last(),wrapper = function wrapper(e) {if (e.detail.situation == c) {fn.call(this, c);this.off('finished.fx', wrapper); // prevent memory leak
               }};this.target().on('finished.fx', wrapper);return this._callStart();}, // adds a callback which is called whenever one animation step is performed
-        during: function (fn) {var c = this.last(),wrapper = function (e) {if (e.detail.situation == c) {fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);}};
-          // see above
-          this.target().off('during.fx', wrapper).on('during.fx', wrapper);
-          this.after(function () {
+        during: function (fn) {var c = this.last(),wrapper = function (e) {if (e.detail.situation == c) {fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);}}; // see above
+          this.target().off('during.fx', wrapper).on('during.fx', wrapper);this.after(function () {
             this.off('during.fx', wrapper);
           });
           return this._callStart();
@@ -1747,6 +1747,9 @@
 
 
 
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1820,10 +1823,7 @@
       untransform: function () {return this.attr('transform', null);}, // merge the whole transformation chain into one matrix and returns it
       matrixify: function () {var matrix = (this.attr('transform') || '' // split transformations
         ).split(SVG.regex.transforms).slice(0, -1).map(function (str) {// generate key => value pairs
-            var kv = str.trim().split('(');return [kv[0], kv[1].split(SVG.regex.delimiter).map(function (str) {
-              return parseFloat(str);
-            })];
-          })
+            var kv = str.trim().split('(');return [kv[0], kv[1].split(SVG.regex.delimiter).map(function (str) {return parseFloat(str);})];})
         // merge every transformation into one matrix
         .reduce(function (matrix, transform) {
           if (transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]));
@@ -2360,6 +2360,7 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2384,8 +2385,7 @@
       inherit: SVG.Element, // Add class methods
       extend: { // add color stops
         update: function (o) {if (typeof o === 'number' || o instanceof SVG.Number) {o = { offset: arguments[0], color: arguments[1], opacity: arguments[2] };} // set attributes
-          if (o.opacity != null) this.attr('stop-opacity', o.opacity);if (o.color != null) this.attr('stop-color', o.color);if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));return this;
-        }
+          if (o.opacity != null) this.attr('stop-opacity', o.opacity);if (o.color != null) this.attr('stop-color', o.color);if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));return this;}
       }
     });
   SVG.Pattern = SVG.invent({

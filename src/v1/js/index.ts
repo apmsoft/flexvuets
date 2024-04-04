@@ -49,36 +49,11 @@ const onReady = () : void =>
     // scroll Observer
     new ScrollObserver([]);
 
-    // 로그아웃 버튼
-    const btn_logout = document.querySelector<HTMLButtonElement>("#btn-logout");
-    if(btn_logout) 
-    {
-        btn_logout.addEventListener("click", () => 
-        {
-            new AsyncTask().execute('POST', `${config.src}/member/logout`,{},config._options_,config._headers_)
-            .then((resp)=>
-            {
-                // result
-                if(resp.result == 'false'){
-                    throw resp;
-                }
-
-                window.location.hash = "#/login";
-            })
-            .catch(err => {
-                window.observable.notify('exception',err);
-            })
-            .finally(()=>{
-                ProgressBars.close();
-            });
-        }, false);
-    }
-
     // routes
     try{
         const fastRouter = new FastRouter(urlManager.hash);
         fastRouter.addRoute('/', null, null );
-        fastRouter.addRoute('/login', null,null);
+        fastRouter.addRoute('/item/list', null,null);
 
         fastRouter.listen((pathinfo) => {
             Log.d( 'pathinfo',pathinfo );
