@@ -2,7 +2,7 @@ import AsyncTask from "../../flexvue/core/asynctask.class.js";
 class ComponentActivity {
   constructor() {
   }
-  doGreeting() {
+  doGreeting(params = {}) {
     ProgressBars.show();
     const self = this;
     // panel
@@ -22,7 +22,7 @@ class ComponentActivity {
       ProgressBars.close();
     });
   }
-  doLocation() {
+  doLocation(params = {}) {
     ProgressBars.show();
     const self = this;
     // panel

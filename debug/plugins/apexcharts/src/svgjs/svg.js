@@ -1220,6 +1220,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1312,9 +1314,7 @@
               if (!this.situations.length) {this.target().off('.fx'); // there shouldnt be any binding left, but to make sure...
                 this.active = false;}} // start next animation
             if (this.active) this.dequeue();else this.clearCurrent();} else if (!this.paused && this.active) {// we continue animating when we are not at the end
-            this.startAnimFrame();
-          }
-
+            this.startAnimFrame();}
           // save last eased position for once callback triggering
           this.lastPos = eased;
           return this;
@@ -1885,6 +1885,9 @@
 
 
 
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1983,11 +1986,8 @@
         each: function (block, deep) {var il,children = this.children();for (var i = 0, il = children.length; i < il; i++) {if (children[i] instanceof SVG.Element) {block.apply(children[i], [i, children]);}if (deep && children[i] instanceof SVG.Container) {children[i].each(block, deep);}}return this;}, // Remove a given child
         removeElement: function (element) {this.node.removeChild(element.node);return this;}, // Remove all elements in this container
         clear: function () {// remove children
-          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);}
-          // remove defs reference
-          delete this._defs;
-          return this;
-        },
+          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);} // remove defs reference
+          delete this._defs;return this;},
         // Get defs
         defs: function () {
           return this.doc().defs();
@@ -2406,6 +2406,7 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2443,8 +2444,7 @@
       construct: { // Create pattern element in defs
         pattern: function (width, height, block) {return this.defs().pattern(width, height, block);} } });SVG.extend(SVG.Defs, { // Define gradient
       pattern: function (width, height, block) {return this.put(new SVG.Pattern()).update(block).attr({ x: 0, y: 0, width: width, height: height, patternUnits: 'userSpaceOnUse' });} });SVG.Shape = SVG.invent({ // Initialize node
-      create: function (element) {this.constructor.call(this, element);
-      },
+      create: function (element) {this.constructor.call(this, element);},
       // Inherit from
       inherit: SVG.Element
     });

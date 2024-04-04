@@ -8,7 +8,7 @@ class ComponentActivity {
         this.TAG = 'MainActivity';
     }
 
-    run(params : any | object = {}) {
+    run(params : any | object = {}) : void {
 
         ProgressBars.show();
 

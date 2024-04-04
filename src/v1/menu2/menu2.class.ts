@@ -8,7 +8,7 @@ class ComponentActivity {
         this.TAG = 'Menu2Activity';
     }
 
-    doList (params : any | object = {}) {
+    doList (params : any | object = {}) : void{
 
         ProgressBars.show();
 

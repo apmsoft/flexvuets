@@ -4,7 +4,7 @@ class ComponentActivity {
     constructor(){
     }
 
-    doGreeting () {
+    doGreeting (params : any | object = {}) : void {
 
         ProgressBars.show();
 
@@ -31,7 +31,7 @@ class ComponentActivity {
         });
     }
 
-    doLocation () {
+    doLocation (params : any | object = {}) : void {
 
         ProgressBars.show();
 
