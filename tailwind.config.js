@@ -38,7 +38,10 @@ module.exports = {
         'gray-default' : '#5B7688',
         'gray-dark' : '#19496A',
         'cblue-default' : '#ECEBFB',
-        'clube-dark' : '#3D3DD9'
+        'clube-dark' : '#3D3DD9',
+        'gray-v2-bg' : '#191f28',
+        'dark':'#091A3D',
+        'warning':'#FD6336'
       }
     },
   },

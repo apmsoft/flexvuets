@@ -8,7 +8,7 @@
         -webkit-tap-highlight-color: transparent;
         -ms-touch-action: manipulation;
         touch-action: manipulation;
-        @apply w-full h-full min-h-full block max-h-full overflow-hidden relative;
+        @apply relative block w-full h-full max-h-full min-h-full overflow-hidden;
     }
 
     head {
@@ -16,22 +16,22 @@
     }
 
     h1 {
-        @apply text-4xl;
+      @apply text-4xl;
     }
     h2 {
-        @apply text-2xl;
+      @apply text-2xl;
     }
     h3 {
-        @apply text-xl;
+      @apply text-xl;
     }
     h4 {
-        @apply text-base;
+      @apply text-base;
     }
     h5 {
-        @apply text-sm;
+      @apply text-sm;
     }
     h6 {
-        @apply text-xs;
+      @apply text-xs;
     }
 
     @font-face {
@@ -84,7 +84,9 @@
 
 
 }
+
 @layer components {
+
     .img-fluid {
         @apply max-w-full mx-auto;
     }
@@ -92,12 +94,12 @@
     #left {
         @apply left-0 top-0
     }
-
+    
     #right, #rightside, #rightthird{
         left: 100%;
         @apply top-0
     }
-
+    
     #bottom, #bottomside, #bottomthird {
         top: 100%;
         @apply left-0
@@ -112,6 +114,32 @@
     #right_title, #rightside_title, #rightthird_title, #bottom_title, #bottomside_title, #bottomthird_title{
         @apply cursor-pointer
     }
+    .swiper {
+        width: 100%;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        background: #fff;
+        /* height: calc((100% - 50px) / 2) !important; */
+        height: 100% !important;
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
 
     .fvue--layout {
         will-change: transform;
@@ -119,15 +147,15 @@
         transition: -moz-transform .3s cubic-bezier(.215, .61, .355, 1);
         transition: -ms-transform .3s cubic-bezier(.215, .61, .355, 1);
         transition: transform .3s cubic-bezier(.215, .61, .355, 1);
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         position: absolute;
     }
     .fvue--layout--container {
-        @apply flex flex-col h-full;
+        @apply flex flex-col h-full relative;
     }
     .fvue--layout--header {
-        @apply flex-grow-0 p-2 shadow-sm;
+        @apply sticky top-0 flex-grow-0 p-2 shadow-sm z-2;
     }
     .fvue--layout--header--row {
         @apply flex;
@@ -145,7 +173,10 @@
         @apply flex-initial text-right;
     }
     .fvue--layout--main {
-        @apply flex-grow overflow-y-auto;
+        @apply flex-grow z-1;
+    }
+    .fvue--layout--main1{
+        @apply absolute w-full h-full left-0 top-0 flex !flex-col overflow-y-auto
     }
     .fvue--layout--footer {
         @apply flex-grow-0;
@@ -157,7 +188,9 @@
         -moz-transform: translateX(100%);
         transform: translateX(100%);
         animation: colorchange 10ms;
+        animation-delay: .3s;
         -webkit-animation: colorchange 10ms;
+        animation-fill-mode: forwards;
         -webkit-animation-delay: .3s;
         -webkit-animation-fill-mode: forwards;
         -moz-animation: colorchange 10ms;
@@ -175,7 +208,7 @@
         transform: translateX(-100%)    ;
         -o-transform: translateX(-100%);
     }
-
+    
     .rightside_transitioned {
         -webkit-transform: translateX(-100%);
         -moz-transform: translateX(-100%);
@@ -191,7 +224,7 @@
         transform: translateX(-100%)    ;
         -o-transform: translateX(-100%);
     }
-
+    
     .bottom_transitioned {
         -webkit-transform: translateY(-100%);
         -moz-transform: translateY(-100%);
@@ -215,7 +248,7 @@
         transform: translateY(-100%)    ;
         -o-transform: translateY(-100%);
     }
-
+    
     @keyframes colorchange {
         from, to {
             background: rgba(0, 0, 0, .7)
@@ -237,8 +270,13 @@
         }
     }
 
+    * {
+        -webkit-tap-highlight-color: transparent;
+        word-break: keep-all;
+    }
+
     .btn {
-        @apply text-center border dark:border-0 align-middle rounded-lg font-semibold
+        @apply px-4 text-center border dark:border-0 align-middle rounded-lg font-semibold
     }
 
     .btn-primary {
@@ -257,6 +295,153 @@
         margin-top : 50vh;
     }
 
+    /* 에니메이션 */
+    .ani-slide-bg {
+        animation: slideBackground 1s ease-in-out forwards;
+    }
+    @keyframes slideBackground {
+        0% {
+          background-position: -10% 50%;
+        }
+        100% {
+          background-position: center;
+          background-size: cover;
+        }
+      }
+
+    .ani-fadeInUp {
+        -webkit-animation:  animate-fade-in-up 1s forwards; 
+        animation: animate-fade-in-up 1s forwards;
+    }
+
+    .ani-fadeOutDown {
+        -webkit-animation:  animate-fade-out-down 1s forwards; 
+        animation: animate-fade-out-down 1s forwards;
+    }
+    @keyframes animate-fade-in-up {
+        0% { 
+            opacity: .3; 
+            -webkit-transform: translateY(100px); 
+        }
+        100% { 
+            opacity: .5; 
+            -webkit-transform: translateY(0%); 
+        }
+    }
+    .ani-fade-In {
+        -webkit-animation:  animate-fade-in 0.5s forwards; 
+        animation: animate-fade-in 0.5s forwards;
+    }
+    @keyframes animate-fade-in {
+        0% { 
+            opacity: 1; 
+        }
+        100% { 
+            opacity: .1; 
+        }
+    }
+    .ani-fade-Out {
+        -webkit-animation:  animate-fade-out 0.5s forwards; 
+        animation: animate-fade-out 0.5s forwards;
+    }
+    @keyframes animate-fade-out {
+        0% { 
+            opacity: .1; 
+        }
+        100% { 
+            opacity: 0; 
+        }
+    }
+
+    .ani-fadeInRight {
+        -webkit-animation:  animate-fade-in-right 1s forwards; 
+        animation: animate-fade-in-right 1s forwards;
+    }
+    @keyframes animate-fade-in-right {
+        0% { 
+            opacity: .3; 
+            -webkit-transform: translateX(300px); 
+        }
+        100% { 
+            opacity: .9; 
+            -webkit-transform: translateX(0%); 
+        }
+    }
+
+    .ani-fadeOutRight {
+        -webkit-animation:  animate-fade-out-right 2s forwards; 
+        animation: animate-fade-out-right 2s forwards;
+    }
+    @keyframes animate-fade-out-right {
+        0% { 
+            opacity: .9; 
+            -webkit-transform: translateX(0%); 
+        }
+        100% { 
+            opacity: .3; 
+            -webkit-transform: translateX(300px); 
+        }
+    }
+
+    .ani-fadeInLeft {
+        -webkit-animation:  animate-fade-in-left 2s forwards; 
+        animation: animate-fade-in-left 2s forwards;
+    }
+    @keyframes animate-fade-in-left {
+        0% { 
+            opacity: .3; 
+            -webkit-transform: translateX(-300px); 
+        }
+        100% { 
+            opacity: .9; 
+            -webkit-transform: translateX(0%); 
+        }
+    }
+
+    .ani-fadeOutLeft {
+        -webkit-animation:  animate-fade-out-left 2s forwards; 
+        animation: animate-fade-out-left 2s forwards;
+    }
+    @keyframes animate-fade-out-left {
+        0% { 
+            opacity: .9; 
+            -webkit-transform: translateX(0%) 
+        }
+        100% { 
+            opacity: .3; 
+            -webkit-transform: translateX(-300px); 
+        }
+    }
+    /* 에니메이션 */
+    .ani-fadeInUp2 {
+        -webkit-animation:  animate-fade-in-up2 1s forwards; 
+        animation: animate-fade-in-up2 1s forwards;
+    }
+
+    @keyframes animate-fade-in-up2 {
+        0% { 
+            opacity: .3; 
+            -webkit-transform: translateY(100px); 
+        }
+        100% { 
+            opacity: 1; 
+            -webkit-transform: translateY(0%); 
+        }
+    }
+
+    /* 파도 에니메이션 */
+    .wave_box{position: relative; display: block; margin: auto; width: 100%; height: 100%;}
+    .wave{
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='200'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='50%25' x2='50%25' y1='-10.959%25' y2='100%25'%3E%3Cstop stop-color='rgba(0,0,0,0.1)' stop-opacity='1' offset='0%25'/%3E%3Cstop stop-color='rgba(0,0,0,0.7)' offset='100%25'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23a)' fill-rule='evenodd' d='M.005 80C311 80 409.898-.25 811 0c400 0 500 80 789 80v77H0s.005-48 .005-77z' transform='matrix(-1 0 0 1 1600 0)'/%3E%3C/svg%3E") repeat-x;
+        position: absolute;
+        bottom: 0;
+        width: 6400px;
+        height: 100%;
+        animation: wave 6s cubic-bezier(0.36,0.45,0.63,0.53) infinite;
+        transform: translate3d(0,0,0);
+    }
+    @keyframes wave{0% {margin-left: -1600px;}100% {margin-left:0px;}}
+
     .loading {
         z-index: 1000;
         top: 45%;
@@ -266,11 +451,14 @@
     }
 
     .card {
-        @apply border rounded-lg w-full py-4 px-5 bg-white dark:bg-gray-700 dark:border-gray-700
+        @apply border rounded-lg w-full px-5 bg-white dark:bg-gray-700 dark:border-gray-700
+    }
+    .user-card {
+        @apply border rounded-lg w-full px-5 bg-blue-default dark:bg-gray-700 dark:border-gray-700
     }
 
     .form-container {
-        @apply flex flex-col space-y-4
+        @apply flex flex-col space-y-4 
     }
 
     .form-row {
@@ -282,23 +470,39 @@
     }
 
     .form-input {
-        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 focus:bg-white focus:border-blue-500 dark:focus:border-gray-500 focus:outline-none
+        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 dark:focus:bg-gray-600 dark:focus:border-gray-500
     }
+    /* .form-input {
+        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 focus:bg-white dark:focus:bg-gray-600 focus:border-blue-500 dark:focus:border-gray-500 focus:outline-none
+    } */
 
     .form-textarea {
-        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 focus:bg-white focus:border-blue-500 dark:focus:border-gray-500 focus:outline-none
+        @apply w-full border px-3 py-2 bg-gray-50 dark:bg-gray-600 rounded-lg dark:text-gray-300 hover:border-gray-500 focus:bg-white dark:focus:bg-gray-600 focus:border-blue-500 dark:focus:border-gray-500 focus:outline-none
     }
 
     .form-radio { /* checked:bg-red-600 checked:border-transparent checked:ring-red-600*/
-        @apply appearance-none h-5 w-5 rounded-full focus:outline-none ring-offset-2 ring-2 ring-gray-300
+        @apply appearance-none h-5 w-5 rounded-full focus:outline-none ring-offset-2 ring-2 ring-gray-300 
     }
 
     .form-checkbox { /*checked:bg-red-600 checked:border-transparent checked:ring-red-600*/
-        @apply appearance-none h-5 w-5 rounded-md focus:outline-none ring-offset-2 ring-2 ring-gray-300
+        @apply appearance-none h-5 w-5 rounded-md focus:outline-none ring-offset-2 ring-2 ring-gray-300 
     }
 
     .form-select {
         @apply appearance-none py-2 pl-3 w-full border rounded-lg text-gray-500 dark:bg-gray-600 dark:text-gray-300 pr-8
+    }
+
+    .drawer-item-active {
+        @apply border-b-2 !border-blue-500 !text-blue-500
+    }
+
+    .text-outline-white {
+        color: transparent;
+        text-shadow:
+            -1px -1px 0 #fff,
+            1px -1px 0 #fff,
+            -1px 1px 0 #fff,
+            1px 1px 0 #fff;
     }
 
     .text-ellipsis {
@@ -325,24 +529,64 @@
     /** ck-editor */
     .ck-editor__editable{
         min-height:400px;
+        background : transparent !important;
+    }
+
+    /* .ck-reset_all{
+        color : inherit !important;
+    }
+
+    .ck.ck-toolbar{
+        background : transparent !important;
+    } */
+
+    @media (min-width: 330px) {
+        .xs\:overflow-unset {
+            overflow: unset !important;
+        }
+
+        .xs\:hidden {
+            display : none !important;
+        }
     }
 
     @media (min-width: 640px) {
         .sm\:overflow-unset {
             overflow: unset !important;
         }
-    }
 
+        .sm\:hidden {
+            display : none !important;
+        }
+    }
+    
     @media  (min-width: 768px) {
         .md\:overflow-unset {
             overflow: unset !important;
         }
 
+        .md\:hidden {
+            display : none !important;
+        }
     }
-
+    
     @media (min-width: 1024px) {
         .lg\:overflow-unset {
             overflow: unset !important;
+        }
+
+        .lg\:hidden {
+            display : none !important;
+        }
+    }
+    
+    @media (min-width: 1280px) {
+        .xl\:overflow-unset {
+            overflow: unset !important;
+        }
+
+        .xl\:hidden {
+            display : none !important;
         }
     }
 
@@ -350,9 +594,12 @@
         .xl\:overflow-unset {
             overflow: unset !important;
         }
+
+        .xl\:hidden {
+            display : none !important;
+        }
     }
 }
 
 @layer utilities {
-
 }

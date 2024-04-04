@@ -8,6 +8,8 @@ import Strings from '@v1/js/values/strings.js';
 import Numbers from '@v1/js/values/numbers.js';
 
 import {MyException} from '@v1/js/exception.class.js';
+import { HeaderActivity } from '@v1/js/header.class.js';
+import { DrawerMenu } from "@v1/js/drawer_menu.js";
 
 window.Sysmsg = Sysmsg;
 window.Arrays = Arrays;
@@ -20,7 +22,8 @@ let pre_viewpage : string | null = null;
 const onReady = () : void =>
 {
     // config
-    config.src = config.host+'/'+config.src9;
+    config.src8 = 'server_8000.php';
+    config.src = config.host+'/'+config.src8;
 
     // 앱 정보
     new App();
@@ -34,26 +37,41 @@ const onReady = () : void =>
     // url manager
     const urlManager = new UrlManager(document.location.toString());
 
+    // class
+    const myException = new MyException();
+    const headerActivity = new HeaderActivity();
+    const drawerMenu = new DrawerMenu();
+
+    // head
+    headerActivity.run();
+
+    // drawer-menu
+    drawerMenu.init();
+    drawerMenu.closeDrawer();
+    drawerMenu.doDrawerListener();
+
     // observe
     window.observable = new Observable(['exception','public']);
 
-    // class
-    const myException = new MyException();
-    // const navigation  = new Navigation();
-
     window.observable.subscribe('exception', myException);
+    window.observable = new Observable(["drawermenu",'exception','public']);
+    window.observable.subscribe('exception', myException);
+    window.observable.subscribe("drawermenu", drawerMenu);
 
     // progress init
     new ProgressBars();
 
     // scroll Observer
-    new ScrollObserver([]);
+    new ScrollObserver(["main","menu3","menu2","search"]);
 
     // routes
     try{
         const fastRouter = new FastRouter(urlManager.hash);
-        fastRouter.addRoute('/', null, null );
-        fastRouter.addRoute('/item/list', null,null);
+        fastRouter.addRoute('/', 'run', new URL('../main/main.class.js', import.meta.url).href );
+        fastRouter.addRoute('/menu1/greeting', 'doGreeting',new URL('../menu1/menu1.class.js', import.meta.url).href);
+        fastRouter.addRoute('/menu1/location', 'doLocation',new URL('../menu1/menu1.class.js', import.meta.url).href);
+        fastRouter.addRoute('/menu2', 'doList',new URL('../menu2/menu2.class.js', import.meta.url).href);
+        fastRouter.addRoute('/menu3', 'doList',new URL('../menu3/menu3.class.js', import.meta.url).href);
 
         fastRouter.listen((pathinfo) => {
             Log.d( 'pathinfo',pathinfo );
@@ -67,8 +85,13 @@ const onReady = () : void =>
                     }
                 }
 
-                // 모든 이벤트 종료 시키기
-                window.observable.notify('public',{type : 'close'});
+                // drawer-menu
+                if(pathinfo.path =='/drawermenu'){
+                    drawerMenu.openDrawer();
+                }else {
+                    let _path = (pathinfo.path !='/' && typeof pathinfo.parse_path[0] !==undefined) ? pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "") : '';
+                    window.observable.notify("drawermenu", _path);
+                }
 
                 // fastRouter dispatcher
                 fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);

@@ -1132,6 +1132,84 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1198,107 +1276,29 @@
             !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();}, after: function (fn) {var c = this.last(),wrapper = function wrapper(e) {if (e.detail.situation == c) {fn.call(this, c);this.off('finished.fx', wrapper); // prevent memory leak
               }};this.target().on('finished.fx', wrapper);return this._callStart();}, // adds a callback which is called whenever one animation step is performed
         during: function (fn) {var c = this.last(),wrapper = function (e) {if (e.detail.situation == c) {fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);}}; // see above
-          this.target().off('during.fx', wrapper).on('during.fx', wrapper);this.after(function () {this.off('during.fx', wrapper);});
-          return this._callStart();
-        },
-        // calls after ALL animations in the queue are finished
-        afterAll: function (fn) {
-          var wrapper = function wrapper(e) {
-            fn.call(this);
-            this.off('allfinished.fx', wrapper);
-          };
-
-          // see above
-          this.target().off('allfinished.fx', wrapper).on('allfinished.fx', wrapper);
-          return this._callStart();
-        },
-        last: function () {
-          return this.situations.length ? this.situations[this.situations.length - 1] : this.situation;
-        },
-        // adds one property to the animations
-        add: function (method, args, type) {
-          this.last()[type || 'animations'][method] = args;
-          return this._callStart();
-        },
-        /** perform one step of the animation
+          this.target().off('during.fx', wrapper).on('during.fx', wrapper);this.after(function () {this.off('during.fx', wrapper);});return this._callStart();}, // calls after ALL animations in the queue are finished
+        afterAll: function (fn) {var wrapper = function wrapper(e) {fn.call(this);this.off('allfinished.fx', wrapper);}; // see above
+          this.target().off('allfinished.fx', wrapper).on('allfinished.fx', wrapper);return this._callStart();}, last: function () {return this.situations.length ? this.situations[this.situations.length - 1] : this.situation;}, // adds one property to the animations
+        add: function (method, args, type) {this.last()[type || 'animations'][method] = args;return this._callStart();}, /** perform one step of the animation
         *  @param ignoreTime Boolean indicating whether to ignore time and use position directly or recalculate position based on time
         *  @return this
-        */
-        step: function (ignoreTime) {
-          // convert current time to an absolute position
-          if (!ignoreTime) this.absPos = this.timeToAbsPos(+new Date());
-
-          // This part convert an absolute position to a position
-          if (this.situation.loops !== false) {
-            var absPos, absPosInt, lastLoop;
-
-            // If the absolute position is below 0, we just treat it as if it was 0
-            absPos = Math.max(this.absPos, 0);
-            absPosInt = Math.floor(absPos);
-            if (this.situation.loops === true || absPosInt < this.situation.loops) {
-              this.pos = absPos - absPosInt;
-              lastLoop = this.situation.loop;
-              this.situation.loop = absPosInt;
-            } else {
-              this.absPos = this.situation.loops;
-              this.pos = 1;
-              // The -1 here is because we don't want to toggle reversed when all the loops have been completed
-              lastLoop = this.situation.loop - 1;
-              this.situation.loop = this.situation.loops;
-            }
-            if (this.situation.reversing) {
-              // Toggle reversed if an odd number of loops as occured since the last call of step
-              this.situation.reversed = this.situation.reversed != Boolean((this.situation.loop - lastLoop) % 2);
-            }
-          } else {
-            // If there are no loop, the absolute position must not be above 1
-            this.absPos = Math.min(this.absPos, 1);
-            this.pos = this.absPos;
-          }
-
-          // while the absolute position can be below 0, the position must not be below 0
-          if (this.pos < 0) this.pos = 0;
-          if (this.situation.reversed) this.pos = 1 - this.pos;
-
-          // apply easing
-          var eased = this.situation.ease(this.pos);
-
-          // call once-callbacks
-          for (var i in this.situation.once) {
-            if (i > this.lastPos && i <= eased) {
-              this.situation.once[i].call(this.target(), this.pos, eased);
-              delete this.situation.once[i];
-            }
-          }
-
-          // fire during callback with position, eased position and current situation as parameter
-          if (this.active) this.target().fire('during', {
-            pos: this.pos,
-            eased: eased,
-            fx: this,
-            situation: this.situation
-          });
-
-          // the user may call stop or finish in the during callback
+        */step: function (ignoreTime) {// convert current time to an absolute position
+          if (!ignoreTime) this.absPos = this.timeToAbsPos(+new Date()); // This part convert an absolute position to a position
+          if (this.situation.loops !== false) {var absPos, absPosInt, lastLoop; // If the absolute position is below 0, we just treat it as if it was 0
+            absPos = Math.max(this.absPos, 0);absPosInt = Math.floor(absPos);if (this.situation.loops === true || absPosInt < this.situation.loops) {this.pos = absPos - absPosInt;lastLoop = this.situation.loop;this.situation.loop = absPosInt;} else {this.absPos = this.situation.loops;this.pos = 1; // The -1 here is because we don't want to toggle reversed when all the loops have been completed
+              lastLoop = this.situation.loop - 1;this.situation.loop = this.situation.loops;}if (this.situation.reversing) {// Toggle reversed if an odd number of loops as occured since the last call of step
+              this.situation.reversed = this.situation.reversed != Boolean((this.situation.loop - lastLoop) % 2);}} else {// If there are no loop, the absolute position must not be above 1
+            this.absPos = Math.min(this.absPos, 1);this.pos = this.absPos;} // while the absolute position can be below 0, the position must not be below 0
+          if (this.pos < 0) this.pos = 0;if (this.situation.reversed) this.pos = 1 - this.pos; // apply easing
+          var eased = this.situation.ease(this.pos); // call once-callbacks
+          for (var i in this.situation.once) {if (i > this.lastPos && i <= eased) {this.situation.once[i].call(this.target(), this.pos, eased);delete this.situation.once[i];}} // fire during callback with position, eased position and current situation as parameter
+          if (this.active) this.target().fire('during', { pos: this.pos, eased: eased, fx: this, situation: this.situation }); // the user may call stop or finish in the during callback
           // so make sure that we still have a valid situation
-          if (!this.situation) {
-            return this;
-          }
-
-          // apply the actual animation to every property
-          this.eachAt();
-
-          // do final code when situation is finished
-          if (this.pos == 1 && !this.situation.reversed || this.situation.reversed && this.pos == 0) {
-            // stop animation callback
-            this.stopAnimFrame();
-
-            // fire finished callback with current situation as parameter
-            this.target().fire('finished', {
-              fx: this,
-              situation: this.situation
-            });
-            if (!this.situations.length) {
+          if (!this.situation) {return this;} // apply the actual animation to every property
+          this.eachAt(); // do final code when situation is finished
+          if (this.pos == 1 && !this.situation.reversed || this.situation.reversed && this.pos == 0) {// stop animation callback
+            this.stopAnimFrame(); // fire finished callback with current situation as parameter
+            this.target().fire('finished', { fx: this, situation: this.situation });if (!this.situations.length) {
               this.target().fire('allfinished');
 
               // Recheck the length since the user may call animate in the afterAll callback
@@ -1753,6 +1753,123 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1827,173 +1944,56 @@
       matrixify: function () {var matrix = (this.attr('transform') || '' // split transformations
         ).split(SVG.regex.transforms).slice(0, -1).map(function (str) {// generate key => value pairs
             var kv = str.trim().split('(');return [kv[0], kv[1].split(SVG.regex.delimiter).map(function (str) {return parseFloat(str);})];}) // merge every transformation into one matrix
-        .reduce(function (matrix, transform) {if (transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]));return matrix[transform[0]].apply(matrix, transform[1]);
-          }, new SVG.Matrix());
-        return matrix;
-      },
-      // add an element to another parent without changing the visual representation on the screen
-      toParent: function (parent) {
-        if (this == parent) return this;
-        var ctm = this.screenCTM();
-        var pCtm = parent.screenCTM().inverse();
-        this.addTo(parent).untransform().transform(pCtm.multiply(ctm));
-        return this;
-      },
-      // same as above with parent equals root-svg
-      toDoc: function () {
-        return this.toParent(this.doc());
+        .reduce(function (matrix, transform) {if (transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]));return matrix[transform[0]].apply(matrix, transform[1]);}, new SVG.Matrix());return matrix;}, // add an element to another parent without changing the visual representation on the screen
+      toParent: function (parent) {if (this == parent) return this;var ctm = this.screenCTM();var pCtm = parent.screenCTM().inverse();this.addTo(parent).untransform().transform(pCtm.multiply(ctm));return this;}, // same as above with parent equals root-svg
+      toDoc: function () {return this.toParent(this.doc());} });SVG.Transformation = SVG.invent({ create: function (source, inversed) {if (arguments.length > 1 && typeof inversed !== 'boolean') {return this.constructor.call(this, [].slice.call(arguments));}if (Array.isArray(source)) {for (var i = 0, len = this.arguments.length; i < len; ++i) {this[this.arguments[i]] = source[i];}} else if (source && typeof source === 'object') {for (var i = 0, len = this.arguments.length; i < len; ++i) {this[this.arguments[i]] = source[this.arguments[i]];}}this.inversed = false;if (inversed === true) {this.inversed = true;}} });SVG.Translate = SVG.invent({ parent: SVG.Matrix, inherit: SVG.Transformation, create: function (source, inversed) {this.constructor.apply(this, [].slice.call(arguments));}, extend: { arguments: ['transformedX', 'transformedY'], method: 'translate' } });SVG.extend(SVG.Element, { // Dynamic style generator
+      style: function (s, v) {if (arguments.length == 0) {// get full style
+          return this.node.style.cssText || '';} else if (arguments.length < 2) {// apply every style individually if an object is passed
+          if (typeof s === 'object') {for (var v_ in s) this.style(v_, s[v_]);} else if (SVG.regex.isCss.test(s)) {// parse css string
+            s = s.split(/\s*;\s*/) // filter out suffix ; and stuff like ;;
+            .filter(function (e) {return !!e;}).map(function (e) {return e.split(/\s*:\s*/);}); // apply every definition individually
+            while (v = s.pop()) {this.style(v[0], v[1]);}} else {// act as a getter if the first and only argument is not an object
+            return this.node.style[camelCase(s)];}} else {this.node.style[camelCase(s)] = v === null || SVG.regex.isBlank.test(v) ? '' : v;}return this;} });SVG.Parent = SVG.invent({ // Initialize node
+      create: function (element) {this.constructor.call(this, element);}, // Inherit from
+      inherit: SVG.Element, // Add class methods
+      extend: { // Returns all child elements
+        children: function () {return SVG.utils.map(SVG.utils.filterSVGElements(this.node.childNodes), function (node) {return SVG.adopt(node);});}, // Add given element at a position
+        add: function (element, i) {if (i == null) {this.node.appendChild(element.node);} else if (element.node != this.node.childNodes[i]) {this.node.insertBefore(element.node, this.node.childNodes[i]);}return this;}, // Basically does the same as `add()` but returns the added element instead
+        put: function (element, i) {this.add(element, i);return element;}, // Checks if the given element is a child
+        has: function (element) {return this.index(element) >= 0;}, // Gets index of given element
+        index: function (element) {return [].slice.call(this.node.childNodes).indexOf(element.node);}, // Get a element at the given index
+        get: function (i) {return SVG.adopt(this.node.childNodes[i]);}, // Get first child
+        first: function () {return this.get(0);}, // Get the last child
+        last: function () {return this.get(this.node.childNodes.length - 1);}, // Iterates over all children and invokes a given block
+        each: function (block, deep) {var il,children = this.children();for (var i = 0, il = children.length; i < il; i++) {if (children[i] instanceof SVG.Element) {block.apply(children[i], [i, children]);}
+            if (deep && children[i] instanceof SVG.Container) {
+              children[i].each(block, deep);
+            }
+          }
+          return this;
+        },
+        // Remove a given child
+        removeElement: function (element) {
+          this.node.removeChild(element.node);
+          return this;
+        },
+        // Remove all elements in this container
+        clear: function () {
+          // remove children
+          while (this.node.hasChildNodes()) {
+            this.node.removeChild(this.node.lastChild);
+          }
+
+          // remove defs reference
+          delete this._defs;
+          return this;
+        },
+        // Get defs
+        defs: function () {
+          return this.doc().defs();
+        }
       }
     });
-  SVG.Transformation = SVG.invent({
-    create: function (source, inversed) {
-      if (arguments.length > 1 && typeof inversed !== 'boolean') {
-        return this.constructor.call(this, [].slice.call(arguments));
-      }
-      if (Array.isArray(source)) {
-        for (var i = 0, len = this.arguments.length; i < len; ++i) {
-          this[this.arguments[i]] = source[i];
-        }
-      } else if (source && typeof source === 'object') {
-        for (var i = 0, len = this.arguments.length; i < len; ++i) {
-          this[this.arguments[i]] = source[this.arguments[i]];
-        }
-      }
-      this.inversed = false;
-      if (inversed === true) {
-        this.inversed = true;
-      }
-    }
-  });
-  SVG.Translate = SVG.invent({
-    parent: SVG.Matrix,
-    inherit: SVG.Transformation,
-    create: function (source, inversed) {
-      this.constructor.apply(this, [].slice.call(arguments));
-    },
-    extend: {
-      arguments: ['transformedX', 'transformedY'],
-      method: 'translate'
-    }
-  });
-  SVG.extend(SVG.Element, {
-    // Dynamic style generator
-    style: function (s, v) {
-      if (arguments.length == 0) {
-        // get full style
-        return this.node.style.cssText || '';
-      } else if (arguments.length < 2) {
-        // apply every style individually if an object is passed
-        if (typeof s === 'object') {
-          for (var v_ in s) this.style(v_, s[v_]);
-        } else if (SVG.regex.isCss.test(s)) {
-          // parse css string
-          s = s.split(/\s*;\s*/)
-          // filter out suffix ; and stuff like ;;
-          .filter(function (e) {
-            return !!e;
-          }).map(function (e) {
-            return e.split(/\s*:\s*/);
-          });
-
-          // apply every definition individually
-          while (v = s.pop()) {
-            this.style(v[0], v[1]);
-          }
-        } else {
-          // act as a getter if the first and only argument is not an object
-          return this.node.style[camelCase(s)];
-        }
-      } else {
-        this.node.style[camelCase(s)] = v === null || SVG.regex.isBlank.test(v) ? '' : v;
-      }
-      return this;
-    }
-  });
-  SVG.Parent = SVG.invent({
-    // Initialize node
-    create: function (element) {
-      this.constructor.call(this, element);
-    },
-    // Inherit from
-    inherit: SVG.Element,
-    // Add class methods
-    extend: {
-      // Returns all child elements
-      children: function () {
-        return SVG.utils.map(SVG.utils.filterSVGElements(this.node.childNodes), function (node) {
-          return SVG.adopt(node);
-        });
-      },
-      // Add given element at a position
-      add: function (element, i) {
-        if (i == null) {
-          this.node.appendChild(element.node);
-        } else if (element.node != this.node.childNodes[i]) {
-          this.node.insertBefore(element.node, this.node.childNodes[i]);
-        }
-        return this;
-      },
-      // Basically does the same as `add()` but returns the added element instead
-      put: function (element, i) {
-        this.add(element, i);
-        return element;
-      },
-      // Checks if the given element is a child
-      has: function (element) {
-        return this.index(element) >= 0;
-      },
-      // Gets index of given element
-      index: function (element) {
-        return [].slice.call(this.node.childNodes).indexOf(element.node);
-      },
-      // Get a element at the given index
-      get: function (i) {
-        return SVG.adopt(this.node.childNodes[i]);
-      },
-      // Get first child
-      first: function () {
-        return this.get(0);
-      },
-      // Get the last child
-      last: function () {
-        return this.get(this.node.childNodes.length - 1);
-      },
-      // Iterates over all children and invokes a given block
-      each: function (block, deep) {
-        var il,
-          children = this.children();
-        for (var i = 0, il = children.length; i < il; i++) {
-          if (children[i] instanceof SVG.Element) {
-            block.apply(children[i], [i, children]);
-          }
-          if (deep && children[i] instanceof SVG.Container) {
-            children[i].each(block, deep);
-          }
-        }
-        return this;
-      },
-      // Remove a given child
-      removeElement: function (element) {
-        this.node.removeChild(element.node);
-        return this;
-      },
-      // Remove all elements in this container
-      clear: function () {
-        // remove children
-        while (this.node.hasChildNodes()) {
-          this.node.removeChild(this.node.lastChild);
-        }
-
-        // remove defs reference
-        delete this._defs;
-        return this;
-      },
-      // Get defs
-      defs: function () {
-        return this.doc().defs();
-      }
-    }
-  });
   SVG.extend(SVG.Parent, {
     ungroup: function (parent, depth) {
       if (depth === 0 || this instanceof SVG.Defs || this.node == SVG.parser.draw) return this;
@@ -2362,6 +2362,45 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2386,60 +2425,21 @@
       inherit: SVG.Element, // Add class methods
       extend: { // add color stops
         update: function (o) {if (typeof o === 'number' || o instanceof SVG.Number) {o = { offset: arguments[0], color: arguments[1], opacity: arguments[2] };} // set attributes
-          if (o.opacity != null) this.attr('stop-opacity', o.opacity);if (o.color != null) this.attr('stop-color', o.color);if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));return this;} }
+          if (o.opacity != null) this.attr('stop-opacity', o.opacity);if (o.color != null) this.attr('stop-color', o.color);if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));return this;} } });SVG.Pattern = SVG.invent({ // Initialize node
+      create: 'pattern', // Inherit from
+      inherit: SVG.Container, // Add class methods
+      extend: { // Return the fill id
+        fill: function () {return 'url(#' + this.id() + ')';}, // Update pattern by rebuilding
+        update: function (block) {// remove content
+          this.clear(); // invoke passed block
+          if (typeof block === 'function') {block.call(this, this);}return this;}, // Alias string convertion to fill
+        toString: function () {return this.fill();}, // custom attr to handle transform
+        attr: function (a, b, c) {if (a == 'transform') a = 'patternTransform';return SVG.Container.prototype.attr.call(this, a, b, c);} }, // Add parent method
+      construct: { // Create pattern element in defs
+        pattern: function (width, height, block) {return this.defs().pattern(width, height, block);} } });SVG.extend(SVG.Defs, { // Define gradient
+      pattern: function (width, height, block) {return this.put(new SVG.Pattern()).update(block).attr({ x: 0, y: 0, width: width, height: height, patternUnits: 'userSpaceOnUse' });
+      }
     });
-  SVG.Pattern = SVG.invent({
-    // Initialize node
-    create: 'pattern',
-    // Inherit from
-    inherit: SVG.Container,
-    // Add class methods
-    extend: {
-      // Return the fill id
-      fill: function () {
-        return 'url(#' + this.id() + ')';
-      },
-      // Update pattern by rebuilding
-      update: function (block) {
-        // remove content
-        this.clear();
-
-        // invoke passed block
-        if (typeof block === 'function') {
-          block.call(this, this);
-        }
-        return this;
-      },
-      // Alias string convertion to fill
-      toString: function () {
-        return this.fill();
-      },
-      // custom attr to handle transform
-      attr: function (a, b, c) {
-        if (a == 'transform') a = 'patternTransform';
-        return SVG.Container.prototype.attr.call(this, a, b, c);
-      }
-    },
-    // Add parent method
-    construct: {
-      // Create pattern element in defs
-      pattern: function (width, height, block) {
-        return this.defs().pattern(width, height, block);
-      }
-    }
-  });
-  SVG.extend(SVG.Defs, {
-    // Define gradient
-    pattern: function (width, height, block) {
-      return this.put(new SVG.Pattern()).update(block).attr({
-        x: 0,
-        y: 0,
-        width: width,
-        height: height,
-        patternUnits: 'userSpaceOnUse'
-      });
-    }
-  });
   SVG.Shape = SVG.invent({
     // Initialize node
     create: function (element) {
