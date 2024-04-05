@@ -16,8 +16,7 @@ const onReady = () => {
   // };
   // RecyclerView 인스턴스 생성 및 초기화
   const adapter = new SimpleAdapter(data, template, 'animate__animated animate__fadeInUp');
-  const recyclerView = new RecyclerView('#recyclerView', adapter, { itemCount: 2 });
-  // RecyclerView에 이벤트 리스너 추가
+  const recyclerView = new RecyclerView('#recyclerView', adapter, { itemCount: 10 });
   recyclerView.addEventListener('click', '.item', (event) => {
     console.log('Item clicked');
     const el = event.target;

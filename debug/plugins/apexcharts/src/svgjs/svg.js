@@ -1426,6 +1426,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1551,6 +1553,7 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
 
 
 
@@ -2507,8 +2510,6 @@
 
 
 
-
-
       // Get all siblings, including myself
     });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2586,8 +2587,7 @@
       inherit: SVG.Shape, // Add class methods
       extend: { // Get array
         array: function () {return new SVG.PointArray([[this.attr('x1'), this.attr('y1')], [this.attr('x2'), this.attr('y2')]]);}, // Overwrite native plot() method
-        plot: function (x1, y1, x2, y2) {if (x1 == null) {
-            return this.array();
+        plot: function (x1, y1, x2, y2) {if (x1 == null) {return this.array();
           } else if (typeof y1 !== 'undefined') {
             x1 = {
               x1: x1,
