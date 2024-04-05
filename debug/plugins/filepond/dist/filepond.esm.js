@@ -1661,6 +1661,13 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1727,14 +1734,7 @@ const defaultOptions = { // the id to add to the root element
   labelThousandsSeparator: [getThousandsSeparator(), Type.STRING], // Default is locale separator
   labelIdle: ['Drag & Drop your files or <span class="filepond--label-action">Browse</span>', Type.STRING], labelInvalidField: ['Field contains invalid files', Type.STRING], labelFileWaitingForSize: ['Waiting for size', Type.STRING], labelFileSizeNotAvailable: ['Size not available', Type.STRING], labelFileCountSingular: ['file in list', Type.STRING], labelFileCountPlural: ['files in list', Type.STRING], labelFileLoading: ['Loading', Type.STRING], labelFileAdded: ['Added', Type.STRING], // assistive only
   labelFileLoadError: ['Error during load', Type.STRING], labelFileRemoved: ['Removed', Type.STRING], // assistive only
-  labelFileRemoveError: ['Error during remove', Type.STRING], labelFileProcessing: ['Uploading', Type.STRING],
-  labelFileProcessingComplete: ['Upload complete', Type.STRING],
-  labelFileProcessingAborted: ['Upload cancelled', Type.STRING],
-  labelFileProcessingError: ['Error during upload', Type.STRING],
-  labelFileProcessingRevertError: ['Error during revert', Type.STRING],
-  labelTapToCancel: ['tap to cancel', Type.STRING],
-  labelTapToRetry: ['tap to retry', Type.STRING],
-  labelTapToUndo: ['tap to undo', Type.STRING],
+  labelFileRemoveError: ['Error during remove', Type.STRING], labelFileProcessing: ['Uploading', Type.STRING], labelFileProcessingComplete: ['Upload complete', Type.STRING], labelFileProcessingAborted: ['Upload cancelled', Type.STRING], labelFileProcessingError: ['Error during upload', Type.STRING], labelFileProcessingRevertError: ['Error during revert', Type.STRING], labelTapToCancel: ['tap to cancel', Type.STRING], labelTapToRetry: ['tap to retry', Type.STRING], labelTapToUndo: ['tap to undo', Type.STRING],
   labelButtonRemoveItem: ['Remove', Type.STRING],
   labelButtonAbortItemLoad: ['Abort', Type.STRING],
   labelButtonRetryItemLoad: ['Retry', Type.STRING],
@@ -7224,6 +7224,13 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7254,16 +7261,9 @@ const getLinks = (dataTransfer) => {
   scope.classList.add('filepond--hopper'); // shortcuts
   const { catchesDropsOnPage, requiresDropOnElement, filterItems = (items) => items } = options; // create a dnd client
   const client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement); // current client state
-  let lastState = '';let currentState = '';
-
-  // determines if a file may be dropped
-  client.allowdrop = (items) => {
-    // TODO: if we can, throw error to indicate the items cannot by dropped
-
-    return validateItems(filterItems(items));
-  };
-  client.ondrop = (position, items) => {
-    const filteredItems = filterItems(items);
+  let lastState = '';let currentState = ''; // determines if a file may be dropped
+  client.allowdrop = (items) => {// TODO: if we can, throw error to indicate the items cannot by dropped
+    return validateItems(filterItems(items));};client.ondrop = (position, items) => {const filteredItems = filterItems(items);
     if (!validateItems(filteredItems)) {
       api.ondragend(position);
       return;

@@ -1412,6 +1412,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1537,6 +1551,13 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
 
 
 
@@ -2488,20 +2509,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       // Get all siblings, including myself
     });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2575,18 +2582,11 @@
       width: function (width) {return width == null ? this.rx() * 2 : this.rx(new SVG.Number(width).divide(2));}, // Set height of element
       height: function (height) {return height == null ? this.ry() * 2 : this.ry(new SVG.Number(height).divide(2));}, // Custom size function
       size: function (width, height) {var p = proportionalSize(this, width, height);return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));} });SVG.Line = SVG.invent({ // Initialize node
-      create: 'line',
-      // Inherit from
-      inherit: SVG.Shape,
-      // Add class methods
-      extend: {
-        // Get array
-        array: function () {
-          return new SVG.PointArray([[this.attr('x1'), this.attr('y1')], [this.attr('x2'), this.attr('y2')]]);
-        },
-        // Overwrite native plot() method
-        plot: function (x1, y1, x2, y2) {
-          if (x1 == null) {
+      create: 'line', // Inherit from
+      inherit: SVG.Shape, // Add class methods
+      extend: { // Get array
+        array: function () {return new SVG.PointArray([[this.attr('x1'), this.attr('y1')], [this.attr('x2'), this.attr('y2')]]);}, // Overwrite native plot() method
+        plot: function (x1, y1, x2, y2) {if (x1 == null) {
             return this.array();
           } else if (typeof y1 !== 'undefined') {
             x1 = {
