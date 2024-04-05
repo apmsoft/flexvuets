@@ -17,6 +17,7 @@ module.exports = {
             ,"@flexvue/textutil":`./${debugPath}/flexvue/core/textutil.class.js`
             ,"@flexvue/types":`./${debugPath}/flexvue/core/types.interface.js`
             ,"@flexvue/fastrouter":`./${debugPath}/flexvue/core/fastrouter.class.js`
+            ,"@flexvue/recyclerview":`./${debugPath}/flexvue/core/recyclerview.class.js`
             ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
             ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
             ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`

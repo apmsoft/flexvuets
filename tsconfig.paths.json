@@ -13,6 +13,7 @@
             "@flexvue/textutil": ["src/flexvue/core/textutil.class.ts"],
             "@flexvue/types": ["src/flexvue/core/types.interface.ts"],
             "@flexvue/fastrouter": ["src/flexvue/core/fastrouter.class.ts"],
+            "@flexvue/recyclerview": ["src/flexvue/core/recyclerview.class.ts"],
             "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
             "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
             "@editorjs/header": ["node_modules/@editorjs/header"],
