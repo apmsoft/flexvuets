@@ -8933,6 +8933,143 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -8965,156 +9102,19 @@
     var client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement); // current client state
     var lastState = '';var currentState = ''; // determines if a file may be dropped
     client.allowdrop = function (items) {// TODO: if we can, throw error to indicate the items cannot by dropped
-
-      return validateItems(filterItems(items));
-    };
-    client.ondrop = function (position, items) {
-      var filteredItems = filterItems(items);
-      if (!validateItems(filteredItems)) {
-        api.ondragend(position);
-        return;
-      }
-      currentState = 'drag-drop';
-      api.onload(filteredItems, position);
-    };
-    client.ondrag = function (position) {
-      api.ondrag(position);
-    };
-    client.onenter = function (position) {
-      currentState = 'drag-over';
-      api.ondragstart(position);
-    };
-    client.onexit = function (position) {
-      currentState = 'drag-exit';
-      api.ondragend(position);
-    };
-    var api = {
-      updateHopperState: function updateHopperState() {
-        if (lastState !== currentState) {
-          scope.dataset.hopperState = currentState;
-          lastState = currentState;
-        }
-      },
-      onload: function onload() {},
-      ondragstart: function ondragstart() {},
-      ondrag: function ondrag() {},
-      ondragend: function ondragend() {},
-      destroy: function destroy() {
-        // destroy client
-        client.destroy();
-      }
-    };
-    return api;
-  };
-  var listening = false;
-  var listeners$1 = [];
-  var handlePaste = function handlePaste(e) {
-    // if is pasting in input or textarea and the target is outside of a filepond scope, ignore
-    var activeEl = document.activeElement;
-    if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {
-      // test textarea or input is contained in filepond root
-      var inScope = false;
-      var element = activeEl;
-      while (element !== document.body) {
-        if (element.classList.contains('filepond--root')) {
-          inScope = true;
-          break;
-        }
-        element = element.parentNode;
-      }
-      if (!inScope) return;
-    }
-    requestDataTransferItems(e.clipboardData).then(function (files) {
-      // no files received
-      if (!files.length) {
-        return;
-      }
-
-      // notify listeners of received files
-      listeners$1.forEach(function (listener) {
-        return listener(files);
-      });
-    });
-  };
-  var listen = function listen(cb) {
-    // can't add twice
-    if (listeners$1.includes(cb)) {
-      return;
-    }
-
-    // add initial listener
-    listeners$1.push(cb);
-
-    // setup paste listener for entire page
-    if (listening) {
-      return;
-    }
-    listening = true;
-    document.addEventListener('paste', handlePaste);
-  };
-  var unlisten = function unlisten(listener) {
-    arrayRemove(listeners$1, listeners$1.indexOf(listener));
-
-    // clean up
-    if (listeners$1.length === 0) {
-      document.removeEventListener('paste', handlePaste);
-      listening = false;
-    }
-  };
-  var createPaster = function createPaster() {
-    var cb = function cb(files) {
-      api.onload(files);
-    };
-    var api = {
-      destroy: function destroy() {
-        unlisten(cb);
-      },
-      onload: function onload() {}
-    };
-    listen(cb);
-    return api;
-  };
-
-  /**
-   * Creates the file view
-   */
-  var create$d = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
-    root.element.id = 'filepond--assistant-' + props.id;
-    attr(root.element, 'role', 'status');
-    attr(root.element, 'aria-live', 'polite');
-    attr(root.element, 'aria-relevant', 'additions');
-  };
-  var addFilesNotificationTimeout = null;
-  var notificationClearTimeout = null;
-  var filenames = [];
-  var assist = function assist(root, message) {
-    root.element.textContent = message;
-  };
-  var clear$1 = function clear(root) {
-    root.element.textContent = '';
-  };
-  var listModified = function listModified(root, filename, label) {
-    var total = root.query('GET_TOTAL_ITEMS');
-    assist(root, label + ' ' + filename + ', ' + total + ' ' + (total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL')));
-
-    // clear group after set amount of time so the status is not read twice
-    clearTimeout(notificationClearTimeout);
-    notificationClearTimeout = setTimeout(function () {
-      clear$1(root);
-    }, 1500);
-  };
-  var isUsingFilePond = function isUsingFilePond(root) {
-    return root.element.parentNode.contains(document.activeElement);
-  };
-  var itemAdded = function itemAdded(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
-    if (!isUsingFilePond(root)) {
-      return;
-    }
-    root.element.textContent = '';
+      return validateItems(filterItems(items));};client.ondrop = function (position, items) {var filteredItems = filterItems(items);if (!validateItems(filteredItems)) {api.ondragend(position);return;}currentState = 'drag-drop';api.onload(filteredItems, position);};client.ondrag = function (position) {api.ondrag(position);};client.onenter = function (position) {currentState = 'drag-over';api.ondragstart(position);};client.onexit = function (position) {currentState = 'drag-exit';api.ondragend(position);};var api = { updateHopperState: function updateHopperState() {if (lastState !== currentState) {scope.dataset.hopperState = currentState;lastState = currentState;}}, onload: function onload() {}, ondragstart: function ondragstart() {}, ondrag: function ondrag() {}, ondragend: function ondragend() {}, destroy: function destroy() {// destroy client
+        client.destroy();} };return api;};var listening = false;var listeners$1 = [];var handlePaste = function handlePaste(e) {// if is pasting in input or textarea and the target is outside of a filepond scope, ignore
+    var activeEl = document.activeElement;if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {// test textarea or input is contained in filepond root
+      var inScope = false;var element = activeEl;while (element !== document.body) {if (element.classList.contains('filepond--root')) {inScope = true;break;}element = element.parentNode;}if (!inScope) return;}requestDataTransferItems(e.clipboardData).then(function (files) {// no files received
+        if (!files.length) {return;} // notify listeners of received files
+        listeners$1.forEach(function (listener) {return listener(files);});});};var listen = function listen(cb) {// can't add twice
+    if (listeners$1.includes(cb)) {return;} // add initial listener
+    listeners$1.push(cb); // setup paste listener for entire page
+    if (listening) {return;}listening = true;document.addEventListener('paste', handlePaste);};var unlisten = function unlisten(listener) {arrayRemove(listeners$1, listeners$1.indexOf(listener)); // clean up
+    if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};var createPaster = function createPaster() {var cb = function cb(files) {api.onload(files);};var api = { destroy: function destroy() {unlisten(cb);}, onload: function onload() {} };listen(cb);return api;}; /**
+  * Creates the file view
+  */var create$d = function create(_ref) {var root = _ref.root,props = _ref.props;root.element.id = 'filepond--assistant-' + props.id;attr(root.element, 'role', 'status');attr(root.element, 'aria-live', 'polite');attr(root.element, 'aria-relevant', 'additions');};var addFilesNotificationTimeout = null;var notificationClearTimeout = null;var filenames = [];var assist = function assist(root, message) {root.element.textContent = message;};var clear$1 = function clear(root) {root.element.textContent = '';};var listModified = function listModified(root, filename, label) {var total = root.query('GET_TOTAL_ITEMS');assist(root, label + ' ' + filename + ', ' + total + ' ' + (total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL'))); // clear group after set amount of time so the status is not read twice
+    clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(function () {clear$1(root);}, 1500);};var isUsingFilePond = function isUsingFilePond(root) {return root.element.parentNode.contains(document.activeElement);};var itemAdded = function itemAdded(_ref2) {var root = _ref2.root,action = _ref2.action;if (!isUsingFilePond(root)) {return;}root.element.textContent = '';
     var item = root.query('GET_ITEM', action.id);
     filenames.push(item.filename);
     clearTimeout(addFilesNotificationTimeout);

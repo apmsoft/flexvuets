@@ -1,3 +1,5 @@
+import { Template as InterfaceTemplate } from '@flexvue/types';
+
 interface ViewHolder {
     view: HTMLElement;
 }
@@ -23,10 +25,10 @@ interface DataItem {
 
 export class SimpleAdapter implements Adapter {
     private data: any[];
-    private template: (data: any) => string;
+    private template: InterfaceTemplate;
     private animationClass: string | null;
 
-    constructor(data: any[], template: (data: any) => string, animationClass: string | null = null) {
+    constructor(data: any[], template: InterfaceTemplate, animationClass: string | null = null) {
         this.data = data;
         this.template = template;
         this.animationClass = animationClass;
@@ -37,20 +39,23 @@ export class SimpleAdapter implements Adapter {
     }
 
     onCreateViewHolder(parent: HTMLElement): ViewHolder {
-        // ViewHolder를 생성하고 반환하는 코드를 여기에 추가
+        console.log('onCreateViewHolder');
+        const html = this.template.render({});
         const view = document.createElement('div');
-        view.innerHTML = this.template({}); // 템플릿 함수를 호출하여 템플릿 문자열
+        view.innerHTML = html;
         parent.appendChild(view);
         return { view };
     }
 
     onBindViewHolder(holder: ViewHolder, position: number): void {
+        console.log('onBindViewHolder');
         // 데이터 가져오기
         const item = this.data[position];
 
         // HTML 생성 및 설정
-        const html = this.template(item);
+        const html = this.template.render(item);
         holder.view.innerHTML = html;
+
         if (this.animationClass) {
             const classes = this.animationClass.split(' ').map(className => className.trim());
             holder.view.classList.add(...classes); // 사용자가 제공한 애니메이션 클래스 추가
@@ -58,23 +63,30 @@ export class SimpleAdapter implements Adapter {
     }
 }
 
-
 export class RecyclerView {
-    private adapter: Adapter;
-    private container: HTMLElement;
-    private isHandlingScroll: boolean = false;
-    private renderedItems: Set<number> = new Set(); // 이미 출력된 항목의 인덱스를 추적용
+    private adapter             : Adapter;
+    private container           : HTMLElement;
+    private scrollCaptureElement: HTMLElement;
+    private isHandlingScroll    : boolean = false;
+    private renderedItems       : Set<number> = new Set(); // 이미 출력된 항목의 인덱스를 추적용
     private firstRenderItemCount: number = 0;
-    private options: {
+    private options             : {
         itemCount: number; // 스크롤할때 마다 출력할 item 갯수
         bottomBuffer: number; // bottom 스크롤 간격 조정
         prepend?: boolean; // 새 항목을 prepend할지 여부를 결정하는 옵션 기본 append
+        response?: { [key: string]: number }; // 가로 항목 수에 대한 반응형 옵션
     };
 
     constructor(
-        container: string | HTMLElement, 
-        adapter: Adapter, 
-        options: { itemCount?: number; bottomBuffer?: number; prepend?: boolean } = {}
+        container: string | HTMLElement,
+        adapter: Adapter,
+        options: {
+            itemCount?: number;
+            bottomBuffer?: number;
+            prepend?: boolean;
+            scrollCapture?: string | null ;
+            response?: { [key: string]: number }
+        } = {}
     ){
         if (typeof container === 'string') {
             const element = document.querySelector(container);
@@ -88,10 +100,11 @@ export class RecyclerView {
             throw new Error('Invalid container type. Expected string or HTMLElement.');
         }
 
-        const { itemCount = 10, bottomBuffer = 50, prepend = false } = options;
-        this.options = { itemCount, bottomBuffer, prepend };
+        const { itemCount = 10, bottomBuffer = 50, prepend = false, scrollCapture = null, response = {} } = options;
+        this.options = { itemCount, bottomBuffer, prepend, response };
 
         this.adapter = adapter;
+        this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) as HTMLElement : this.container;
         this.render();
         this.container.addEventListener('scroll', this.handleScroll.bind(this));
         window.addEventListener('resize', this.handleResize.bind(this));
@@ -99,8 +112,31 @@ export class RecyclerView {
 
     private render(): void {
         // 처음 렌더링할 때는 화면 크기만큼만 출력합니다.
+        this.calculateInitialRenderItemCount();
         this.handleScroll();
         this.firstRenderItemCount = this.container.children.length;
+    }
+
+    private calculateInitialRenderItemCount(): void {
+        const screenWidth = window.innerWidth;
+        let itemCount = this.options.itemCount;
+
+        // Check responsive options for horizontal item count
+        if (this.options.response) {
+            const responsiveOptions = this.options.response;
+            const breakpoints = Object.keys(responsiveOptions).sort((a, b) => parseInt(a) - parseInt(b));
+
+            for (let i = breakpoints.length - 1; i >= 0; i--) {
+                const breakpoint = parseInt(breakpoints[i]);
+                if (screenWidth >= breakpoint) {
+                    itemCount = responsiveOptions[breakpoint];
+                    break;
+                }
+            }
+        }
+
+        // Update item count
+        this.options.itemCount = itemCount;
     }
 
     private handleScroll(): void {
@@ -110,7 +146,7 @@ export class RecyclerView {
         this.isHandlingScroll = true;
 
         // 현재 스크롤 위치
-        const scrollPosition = this.container.scrollTop;
+        const scrollPosition = this.scrollCaptureElement.scrollTop;
         const containerHeight = this.container.clientHeight;
 
         const itemCount = this.adapter.getItemCount();
@@ -125,9 +161,10 @@ export class RecyclerView {
             Math.ceil((scrollPosition + containerHeight) / templateHeight)
         );
 
-        // 스크롤이 bottom-50에 도달하면 추가 항목을 출력
+        // 가로 사이즈에 따른 추가 항목 출력
+        const responsiveItemCount = this.getResponsiveItemCount();
         if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-            endIndex = Math.min(itemCount, endIndex + this.options.itemCount);
+            endIndex = Math.min(itemCount, endIndex + responsiveItemCount);
         } else {
             endIndex = Math.min(this.firstRenderItemCount, endIndex);
         }
@@ -147,23 +184,57 @@ export class RecyclerView {
                 this.renderedItems.add(i); // 이미 출력된 항목을 추적
             }
         }
-    
+
         this.isHandlingScroll = false;
         window.requestAnimationFrame(() => {
             this.handleScroll();
         });
     }
 
+    private getResponsiveItemCount(): number {
+        const screenWidth = window.innerWidth;
+        let responsiveItemCount = this.options.itemCount;
+
+        if (this.options.response) {
+            const breakpoints = Object.keys(this.options.response)
+                .map(Number)
+                .sort((a, b) => a - b);
+
+            for (const breakpoint of breakpoints) {
+                if (screenWidth >= breakpoint) {
+                    responsiveItemCount = this.options.response[breakpoint];
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return responsiveItemCount;
+    }
+
+
     private handleResize(): void {
+        this.calculateInitialRenderItemCount();
         this.handleScroll();
     }
 
-    addEventListener(eventName: string, selector: string, callback: (event: Event) => void): void {
+    addEventListener(eventName: string, selector: string, callback: (element: HTMLElement) => void): void {
         this.container.addEventListener(eventName, (event: Event) => {
             const target = event.target as HTMLElement;
+    
+            // 클릭 이벤트가 발생한 요소가 주어진 selector에 해당하는지 확인
             if (target.matches(selector)) {
-                callback(event);
+                callback(target);
+            } else {
+                // 클릭 이벤트가 발생한 요소의 부모 요소 중 가장 가까운 .item 클래스를 가진 요소를 찾음
+                const item = target.closest(selector);
+                console.log(item);
+                if (item && item.matches(selector)) {
+                    console.log('>>>>');
+                    callback(item as HTMLElement);
+                }
             }
         });
     }
+
 }
