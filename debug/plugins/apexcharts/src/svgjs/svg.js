@@ -1702,6 +1702,92 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1827,6 +1913,49 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2921,182 +3050,53 @@
           if (typeof rebuild === 'boolean') {this._rebuild = rebuild;} // define position of all lines
           if (this._rebuild) {var self = this,blankLineOffset = 0,dy = this.dom.leading * new SVG.Number(this.attr('font-size'));this.lines().each(function () {if (this.dom.newLined) {if (!self.textPath()) {this.attr('x', self.attr('x'));}if (this.text() == '\n') {blankLineOffset += dy;} else {this.attr('dy', dy + blankLineOffset);blankLineOffset = 0;}}});this.fire('rebuild');}return this;}, // Enable / disable build mode
         build: function (build) {this._build = !!build;return this;}, // overwrite method from parent to set data properly
-        setData: function (o) {this.dom = o;this.dom.leading = new SVG.Number(o.leading || 1.3);return this;} },
-      // Add parent method
-      construct: {
-        // Create text element
-        text: function (text) {
-          return this.put(new SVG.Text()).text(text);
-        },
-        // Create plain text element
-        plain: function (text) {
-          return this.put(new SVG.Text()).plain(text);
-        }
-      }
-    });
-  SVG.Tspan = SVG.invent({
-    // Initialize node
-    create: 'tspan',
-    // Inherit from
-    inherit: SVG.Shape,
-    // Add class methods
-    extend: {
-      // Set text content
-      text: function (text) {
-        if (text == null) return this.node.textContent + (this.dom.newLined ? '\n' : '');
-        typeof text === 'function' ? text.call(this, this) : this.plain(text);
-        return this;
-      },
-      // Shortcut dx
-      dx: function (dx) {
-        return this.attr('dx', dx);
-      },
-      // Shortcut dy
-      dy: function (dy) {
-        return this.attr('dy', dy);
-      },
-      // Create new line
-      newLine: function () {
-        // fetch text parent
-        var t = this.parent(SVG.Text);
-
-        // mark new line
-        this.dom.newLined = true;
-
-        // apply new hy¡n
-        return this.dy(t.dom.leading * t.attr('font-size')).attr('x', t.x());
-      }
-    }
-  });
-  SVG.extend(SVG.Text, SVG.Tspan, {
-    // Create plain text node
-    plain: function (text) {
-      // clear if build mode is disabled
-      if (this._build === false) {
-        this.clear();
-      }
-
-      // create text node
-      this.node.appendChild(document.createTextNode(text));
-      return this;
-    },
-    // Create a tspan
-    tspan: function (text) {
-      var node = (this.textPath && this.textPath() || this).node,
-        tspan = new SVG.Tspan();
-
-      // clear if build mode is disabled
-      if (this._build === false) {
-        this.clear();
-      }
-
-      // add new tspan
-      node.appendChild(tspan.node);
-      return tspan.text(text);
-    },
-    // Clear all lines
-    clear: function () {
-      var node = (this.textPath && this.textPath() || this).node;
-
-      // remove existing child nodes
-      while (node.hasChildNodes()) {
-        node.removeChild(node.lastChild);
-      }
-      return this;
-    },
-    // Get length of text element
-    length: function () {
-      return this.node.getComputedTextLength();
-    }
-  });
-  SVG.TextPath = SVG.invent({
-    // Initialize node
-    create: 'textPath',
-    // Inherit from
-    inherit: SVG.Parent,
-    // Define parent class
-    parent: SVG.Text,
-    // Add parent method
-    construct: {
-      morphArray: SVG.PathArray,
-      // return the array of the path track element
-      array: function () {
-        var track = this.track();
-        return track ? track.array() : null;
-      },
-      // Plot path if any
-      plot: function (d) {
-        var track = this.track(),
-          pathArray = null;
-        if (track) {
-          pathArray = track.plot(d);
-        }
-        return d == null ? pathArray : this;
-      },
-      // Get the path track element
-      track: function () {
-        var path = this.textPath();
-        if (path) {
-          return path.reference('href');
-        }
-      },
-      // Get the textPath child
-      textPath: function () {
-        if (this.node.firstChild && this.node.firstChild.nodeName == 'textPath') {
-          return SVG.adopt(this.node.firstChild);
-        }
-      }
-    }
-  });
-  SVG.Nested = SVG.invent({
-    // Initialize node
-    create: function () {
-      this.constructor.call(this, SVG.create('svg'));
-      this.style('overflow', 'visible');
-    },
-    // Inherit from
-    inherit: SVG.Container,
-    // Add parent method
-    construct: {
-      // Create nested svg document
-      nested: function () {
-        return this.put(new SVG.Nested());
-      }
-    }
-  });
-
-  // Define list of available attributes for stroke and fill
-  var sugar = {
-    stroke: ['color', 'width', 'opacity', 'linecap', 'linejoin', 'miterlimit', 'dasharray', 'dashoffset'],
-    fill: ['color', 'opacity', 'rule'],
-    prefix: function (t, a) {
-      return a == 'color' ? t : t + '-' + a;
-    }
-  }
-
-  // Add sugar for fill and stroke
-  ;
-  ['fill', 'stroke'].forEach(function (m) {
-    var extension = {};
-    extension[m] = function (o) {
-      if (typeof o === 'undefined') {
-        return this;
-      }
-      if (typeof o === 'string' || SVG.Color.isRgb(o) || o && typeof o.fill === 'function') {
-        this.attr(m, o);
-      } else
-        // set all attributes from sugar.fill and sugar.stroke list
-        {
-          for (var i = sugar[m].length - 1; i >= 0; i--) {
-            if (o[sugar[m][i]] != null) {
-              this.attr(sugar.prefix(m, sugar[m][i]), o[sugar[m][i]]);
+        setData: function (o) {this.dom = o;this.dom.leading = new SVG.Number(o.leading || 1.3);return this;} }, // Add parent method
+      construct: { // Create text element
+        text: function (text) {return this.put(new SVG.Text()).text(text);}, // Create plain text element
+        plain: function (text) {return this.put(new SVG.Text()).plain(text);} } });SVG.Tspan = SVG.invent({ // Initialize node
+      create: 'tspan', // Inherit from
+      inherit: SVG.Shape, // Add class methods
+      extend: { // Set text content
+        text: function (text) {if (text == null) return this.node.textContent + (this.dom.newLined ? '\n' : '');typeof text === 'function' ? text.call(this, this) : this.plain(text);return this;}, // Shortcut dx
+        dx: function (dx) {return this.attr('dx', dx);}, // Shortcut dy
+        dy: function (dy) {return this.attr('dy', dy);}, // Create new line
+        newLine: function () {// fetch text parent
+          var t = this.parent(SVG.Text); // mark new line
+          this.dom.newLined = true; // apply new hy¡n
+          return this.dy(t.dom.leading * t.attr('font-size')).attr('x', t.x());} } });SVG.extend(SVG.Text, SVG.Tspan, { // Create plain text node
+      plain: function (text) {// clear if build mode is disabled
+        if (this._build === false) {this.clear();} // create text node
+        this.node.appendChild(document.createTextNode(text));return this;}, // Create a tspan
+      tspan: function (text) {var node = (this.textPath && this.textPath() || this).node,tspan = new SVG.Tspan(); // clear if build mode is disabled
+        if (this._build === false) {this.clear();} // add new tspan
+        node.appendChild(tspan.node);return tspan.text(text);}, // Clear all lines
+      clear: function () {var node = (this.textPath && this.textPath() || this).node; // remove existing child nodes
+        while (node.hasChildNodes()) {node.removeChild(node.lastChild);}return this;}, // Get length of text element
+      length: function () {return this.node.getComputedTextLength();} });SVG.TextPath = SVG.invent({ // Initialize node
+      create: 'textPath', // Inherit from
+      inherit: SVG.Parent, // Define parent class
+      parent: SVG.Text, // Add parent method
+      construct: { morphArray: SVG.PathArray, // return the array of the path track element
+        array: function () {var track = this.track();return track ? track.array() : null;}, // Plot path if any
+        plot: function (d) {var track = this.track(),pathArray = null;if (track) {pathArray = track.plot(d);}return d == null ? pathArray : this;}, // Get the path track element
+        track: function () {var path = this.textPath();if (path) {return path.reference('href');}}, // Get the textPath child
+        textPath: function () {if (this.node.firstChild && this.node.firstChild.nodeName == 'textPath') {return SVG.adopt(this.node.firstChild);}} } });SVG.Nested = SVG.invent({ // Initialize node
+      create: function () {this.constructor.call(this, SVG.create('svg'));this.style('overflow', 'visible');}, // Inherit from
+      inherit: SVG.Container, // Add parent method
+      construct: { // Create nested svg document
+        nested: function () {return this.put(new SVG.Nested());} } }); // Define list of available attributes for stroke and fill
+  var sugar = { stroke: ['color', 'width', 'opacity', 'linecap', 'linejoin', 'miterlimit', 'dasharray', 'dashoffset'], fill: ['color', 'opacity', 'rule'], prefix: function (t, a) {return a == 'color' ? t : t + '-' + a;} } // Add sugar for fill and stroke
+  ;['fill', 'stroke'].forEach(function (m) {var extension = {};extension[m] = function (o) {if (typeof o === 'undefined') {return this;}if (typeof o === 'string' || SVG.Color.isRgb(o) || o && typeof o.fill === 'function') {this.attr(m, o);} else // set all attributes from sugar.fill and sugar.stroke list
+          {for (var i = sugar[m].length - 1; i >= 0; i--) {
+              if (o[sugar[m][i]] != null) {
+                this.attr(sugar.prefix(m, sugar[m][i]), o[sugar[m][i]]);
+              }
             }
           }
-        }
-      return this;
-    };
-    SVG.extend(SVG.Element, SVG.FX, extension);
-  });
+        return this;
+      };
+      SVG.extend(SVG.Element, SVG.FX, extension);
+    });
   SVG.extend(SVG.Element, SVG.FX, {
     // Map translate to transform
     translate: function (x, y) {

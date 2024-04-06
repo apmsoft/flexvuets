@@ -4,7 +4,7 @@ const onReady = () => {
   ProgressBars.show();
   // 데이터
   const gridData = [];
-  for (let i = 0; i <= 1000; i++) {
+  for (let i = 0; i <= 30; i++) {
     gridData.push({ id: i, gid: 100, title: `Title ${i}` });
   }
   Promise.all([

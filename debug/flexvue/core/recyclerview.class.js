@@ -8,7 +8,6 @@ export class SimpleAdapter {
     return this.data.length;
   }
   onCreateViewHolder(parent) {
-    console.log('onCreateViewHolder');
     const html = this.template.render({});
     const view = document.createElement('div');
     view.innerHTML = html;
@@ -16,7 +15,6 @@ export class SimpleAdapter {
     return { view };
   }
   onBindViewHolder(holder, position) {
-    console.log('onBindViewHolder');
     // 데이터 가져오기
     const item = this.data[position];
     // HTML 생성 및 설정
@@ -63,7 +61,7 @@ export class RecyclerView {
   calculateInitialRenderItemCount() {
     const screenWidth = window.innerWidth;
     let itemCount = this.options.itemCount;
-    // Check responsive options for horizontal item count
+    // 가로 항목 수에 대한 반응형 옵션 확인
     if (this.options.response) {
       const responsiveOptions = this.options.response;
       const breakpoints = Object.keys(responsiveOptions).sort((a, b) => parseInt(a) - parseInt(b));
@@ -88,17 +86,20 @@ export class RecyclerView {
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
     const templateItem = this.adapter.onCreateViewHolder(this.container);
-    const templateHeight = templateItem.view.getBoundingClientRect().height;
+    let templateHeight = templateItem.view.getBoundingClientRect().height;
     templateItem.view.remove();
+    const responsiveItemCount = this.getResponsiveItemCount();
+    Log.d('templateHeight', templateHeight, 'responsiveItemCount', responsiveItemCount);
+    templateHeight = responsiveItemCount > 1 ? templateHeight / responsiveItemCount : templateHeight;
     // 스크롤 위치에 해당하는 항목의 시작 인덱스와 끝 인덱스를 계산
     let startIndex = Math.floor(scrollPosition / templateHeight);
-    let endIndex = Math.min(itemCount, Math.ceil((scrollPosition + containerHeight) / templateHeight));
+    let endIndex = Math.min(itemCount, responsiveItemCount > 1 ? startIndex + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight));
     // 가로 사이즈에 따른 추가 항목 출력
-    const responsiveItemCount = this.getResponsiveItemCount();
     if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-      endIndex = Math.min(itemCount, endIndex + responsiveItemCount);
+      endIndex = Math.min(itemCount, responsiveItemCount > 1 ? endIndex + responsiveItemCount : endIndex + this.options.itemCount);
     } else
     {
+      Log.e('***********');
       endIndex = Math.min(this.firstRenderItemCount, endIndex);
     }
     // 이미 출력된 항목은 다시 출력하지 않도록
@@ -107,11 +108,11 @@ export class RecyclerView {
         const holder = this.adapter.onCreateViewHolder(this.container);
         this.adapter.onBindViewHolder(holder, i);
         if (this.options.prepend) {
-          // prepend 옵션이 true이면 새 항목을 앞쪽에 추가합니다.
+          // prepend
           this.container.prepend(holder.view);
         } else
         {
-          // 그렇지 않으면 기존 로직대로 append 합니다.
+          // append
           this.container.appendChild(holder.view);
         }
         this.renderedItems.add(i); // 이미 출력된 항목을 추적
@@ -123,14 +124,14 @@ export class RecyclerView {
     });
   }
   getResponsiveItemCount() {
-    const screenWidth = window.innerWidth;
-    let responsiveItemCount = this.options.itemCount;
+    const containerWidth = this.container.clientWidth; // 컨테이너의 너비를 가져옴
+    let responsiveItemCount = 1; // 기본값으로 1 설정
     if (this.options.response) {
       const breakpoints = Object.keys(this.options.response).
       map(Number).
       sort((a, b) => a - b);
       for (const breakpoint of breakpoints) {
-        if (screenWidth >= breakpoint) {
+        if (containerWidth >= breakpoint) {
           responsiveItemCount = this.options.response[breakpoint];
         } else
         {
@@ -152,11 +153,9 @@ export class RecyclerView {
         callback(target);
       } else
       {
-        // 클릭 이벤트가 발생한 요소의 부모 요소 중 가장 가까운 .item 클래스를 가진 요소를 찾음
+        // 클릭 이벤트가 발생한 요소의 부모 요소 중 가장 가까운 selector 가진 요소를 찾음
         const item = target.closest(selector);
-        console.log(item);
         if (item && item.matches(selector)) {
-          console.log('>>>>');
           callback(item);
         }
       }

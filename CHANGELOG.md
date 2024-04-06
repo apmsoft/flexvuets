@@ -5,7 +5,7 @@
 - SimpleAdapter, RecyclerView class : 클릭 이벤트 등 패치
 - RecyclerView : 출력 대상과 스크롤 대상을 별도로 설정 할 수 있도록 옵션 및 기능 추가
 - SimpleAdapter : Template 설정 업데이트
-- ListView, GridView 스크롤 관련 테스트 중 ---
+- ListView, GridView 스크롤 관련 출력 업데이트
 
 ### - 2024-04-05
 - install.sh : 명령어 설치 모음 파일

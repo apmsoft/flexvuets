@@ -39,7 +39,6 @@ export class SimpleAdapter implements Adapter {
     }
 
     onCreateViewHolder(parent: HTMLElement): ViewHolder {
-        console.log('onCreateViewHolder');
         const html = this.template.render({});
         const view = document.createElement('div');
         view.innerHTML = html;
@@ -48,7 +47,6 @@ export class SimpleAdapter implements Adapter {
     }
 
     onBindViewHolder(holder: ViewHolder, position: number): void {
-        console.log('onBindViewHolder');
         // 데이터 가져오기
         const item = this.data[position];
 
@@ -121,7 +119,7 @@ export class RecyclerView {
         const screenWidth = window.innerWidth;
         let itemCount = this.options.itemCount;
 
-        // Check responsive options for horizontal item count
+        // 가로 항목 수에 대한 반응형 옵션 확인
         if (this.options.response) {
             const responsiveOptions = this.options.response;
             const breakpoints = Object.keys(responsiveOptions).sort((a, b) => parseInt(a) - parseInt(b));
@@ -151,20 +149,22 @@ export class RecyclerView {
 
         const itemCount = this.adapter.getItemCount();
         const templateItem = this.adapter.onCreateViewHolder(this.container);
-        const templateHeight = templateItem.view.getBoundingClientRect().height;
+        let templateHeight = templateItem.view.getBoundingClientRect().height;
         templateItem.view.remove();
+
+        const responsiveItemCount = this.getResponsiveItemCount();
+        templateHeight = (responsiveItemCount > 1) ? (templateHeight / responsiveItemCount) : templateHeight;
 
         // 스크롤 위치에 해당하는 항목의 시작 인덱스와 끝 인덱스를 계산
         let startIndex = Math.floor(scrollPosition / templateHeight);
         let endIndex = Math.min(
             itemCount,
-            Math.ceil((scrollPosition + containerHeight) / templateHeight)
+            (responsiveItemCount > 1) ? startIndex + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight)
         );
 
         // 가로 사이즈에 따른 추가 항목 출력
-        const responsiveItemCount = this.getResponsiveItemCount();
         if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-            endIndex = Math.min(itemCount, endIndex + responsiveItemCount);
+            endIndex = Math.min(itemCount, (responsiveItemCount > 1) ? endIndex + responsiveItemCount : endIndex + this.options.itemCount);
         } else {
             endIndex = Math.min(this.firstRenderItemCount, endIndex);
         }
@@ -192,8 +192,8 @@ export class RecyclerView {
     }
 
     private getResponsiveItemCount(): number {
-        const screenWidth = window.innerWidth;
-        let responsiveItemCount = this.options.itemCount;
+        const containerWidth = this.container.clientWidth; // 컨테이너의 너비를 가져옴
+        let responsiveItemCount = 1; // 기본값으로 1 설정
 
         if (this.options.response) {
             const breakpoints = Object.keys(this.options.response)
@@ -201,7 +201,7 @@ export class RecyclerView {
                 .sort((a, b) => a - b);
 
             for (const breakpoint of breakpoints) {
-                if (screenWidth >= breakpoint) {
+                if (containerWidth >= breakpoint) {
                     responsiveItemCount = this.options.response[breakpoint];
                 } else {
                     break;
@@ -234,5 +234,4 @@ export class RecyclerView {
             }
         });
     }
-
 }

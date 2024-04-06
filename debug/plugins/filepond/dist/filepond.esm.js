@@ -1806,6 +1806,49 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1888,56 +1931,13 @@ const defaultOptions = { // the id to add to the root element
   ERROR: 2, // a file is in error state
   BUSY: 3, // busy processing or loading
   READY: 4 // all files uploaded
-};let res = null;const canUpdateFileInput = () => {if (res === null) {try {const dataTransfer = new DataTransfer();dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));const el = document.createElement('input');el.setAttribute('type', 'file');el.files = dataTransfer.files;res = el.files.length === 1;} catch (err) {res = false;}}return res;};const ITEM_ERROR = [ItemStatus.LOAD_ERROR, ItemStatus.PROCESSING_ERROR, ItemStatus.PROCESSING_REVERT_ERROR];const ITEM_BUSY = [ItemStatus.LOADING, ItemStatus.PROCESSING, ItemStatus.PROCESSING_QUEUED, ItemStatus.INIT];const ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];const isItemInErrorState = (item) => ITEM_ERROR.includes(item.status);const isItemInBusyState = (item) => ITEM_BUSY.includes(item.status);const isItemInReadyState = (item) => ITEM_READY.includes(item.status);const isAsync = (state) => isObject(state.options.server) && (isObject(state.options.server.process) || isFunction(state.options.server.process));const queries = (state) => ({ GET_STATUS: () => {const items = getActiveItems(state.items);const { EMPTY, ERROR, BUSY, IDLE, READY } = Status;if (items.length === 0) return EMPTY;if (items.some(isItemInErrorState)) return ERROR;if (items.some(isItemInBusyState)) return BUSY;if (items.some(isItemInReadyState)) return READY;return IDLE;}, GET_ITEM: (query) => getItemByQuery(state.items, query), GET_ACTIVE_ITEM: (query) => getItemByQuery(getActiveItems(state.items), query), GET_ACTIVE_ITEMS: () => getActiveItems(state.items), GET_ITEMS: () => state.items, GET_ITEM_NAME: (query) => {const item = getItemByQuery(state.items, query);return item ? item.filename : null;}, GET_ITEM_SIZE: (query) => {const item = getItemByQuery(state.items, query);return item ? item.fileSize : null;}, GET_STYLES: () => Object.keys(state.options).filter((key) => /^style/.test(key)).map((option) => ({ name: option, value: state.options[option] })), GET_PANEL_ASPECT_RATIO: () => {const isShapeCircle = /circle/.test(state.options.stylePanelLayout);const aspectRatio = isShapeCircle ? 1 : getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);return aspectRatio;}, GET_ITEM_PANEL_ASPECT_RATIO: () => state.options.styleItemPanelAspectRatio,
-  GET_ITEMS_BY_STATUS: (status) => getActiveItems(state.items).filter((item) => item.status === status),
-  GET_TOTAL_ITEMS: () => getActiveItems(state.items).length,
-  SHOULD_UPDATE_FILE_INPUT: () => state.options.storeAsFile && canUpdateFileInput() && !isAsync(state),
-  IS_ASYNC: () => isAsync(state),
-  GET_FILE_SIZE_LABELS: (query) => ({
-    labelBytes: query('GET_LABEL_FILE_SIZE_BYTES') || undefined,
-    labelKilobytes: query('GET_LABEL_FILE_SIZE_KILOBYTES') || undefined,
-    labelMegabytes: query('GET_LABEL_FILE_SIZE_MEGABYTES') || undefined,
-    labelGigabytes: query('GET_LABEL_FILE_SIZE_GIGABYTES') || undefined
-  })
-});
-const hasRoomForItem = (state) => {
-  const count = getActiveItems(state.items).length;
-
-  // if cannot have multiple items, to add one item it should currently not contain items
-  if (!state.options.allowMultiple) {
-    return count === 0;
-  }
-
-  // if allows multiple items, we check if a max item count has been set, if not, there's no limit
-  const maxFileCount = state.options.maxFiles;
-  if (maxFileCount === null) {
-    return true;
-  }
-
-  // we check if the current count is smaller than the max count, if so, another file can still be added
-  if (count < maxFileCount) {
-    return true;
-  }
-
-  // no more room for another file
-  return false;
-};
-const limit = (value, min, max) => Math.max(Math.min(max, value), min);
-const arrayInsert = (arr, index, item) => arr.splice(index, 0, item);
-const insertItem = (items, item, index) => {
-  if (isEmpty(item)) {
-    return null;
-  }
-
-  // if index is undefined, append
-  if (typeof index === 'undefined') {
-    items.push(item);
-    return item;
-  }
-
-  // limit the index to the size of the items array
+};let res = null;const canUpdateFileInput = () => {if (res === null) {try {const dataTransfer = new DataTransfer();dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));const el = document.createElement('input');el.setAttribute('type', 'file');el.files = dataTransfer.files;res = el.files.length === 1;} catch (err) {res = false;}}return res;};const ITEM_ERROR = [ItemStatus.LOAD_ERROR, ItemStatus.PROCESSING_ERROR, ItemStatus.PROCESSING_REVERT_ERROR];const ITEM_BUSY = [ItemStatus.LOADING, ItemStatus.PROCESSING, ItemStatus.PROCESSING_QUEUED, ItemStatus.INIT];const ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];const isItemInErrorState = (item) => ITEM_ERROR.includes(item.status);const isItemInBusyState = (item) => ITEM_BUSY.includes(item.status);const isItemInReadyState = (item) => ITEM_READY.includes(item.status);const isAsync = (state) => isObject(state.options.server) && (isObject(state.options.server.process) || isFunction(state.options.server.process));const queries = (state) => ({ GET_STATUS: () => {const items = getActiveItems(state.items);const { EMPTY, ERROR, BUSY, IDLE, READY } = Status;if (items.length === 0) return EMPTY;if (items.some(isItemInErrorState)) return ERROR;if (items.some(isItemInBusyState)) return BUSY;if (items.some(isItemInReadyState)) return READY;return IDLE;}, GET_ITEM: (query) => getItemByQuery(state.items, query), GET_ACTIVE_ITEM: (query) => getItemByQuery(getActiveItems(state.items), query), GET_ACTIVE_ITEMS: () => getActiveItems(state.items), GET_ITEMS: () => state.items, GET_ITEM_NAME: (query) => {const item = getItemByQuery(state.items, query);return item ? item.filename : null;}, GET_ITEM_SIZE: (query) => {const item = getItemByQuery(state.items, query);return item ? item.fileSize : null;}, GET_STYLES: () => Object.keys(state.options).filter((key) => /^style/.test(key)).map((option) => ({ name: option, value: state.options[option] })), GET_PANEL_ASPECT_RATIO: () => {const isShapeCircle = /circle/.test(state.options.stylePanelLayout);const aspectRatio = isShapeCircle ? 1 : getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);return aspectRatio;}, GET_ITEM_PANEL_ASPECT_RATIO: () => state.options.styleItemPanelAspectRatio, GET_ITEMS_BY_STATUS: (status) => getActiveItems(state.items).filter((item) => item.status === status), GET_TOTAL_ITEMS: () => getActiveItems(state.items).length, SHOULD_UPDATE_FILE_INPUT: () => state.options.storeAsFile && canUpdateFileInput() && !isAsync(state), IS_ASYNC: () => isAsync(state), GET_FILE_SIZE_LABELS: (query) => ({ labelBytes: query('GET_LABEL_FILE_SIZE_BYTES') || undefined, labelKilobytes: query('GET_LABEL_FILE_SIZE_KILOBYTES') || undefined, labelMegabytes: query('GET_LABEL_FILE_SIZE_MEGABYTES') || undefined, labelGigabytes: query('GET_LABEL_FILE_SIZE_GIGABYTES') || undefined }) });const hasRoomForItem = (state) => {const count = getActiveItems(state.items).length; // if cannot have multiple items, to add one item it should currently not contain items
+  if (!state.options.allowMultiple) {return count === 0;} // if allows multiple items, we check if a max item count has been set, if not, there's no limit
+  const maxFileCount = state.options.maxFiles;if (maxFileCount === null) {return true;} // we check if the current count is smaller than the max count, if so, another file can still be added
+  if (count < maxFileCount) {return true;} // no more room for another file
+  return false;};const limit = (value, min, max) => Math.max(Math.min(max, value), min);const arrayInsert = (arr, index, item) => arr.splice(index, 0, item);const insertItem = (items, item, index) => {if (isEmpty(item)) {return null;} // if index is undefined, append
+  if (typeof index === 'undefined') {items.push(item);return item;} // limit the index to the size of the items array
   index = limit(index, 0, items.length);
-
   // add item to array
   arrayInsert(items, index, item);
 
@@ -7369,6 +7369,49 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7413,67 +7456,24 @@ const getLinks = (dataTransfer) => {
   if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};const createPaster = () => {const cb = (files) => {api.onload(files);};const api = { destroy: () => {unlisten(cb);}, onload: () => {} };listen(cb);return api;}; /**
 * Creates the file view
 */const create$d = ({ root, props }) => {root.element.id = `filepond--assistant-${props.id}`;attr(root.element, 'role', 'status');attr(root.element, 'aria-live', 'polite');attr(root.element, 'aria-relevant', 'additions');};let addFilesNotificationTimeout = null;let notificationClearTimeout = null;const filenames = [];const assist = (root, message) => {root.element.textContent = message;};const clear$1 = (root) => {root.element.textContent = '';};const listModified = (root, filename, label) => {const total = root.query('GET_TOTAL_ITEMS');assist(root, `${label} ${filename}, ${total} ${total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL')}`); // clear group after set amount of time so the status is not read twice
-  clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(() => {clear$1(root);}, 1500);};const isUsingFilePond = (root) => root.element.parentNode.contains(document.activeElement);const itemAdded = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}root.element.textContent = '';const item = root.query('GET_ITEM', action.id);filenames.push(item.filename);clearTimeout(addFilesNotificationTimeout);addFilesNotificationTimeout = setTimeout(() => {listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));filenames.length = 0;}, 750);
-};
-const itemRemoved = ({
-  root,
-  action
-}) => {
-  if (!isUsingFilePond(root)) {
-    return;
-  }
-  const item = action.item;
-  listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));
-};
-const itemProcessed = ({
-  root,
-  action
-}) => {
-  // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-  const item = root.query('GET_ITEM', action.id);
-  const filename = item.filename;
-  const label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');
-  assist(root, `${filename} ${label}`);
-};
-const itemProcessedUndo = ({
-  root,
-  action
-}) => {
-  const item = root.query('GET_ITEM', action.id);
-  const filename = item.filename;
-  const label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');
-  assist(root, `${filename} ${label}`);
-};
-const itemError = ({
-  root,
-  action
-}) => {
-  const item = root.query('GET_ITEM', action.id);
-  const filename = item.filename;
-
-  // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-  assist(root, `${action.status.main} ${filename} ${action.status.sub}`);
-};
-const assistant = createView({
-  create: create$d,
-  ignoreRect: true,
-  ignoreRectUpdate: true,
-  write: createRoute({
-    DID_LOAD_ITEM: itemAdded,
-    DID_REMOVE_ITEM: itemRemoved,
-    DID_COMPLETE_ITEM_PROCESSING: itemProcessed,
-    DID_ABORT_ITEM_PROCESSING: itemProcessedUndo,
-    DID_REVERT_ITEM_PROCESSING: itemProcessedUndo,
-    DID_THROW_ITEM_REMOVE_ERROR: itemError,
-    DID_THROW_ITEM_LOAD_ERROR: itemError,
-    DID_THROW_ITEM_INVALID: itemError,
-    DID_THROW_ITEM_PROCESSING_ERROR: itemError
-  }),
-  tag: 'span',
-  name: 'assistant'
-});
+  clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(() => {clear$1(root);}, 1500);};const isUsingFilePond = (root) => root.element.parentNode.contains(document.activeElement);const itemAdded = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}root.element.textContent = '';const item = root.query('GET_ITEM', action.id);filenames.push(item.filename);clearTimeout(addFilesNotificationTimeout);addFilesNotificationTimeout = setTimeout(() => {listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));filenames.length = 0;}, 750);};const itemRemoved = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}const item = action.item;listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));};const itemProcessed = ({ root, action }) => {// will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
+  const item = root.query('GET_ITEM', action.id);const filename = item.filename;const label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');assist(root, `${filename} ${label}`);};const itemProcessedUndo = ({ root, action }) => {const item = root.query('GET_ITEM', action.id);const filename = item.filename;const label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');assist(root, `${filename} ${label}`);};const itemError = ({ root, action }) => {const item = root.query('GET_ITEM', action.id);const filename = item.filename; // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
+  assist(root, `${action.status.main} ${filename} ${action.status.sub}`);};const assistant = createView({ create: create$d, ignoreRect: true,
+    ignoreRectUpdate: true,
+    write: createRoute({
+      DID_LOAD_ITEM: itemAdded,
+      DID_REMOVE_ITEM: itemRemoved,
+      DID_COMPLETE_ITEM_PROCESSING: itemProcessed,
+      DID_ABORT_ITEM_PROCESSING: itemProcessedUndo,
+      DID_REVERT_ITEM_PROCESSING: itemProcessedUndo,
+      DID_THROW_ITEM_REMOVE_ERROR: itemError,
+      DID_THROW_ITEM_LOAD_ERROR: itemError,
+      DID_THROW_ITEM_INVALID: itemError,
+      DID_THROW_ITEM_PROCESSING_ERROR: itemError
+    }),
+    tag: 'span',
+    name: 'assistant'
+  });
 const toCamels = (string, separator = '-') => string.replace(new RegExp(`${separator}.`, 'g'), (sub) => sub.charAt(1).toUpperCase());
 const debounce = (func, interval = 16, immidiateOnly = true) => {
   let last = Date.now();
