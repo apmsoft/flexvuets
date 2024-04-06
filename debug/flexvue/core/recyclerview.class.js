@@ -89,7 +89,6 @@ export class RecyclerView {
     let templateHeight = templateItem.view.getBoundingClientRect().height;
     templateItem.view.remove();
     const responsiveItemCount = this.getResponsiveItemCount();
-    Log.d('templateHeight', templateHeight, 'responsiveItemCount', responsiveItemCount);
     templateHeight = responsiveItemCount > 1 ? templateHeight / responsiveItemCount : templateHeight;
     // 스크롤 위치에 해당하는 항목의 시작 인덱스와 끝 인덱스를 계산
     let startIndex = Math.floor(scrollPosition / templateHeight);
@@ -99,7 +98,6 @@ export class RecyclerView {
       endIndex = Math.min(itemCount, responsiveItemCount > 1 ? endIndex + responsiveItemCount : endIndex + this.options.itemCount);
     } else
     {
-      Log.e('***********');
       endIndex = Math.min(this.firstRenderItemCount, endIndex);
     }
     // 이미 출력된 항목은 다시 출력하지 않도록
