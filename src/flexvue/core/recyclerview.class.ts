@@ -175,10 +175,10 @@ export class RecyclerView {
                 const holder = this.adapter.onCreateViewHolder(this.container);
                 this.adapter.onBindViewHolder(holder, i);
                 if (this.options.prepend) {
-                    // prepend 옵션이 true이면 새 항목을 앞쪽에 추가합니다.
+                    // prepend
                     this.container.prepend(holder.view);
                 } else {
-                    // 그렇지 않으면 기존 로직대로 append 합니다.
+                    // append
                     this.container.appendChild(holder.view);
                 }
                 this.renderedItems.add(i); // 이미 출력된 항목을 추적
@@ -221,16 +221,14 @@ export class RecyclerView {
     addEventListener(eventName: string, selector: string, callback: (element: HTMLElement) => void): void {
         this.container.addEventListener(eventName, (event: Event) => {
             const target = event.target as HTMLElement;
-    
+
             // 클릭 이벤트가 발생한 요소가 주어진 selector에 해당하는지 확인
             if (target.matches(selector)) {
                 callback(target);
             } else {
-                // 클릭 이벤트가 발생한 요소의 부모 요소 중 가장 가까운 .item 클래스를 가진 요소를 찾음
+                // 클릭 이벤트가 발생한 요소의 부모 요소 중 가장 가까운 selector 가진 요소를 찾음
                 const item = target.closest(selector);
-                console.log(item);
                 if (item && item.matches(selector)) {
-                    console.log('>>>>');
                     callback(item as HTMLElement);
                 }
             }
