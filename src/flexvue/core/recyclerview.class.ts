@@ -159,12 +159,12 @@ export class RecyclerView {
         let startIndex = Math.floor(scrollPosition / templateHeight);
         let endIndex = Math.min(
             itemCount,
-            (responsiveItemCount > 1) ? startIndex + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight)
+            (responsiveItemCount > 1) ? startIndex + this.options.itemCount + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight)
         );
 
         // 가로 사이즈에 따른 추가 항목 출력
         if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-            endIndex = Math.min(itemCount, (responsiveItemCount > 1) ? endIndex + responsiveItemCount : endIndex + this.options.itemCount);
+            endIndex = Math.min(itemCount, (responsiveItemCount > 1) ? endIndex + + this.options.itemCount + responsiveItemCount : endIndex + this.options.itemCount);
         } else {
             endIndex = Math.min(this.firstRenderItemCount, endIndex);
         }

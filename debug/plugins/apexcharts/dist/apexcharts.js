@@ -2671,6 +2671,20 @@ this.loop=0;this.loops=false;this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={// holds all attributes which are not represented from a function svg.js provides
@@ -2788,6 +2802,13 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
 
 
 

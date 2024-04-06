@@ -10,7 +10,7 @@ const onReady = () : void =>
     }
     // 데이터
     const data : DataItem[]= [];
-    for (let i = 0; i <= 1000; i++) {
+    for (let i = 0; i <= 100; i++) {
         data.push({ id: i, name: `Item ${i}` });
     }
 
@@ -30,12 +30,6 @@ const onReady = () : void =>
         }
     }
     const listView = new ListView();
-
-    // options: {
-    //     itemCount: number; // 스크롤할때 마다 출력할 item 갯수 | 기본값 10개
-    //     bottomBuffer: number; // bottom 스크롤 간격 조정 | 기본 값 -50
-    //     prepend?: boolean; // 새 항목을 prepend할지 여부를 결정하는 옵션 기본 append | 기본 값 false
-    // };
 
     // RecyclerView 인스턴스 생성 및 초기화
     const adapter = new SimpleAdapter(data, listView, 'animate__animated animate__fadeInUp');

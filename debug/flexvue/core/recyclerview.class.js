@@ -92,10 +92,10 @@ export class RecyclerView {
     templateHeight = responsiveItemCount > 1 ? templateHeight / responsiveItemCount : templateHeight;
     // 스크롤 위치에 해당하는 항목의 시작 인덱스와 끝 인덱스를 계산
     let startIndex = Math.floor(scrollPosition / templateHeight);
-    let endIndex = Math.min(itemCount, responsiveItemCount > 1 ? startIndex + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight));
+    let endIndex = Math.min(itemCount, responsiveItemCount > 1 ? startIndex + this.options.itemCount + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight));
     // 가로 사이즈에 따른 추가 항목 출력
     if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-      endIndex = Math.min(itemCount, responsiveItemCount > 1 ? endIndex + responsiveItemCount : endIndex + this.options.itemCount);
+      endIndex = Math.min(itemCount, responsiveItemCount > 1 ? endIndex + +this.options.itemCount + responsiveItemCount : endIndex + this.options.itemCount);
     } else
     {
       endIndex = Math.min(this.firstRenderItemCount, endIndex);

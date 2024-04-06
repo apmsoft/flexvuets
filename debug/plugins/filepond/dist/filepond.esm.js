@@ -1852,6 +1852,13 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1942,15 +1949,8 @@ const defaultOptions = { // the id to add to the root element
   if (typeof index === 'undefined') {items.push(item);return item;} // limit the index to the size of the items array
   index = limit(index, 0, items.length); // add item to array
   arrayInsert(items, index, item); // expose
-  return item;
-};
-const isBase64DataURI = (str) => /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(str);
-const getFilenameFromURL = (url) => `${url}`.split('/').pop().split('?').shift();
-const getExtensionFromFilename = (name) => name.split('.').pop();
-const guesstimateExtension = (type) => {
-  // if no extension supplied, exit here
-  if (typeof type !== 'string') {
-    return '';
+  return item;};const isBase64DataURI = (str) => /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(str);const getFilenameFromURL = (url) => `${url}`.split('/').pop().split('?').shift();const getExtensionFromFilename = (name) => name.split('.').pop();const guesstimateExtension = (type) => {// if no extension supplied, exit here
+  if (typeof type !== 'string') {return '';
   }
 
   // get subtype
@@ -7415,6 +7415,13 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7461,14 +7468,7 @@ const getLinks = (dataTransfer) => {
 */const create$d = ({ root, props }) => {root.element.id = `filepond--assistant-${props.id}`;attr(root.element, 'role', 'status');attr(root.element, 'aria-live', 'polite');attr(root.element, 'aria-relevant', 'additions');};let addFilesNotificationTimeout = null;let notificationClearTimeout = null;const filenames = [];const assist = (root, message) => {root.element.textContent = message;};const clear$1 = (root) => {root.element.textContent = '';};const listModified = (root, filename, label) => {const total = root.query('GET_TOTAL_ITEMS');assist(root, `${label} ${filename}, ${total} ${total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL')}`); // clear group after set amount of time so the status is not read twice
   clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(() => {clear$1(root);}, 1500);};const isUsingFilePond = (root) => root.element.parentNode.contains(document.activeElement);const itemAdded = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}root.element.textContent = '';const item = root.query('GET_ITEM', action.id);filenames.push(item.filename);clearTimeout(addFilesNotificationTimeout);addFilesNotificationTimeout = setTimeout(() => {listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));filenames.length = 0;}, 750);};const itemRemoved = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}const item = action.item;listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));};const itemProcessed = ({ root, action }) => {// will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
   const item = root.query('GET_ITEM', action.id);const filename = item.filename;const label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');assist(root, `${filename} ${label}`);};const itemProcessedUndo = ({ root, action }) => {const item = root.query('GET_ITEM', action.id);const filename = item.filename;const label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');assist(root, `${filename} ${label}`);};const itemError = ({ root, action }) => {const item = root.query('GET_ITEM', action.id);const filename = item.filename; // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-  assist(root, `${action.status.main} ${filename} ${action.status.sub}`);};const assistant = createView({ create: create$d, ignoreRect: true, ignoreRectUpdate: true, write: createRoute({ DID_LOAD_ITEM: itemAdded,
-        DID_REMOVE_ITEM: itemRemoved,
-        DID_COMPLETE_ITEM_PROCESSING: itemProcessed,
-        DID_ABORT_ITEM_PROCESSING: itemProcessedUndo,
-        DID_REVERT_ITEM_PROCESSING: itemProcessedUndo,
-        DID_THROW_ITEM_REMOVE_ERROR: itemError,
-        DID_THROW_ITEM_LOAD_ERROR: itemError,
-        DID_THROW_ITEM_INVALID: itemError,
+  assist(root, `${action.status.main} ${filename} ${action.status.sub}`);};const assistant = createView({ create: create$d, ignoreRect: true, ignoreRectUpdate: true, write: createRoute({ DID_LOAD_ITEM: itemAdded, DID_REMOVE_ITEM: itemRemoved, DID_COMPLETE_ITEM_PROCESSING: itemProcessed, DID_ABORT_ITEM_PROCESSING: itemProcessedUndo, DID_REVERT_ITEM_PROCESSING: itemProcessedUndo, DID_THROW_ITEM_REMOVE_ERROR: itemError, DID_THROW_ITEM_LOAD_ERROR: itemError, DID_THROW_ITEM_INVALID: itemError,
         DID_THROW_ITEM_PROCESSING_ERROR: itemError
       }),
     tag: 'span',
