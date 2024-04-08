@@ -1,7 +1,7 @@
 # Changelog
 
 ## [3.0] 
-### - 2024-04-06
+### - 2024-04-08
 - CacheLocalStorage class 새로 추가
 - CacheLocalStorage Example 예제 추가
 - CacheLocalStorage 사용량 %로 출력되도록 업데이트
