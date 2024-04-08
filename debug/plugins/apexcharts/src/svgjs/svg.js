@@ -1808,6 +1808,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1933,6 +1935,7 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
 
 
 
@@ -3122,16 +3125,13 @@
       matrix: function (m) {return this.attr('transform', new SVG.Matrix(arguments.length == 6 ? [].slice.call(arguments) : m));}, // Opacity
       opacity: function (value) {return this.attr('opacity', value);}, // Relative move over x axis
       dx: function (x) {return this.x(new SVG.Number(x).plus(this instanceof SVG.FX ? 0 : this.x()), true);}, // Relative move over y axis
-      dy: function (y) {return this.y(new SVG.Number(y).plus(this instanceof SVG.FX ? 0 : this.y()), true);} });SVG.extend(SVG.Path, {
-    // Get path length
-    length: function () {
-      return this.node.getTotalLength();
-    },
-    // Get point at length
-    pointAt: function (length) {
-      return this.node.getPointAtLength(length);
-    }
-  });
+      dy: function (y) {return this.y(new SVG.Number(y).plus(this instanceof SVG.FX ? 0 : this.y()), true);} });SVG.extend(SVG.Path, { // Get path length
+      length: function () {return this.node.getTotalLength();},
+      // Get point at length
+      pointAt: function (length) {
+        return this.node.getPointAtLength(length);
+      }
+    });
   SVG.Set = SVG.invent({
     // Initialize
     create: function (members) {
