@@ -2,6 +2,10 @@
 
 ## [3.0] 
 ### - 2024-04-06
+- CacheLocalStorage class 새로 추가
+- CacheLocalStorage Example 예제 추가
+
+### - 2024-04-06
 - SimpleAdapter, RecyclerView class : 클릭 이벤트 등 패치
 - RecyclerView : 출력 대상과 스크롤 대상을 별도로 설정 할 수 있도록 옵션 및 기능 추가
 - SimpleAdapter : Template 설정 업데이트
