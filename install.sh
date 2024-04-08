@@ -78,14 +78,18 @@ module.exports = {
     "plugins": [
       [ "module-resolver", {
           "alias": {
-            "@path": `./${debugPath}`,
-            "@v1": `./${debugPath}/v1`,
-            "@t1": `./${debugPath}/t1`,
-            "@flexvue/asynctask":`./${debugPath}/flexvue/core/asynctask.class.js`,
-            "@flexvue/forms":`./${debugPath}/flexvue/core/forms.class.js`,
-            "@flexvue/urlmanager":`./${debugPath}/flexvue/core/urlmanager.class.js`,
-            "@flexvue/scrollagent":`./${debugPath}/flexvue/core/scrollagent.class.js`,
-            "@flexvue/textutil":`./${debugPath}/flexvue/core/textutil.class.js`
+            "@path": `./${debugPath}`
+            ,"@v1": `./${debugPath}/v1`
+            ,"@t1": `./${debugPath}/t1`
+            ,"@flexvue/asynctask":`./${debugPath}/flexvue/core/asynctask.class.js`
+            ,"@flexvue/forms":`./${debugPath}/flexvue/core/forms.class.js`
+            ,"@flexvue/urlmanager":`./${debugPath}/flexvue/core/urlmanager.class.js`
+            ,"@flexvue/scrollagent":`./${debugPath}/flexvue/core/scrollagent.class.js`
+            ,"@flexvue/textutil":`./${debugPath}/flexvue/core/textutil.class.js`
+            ,"@flexvue/types":`./${debugPath}/flexvue/core/types.interface.js`
+            ,"@flexvue/fastrouter":`./${debugPath}/flexvue/core/fastrouter.class.js`
+            ,"@flexvue/recyclerview":`./${debugPath}/flexvue/core/recyclerview.class.js`
+            ,"@flexvue/caches":`./${debugPath}/flexvue/core/caches.class.js`
             // ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
             // ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
             // ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`
@@ -146,6 +150,10 @@ echo '{
           "@flexvue/urlmanager": ["src/flexvue/core/urlmanager.class.ts"],
           "@flexvue/scrollagent": ["src/flexvue/core/scrollagent.class.ts"],
           "@flexvue/textutil": ["src/flexvue/core/textutil.class.ts"],
+          "@flexvue/types": ["src/flexvue/core/types.interface.ts"],
+          "@flexvue/fastrouter": ["src/flexvue/core/fastrouter.class.ts"],
+          "@flexvue/recyclerview": ["src/flexvue/core/recyclerview.class.ts"],
+          "@flexvue/caches": ["src/flexvue/core/caches.class.ts"],
           // "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
           // "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
           // "@editorjs/header": ["node_modules/@editorjs/header"],

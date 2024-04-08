@@ -5,6 +5,10 @@
 - CacheLocalStorage class 새로 추가
 - CacheLocalStorage Example 예제 추가
 - CacheLocalStorage 사용량 %로 출력되도록 업데이트
+- babel.config.js, tsconfig.paths.json 에 RecyclerView,CacheLocalStorage path 설정
+- install.sh 의 babel.config.js, tsconfig.paths.json path 추가
+- plugins.txt 에 babel.config.js, tsconfig.paths.json 의 path 설정 정보 추가
+
 
 ### - 2024-04-06
 - SimpleAdapter, RecyclerView class : 클릭 이벤트 등 패치
