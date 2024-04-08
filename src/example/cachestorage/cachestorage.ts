@@ -43,6 +43,9 @@ const onReady = () : void =>
     // 캐시 전체 비우기
     // window.cacheStorage._clear();
 
+    // 로컬 스토리지 사용량 체크
+    const cachedUsage = window.cacheStorage.getLocalStorageUsage();
+    Log.d('사용량(%)', cachedUsage);
 };
 
 // document ready

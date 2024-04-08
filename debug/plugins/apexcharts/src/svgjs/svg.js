@@ -1818,6 +1818,10 @@
 
 
 
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1943,6 +1947,8 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
 
 
 
@@ -3143,13 +3149,7 @@
       create: function (members) {// Set initial state
         Array.isArray(members) ? this.members = members : this.clear();}, // Add class methods
       extend: { // Add element to set
-        add: function () {var il,elements = [].slice.call(arguments);
-          for (var i = 0, il = elements.length; i < il; i++) {
-            this.members.push(elements[i]);
-          }
-          return this;
-        },
-        // Remove element from set
+        add: function () {var il,elements = [].slice.call(arguments);for (var i = 0, il = elements.length; i < il; i++) {this.members.push(elements[i]);}return this;}, // Remove element from set
         remove: function (element) {
           var i = this.index(element);
 

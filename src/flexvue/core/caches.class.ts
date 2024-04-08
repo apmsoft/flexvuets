@@ -14,7 +14,7 @@ export class CacheLocalStorage {
         // 로컬 스토리지 사용량 가져오기
         const totalBytes = 5 * 1024 * 1024; // 로컬 스토리지의 최대 크기 (5MB)
         const usedBytes = JSON.stringify(localStorage).length;
-        return usedBytes / totalBytes;
+        return (usedBytes / totalBytes) * 100;
     }
 
     private checkLocalStorageLimit(): void {

@@ -4,6 +4,7 @@
 ### - 2024-04-06
 - CacheLocalStorage class 새로 추가
 - CacheLocalStorage Example 예제 추가
+- CacheLocalStorage 사용량 %로 출력되도록 업데이트
 
 ### - 2024-04-06
 - SimpleAdapter, RecyclerView class : 클릭 이벤트 등 패치
