@@ -6,4 +6,5 @@ interface Window {
     Strings : Strings;
     Numbers: Numbers;
     flutter_inappwebview : flutter_inappwebview;
+    cacheStorage: CacheLocalStorage;
 }

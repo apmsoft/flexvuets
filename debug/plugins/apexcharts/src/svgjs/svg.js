@@ -1810,6 +1810,14 @@
 
 
 
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1935,6 +1943,10 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
 
 
 
@@ -3126,89 +3138,77 @@
       opacity: function (value) {return this.attr('opacity', value);}, // Relative move over x axis
       dx: function (x) {return this.x(new SVG.Number(x).plus(this instanceof SVG.FX ? 0 : this.x()), true);}, // Relative move over y axis
       dy: function (y) {return this.y(new SVG.Number(y).plus(this instanceof SVG.FX ? 0 : this.y()), true);} });SVG.extend(SVG.Path, { // Get path length
-      length: function () {return this.node.getTotalLength();},
-      // Get point at length
-      pointAt: function (length) {
-        return this.node.getPointAtLength(length);
+      length: function () {return this.node.getTotalLength();}, // Get point at length
+      pointAt: function (length) {return this.node.getPointAtLength(length);} });SVG.Set = SVG.invent({ // Initialize
+      create: function (members) {// Set initial state
+        Array.isArray(members) ? this.members = members : this.clear();}, // Add class methods
+      extend: { // Add element to set
+        add: function () {var il,elements = [].slice.call(arguments);
+          for (var i = 0, il = elements.length; i < il; i++) {
+            this.members.push(elements[i]);
+          }
+          return this;
+        },
+        // Remove element from set
+        remove: function (element) {
+          var i = this.index(element);
+
+          // remove given child
+          if (i > -1) {
+            this.members.splice(i, 1);
+          }
+          return this;
+        },
+        // Iterate over all members
+        each: function (block) {
+          for (var i = 0, il = this.members.length; i < il; i++) {
+            block.apply(this.members[i], [i, this.members]);
+          }
+          return this;
+        },
+        // Restore to defaults
+        clear: function () {
+          // initialize store
+          this.members = [];
+          return this;
+        },
+        // Get the length of a set
+        length: function () {
+          return this.members.length;
+        },
+        // Checks if a given element is present in set
+        has: function (element) {
+          return this.index(element) >= 0;
+        },
+        // retuns index of given element in set
+        index: function (element) {
+          return this.members.indexOf(element);
+        },
+        // Get member at given index
+        get: function (i) {
+          return this.members[i];
+        },
+        // Get first member
+        first: function () {
+          return this.get(0);
+        },
+        // Get last member
+        last: function () {
+          return this.get(this.members.length - 1);
+        },
+        // Default value
+        valueOf: function () {
+          return this.members;
+        }
+      },
+      // Add parent method
+      construct: {
+        // Create a new set
+        set: function (members) {
+          return new SVG.Set(members);
+        }
       }
     });
-  SVG.Set = SVG.invent({
-    // Initialize
-    create: function (members) {
-      // Set initial state
-      Array.isArray(members) ? this.members = members : this.clear();
-    },
-    // Add class methods
-    extend: {
-      // Add element to set
-      add: function () {
-        var il,
-          elements = [].slice.call(arguments);
-        for (var i = 0, il = elements.length; i < il; i++) {
-          this.members.push(elements[i]);
-        }
-        return this;
-      },
-      // Remove element from set
-      remove: function (element) {
-        var i = this.index(element);
-
-        // remove given child
-        if (i > -1) {
-          this.members.splice(i, 1);
-        }
-        return this;
-      },
-      // Iterate over all members
-      each: function (block) {
-        for (var i = 0, il = this.members.length; i < il; i++) {
-          block.apply(this.members[i], [i, this.members]);
-        }
-        return this;
-      },
-      // Restore to defaults
-      clear: function () {
-        // initialize store
-        this.members = [];
-        return this;
-      },
-      // Get the length of a set
-      length: function () {
-        return this.members.length;
-      },
-      // Checks if a given element is present in set
-      has: function (element) {
-        return this.index(element) >= 0;
-      },
-      // retuns index of given element in set
-      index: function (element) {
-        return this.members.indexOf(element);
-      },
-      // Get member at given index
-      get: function (i) {
-        return this.members[i];
-      },
-      // Get first member
-      first: function () {
-        return this.get(0);
-      },
-      // Get last member
-      last: function () {
-        return this.get(this.members.length - 1);
-      },
-      // Default value
-      valueOf: function () {
-        return this.members;
-      }
-    },
-    // Add parent method
-    construct: {
-      // Create a new set
-      set: function (members) {
-        return new SVG.Set(members);
-      }
-    }
-  });
   SVG.FX.Set = SVG.invent({
     // Initialize node
     create: function (set) {
