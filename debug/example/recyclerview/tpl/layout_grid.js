@@ -60,8 +60,8 @@ class Layout {
                         </ul>
 
                         
-                        <div class="px-2 max-h-[40vh]" >
-                            <div class="grid grid-cols-2 mt-12 md:grid-cols-3 lg:grid-cols-4 gap-4" id="gridview"></div>
+                        <div class="px-2 max-h-[50vh] xl:max-h-[55vh] 2xl:max-h-[70vh]" >
+                            <div class="grid grid-cols-1 mt-12 md:grid-cols-3 lg:grid-cols-4 gap-4" id="gridview"></div>
                         </div>
 
                     </div>

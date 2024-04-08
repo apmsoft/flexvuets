@@ -24,7 +24,7 @@ const onReady = () => {
     const recyclerView = new RecyclerView('#gridview', adapter, {
       itemCount: 4,
       scrollCapture: '#fvue--layout--main',
-      response: { 0: 2, 480: 3, 768: 3, 1024: 4, 1280: 4, 1536: 6 }
+      response: { 0: 1, 480: 2, 768: 3, 1024: 4, 1280: 4, 1536: 6 }
     });
     recyclerView.addEventListener('click', '.item', (el) => {
       const id = el.dataset.id;
