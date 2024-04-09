@@ -13,7 +13,7 @@ const onReady = () : void =>
     }
     // 데이터
     const data : DataItem[]= [];
-    for (let i = 0; i <= 1000; i++) {
+    for (let i = 1; i <= 1; i++) {
         data.push({ id: i, gid: ((i+1)/10), title: `Item ${i}` });
     }
 
@@ -38,6 +38,26 @@ const onReady = () : void =>
         {
             const id = el.dataset.id;
             alert(id);
+        });
+
+        // 데이터 추가 예제
+        const addButton = document.getElementById('addButton')! as HTMLButtonElement;
+        addButton.addEventListener('click', () => {
+            const x = adapter.getItemCount() + 1;
+            const newData = { id: x, gid: ((x+1)/10), title: `Item ${x}` };
+            Log.d('데이터 추가 됨',newData);
+            adapter.appendData(newData);
+
+            // 화면을 벗어 나면 스크롤할때 나타남
+        });
+
+        // 데이터 삭제 예제
+        const removeButton = document.getElementById('removeButton')! as HTMLButtonElement;
+        removeButton.addEventListener('click', () => {
+            const positionToRemove = 1;
+            adapter.removeData(positionToRemove);
+            Log.d('데이터 삭제 됨',positionToRemove, adapter.getItemCount());
+            document.querySelector(`[data-id=\"${positionToRemove}\"]`)?.remove();
         });
     })
     .catch( e =>{

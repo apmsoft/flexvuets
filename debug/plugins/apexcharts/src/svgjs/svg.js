@@ -1830,6 +1830,62 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1955,6 +2011,34 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3164,140 +3248,56 @@
         add: function () {var il,elements = [].slice.call(arguments);for (var i = 0, il = elements.length; i < il; i++) {this.members.push(elements[i]);}return this;}, // Remove element from set
         remove: function (element) {var i = this.index(element); // remove given child
           if (i > -1) {this.members.splice(i, 1);}return this;}, // Iterate over all members
-        each: function (block) {for (var i = 0, il = this.members.length; i < il; i++) {block.apply(this.members[i], [i, this.members]);}return this;
-        },
-        // Restore to defaults
-        clear: function () {
-          // initialize store
-          this.members = [];
-          return this;
-        },
-        // Get the length of a set
-        length: function () {
-          return this.members.length;
-        },
-        // Checks if a given element is present in set
-        has: function (element) {
-          return this.index(element) >= 0;
-        },
-        // retuns index of given element in set
-        index: function (element) {
-          return this.members.indexOf(element);
-        },
-        // Get member at given index
-        get: function (i) {
-          return this.members[i];
-        },
-        // Get first member
-        first: function () {
-          return this.get(0);
-        },
-        // Get last member
-        last: function () {
-          return this.get(this.members.length - 1);
-        },
-        // Default value
-        valueOf: function () {
-          return this.members;
+        each: function (block) {for (var i = 0, il = this.members.length; i < il; i++) {block.apply(this.members[i], [i, this.members]);}return this;}, // Restore to defaults
+        clear: function () {// initialize store
+          this.members = [];return this;}, // Get the length of a set
+        length: function () {return this.members.length;}, // Checks if a given element is present in set
+        has: function (element) {return this.index(element) >= 0;}, // retuns index of given element in set
+        index: function (element) {return this.members.indexOf(element);}, // Get member at given index
+        get: function (i) {return this.members[i];}, // Get first member
+        first: function () {return this.get(0);}, // Get last member
+        last: function () {return this.get(this.members.length - 1);}, // Default value
+        valueOf: function () {return this.members;} }, // Add parent method
+      construct: { // Create a new set
+        set: function (members) {return new SVG.Set(members);} } });SVG.FX.Set = SVG.invent({ // Initialize node
+      create: function (set) {// store reference to set
+        this.set = set;} }); // Alias methods
+  SVG.Set.inherit = function () {var methods = []; // gather shape methods
+    for (var m in SVG.Shape.prototype) {if (typeof SVG.Shape.prototype[m] === 'function' && typeof SVG.Set.prototype[m] !== 'function') {methods.push(m);}} // apply shape aliasses
+    methods.forEach(function (method) {SVG.Set.prototype[method] = function () {for (var i = 0, il = this.members.length; i < il; i++) {if (this.members[i] && typeof this.members[i][method] === 'function') {this.members[i][method].apply(this.members[i], arguments);}}return method == 'animate' ? this.fx || (this.fx = new SVG.FX.Set(this)) : this;};}); // clear methods for the next round
+    methods = []; // gather fx methods
+    for (var m in SVG.FX.prototype) {if (typeof SVG.FX.prototype[m] === 'function' && typeof SVG.FX.Set.prototype[m] !== 'function') {methods.push(m);}} // apply fx aliasses
+    methods.forEach(function (method) {SVG.FX.Set.prototype[method] = function () {for (var i = 0, il = this.set.members.length; i < il; i++) {this.set.members[i].fx[method].apply(this.set.members[i].fx, arguments);}return this;};});};SVG.extend(SVG.Element, {});SVG.extend(SVG.Element, { // Remember arbitrary data
+      remember: function (k, v) {// remember every item in an object individually
+        if (typeof arguments[0] === 'object') {for (var v_ in k) {this.remember(v_, k[v_]);}}
+
+        // retrieve memory
+        else if (arguments.length == 1) {
+          return this.memory()[k];
         }
-      },
-      // Add parent method
-      construct: {
-        // Create a new set
-        set: function (members) {
-          return new SVG.Set(members);
-        }
-      }
-    });
-  SVG.FX.Set = SVG.invent({
-    // Initialize node
-    create: function (set) {
-      // store reference to set
-      this.set = set;
-    }
-  });
 
-  // Alias methods
-  SVG.Set.inherit = function () {
-    var methods = [];
-
-    // gather shape methods
-    for (var m in SVG.Shape.prototype) {
-      if (typeof SVG.Shape.prototype[m] === 'function' && typeof SVG.Set.prototype[m] !== 'function') {
-        methods.push(m);
-      }
-    }
-
-    // apply shape aliasses
-    methods.forEach(function (method) {
-      SVG.Set.prototype[method] = function () {
-        for (var i = 0, il = this.members.length; i < il; i++) {
-          if (this.members[i] && typeof this.members[i][method] === 'function') {
-            this.members[i][method].apply(this.members[i], arguments);
-          }
-        }
-        return method == 'animate' ? this.fx || (this.fx = new SVG.FX.Set(this)) : this;
-      };
-    });
-
-    // clear methods for the next round
-    methods = [];
-
-    // gather fx methods
-    for (var m in SVG.FX.prototype) {
-      if (typeof SVG.FX.prototype[m] === 'function' && typeof SVG.FX.Set.prototype[m] !== 'function') {
-        methods.push(m);
-      }
-    }
-
-    // apply fx aliasses
-    methods.forEach(function (method) {
-      SVG.FX.Set.prototype[method] = function () {
-        for (var i = 0, il = this.set.members.length; i < il; i++) {
-          this.set.members[i].fx[method].apply(this.set.members[i].fx, arguments);
+        // store memory
+        else {
+          this.memory()[k] = v;
         }
         return this;
-      };
+      },
+      // Erase a given memory
+      forget: function () {
+        if (arguments.length == 0) {
+          this._memory = {};
+        } else {
+          for (var i = arguments.length - 1; i >= 0; i--) {
+            delete this.memory()[arguments[i]];
+          }
+        }
+        return this;
+      },
+      // Initialize or return local memory object
+      memory: function () {
+        return this._memory || (this._memory = {});
+      }
     });
-  };
-  SVG.extend(SVG.Element, {});
-  SVG.extend(SVG.Element, {
-    // Remember arbitrary data
-    remember: function (k, v) {
-      // remember every item in an object individually
-      if (typeof arguments[0] === 'object') {
-        for (var v_ in k) {
-          this.remember(v_, k[v_]);
-        }
-      }
-
-      // retrieve memory
-      else if (arguments.length == 1) {
-        return this.memory()[k];
-      }
-
-      // store memory
-      else {
-        this.memory()[k] = v;
-      }
-      return this;
-    },
-    // Erase a given memory
-    forget: function () {
-      if (arguments.length == 0) {
-        this._memory = {};
-      } else {
-        for (var i = arguments.length - 1; i >= 0; i--) {
-          delete this.memory()[arguments[i]];
-        }
-      }
-      return this;
-    },
-    // Initialize or return local memory object
-    memory: function () {
-      return this._memory || (this._memory = {});
-    }
-  });
   // Method for getting an element by id
   SVG.get = function (id) {
     var node = document.getElementById(idFromReference(id) || id);

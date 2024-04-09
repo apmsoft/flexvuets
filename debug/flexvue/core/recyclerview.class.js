@@ -1,5 +1,6 @@
 export class SimpleAdapter {
   constructor(data, template, animationClass = null) {
+    this.onDataChanged = () => {};
     this.data = data;
     this.template = template;
     this.animationClass = animationClass;
@@ -24,6 +25,27 @@ export class SimpleAdapter {
       const classes = this.animationClass.split(' ').map((className) => className.trim());
       holder.view.classList.add(...classes); // 사용자가 제공한 애니메이션 클래스 추가
     }
+  }
+  appendData(data) {
+    if (Array.isArray(data)) {
+      this.data.push(...data);
+    } else
+    {
+      this.data.push(data);
+    }
+    this.onDataChanged();
+  }
+  removeData(position) {
+    if (position >= 0 && position < this.data.length) {
+      this.data.splice(position, 1);
+      this.onDataChanged();
+    } else
+    {
+      console.error('데이터 제거 위치가 잘못되었습니다.');
+    }
+  }
+  doOnDataChanged(callback) {
+    this.onDataChanged = callback;
   }
 }
 export class RecyclerView {
@@ -51,6 +73,10 @@ export class RecyclerView {
     this.render();
     this.container.addEventListener('scroll', this.handleScroll.bind(this));
     window.addEventListener('resize', this.handleResize.bind(this));
+    // 데이터 변화 감지
+    this.adapter.doOnDataChanged(() => {
+      this.render();
+    });
   }
   render() {
     // 처음 렌더링할 때는 화면 크기만큼만 출력합니다.

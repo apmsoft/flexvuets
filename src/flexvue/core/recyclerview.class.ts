@@ -1,4 +1,4 @@
-import { Template as InterfaceTemplate } from '@flexvue/types';
+import {Template} from '@flexvue/types';
 
 interface ViewHolder {
     view: HTMLElement;
@@ -17,6 +17,15 @@ interface Adapter {
     // @holder: 데이터를 표시할 ViewHolder 객체
     // @position: 바인딩할 데이터의 위치
     onBindViewHolder(holder: ViewHolder, position: number): void;
+
+    // 데이터 추가 [{},{}],{}
+    appendData(data: any | any[]): void;
+
+    // 데이터 삭제
+    removeData(position: number): void;
+
+    // 데이터 변화 감지에 따른 콜백
+    doOnDataChanged(callback: () => void): void;
 }
 
 interface DataItem {
@@ -25,10 +34,11 @@ interface DataItem {
 
 export class SimpleAdapter implements Adapter {
     private data: any[];
-    private template: InterfaceTemplate;
+    private template: Template;
     private animationClass: string | null;
+    private onDataChanged: () => void = () => {};
 
-    constructor(data: any[], template: InterfaceTemplate, animationClass: string | null = null) {
+    constructor(data: any[], template: Template, animationClass: string | null = null) {
         this.data = data;
         this.template = template;
         this.animationClass = animationClass;
@@ -59,6 +69,28 @@ export class SimpleAdapter implements Adapter {
             holder.view.classList.add(...classes); // 사용자가 제공한 애니메이션 클래스 추가
         }
     }
+
+    appendData(data: any | any[]): void {
+        if (Array.isArray(data)) {
+            this.data.push(...data);
+        } else {
+            this.data.push(data);
+        }
+        this.onDataChanged();
+    }
+
+    removeData(position: number): void {
+        if (position >= 0 && position < this.data.length) {
+            this.data.splice(position, 1);
+            this.onDataChanged();
+        } else {
+            console.error('데이터 제거 위치가 잘못되었습니다.');
+        }
+    }
+
+    doOnDataChanged(callback: () => void): void {
+        this.onDataChanged = callback;
+    }
 }
 
 export class RecyclerView {
@@ -69,21 +101,21 @@ export class RecyclerView {
     private renderedItems       : Set<number> = new Set(); // 이미 출력된 항목의 인덱스를 추적용
     private firstRenderItemCount: number = 0;
     private options             : {
-        itemCount: number; // 스크롤할때 마다 출력할 item 갯수
+        itemCount   : number; // 스크롤할때 마다 출력할 item 갯수
         bottomBuffer: number; // bottom 스크롤 간격 조정
-        prepend?: boolean; // 새 항목을 prepend할지 여부를 결정하는 옵션 기본 append
-        response?: { [key: string]: number }; // 가로 항목 수에 대한 반응형 옵션
+        prepend?    : boolean; // 새 항목을 prepend할지 여부를 결정하는 옵션 기본 append
+        response?   : { [key: string]: number }; // 가로 항목 수에 대한 반응형 옵션
     };
 
     constructor(
         container: string | HTMLElement,
         adapter: Adapter,
         options: {
-            itemCount?: number;
-            bottomBuffer?: number;
-            prepend?: boolean;
+            itemCount?    : number;
+            bottomBuffer? : number;
+            prepend?      : boolean;
             scrollCapture?: string | null ;
-            response?: { [key: string]: number }
+            response?     : { [key: string]: number }
         } = {}
     ){
         if (typeof container === 'string') {
@@ -106,6 +138,11 @@ export class RecyclerView {
         this.render();
         this.container.addEventListener('scroll', this.handleScroll.bind(this));
         window.addEventListener('resize', this.handleResize.bind(this));
+
+        // 데이터 변화 감지
+        this.adapter.doOnDataChanged(() => {
+            this.render();
+        });
     }
 
     private render(): void {
@@ -137,7 +174,8 @@ export class RecyclerView {
         this.options.itemCount = itemCount;
     }
 
-    private handleScroll(): void {
+    private handleScroll(): void
+    {
         if (this.isHandlingScroll) {
             return; // 이미 스크롤 처리 중이면 무시
         }

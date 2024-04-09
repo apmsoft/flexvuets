@@ -22,7 +22,7 @@ const onReady = () => {
     // RecyclerView 인스턴스 생성 및 초기화
     const adapter = new SimpleAdapter(gridData, gridView);
     const recyclerView = new RecyclerView('#gridview', adapter, {
-      itemCount: 4,
+      itemCount: 0,
       scrollCapture: '#fvue--layout--main',
       response: { 0: 1, 480: 2, 768: 3, 1024: 4, 1280: 4, 1536: 6 }
     });

@@ -1,6 +1,9 @@
 # Changelog
 
-## [3.0] 
+## [3.0]
+### - 2024-04-09
+- SimpleAdapter class 데이터 appendData(데이터추가), removeData(데이터삭제) 기능 추가 데이터에만 변화가 일어남
+
 ### - 2024-04-08
 - CacheLocalStorage class 새로 추가
 - CacheLocalStorage Example 예제 추가
