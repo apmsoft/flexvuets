@@ -1886,6 +1886,12 @@
 
 
 
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -2011,6 +2017,9 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
 
 
 
@@ -3269,18 +3278,9 @@
     for (var m in SVG.FX.prototype) {if (typeof SVG.FX.prototype[m] === 'function' && typeof SVG.FX.Set.prototype[m] !== 'function') {methods.push(m);}} // apply fx aliasses
     methods.forEach(function (method) {SVG.FX.Set.prototype[method] = function () {for (var i = 0, il = this.set.members.length; i < il; i++) {this.set.members[i].fx[method].apply(this.set.members[i].fx, arguments);}return this;};});};SVG.extend(SVG.Element, {});SVG.extend(SVG.Element, { // Remember arbitrary data
       remember: function (k, v) {// remember every item in an object individually
-        if (typeof arguments[0] === 'object') {for (var v_ in k) {this.remember(v_, k[v_]);}}
-
-        // retrieve memory
-        else if (arguments.length == 1) {
-          return this.memory()[k];
-        }
-
-        // store memory
-        else {
-          this.memory()[k] = v;
-        }
-        return this;
+        if (typeof arguments[0] === 'object') {for (var v_ in k) {this.remember(v_, k[v_]);}} // retrieve memory
+        else if (arguments.length == 1) {return this.memory()[k];} // store memory
+        else {this.memory()[k] = v;}return this;
       },
       // Erase a given memory
       forget: function () {
