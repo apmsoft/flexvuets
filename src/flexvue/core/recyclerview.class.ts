@@ -106,6 +106,8 @@ export class RecyclerView {
         prepend?    : boolean; // 새 항목을 prepend할지 여부를 결정하는 옵션 기본 append
         response?   : { [key: string]: number }; // 가로 항목 수에 대한 반응형 옵션
     };
+    private scrollPositionCallback?: (scrollPosition: number) => void;
+    private prevScrollPosition: number = 0;
 
     constructor(
         container: string | HTMLElement,
@@ -183,6 +185,10 @@ export class RecyclerView {
 
         // 현재 스크롤 위치
         const scrollPosition = this.scrollCaptureElement.scrollTop;
+        if (scrollPosition !== this.prevScrollPosition && this.scrollPositionCallback) {
+            this.scrollPositionCallback(scrollPosition); // Callback with the current scroll position
+            this.prevScrollPosition = scrollPosition; // Update previous scroll position
+        }
         const containerHeight = this.container.clientHeight;
 
         const itemCount = this.adapter.getItemCount();
@@ -271,5 +277,9 @@ export class RecyclerView {
                 }
             }
         });
+    }
+
+    onChangedScrollPosition(callback: (scrollPosition: number) => void): void {
+        this.scrollPositionCallback = callback;
     }
 }

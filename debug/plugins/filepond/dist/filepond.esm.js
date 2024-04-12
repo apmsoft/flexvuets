@@ -1928,6 +1928,10 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -2027,11 +2031,7 @@ const defaultOptions = { // the id to add to the root element
     return subtype;}return '';};const leftPad = (value, padding = '') => (padding + value).slice(-padding.length);const getDateString = (date = new Date()) => `${date.getFullYear()}-${leftPad(date.getMonth() + 1, '00')}-${leftPad(date.getDate(), '00')}_${leftPad(date.getHours(), '00')}-${leftPad(date.getMinutes(), '00')}-${leftPad(date.getSeconds(), '00')}`;const getFileFromBlob = (blob, filename, type = null, extension = null) => {const file = typeof type === 'string' ? blob.slice(0, blob.size, type) : blob.slice(0, blob.size, blob.type);file.lastModifiedDate = new Date(); // copy relative path
   if (blob._relativePath) file._relativePath = blob._relativePath; // if blob has name property, use as filename if no filename supplied
   if (!isString(filename)) {filename = getDateString();} // if filename supplied but no extension and filename has extension
-  if (filename && extension === null && getExtensionFromFilename(filename)) {file.name = filename;} else {extension = extension || guesstimateExtension(file.type);file.name = filename + (extension ? '.' + extension : '');}return file;};const getBlobBuilder = () => {return window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;};const createBlob = (arrayBuffer, mimeType) => {const BB = getBlobBuilder();if (BB) {const bb = new BB();bb.append(arrayBuffer);return bb.getBlob(mimeType);}return new Blob([arrayBuffer], { type: mimeType });};const getBlobFromByteStringWithMimeType = (byteString, mimeType) => {const ab = new ArrayBuffer(byteString.length);const ia = new Uint8Array(ab);for (let i = 0; i < byteString.length; i++) {ia[i] = byteString.charCodeAt(i);}return createBlob(ab, mimeType);};const getMimeTypeFromBase64DataURI = (dataURI) => {
-  return (/^data:(.+);/.exec(dataURI) || [])[1] || null;
-};
-const getBase64DataFromBase64DataURI = (dataURI) => {
-  // get data part of string (remove data:image/jpeg...,)
+  if (filename && extension === null && getExtensionFromFilename(filename)) {file.name = filename;} else {extension = extension || guesstimateExtension(file.type);file.name = filename + (extension ? '.' + extension : '');}return file;};const getBlobBuilder = () => {return window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;};const createBlob = (arrayBuffer, mimeType) => {const BB = getBlobBuilder();if (BB) {const bb = new BB();bb.append(arrayBuffer);return bb.getBlob(mimeType);}return new Blob([arrayBuffer], { type: mimeType });};const getBlobFromByteStringWithMimeType = (byteString, mimeType) => {const ab = new ArrayBuffer(byteString.length);const ia = new Uint8Array(ab);for (let i = 0; i < byteString.length; i++) {ia[i] = byteString.charCodeAt(i);}return createBlob(ab, mimeType);};const getMimeTypeFromBase64DataURI = (dataURI) => {return (/^data:(.+);/.exec(dataURI) || [])[1] || null;};const getBase64DataFromBase64DataURI = (dataURI) => {// get data part of string (remove data:image/jpeg...,)
   const data = dataURI.split(',')[1];
 
   // remove any whitespace as that causes InvalidCharacterError in IE
@@ -7491,6 +7491,10 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7550,17 +7554,13 @@ const getLinks = (dataTransfer) => {
   root.ref.assistant = root.appendChildView(root.createChildView(assistant, { ...props })); // Data
   root.ref.data = root.appendChildView(root.createChildView(data, { ...props })); // Measure (tests if fixed height was set)
   // DOCTYPE needs to be set for this to work
-  root.ref.measure = createElement$1('div');root.ref.measure.style.height = '100%';root.element.appendChild(root.ref.measure);
-  // information on the root height or fixed height status
-  root.ref.bounds = null;
-
-  // apply initial style properties
-  root.query('GET_STYLES').filter((style) => !isEmpty(style.value)).map(({
-    name,
-    value
-  }) => {
-    root.element.dataset[name] = value;
-  });
+  root.ref.measure = createElement$1('div');root.ref.measure.style.height = '100%';root.element.appendChild(root.ref.measure); // information on the root height or fixed height status
+  root.ref.bounds = null; // apply initial style properties
+  root.query('GET_STYLES').filter((style) => !isEmpty(style.value)).map(({ name,
+      value
+    }) => {
+      root.element.dataset[name] = value;
+    });
 
   // determine if width changed
   root.ref.widthPrevious = null;

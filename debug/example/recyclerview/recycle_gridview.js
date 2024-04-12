@@ -30,6 +30,10 @@ const onReady = () => {
       const id = el.dataset.id;
       alert(id);
     });
+    // 스크롤 포지션 캡쳐
+    recyclerView.onChangedScrollPosition(function (pos) {
+      Log.d('scroll position', pos);
+    });
   }).
   catch((e) => {
     Log.e(e);

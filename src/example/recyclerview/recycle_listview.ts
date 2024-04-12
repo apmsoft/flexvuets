@@ -40,6 +40,11 @@ const onReady = () : void =>
             alert(id);
         });
 
+        // 스크롤 포지션 캡쳐
+        recyclerView.onChangedScrollPosition(function(pos : number){
+            Log.d('scroll position', pos);
+        });
+
         // 데이터 추가 예제
         const addButton = document.getElementById('addButton')! as HTMLButtonElement;
         addButton.addEventListener('click', () => {

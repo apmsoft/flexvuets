@@ -53,6 +53,7 @@ export class RecyclerView {
     this.isHandlingScroll = false;
     this.renderedItems = new Set(); // 이미 출력된 항목의 인덱스를 추적용
     this.firstRenderItemCount = 0;
+    this.prevScrollPosition = 0;
     if (typeof container === 'string') {
       const element = document.querySelector(container);
       if (!element) {
@@ -109,6 +110,10 @@ export class RecyclerView {
     this.isHandlingScroll = true;
     // 현재 스크롤 위치
     const scrollPosition = this.scrollCaptureElement.scrollTop;
+    if (scrollPosition !== this.prevScrollPosition && this.scrollPositionCallback) {
+      this.scrollPositionCallback(scrollPosition); // Callback with the current scroll position
+      this.prevScrollPosition = scrollPosition; // Update previous scroll position
+    }
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
     const templateItem = this.adapter.onCreateViewHolder(this.container);
@@ -184,5 +189,8 @@ export class RecyclerView {
         }
       }
     });
+  }
+  onChangedScrollPosition(callback) {
+    this.scrollPositionCallback = callback;
   }
 }
