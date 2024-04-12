@@ -65,3 +65,52 @@ export class CacheLocalStorage {
     }
   }
 }
+// browser memory
+export class CacheMemory {
+  constructor(prefix = '') {
+    this.prefix = prefix;
+    this.cache = {};
+  }
+  getKey(key) {
+    return `${this.prefix}${key}`;
+  }
+  // @lifetimesec : 초
+  _set(key, data, lifetimesec = 0) {
+    const cacheItem = {
+      data,
+      expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0
+    };
+    this.cache[this.getKey(key)] = cacheItem;
+  }
+  _get(key) {
+    const cacheItem = this.cache[this.getKey(key)];
+    if (cacheItem && (cacheItem.expiry === 0 || cacheItem.expiry > Date.now())) {
+      return this.autoConvertDataType(cacheItem.data);
+    } else
+    {
+      this._delete(key);
+      return null;
+    }
+  }
+  autoConvertDataType(data) {
+    if (typeof data === 'string') {
+      try {
+        return JSON.parse(data);
+      }
+      catch (error) {
+        return data;
+      }
+    }
+    return data;
+  }
+  _delete(key) {
+    delete this.cache[this.getKey(key)];
+  }
+  _clear() {
+    for (const key in this.cache) {
+      if (key.startsWith(this.prefix)) {
+        delete this.cache[key];
+      }
+    }
+  }
+}

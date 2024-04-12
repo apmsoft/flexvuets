@@ -7,4 +7,5 @@ interface Window {
     Numbers: Numbers;
     flutter_inappwebview : flutter_inappwebview;
     cacheStorage: CacheLocalStorage;
+    cacheMemory: CacheMemory;
 }

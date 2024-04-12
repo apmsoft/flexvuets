@@ -9198,6 +9198,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -9255,21 +9264,12 @@
     root.ref.list = root.appendChildView(root.createChildView(listScroller, { translateY: null })); // Background panel
     root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' })); // Assistant notifies assistive tech when content changes
     root.ref.assistant = root.appendChildView(root.createChildView(assistant, Object.assign({}, props))); // Data
-    root.ref.data = root.appendChildView(root.createChildView(data, Object.assign({}, props)));
-
-    // Measure (tests if fixed height was set)
+    root.ref.data = root.appendChildView(root.createChildView(data, Object.assign({}, props))); // Measure (tests if fixed height was set)
     // DOCTYPE needs to be set for this to work
-    root.ref.measure = createElement$1('div');
-    root.ref.measure.style.height = '100%';
-    root.element.appendChild(root.ref.measure);
-
-    // information on the root height or fixed height status
-    root.ref.bounds = null;
-
-    // apply initial style properties
-    root.query('GET_STYLES').filter(function (style) {
-      return !isEmpty(style.value);
-    }).map(function (_ref2) {
+    root.ref.measure = createElement$1('div');root.ref.measure.style.height = '100%';root.element.appendChild(root.ref.measure); // information on the root height or fixed height status
+    root.ref.bounds = null; // apply initial style properties
+    root.query('GET_STYLES').filter(function (style) {return !isEmpty(style.value);
+      }).map(function (_ref2) {
       var name = _ref2.name,
         value = _ref2.value;
       root.element.dataset[name] = value;

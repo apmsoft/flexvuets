@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CacheLocalStorage</title>
+    <title>CacheMemory</title>
 
     <link rel="stylesheet" href="../css/tailwind.css">
     <link rel="stylesheet" href="../css/fontawesome-all.css">
@@ -18,7 +18,7 @@
     <div id="left" class="fvue--layout z-0">
 
         <!--- container -->
-        <div class="fvue--layout--container bg-blue-lightd6">
+        <div class="fvue--layout--container bg-white">
 
             <div class="fvue--layout--header py-3">
                 <div class="fvue--layout--header--row px-3">
@@ -43,6 +43,11 @@
             </div>
             <div class="fvue--layout--main h-full">
                 콘솔로그창 에서 확인
+                <p>휘발성 캐시 메모리 : 페이지를 새로고침하면 사라집니다.</p>
+                <p>라우터 주소를 이동하는 동안은 유지 됩니다.</p>
+
+                <a href="#/test/object" class="block btn py-2">캐시 확인 페이지 1</a>
+                <a href="#/test/array" class="block btn py-2">캐시 확인 페이지 2</a>
             </div>
 
         </div>
@@ -50,7 +55,7 @@
 
     </div>
 
-    <script defer type="module" src="./cachestorage.js?v=1"></script>
+    <script defer type="module" src="./cachememory.js?v=1"></script>
 
 </body>
 </html>

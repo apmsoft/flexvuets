@@ -1958,6 +1958,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -2083,6 +2101,15 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3394,37 +3421,10 @@
   function compToHex(comp) {var hex = comp.toString(16);return hex.length == 1 ? '0' + hex : hex;} // Calculate proportional width and height values when necessary
   function proportionalSize(element, width, height) {if (width == null || height == null) {var box = element.bbox();if (width == null) {width = box.width / box.height * height;} else if (height == null) {height = box.height / box.width * width;}}return { width: width, height: height };} // Delta transform point
   function deltaTransformPoint(matrix, x, y) {return { x: x * matrix.a + y * matrix.c + 0, y: x * matrix.b + y * matrix.d + 0 };} // Map matrix array to object
-  function arrayToMatrix(a) {return { a: a[0], b: a[1], c: a[2], d: a[3],
-      e: a[4],
-      f: a[5]
-    };
-  }
-
-  // Parse matrix if required
-  function parseMatrix(matrix) {
-    if (!(matrix instanceof SVG.Matrix)) {
-      matrix = new SVG.Matrix(matrix);
-    }
-    return matrix;
-  }
-
-  // Add centre point to transform object
-  function ensureCentre(o, target) {
-    o.cx = o.cx == null ? target.bbox().cx : o.cx;
-    o.cy = o.cy == null ? target.bbox().cy : o.cy;
-  }
-
-  // PathArray Helpers
-  function arrayToString(a) {
-    for (var i = 0, il = a.length, s = ''; i < il; i++) {
-      s += a[i][0];
-      if (a[i][1] != null) {
-        s += a[i][1];
-        if (a[i][2] != null) {
-          s += ' ';
-          s += a[i][2];
-          if (a[i][3] != null) {
-            s += ' ';
+  function arrayToMatrix(a) {return { a: a[0], b: a[1], c: a[2], d: a[3], e: a[4], f: a[5] };} // Parse matrix if required
+  function parseMatrix(matrix) {if (!(matrix instanceof SVG.Matrix)) {matrix = new SVG.Matrix(matrix);}return matrix;} // Add centre point to transform object
+  function ensureCentre(o, target) {o.cx = o.cx == null ? target.bbox().cx : o.cx;o.cy = o.cy == null ? target.bbox().cy : o.cy;} // PathArray Helpers
+  function arrayToString(a) {for (var i = 0, il = a.length, s = ''; i < il; i++) {s += a[i][0];if (a[i][1] != null) {s += a[i][1];if (a[i][2] != null) {s += ' ';s += a[i][2];if (a[i][3] != null) {s += ' ';
             s += a[i][3];
             s += ' ';
             s += a[i][4];

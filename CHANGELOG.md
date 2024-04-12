@@ -4,6 +4,8 @@
 ### - 2024-04-12
 - RecyclerView 실시간 스크롤 위치 확인 기능 추가
 - RecyclerView example 예제 업데이트
+- CacheMemory class new add : 휘발성 캐시 기능 (페이지를 새로고침할 경우 모두 사라지는 휘발성 캐시 기능 단, hash 경로로 이동할 경우 유지됨)
+- CacheMemory class 예제 추가
 
 ### - 2024-04-09
 - SimpleAdapter class 데이터 appendData(데이터추가), removeData(데이터삭제) 기능 추가 데이터에만 변화가 일어남

@@ -74,3 +74,56 @@ export class CacheLocalStorage {
         }
     }
 }
+
+// browser memory
+export class CacheMemory {
+    private cache: { [key: string]: CacheItem } = {};
+
+    constructor(private prefix: string = '') {}
+
+    private getKey(key: string): string {
+        return `${this.prefix}${key}`;
+    }
+
+    // @lifetimesec : 초
+    public _set(key: string, data: any, lifetimesec: number = 0): void {
+        const cacheItem: CacheItem = {
+            data,
+            expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0,
+        };
+        this.cache[this.getKey(key)] = cacheItem;
+    }
+
+    public _get(key: string): any {
+        const cacheItem = this.cache[this.getKey(key)];
+        if (cacheItem && (cacheItem.expiry === 0 || cacheItem.expiry > Date.now())) {
+            return this.autoConvertDataType(cacheItem.data);
+        } else {
+            this._delete(key);
+            return null;
+        }
+    }
+
+    private autoConvertDataType(data: any): any {
+        if (typeof data === 'string') {
+            try {
+                return JSON.parse(data);
+            } catch (error) {
+                return data;
+            }
+        }
+        return data;
+    }
+
+    public _delete(key: string): void {
+        delete this.cache[this.getKey(key)];
+    }
+
+    public _clear(): void {
+        for (const key in this.cache) {
+            if (key.startsWith(this.prefix)) {
+                delete this.cache[key];
+            }
+        }
+    }
+}
