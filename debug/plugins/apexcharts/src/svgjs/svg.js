@@ -1892,6 +1892,60 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -2017,6 +2071,33 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3280,101 +3361,20 @@
       remember: function (k, v) {// remember every item in an object individually
         if (typeof arguments[0] === 'object') {for (var v_ in k) {this.remember(v_, k[v_]);}} // retrieve memory
         else if (arguments.length == 1) {return this.memory()[k];} // store memory
-        else {this.memory()[k] = v;}return this;
-      },
-      // Erase a given memory
-      forget: function () {
-        if (arguments.length == 0) {
-          this._memory = {};
-        } else {
-          for (var i = arguments.length - 1; i >= 0; i--) {
-            delete this.memory()[arguments[i]];
-          }
-        }
-        return this;
-      },
-      // Initialize or return local memory object
-      memory: function () {
-        return this._memory || (this._memory = {});
-      }
-    });
-  // Method for getting an element by id
-  SVG.get = function (id) {
-    var node = document.getElementById(idFromReference(id) || id);
-    return SVG.adopt(node);
-  };
-
-  // Select elements by query string
-  SVG.select = function (query, parent) {
-    return new SVG.Set(SVG.utils.map((parent || document).querySelectorAll(query), function (node) {
-      return SVG.adopt(node);
-    }));
-  };
-  SVG.extend(SVG.Parent, {
-    // Scoped select method
-    select: function (query) {
-      return SVG.select(query, this.node);
-    }
-  });
-  function pathRegReplace(a, b, c, d) {
-    return c + d.replace(SVG.regex.dots, ' .');
-  }
-
-  // creates deep clone of array
-  function array_clone(arr) {
-    var clone = arr.slice(0);
-    for (var i = clone.length; i--;) {
-      if (Array.isArray(clone[i])) {
-        clone[i] = array_clone(clone[i]);
-      }
-    }
-    return clone;
-  }
-
-  // tests if a given element is instance of an object
-  function is(el, obj) {
-    return el instanceof obj;
-  }
-
-  // tests if a given selector matches an element
-  function matches(el, selector) {
-    return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
-  }
-
-  // Convert dash-separated-string to camelCase
-  function camelCase(s) {
-    return s.toLowerCase().replace(/-(.)/g, function (m, g) {
-      return g.toUpperCase();
-    });
-  }
-
-  // Capitalize first letter of a string
-  function capitalize(s) {
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  }
-
-  // Ensure to six-based hex
-  function fullHex(hex) {
-    return hex.length == 4 ? ['#', hex.substring(1, 2), hex.substring(1, 2), hex.substring(2, 3), hex.substring(2, 3), hex.substring(3, 4), hex.substring(3, 4)].join('') : hex;
-  }
-
-  // Component to hex value
-  function compToHex(comp) {
-    var hex = comp.toString(16);
-    return hex.length == 1 ? '0' + hex : hex;
-  }
-
-  // Calculate proportional width and height values when necessary
-  function proportionalSize(element, width, height) {
-    if (width == null || height == null) {
-      var box = element.bbox();
-      if (width == null) {
-        width = box.width / box.height * height;
-      } else if (height == null) {
-        height = box.height / box.width * width;
-      }
-    }
-    return {
+        else {this.memory()[k] = v;}return this;}, // Erase a given memory
+      forget: function () {if (arguments.length == 0) {this._memory = {};} else {for (var i = arguments.length - 1; i >= 0; i--) {delete this.memory()[arguments[i]];}}return this;}, // Initialize or return local memory object
+      memory: function () {return this._memory || (this._memory = {});} }); // Method for getting an element by id
+  SVG.get = function (id) {var node = document.getElementById(idFromReference(id) || id);return SVG.adopt(node);}; // Select elements by query string
+  SVG.select = function (query, parent) {return new SVG.Set(SVG.utils.map((parent || document).querySelectorAll(query), function (node) {return SVG.adopt(node);}));};SVG.extend(SVG.Parent, { // Scoped select method
+      select: function (query) {return SVG.select(query, this.node);} });function pathRegReplace(a, b, c, d) {return c + d.replace(SVG.regex.dots, ' .');} // creates deep clone of array
+  function array_clone(arr) {var clone = arr.slice(0);for (var i = clone.length; i--;) {if (Array.isArray(clone[i])) {clone[i] = array_clone(clone[i]);}}return clone;} // tests if a given element is instance of an object
+  function is(el, obj) {return el instanceof obj;} // tests if a given selector matches an element
+  function matches(el, selector) {return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);} // Convert dash-separated-string to camelCase
+  function camelCase(s) {return s.toLowerCase().replace(/-(.)/g, function (m, g) {return g.toUpperCase();});} // Capitalize first letter of a string
+  function capitalize(s) {return s.charAt(0).toUpperCase() + s.slice(1);} // Ensure to six-based hex
+  function fullHex(hex) {return hex.length == 4 ? ['#', hex.substring(1, 2), hex.substring(1, 2), hex.substring(2, 3), hex.substring(2, 3), hex.substring(3, 4), hex.substring(3, 4)].join('') : hex;} // Component to hex value
+  function compToHex(comp) {var hex = comp.toString(16);return hex.length == 1 ? '0' + hex : hex;} // Calculate proportional width and height values when necessary
+  function proportionalSize(element, width, height) {if (width == null || height == null) {var box = element.bbox();if (width == null) {width = box.width / box.height * height;} else if (height == null) {height = box.height / box.width * width;}}return {
       width: width,
       height: height
     };

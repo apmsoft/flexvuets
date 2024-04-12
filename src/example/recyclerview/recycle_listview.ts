@@ -13,7 +13,7 @@ const onReady = () : void =>
     }
     // 데이터
     const data : DataItem[]= [];
-    for (let i = 1; i <= 1; i++) {
+    for (let i = 0; i <= 100; i++) {
         data.push({ id: i, gid: ((i+1)/10), title: `Item ${i}` });
     }
 
@@ -33,7 +33,7 @@ const onReady = () : void =>
 
         // RecyclerView 인스턴스 생성 및 초기화
         const adapter = new SimpleAdapter(data, listView);
-        const recyclerView = new RecyclerView('#listview', adapter,{itemCount:1, scrollCapture: '#fvue--layout--main'});
+        const recyclerView = new RecyclerView('#listview', adapter,{itemCount:2, scrollCapture: '#fvue--layout--main'});
         recyclerView.addEventListener('click', '.item', (el) =>
         {
             const id = el.dataset.id;

@@ -62,9 +62,10 @@ class Layout {
                         <div>
                             <button class="btn p-2" type="button" id="addButton">데이터 append</button>
                             <button class="btn p-2" type="button" id="removeButton">데이터 삭제 (1번)</button>
+                            <button class="btn p-2" type="button" id="changeButton">데이터 위치 바로 가기 (70번)</button>
                         </div>
 
-                        <div class="px-2 max-h-[80vh]" id="listview">
+                        <div class="px-2 h-[60vh]" id="listview">
                             
                         </div>
 
