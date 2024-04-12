@@ -1,6 +1,10 @@
 # Changelog
 
 ## [3.0]
+### - 2024-04-12
+- RecyclerView 실시간 스크롤 위치 확인 기능 추가
+- RecyclerView example 예제 업데이트
+
 ### - 2024-04-09
 - SimpleAdapter class 데이터 appendData(데이터추가), removeData(데이터삭제) 기능 추가 데이터에만 변화가 일어남
 

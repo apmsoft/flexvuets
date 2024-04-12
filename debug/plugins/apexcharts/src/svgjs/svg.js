@@ -1954,6 +1954,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -2079,6 +2081,7 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
 
 
 
@@ -3387,11 +3390,8 @@
   function fullHex(hex) {return hex.length == 4 ? ['#', hex.substring(1, 2), hex.substring(1, 2), hex.substring(2, 3), hex.substring(2, 3), hex.substring(3, 4), hex.substring(3, 4)].join('') : hex;} // Component to hex value
   function compToHex(comp) {var hex = comp.toString(16);return hex.length == 1 ? '0' + hex : hex;} // Calculate proportional width and height values when necessary
   function proportionalSize(element, width, height) {if (width == null || height == null) {var box = element.bbox();if (width == null) {width = box.width / box.height * height;} else if (height == null) {height = box.height / box.width * width;}}return { width: width, height: height };} // Delta transform point
-  function deltaTransformPoint(matrix, x, y) {return { x: x * matrix.a + y * matrix.c + 0, y: x * matrix.b + y * matrix.d + 0 };}
-  // Map matrix array to object
-  function arrayToMatrix(a) {
-    return {
-      a: a[0],
+  function deltaTransformPoint(matrix, x, y) {return { x: x * matrix.a + y * matrix.c + 0, y: x * matrix.b + y * matrix.d + 0 };} // Map matrix array to object
+  function arrayToMatrix(a) {return { a: a[0],
       b: a[1],
       c: a[2],
       d: a[3],
