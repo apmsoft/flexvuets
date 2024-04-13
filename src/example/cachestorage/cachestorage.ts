@@ -1,5 +1,6 @@
 import UrlManager from '@flexvue/urlmanager';
 import {CacheLocalStorage} from '@flexvue/caches';
+import AsyncTask from '@flexvue/asynctask';
 
 const onReady = () : void =>
 {
@@ -32,6 +33,20 @@ const onReady = () : void =>
     window.cacheStorage._getAsync('mc_array')
     .then(data =>{
         Log.d('_getAsync', data);
+    });
+
+
+    // promise.all 사용
+    Promise.all([
+        window.cacheStorage._getAsync('mc_array') ?? new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+        new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)
+    ])
+    .then(data=>
+    {
+        Log.d(data);
+    })
+    .catch( e =>{
+        Log.e( e );
     });
 
     // 캐시 삭제

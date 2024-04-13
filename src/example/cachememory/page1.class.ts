@@ -1,4 +1,4 @@
-
+import AsyncTask from '@flexvue/asynctask';
 
 class ComponentActivity{
     private TAG : string;
@@ -9,9 +9,18 @@ class ComponentActivity{
 
         Log.v(this.TAG, 'doList', params);
 
-        // 캐시메모리
-        const cachedData = window.cacheMemory._get('/test/object') ?? '캐시데이터가 없거나 만료됨';
-        Log.e('cache','/test/object', cachedData);
+        // promise.all 사용
+        Promise.all([
+            window.cacheMemory._getAsync('/test/object') ?? new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+            new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)
+        ])
+        .then(data=>
+        {
+            Log.v('Promise.all', data);
+        })
+        .catch( e =>{
+            Log.e( e );
+        });
     }
     doPost (params : any | object = {}) {
         Log.v(this.TAG, 'doPost', params);

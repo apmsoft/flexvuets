@@ -8,7 +8,7 @@ class ComponentActivity{
 
         // 캐시메모리
         const cachedData = window.cacheMemory._get('/test/array') ?? '캐시데이터가 없거나 만료됨';
-        Log.e('cache','/test/array', cachedData);
+        Log.v('cache','/test/array', cachedData);
     }
     doPost (params : any | object = {}) {
         Log.v(this.TAG, 'doPost', params);
