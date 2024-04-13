@@ -25,13 +25,15 @@ export class CacheLocalStorage {
     }
 
     // @lifetimesec : 초
-    public _set(key: string, data: string | object | any[], lifetimesec: number = 0): void {
+    public _set(key: string, data: string | object | any[], lifetimesec: number = 0): CacheLocalStorage {
         this.checkLocalStorageLimit(); // 용량 초과 확인
         const cacheItem: CacheItem = {
             data: typeof data === 'string' ? data : JSON.stringify(data),
             expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0,
         };
         localStorage.setItem(this.getKey(key), JSON.stringify(cacheItem));
+
+    return this;
     }
 
     public _get(key: string): any {
@@ -45,6 +47,28 @@ export class CacheLocalStorage {
             }
         }
         return null;
+    }
+
+    // 비동기
+    public async _getAsync(key: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            try {
+                const cacheItemString = localStorage.getItem(this.getKey(key));
+                if (cacheItemString) {
+                    const cacheItem: CacheItem = JSON.parse(cacheItemString);
+                    if (cacheItem.expiry === 0 || cacheItem.expiry > Date.now()) {
+                        resolve(this.autoConvertDataType(cacheItem.data));
+                    } else {
+                        this._delete(key);
+                        resolve(null);
+                    }
+                } else {
+                    resolve(null);
+                }
+            } catch (err) {
+                reject(err);
+            }
+        });
     }
 
     private autoConvertDataType(data: any): any {
@@ -86,12 +110,14 @@ export class CacheMemory {
     }
 
     // @lifetimesec : 초
-    public _set(key: string, data: any, lifetimesec: number = 0): void {
+    public _set(key: string, data: any, lifetimesec: number = 0): CacheMemory {
         const cacheItem: CacheItem = {
             data,
             expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0,
         };
         this.cache[this.getKey(key)] = cacheItem;
+
+    return this;
     }
 
     public _get(key: string): any {
@@ -102,6 +128,19 @@ export class CacheMemory {
             this._delete(key);
             return null;
         }
+    }
+
+    // 비동기
+    public async _getAsync(key: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const cacheItem = this.cache[this.getKey(key)];
+            if (cacheItem && (cacheItem.expiry === 0 || cacheItem.expiry > Date.now())) {
+                resolve(this.autoConvertDataType(cacheItem.data));
+            } else {
+                this._delete(key);
+                resolve(null);
+            }
+        });
     }
 
     private autoConvertDataType(data: any): any {

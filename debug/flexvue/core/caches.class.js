@@ -1,3 +1,12 @@
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {return value instanceof P ? value : new P(function (resolve) {resolve(value);});}
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {try {step(generator.next(value));} catch (e) {reject(e);}}
+    function rejected(value) {try {step(generator["throw"](value));} catch (e) {reject(e);}}
+    function step(result) {result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);}
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 export class CacheLocalStorage {
   constructor(prefix = '') {
     this.prefix = prefix;
@@ -25,6 +34,7 @@ export class CacheLocalStorage {
       expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0
     };
     localStorage.setItem(this.getKey(key), JSON.stringify(cacheItem));
+    return this;
   }
   _get(key) {
     const cacheItemString = localStorage.getItem(this.getKey(key));
@@ -38,6 +48,32 @@ export class CacheLocalStorage {
       }
     }
     return null;
+  }
+  // 비동기
+  _getAsync(key) {
+    return __awaiter(this, void 0, void 0, function* () {
+      return new Promise((resolve, reject) => {
+        try {
+          const cacheItemString = localStorage.getItem(this.getKey(key));
+          if (cacheItemString) {
+            const cacheItem = JSON.parse(cacheItemString);
+            if (cacheItem.expiry === 0 || cacheItem.expiry > Date.now()) {
+              resolve(this.autoConvertDataType(cacheItem.data));
+            } else
+            {
+              this._delete(key);
+              resolve(null);
+            }
+          } else
+          {
+            resolve(null);
+          }
+        }
+        catch (err) {
+          reject(err);
+        }
+      });
+    });
   }
   autoConvertDataType(data) {
     if (typeof data === 'string') {
@@ -81,6 +117,7 @@ export class CacheMemory {
       expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0
     };
     this.cache[this.getKey(key)] = cacheItem;
+    return this;
   }
   _get(key) {
     const cacheItem = this.cache[this.getKey(key)];
@@ -91,6 +128,21 @@ export class CacheMemory {
       this._delete(key);
       return null;
     }
+  }
+  // 비동기
+  _getAsync(key) {
+    return __awaiter(this, void 0, void 0, function* () {
+      return new Promise((resolve, reject) => {
+        const cacheItem = this.cache[this.getKey(key)];
+        if (cacheItem && (cacheItem.expiry === 0 || cacheItem.expiry > Date.now())) {
+          resolve(this.autoConvertDataType(cacheItem.data));
+        } else
+        {
+          this._delete(key);
+          resolve(null);
+        }
+      });
+    });
   }
   autoConvertDataType(data) {
     if (typeof data === 'string') {

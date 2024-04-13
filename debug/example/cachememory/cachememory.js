@@ -12,23 +12,19 @@ const onReady = () => {
   const dataString = "홍길동";
   const dataArray = ["유관순", "이순신", "홍길동"];
   // 캐시 데이터 체크 및 저장 및 데이터 가져오기
-  const cachedData = (_a = window.cacheMemory._get('/test/object')) !== null && _a !== void 0 ? _a : (() => {
-    window.cacheMemory._set('/test/object', data, 60);
-    return window.cacheMemory._get('/test/object');
-  })();
+  const cachedData = (_a = window.cacheMemory._get('/test/object')) !== null && _a !== void 0 ? _a : window.cacheMemory._set('/test/object', data, 60)._get('/test/object');
   Log.d('cache', '/test/object', cachedData);
   // string
-  const cachedString = (_b = window.cacheMemory._get('/test/string')) !== null && _b !== void 0 ? _b : (() => {
-    window.cacheMemory._set('/test/string', dataString, 60);
-    return window.cacheMemory._get('/test/string');
-  })();
+  const cachedString = (_b = window.cacheMemory._get('/test/string')) !== null && _b !== void 0 ? _b : window.cacheMemory._set('/test/string', dataString, 60)._get('/test/string');
   Log.d('cache string', '/test/string', cachedString);
   // array
-  const cachedArray = (_c = window.cacheMemory._get('/test/array')) !== null && _c !== void 0 ? _c : (() => {
-    window.cacheMemory._set('/test/array', dataArray, 60);
-    return window.cacheMemory._get('/test/array');
-  })();
+  const cachedArray = (_c = window.cacheMemory._get('/test/array')) !== null && _c !== void 0 ? _c : window.cacheMemory._set('/test/array', dataArray, 60)._get('/test/array');
   Log.d('cache array', '/test/array', cachedArray);
+  // 비동기 
+  window.cacheMemory._getAsync('/test/array').
+  then((data) => {
+    Log.d('_getAsync', data);
+  });
   // 캐시 삭제
   // window.cacheMemory._delete('mc');
   // 캐시 전체 비우기

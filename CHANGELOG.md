@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.0]
+### - 2024-04-13
+- CacheMemory,CacheLocalStorage class 비동기 메소드 _getAsync 추가 및 _set 객체object 리턴으로 변경
+
 ### - 2024-04-12
 - RecyclerView 실시간 스크롤 위치 확인 기능 추가
 - RecyclerView example 예제 업데이트
