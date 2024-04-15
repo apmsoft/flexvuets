@@ -2,19 +2,9 @@ import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
 
-import Arrays from '@v1/js/values/arrays.js';
-import Sysmsg from '@v1/js/values/sysmsg.js';
-import Strings from '@v1/js/values/strings.js';
-import Numbers from '@v1/js/values/numbers.js';
-
 import {MyException} from '@v1/js/exception.class.js';
 import { HeaderActivity } from '@v1/js/header.class.js';
 import { DrawerMenu } from "@v1/js/drawer_menu.js";
-
-window.Sysmsg = Sysmsg;
-window.Arrays = Arrays;
-window.Strings = Strings;
-window.Numbers = Numbers;
 
 // 이전 화면 패널 위치
 let pre_viewpage : string | null = null;
@@ -64,42 +54,62 @@ const onReady = () : void =>
     // scroll Observer
     new ScrollObserver(["main","menu3","menu2","search"]);
 
-    // routes
-    try{
-        const fastRouter = new FastRouter(urlManager.hash);
-        fastRouter.addRoute('/', 'run', new URL('../main/main.class.js', import.meta.url).href );
-        fastRouter.addRoute('/menu1/greeting', 'doGreeting',new URL('../menu1/menu1.class.js', import.meta.url).href);
-        fastRouter.addRoute('/menu1/location', 'doLocation',new URL('../menu1/menu1.class.js', import.meta.url).href);
-        fastRouter.addRoute('/menu2', 'doList',new URL('../menu2/menu2.class.js', import.meta.url).href);
-        fastRouter.addRoute('/menu3', 'doList',new URL('../menu3/menu3.class.js', import.meta.url).href);
+    // load resource values
+    Promise.all([
+        new AsyncTask().doImport( new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href ),
+        new AsyncTask().doImport( new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href ),
+        new AsyncTask().doImport( new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href ),
+        new AsyncTask().doImport( new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href ),
+    ])
+    .then(data=>{
+        const [Arrays, Sysmsg, Strings, Numbers] = data;
+        window.Arrays  = Arrays.default;
+        window.Sysmsg  = Sysmsg.default;
+        window.Strings = Strings.default;
+        window.Numbers = Numbers.default;
+        Log.d('resource');
 
-        fastRouter.listen((pathinfo) => {
-            Log.d( 'pathinfo',pathinfo );
-            if (pathinfo.path)
-            {
-                // 페이지 refresh 여부
-                if(pre_viewpage != null && pre_viewpage != '#left'){
-                    if(document.querySelector<HTMLElement>('#left')!.childNodes.length>1){
-                        Log.d(' <<<< stop >>>>');
-                        return;
+        return 'ok';
+    })
+    .then(ok=>{
+
+        // routes
+        try{
+            const fastRouter = new FastRouter(urlManager.hash);
+            fastRouter.addRoute('/', 'run', new URL('../main/main.class.js', import.meta.url).href );
+            fastRouter.addRoute('/menu1/greeting', 'doGreeting',new URL('../menu1/menu1.class.js', import.meta.url).href);
+            fastRouter.addRoute('/menu1/location', 'doLocation',new URL('../menu1/menu1.class.js', import.meta.url).href);
+            fastRouter.addRoute('/menu2', 'doList',new URL('../menu2/menu2.class.js', import.meta.url).href);
+            fastRouter.addRoute('/menu3', 'doList',new URL('../menu3/menu3.class.js', import.meta.url).href);
+
+            fastRouter.listen((pathinfo) => {
+                Log.d( 'pathinfo',pathinfo );
+                if (pathinfo.path)
+                {
+                    // 페이지 refresh 여부
+                    if(pre_viewpage != null && pre_viewpage != '#left'){
+                        if(document.querySelector<HTMLElement>('#left')!.childNodes.length>1){
+                            Log.d(' <<<< stop >>>>');
+                            return;
+                        }
                     }
-                }
 
-                // drawer-menu
-                if(pathinfo.path =='/drawermenu'){
-                    drawerMenu.openDrawer();
-                }else {
-                    let _path = (pathinfo.path !='/' && typeof pathinfo.parse_path[0] !==undefined) ? pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "") : '';
-                    window.observable.notify("drawermenu", _path);
-                }
+                    // drawer-menu
+                    if(pathinfo.path =='/drawermenu'){
+                        drawerMenu.openDrawer();
+                    }else {
+                        let _path = (pathinfo.path !='/' && typeof pathinfo.parse_path[0] !==undefined) ? pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "") : '';
+                        window.observable.notify("drawermenu", _path);
+                    }
 
-                // fastRouter dispatcher
-                fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);
-            }
-        });
-    }catch(err){
-        Log.e(err);
-    }
+                    // fastRouter dispatcher
+                    fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);
+                }
+            });
+        }catch(err){
+            Log.e(err);
+        }
+    });
 };
 
 // document ready

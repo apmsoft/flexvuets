@@ -1041,6 +1041,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1071,50 +1103,18 @@
         * @param ease function || string Function which should be used for easing or easing keyword
         * @param delay Number indicating the delay before the animation starts
         * @return target || this
-        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}var situation = new SVG.Situation({ duration: o || 1000, delay: delay || 0, ease: SVG.easing[ease || '-'] || ease
-            });
-
-          this.queue(situation);
-
-          return this;
-        },
-
-        /**
+        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}var situation = new SVG.Situation({ duration: o || 1000, delay: delay || 0, ease: SVG.easing[ease || '-'] || ease });this.queue(situation);return this;}, /**
         * sets a delay before the next element of the queue is called
         * @param delay Duration of delay in milliseconds
         * @return this.target()
-        */
-
-
-        /**
+        */ /**
         * sets or returns the target of this animation
         * @param null || target SVG.Element which should be set as new target
         * @return target || this
-        */
-        target: function (target) {
-          if (target && target instanceof SVG.Element) {
-            this._target = target;
-            return this;
-          }
-
-          return this._target;
-        },
-
-        // returns the absolute position at a given time
-        timeToAbsPos: function (timestamp) {
-          return (timestamp - this.situation.start) / (this.situation.duration / this._speed);
-        },
-
-        // returns the timestamp from a given absolute positon
-        absPosToTime: function (absPos) {
-          return this.situation.duration / this._speed * absPos + this.situation.start;
-        },
-
-        // starts the animationloop
-        startAnimFrame: function () {
-          this.stopAnimFrame();
-          this.animationFrame = window.requestAnimationFrame(function () {this.step();}.bind(this));
-        },
+        */target: function (target) {if (target && target instanceof SVG.Element) {this._target = target;return this;}return this._target;}, // returns the absolute position at a given time
+        timeToAbsPos: function (timestamp) {return (timestamp - this.situation.start) / (this.situation.duration / this._speed);}, // returns the timestamp from a given absolute positon
+        absPosToTime: function (absPos) {return this.situation.duration / this._speed * absPos + this.situation.start;}, // starts the animationloop
+        startAnimFrame: function () {this.stopAnimFrame();this.animationFrame = window.requestAnimationFrame(function () {this.step();}.bind(this));},
 
         // cancels the animationframe
         stopAnimFrame: function () {
@@ -1653,6 +1653,54 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1664,65 +1712,17 @@
     parent: SVG.Element, // Constructor
     construct: { // Get bounding box
       bbox: function () {return new SVG.BBox(this);} } });SVG.BBox.prototype.constructor = SVG.BBox;SVG.Matrix = SVG.invent({ // Initialize
-      create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]);
-        // ensure source as object
-        source = source === null ? base : source instanceof SVG.Element ?
-        source.matrixify() :
-        typeof source === 'string' ?
-        arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) :
-        arguments.length == 6 ?
-        arrayToMatrix([].slice.call(arguments)) :
-        Array.isArray(source) ?
-        arrayToMatrix(source) :
-        source && typeof source === 'object' ?
-        source : base;
-
-        // merge source
-        for (var i = abcdef.length - 1; i >= 0; --i) {
-          this[abcdef[i]] = source[abcdef[i]] != null ?
-          source[abcdef[i]] : base[abcdef[i]];
-        }
-      },
-
-      // Add methods
-      extend: {
-        // Extract individual transformations
-        extract: function () {
-          // find delta transform points
-          var px = deltaTransformPoint(this, 0, 1),
-            py = deltaTransformPoint(this, 1, 0),
-            skewX = 180 / Math.PI * Math.atan2(px.y, px.x) - 90;
-
-          return {
-            // translation
-            x: this.e,
-            y: this.f,
-            transformedX: (this.e * Math.cos(skewX * Math.PI / 180) + this.f * Math.sin(skewX * Math.PI / 180)) / Math.sqrt(this.a * this.a + this.b * this.b),
-            transformedY: (this.f * Math.cos(skewX * Math.PI / 180) + this.e * Math.sin(-skewX * Math.PI / 180)) / Math.sqrt(this.c * this.c + this.d * this.d),
-
-            // rotation
-            rotation: skewX,
-            a: this.a,
-            b: this.b,
-            c: this.c,
-            d: this.d,
-            e: this.e,
-            f: this.f,
-            matrix: new SVG.Matrix(this)
-          };
-        },
-        // Clone matrix
-        clone: function () {
-          return new SVG.Matrix(this);
-        },
-        // Morph one matrix into another
-        morph: function (matrix) {
-          // store new destination
-          this.destination = new SVG.Matrix(matrix);
-
-          return this;
-        },
-
+      create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]); // ensure source as object
+        source = source === null ? base : source instanceof SVG.Element ? source.matrixify() : typeof source === 'string' ? arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) : arguments.length == 6 ? arrayToMatrix([].slice.call(arguments)) : Array.isArray(source) ? arrayToMatrix(source) : source && typeof source === 'object' ? source : base; // merge source
+        for (var i = abcdef.length - 1; i >= 0; --i) {this[abcdef[i]] = source[abcdef[i]] != null ? source[abcdef[i]] : base[abcdef[i]];}}, // Add methods
+      extend: { // Extract individual transformations
+        extract: function () {// find delta transform points
+          var px = deltaTransformPoint(this, 0, 1),py = deltaTransformPoint(this, 1, 0),skewX = 180 / Math.PI * Math.atan2(px.y, px.x) - 90;return { // translation
+            x: this.e, y: this.f, transformedX: (this.e * Math.cos(skewX * Math.PI / 180) + this.f * Math.sin(skewX * Math.PI / 180)) / Math.sqrt(this.a * this.a + this.b * this.b), transformedY: (this.f * Math.cos(skewX * Math.PI / 180) + this.e * Math.sin(-skewX * Math.PI / 180)) / Math.sqrt(this.c * this.c + this.d * this.d), // rotation
+            rotation: skewX, a: this.a, b: this.b, c: this.c, d: this.d, e: this.e, f: this.f, matrix: new SVG.Matrix(this) };}, // Clone matrix
+        clone: function () {return new SVG.Matrix(this);}, // Morph one matrix into another
+        morph: function (matrix) {// store new destination
+          this.destination = new SVG.Matrix(matrix);return this;},
         // Multiplies by given matrix
         multiply: function (matrix) {
           return new SVG.Matrix(this.native().multiply(parseMatrix(matrix).native()));
@@ -2469,35 +2469,35 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
         this.type = type;}, // Inherit from
       inherit: SVG.Container, // Add class methods
       extend: { // Add a color stop
-        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);},
-        // Update gradient
-        update: function (block) {
-          // remove all stops
-          this.clear();
-
-          // invoke passed block
-          if (typeof block === 'function') {block.call(this, this);}
-
-          return this;
-        },
-        // Return the fill id
-        fill: function () {
-          return 'url(#' + this.id() + ')';
-        },
-        // Alias string convertion to fill
-        toString: function () {
-          return this.fill();
-        },
-        // custom attr to handle transform
-        attr: function (a, b, c) {
-          if (a == 'transform') a = 'gradientTransform';
-          return SVG.Container.prototype.attr.call(this, a, b, c);
+        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);}, // Update gradient
+        update: function (block) {// remove all stops
+          this.clear(); // invoke passed block
+          if (typeof block === 'function') {block.call(this, this);}return this;}, // Return the fill id
+        fill: function () {return 'url(#' + this.id() + ')';}, // Alias string convertion to fill
+        toString: function () {return this.fill();}, // custom attr to handle transform
+        attr: function (a, b, c) {if (a == 'transform') a = 'gradientTransform';return SVG.Container.prototype.attr.call(this, a, b, c);
         }
       },
 

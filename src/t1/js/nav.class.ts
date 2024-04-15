@@ -6,7 +6,6 @@ export default class Navigation {
     private preNavigation : string | null;
     constructor(){
         this.preNavigation = null;
-        this.onCreateView();
     }
 
     onCreateView ()

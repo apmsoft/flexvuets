@@ -3,7 +3,6 @@ import UrlManager from "../../flexvue/core/urlmanager.class.js";
 export default class Navigation {
   constructor() {
     this.preNavigation = null;
-    this.onCreateView();
   }
   onCreateView() {
     // Promise all
