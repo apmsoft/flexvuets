@@ -4,6 +4,7 @@
 ### - 2024-04-15
 - Plugin CryptoES 암호화 알고리즘 라이브러리 추가
 - Plugin CryptoES example 생성
+- 다국어 리소트 로딩 v1, t1 예제 index.ts 기능 업데이트
 
 ### - 2024-04-13
 - CacheMemory,CacheLocalStorage class 비동기 메소드 _getAsync 추가 및 _set 객체object 리턴으로 변경
