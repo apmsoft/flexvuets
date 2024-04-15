@@ -248,6 +248,7 @@ class App {
     return language;
   }
 }
+new App();
 // console.log
 class Log {
   static d(...args) {

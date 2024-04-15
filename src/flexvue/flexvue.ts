@@ -313,7 +313,7 @@ class App {
         return parseFloat(data.substring(index + this.versionSearchString.length + 1));
     }
 
-    public getLanguage(): string {
+    private getLanguage(): string {
         let language = navigator.language;
         language = language.toLowerCase();
         language = language.substring(0, 2); // first 2 characters
@@ -323,6 +323,8 @@ class App {
         return language;
     }
 }
+
+new App();
 
 // console.log
 class Log {

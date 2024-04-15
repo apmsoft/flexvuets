@@ -15,7 +15,6 @@ const onReady = () : void =>
     config.src = config.host+'/'+config.src9;
 
     // 앱 정보
-    new App();
     Log.i(App.browser, App.version, App.os, App.lang);
 
     // onBackPressed
@@ -111,6 +110,9 @@ const onReady = () : void =>
 
 // document ready
 document.addEventListener("DOMContentLoaded", () => {
+    // 지원언어 설정
+    // config.surport_langs = ['en'];
+
     // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
     window.R = R;
     window.R.__init({
