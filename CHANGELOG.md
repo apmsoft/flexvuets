@@ -5,6 +5,8 @@
 - R.class new add : 리소스 arrays,sysmsg,strings,numbers 등 다국어 리소스 컨트롤 클래스 제공
 - removde global Arrays,Sysmsg,Strings,Numbers 
 - R global 등록, window.R 로 어디서든 실행 가능
+- install.sh 설치 환경 업데이트 (R.class 관련 셋팅)
+- 관련 t1, v1 업데이트
 
 ## [3.0]
 ### - 2024-04-15
