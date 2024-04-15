@@ -10,9 +10,9 @@ export default class Navigation {
     then((data) => {
       const template = new data.Template();
       // set title
-      document.querySelector('#left_title').innerText = window.Strings.app_name;
+      document.querySelector('#left_title').innerText = window.R.strings.app_name;
       // 네비게이션
-      const outhtml_el = document.querySelector('#left-col-1').innerHTML = template.render(window.Arrays);
+      const outhtml_el = document.querySelector('#left-col-1').innerHTML = template.render(window.R.arrays);
       // resolve
       return 'ok';
     }).

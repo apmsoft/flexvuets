@@ -28679,6 +28679,48 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28715,62 +28757,20 @@ absPosToTime:function absPosToTime(absPos){return this.situation.duration/this._
 startAnimFrame:function startAnimFrame(){this.stopAnimFrame();this.animationFrame=window.requestAnimationFrame(function(){this.step();}.bind(this));},// cancels the animationframe
 stopAnimFrame:function stopAnimFrame(){window.cancelAnimationFrame(this.animationFrame);},// kicks off the animation - only does something when the queue is currently not active and at least one situation is set
 start:function start(){// dont start if already started
-if(!this.active&&this.situation){this.active=true;this.startCurrent();}
-return this;
-},
-// start the current situation
-startCurrent:function startCurrent(){
-this.situation.start=+new Date()+this.situation.delay/this._speed;
-this.situation.finish=this.situation.start+this.situation.duration/this._speed;
-return this.initAnimations().step();
-},
-
-/**
+if(!this.active&&this.situation){this.active=true;this.startCurrent();}return this;},// start the current situation
+startCurrent:function startCurrent(){this.situation.start=+new Date()+this.situation.delay/this._speed;this.situation.finish=this.situation.start+this.situation.duration/this._speed;return this.initAnimations().step();},/**
         * adds a function / Situation to the animation queue
         * @param fn function / situation to add
         * @return this
-        */
-queue:function queue(fn){
-if(typeof fn==='function'||fn instanceof SVG.Situation){
-this.situations.push(fn);
-}
-
-if(!this.situation)this.situation=this.situations.shift();
-return this;
-},
-
-/**
+        */queue:function queue(fn){if(typeof fn==='function'||fn instanceof SVG.Situation){this.situations.push(fn);}if(!this.situation)this.situation=this.situations.shift();return this;},/**
         * pulls next element from the queue and execute it
         * @return this
-        */
-dequeue:function dequeue(){
-// stop current animation
+        */dequeue:function dequeue(){// stop current animation
 this.stop();// get next animation from queue
-
-this.situation=this.situations.shift();
-
-if(this.situation){
-if(this.situation instanceof SVG.Situation){
-this.start();
-}else{
-// If it is not a SVG.Situation, then it is a function, we execute it
-this.situation.call(this);
-}
-}
-
-return this;
-},
-// updates all animations to the current state of the element
+this.situation=this.situations.shift();if(this.situation){if(this.situation instanceof SVG.Situation){this.start();}else{// If it is not a SVG.Situation, then it is a function, we execute it
+this.situation.call(this);}}return this;},// updates all animations to the current state of the element
 // this is important when one property could be changed from another property
-initAnimations:function initAnimations(){
-var source;
-var s=this.situation;
-if(s.init)return this;
-
-for(var i in s.animations){
-source=this.target()[i]();
-
-if(!Array.isArray(source)){
+initAnimations:function initAnimations(){var source;var s=this.situation;if(s.init)return this;for(var i in s.animations){source=this.target()[i]();if(!Array.isArray(source)){
 source=[source];
 }
 
@@ -29264,6 +29264,69 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29294,88 +29357,25 @@ var matrix=SVG.parser.native.createSVGMatrix();// update with current values
 for(var i=abcdef.length-1;i>=0;i--){matrix[abcdef[i]]=this[abcdef[i]];}return matrix;},// Convert matrix to string
 toString:function toString(){// Construct the matrix directly, avoid values that are too small
 return'matrix('+float32String(this.a)+','+float32String(this.b)+','+float32String(this.c)+','+float32String(this.d)+','+float32String(this.e)+','+float32String(this.f)+')';}},// Define parent
-parent:SVG.Element,
-// Add parent method
-construct:{
-// Get current matrix
-ctm:function ctm(){
-return new SVG.Matrix(this.node.getCTM());
-},
-// Get current screen matrix
-screenCTM:function screenCTM(){
-/* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
+parent:SVG.Element,// Add parent method
+construct:{// Get current matrix
+ctm:function ctm(){return new SVG.Matrix(this.node.getCTM());},// Get current screen matrix
+screenCTM:function screenCTM(){/* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
              This is needed because FF does not return the transformation matrix
              for the inner coordinate system when getScreenCTM() is called on nested svgs.
-             However all other Browsers do that */
-if(this instanceof SVG.Nested){
-var rect=this.rect(1,1);
-var m=rect.node.getScreenCTM();
-rect.remove();
-return new SVG.Matrix(m);
-}
-
-return new SVG.Matrix(this.node.getScreenCTM());
-}
-}
-});
-SVG.Point=SVG.invent({
-// Initialize
-create:function create(x,y){
-var source,
-base={
-x:0,
-y:0
-};// ensure source as object
-
-source=Array.isArray(x)?{
-x:x[0],
-y:x[1]
-}:_typeof(x)==='object'?{
-x:x.x,
-y:x.y
-}:x!=null?{
-x:x,
-y:y!=null?y:x
-}:base;// If y has no value, then x is used has its value
+             However all other Browsers do that */if(this instanceof SVG.Nested){var rect=this.rect(1,1);var m=rect.node.getScreenCTM();rect.remove();return new SVG.Matrix(m);}return new SVG.Matrix(this.node.getScreenCTM());}}});SVG.Point=SVG.invent({// Initialize
+create:function create(x,y){var source,base={x:0,y:0};// ensure source as object
+source=Array.isArray(x)?{x:x[0],y:x[1]}:_typeof(x)==='object'?{x:x.x,y:x.y}:x!=null?{x:x,y:y!=null?y:x}:base;// If y has no value, then x is used has its value
 // merge source
-
-this.x=source.x;
-this.y=source.y;
-},
-// Add methods
-extend:{
-// Clone point
-clone:function clone(){
-return new SVG.Point(this);
-},
-// Morph one point into another
-morph:function morph(x,y){
-// store new destination
-this.destination=new SVG.Point(x,y);
-return this;
-}
-}
-});
-SVG.extend(SVG.Element,{
-// Get point
-point:function point(x,y){
-return new SVG.Point(x,y).transform(this.screenCTM().inverse());
-}
-});
-SVG.extend(SVG.Element,{
-// Set svg element attribute
-attr:function attr(a,v,n){
-// act as full getter
-if(a==null){
-// get an object of attributes
-a={};
-v=this.node.attributes;
-
-for(var n=v.length-1;n>=0;n--){
-a[v[n].nodeName]=SVG.regex.isNumber.test(v[n].nodeValue)?parseFloat(v[n].nodeValue):v[n].nodeValue;
-}
-
-return a;
+this.x=source.x;this.y=source.y;},// Add methods
+extend:{// Clone point
+clone:function clone(){return new SVG.Point(this);},// Morph one point into another
+morph:function morph(x,y){// store new destination
+this.destination=new SVG.Point(x,y);return this;}}});SVG.extend(SVG.Element,{// Get point
+point:function point(x,y){return new SVG.Point(x,y).transform(this.screenCTM().inverse());}});SVG.extend(SVG.Element,{// Set svg element attribute
+attr:function attr(a,v,n){// act as full getter
+if(a==null){// get an object of attributes
+a={};v=this.node.attributes;for(var n=v.length-1;n>=0;n--){a[v[n].nodeName]=SVG.regex.isNumber.test(v[n].nodeValue)?parseFloat(v[n].nodeValue):v[n].nodeValue;}return a;
 }else if(_typeof(a)==='object'){
 // apply every attribute individually if an object is passed
 for(var v_ in a){
@@ -29971,6 +29971,27 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29985,31 +30006,10 @@ fill:function fill(){return'url(#'+this.id()+')';},// Alias string convertion to
 toString:function toString(){return this.fill();},// custom attr to handle transform
 attr:function attr(a,b,c){if(a=='transform')a='gradientTransform';return SVG.Container.prototype.attr.call(this,a,b,c);}},// Add parent method
 construct:{// Create gradient element in defs
-gradient:function gradient(type,block){return this.defs().gradient(type,block);
-}
-}
-});// Add animatable methods to both gradient and fx module
-
-SVG.extend(SVG.Gradient,SVG.FX,{
-// From position
-from:function from(x,y){
-return(this._target||this).type=='radial'?this.attr({
-fx:new SVG.Number(x),
-fy:new SVG.Number(y)
-}):this.attr({
-x1:new SVG.Number(x),
-y1:new SVG.Number(y)
-});
-},
-// To position
-to:function to(x,y){
-return(this._target||this).type=='radial'?this.attr({
-cx:new SVG.Number(x),
-cy:new SVG.Number(y)
-}):this.attr({
-x2:new SVG.Number(x),
-y2:new SVG.Number(y)
-});
+gradient:function gradient(type,block){return this.defs().gradient(type,block);}}});// Add animatable methods to both gradient and fx module
+SVG.extend(SVG.Gradient,SVG.FX,{// From position
+from:function from(x,y){return(this._target||this).type=='radial'?this.attr({fx:new SVG.Number(x),fy:new SVG.Number(y)}):this.attr({x1:new SVG.Number(x),y1:new SVG.Number(y)});},// To position
+to:function to(x,y){return(this._target||this).type=='radial'?this.attr({cx:new SVG.Number(x),cy:new SVG.Number(y)}):this.attr({x2:new SVG.Number(x),y2:new SVG.Number(y)});
 }
 });// Base gradient generation
 

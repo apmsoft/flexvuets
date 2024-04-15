@@ -1073,6 +1073,48 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1114,63 +1156,21 @@
         */target: function (target) {if (target && target instanceof SVG.Element) {this._target = target;return this;}return this._target;}, // returns the absolute position at a given time
         timeToAbsPos: function (timestamp) {return (timestamp - this.situation.start) / (this.situation.duration / this._speed);}, // returns the timestamp from a given absolute positon
         absPosToTime: function (absPos) {return this.situation.duration / this._speed * absPos + this.situation.start;}, // starts the animationloop
-        startAnimFrame: function () {this.stopAnimFrame();this.animationFrame = window.requestAnimationFrame(function () {this.step();}.bind(this));},
-
-        // cancels the animationframe
-        stopAnimFrame: function () {
-          window.cancelAnimationFrame(this.animationFrame);
-        },
-
-        // kicks off the animation - only does something when the queue is currently not active and at least one situation is set
-        start: function () {
-          // dont start if already started
-          if (!this.active && this.situation) {
-            this.active = true;
-            this.startCurrent();
-          }
-
-          return this;
-        },
-
-        // start the current situation
-        startCurrent: function () {
-          this.situation.start = +new Date() + this.situation.delay / this._speed;
-          this.situation.finish = this.situation.start + this.situation.duration / this._speed;
-          return this.initAnimations().step();
-        },
-
-        /**
+        startAnimFrame: function () {this.stopAnimFrame();this.animationFrame = window.requestAnimationFrame(function () {this.step();}.bind(this));}, // cancels the animationframe
+        stopAnimFrame: function () {window.cancelAnimationFrame(this.animationFrame);}, // kicks off the animation - only does something when the queue is currently not active and at least one situation is set
+        start: function () {// dont start if already started
+          if (!this.active && this.situation) {this.active = true;this.startCurrent();}return this;}, // start the current situation
+        startCurrent: function () {this.situation.start = +new Date() + this.situation.delay / this._speed;this.situation.finish = this.situation.start + this.situation.duration / this._speed;return this.initAnimations().step();}, /**
         * adds a function / Situation to the animation queue
         * @param fn function / situation to add
         * @return this
-        */
-        queue: function (fn) {
-          if (typeof fn === 'function' || fn instanceof SVG.Situation) {this.situations.push(fn);}
-
-          if (!this.situation) this.situation = this.situations.shift();
-
-          return this;
-        },
-
-        /**
+        */queue: function (fn) {if (typeof fn === 'function' || fn instanceof SVG.Situation) {this.situations.push(fn);}if (!this.situation) this.situation = this.situations.shift();return this;}, /**
         * pulls next element from the queue and execute it
         * @return this
-        */
-        dequeue: function () {
-          // stop current animation
-          this.stop();
-
-          // get next animation from queue
-          this.situation = this.situations.shift();
-
-          if (this.situation) {
-            if (this.situation instanceof SVG.Situation) {
-              this.start();
-            } else {
-              // If it is not a SVG.Situation, then it is a function, we execute it
-              this.situation.call(this);
-            }
-          }
+        */dequeue: function () {// stop current animation
+          this.stop(); // get next animation from queue
+          this.situation = this.situations.shift();if (this.situation) {if (this.situation instanceof SVG.Situation) {this.start();} else {// If it is not a SVG.Situation, then it is a function, we execute it
+              this.situation.call(this);}}
 
           return this;
         },
@@ -1701,6 +1701,69 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1722,106 +1785,43 @@
             rotation: skewX, a: this.a, b: this.b, c: this.c, d: this.d, e: this.e, f: this.f, matrix: new SVG.Matrix(this) };}, // Clone matrix
         clone: function () {return new SVG.Matrix(this);}, // Morph one matrix into another
         morph: function (matrix) {// store new destination
-          this.destination = new SVG.Matrix(matrix);return this;},
-        // Multiplies by given matrix
-        multiply: function (matrix) {
-          return new SVG.Matrix(this.native().multiply(parseMatrix(matrix).native()));
+          this.destination = new SVG.Matrix(matrix);return this;}, // Multiplies by given matrix
+        multiply: function (matrix) {return new SVG.Matrix(this.native().multiply(parseMatrix(matrix).native()));}, // Inverses matrix
+        inverse: function () {return new SVG.Matrix(this.native().inverse());}, // Translate matrix
+        translate: function (x, y) {return new SVG.Matrix(this.native().translate(x || 0, y || 0));}, // Convert to native SVGMatrix
+        native: function () {// create new matrix
+          var matrix = SVG.parser.native.createSVGMatrix(); // update with current values
+          for (var i = abcdef.length - 1; i >= 0; i--) {matrix[abcdef[i]] = this[abcdef[i]];}return matrix;}, // Convert matrix to string
+        toString: function () {// Construct the matrix directly, avoid values that are too small
+          return 'matrix(' + float32String(this.a) + ',' + float32String(this.b) + ',' + float32String(this.c) + ',' + float32String(this.d) + ',' + float32String(this.e) + ',' + float32String(this.f) + ')';} }, // Define parent
+      parent: SVG.Element, // Add parent method
+      construct: { // Get current matrix
+        ctm: function () {return new SVG.Matrix(this.node.getCTM());}, // Get current screen matrix
+        screenCTM: function () {/* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
+          This is needed because FF does not return the transformation matrix
+          for the inner coordinate system when getScreenCTM() is called on nested svgs.
+          However all other Browsers do that */if (this instanceof SVG.Nested) {var rect = this.rect(1, 1);var m = rect.node.getScreenCTM();rect.remove();return new SVG.Matrix(m);}return new SVG.Matrix(this.node.getScreenCTM());} } });SVG.Point = SVG.invent({ // Initialize
+      create: function (x, y) {var i,source,base = { x: 0, y: 0 }; // ensure source as object
+        source = Array.isArray(x) ? { x: x[0], y: x[1] } : typeof x === 'object' ? { x: x.x, y: x.y } : x != null ? { x: x, y: y != null ? y : x } : base; // If y has no value, then x is used has its value
+        // merge source
+        this.x = source.x;this.y = source.y;}, // Add methods
+      extend: { // Clone point
+        clone: function () {
+          return new SVG.Point(this);
         },
-        // Inverses matrix
-        inverse: function () {
-          return new SVG.Matrix(this.native().inverse());
-        },
-        // Translate matrix
-        translate: function (x, y) {
-          return new SVG.Matrix(this.native().translate(x || 0, y || 0));
-        },
+        // Morph one point into another
+        morph: function (x, y) {
+          // store new destination
+          this.destination = new SVG.Point(x, y);
 
-
-        // Convert to native SVGMatrix
-        native: function () {
-          // create new matrix
-          var matrix = SVG.parser.native.createSVGMatrix();
-
-          // update with current values
-          for (var i = abcdef.length - 1; i >= 0; i--) {matrix[abcdef[i]] = this[abcdef[i]];}
-
-          return matrix;
-        },
-        // Convert matrix to string
-        toString: function () {
-          // Construct the matrix directly, avoid values that are too small
-          return 'matrix(' + float32String(this.a) + ',' + float32String(this.b) +
-          ',' + float32String(this.c) + ',' + float32String(this.d) +
-          ',' + float32String(this.e) + ',' + float32String(this.f) +
-          ')';
+          return this;
         }
-      },
 
-      // Define parent
-      parent: SVG.Element,
 
-      // Add parent method
-      construct: {
-        // Get current matrix
-        ctm: function () {
-          return new SVG.Matrix(this.node.getCTM());
-        },
-        // Get current screen matrix
-        screenCTM: function () {
-          /* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
-             This is needed because FF does not return the transformation matrix
-             for the inner coordinate system when getScreenCTM() is called on nested svgs.
-             However all other Browsers do that */
-          if (this instanceof SVG.Nested) {
-            var rect = this.rect(1, 1);
-            var m = rect.node.getScreenCTM();
-            rect.remove();
-            return new SVG.Matrix(m);
-          }
-          return new SVG.Matrix(this.node.getScreenCTM());
-        }
 
       }
 
     });
-
-  SVG.Point = SVG.invent({
-    // Initialize
-    create: function (x, y) {
-      var i,source,base = { x: 0, y: 0 };
-
-      // ensure source as object
-      source = Array.isArray(x) ?
-      { x: x[0], y: x[1] } :
-      typeof x === 'object' ?
-      { x: x.x, y: x.y } :
-      x != null ?
-      { x: x, y: y != null ? y : x } : base; // If y has no value, then x is used has its value
-
-      // merge source
-      this.x = source.x;
-      this.y = source.y;
-    },
-
-    // Add methods
-    extend: {
-      // Clone point
-      clone: function () {
-        return new SVG.Point(this);
-      },
-      // Morph one point into another
-      morph: function (x, y) {
-        // store new destination
-        this.destination = new SVG.Point(x, y);
-
-        return this;
-      }
-
-
-
-    }
-
-  });
 
   SVG.extend(SVG.Element, {
 
@@ -2485,6 +2485,27 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2497,34 +2518,13 @@
           if (typeof block === 'function') {block.call(this, this);}return this;}, // Return the fill id
         fill: function () {return 'url(#' + this.id() + ')';}, // Alias string convertion to fill
         toString: function () {return this.fill();}, // custom attr to handle transform
-        attr: function (a, b, c) {if (a == 'transform') a = 'gradientTransform';return SVG.Container.prototype.attr.call(this, a, b, c);
-        }
-      },
-
-      // Add parent method
-      construct: {
-        // Create gradient element in defs
-        gradient: function (type, block) {
-          return this.defs().gradient(type, block);
-        }
-      }
+        attr: function (a, b, c) {if (a == 'transform') a = 'gradientTransform';return SVG.Container.prototype.attr.call(this, a, b, c);} }, // Add parent method
+      construct: { // Create gradient element in defs
+        gradient: function (type, block) {return this.defs().gradient(type, block);} } }); // Add animatable methods to both gradient and fx module
+  SVG.extend(SVG.Gradient, SVG.FX, { // From position
+      from: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) : this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y) });}, // To position
+      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });}
     });
-
-  // Add animatable methods to both gradient and fx module
-  SVG.extend(SVG.Gradient, SVG.FX, {
-    // From position
-    from: function (x, y) {
-      return (this._target || this).type == 'radial' ?
-      this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) :
-      this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y) });
-    },
-    // To position
-    to: function (x, y) {
-      return (this._target || this).type == 'radial' ?
-      this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) :
-      this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });
-    }
-  });
 
   // Base gradient generation
   SVG.extend(SVG.Defs, {

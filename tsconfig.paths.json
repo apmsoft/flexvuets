@@ -15,6 +15,7 @@
             "@flexvue/fastrouter": ["src/flexvue/core/fastrouter.class.ts"],
             "@flexvue/recyclerview": ["src/flexvue/core/recyclerview.class.ts"],
             "@flexvue/caches": ["src/flexvue/core/caches.class.ts"],
+            "@flexvue/resource": ["src/flexvue/core/resource.class.ts"],
             "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
             "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
             "@editorjs/header": ["node_modules/@editorjs/header"],

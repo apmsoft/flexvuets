@@ -19,6 +19,7 @@ module.exports = {
             ,"@flexvue/fastrouter":`./${debugPath}/flexvue/core/fastrouter.class.js`
             ,"@flexvue/recyclerview":`./${debugPath}/flexvue/core/recyclerview.class.js`
             ,"@flexvue/caches":`./${debugPath}/flexvue/core/caches.class.js`
+            ,"@flexvue/resource":`./${debugPath}/flexvue/core/resource.class.js`
             ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
             ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
             ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`

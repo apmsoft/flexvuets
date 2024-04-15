@@ -1,6 +1,7 @@
 import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
+import R from '@flexvue/resource';
 
 import Navigation from '@t1/js/nav.class.js';
 import {MyException} from '@t1/js/exception.class.js';
@@ -31,6 +32,7 @@ const onReady = () : void =>
     // class
     const myException = new MyException();
     const navigation  = new Navigation();
+    navigation.onCreateView();
 
     window.observable.subscribe('exception', myException);
 
@@ -65,70 +67,60 @@ const onReady = () : void =>
         }, false);
     }
 
-    // load resource values
-    Promise.all([
-        new AsyncTask().doImport( new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href ),
-        new AsyncTask().doImport( new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href ),
-        new AsyncTask().doImport( new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href ),
-        new AsyncTask().doImport( new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href ),
-    ])
-    .then(data=>{
-        const [Arrays, Sysmsg, Strings, Numbers] = data;
-        window.Arrays  = Arrays.default;
-        window.Sysmsg  = Sysmsg.default;
-        window.Strings = Strings.default;
-        window.Numbers = Numbers.default;
-        Log.d('resource');
+    // routes
+    try{
+        const fastRouter = new FastRouter(urlManager.hash);
+        fastRouter.addRoute('/', null, null );
+        fastRouter.addRoute('/item/list', null,null);
+        fastRouter.addRoute('/itemgroup/list', null,null);
+        fastRouter.addRoute('/manager/list', null,null);
+        fastRouter.addRoute('/analysis/tables', null, null);
 
-        //  navigation 1차 메뉴 시작
-        navigation.onCreateView();
-
-        return 'ok';
-    })
-    .then(ok=>{
-
-        // routes
-        try{
-            const fastRouter = new FastRouter(urlManager.hash);
-            fastRouter.addRoute('/', null, null );
-            fastRouter.addRoute('/item/list', null,null);
-            fastRouter.addRoute('/itemgroup/list', null,null);
-            fastRouter.addRoute('/manager/list', null,null);
-            fastRouter.addRoute('/analysis/tables', null, null);
-
-            fastRouter.listen((pathinfo) => {
-                Log.d( 'pathinfo',pathinfo );
-                if (pathinfo.path)
-                {
-                    // 페이지 refresh 여부
-                    if(pre_viewpage != null && pre_viewpage != '#left'){
-                        if(document.querySelector<HTMLElement>('#left')!.childNodes.length>1){
-                            Log.d(' <<<< stop >>>>');
-                            return;
-                        }
+        fastRouter.listen((pathinfo) => {
+            Log.d( 'pathinfo',pathinfo );
+            if (pathinfo.path)
+            {
+                // 페이지 refresh 여부
+                if(pre_viewpage != null && pre_viewpage != '#left'){
+                    if(document.querySelector<HTMLElement>('#left')!.childNodes.length>1){
+                        Log.d(' <<<< stop >>>>');
+                        return;
                     }
-
-                    // 모든 이벤트 종료 시키기
-                    window.observable.notify('public',{type : 'close'});
-
-                    // navigation 1차 메뉴 셀렉트
-                    navigation.selectNav1(pathinfo.parse_path[0]);
-
-                    // navigation 2차 메뉴 실행 및 셀렉트
-                    let _path = pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "");
-                    let navi2 = window.Arrays[_path] ?? {};
-                    navi2['gid'] = pathinfo.parse_path.slice(0,2).join('');
-                    navigation.selectNav2(navi2);
-
-                    // fastRouter dispatcher
-                    fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);
                 }
-            });
-        }catch(err){
-            Log.e(err);
-        }
-    });
+
+                // 모든 이벤트 종료 시키기
+                window.observable.notify('public',{type : 'close'});
+
+                // navigation 1차 메뉴 셀렉트
+                navigation.selectNav1(pathinfo.parse_path[0]);
+
+                // navigation 2차 메뉴 실행 및 셀렉트
+                let _path = pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "");
+                let navi2 = window.R.arrays[_path] ?? {};
+                navi2['gid'] = pathinfo.parse_path.slice(0,2).join('');
+                navigation.selectNav2(navi2);
+
+                // fastRouter dispatcher
+                fastRouter.dispatcher(pathinfo.path, pathinfo.parse_query);
+            }
+        });
+    }catch(err){
+        Log.e(err);
+    }
 };
 
 // document ready
-document.addEventListener("DOMContentLoaded",onReady);
+document.addEventListener("DOMContentLoaded", () => {
+    // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
+    window.R = R;
+    window.R.__init({
+        sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
+        arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
+        strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,
+        numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
+    }).then(() => {
+        onReady();
+    }).catch(err => {
+        console.error("Error initializing R:", err);
+    });
+});
