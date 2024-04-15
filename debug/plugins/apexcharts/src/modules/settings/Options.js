@@ -2,6 +2,7 @@
  * ApexCharts Options for setting the initial configuration of ApexCharts
  **/
 import en from "./../../locales/en.json";
+
 export default class Options {
   constructor() {
     this.yAxis = {
@@ -79,6 +80,7 @@ export default class Options {
         }
       }
     };
+
     this.pointAnnotation = {
       id: undefined,
       x: 0,
@@ -140,6 +142,7 @@ export default class Options {
         offsetY: 0
       }
     };
+
     this.yAxisAnnotation = {
       id: undefined,
       y: 0,
@@ -181,6 +184,7 @@ export default class Options {
         }
       }
     };
+
     this.xAxisAnnotation = {
       id: undefined,
       x: 0,
@@ -221,6 +225,7 @@ export default class Options {
         }
       }
     };
+
     this.text = {
       x: 0,
       y: 0,
@@ -254,8 +259,7 @@ export default class Options {
       chart: {
         animations: {
           enabled: true,
-          easing: 'easeinout',
-          // linear, easeout, easein, easeinout, swing, bounce, elastic
+          easing: 'easeinout', // linear, easeout, easein, easeinout, swing, bounce, elastic
           speed: 800,
           animateGradually: {
             delay: 150,
@@ -343,8 +347,7 @@ export default class Options {
           targets: undefined
         },
         stacked: false,
-        stackOnlyBar: true,
-        // mixed chart with stacked bars and line series - incorrect line draw #907
+        stackOnlyBar: true, // mixed chart with stacked bars and line series - incorrect line draw #907
         stackType: 'normal',
         toolbar: {
           show: true,
@@ -404,16 +407,12 @@ export default class Options {
         },
         bar: {
           horizontal: false,
-          columnWidth: '70%',
-          // should be in percent 0 - 100
-          barHeight: '70%',
-          // should be in percent 0 - 100
+          columnWidth: '70%', // should be in percent 0 - 100
+          barHeight: '70%', // should be in percent 0 - 100
           distributed: false,
           borderRadius: 0,
-          borderRadiusApplication: 'around',
-          // [around, end]
-          borderRadiusWhenStacked: 'last',
-          // [all, last]
+          borderRadiusApplication: 'around', // [around, end]
+          borderRadiusWhenStacked: 'last', // [all, last]
           rangeBarOverlap: true,
           rangeBarGroupRows: false,
           hideZeroBarsWhenGrouped: false,
@@ -428,8 +427,7 @@ export default class Options {
             backgroundBarRadius: 0
           },
           dataLabels: {
-            position: 'top',
-            // top, center, bottom
+            position: 'top', // top, center, bottom
             maxItems: 100,
             hideOverflowingLabels: true,
             orientation: 'horizontal',
@@ -531,8 +529,7 @@ export default class Options {
             background: '#f2f2f2',
             strokeWidth: '97%',
             opacity: 1,
-            margin: 5,
-            // margin is in pixels
+            margin: 5, // margin is in pixels
             dropShadow: {
               enabled: false,
               top: 0,
@@ -574,7 +571,11 @@ export default class Options {
               fontFamily: undefined,
               color: undefined,
               formatter(w) {
-                return w.globals.seriesTotals.reduce((a, b) => a + b, 0) / w.globals.series.length + '%';
+                return (
+                  w.globals.seriesTotals.reduce((a, b) => a + b, 0) /
+                  w.globals.series.length +
+                  '%');
+
               }
             }
           },
@@ -600,8 +601,7 @@ export default class Options {
           expandOnClick: true,
           dataLabels: {
             // These are the percentage values which are displayed on slice
-            offset: 0,
-            // offset by which labels will move outside
+            offset: 0, // offset by which labels will move outside
             minAngleToShowLabel: 10
           },
           donut: {
@@ -717,8 +717,7 @@ export default class Options {
       },
       fill: {
         type: 'solid',
-        colors: undefined,
-        // array of colors
+        colors: undefined, // array of colors
         opacity: 0.85,
         gradient: {
           shade: 'dark',
@@ -733,13 +732,11 @@ export default class Options {
         },
         image: {
           src: [],
-          width: undefined,
-          // optional
+          width: undefined, // optional
           height: undefined // optional
         },
         pattern: {
-          style: 'squares',
-          // String | Array of Strings
+          style: 'squares', // String | Array of Strings
           width: 6,
           height: 6,
           strokeWidth: 2
@@ -767,13 +764,11 @@ export default class Options {
           }
         },
         row: {
-          colors: undefined,
-          // takes as array which will be repeated on rows
+          colors: undefined, // takes as array which will be repeated on rows
           opacity: 0.5
         },
         column: {
-          colors: undefined,
-          // takes an array which will be repeated on columns
+          colors: undefined, // takes an array which will be repeated on columns
           opacity: 0.5
         },
         padding: {
@@ -790,11 +785,9 @@ export default class Options {
         showForNullSeries: true,
         showForZeroSeries: true,
         floating: false,
-        position: 'bottom',
-        // whether to position legends in 1 of 4
+        position: 'bottom', // whether to position legends in 1 of 4
         // direction - top, bottom, left, right
-        horizontalAlign: 'center',
-        // when position top/bottom, you can specify whether to align legends left, right or center
+        horizontalAlign: 'center', // when position top/bottom, you can specify whether to align legends left, right or center
         inverseOrder: false,
         fontSize: '12px',
         fontFamily: undefined,
@@ -844,10 +837,8 @@ export default class Options {
         strokeDashArray: 0,
         fillOpacity: 1,
         shape: 'circle',
-        width: 8,
-        // only applicable when shape is rect/square
-        height: 8,
-        // only applicable when shape is rect/square
+        width: 8, // only applicable when shape is rect/square
+        height: 8, // only applicable when shape is rect/square
         radius: 2,
         offsetX: 0,
         offsetY: 0,
@@ -871,8 +862,7 @@ export default class Options {
           fontFamily: undefined
         }
       },
-      responsive: [],
-      // breakpoints should follow ascending order 400, then 700, then 1000
+      responsive: [], // breakpoints should follow ascending order 400, then 700, then 1000
       series: undefined,
       states: {
         normal: {
@@ -925,19 +915,14 @@ export default class Options {
       },
       stroke: {
         show: true,
-        curve: 'smooth',
-        // "smooth" / "straight" / "monotoneCubic" / "stepline" / "linestep"
-        lineCap: 'butt',
-        // round, butt , square
+        curve: 'smooth', // "smooth" / "straight" / "monotoneCubic" / "stepline" / "linestep"
+        lineCap: 'butt', // round, butt , square
         width: 2,
-        colors: undefined,
-        // array of colors
-        dashArray: 0,
-        // single value or array of values
+        colors: undefined, // array of colors
+        dashArray: 0, // single value or array of values
         fill: {
           type: 'solid',
-          colors: undefined,
-          // array of colors
+          colors: undefined, // array of colors
           opacity: 0.85,
           gradient: {
             shade: 'dark',
@@ -957,10 +942,8 @@ export default class Options {
         enabledOnSeries: undefined,
         shared: true,
         hideEmptySeries: false,
-        followCursor: false,
-        // when disabled, the tooltip will show on top of the series instead of mouse position
-        intersect: false,
-        // when enabled, tooltip will only show when user directly hovers over point
+        followCursor: false, // when disabled, the tooltip will show on top of the series instead of mouse position
+        intersect: false, // when enabled, tooltip will only show when user directly hovers over point
         inverseOrder: false,
         custom: undefined,
         fillSeriesColor: false,
@@ -976,8 +959,7 @@ export default class Options {
         x: {
           // x value
           show: true,
-          format: 'dd MMM',
-          // dd/MM, dd MMM yy, dd MMM yyyy
+          format: 'dd MMM', // dd/MM, dd MMM yy, dd MMM yyyy
           formatter: undefined // a custom user supplied formatter function
         },
         y: {
@@ -1001,8 +983,7 @@ export default class Options {
         },
         fixed: {
           enabled: false,
-          position: 'topRight',
-          // topRight, topLeft, bottomRight, bottomLeft
+          position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
           offsetX: 0,
           offsetY: 0
         }
@@ -1010,8 +991,7 @@ export default class Options {
       xaxis: {
         type: 'category',
         categories: [],
-        convertedCatToNumeric: false,
-        // internal property which should not be altered outside
+        convertedCatToNumeric: false, // internal property which should not be altered outside
         offsetX: 0,
         offsetY: 0,
         overwriteCategories: undefined,
@@ -1034,8 +1014,7 @@ export default class Options {
           offsetX: 0,
           offsetY: 0,
           format: undefined,
-          formatter: undefined,
-          // custom formatter function which will override format
+          formatter: undefined, // custom formatter function which will override format
           datetimeUTC: true,
           datetimeFormatter: {
             year: 'yyyy',
@@ -1094,8 +1073,7 @@ export default class Options {
         },
         crosshairs: {
           show: true,
-          width: 1,
-          // tickWidth/barWidth or an integer
+          width: 1, // tickWidth/barWidth or an integer
           position: 'back',
           opacity: 0.9,
           stroke: {
@@ -1104,8 +1082,7 @@ export default class Options {
             dashArray: 3
           },
           fill: {
-            type: 'solid',
-            // solid, gradient
+            type: 'solid', // solid, gradient
             color: '#B1B9C4',
             gradient: {
               colorFrom: '#D8E3F0',
@@ -1136,8 +1113,7 @@ export default class Options {
       yaxis: this.yAxis,
       theme: {
         mode: 'light',
-        palette: 'palette1',
-        // If defined, it will overwrite globals.colors variable
+        palette: 'palette1', // If defined, it will overwrite globals.colors variable
         monochrome: {
           // monochrome allows you to select just 1 color and fill out the rest with light/dark shade (intensity can be selected)
           enabled: false,

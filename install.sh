@@ -23,12 +23,15 @@ npm install -D prettier-plugin-tailwindcss --save-dev
 
 # global.d.ts 파일 생성
 echo "interface Window {
-  observable: Observable;
-  Observer : Observer;
-  Arrays : Arrays;
-  Sysmsg : Sysmsg;
-  Strings : Strings;
-  Numbers : Numbers;
+    observable: Observable;
+    Observer : Observer;
+    Arrays : Arrays;
+    Sysmsg : Sysmsg;
+    Strings : Strings;
+    Numbers: Numbers;
+    flutter_inappwebview : flutter_inappwebview;
+    cacheStorage: CacheLocalStorage;
+    cacheMemory: CacheMemory;
 }" > global.d.ts
 
 # tsconfig.json 파일 생성
@@ -90,25 +93,26 @@ module.exports = {
             ,"@flexvue/fastrouter":`./${debugPath}/flexvue/core/fastrouter.class.js`
             ,"@flexvue/recyclerview":`./${debugPath}/flexvue/core/recyclerview.class.js`
             ,"@flexvue/caches":`./${debugPath}/flexvue/core/caches.class.js`
-            // ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
-            // ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
-            // ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`
-            // ,"@editorjs/link": `./${debugPath}/plugins/@editorjs/link/dist/link.mjs`
-            // ,"@editorjs/image": `./${debugPath}/plugins/@editorjs/image/dist/image.mjs`
-            // ,"@editorjs/table": `./${debugPath}/plugins/@editorjs/table/dist/table.mjs`
-            // ,"@editorjs/code": `./${debugPath}/plugins/@editorjs/code/dist/code.mjs`
-            // ,"@editorjs/list": `./${debugPath}/plugins/@editorjs/list/dist/list.mjs`
-            // ,"@editorjs/embed": `./${debugPath}/plugins/@editorjs/embed/dist/embed.mjs`
-            // ,"@editorjs/checklist": `./${debugPath}/plugins/@editorjs/checklist/dist/checklist.mjs`
-            // ,"@editorjs/quote": `./${debugPath}/plugins/@editorjs/quote/dist/quote.mjs`
-            // ,"swiper/bundle": `./${debugPath}/plugins/swiper/swiper-bundle.min.mjs`
-            // ,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs`
-            // ,"filepond": `./${debugPath}/plugins/filepond/dist/filepond.esm.min.js`
-            // ,"filepond-plugin-image-preview": `./${debugPath}/plugins/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.min.js`
-            // ,"filepond-plugin-file-validate-size": `./${debugPath}/plugins/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js`
-            // ,"filepond-plugin-file-validate-type": `./${debugPath}/plugins/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js`
-            // ,"filepond-plugin-image-validate-size": `./${debugPath}/plugins/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js`
-            // ,"apexcharts": `./${debugPath}/plugins/apexcharts/dist/apexcharts.esm.js`
+            ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
+            ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
+            ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`
+            ,"@editorjs/link": `./${debugPath}/plugins/@editorjs/link/dist/link.mjs`
+            ,"@editorjs/image": `./${debugPath}/plugins/@editorjs/image/dist/image.mjs`
+            ,"@editorjs/table": `./${debugPath}/plugins/@editorjs/table/dist/table.mjs`
+            ,"@editorjs/code": `./${debugPath}/plugins/@editorjs/code/dist/code.mjs`
+            ,"@editorjs/list": `./${debugPath}/plugins/@editorjs/list/dist/list.mjs`
+            ,"@editorjs/embed": `./${debugPath}/plugins/@editorjs/embed/dist/embed.mjs`
+            ,"@editorjs/checklist": `./${debugPath}/plugins/@editorjs/checklist/dist/checklist.mjs`
+            ,"@editorjs/quote": `./${debugPath}/plugins/@editorjs/quote/dist/quote.mjs`
+            ,"swiper/bundle": `./${debugPath}/plugins/swiper/swiper-bundle.min.mjs`
+            ,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs`
+            ,"filepond": `./${debugPath}/plugins/filepond/dist/filepond.esm.min.js`
+            ,"filepond-plugin-image-preview": `./${debugPath}/plugins/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.min.js`
+            ,"filepond-plugin-file-validate-size": `./${debugPath}/plugins/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.esm.min.js`
+            ,"filepond-plugin-file-validate-type": `./${debugPath}/plugins/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.min.js`
+            ,"filepond-plugin-image-validate-size": `./${debugPath}/plugins/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js`
+            ,"apexcharts": `./${debugPath}/plugins/apexcharts/dist/apexcharts.esm.js`
+            ,"crypto-es": `./${debugPath}/plugins/crypto-es/lib/index.js`
           }
         }
       ]
@@ -154,18 +158,18 @@ echo '{
           "@flexvue/fastrouter": ["src/flexvue/core/fastrouter.class.ts"],
           "@flexvue/recyclerview": ["src/flexvue/core/recyclerview.class.ts"],
           "@flexvue/caches": ["src/flexvue/core/caches.class.ts"],
-          // "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
-          // "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
-          // "@editorjs/header": ["node_modules/@editorjs/header"],
-          // "@editorjs/link": ["node_modules/@editorjs/link"],
-          // "@editorjs/image": ["node_modules/@editorjs/image"],
-          // "@editorjs/table": ["node_modules/@editorjs/table"],
-          // "@editorjs/code": ["node_modules/@editorjs/code"],
-          // "@editorjs/list": ["node_modules/@editorjs/list"],
-          // "@editorjs/embed": ["node_modules/@editorjs/embed"],
-          // "@editorjs/checklist": ["node_modules/@editorjs/checklist"],
-          // "@editorjs/quote": ["node_modules/@editorjs/quote"],
-          // "swiper/bundle": ["node_modules/swiper"],
+          "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
+          "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
+          "@editorjs/header": ["node_modules/@editorjs/header"],
+          "@editorjs/link": ["node_modules/@editorjs/link"],
+          "@editorjs/image": ["node_modules/@editorjs/image"],
+          "@editorjs/table": ["node_modules/@editorjs/table"],
+          "@editorjs/code": ["node_modules/@editorjs/code"],
+          "@editorjs/list": ["node_modules/@editorjs/list"],
+          "@editorjs/embed": ["node_modules/@editorjs/embed"],
+          "@editorjs/checklist": ["node_modules/@editorjs/checklist"],
+          "@editorjs/quote": ["node_modules/@editorjs/quote"],
+          "swiper/bundle": ["node_modules/swiper"],
       }
   }
 }' > tsconfig.paths.json

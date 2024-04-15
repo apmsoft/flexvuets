@@ -15,22 +15,33 @@ class Filters {
   getDefaultFilter(el, i) {
     const w = this.w;
     el.unfilter(true);
+
     let filter = new window.SVG.Filter();
     filter.size('120%', '180%', '-5%', '-40%');
+
     if (w.config.states.normal.filter !== 'none') {
-      this.applyFilter(el, i, w.config.states.normal.filter.type, w.config.states.normal.filter.value);
+      this.applyFilter(
+        el,
+        i,
+        w.config.states.normal.filter.type,
+        w.config.states.normal.filter.value
+      );
     } else {
       if (w.config.chart.dropShadow.enabled) {
         this.dropShadow(el, w.config.chart.dropShadow, i);
       }
     }
   }
+
   addNormalFilter(el, i) {
     const w = this.w;
 
     // revert shadow if it was there
     // but, ignore marker as marker don't have dropshadow yet
-    if (w.config.chart.dropShadow.enabled && !el.node.classList.contains('apexcharts-marker')) {
+    if (
+    w.config.chart.dropShadow.enabled &&
+    !el.node.classList.contains('apexcharts-marker'))
+    {
       this.dropShadow(el, w.config.chart.dropShadow, i);
     }
   }
@@ -38,11 +49,12 @@ class Filters {
   // appends dropShadow to the filter object which can be chained with other filter effects
   addLightenFilter(el, i, attrs) {
     const w = this.w;
-    const {
-      intensity
-    } = attrs;
+    const { intensity } = attrs;
+
     el.unfilter(true);
+
     let filter = new window.SVG.Filter();
+
     el.filter((add) => {
       const shadowAttr = w.config.chart.dropShadow;
       if (shadowAttr.enabled) {
@@ -51,25 +63,23 @@ class Filters {
         filter = add;
       }
       filter.componentTransfer({
-        rgb: {
-          type: 'linear',
-          slope: 1.5,
-          intercept: intensity
-        }
+        rgb: { type: 'linear', slope: 1.5, intercept: intensity }
       });
     });
     el.filterer.node.setAttribute('filterUnits', 'userSpaceOnUse');
+
     this._scaleFilterSize(el.filterer.node);
   }
 
   // appends dropShadow to the filter object which can be chained with other filter effects
   addDarkenFilter(el, i, attrs) {
     const w = this.w;
-    const {
-      intensity
-    } = attrs;
+    const { intensity } = attrs;
+
     el.unfilter(true);
+
     let filter = new window.SVG.Filter();
+
     el.filter((add) => {
       const shadowAttr = w.config.chart.dropShadow;
       if (shadowAttr.enabled) {
@@ -78,31 +88,26 @@ class Filters {
         filter = add;
       }
       filter.componentTransfer({
-        rgb: {
-          type: 'linear',
-          slope: intensity
-        }
+        rgb: { type: 'linear', slope: intensity }
       });
     });
     el.filterer.node.setAttribute('filterUnits', 'userSpaceOnUse');
     this._scaleFilterSize(el.filterer.node);
   }
+
   applyFilter(el, i, filter, intensity = 0.5) {
     switch (filter) {
-      case 'none':
-        {
+      case 'none':{
           this.addNormalFilter(el, i);
           break;
         }
-      case 'lighten':
-        {
+      case 'lighten':{
           this.addLightenFilter(el, i, {
             intensity
           });
           break;
         }
-      case 'darken':
-        {
+      case 'darken':{
           this.addDarkenFilter(el, i, {
             intensity
           });
@@ -117,65 +122,80 @@ class Filters {
   // appends dropShadow to the filter object which can be chained with other filter effects
   addShadow(add, i, attrs) {
     const w = this.w;
-    const {
-      blur,
-      top,
-      left,
-      color,
-      opacity
-    } = attrs;
+    const { blur, top, left, color, opacity } = attrs;
+
     if (w.config.chart.dropShadow.enabledOnSeries?.length > 0) {
       if (w.config.chart.dropShadow.enabledOnSeries.indexOf(i) === -1) {
         return add;
       }
     }
-    let shadowBlur = add.flood(Array.isArray(color) ? color[i] : color, opacity).composite(add.sourceAlpha, 'in').offset(left, top).gaussianBlur(blur).merge(add.source);
+
+    let shadowBlur = add.
+    flood(Array.isArray(color) ? color[i] : color, opacity).
+    composite(add.sourceAlpha, 'in').
+    offset(left, top).
+    gaussianBlur(blur).
+    merge(add.source);
     return add.blend(add.source, shadowBlur);
   }
 
   // directly adds dropShadow to the element and returns the same element.
   // the only way it is different from the addShadow() function is that addShadow is chainable to other filters, while this function discards all filters and add dropShadow
   dropShadow(el, attrs, i = 0) {
-    let {
-      top,
-      left,
-      blur,
-      color,
-      opacity,
-      noUserSpaceOnUse
-    } = attrs;
+    let { top, left, blur, color, opacity, noUserSpaceOnUse } = attrs;
     const w = this.w;
+
     el.unfilter(true);
+
     if (Utils.isIE() && w.config.chart.type === 'radialBar') {
       // in radialbar charts, dropshadow is clipping actual drawing in IE
       return el;
     }
+
     if (w.config.chart.dropShadow.enabledOnSeries?.length > 0) {
       if (w.config.chart.dropShadow.enabledOnSeries?.indexOf(i) === -1) {
         return el;
       }
     }
+
     color = Array.isArray(color) ? color[i] : color;
+
     el.filter((add) => {
       let shadowBlur = null;
       if (Utils.isSafari() || Utils.isFirefox() || Utils.isIE()) {
         // safari/firefox/IE have some alternative way to use this filter
-        shadowBlur = add.flood(color, opacity).composite(add.sourceAlpha, 'in').offset(left, top).gaussianBlur(blur);
+        shadowBlur = add.
+        flood(color, opacity).
+        composite(add.sourceAlpha, 'in').
+        offset(left, top).
+        gaussianBlur(blur);
       } else {
-        shadowBlur = add.flood(color, opacity).composite(add.sourceAlpha, 'in').offset(left, top).gaussianBlur(blur).merge(add.source);
+        shadowBlur = add.
+        flood(color, opacity).
+        composite(add.sourceAlpha, 'in').
+        offset(left, top).
+        gaussianBlur(blur).
+        merge(add.source);
       }
+
       add.blend(add.source, shadowBlur);
     });
+
     if (!noUserSpaceOnUse) {
       el.filterer.node.setAttribute('filterUnits', 'userSpaceOnUse');
     }
+
     this._scaleFilterSize(el.filterer.node);
+
     return el;
   }
+
   setSelectionFilter(el, realIndex, dataPointIndex) {
     const w = this.w;
     if (typeof w.globals.selectedDataPoints[realIndex] !== 'undefined') {
-      if (w.globals.selectedDataPoints[realIndex].indexOf(dataPointIndex) > -1) {
+      if (
+      w.globals.selectedDataPoints[realIndex].indexOf(dataPointIndex) > -1)
+      {
         el.node.setAttribute('selected', true);
         let activeFilter = w.config.states.active.filter;
         if (activeFilter !== 'none') {
@@ -184,6 +204,7 @@ class Filters {
       }
     }
   }
+
   _scaleFilterSize(el) {
     const setAttributes = (attrs) => {
       for (let key in attrs) {
@@ -200,4 +221,5 @@ class Filters {
     });
   }
 }
+
 export default Filters;

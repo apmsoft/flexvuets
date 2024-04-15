@@ -29,13 +29,13 @@
 window.TreemapSquared = {};
 (function () {
   'use strict';
-
   window.TreemapSquared.generate = function () {
     function Container(xoffset, yoffset, width, height) {
       this.xoffset = xoffset; // offset from the the top left hand corner
       this.yoffset = yoffset; // ditto
       this.height = height;
       this.width = width;
+
       this.shortestEdge = function () {
         return Math.min(this.height, this.width);
       };
@@ -49,14 +49,25 @@ window.TreemapSquared = {};
         let areawidth = sumArray(row) / this.height;
         let areaheight = sumArray(row) / this.width;
         let i;
+
         if (this.width >= this.height) {
           for (i = 0; i < row.length; i++) {
-            coordinates.push([subxoffset, subyoffset, subxoffset + areawidth, subyoffset + row[i] / areawidth]);
+            coordinates.push([
+            subxoffset,
+            subyoffset,
+            subxoffset + areawidth,
+            subyoffset + row[i] / areawidth]
+            );
             subyoffset = subyoffset + row[i] / areawidth;
           }
         } else {
           for (i = 0; i < row.length; i++) {
-            coordinates.push([subxoffset, subyoffset, subxoffset + row[i] / areaheight, subyoffset + areaheight]);
+            coordinates.push([
+            subxoffset,
+            subyoffset,
+            subxoffset + row[i] / areaheight,
+            subyoffset + areaheight]
+            );
             subxoffset = subxoffset + row[i] / areaheight;
           }
         }
@@ -68,14 +79,25 @@ window.TreemapSquared = {};
       //           dimensions of the remaining space and returns a container box defined by the remaining area
       this.cutArea = function (area) {
         let newcontainer;
+
         if (this.width >= this.height) {
           let areawidth = area / this.height;
           let newwidth = this.width - areawidth;
-          newcontainer = new Container(this.xoffset + areawidth, this.yoffset, newwidth, this.height);
+          newcontainer = new Container(
+            this.xoffset + areawidth,
+            this.yoffset,
+            newwidth,
+            this.height
+          );
         } else {
           let areaheight = area / this.width;
           let newheight = this.height - areaheight;
-          newcontainer = new Container(this.xoffset, this.yoffset + areaheight, this.width, newheight);
+          newcontainer = new Container(
+            this.xoffset,
+            this.yoffset + areaheight,
+            this.width,
+            newheight
+          );
         }
         return newcontainer;
       };
@@ -89,6 +111,7 @@ window.TreemapSquared = {};
       let sum = sumArray(data);
       let multiplier = area / sum;
       let i;
+
       for (i = 0; i < data.length; i++) {
         normalizeddata[i] = data[i] * multiplier;
       }
@@ -101,21 +124,44 @@ window.TreemapSquared = {};
     function treemapMultidimensional(data, width, height, xoffset, yoffset) {
       xoffset = typeof xoffset === 'undefined' ? 0 : xoffset;
       yoffset = typeof yoffset === 'undefined' ? 0 : yoffset;
+
       let mergeddata = [];
       let mergedtreemap;
       let results = [];
       let i;
+
       if (isArray(data[0])) {
         // if we've got more dimensions of depth
         for (i = 0; i < data.length; i++) {
           mergeddata[i] = sumMultidimensionalArray(data[i]);
         }
-        mergedtreemap = treemapSingledimensional(mergeddata, width, height, xoffset, yoffset);
+        mergedtreemap = treemapSingledimensional(
+          mergeddata,
+          width,
+          height,
+          xoffset,
+          yoffset
+        );
+
         for (i = 0; i < data.length; i++) {
-          results.push(treemapMultidimensional(data[i], mergedtreemap[i][2] - mergedtreemap[i][0], mergedtreemap[i][3] - mergedtreemap[i][1], mergedtreemap[i][0], mergedtreemap[i][1]));
+          results.push(
+            treemapMultidimensional(
+              data[i],
+              mergedtreemap[i][2] - mergedtreemap[i][0],
+              mergedtreemap[i][3] - mergedtreemap[i][1],
+              mergedtreemap[i][0],
+              mergedtreemap[i][1]
+            )
+          );
         }
       } else {
-        results = treemapSingledimensional(data, width, height, xoffset, yoffset);
+        results = treemapSingledimensional(
+          data,
+          width,
+          height,
+          xoffset,
+          yoffset
+        );
       }
       return results;
     }
@@ -124,7 +170,13 @@ window.TreemapSquared = {};
     function treemapSingledimensional(data, width, height, xoffset, yoffset) {
       xoffset = typeof xoffset === 'undefined' ? 0 : xoffset;
       yoffset = typeof yoffset === 'undefined' ? 0 : yoffset;
-      let rawtreemap = squarify(normalize(data, width * height), [], new Container(xoffset, yoffset, width, height), []);
+
+      let rawtreemap = squarify(
+        normalize(data, width * height),
+        [],
+        new Container(xoffset, yoffset, width, height),
+        []
+      );
       return flattenTreemap(rawtreemap);
     }
 
@@ -134,6 +186,7 @@ window.TreemapSquared = {};
     function flattenTreemap(rawtreemap) {
       let flattreemap = [];
       let i, j;
+
       for (i = 0; i < rawtreemap.length; i++) {
         for (j = 0; j < rawtreemap[i].length; j++) {
           flattreemap.push(rawtreemap[i][j]);
@@ -149,12 +202,15 @@ window.TreemapSquared = {};
       let length;
       let nextdatapoint;
       let newcontainer;
+
       if (data.length === 0) {
         stack.push(container.getCoordinates(currentrow));
         return;
       }
+
       length = container.shortestEdge();
       nextdatapoint = data[0];
+
       if (improvesRatio(currentrow, nextdatapoint, length)) {
         currentrow.push(nextdatapoint);
         squarify(data.slice(1), currentrow, container, stack);
@@ -170,11 +226,14 @@ window.TreemapSquared = {};
     //                (note the error in the original paper; fixed here)
     function improvesRatio(currentrow, nextnode, length) {
       let newrow;
+
       if (currentrow.length === 0) {
         return true;
       }
+
       newrow = currentrow.slice();
       newrow.push(nextnode);
+
       let currentratio = calculateRatio(currentrow, length);
       let newratio = calculateRatio(newrow, length);
 
@@ -189,7 +248,10 @@ window.TreemapSquared = {};
       let min = Math.min.apply(Math, row);
       let max = Math.max.apply(Math, row);
       let sum = sumArray(row);
-      return Math.max(Math.pow(length, 2) * max / Math.pow(sum, 2), Math.pow(sum, 2) / (Math.pow(length, 2) * min));
+      return Math.max(
+        Math.pow(length, 2) * max / Math.pow(sum, 2),
+        Math.pow(sum, 2) / (Math.pow(length, 2) * min)
+      );
     }
 
     // isArray - checks if arr is an array
@@ -201,6 +263,7 @@ window.TreemapSquared = {};
     function sumArray(arr) {
       let sum = 0;
       let i;
+
       for (i = 0; i < arr.length; i++) {
         sum += arr[i];
       }
@@ -211,6 +274,7 @@ window.TreemapSquared = {};
     function sumMultidimensionalArray(arr) {
       let i,
         total = 0;
+
       if (isArray(arr[0])) {
         for (i = 0; i < arr.length; i++) {
           total += sumMultidimensionalArray(arr[i]);
@@ -220,6 +284,7 @@ window.TreemapSquared = {};
       }
       return total;
     }
+
     return treemapMultidimensional;
   }();
 })();

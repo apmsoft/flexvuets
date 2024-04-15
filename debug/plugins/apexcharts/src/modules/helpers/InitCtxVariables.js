@@ -22,6 +22,7 @@ import Tooltip from "../tooltip/Tooltip";
 import Core from "../Core";
 import Data from "../Data";
 import UpdateHelpers from "./UpdateHelpers";
+
 import "../../svgjs/svg.js";
 import 'svg.filter.js';
 import 'svg.pathmorphing.js';
@@ -33,14 +34,50 @@ import 'svg.resize.js';
 if (typeof window.Apex === 'undefined') {
   window.Apex = {};
 }
+
 export default class InitCtxVariables {
   constructor(ctx) {
     this.ctx = ctx;
     this.w = ctx.w;
   }
+
   initModules() {
-    this.ctx.publicMethods = ['updateOptions', 'updateSeries', 'appendData', 'appendSeries', 'isSeriesHidden', 'toggleSeries', 'showSeries', 'hideSeries', 'setLocale', 'resetSeries', 'zoomX', 'toggleDataPointSelection', 'dataURI', 'exportToCSV', 'addXaxisAnnotation', 'addYaxisAnnotation', 'addPointAnnotation', 'clearAnnotations', 'removeAnnotation', 'paper', 'destroy'];
-    this.ctx.eventList = ['click', 'mousedown', 'mousemove', 'mouseleave', 'touchstart', 'touchmove', 'touchleave', 'mouseup', 'touchend'];
+    this.ctx.publicMethods = [
+    'updateOptions',
+    'updateSeries',
+    'appendData',
+    'appendSeries',
+    'isSeriesHidden',
+    'toggleSeries',
+    'showSeries',
+    'hideSeries',
+    'setLocale',
+    'resetSeries',
+    'zoomX',
+    'toggleDataPointSelection',
+    'dataURI',
+    'exportToCSV',
+    'addXaxisAnnotation',
+    'addYaxisAnnotation',
+    'addPointAnnotation',
+    'clearAnnotations',
+    'removeAnnotation',
+    'paper',
+    'destroy'];
+
+
+    this.ctx.eventList = [
+    'click',
+    'mousedown',
+    'mousemove',
+    'mouseleave',
+    'touchstart',
+    'touchmove',
+    'touchleave',
+    'mouseup',
+    'touchend'];
+
+
     this.ctx.animations = new Animations(this.ctx);
     this.ctx.axes = new Axes(this.ctx);
     this.ctx.core = new Core(this.ctx.el, this.ctx);

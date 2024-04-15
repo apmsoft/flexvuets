@@ -40,26 +40,66 @@ export default class Core {
     // const graphics = new Graphics(this.ctx)
 
     let ct = cnf.chart.type;
-    let axisChartsArrTypes = ['line', 'area', 'bar', 'rangeBar', 'rangeArea', 'candlestick', 'boxPlot', 'scatter', 'bubble', 'radar', 'heatmap', 'treemap'];
-    let xyChartsArrTypes = ['line', 'area', 'bar', 'rangeBar', 'rangeArea', 'candlestick', 'boxPlot', 'scatter', 'bubble'];
+    let axisChartsArrTypes = [
+    'line',
+    'area',
+    'bar',
+    'rangeBar',
+    'rangeArea',
+    'candlestick',
+    'boxPlot',
+    'scatter',
+    'bubble',
+    'radar',
+    'heatmap',
+    'treemap'];
+
+
+    let xyChartsArrTypes = [
+    'line',
+    'area',
+    'bar',
+    'rangeBar',
+    'rangeArea',
+    'candlestick',
+    'boxPlot',
+    'scatter',
+    'bubble'];
+
+
     gl.axisCharts = axisChartsArrTypes.indexOf(ct) > -1;
+
     gl.xyCharts = xyChartsArrTypes.indexOf(ct) > -1;
-    gl.isBarHorizontal = (cnf.chart.type === 'bar' || cnf.chart.type === 'rangeBar' || cnf.chart.type === 'boxPlot') && cnf.plotOptions.bar.horizontal;
+
+    gl.isBarHorizontal =
+    (cnf.chart.type === 'bar' ||
+    cnf.chart.type === 'rangeBar' ||
+    cnf.chart.type === 'boxPlot') &&
+    cnf.plotOptions.bar.horizontal;
+
     gl.chartClass = '.apexcharts' + gl.chartID;
+
     gl.dom.baseEl = this.el;
+
     gl.dom.elWrap = document.createElement('div');
     Graphics.setAttrs(gl.dom.elWrap, {
       id: gl.chartClass.substring(1),
       class: 'apexcharts-canvas ' + gl.chartClass.substring(1)
     });
     this.el.appendChild(gl.dom.elWrap);
+
     gl.dom.Paper = new window.SVG.Doc(gl.dom.elWrap);
     gl.dom.Paper.attr({
       class: 'apexcharts-svg',
       'xmlns:data': 'ApexChartsNS',
       transform: `translate(${cnf.chart.offsetX}, ${cnf.chart.offsetY})`
     });
-    gl.dom.Paper.node.style.background = cnf.theme.mode === 'dark' && !cnf.chart.background ? 'rgba(0, 0, 0, 0.8)' : cnf.chart.background;
+
+    gl.dom.Paper.node.style.background =
+    cnf.theme.mode === 'dark' && !cnf.chart.background ?
+    'rgba(0, 0, 0, 0.8)' :
+    cnf.chart.background;
+
     this.setSVGDimensions();
 
     // append foreignElement (legend's parent)
@@ -82,14 +122,18 @@ export default class Core {
     gl.dom.elGraphical = gl.dom.Paper.group().attr({
       class: 'apexcharts-inner apexcharts-graphical'
     });
+
     gl.dom.elDefs = gl.dom.Paper.defs();
+
     gl.dom.Paper.add(gl.dom.elGraphical);
     gl.dom.elGraphical.add(gl.dom.elDefs);
   }
+
   plotChartType(ser, xyRatios) {
     const w = this.w;
     const cnf = w.config;
     const gl = w.globals;
+
     let lineSeries = {
       series: [],
       i: []
@@ -102,31 +146,38 @@ export default class Core {
       series: [],
       i: []
     };
+
     let bubbleSeries = {
       series: [],
       i: []
     };
+
     let columnSeries = {
       series: [],
       i: []
     };
+
     let candlestickSeries = {
       series: [],
       i: []
     };
+
     let boxplotSeries = {
       series: [],
       i: []
     };
+
     let rangeBarSeries = {
       series: [],
       i: []
     };
+
     let rangeAreaSeries = {
       series: [],
       seriesRangeEnd: [],
       i: []
     };
+
     let chartType = cnf.chart.type !== undefined ? cnf.chart.type : 'line';
     // Check if the user has specified a type for any series.
     let comboCount = 0;
@@ -141,7 +192,9 @@ export default class Core {
         if (ser[st].type === 'column' || ser[st].type === 'bar') {
           if (gl.series.length > 1 && cnf.plotOptions.bar.horizontal) {
             // horizontal bars not supported in mixed charts, hence show a warning
-            console.warn('Horizontal bars are not supported in a mixed/combo chart. Please turn off `plotOptions.bar.horizontal`');
+            console.warn(
+              'Horizontal bars are not supported in a mixed/combo chart. Please turn off `plotOptions.bar.horizontal`'
+            );
           }
           columnSeries.series.push(serie);
           columnSeries.i.push(st);
@@ -197,7 +250,9 @@ export default class Core {
           }
         } else {
           // user has specified type, but it is not valid (other than line/area/column)
-          console.warn('You have specified an unrecognized chart type. Available types for this property are line/area/column/bar/scatter/bubble/candlestick/boxPlot/rangeBar/rangeArea');
+          console.warn(
+            'You have specified an unrecognized chart type. Available types for this property are line/area/column/bar/scatter/bubble/candlestick/boxPlot/rangeBar/rangeArea'
+          );
         }
       } else {
         lineSeries.series.push(serie);
@@ -205,6 +260,7 @@ export default class Core {
       }
     });
     gl.comboCharts ||= comboCount > 0;
+
     let line = new Line(this.ctx, xyRatios);
     let boxCandlestick = new BoxCandleStick(this.ctx, xyRatios);
     this.ctx.pie = new Pie(this.ctx);
@@ -212,6 +268,7 @@ export default class Core {
     this.ctx.rangeBar = new RangeBar(this.ctx, xyRatios);
     let radar = new Radar(this.ctx);
     let elGraph = [];
+
     if (gl.comboCharts) {
       if (areaSeries.series.length > 0) {
         elGraph.push(line.draw(areaSeries.series, 'area', areaSeries.i));
@@ -226,27 +283,49 @@ export default class Core {
         }
       }
       if (rangeAreaSeries.series.length > 0) {
-        elGraph.push(line.draw(rangeAreaSeries.series, 'rangeArea', rangeAreaSeries.i, rangeAreaSeries.seriesRangeEnd));
+        elGraph.push(
+          line.draw(
+            rangeAreaSeries.series,
+            'rangeArea',
+            rangeAreaSeries.i,
+            rangeAreaSeries.seriesRangeEnd
+          )
+        );
       }
       if (lineSeries.series.length > 0) {
         elGraph.push(line.draw(lineSeries.series, 'line', lineSeries.i));
       }
       if (candlestickSeries.series.length > 0) {
-        elGraph.push(boxCandlestick.draw(candlestickSeries.series, 'candlestick', candlestickSeries.i));
+        elGraph.push(
+          boxCandlestick.draw(
+            candlestickSeries.series,
+            'candlestick',
+            candlestickSeries.i
+          )
+        );
       }
       if (boxplotSeries.series.length > 0) {
-        elGraph.push(boxCandlestick.draw(boxplotSeries.series, 'boxPlot', boxplotSeries.i));
+        elGraph.push(
+          boxCandlestick.draw(boxplotSeries.series, 'boxPlot', boxplotSeries.i)
+        );
       }
       if (rangeBarSeries.series.length > 0) {
-        elGraph.push(this.ctx.rangeBar.draw(rangeBarSeries.series, rangeBarSeries.i));
+        elGraph.push(
+          this.ctx.rangeBar.draw(rangeBarSeries.series, rangeBarSeries.i)
+        );
       }
+
       if (scatterSeries.series.length > 0) {
         const scatterLine = new Line(this.ctx, xyRatios, true);
-        elGraph.push(scatterLine.draw(scatterSeries.series, 'scatter', scatterSeries.i));
+        elGraph.push(
+          scatterLine.draw(scatterSeries.series, 'scatter', scatterSeries.i)
+        );
       }
       if (bubbleSeries.series.length > 0) {
         const bubbleLine = new Line(this.ctx, xyRatios, true);
-        elGraph.push(bubbleLine.draw(bubbleSeries.series, 'bubble', bubbleSeries.i));
+        elGraph.push(
+          bubbleLine.draw(bubbleSeries.series, 'bubble', bubbleSeries.i)
+        );
       }
     } else {
       switch (cnf.chart.type) {
@@ -277,7 +356,12 @@ export default class Core {
           elGraph = this.ctx.rangeBar.draw(gl.series);
           break;
         case 'rangeArea':
-          elGraph = line.draw(gl.seriesRangeStart, 'rangeArea', undefined, gl.seriesRangeEnd);
+          elGraph = line.draw(
+            gl.seriesRangeStart,
+            'rangeArea',
+            undefined,
+            gl.seriesRangeEnd
+          );
           break;
         case 'heatmap':
           let heatmap = new HeatMap(this.ctx, xyRatios);
@@ -302,26 +386,40 @@ export default class Core {
           elGraph = line.draw(gl.series);
       }
     }
+
     return elGraph;
   }
+
   setSVGDimensions() {
     let gl = this.w.globals;
     let cnf = this.w.config;
+
     gl.svgWidth = cnf.chart.width;
     gl.svgHeight = cnf.chart.height;
+
     let elDim = Utils.getDimensions(this.el);
-    let widthUnit = cnf.chart.width.toString().split(/[0-9]+/g).pop();
+
+    let widthUnit = cnf.chart.width.
+    toString().
+    split(/[0-9]+/g).
+    pop();
+
     if (widthUnit === '%') {
       if (Utils.isNumber(elDim[0])) {
         if (elDim[0].width === 0) {
           elDim = Utils.getDimensions(this.el.parentNode);
         }
+
         gl.svgWidth = elDim[0] * parseInt(cnf.chart.width, 10) / 100;
       }
     } else if (widthUnit === 'px' || widthUnit === '') {
       gl.svgWidth = parseInt(cnf.chart.width, 10);
     }
-    let heightUnit = cnf.chart.height.toString().split(/[0-9]+/g).pop();
+
+    let heightUnit = cnf.chart.height.
+    toString().
+    split(/[0-9]+/g).
+    pop();
     if (gl.svgHeight !== 'auto' && gl.svgHeight !== '') {
       if (heightUnit === '%') {
         let elParentDim = Utils.getDimensions(this.el.parentNode);
@@ -336,24 +434,37 @@ export default class Core {
         gl.svgHeight = gl.svgWidth / 1.2;
       }
     }
+
     if (gl.svgWidth < 0) gl.svgWidth = 0;
     if (gl.svgHeight < 0) gl.svgHeight = 0;
+
     Graphics.setAttrs(gl.dom.Paper.node, {
       width: gl.svgWidth,
       height: gl.svgHeight
     });
+
     if (heightUnit !== '%') {
       // fixes https://github.com/apexcharts/apexcharts.js/issues/2059
-      let offsetY = cnf.chart.sparkline.enabled ? 0 : gl.axisCharts ? cnf.chart.parentHeightOffset : 0;
-      gl.dom.Paper.node.parentNode.parentNode.style.minHeight = gl.svgHeight + offsetY + 'px';
+      let offsetY = cnf.chart.sparkline.enabled ?
+      0 :
+      gl.axisCharts ?
+      cnf.chart.parentHeightOffset :
+      0;
+
+      gl.dom.Paper.node.parentNode.parentNode.style.minHeight =
+      gl.svgHeight + offsetY + 'px';
     }
+
     gl.dom.elWrap.style.width = gl.svgWidth + 'px';
     gl.dom.elWrap.style.height = gl.svgHeight + 'px';
   }
+
   shiftGraphPosition() {
     let gl = this.w.globals;
+
     let tY = gl.translateY;
     let tX = gl.translateX;
+
     let scalingAttrs = {
       transform: 'translate(' + tX + ', ' + tY + ')'
     };
@@ -363,32 +474,58 @@ export default class Core {
   // To prevent extra spacings in the bottom of the chart, we need to recalculate the height for pie/donut/radialbar charts
   resizeNonAxisCharts() {
     const w = this.w;
+
     const gl = w.globals;
+
     let legendHeight = 0;
     let offY = w.config.chart.sparkline.enabled ? 1 : 15;
     offY = offY + w.config.grid.padding.bottom;
-    if ((w.config.legend.position === 'top' || w.config.legend.position === 'bottom') && w.config.legend.show && !w.config.legend.floating) {
-      legendHeight = new Legend(this.ctx).legendHelpers.getLegendBBox().clwh + 10;
+
+    if (
+    (w.config.legend.position === 'top' ||
+    w.config.legend.position === 'bottom') &&
+    w.config.legend.show &&
+    !w.config.legend.floating)
+    {
+      legendHeight =
+      new Legend(this.ctx).legendHelpers.getLegendBBox().clwh + 10;
     }
-    let el = w.globals.dom.baseEl.querySelector('.apexcharts-radialbar, .apexcharts-pie');
+
+    let el = w.globals.dom.baseEl.querySelector(
+      '.apexcharts-radialbar, .apexcharts-pie'
+    );
+
     let chartInnerDimensions = w.globals.radialSize * 2.05;
-    if (el && !w.config.chart.sparkline.enabled && w.config.plotOptions.radialBar.startAngle !== 0) {
+
+    if (
+    el &&
+    !w.config.chart.sparkline.enabled &&
+    w.config.plotOptions.radialBar.startAngle !== 0)
+    {
       let elRadialRect = Utils.getBoundingClientRect(el);
       chartInnerDimensions = elRadialRect.bottom;
+
       let maxHeight = elRadialRect.bottom - elRadialRect.top;
+
       chartInnerDimensions = Math.max(w.globals.radialSize * 2.05, maxHeight);
     }
+
     let newHeight = chartInnerDimensions + gl.translateY + legendHeight + offY;
+
     if (gl.dom.elLegendForeign) {
       gl.dom.elLegendForeign.setAttribute('height', newHeight);
     }
 
     // fix apexcharts/apexcharts.js/issues/3105 (when % is provided in height, it keeps increasing)
-    if (w.config.chart.height && String(w.config.chart.height).indexOf('%') > 0) return;
+    if (w.config.chart.height && String(w.config.chart.height).indexOf('%') > 0)
+    return;
+
     gl.dom.elWrap.style.height = newHeight + 'px';
+
     Graphics.setAttrs(gl.dom.Paper.node, {
       height: newHeight
     });
+
     gl.dom.Paper.node.parentNode.parentNode.style.minHeight = newHeight + 'px';
   }
 
@@ -399,26 +536,34 @@ export default class Core {
     const range = new Range(this.ctx);
     range.init();
   }
+
   resetGlobals() {
     const resetxyValues = () => {
       return this.w.config.series.map((s) => []);
     };
     const globalObj = new Globals();
+
     let gl = this.w.globals;
     globalObj.initGlobalVars(gl);
     gl.seriesXvalues = resetxyValues();
     gl.seriesYvalues = resetxyValues();
   }
+
   isMultipleY() {
     // user has supplied an array in yaxis property. So, turn on multipleYAxis flag
-    if (this.w.config.yaxis.constructor === Array && this.w.config.yaxis.length > 1) {
+    if (
+    this.w.config.yaxis.constructor === Array &&
+    this.w.config.yaxis.length > 1)
+    {
       this.w.globals.isMultipleYAxis = true;
       return true;
     }
   }
+
   xySettings() {
     let xyRatios = null;
     const w = this.w;
+
     if (w.globals.axisCharts) {
       if (w.config.xaxis.crosshairs.position === 'back') {
         const crosshairs = new Crosshairs(this.ctx);
@@ -428,34 +573,55 @@ export default class Core {
         const crosshairs = new Crosshairs(this.ctx);
         crosshairs.drawYCrosshairs();
       }
-      if (w.config.xaxis.type === 'datetime' && w.config.xaxis.labels.formatter === undefined) {
+
+      if (
+      w.config.xaxis.type === 'datetime' &&
+      w.config.xaxis.labels.formatter === undefined)
+      {
         this.ctx.timeScale = new TimeScale(this.ctx);
         let formattedTimeScale = [];
-        if (isFinite(w.globals.minX) && isFinite(w.globals.maxX) && !w.globals.isBarHorizontal) {
-          formattedTimeScale = this.ctx.timeScale.calculateTimeScaleTicks(w.globals.minX, w.globals.maxX);
+        if (
+        isFinite(w.globals.minX) &&
+        isFinite(w.globals.maxX) &&
+        !w.globals.isBarHorizontal)
+        {
+          formattedTimeScale = this.ctx.timeScale.calculateTimeScaleTicks(
+            w.globals.minX,
+            w.globals.maxX
+          );
         } else if (w.globals.isBarHorizontal) {
-          formattedTimeScale = this.ctx.timeScale.calculateTimeScaleTicks(w.globals.minY, w.globals.maxY);
+          formattedTimeScale = this.ctx.timeScale.calculateTimeScaleTicks(
+            w.globals.minY,
+            w.globals.maxY
+          );
         }
         this.ctx.timeScale.recalcDimensionsBasedOnFormat(formattedTimeScale);
       }
+
       const coreUtils = new CoreUtils(this.ctx);
       xyRatios = coreUtils.getCalculatedRatios();
     }
     return xyRatios;
   }
+
   updateSourceChart(targetChart) {
     this.ctx.w.globals.selection = undefined;
-    this.ctx.updateHelpers._updateOptions({
-      chart: {
-        selection: {
-          xaxis: {
-            min: targetChart.w.globals.minX,
-            max: targetChart.w.globals.maxX
+    this.ctx.updateHelpers._updateOptions(
+      {
+        chart: {
+          selection: {
+            xaxis: {
+              min: targetChart.w.globals.minX,
+              max: targetChart.w.globals.maxX
+            }
           }
         }
-      }
-    }, false, false);
+      },
+      false,
+      false
+    );
   }
+
   setupBrushHandler() {
     const w = this.w;
 
@@ -467,11 +633,14 @@ export default class Core {
     // if user has not defined a custom function for selection - we handle the brush chart
     // otherwise we leave it to the user to define the functionality for selection
     if (typeof w.config.chart.events.selection !== 'function') {
-      let targets = Array.isArray(w.config.chart.brush.targets) ? w.config.chart.brush.targets : [w.config.chart.brush.target];
+      let targets = Array.isArray(w.config.chart.brush.targets) ? w.config.chart.brush.targets : [
+      w.config.chart.brush.target];
+
       // retro compatibility with single target option
       targets.forEach((target) => {
         let targetChart = ApexCharts.getChartByID(target);
         targetChart.w.globals.brushSource = this.ctx;
+
         if (typeof targetChart.w.config.chart.events.zoomed !== 'function') {
           targetChart.w.config.chart.events.zoomed = () => {
             this.updateSourceChart(targetChart);
@@ -483,15 +652,23 @@ export default class Core {
           };
         }
       });
+
       w.config.chart.events.selection = (chart, e) => {
         targets.forEach((target) => {
           let targetChart = ApexCharts.getChartByID(target);
-          targetChart.ctx.updateHelpers._updateOptions({
-            xaxis: {
-              min: e.xaxis.min,
-              max: e.xaxis.max
-            }
-          }, false, false, false, false);
+
+          targetChart.ctx.updateHelpers._updateOptions(
+            {
+              xaxis: {
+                min: e.xaxis.min,
+                max: e.xaxis.max
+              }
+            },
+            false,
+            false,
+            false,
+            false
+          );
         });
       };
     }

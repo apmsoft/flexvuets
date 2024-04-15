@@ -7,7 +7,11 @@
 /* eslint-disable */
 
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.FilePondPluginFileValidateSize = factory());
+  typeof exports === 'object' && typeof module !== 'undefined' ?
+  module.exports = factory() :
+  typeof define === 'function' && define.amd ?
+  define(factory) : (
+  global = global || self, global.FilePondPluginFileValidateSize = factory());
 })(this, function () {
   'use strict';
 
@@ -25,14 +29,17 @@
       if (!query('GET_ALLOW_FILE_SIZE_VALIDATION')) {
         return true;
       }
+
       var sizeMax = query('GET_MAX_FILE_SIZE');
       if (sizeMax !== null && file.size > sizeMax) {
         return false;
       }
+
       var sizeMin = query('GET_MIN_FILE_SIZE');
       if (sizeMin !== null && file.size < sizeMin) {
         return false;
       }
+
       return true;
     });
 
@@ -60,10 +67,16 @@
             status: {
               main: query('GET_LABEL_MAX_FILE_SIZE_EXCEEDED'),
               sub: replaceInString(query('GET_LABEL_MAX_FILE_SIZE'), {
-                filesize: toNaturalFileSize(sizeMax, '.', query('GET_FILE_SIZE_BASE'), query('GET_FILE_SIZE_LABELS', query))
+                filesize: toNaturalFileSize(
+                  sizeMax,
+                  '.',
+                  query('GET_FILE_SIZE_BASE'),
+                  query('GET_FILE_SIZE_LABELS', query)
+                )
               })
             }
           });
+
           return;
         }
 
@@ -74,10 +87,16 @@
             status: {
               main: query('GET_LABEL_MIN_FILE_SIZE_EXCEEDED'),
               sub: replaceInString(query('GET_LABEL_MIN_FILE_SIZE'), {
-                filesize: toNaturalFileSize(sizeMin, '.', query('GET_FILE_SIZE_BASE'), query('GET_FILE_SIZE_LABELS', query))
+                filesize: toNaturalFileSize(
+                  sizeMin,
+                  '.',
+                  query('GET_FILE_SIZE_BASE'),
+                  query('GET_FILE_SIZE_LABELS', query)
+                )
               })
             }
           });
+
           return;
         }
 
@@ -95,10 +114,16 @@
               status: {
                 main: query('GET_LABEL_MAX_TOTAL_FILE_SIZE_EXCEEDED'),
                 sub: replaceInString(query('GET_LABEL_MAX_TOTAL_FILE_SIZE'), {
-                  filesize: toNaturalFileSize(totalSizeMax, '.', query('GET_FILE_SIZE_BASE'), query('GET_FILE_SIZE_LABELS', query))
+                  filesize: toNaturalFileSize(
+                    totalSizeMax,
+                    '.',
+                    query('GET_FILE_SIZE_BASE'),
+                    query('GET_FILE_SIZE_LABELS', query)
+                  )
                 })
               }
             });
+
             return;
           }
         }
@@ -107,23 +132,31 @@
         resolve(file);
       });
     });
+
     return {
       options: {
         // Enable or disable file type validation
         allowFileSizeValidation: [true, Type.BOOLEAN],
+
         // Max individual file size in bytes
         maxFileSize: [null, Type.INT],
+
         // Min individual file size in bytes
         minFileSize: [null, Type.INT],
+
         // Max total file size in bytes
         maxTotalFileSize: [null, Type.INT],
+
         // Filter the files that need to be validated for size
         fileValidateSizeFilter: [null, Type.FUNCTION],
+
         // error labels
         labelMinFileSizeExceeded: ['File is too small', Type.STRING],
         labelMinFileSize: ['Minimum file size is {filesize}', Type.STRING],
+
         labelMaxFileSizeExceeded: ['File is too large', Type.STRING],
         labelMaxFileSize: ['Maximum file size is {filesize}', Type.STRING],
+
         labelMaxTotalFileSizeExceeded: ['Maximum total size exceeded', Type.STRING],
         labelMaxTotalFileSize: ['Maximum total file size is {filesize}', Type.STRING]
       }
@@ -133,9 +166,8 @@
   // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
   var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
   if (isBrowser) {
-    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', {
-      detail: plugin
-    }));
+    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', { detail: plugin }));
   }
+
   return plugin;
 });

@@ -2,11 +2,13 @@ import Data from "../modules/Data";
 import AxesUtils from "../modules/axes/AxesUtils";
 import Series from "../modules/Series";
 import Utils from "../utils/Utils";
+
 class Exports {
   constructor(ctx) {
     this.ctx = ctx;
     this.w = ctx.w;
   }
+
   scaleSvgNode(svg, scale) {
     // get current both width and height of the svg
     let svgWidth = parseFloat(svg.getAttributeNS(null, 'width'));
@@ -16,6 +18,7 @@ class Exports {
     svg.setAttributeNS(null, 'height', svgHeight * scale);
     svg.setAttributeNS(null, 'viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
   }
+
   fixSvgStringForIe11(svgData) {
     // IE11 generates broken SVG that we have to fix by using regex
     if (!Utils.isIE11()) {
@@ -25,17 +28,24 @@ class Exports {
 
     // replace second occurrence of "xmlns" attribute with "xmlns:xlink" with correct url + add xmlns:svgjs
     let nXmlnsSeen = 0;
-    let result = svgData.replace(/xmlns="http:\/\/www.w3.org\/2000\/svg"/g, (match) => {
-      nXmlnsSeen++;
-      return nXmlnsSeen === 2 ? 'xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"' : match;
-    });
+    let result = svgData.replace(
+      /xmlns="http:\/\/www.w3.org\/2000\/svg"/g,
+      (match) => {
+        nXmlnsSeen++;
+        return nXmlnsSeen === 2 ?
+        'xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev"' :
+        match;
+      }
+    );
 
     // remove the invalid empty namespace declarations
     result = result.replace(/xmlns:NS\d+=""/g, '');
     // remove these broken namespaces from attributes
     result = result.replace(/NS\d+:(\w+:\w+=")/g, '$1');
+
     return result;
   }
+
   getSvgString(scale) {
     if (scale == undefined) {
       scale = 1; // if no scale is specified, don't scale...
@@ -52,13 +62,20 @@ class Exports {
     }
     return this.fixSvgStringForIe11(svgString);
   }
+
   cleanup() {
     const w = this.w;
 
     // hide some elements to avoid printing them on exported svg
-    const xcrosshairs = w.globals.dom.baseEl.getElementsByClassName('apexcharts-xcrosshairs');
-    const ycrosshairs = w.globals.dom.baseEl.getElementsByClassName('apexcharts-ycrosshairs');
-    const zoomSelectionRects = w.globals.dom.baseEl.querySelectorAll('.apexcharts-zoom-rect, .apexcharts-selection-rect');
+    const xcrosshairs = w.globals.dom.baseEl.getElementsByClassName(
+      'apexcharts-xcrosshairs'
+    );
+    const ycrosshairs = w.globals.dom.baseEl.getElementsByClassName(
+      'apexcharts-ycrosshairs'
+    );
+    const zoomSelectionRects = w.globals.dom.baseEl.querySelectorAll(
+      '.apexcharts-zoom-rect, .apexcharts-selection-rect'
+    );
     Array.prototype.forEach.call(zoomSelectionRects, (z) => {
       z.setAttribute('width', 0);
     });
@@ -73,28 +90,39 @@ class Exports {
       ycrosshairs[0].setAttribute('y2', -100);
     }
   }
+
   svgUrl() {
     this.cleanup();
+
     const svgData = this.getSvgString();
-    const svgBlob = new Blob([svgData], {
-      type: 'image/svg+xml;charset=utf-8'
-    });
+    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
     return URL.createObjectURL(svgBlob);
   }
+
   dataURI(options) {
     return new Promise((resolve) => {
       const w = this.w;
-      const scale = options ? options.scale || options.width / w.globals.svgWidth : 1;
+
+      const scale = options ?
+      options.scale || options.width / w.globals.svgWidth :
+      1;
+
       this.cleanup();
       const canvas = document.createElement('canvas');
       canvas.width = w.globals.svgWidth * scale;
       canvas.height = parseInt(w.globals.dom.elWrap.style.height, 10) * scale; // because of resizeNonAxisCharts
 
-      const canvasBg = w.config.chart.background === 'transparent' ? '#fff' : w.config.chart.background;
+      const canvasBg =
+      w.config.chart.background === 'transparent' ?
+      '#fff' :
+      w.config.chart.background;
+
       let ctx = canvas.getContext('2d');
       ctx.fillStyle = canvasBg;
       ctx.fillRect(0, 0, canvas.width * scale, canvas.height * scale);
+
       const svgData = this.getSvgString(scale);
+
       if (window.canvg && Utils.isIE11()) {
         // use canvg as a polyfill to workaround ie11 considering a canvas with loaded svg 'unsafe'
         // without ignoreClear we lose our background color; without ignoreDimensions some grid lines become invisible
@@ -104,50 +132,57 @@ class Exports {
         });
         // render the svg to canvas
         v.start();
+
         let blob = canvas.msToBlob();
         // dispose - missing this will cause a memory leak
         v.stop();
-        resolve({
-          blob
-        });
+
+        resolve({ blob });
       } else {
         const svgUrl = 'data:image/svg+xml,' + encodeURIComponent(svgData);
         let img = new Image();
         img.crossOrigin = 'anonymous';
+
         img.onload = () => {
           ctx.drawImage(img, 0, 0);
+
           if (canvas.msToBlob) {
             // IE and Edge can't navigate to data urls, so we return the blob instead
             let blob = canvas.msToBlob();
-            resolve({
-              blob
-            });
+            resolve({ blob });
           } else {
             let imgURI = canvas.toDataURL('image/png');
-            resolve({
-              imgURI
-            });
+            resolve({ imgURI });
           }
         };
+
         img.src = svgUrl;
       }
     });
   }
+
   exportToSVG() {
-    this.triggerDownload(this.svgUrl(), this.w.config.chart.toolbar.export.svg.filename, '.svg');
+    this.triggerDownload(
+      this.svgUrl(),
+      this.w.config.chart.toolbar.export.svg.filename,
+      '.svg'
+    );
   }
+
   exportToPng() {
-    this.dataURI().then(({
-      imgURI,
-      blob
-    }) => {
+    this.dataURI().then(({ imgURI, blob }) => {
       if (blob) {
         navigator.msSaveOrOpenBlob(blob, this.w.globals.chartID + '.png');
       } else {
-        this.triggerDownload(imgURI, this.w.config.chart.toolbar.export.png.filename, '.png');
+        this.triggerDownload(
+          imgURI,
+          this.w.config.chart.toolbar.export.png.filename,
+          '.png'
+        );
       }
     });
   }
+
   exportToCSV({
     series,
     fileName,
@@ -155,7 +190,9 @@ class Exports {
     lineDelimiter = '\n'
   }) {
     const w = this.w;
+
     if (!series) series = w.config.series;
+
     let columns = [];
     let rows = [];
     let result = '';
@@ -163,13 +200,17 @@ class Exports {
     let gSeries = w.globals.series.map((s, i) => {
       return w.globals.collapsedSeriesIndices.indexOf(i) === -1 ? s : [];
     });
+
     const isTimeStamp = (num) => {
       return w.config.xaxis.type === 'datetime' && String(num).length >= 10;
     };
-    const seriesMaxDataLength = Math.max(...series.map((s) => {
-      return s.data ? s.data.length : 0;
-    }));
+    const seriesMaxDataLength = Math.max(
+      ...series.map((s) => {
+        return s.data ? s.data.length : 0;
+      })
+    );
     const dataFormat = new Data(this.ctx);
+
     const axesUtils = new AxesUtils(this.ctx);
     const getCat = (i) => {
       let cat = '';
@@ -181,18 +222,27 @@ class Exports {
         // xy charts
 
         // non datetime
-        if (w.config.xaxis.type === 'category' || w.config.xaxis.convertedCatToNumeric) {
+        if (
+        w.config.xaxis.type === 'category' ||
+        w.config.xaxis.convertedCatToNumeric)
+        {
           if (w.globals.isBarHorizontal) {
             let lbFormatter = w.globals.yLabelFormatters[0];
             let sr = new Series(this.ctx);
             let activeSeries = sr.getActiveConfigSeriesIndex();
+
             cat = lbFormatter(w.globals.labels[i], {
               seriesIndex: activeSeries,
               dataPointIndex: i,
               w
             });
           } else {
-            cat = axesUtils.getLabel(w.globals.labels, w.globals.timescaleLabels, 0, i).text;
+            cat = axesUtils.getLabel(
+              w.globals.labels,
+              w.globals.timescaleLabels,
+              0,
+              i
+            ).text;
           }
         }
 
@@ -205,9 +255,11 @@ class Exports {
           }
         }
       }
+
       if (Array.isArray(cat)) {
         cat = cat.join(' ');
       }
+
       return Utils.isNumber(cat) ? cat : cat.split(columnDelimiter).join('');
     };
 
@@ -215,17 +267,20 @@ class Exports {
     const getEmptyDataForCsvColumn = () => {
       return [...Array(seriesMaxDataLength)].map(() => '');
     };
+
     const handleAxisRowsColumns = (s, sI) => {
       if (columns.length && sI === 0) {
         // It's the first series.  Go ahead and create the first row with header information.
         rows.push(columns.join(columnDelimiter));
       }
+
       if (s.data) {
         // Use the data we have, or generate a properly sized empty array with empty data if some data is missing.
         s.data = s.data.length && s.data || getEmptyDataForCsvColumn();
         for (let i = 0; i < s.data.length; i++) {
           // Reset the columns array so that we can start building columns for this row.
           columns = [];
+
           let cat = getCat(i);
           if (!cat) {
             if (dataFormat.isFormatXY()) {
@@ -234,9 +289,17 @@ class Exports {
               cat = series[sI].data[i] ? series[sI].data[i][0] : '';
             }
           }
+
           if (sI === 0) {
             // It's the first series.  Also handle the category.
-            columns.push(isTimeStamp(cat) ? w.config.chart.toolbar.export.csv.dateFormatter(cat) : Utils.isNumber(cat) ? cat : cat.split(columnDelimiter).join(''));
+            columns.push(
+              isTimeStamp(cat) ?
+              w.config.chart.toolbar.export.csv.dateFormatter(cat) :
+              Utils.isNumber(cat) ?
+              cat :
+              cat.split(columnDelimiter).join('')
+            );
+
             for (let ci = 0; ci < w.globals.series.length; ci++) {
               if (dataFormat.isFormatXY()) {
                 columns.push(series[ci].data[i]?.y);
@@ -245,14 +308,22 @@ class Exports {
               }
             }
           }
-          if (w.config.chart.type === 'candlestick' || s.type && s.type === 'candlestick') {
+
+          if (
+          w.config.chart.type === 'candlestick' ||
+          s.type && s.type === 'candlestick')
+          {
             columns.pop();
             columns.push(w.globals.seriesCandleO[sI][i]);
             columns.push(w.globals.seriesCandleH[sI][i]);
             columns.push(w.globals.seriesCandleL[sI][i]);
             columns.push(w.globals.seriesCandleC[sI][i]);
           }
-          if (w.config.chart.type === 'boxPlot' || s.type && s.type === 'boxPlot') {
+
+          if (
+          w.config.chart.type === 'boxPlot' ||
+          s.type && s.type === 'boxPlot')
+          {
             columns.pop();
             columns.push(w.globals.seriesCandleO[sI][i]);
             columns.push(w.globals.seriesCandleH[sI][i]);
@@ -260,20 +331,24 @@ class Exports {
             columns.push(w.globals.seriesCandleL[sI][i]);
             columns.push(w.globals.seriesCandleC[sI][i]);
           }
+
           if (w.config.chart.type === 'rangeBar') {
             columns.pop();
             columns.push(w.globals.seriesRangeStart[sI][i]);
             columns.push(w.globals.seriesRangeEnd[sI][i]);
           }
+
           if (columns.length) {
             rows.push(columns.join(columnDelimiter));
           }
         }
       }
     };
+
     const handleUnequalXValues = () => {
       const categories = new Set();
       const data = {};
+
       series.forEach((s, sI) => {
         s?.data.forEach((dataItem) => {
           let cat, value;
@@ -293,14 +368,27 @@ class Exports {
           categories.add(cat);
         });
       });
+
       if (columns.length) {
         rows.push(columns.join(columnDelimiter));
       }
-      Array.from(categories).sort().forEach((cat) => {
-        rows.push([isTimeStamp(cat) && w.config.xaxis.type === 'datetime' ? w.config.chart.toolbar.export.csv.dateFormatter(cat) : Utils.isNumber(cat) ? cat : cat.split(columnDelimiter).join(''), data[cat].join(columnDelimiter)]);
+
+      Array.from(categories).
+      sort().
+      forEach((cat) => {
+        rows.push([
+        isTimeStamp(cat) && w.config.xaxis.type === 'datetime' ?
+        w.config.chart.toolbar.export.csv.dateFormatter(cat) :
+        Utils.isNumber(cat) ?
+        cat :
+        cat.split(columnDelimiter).join(''),
+        data[cat].join(columnDelimiter)]
+        );
       });
     };
+
     columns.push(w.config.chart.toolbar.export.csv.headerCategory);
+
     if (w.config.chart.type === 'boxPlot') {
       columns.push('minimum');
       columns.push('q1');
@@ -319,15 +407,26 @@ class Exports {
       series.map((s, sI) => {
         const sname = (s.name ? s.name : `series-${sI}`) + '';
         if (w.globals.axisCharts) {
-          columns.push(sname.split(columnDelimiter).join('') ? sname.split(columnDelimiter).join('') : `series-${sI}`);
+          columns.push(
+            sname.split(columnDelimiter).join('') ?
+            sname.split(columnDelimiter).join('') :
+            `series-${sI}`
+          );
         }
       });
     }
+
     if (!w.globals.axisCharts) {
       columns.push(w.config.chart.toolbar.export.csv.headerValue);
       rows.push(columns.join(columnDelimiter));
     }
-    if (!w.globals.allSeriesHasEqualX && w.globals.axisCharts && !w.config.xaxis.categories.length && !w.config.labels.length) {
+
+    if (
+    !w.globals.allSeriesHasEqualX &&
+    w.globals.axisCharts &&
+    !w.config.xaxis.categories.length &&
+    !w.config.labels.length)
+    {
       handleUnequalXValues();
     } else {
       series.map((s, sI) => {
@@ -335,15 +434,24 @@ class Exports {
           handleAxisRowsColumns(s, sI);
         } else {
           columns = [];
+
           columns.push(w.globals.labels[sI].split(columnDelimiter).join(''));
           columns.push(gSeries[sI]);
           rows.push(columns.join(columnDelimiter));
         }
       });
     }
+
     result += rows.join(lineDelimiter);
-    this.triggerDownload('data:text/csv; charset=utf-8,' + encodeURIComponent(universalBOM + result), fileName ? fileName : w.config.chart.toolbar.export.csv.filename, '.csv');
+
+    this.triggerDownload(
+      'data:text/csv; charset=utf-8,' +
+      encodeURIComponent(universalBOM + result),
+      fileName ? fileName : w.config.chart.toolbar.export.csv.filename,
+      '.csv'
+    );
   }
+
   triggerDownload(href, filename, ext) {
     const downloadLink = document.createElement('a');
     downloadLink.href = href;
@@ -353,4 +461,5 @@ class Exports {
     document.body.removeChild(downloadLink);
   }
 }
+
 export default Exports;

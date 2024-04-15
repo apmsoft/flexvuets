@@ -3,15 +3,15 @@ export default class Destroy {
     this.ctx = ctx;
     this.w = ctx.w;
   }
-  clear({
-    isUpdating
-  }) {
+
+  clear({ isUpdating }) {
     if (this.ctx.zoomPanSelection) {
       this.ctx.zoomPanSelection.destroy();
     }
     if (this.ctx.toolbar) {
       this.ctx.toolbar.destroy();
     }
+
     this.ctx.animations = null;
     this.ctx.axes = null;
     this.ctx.annotations = null;
@@ -32,10 +32,9 @@ export default class Destroy {
     this.ctx.toolbar = null;
     this.ctx.localization = null;
     this.ctx.w.globals.tooltip = null;
-    this.clearDomElements({
-      isUpdating
-    });
+    this.clearDomElements({ isUpdating });
   }
+
   killSVG(draw) {
     draw.each(function (i, children) {
       this.removeClass('*');
@@ -45,9 +44,8 @@ export default class Destroy {
     draw.ungroup();
     draw.clear();
   }
-  clearDomElements({
-    isUpdating
-  }) {
+
+  clearDomElements({ isUpdating }) {
     const elSVG = this.w.globals.dom.Paper.node;
     // fixes apexcharts.js#1654 & vue-apexcharts#256
     if (elSVG.parentNode && elSVG.parentNode.parentNode && !isUpdating) {
@@ -62,15 +60,19 @@ export default class Destroy {
         baseEl.removeEventListener(event, this.ctx.events.documentEvent);
       });
     }
+
     const domEls = this.w.globals.dom;
+
     if (this.ctx.el !== null) {
       // remove all child elements - resetting the whole chart
       while (this.ctx.el.firstChild) {
         this.ctx.el.removeChild(this.ctx.el.firstChild);
       }
     }
+
     this.killSVG(domEls.Paper);
     domEls.Paper.remove();
+
     domEls.elWrap = null;
     domEls.elGraphical = null;
     domEls.elLegendWrap = null;

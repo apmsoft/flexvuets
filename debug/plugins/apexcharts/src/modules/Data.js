@@ -3,16 +3,19 @@ import DateTime from "./../utils/DateTime";
 import Series from "./Series";
 import Utils from "../utils/Utils";
 import Defaults from "./settings/Defaults";
+
 export default class Data {
   constructor(ctx) {
     this.ctx = ctx;
     this.w = ctx.w;
+
     this.twoDSeries = [];
     this.threeDSeries = [];
     this.twoDSeriesX = [];
     this.seriesGoals = [];
     this.coreUtils = new CoreUtils(this.ctx);
   }
+
   isMultiFormat() {
     return this.isFormatXY() || this.isFormat2DArray();
   }
@@ -20,9 +23,17 @@ export default class Data {
   // given format is [{x, y}, {x, y}]
   isFormatXY() {
     const series = this.w.config.series.slice();
+
     const sr = new Series(this.ctx);
     this.activeSeriesIndex = sr.getActiveConfigSeriesIndex();
-    if (typeof series[this.activeSeriesIndex].data !== 'undefined' && series[this.activeSeriesIndex].data.length > 0 && series[this.activeSeriesIndex].data[0] !== null && typeof series[this.activeSeriesIndex].data[0].x !== 'undefined' && series[this.activeSeriesIndex].data[0] !== null) {
+
+    if (
+    typeof series[this.activeSeriesIndex].data !== 'undefined' &&
+    series[this.activeSeriesIndex].data.length > 0 &&
+    series[this.activeSeriesIndex].data[0] !== null &&
+    typeof series[this.activeSeriesIndex].data[0].x !== 'undefined' &&
+    series[this.activeSeriesIndex].data[0] !== null)
+    {
       return true;
     }
   }
@@ -30,19 +41,35 @@ export default class Data {
   // given format is [[x, y], [x, y]]
   isFormat2DArray() {
     const series = this.w.config.series.slice();
+
     const sr = new Series(this.ctx);
     this.activeSeriesIndex = sr.getActiveConfigSeriesIndex();
-    if (typeof series[this.activeSeriesIndex].data !== 'undefined' && series[this.activeSeriesIndex].data.length > 0 && typeof series[this.activeSeriesIndex].data[0] !== 'undefined' && series[this.activeSeriesIndex].data[0] !== null && series[this.activeSeriesIndex].data[0].constructor === Array) {
+
+    if (
+    typeof series[this.activeSeriesIndex].data !== 'undefined' &&
+    series[this.activeSeriesIndex].data.length > 0 &&
+    typeof series[this.activeSeriesIndex].data[0] !== 'undefined' &&
+    series[this.activeSeriesIndex].data[0] !== null &&
+    series[this.activeSeriesIndex].data[0].constructor === Array)
+    {
       return true;
     }
   }
+
   handleFormat2DArray(ser, i) {
     const cnf = this.w.config;
     const gl = this.w.globals;
-    const isBoxPlot = cnf.chart.type === 'boxPlot' || cnf.series[i].type === 'boxPlot';
+
+    const isBoxPlot =
+    cnf.chart.type === 'boxPlot' || cnf.series[i].type === 'boxPlot';
+
     for (let j = 0; j < ser[i].data.length; j++) {
       if (typeof ser[i].data[j][1] !== 'undefined') {
-        if (Array.isArray(ser[i].data[j][1]) && ser[i].data[j][1].length === 4 && !isBoxPlot) {
+        if (
+        Array.isArray(ser[i].data[j][1]) &&
+        ser[i].data[j][1].length === 4 &&
+        !isBoxPlot)
+        {
           // candlestick nested ohlc format
           this.twoDSeries.push(Utils.parseNumber(ser[i].data[j][1][3]));
         } else if (ser[i].data[j].length >= 5) {
@@ -63,6 +90,7 @@ export default class Data {
         this.twoDSeriesX.push(ser[i].data[j][0]);
       }
     }
+
     for (let j = 0; j < ser[i].data.length; j++) {
       if (typeof ser[i].data[j][2] !== 'undefined') {
         this.threeDSeries.push(ser[i].data[j][2]);
@@ -70,10 +98,13 @@ export default class Data {
       }
     }
   }
+
   handleFormatXY(ser, i) {
     const cnf = this.w.config;
     const gl = this.w.globals;
+
     const dt = new DateTime(this.ctx);
+
     let activeI = i;
     if (gl.collapsedSeriesIndices.indexOf(i) > -1) {
       // fix #368
@@ -84,12 +115,18 @@ export default class Data {
     for (let j = 0; j < ser[i].data.length; j++) {
       if (typeof ser[i].data[j].y !== 'undefined') {
         if (Array.isArray(ser[i].data[j].y)) {
-          this.twoDSeries.push(Utils.parseNumber(ser[i].data[j].y[ser[i].data[j].y.length - 1]));
+          this.twoDSeries.push(
+            Utils.parseNumber(ser[i].data[j].y[ser[i].data[j].y.length - 1])
+          );
         } else {
           this.twoDSeries.push(Utils.parseNumber(ser[i].data[j].y));
         }
       }
-      if (typeof ser[i].data[j].goals !== 'undefined' && Array.isArray(ser[i].data[j].goals)) {
+
+      if (
+      typeof ser[i].data[j].goals !== 'undefined' &&
+      Array.isArray(ser[i].data[j].goals))
+      {
         if (typeof this.seriesGoals[i] === 'undefined') {
           this.seriesGoals[i] = [];
         }
@@ -107,23 +144,32 @@ export default class Data {
       const isXString = typeof ser[activeI].data[j].x === 'string';
       const isXArr = Array.isArray(ser[activeI].data[j].x);
       const isXDate = !isXArr && !!dt.isValidDate(ser[activeI].data[j].x);
+
       if (isXString || isXDate) {
         // user supplied '01/01/2017' or a date string (a JS date object is not supported)
         if (isXString || cnf.xaxis.convertedCatToNumeric) {
           const isRangeColumn = gl.isBarHorizontal && gl.isRangeData;
+
           if (cnf.xaxis.type === 'datetime' && !isRangeColumn) {
             this.twoDSeriesX.push(dt.parseDate(ser[activeI].data[j].x));
           } else {
             // a category and not a numeric x value
             this.fallbackToCategory = true;
             this.twoDSeriesX.push(ser[activeI].data[j].x);
-            if (!isNaN(ser[activeI].data[j].x) && this.w.config.xaxis.type !== 'category' && typeof ser[activeI].data[j].x !== 'string') {
+
+            if (
+            !isNaN(ser[activeI].data[j].x) &&
+            this.w.config.xaxis.type !== 'category' &&
+            typeof ser[activeI].data[j].x !== 'string')
+            {
               gl.isXNumeric = true;
             }
           }
         } else {
           if (cnf.xaxis.type === 'datetime') {
-            this.twoDSeriesX.push(dt.parseDate(ser[activeI].data[j].x.toString()));
+            this.twoDSeriesX.push(
+              dt.parseDate(ser[activeI].data[j].x.toString())
+            );
           } else {
             gl.dataFormatXNumeric = true;
             gl.isXNumeric = true;
@@ -141,6 +187,7 @@ export default class Data {
         this.twoDSeriesX.push(ser[activeI].data[j].x);
       }
     }
+
     if (ser[i].data[0] && typeof ser[i].data[0].z !== 'undefined') {
       for (let t = 0; t < ser[i].data.length; t++) {
         this.threeDSeries.push(ser[i].data[t].z);
@@ -148,8 +195,10 @@ export default class Data {
       gl.isDataXYZ = true;
     }
   }
+
   handleRangeData(ser, i) {
     const gl = this.w.globals;
+
     let range = {};
     if (this.isFormat2DArray()) {
       range = this.handleRangeDataFormat('array', ser, i);
@@ -160,6 +209,7 @@ export default class Data {
     // Fix: RangeArea Chart: hide all series results in a crash #3984
     gl.seriesRangeStart.push(range.start === undefined ? [] : range.start);
     gl.seriesRangeEnd.push(range.end === undefined ? [] : range.end);
+
     gl.seriesRange.push(range.rangeUniques);
 
     // check for overlaps to avoid clashes in a timeline chart
@@ -187,33 +237,45 @@ export default class Data {
         });
       }
     });
+
     return range;
   }
+
   handleCandleStickBoxData(ser, i) {
     const gl = this.w.globals;
+
     let ohlc = {};
     if (this.isFormat2DArray()) {
       ohlc = this.handleCandleStickBoxDataFormat('array', ser, i);
     } else if (this.isFormatXY()) {
       ohlc = this.handleCandleStickBoxDataFormat('xy', ser, i);
     }
+
     gl.seriesCandleO[i] = ohlc.o;
     gl.seriesCandleH[i] = ohlc.h;
     gl.seriesCandleM[i] = ohlc.m;
     gl.seriesCandleL[i] = ohlc.l;
     gl.seriesCandleC[i] = ohlc.c;
+
     return ohlc;
   }
+
   handleRangeDataFormat(format, ser, i) {
     const rangeStart = [];
     const rangeEnd = [];
-    const uniqueKeys = ser[i].data.filter((thing, index, self) => index === self.findIndex((t) => t.x === thing.x)).map((r, index) => {
+
+    const uniqueKeys = ser[i].data.
+    filter(
+      (thing, index, self) => index === self.findIndex((t) => t.x === thing.x)
+    ).
+    map((r, index) => {
       return {
         x: r.x,
         overlaps: [],
         y: []
       };
     });
+
     if (format === 'array') {
       for (let j = 0; j < ser[i].data.length; j++) {
         if (Array.isArray(ser[i].data[j])) {
@@ -238,31 +300,42 @@ export default class Data {
         // CAUTION: mutating config object by adding a new property
         // TODO: As this is specifically for timeline rangebar charts, update the docs mentioning the series only supports xy format
         ser[i].data[j].rangeName = id;
+
         const uI = uniqueKeys.findIndex((t) => t.x === x);
         uniqueKeys[uI].y.push(y);
+
         rangeStart.push(y.y1);
         rangeEnd.push(y.y2);
       }
     }
+
     return {
       start: rangeStart,
       end: rangeEnd,
       rangeUniques: uniqueKeys
     };
   }
+
   handleCandleStickBoxDataFormat(format, ser, i) {
     const w = this.w;
-    const isBoxPlot = w.config.chart.type === 'boxPlot' || w.config.series[i].type === 'boxPlot';
+    const isBoxPlot =
+    w.config.chart.type === 'boxPlot' || w.config.series[i].type === 'boxPlot';
+
     const serO = [];
     const serH = [];
     const serM = [];
     const serL = [];
     const serC = [];
+
     if (format === 'array') {
-      if (isBoxPlot && ser[i].data[0].length === 6 || !isBoxPlot && ser[i].data[0].length === 5) {
+      if (
+      isBoxPlot && ser[i].data[0].length === 6 ||
+      !isBoxPlot && ser[i].data[0].length === 5)
+      {
         for (let j = 0; j < ser[i].data.length; j++) {
           serO.push(ser[i].data[j][1]);
           serH.push(ser[i].data[j][2]);
+
           if (isBoxPlot) {
             serM.push(ser[i].data[j][3]);
             serL.push(ser[i].data[j][4]);
@@ -304,6 +377,7 @@ export default class Data {
         }
       }
     }
+
     return {
       o: serO,
       h: serH,
@@ -312,16 +386,24 @@ export default class Data {
       c: serC
     };
   }
+
   parseDataAxisCharts(ser, ctx = this.ctx) {
     const cnf = this.w.config;
     const gl = this.w.globals;
+
     const dt = new DateTime(ctx);
-    const xlabels = cnf.labels.length > 0 ? cnf.labels.slice() : cnf.xaxis.categories.slice();
+
+    const xlabels =
+    cnf.labels.length > 0 ? cnf.labels.slice() : cnf.xaxis.categories.slice();
+
     gl.isRangeBar = cnf.chart.type === 'rangeBar' && gl.isBarHorizontal;
-    gl.hasXaxisGroups = cnf.xaxis.type === 'category' && cnf.xaxis.group.groups.length > 0;
+
+    gl.hasXaxisGroups =
+    cnf.xaxis.type === 'category' && cnf.xaxis.group.groups.length > 0;
     if (gl.hasXaxisGroups) {
       gl.groups = cnf.xaxis.group.groups;
     }
+
     gl.hasSeriesGroups = ser[0]?.group;
     if (gl.hasSeriesGroups) {
       let buckets = [];
@@ -329,10 +411,12 @@ export default class Data {
       ser.forEach((s, i) => {
         let index = groups.indexOf(s.group);
         if (!buckets[index]) buckets[index] = [];
+
         buckets[index].push(s.name);
       });
       gl.seriesGroups = buckets;
     }
+
     const handleDates = () => {
       for (let j = 0; j < xlabels.length; j++) {
         if (typeof xlabels[j] === 'string') {
@@ -341,7 +425,9 @@ export default class Data {
           if (isDate) {
             this.twoDSeriesX.push(dt.parseDate(xlabels[j]));
           } else {
-            throw new Error('You have provided invalid Date format. Please provide a valid JavaScript Date');
+            throw new Error(
+              'You have provided invalid Date format. Please provide a valid JavaScript Date'
+            );
           }
         } else {
           // user provided timestamps
@@ -349,33 +435,52 @@ export default class Data {
         }
       }
     };
+
     for (let i = 0; i < ser.length; i++) {
       this.twoDSeries = [];
       this.twoDSeriesX = [];
       this.threeDSeries = [];
+
       if (typeof ser[i].data === 'undefined') {
-        console.error("It is a possibility that you may have not included 'data' property in series.");
+        console.error(
+          "It is a possibility that you may have not included 'data' property in series."
+        );
         return;
       }
-      if (cnf.chart.type === 'rangeBar' || cnf.chart.type === 'rangeArea' || ser[i].type === 'rangeBar' || ser[i].type === 'rangeArea') {
+
+      if (
+      cnf.chart.type === 'rangeBar' ||
+      cnf.chart.type === 'rangeArea' ||
+      ser[i].type === 'rangeBar' ||
+      ser[i].type === 'rangeArea')
+      {
         gl.isRangeData = true;
         if (cnf.chart.type === 'rangeBar' || cnf.chart.type === 'rangeArea') {
           this.handleRangeData(ser, i);
         }
       }
+
       if (this.isMultiFormat()) {
         if (this.isFormat2DArray()) {
           this.handleFormat2DArray(ser, i);
         } else if (this.isFormatXY()) {
           this.handleFormatXY(ser, i);
         }
-        if (cnf.chart.type === 'candlestick' || ser[i].type === 'candlestick' || cnf.chart.type === 'boxPlot' || ser[i].type === 'boxPlot') {
+
+        if (
+        cnf.chart.type === 'candlestick' ||
+        ser[i].type === 'candlestick' ||
+        cnf.chart.type === 'boxPlot' ||
+        ser[i].type === 'boxPlot')
+        {
           this.handleCandleStickBoxData(ser, i);
         }
+
         gl.series.push(this.twoDSeries);
         gl.labels.push(this.twoDSeriesX);
         gl.seriesX.push(this.twoDSeriesX);
         gl.seriesGoals = this.seriesGoals;
+
         if (i === this.activeSeriesIndex && !this.fallbackToCategory) {
           gl.isXNumeric = true;
         }
@@ -384,10 +489,13 @@ export default class Data {
           // user didn't supplied [{x,y}] or [[x,y]], but single array in data.
           // Also labels/categories were supplied differently
           gl.isXNumeric = true;
+
           handleDates();
+
           gl.seriesX.push(this.twoDSeriesX);
         } else if (cnf.xaxis.type === 'numeric') {
           gl.isXNumeric = true;
+
           if (xlabels.length > 0) {
             this.twoDSeriesX = xlabels;
             gl.seriesX.push(this.twoDSeriesX);
@@ -397,7 +505,9 @@ export default class Data {
         const singleArray = ser[i].data.map((d) => Utils.parseNumber(d));
         gl.series.push(singleArray);
       }
+
       gl.seriesZ.push(this.threeDSeries);
+
       if (ser[i].name !== undefined) {
         gl.seriesNames.push(ser[i].name);
       } else {
@@ -411,11 +521,14 @@ export default class Data {
         gl.seriesColors.push(undefined);
       }
     }
+
     return this.w;
   }
+
   parseDataNonAxisCharts(ser) {
     const gl = this.w.globals;
     const cnf = this.w.config;
+
     gl.series = ser.slice();
     gl.seriesNames = cnf.labels.slice();
     for (let i = 0; i < gl.series.length; i++) {
@@ -423,6 +536,7 @@ export default class Data {
         gl.seriesNames.push('series-' + (i + 1));
       }
     }
+
     return this.w;
   }
 
@@ -435,6 +549,7 @@ export default class Data {
   handleExternalLabelsData(ser) {
     const cnf = this.w.config;
     const gl = this.w.globals;
+
     if (cnf.xaxis.categories.length > 0) {
       // user provided labels in xaxis.category prop
       gl.labels = cnf.xaxis.categories;
@@ -444,6 +559,7 @@ export default class Data {
     } else if (this.fallbackToCategory) {
       // user provided labels in x prop in [{ x: 3, y: 55 }] data, and those labels are already stored in gl.labels[0], so just re-arrange the gl.labels array
       gl.labels = gl.labels[0];
+
       if (gl.seriesRange.length) {
         gl.seriesRange.map((srt) => {
           srt.forEach((sr) => {
@@ -453,8 +569,12 @@ export default class Data {
           });
         });
         // remove duplicate x-axis labels
-        gl.labels = Array.from(new Set(gl.labels.map(JSON.stringify)), JSON.parse);
+        gl.labels = Array.from(
+          new Set(gl.labels.map(JSON.stringify)),
+          JSON.parse
+        );
       }
+
       if (cnf.xaxis.convertedCatToNumeric) {
         const defaults = new Defaults(cnf);
         defaults.convertCatToNumericXaxis(cnf, this.ctx, gl.seriesX[0]);
@@ -464,20 +584,29 @@ export default class Data {
       this._generateExternalLabels(ser);
     }
   }
+
   _generateExternalLabels(ser) {
     const gl = this.w.globals;
     const cnf = this.w.config;
     // user didn't provided any labels, fallback to 1-2-3-4-5
     let labelArr = [];
+
     if (gl.axisCharts) {
       if (gl.series.length > 0) {
         if (this.isFormatXY()) {
           // in case there is a combo chart (boxplot/scatter)
           // and there are duplicated x values, we need to eliminate duplicates
           const seriesDataFiltered = cnf.series.map((serie, s) => {
-            return serie.data.filter((v, i, a) => a.findIndex((t) => t.x === v.x) === i);
+            return serie.data.filter(
+              (v, i, a) => a.findIndex((t) => t.x === v.x) === i
+            );
           });
-          const len = seriesDataFiltered.reduce((p, c, i, a) => a[p].length > c.length ? p : i, 0);
+
+          const len = seriesDataFiltered.reduce(
+            (p, c, i, a) => a[p].length > c.length ? p : i,
+            0
+          );
+
           for (let i = 0; i < seriesDataFiltered[len].length; i++) {
             labelArr.push(i + 1);
           }
@@ -487,6 +616,7 @@ export default class Data {
           }
         }
       }
+
       gl.seriesX = [];
       // create gl.seriesX as it will be used in calculations of x positions
       for (let i = 0; i < ser.length; i++) {
@@ -502,7 +632,9 @@ export default class Data {
     // no series to pull labels from, put a 0-10 series
     // possibly, user collapsed all series. Hence we can't work with above calc
     if (labelArr.length === 0) {
-      labelArr = gl.axisCharts ? [] : gl.series.map((gls, glsi) => {
+      labelArr = gl.axisCharts ?
+      [] :
+      gl.series.map((gls, glsi) => {
         return glsi + 1;
       });
       for (let i = 0; i < ser.length; i++) {
@@ -512,6 +644,7 @@ export default class Data {
 
     // Finally, pass the labelArr in gl.labels which will be printed on x-axis
     gl.labels = labelArr;
+
     if (cnf.xaxis.convertedCatToNumeric) {
       gl.categoryLabels = labelArr.map((l) => {
         return cnf.xaxis.labels.formatter(l);
@@ -531,8 +664,10 @@ export default class Data {
 
     // If we detected string in X prop of series, we fallback to category x-axis
     this.fallbackToCategory = false;
+
     this.ctx.core.resetGlobals();
     this.ctx.core.isMultipleY();
+
     if (gl.axisCharts) {
       // axisCharts includes line / area / column / scatter
       this.parseDataAxisCharts(ser);
@@ -547,13 +682,23 @@ export default class Data {
       const series = new Series(this.ctx);
       gl.series = series.setNullSeriesToZeroValues(gl.series);
     }
+
     this.coreUtils.getSeriesTotals();
     if (gl.axisCharts) {
       gl.stackedSeriesTotals = this.coreUtils.getStackedSeriesTotals();
-      gl.stackedSeriesTotalsByGroups = this.coreUtils.getStackedSeriesTotalsByGroups();
+      gl.stackedSeriesTotalsByGroups =
+      this.coreUtils.getStackedSeriesTotalsByGroups();
     }
+
     this.coreUtils.getPercentSeries();
-    if (!gl.dataFormatXNumeric && (!gl.isXNumeric || cnf.xaxis.type === 'numeric' && cnf.labels.length === 0 && cnf.xaxis.categories.length === 0)) {
+
+    if (
+    !gl.dataFormatXNumeric && (
+    !gl.isXNumeric ||
+    cnf.xaxis.type === 'numeric' &&
+    cnf.labels.length === 0 &&
+    cnf.xaxis.categories.length === 0))
+    {
       // x-axis labels couldn't be detected; hence try searching every option in config
       this.handleExternalLabelsData(ser);
     }
@@ -567,6 +712,7 @@ export default class Data {
       }
     }
   }
+
   excludeCollapsedSeriesInYAxis() {
     const w = this.w;
     // fix issue #1215

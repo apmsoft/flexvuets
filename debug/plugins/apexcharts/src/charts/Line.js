@@ -17,16 +17,27 @@ class Line {
   constructor(ctx, xyRatios, isPointsChart) {
     this.ctx = ctx;
     this.w = ctx.w;
+
     this.xyRatios = xyRatios;
-    this.pointsChart = !(this.w.config.chart.type !== 'bubble' && this.w.config.chart.type !== 'scatter') || isPointsChart;
+
+    this.pointsChart =
+    !(
+    this.w.config.chart.type !== 'bubble' &&
+    this.w.config.chart.type !== 'scatter') ||
+    isPointsChart;
+
     this.scatter = new Scatter(this.ctx);
+
     this.noNegatives = this.w.globals.minX === Number.MAX_VALUE;
+
     this.lineHelpers = new Helpers(this);
     this.markers = new Markers(this.ctx);
+
     this.prevSeriesY = [];
     this.categoryAxisCorrection = 0;
     this.yaxisIndex = 0;
   }
+
   draw(series, ctype, seriesIndex, seriesRangeEnd) {
     let w = this.w;
     let graphics = new Graphics(this.ctx);
@@ -34,34 +45,46 @@ class Line {
     let ret = graphics.group({
       class: `apexcharts-${type}-series apexcharts-plot-series`
     });
+
     const coreUtils = new CoreUtils(this.ctx, w);
     this.yRatio = this.xyRatios.yRatio;
     this.zRatio = this.xyRatios.zRatio;
     this.xRatio = this.xyRatios.xRatio;
     this.baseLineY = this.xyRatios.baseLineY;
+
     series = coreUtils.getLogSeries(series);
     this.yRatio = coreUtils.getLogYRatios(this.yRatio);
 
     // push all series in an array, so we can draw in reverse order (for stacked charts)
     let allSeries = [];
+
     for (let i = 0; i < series.length; i++) {
       series = this.lineHelpers.sameValueSeriesFix(i, series);
+
       let realIndex = w.globals.comboCharts ? seriesIndex[i] : i;
       let translationsIndex = this.yRatio.length > 1 ? realIndex : 0;
+
+
       this._initSerieVariables(series, i, realIndex);
+
       let yArrj = []; // hold y values of current iterating series
       let y2Arrj = []; // holds y2 values in range-area charts
       let xArrj = []; // hold x values of current iterating series
 
       let x = w.globals.padHorizontal + this.categoryAxisCorrection;
       let y = 1;
+
       let linePaths = [];
       let areaPaths = [];
+
       this.ctx.series.addCollapsedClassToSeries(this.elSeries, realIndex);
+
       if (w.globals.isXNumeric && w.globals.seriesX.length > 0) {
         x = (w.globals.seriesX[realIndex][0] - w.globals.minX) / this.xRatio;
       }
+
       xArrj.push(x);
+
       let pX = x;
       let pY;
       let pY2;
@@ -89,6 +112,7 @@ class Line {
 
       // y2 are needed for range-area charts
       let firstPrevY2;
+
       if (type === 'rangeArea') {
         firstPrevY2 = this.lineHelpers.determineFirstPrevY({
           i,
@@ -101,6 +125,7 @@ class Line {
         pY2 = prevY2;
         y2Arrj.push(prevY2);
       }
+
       let pathsFrom = this._calculatePathsFrom({
         type,
         series,
@@ -110,6 +135,7 @@ class Line {
         prevY,
         prevY2
       });
+
       const iteratingOpts = {
         type,
         series,
@@ -130,11 +156,13 @@ class Line {
         y2Arrj,
         seriesRangeEnd
       };
+
       let paths = this._iterateOverDataPoints({
         ...iteratingOpts,
         iterations: type === 'rangeArea' ? series[i].length - 1 : undefined,
         isRangeStart: true
       });
+
       if (type === 'rangeArea') {
         let pathsFrom2 = this._calculatePathsFrom({
           series: seriesRangeEnd,
@@ -151,22 +179,27 @@ class Line {
           iterations: seriesRangeEnd[i].length - 1,
           isRangeStart: false
         });
+
         paths.linePaths[0] = rangePaths.linePath + paths.linePath;
         paths.pathFromLine = rangePaths.pathFromLine + paths.pathFromLine;
       }
-      this._handlePaths({
-        type,
-        realIndex,
-        i,
-        paths
-      });
+
+      this._handlePaths({ type, realIndex, i, paths });
+
       this.elSeries.add(this.elPointsMain);
       this.elSeries.add(this.elDataLabelsWrap);
+
       allSeries.push(this.elSeries);
     }
+
     if (typeof w.config.series[0]?.zIndex !== 'undefined') {
-      allSeries.sort((a, b) => Number(a.node.getAttribute('zIndex')) - Number(b.node.getAttribute('zIndex')));
+      allSeries.sort(
+        (a, b) =>
+        Number(a.node.getAttribute('zIndex')) -
+        Number(b.node.getAttribute('zIndex'))
+      );
     }
+
     if (w.config.chart.stacked) {
       for (let s = allSeries.length; s > 0; s--) {
         ret.add(allSeries[s - 1]);
@@ -176,34 +209,57 @@ class Line {
         ret.add(allSeries[s]);
       }
     }
+
     return ret;
   }
+
   _initSerieVariables(series, i, realIndex) {
     const w = this.w;
     const graphics = new Graphics(this.ctx);
 
     // width divided into equal parts
-    this.xDivision = w.globals.gridWidth / (w.globals.dataPoints - (w.config.xaxis.tickPlacement === 'on' ? 1 : 0));
-    this.strokeWidth = Array.isArray(w.config.stroke.width) ? w.config.stroke.width[realIndex] : w.config.stroke.width;
+    this.xDivision =
+    w.globals.gridWidth / (
+    w.globals.dataPoints - (w.config.xaxis.tickPlacement === 'on' ? 1 : 0));
+
+    this.strokeWidth = Array.isArray(w.config.stroke.width) ?
+    w.config.stroke.width[realIndex] :
+    w.config.stroke.width;
+
     let translationsIndex = 0;
     if (this.yRatio.length > 1) {
       this.yaxisIndex = w.globals.seriesYAxisReverseMap[realIndex];
       translationsIndex = realIndex;
     }
-    this.isReversed = w.config.yaxis[this.yaxisIndex] && w.config.yaxis[this.yaxisIndex].reversed;
+
+    this.isReversed =
+    w.config.yaxis[this.yaxisIndex] &&
+    w.config.yaxis[this.yaxisIndex].reversed;
 
     // zeroY is the 0 value in y series which can be used in negative charts
-    this.zeroY = w.globals.gridHeight - this.baseLineY[translationsIndex] - (this.isReversed ? w.globals.gridHeight : 0) + (this.isReversed ? this.baseLineY[translationsIndex] * 2 : 0);
+    this.zeroY =
+    w.globals.gridHeight -
+    this.baseLineY[translationsIndex] - (
+    this.isReversed ? w.globals.gridHeight : 0) + (
+    this.isReversed ? this.baseLineY[translationsIndex] * 2 : 0);
+
     this.areaBottomY = this.zeroY;
-    if (this.zeroY > w.globals.gridHeight || w.config.plotOptions.area.fillTo === 'end') {
+    if (
+    this.zeroY > w.globals.gridHeight ||
+    w.config.plotOptions.area.fillTo === 'end')
+    {
       this.areaBottomY = w.globals.gridHeight;
     }
+
     this.categoryAxisCorrection = this.xDivision / 2;
 
     // el to which series will be drawn
     this.elSeries = graphics.group({
       class: `apexcharts-series`,
-      zIndex: typeof w.config.series[realIndex].zIndex !== 'undefined' ? w.config.series[realIndex].zIndex : realIndex,
+      zIndex:
+      typeof w.config.series[realIndex].zIndex !== 'undefined' ?
+      w.config.series[realIndex].zIndex :
+      realIndex,
       seriesName: Utils.escapeString(w.globals.seriesNames[realIndex])
     });
 
@@ -218,26 +274,22 @@ class Line {
       class: 'apexcharts-datalabels',
       'data:realIndex': realIndex
     });
+
     let longestSeries = series[i].length === w.globals.dataPoints;
     this.elSeries.attr({
       'data:longestSeries': longestSeries,
       rel: i + 1,
       'data:realIndex': realIndex
     });
+
     this.appendPathFrom = true;
   }
-  _calculatePathsFrom({
-    type,
-    series,
-    i,
-    realIndex,
-    prevX,
-    prevY,
-    prevY2
-  }) {
+
+  _calculatePathsFrom({ type, series, i, realIndex, prevX, prevY, prevY2 }) {
     const w = this.w;
     const graphics = new Graphics(this.ctx);
     let linePath, areaPath, pathFromLine, pathFromArea;
+
     if (series[i][0] === null) {
       // when the first value itself is null, we need to move the pointer to a location where a null value is not found
       for (let s = 0; s < series[i].length; s++) {
@@ -251,13 +303,17 @@ class Line {
       }
     } else {
       linePath = graphics.move(prevX, prevY);
+
       if (type === 'rangeArea') {
         linePath = graphics.move(prevX, prevY2) + graphics.line(prevX, prevY);
       }
-      areaPath = graphics.move(prevX, this.areaBottomY) + graphics.line(prevX, prevY);
+      areaPath =
+      graphics.move(prevX, this.areaBottomY) + graphics.line(prevX, prevY);
     }
+
     pathFromLine = graphics.move(-1, this.zeroY) + graphics.line(-1, this.zeroY);
     pathFromArea = graphics.move(-1, this.zeroY) + graphics.line(-1, this.zeroY);
+
     if (w.globals.previousPaths.length > 0) {
       const pathFrom = this.lineHelpers.checkPreviousPaths({
         pathFromLine,
@@ -267,6 +323,7 @@ class Line {
       pathFromLine = pathFrom.pathFromLine;
       pathFromArea = pathFrom.pathFromArea;
     }
+
     return {
       prevX,
       prevY,
@@ -276,12 +333,8 @@ class Line {
       pathFromArea
     };
   }
-  _handlePaths({
-    type,
-    realIndex,
-    i,
-    paths
-  }) {
+
+  _handlePaths({ type, realIndex, i, paths }) {
     const w = this.w;
     const graphics = new Graphics(this.ctx);
     const fill = new Fill(this.ctx);
@@ -292,12 +345,29 @@ class Line {
     // push all x val arrays into main xArr
     w.globals.seriesXvalues[realIndex] = paths.xArrj;
     w.globals.seriesYvalues[realIndex] = paths.yArrj;
+
     const forecast = w.config.forecastDataPoints;
     if (forecast.count > 0 && type !== 'rangeArea') {
-      const forecastCutoff = w.globals.seriesXvalues[realIndex][w.globals.seriesXvalues[realIndex].length - forecast.count - 1];
-      const elForecastMask = graphics.drawRect(forecastCutoff, 0, w.globals.gridWidth, w.globals.gridHeight, 0);
+      const forecastCutoff =
+      w.globals.seriesXvalues[realIndex][
+      w.globals.seriesXvalues[realIndex].length - forecast.count - 1];
+
+      const elForecastMask = graphics.drawRect(
+        forecastCutoff,
+        0,
+        w.globals.gridWidth,
+        w.globals.gridHeight,
+        0
+      );
       w.globals.dom.elForecastMask.appendChild(elForecastMask.node);
-      const elNonForecastMask = graphics.drawRect(0, 0, forecastCutoff, w.globals.gridHeight, 0);
+
+      const elNonForecastMask = graphics.drawRect(
+        0,
+        0,
+        forecastCutoff,
+        w.globals.gridHeight,
+        0
+      );
       w.globals.dom.elNonForecastMask.appendChild(elNonForecastMask.node);
     }
 
@@ -308,6 +378,7 @@ class Line {
         index: realIndex
       });
     }
+
     const defaultRenderedPathOptions = {
       i,
       realIndex,
@@ -316,10 +387,12 @@ class Line {
       dataChangeSpeed: w.config.chart.animations.dynamicAnimation.speed,
       className: `apexcharts-${type}`
     };
+
     if (type === 'area') {
       let pathFill = fill.fillPath({
         seriesNumber: realIndex
       });
+
       for (let p = 0; p < paths.areaPaths.length; p++) {
         let renderedPath = graphics.renderPaths({
           ...defaultRenderedPathOptions,
@@ -330,9 +403,11 @@ class Line {
           strokeLineCap: null,
           fill: pathFill
         });
+
         this.elSeries.add(renderedPath);
       }
     }
+
     if (w.config.stroke.show && !this.pointsChart) {
       let lineFill = null;
       if (type === 'line') {
@@ -346,6 +421,7 @@ class Line {
         } else {
           const prevFill = w.config.fill;
           w.config.fill = w.config.stroke.fill;
+
           lineFill = fill.fillPath({
             seriesNumber: realIndex,
             i
@@ -374,19 +450,36 @@ class Line {
         let renderedPath = graphics.renderPaths(linePathCommonOpts);
         this.elSeries.add(renderedPath);
         renderedPath.attr('fill-rule', `evenodd`);
+
         if (forecast.count > 0 && type !== 'rangeArea') {
           let renderedForecastPath = graphics.renderPaths(linePathCommonOpts);
-          renderedForecastPath.node.setAttribute('stroke-dasharray', forecast.dashArray);
+
+          renderedForecastPath.node.setAttribute(
+            'stroke-dasharray',
+            forecast.dashArray
+          );
+
           if (forecast.strokeWidth) {
-            renderedForecastPath.node.setAttribute('stroke-width', forecast.strokeWidth);
+            renderedForecastPath.node.setAttribute(
+              'stroke-width',
+              forecast.strokeWidth
+            );
           }
+
           this.elSeries.add(renderedForecastPath);
-          renderedForecastPath.attr('clip-path', `url(#forecastMask${w.globals.cuid})`);
-          renderedPath.attr('clip-path', `url(#nonForecastMask${w.globals.cuid})`);
+          renderedForecastPath.attr(
+            'clip-path',
+            `url(#forecastMask${w.globals.cuid})`
+          );
+          renderedPath.attr(
+            'clip-path',
+            `url(#nonForecastMask${w.globals.cuid})`
+          );
         }
       }
     }
   }
+
   _iterateOverDataPoints({
     type,
     series,
@@ -412,24 +505,40 @@ class Line {
     const w = this.w;
     let graphics = new Graphics(this.ctx);
     let yRatio = this.yRatio;
-    let {
-      prevY,
-      linePath,
-      areaPath,
-      pathFromLine,
-      pathFromArea
-    } = pathsFrom;
-    const minY = Utils.isNumber(w.globals.minYArr[realIndex]) ? w.globals.minYArr[realIndex] : w.globals.minY;
+    let { prevY, linePath, areaPath, pathFromLine, pathFromArea } = pathsFrom;
+
+    const minY = Utils.isNumber(w.globals.minYArr[realIndex]) ?
+    w.globals.minYArr[realIndex] :
+    w.globals.minY;
+
     if (!iterations) {
-      iterations = w.globals.dataPoints > 1 ? w.globals.dataPoints - 1 : w.globals.dataPoints;
+      iterations =
+      w.globals.dataPoints > 1 ?
+      w.globals.dataPoints - 1 :
+      w.globals.dataPoints;
     }
+
     const getY = (_y, lineYPos) => {
-      return lineYPos - _y / yRatio[translationsIndex] + (this.isReversed ? _y / yRatio[translationsIndex] : 0) * 2;
+      return (
+        lineYPos -
+        _y / yRatio[translationsIndex] +
+        (this.isReversed ? _y / yRatio[translationsIndex] : 0) * 2);
+
     };
+
     let y2 = y;
-    let stackSeries = w.config.chart.stacked && !w.globals.comboCharts || w.config.chart.stacked && w.globals.comboCharts && (!this.w.config.chart.stackOnlyBar || this.w.config.series[realIndex]?.type === 'bar');
+
+    let stackSeries =
+    w.config.chart.stacked && !w.globals.comboCharts ||
+    w.config.chart.stacked &&
+    w.globals.comboCharts && (
+    !this.w.config.chart.stackOnlyBar ||
+    this.w.config.series[realIndex]?.type === 'bar');
+
     for (let j = 0; j < iterations; j++) {
-      const isNull = typeof series[i][j + 1] === 'undefined' || series[i][j + 1] === null;
+      const isNull =
+      typeof series[i][j + 1] === 'undefined' || series[i][j + 1] === null;
+
       if (w.globals.isXNumeric) {
         let sX = w.globals.seriesX[realIndex][j + 1];
         if (typeof w.globals.seriesX[realIndex][j + 1] === 'undefined') {
@@ -440,8 +549,12 @@ class Line {
       } else {
         x = x + this.xDivision;
       }
+
       if (stackSeries) {
-        if (i > 0 && w.globals.collapsedSeries.length < w.config.series.length - 1) {
+        if (
+        i > 0 &&
+        w.globals.collapsedSeries.length < w.config.series.length - 1)
+        {
           // a collapsed series in a stacked bar chart may provide wrong result for the next series, hence find the prevIndex of prev series which is not collapsed - fixes apexcharts.js#1372
           const prevIndex = (pi) => {
             let pii = pi;
@@ -451,6 +564,7 @@ class Line {
                 break;
               }
             }
+
             return pii >= 0 ? pii : 0;
           };
           lineYPosition = this.prevSeriesY[prevIndex(i - 1)][j + 1];
@@ -461,10 +575,12 @@ class Line {
       } else {
         lineYPosition = this.zeroY;
       }
+
       if (isNull) {
         y = getY(minY, lineYPosition);
       } else {
         y = getY(series[i][j + 1], lineYPosition);
+
         if (type === 'rangeArea') {
           y2 = getY(seriesRangeEnd[i][j + 1], lineYPosition);
         }
@@ -480,6 +596,7 @@ class Line {
         yArrj.push(y);
       }
       y2Arrj.push(y2);
+
       let pointsPos = this.lineHelpers.calculatePoints({
         series,
         x,
@@ -489,6 +606,7 @@ class Line {
         j,
         prevY
       });
+
       let calculatedPaths = this._createPaths({
         type,
         series,
@@ -510,17 +628,24 @@ class Line {
         seriesIndex,
         isRangeStart
       });
+
       areaPaths = calculatedPaths.areaPaths;
       linePaths = calculatedPaths.linePaths;
       pX = calculatedPaths.pX;
       pY = calculatedPaths.pY;
       areaPath = calculatedPaths.areaPath;
       linePath = calculatedPaths.linePath;
-      if (this.appendPathFrom && !(w.config.stroke.curve === 'monotoneCubic' && type === 'rangeArea')) {
+
+      if (
+      this.appendPathFrom &&
+      !(w.config.stroke.curve === 'monotoneCubic' && type === 'rangeArea'))
+      {
         pathFromLine = pathFromLine + graphics.line(x, this.zeroY);
         pathFromArea = pathFromArea + graphics.line(x, this.zeroY);
       }
+
       this.handleNullDataPoints(series, pointsPos, i, j, realIndex);
+
       this._handleMarkersAndLabels({
         type,
         pointsPos,
@@ -530,6 +655,7 @@ class Line {
         isRangeStart
       });
     }
+
     return {
       yArrj,
       xArrj,
@@ -541,21 +667,21 @@ class Line {
       areaPath
     };
   }
-  _handleMarkersAndLabels({
-    type,
-    pointsPos,
-    isRangeStart,
-    i,
-    j,
-    realIndex
-  }) {
+
+  _handleMarkersAndLabels({ type, pointsPos, isRangeStart, i, j, realIndex }) {
     const w = this.w;
     let dataLabels = new DataLabels(this.ctx);
+
     if (!this.pointsChart) {
       if (w.globals.series[i].length > 1) {
         this.elPointsMain.node.classList.add('apexcharts-element-hidden');
       }
-      let elPointsWrap = this.markers.plotChartMarkers(pointsPos, realIndex, j + 1);
+
+      let elPointsWrap = this.markers.plotChartMarkers(
+        pointsPos,
+        realIndex,
+        j + 1
+      );
       if (elPointsWrap !== null) {
         this.elPointsMain.add(elPointsWrap);
       }
@@ -568,6 +694,7 @@ class Line {
         elParent: this.elPointsMain
       });
     }
+
     let drawnLabels = dataLabels.drawDataLabel({
       type,
       isRangeStart,
@@ -579,6 +706,7 @@ class Line {
       this.elDataLabelsWrap.add(drawnLabels);
     }
   }
+
   _createPaths({
     type,
     series,
@@ -602,8 +730,10 @@ class Line {
   }) {
     let w = this.w;
     let graphics = new Graphics(this.ctx);
+
     let curve = w.config.stroke.curve;
     const areaBottomY = this.areaBottomY;
+
     if (Array.isArray(w.config.stroke.curve)) {
       if (Array.isArray(seriesIndex)) {
         curve = w.config.stroke.curve[seriesIndex[i]];
@@ -611,16 +741,30 @@ class Line {
         curve = w.config.stroke.curve[i];
       }
     }
-    if (type === 'rangeArea' && (w.globals.hasNullValues || w.config.forecastDataPoints.count > 0) && curve === 'monotoneCubic') {
+
+    if (
+    type === 'rangeArea' && (
+    w.globals.hasNullValues || w.config.forecastDataPoints.count > 0) &&
+    curve === 'monotoneCubic')
+    {
       curve = 'straight';
     }
+
     if (curve === 'monotoneCubic') {
-      const shouldRenderMonotone = type === 'rangeArea' ? xArrj.length === w.globals.dataPoints : j === series[i].length - 2;
-      const smoothInputs = xArrj.map((_, i) => {
+      const shouldRenderMonotone =
+      type === 'rangeArea' ?
+      xArrj.length === w.globals.dataPoints :
+      j === series[i].length - 2;
+
+      const smoothInputs = xArrj.
+      map((_, i) => {
         return [xArrj[i], yArrj[i]];
-      }).filter((_) => _[1] !== null);
+      }).
+      filter((_) => _[1] !== null);
+
       if (shouldRenderMonotone && smoothInputs.length > 1) {
         const points = spline.points(smoothInputs);
+
         linePath += svgPath(points);
         if (series[i][0] === null) {
           // if the first dataPoint is null, we use the linePath directly
@@ -629,22 +773,37 @@ class Line {
           // else, we append the areaPath
           areaPath += svgPath(points);
         }
+
         if (type === 'rangeArea' && isRangeStart) {
           // draw the line to connect y with y2; then draw the other end of range
-          linePath += graphics.line(xArrj[xArrj.length - 1], y2Arrj[y2Arrj.length - 1]);
+          linePath += graphics.line(
+            xArrj[xArrj.length - 1],
+            y2Arrj[y2Arrj.length - 1]
+          );
+
           const xArrjInversed = xArrj.slice().reverse();
           const y2ArrjInversed = y2Arrj.slice().reverse();
           const smoothInputsY2 = xArrjInversed.map((_, i) => {
             return [xArrjInversed[i], y2ArrjInversed[i]];
           });
+
           const pointsY2 = spline.points(smoothInputsY2);
+
           linePath += svgPath(pointsY2);
 
           // in range area, we don't have separate line and area path
           areaPath = linePath;
         } else {
-          areaPath += graphics.line(smoothInputs[smoothInputs.length - 1][0], areaBottomY) + graphics.line(smoothInputs[0][0], areaBottomY) + graphics.move(smoothInputs[0][0], smoothInputs[0][1]) + 'z';
+          areaPath +=
+          graphics.line(
+            smoothInputs[smoothInputs.length - 1][0],
+            areaBottomY
+          ) +
+          graphics.line(smoothInputs[0][0], areaBottomY) +
+          graphics.move(smoothInputs[0][0], smoothInputs[0][1]) +
+          'z';
         }
+
         linePaths.push(linePath);
         areaPaths.push(areaPath);
       }
@@ -653,26 +812,47 @@ class Line {
       if (w.globals.hasNullValues) {
         if (series[i][j] !== null) {
           if (series[i][j + 1] !== null) {
-            linePath = graphics.move(pX, pY) + graphics.curve(pX + length, pY, x - length, y, x + 1, y);
-            areaPath = graphics.move(pX + 1, pY) + graphics.curve(pX + length, pY, x - length, y, x + 1, y) + graphics.line(x, areaBottomY) + graphics.line(pX, areaBottomY) + 'z';
+            linePath =
+            graphics.move(pX, pY) +
+            graphics.curve(pX + length, pY, x - length, y, x + 1, y);
+            areaPath =
+            graphics.move(pX + 1, pY) +
+            graphics.curve(pX + length, pY, x - length, y, x + 1, y) +
+            graphics.line(x, areaBottomY) +
+            graphics.line(pX, areaBottomY) +
+            'z';
           } else {
             linePath = graphics.move(pX, pY);
             areaPath = graphics.move(pX, pY) + 'z';
           }
         }
+
         linePaths.push(linePath);
         areaPaths.push(areaPath);
       } else {
-        linePath = linePath + graphics.curve(pX + length, pY, x - length, y, x, y);
-        areaPath = areaPath + graphics.curve(pX + length, pY, x - length, y, x, y);
+        linePath =
+        linePath + graphics.curve(pX + length, pY, x - length, y, x, y);
+        areaPath =
+        areaPath + graphics.curve(pX + length, pY, x - length, y, x, y);
       }
+
       pX = x;
       pY = y;
+
       if (j === series[i].length - 2) {
         // last loop, close path
-        areaPath = areaPath + graphics.curve(pX, pY, x, y, x, areaBottomY) + graphics.move(x, y) + 'z';
+        areaPath =
+        areaPath +
+        graphics.curve(pX, pY, x, y, x, areaBottomY) +
+        graphics.move(x, y) +
+        'z';
+
         if (type === 'rangeArea' && isRangeStart) {
-          linePath = linePath + graphics.curve(pX, pY, x, y, x, y2) + graphics.move(x, y2) + 'z';
+          linePath =
+          linePath +
+          graphics.curve(pX, pY, x, y, x, y2) +
+          graphics.move(x, y2) +
+          'z';
         } else {
           if (!w.globals.hasNullValues) {
             linePaths.push(linePath);
@@ -683,34 +863,51 @@ class Line {
     } else {
       if (series[i][j + 1] === null) {
         linePath = linePath + graphics.move(x, y);
-        const numericOrCatX = w.globals.isXNumeric ? (w.globals.seriesX[realIndex][j] - w.globals.minX) / this.xRatio : x - this.xDivision;
-        areaPath = areaPath + graphics.line(numericOrCatX, areaBottomY) + graphics.move(x, y) + 'z';
+
+        const numericOrCatX = w.globals.isXNumeric ?
+        (w.globals.seriesX[realIndex][j] - w.globals.minX) / this.xRatio :
+        x - this.xDivision;
+        areaPath =
+        areaPath +
+        graphics.line(numericOrCatX, areaBottomY) +
+        graphics.move(x, y) +
+        'z';
       }
       if (series[i][j] === null) {
         linePath = linePath + graphics.move(x, y);
         areaPath = areaPath + graphics.move(x, areaBottomY);
       }
+
       if (curve === 'stepline') {
-        linePath = linePath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V');
-        areaPath = areaPath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V');
+        linePath =
+        linePath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V');
+        areaPath =
+        areaPath + graphics.line(x, null, 'H') + graphics.line(null, y, 'V');
       } else if (curve === 'linestep') {
-        linePath = linePath + graphics.line(null, y, 'V') + graphics.line(x, null, 'H');
-        areaPath = areaPath + graphics.line(null, y, 'V') + graphics.line(x, null, 'H');
+        linePath =
+        linePath + graphics.line(null, y, 'V') + graphics.line(x, null, 'H');
+        areaPath =
+        areaPath + graphics.line(null, y, 'V') + graphics.line(x, null, 'H');
       } else if (curve === 'straight') {
         linePath = linePath + graphics.line(x, y);
         areaPath = areaPath + graphics.line(x, y);
       }
+
       if (j === series[i].length - 2) {
         // last loop, close path
-        areaPath = areaPath + graphics.line(x, areaBottomY) + graphics.move(x, y) + 'z';
+        areaPath =
+        areaPath + graphics.line(x, areaBottomY) + graphics.move(x, y) + 'z';
+
         if (type === 'rangeArea' && isRangeStart) {
-          linePath = linePath + graphics.line(x, y2) + graphics.move(x, y2) + 'z';
+          linePath =
+          linePath + graphics.line(x, y2) + graphics.move(x, y2) + 'z';
         } else {
           linePaths.push(linePath);
           areaPaths.push(areaPath);
         }
       }
     }
+
     return {
       linePaths,
       areaPaths,
@@ -720,15 +917,26 @@ class Line {
       areaPath
     };
   }
+
   handleNullDataPoints(series, pointsPos, i, j, realIndex) {
     const w = this.w;
-    if (series[i][j] === null && w.config.markers.showNullDataPoints || series[i].length === 1) {
+    if (
+    series[i][j] === null && w.config.markers.showNullDataPoints ||
+    series[i].length === 1)
+    {
       // fixes apexcharts.js#1282, #1252
-      let elPointsWrap = this.markers.plotChartMarkers(pointsPos, realIndex, j + 1, this.strokeWidth - w.config.markers.strokeWidth / 2, true);
+      let elPointsWrap = this.markers.plotChartMarkers(
+        pointsPos,
+        realIndex,
+        j + 1,
+        this.strokeWidth - w.config.markers.strokeWidth / 2,
+        true
+      );
       if (elPointsWrap !== null) {
         this.elPointsMain.add(elPointsWrap);
       }
     }
   }
 }
+
 export default Line;

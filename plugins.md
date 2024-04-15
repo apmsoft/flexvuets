@@ -81,3 +81,10 @@ npm install apexcharts --save
 
 >> babel.config.js
 ,"apexcharts": `./${debugPath}/plugins/apexcharts/dist/apexcharts.esm.js`
+
+
+### crypto-es 암호화 알고리즘 : https://github.com/entronad/crypto-es
+npm install crypto-es --save
+
+>> babel.config.js
+,"crypto-es": `./${debugPath}/plugins/crypto-es/lib/index.js`

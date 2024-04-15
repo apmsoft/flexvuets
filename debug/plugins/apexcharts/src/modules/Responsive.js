@@ -22,14 +22,26 @@ export default class Responsive {
 
     // check if responsive config exists
     if (cnf.responsive.length === 0) return;
+
     let res = cnf.responsive.slice();
-    res.sort((a, b) => a.breakpoint > b.breakpoint ? 1 : b.breakpoint > a.breakpoint ? -1 : 0).reverse();
+    res.
+    sort((a, b) =>
+    a.breakpoint > b.breakpoint ? 1 : b.breakpoint > a.breakpoint ? -1 : 0
+    ).
+    reverse();
+
     let config = new Config({});
+
     const iterateResponsiveOptions = (newOptions = {}) => {
       let largestBreakpoint = res[0].breakpoint;
       const width = window.innerWidth > 0 ? window.innerWidth : screen.width;
+
       if (width > largestBreakpoint) {
-        let options = CoreUtils.extendArrayProps(config, w.globals.initialConfig, w);
+        let options = CoreUtils.extendArrayProps(
+          config,
+          w.globals.initialConfig,
+          w
+        );
         newOptions = Utils.extend(options, newOptions);
         newOptions = Utils.extend(w.config, newOptions);
         this.overrideResponsiveOptions(newOptions);
@@ -43,6 +55,7 @@ export default class Responsive {
         }
       }
     };
+
     if (opts) {
       let options = CoreUtils.extendArrayProps(config, opts, w);
       options = Utils.extend(w.config, options);
@@ -52,10 +65,9 @@ export default class Responsive {
       iterateResponsiveOptions({});
     }
   }
+
   overrideResponsiveOptions(newOptions) {
-    let newConfig = new Config(newOptions).init({
-      responsiveOverride: true
-    });
+    let newConfig = new Config(newOptions).init({ responsiveOverride: true });
     this.w.config = newConfig;
   }
 }

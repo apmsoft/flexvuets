@@ -29,6 +29,7 @@
     "@editorjs/simple-image": "^1.6.0",
     "@editorjs/table": "^2.3.0",
     "apexcharts": "^3.48.0",
+    "crypto-es": "^2.1.0",
     "filepond": "^4.30.6",
     "filepond-plugin-file-validate-size": "^2.2.8",
     "filepond-plugin-file-validate-type": "^1.2.9",

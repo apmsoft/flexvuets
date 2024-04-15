@@ -23,12 +23,16 @@ export default class Position {
   moveXCrosshairs(cx, j = null) {
     const ttCtx = this.ttCtx;
     let w = this.w;
+
     const xcrosshairs = ttCtx.getElXCrosshairs();
+
     let x = cx - ttCtx.xcrosshairsWidth / 2;
+
     let tickAmount = w.globals.labels.slice().length;
     if (j !== null) {
       x = w.globals.gridWidth / tickAmount * j;
     }
+
     if (xcrosshairs !== null && !w.globals.isBarHorizontal) {
       xcrosshairs.setAttribute('x', x);
       xcrosshairs.setAttribute('x1', x);
@@ -36,15 +40,21 @@ export default class Position {
       xcrosshairs.setAttribute('y2', w.globals.gridHeight);
       xcrosshairs.classList.add('apexcharts-active');
     }
+
     if (x < 0) {
       x = 0;
     }
+
     if (x > w.globals.gridWidth) {
       x = w.globals.gridWidth;
     }
+
     if (ttCtx.isXAxisTooltipEnabled) {
       let tx = x;
-      if (w.config.xaxis.crosshairs.width === 'tickWidth' || w.config.xaxis.crosshairs.width === 'barWidth') {
+      if (
+      w.config.xaxis.crosshairs.width === 'tickWidth' ||
+      w.config.xaxis.crosshairs.width === 'barWidth')
+      {
         tx = x + ttCtx.xcrosshairsWidth / 2;
       }
       this.moveXAxisTooltip(tx);
@@ -59,6 +69,7 @@ export default class Position {
    */
   moveYCrosshairs(cy) {
     const ttCtx = this.ttCtx;
+
     if (ttCtx.ycrosshairs !== null) {
       Graphics.setAttrs(ttCtx.ycrosshairs, {
         y1: cy,
@@ -81,42 +92,67 @@ export default class Position {
   moveXAxisTooltip(cx) {
     let w = this.w;
     const ttCtx = this.ttCtx;
+
     if (ttCtx.xaxisTooltip !== null && ttCtx.xcrosshairsWidth !== 0) {
       ttCtx.xaxisTooltip.classList.add('apexcharts-active');
-      let cy = ttCtx.xaxisOffY + w.config.xaxis.tooltip.offsetY + w.globals.translateY + 1 + w.config.xaxis.offsetY;
+
+      let cy =
+      ttCtx.xaxisOffY +
+      w.config.xaxis.tooltip.offsetY +
+      w.globals.translateY +
+      1 +
+      w.config.xaxis.offsetY;
+
       let xaxisTTText = ttCtx.xaxisTooltip.getBoundingClientRect();
       let xaxisTTTextWidth = xaxisTTText.width;
+
       cx = cx - xaxisTTTextWidth / 2;
+
       if (!isNaN(cx)) {
         cx = cx + w.globals.translateX;
+
         let textRect = 0;
         const graphics = new Graphics(this.ctx);
         textRect = graphics.getTextRects(ttCtx.xaxisTooltipText.innerHTML);
+
         ttCtx.xaxisTooltipText.style.minWidth = textRect.width + 'px';
         ttCtx.xaxisTooltip.style.left = cx + 'px';
         ttCtx.xaxisTooltip.style.top = cy + 'px';
       }
     }
   }
+
   moveYAxisTooltip(index) {
     const w = this.w;
     const ttCtx = this.ttCtx;
+
     if (ttCtx.yaxisTTEls === null) {
-      ttCtx.yaxisTTEls = w.globals.dom.baseEl.querySelectorAll('.apexcharts-yaxistooltip');
+      ttCtx.yaxisTTEls = w.globals.dom.baseEl.querySelectorAll(
+        '.apexcharts-yaxistooltip'
+      );
     }
-    const ycrosshairsHiddenRectY1 = parseInt(ttCtx.ycrosshairsHidden.getAttribute('y1'), 10);
+
+    const ycrosshairsHiddenRectY1 = parseInt(
+      ttCtx.ycrosshairsHidden.getAttribute('y1'),
+      10
+    );
     let cy = w.globals.translateY + ycrosshairsHiddenRectY1;
+
     const yAxisTTRect = ttCtx.yaxisTTEls[index].getBoundingClientRect();
     const yAxisTTHeight = yAxisTTRect.height;
     let cx = w.globals.translateYAxisX[index] - 2;
+
     if (w.config.yaxis[index].opposite) {
       cx = cx - 26;
     }
+
     cy = cy - yAxisTTHeight / 2;
+
     if (w.globals.ignoreYAxisIndexes.indexOf(index) === -1) {
       ttCtx.yaxisTTEls[index].classList.add('apexcharts-active');
       ttCtx.yaxisTTEls[index].style.top = cy + 'px';
-      ttCtx.yaxisTTEls[index].style.left = cx + w.config.yaxis[index].tooltip.offsetX + 'px';
+      ttCtx.yaxisTTEls[index].style.left =
+      cx + w.config.yaxis[index].tooltip.offsetX + 'px';
     } else {
       ttCtx.yaxisTTEls[index].classList.remove('apexcharts-active');
     }
@@ -131,25 +167,32 @@ export default class Position {
    */
   moveTooltip(cx, cy, r = null) {
     let w = this.w;
+
     let ttCtx = this.ttCtx;
     const tooltipEl = ttCtx.getElTooltip();
     let tooltipRect = ttCtx.tooltipRect;
+
     let pointR = r !== null ? parseFloat(r) : 1;
+
     let x = parseFloat(cx) + pointR + 5;
     let y = parseFloat(cy) + pointR / 2; // - tooltipRect.ttHeight / 2
 
     if (x > w.globals.gridWidth / 2) {
       x = x - tooltipRect.ttWidth - pointR - 10;
     }
+
     if (x > w.globals.gridWidth - tooltipRect.ttWidth - 10) {
       x = w.globals.gridWidth - tooltipRect.ttWidth;
     }
+
     if (x < -20) {
       x = -20;
     }
+
     if (w.config.tooltip.followCursor) {
       const elGrid = ttCtx.getElGrid();
       const seriesBound = elGrid.getBoundingClientRect();
+
       x = ttCtx.e.clientX - seriesBound.left;
       if (x > w.globals.gridWidth / 2) {
         x = x - ttCtx.tooltipRect.ttWidth;
@@ -165,17 +208,23 @@ export default class Position {
         }
       }
     }
+
     if (!isNaN(x)) {
       x = x + w.globals.translateX;
+
       tooltipEl.style.left = x + 'px';
       tooltipEl.style.top = y + 'px';
     }
   }
+
   moveMarkers(i, j) {
     let w = this.w;
     let ttCtx = this.ttCtx;
+
     if (w.globals.markers.size[i] > 0) {
-      let allPoints = w.globals.dom.baseEl.querySelectorAll(` .apexcharts-series[data\\:realIndex='${i}'] .apexcharts-marker`);
+      let allPoints = w.globals.dom.baseEl.querySelectorAll(
+        ` .apexcharts-series[data\\:realIndex='${i}'] .apexcharts-marker`
+      );
       for (let p = 0; p < allPoints.length; p++) {
         if (parseInt(allPoints[p].getAttribute('rel'), 10) === j) {
           ttCtx.marker.resetPointsSize();
@@ -195,18 +244,32 @@ export default class Position {
     let ttCtx = this.ttCtx;
     let cx = 0;
     let cy = 0;
+
     let pointsArr = w.globals.pointsArray;
+
     let hoverSize = ttCtx.tooltipUtil.getHoverMarkerSize(capturedSeries);
+
     const serType = w.config.series[capturedSeries].type;
-    if (serType && (serType === 'column' || serType === 'candlestick' || serType === 'boxPlot')) {
+    if (
+    serType && (
+    serType === 'column' ||
+    serType === 'candlestick' ||
+    serType === 'boxPlot'))
+    {
       // fix error mentioned in #811
       return;
     }
+
     cx = pointsArr[capturedSeries][j][0];
     cy = pointsArr[capturedSeries][j][1] ? pointsArr[capturedSeries][j][1] : 0;
-    let point = w.globals.dom.baseEl.querySelector(`.apexcharts-series[data\\:realIndex='${capturedSeries}'] .apexcharts-series-markers circle`);
+
+    let point = w.globals.dom.baseEl.querySelector(
+      `.apexcharts-series[data\\:realIndex='${capturedSeries}'] .apexcharts-series-markers circle`
+    );
+
     if (point && cy < w.globals.gridHeight && cy > 0) {
       point.setAttribute('r', hoverSize);
+
       point.setAttribute('cx', cx);
       point.setAttribute('cy', cy);
     }
@@ -214,6 +277,7 @@ export default class Position {
     // point.style.opacity = w.config.markers.hover.opacity
 
     this.moveXCrosshairs(cx);
+
     if (!ttCtx.fixedTooltip) {
       this.moveTooltip(cx, cy, hoverSize);
     }
@@ -227,18 +291,30 @@ export default class Position {
     let cx = 0;
     let cy = 0;
     let activeSeries = 0;
+
     let pointsArr = w.globals.pointsArray;
+
     let series = new Series(this.ctx);
-    activeSeries = series.getActiveConfigSeriesIndex('asc', ['line', 'area', 'scatter', 'bubble']);
+    activeSeries = series.getActiveConfigSeriesIndex('asc', [
+    'line',
+    'area',
+    'scatter',
+    'bubble']
+    );
+
     let hoverSize = ttCtx.tooltipUtil.getHoverMarkerSize(activeSeries);
+
     if (pointsArr[activeSeries]) {
       cx = pointsArr[activeSeries][j][0];
       cy = pointsArr[activeSeries][j][1];
     }
+
     let points = ttCtx.tooltipUtil.getAllMarkers();
+
     if (points !== null) {
       for (let p = 0; p < w.globals.series.length; p++) {
         let pointArr = pointsArr[p];
+
         if (w.globals.comboCharts) {
           // in a combo chart, if column charts are present, markers will not match with the number of series, hence this patch to push a null value in points array
           if (typeof pointArr === 'undefined') {
@@ -250,13 +326,20 @@ export default class Position {
           let pcy = pointsArr[p][j][1];
           let pcy2;
           points[p].setAttribute('cx', cx);
+
           if (w.config.chart.type === 'rangeArea' && !w.globals.comboCharts) {
             const rangeStartIndex = j + w.globals.series[p].length;
             pcy2 = pointsArr[p][rangeStartIndex][1];
             const pcyDiff = Math.abs(pcy - pcy2) / 2;
+
             pcy = pcy - pcyDiff;
           }
-          if (pcy !== null && !isNaN(pcy) && pcy < w.globals.gridHeight + hoverSize && pcy + hoverSize > 0) {
+          if (
+          pcy !== null &&
+          !isNaN(pcy) &&
+          pcy < w.globals.gridHeight + hoverSize &&
+          pcy + hoverSize > 0)
+          {
             points[p] && points[p].setAttribute('r', hoverSize);
             points[p] && points[p].setAttribute('cy', pcy);
           } else {
@@ -265,51 +348,77 @@ export default class Position {
         }
       }
     }
+
     this.moveXCrosshairs(cx);
+
     if (!ttCtx.fixedTooltip) {
       this.moveTooltip(cx, cy || w.globals.gridHeight, hoverSize);
     }
   }
+
   moveStickyTooltipOverBars(j, capturedSeries) {
     const w = this.w;
     const ttCtx = this.ttCtx;
-    let barLen = w.globals.columnSeries ? w.globals.columnSeries.length : w.globals.series.length;
-    let i = barLen >= 2 && barLen % 2 === 0 ? Math.floor(barLen / 2) : Math.floor(barLen / 2) + 1;
+
+    let barLen = w.globals.columnSeries ?
+    w.globals.columnSeries.length :
+    w.globals.series.length;
+
+    let i =
+    barLen >= 2 && barLen % 2 === 0 ?
+    Math.floor(barLen / 2) :
+    Math.floor(barLen / 2) + 1;
+
     if (w.globals.isBarHorizontal) {
       let series = new Series(this.ctx);
       i = series.getActiveConfigSeriesIndex('desc') + 1;
     }
-    let jBar = w.globals.dom.baseEl.querySelector(`.apexcharts-bar-series .apexcharts-series[rel='${i}'] path[j='${j}'], .apexcharts-candlestick-series .apexcharts-series[rel='${i}'] path[j='${j}'], .apexcharts-boxPlot-series .apexcharts-series[rel='${i}'] path[j='${j}'], .apexcharts-rangebar-series .apexcharts-series[rel='${i}'] path[j='${j}']`);
+    let jBar = w.globals.dom.baseEl.querySelector(
+      `.apexcharts-bar-series .apexcharts-series[rel='${i}'] path[j='${j}'], .apexcharts-candlestick-series .apexcharts-series[rel='${i}'] path[j='${j}'], .apexcharts-boxPlot-series .apexcharts-series[rel='${i}'] path[j='${j}'], .apexcharts-rangebar-series .apexcharts-series[rel='${i}'] path[j='${j}']`
+    );
     if (!jBar && typeof capturedSeries === 'number') {
       // Try with captured series index
-      jBar = w.globals.dom.baseEl.querySelector(`.apexcharts-bar-series .apexcharts-series[data\\:realIndex='${capturedSeries}'] path[j='${j}'],
+      jBar = w.globals.dom.baseEl.querySelector(
+        `.apexcharts-bar-series .apexcharts-series[data\\:realIndex='${capturedSeries}'] path[j='${j}'],
         .apexcharts-candlestick-series .apexcharts-series[data\\:realIndex='${capturedSeries}'] path[j='${j}'],
         .apexcharts-boxPlot-series .apexcharts-series[data\\:realIndex='${capturedSeries}'] path[j='${j}'],
-        .apexcharts-rangebar-series .apexcharts-series[data\\:realIndex='${capturedSeries}'] path[j='${j}']`);
+        .apexcharts-rangebar-series .apexcharts-series[data\\:realIndex='${capturedSeries}'] path[j='${j}']`
+      );
     }
+
     let bcx = jBar ? parseFloat(jBar.getAttribute('cx')) : 0;
     let bcy = jBar ? parseFloat(jBar.getAttribute('cy')) : 0;
     let bw = jBar ? parseFloat(jBar.getAttribute('barWidth')) : 0;
+
     const elGrid = ttCtx.getElGrid();
     let seriesBound = elGrid.getBoundingClientRect();
-    const isBoxOrCandle = jBar && (jBar.classList.contains('apexcharts-candlestick-area') || jBar.classList.contains('apexcharts-boxPlot-area'));
+
+    const isBoxOrCandle =
+    jBar && (
+    jBar.classList.contains('apexcharts-candlestick-area') ||
+    jBar.classList.contains('apexcharts-boxPlot-area'));
     if (w.globals.isXNumeric) {
       if (jBar && !isBoxOrCandle) {
         bcx = bcx - (barLen % 2 !== 0 ? bw / 2 : 0);
       }
-      if (jBar &&
-      // fixes apexcharts.js#2354
-      isBoxOrCandle && w.globals.comboCharts) {
+
+      if (
+      jBar && // fixes apexcharts.js#2354
+      isBoxOrCandle &&
+      w.globals.comboCharts)
+      {
         bcx = bcx - bw / 2;
       }
     } else {
       if (!w.globals.isBarHorizontal) {
-        bcx = ttCtx.xAxisTicksPositions[j - 1] + ttCtx.dataPointsDividedWidth / 2;
+        bcx =
+        ttCtx.xAxisTicksPositions[j - 1] + ttCtx.dataPointsDividedWidth / 2;
         if (isNaN(bcx)) {
           bcx = ttCtx.xAxisTicksPositions[j] - ttCtx.dataPointsDividedWidth / 2;
         }
       }
     }
+
     if (!w.globals.isBarHorizontal) {
       if (w.config.tooltip.followCursor) {
         bcy = ttCtx.e.clientY - seriesBound.top - ttCtx.tooltipRect.ttHeight / 2;
@@ -321,9 +430,11 @@ export default class Position {
     } else {
       bcy = bcy - ttCtx.tooltipRect.ttHeight;
     }
+
     if (!w.globals.isBarHorizontal) {
       this.moveXCrosshairs(bcx);
     }
+
     if (!ttCtx.fixedTooltip) {
       this.moveTooltip(bcx, bcy || w.globals.gridHeight);
     }

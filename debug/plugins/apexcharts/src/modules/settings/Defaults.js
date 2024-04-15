@@ -20,9 +20,12 @@ const getRangeValues = ({
   let start = w.globals.seriesRangeStart[seriesIndex][dataPointIndex];
   let end = w.globals.seriesRangeEnd[seriesIndex][dataPointIndex];
   let ylabel = w.globals.labels[dataPointIndex];
-  let seriesName = w.config.series[seriesIndex].name ? w.config.series[seriesIndex].name : '';
+  let seriesName = w.config.series[seriesIndex].name ?
+  w.config.series[seriesIndex].name :
+  '';
   const yLbFormatter = w.globals.ttKeyFormatter;
   const yLbTitleFormatter = w.config.tooltip.y.title.formatter;
+
   const opts = {
     w,
     seriesIndex,
@@ -30,12 +33,14 @@ const getRangeValues = ({
     start,
     end
   };
+
   if (typeof yLbTitleFormatter === 'function') {
     seriesName = yLbTitleFormatter(seriesName, opts);
   }
   if (w.config.series[seriesIndex].data[dataPointIndex]?.x) {
     ylabel = w.config.series[seriesIndex].data[dataPointIndex].x;
   }
+
   if (!isTimeline) {
     if (w.config.xaxis.type === 'datetime') {
       let xFormat = new Formatters(ctx);
@@ -46,6 +51,7 @@ const getRangeValues = ({
       });
     }
   }
+
   if (typeof yLbFormatter === 'function') {
     ylabel = yLbFormatter(ylabel, opts);
   }
@@ -53,14 +59,22 @@ const getRangeValues = ({
     start = y1;
     end = y2;
   }
+
   let startVal = '';
   let endVal = '';
+
   const color = w.globals.colors[seriesIndex];
   if (w.config.tooltip.x.formatter === undefined) {
     if (w.config.xaxis.type === 'datetime') {
       let datetimeObj = new DateTime(ctx);
-      startVal = datetimeObj.formatDate(datetimeObj.getDate(start), w.config.tooltip.x.format);
-      endVal = datetimeObj.formatDate(datetimeObj.getDate(end), w.config.tooltip.x.format);
+      startVal = datetimeObj.formatDate(
+        datetimeObj.getDate(start),
+        w.config.tooltip.x.format
+      );
+      endVal = datetimeObj.formatDate(
+        datetimeObj.getDate(end),
+        w.config.tooltip.x.format
+      );
     } else {
       startVal = start;
       endVal = end;
@@ -69,38 +83,33 @@ const getRangeValues = ({
     startVal = w.config.tooltip.x.formatter(start);
     endVal = w.config.tooltip.x.formatter(end);
   }
-  return {
-    start,
-    end,
-    startVal,
-    endVal,
-    ylabel,
-    color,
-    seriesName
-  };
+
+  return { start, end, startVal, endVal, ylabel, color, seriesName };
 };
 const buildRangeTooltipHTML = (opts) => {
-  let {
-    color,
-    seriesName,
-    ylabel,
-    start,
-    end,
-    seriesIndex,
-    dataPointIndex
-  } = opts;
+  let { color, seriesName, ylabel, start, end, seriesIndex, dataPointIndex } =
+  opts;
+
   const formatter = opts.ctx.tooltip.tooltipLabels.getFormatters(seriesIndex);
+
   start = formatter.yLbFormatter(start);
   end = formatter.yLbFormatter(end);
-  const val = formatter.yLbFormatter(opts.w.globals.series[seriesIndex][dataPointIndex]);
+  const val = formatter.yLbFormatter(
+    opts.w.globals.series[seriesIndex][dataPointIndex]
+  );
+
   let valueHTML = '';
   const rangeValues = `<span class="value start-value">
   ${start}
   </span> <span class="separator">-</span> <span class="value end-value">
   ${end}
   </span>`;
+
   if (opts.w.globals.comboCharts) {
-    if (opts.w.config.series[seriesIndex].type === 'rangeArea' || opts.w.config.series[seriesIndex].type === 'rangeBar') {
+    if (
+    opts.w.config.series[seriesIndex].type === 'rangeArea' ||
+    opts.w.config.series[seriesIndex].type === 'rangeBar')
+    {
       valueHTML = rangeValues;
     } else {
       valueHTML = `<span>${val}</span>`;
@@ -108,12 +117,27 @@ const buildRangeTooltipHTML = (opts) => {
   } else {
     valueHTML = rangeValues;
   }
-  return '<div class="apexcharts-tooltip-rangebar">' + '<div> <span class="series-name" style="color: ' + color + '">' + (seriesName ? seriesName : '') + '</span></div>' + '<div> <span class="category">' + ylabel + ': </span> ' + valueHTML + ' </div>' + '</div>';
+  return (
+    '<div class="apexcharts-tooltip-rangebar">' +
+    '<div> <span class="series-name" style="color: ' +
+    color +
+    '">' + (
+    seriesName ? seriesName : '') +
+    '</span></div>' +
+    '<div> <span class="category">' +
+    ylabel +
+    ': </span> ' +
+    valueHTML +
+    ' </div>' +
+    '</div>');
+
 };
+
 export default class Defaults {
   constructor(opts) {
     this.opts = opts;
   }
+
   hideYAxis() {
     this.opts.yaxis[0].show = false;
     this.opts.yaxis[0].title.text = '';
@@ -121,6 +145,7 @@ export default class Defaults {
     this.opts.yaxis[0].axisTicks.show = false;
     this.opts.yaxis[0].floating = true;
   }
+
   line() {
     return {
       chart: {
@@ -148,6 +173,7 @@ export default class Defaults {
       }
     };
   }
+
   sparkline(defaults) {
     this.hideYAxis();
     const ret = {
@@ -189,8 +215,10 @@ export default class Defaults {
         enabled: false
       }
     };
+
     return Utils.extend(defaults, ret);
   }
+
   bar() {
     return {
       chart: {
@@ -253,8 +281,10 @@ export default class Defaults {
       }
     };
   }
+
   funnel() {
     this.hideYAxis();
+
     return {
       ...this.bar(),
       chart: {
@@ -299,6 +329,7 @@ export default class Defaults {
       }
     };
   }
+
   candlestick() {
     return {
       stroke: {
@@ -313,12 +344,14 @@ export default class Defaults {
       },
       tooltip: {
         shared: true,
-        custom: ({
-          seriesIndex,
-          dataPointIndex,
-          w
-        }) => {
-          return this._getBoxTooltip(w, seriesIndex, dataPointIndex, ['Open', 'High', '', 'Low', 'Close'], 'candlestick');
+        custom: ({ seriesIndex, dataPointIndex, w }) => {
+          return this._getBoxTooltip(
+            w,
+            seriesIndex,
+            dataPointIndex,
+            ['Open', 'High', '', 'Low', 'Close'],
+            'candlestick'
+          );
         }
       },
       states: {
@@ -335,6 +368,7 @@ export default class Defaults {
       }
     };
   }
+
   boxPlot() {
     return {
       chart: {
@@ -353,12 +387,14 @@ export default class Defaults {
       },
       tooltip: {
         shared: true,
-        custom: ({
-          seriesIndex,
-          dataPointIndex,
-          w
-        }) => {
-          return this._getBoxTooltip(w, seriesIndex, dataPointIndex, ['Minimum', 'Q1', 'Median', 'Q3', 'Maximum'], 'boxPlot');
+        custom: ({ seriesIndex, dataPointIndex, w }) => {
+          return this._getBoxTooltip(
+            w,
+            seriesIndex,
+            dataPointIndex,
+            ['Minimum', 'Q1', 'Median', 'Q3', 'Maximum'],
+            'boxPlot'
+          );
         }
       },
       markers: {
@@ -373,15 +409,10 @@ export default class Defaults {
       }
     };
   }
+
   rangeBar() {
     const handleTimelineTooltip = (opts) => {
-      const {
-        color,
-        seriesName,
-        ylabel,
-        startVal,
-        endVal
-      } = getRangeValues({
+      const { color, seriesName, ylabel, startVal, endVal } = getRangeValues({
         ...opts,
         isTimeline: true
       });
@@ -394,14 +425,9 @@ export default class Defaults {
         end: endVal
       });
     };
+
     const handleRangeColumnTooltip = (opts) => {
-      const {
-        color,
-        seriesName,
-        ylabel,
-        start,
-        end
-      } = getRangeValues(opts);
+      const { color, seriesName, ylabel, start, end } = getRangeValues(opts);
       return buildRangeTooltipHTML({
         ...opts,
         color,
@@ -431,19 +457,18 @@ export default class Defaults {
       },
       dataLabels: {
         enabled: false,
-        formatter(val, {
-          ctx,
-          seriesIndex,
-          dataPointIndex,
-          w
-        }) {
+        formatter(val, { ctx, seriesIndex, dataPointIndex, w }) {
           const getVal = () => {
-            const start = w.globals.seriesRangeStart[seriesIndex][dataPointIndex];
+            const start =
+            w.globals.seriesRangeStart[seriesIndex][dataPointIndex];
             const end = w.globals.seriesRangeEnd[seriesIndex][dataPointIndex];
             return end - start;
           };
           if (w.globals.comboCharts) {
-            if (w.config.series[seriesIndex].type === 'rangeBar' || w.config.series[seriesIndex].type === 'rangeArea') {
+            if (
+            w.config.series[seriesIndex].type === 'rangeBar' ||
+            w.config.series[seriesIndex].type === 'rangeArea')
+            {
               return getVal();
             } else {
               return val;
@@ -466,7 +491,11 @@ export default class Defaults {
         shared: false,
         followCursor: true,
         custom(opts) {
-          if (opts.w.config.plotOptions && opts.w.config.plotOptions.bar && opts.w.config.plotOptions.bar.horizontal) {
+          if (
+          opts.w.config.plotOptions &&
+          opts.w.config.plotOptions.bar &&
+          opts.w.config.plotOptions.bar.horizontal)
+          {
             return handleTimelineTooltip(opts);
           } else {
             return handleRangeColumnTooltip(opts);
@@ -486,6 +515,7 @@ export default class Defaults {
       }
     };
   }
+
   dumbbell(opts) {
     if (!opts.plotOptions.bar?.barHeight) {
       opts.plotOptions.bar.barHeight = 2;
@@ -495,6 +525,7 @@ export default class Defaults {
     }
     return opts;
   }
+
   area() {
     return {
       stroke: {
@@ -533,15 +564,10 @@ export default class Defaults {
       }
     };
   }
+
   rangeArea() {
     const handleRangeAreaTooltip = (opts) => {
-      const {
-        color,
-        seriesName,
-        ylabel,
-        start,
-        end
-      } = getRangeValues(opts);
+      const { color, seriesName, ylabel, start, end } = getRangeValues(opts);
       return buildRangeTooltipHTML({
         ...opts,
         color,
@@ -585,6 +611,7 @@ export default class Defaults {
       }
     };
   }
+
   brush(defaults) {
     const ret = {
       chart: {
@@ -611,19 +638,26 @@ export default class Defaults {
         }
       }
     };
+
     return Utils.extend(defaults, ret);
   }
+
   stacked100(opts) {
     opts.dataLabels = opts.dataLabels || {};
     opts.dataLabels.formatter = opts.dataLabels.formatter || undefined;
     const existingDataLabelFormatter = opts.dataLabels.formatter;
+
     opts.yaxis.forEach((yaxe, index) => {
       opts.yaxis[index].min = 0;
       opts.yaxis[index].max = 100;
     });
+
     const isBar = opts.chart.type === 'bar';
+
     if (isBar) {
-      opts.dataLabels.formatter = existingDataLabelFormatter || function (val) {
+      opts.dataLabels.formatter =
+      existingDataLabelFormatter ||
+      function (val) {
         if (typeof val === 'number') {
           return val ? val.toFixed(0) + '%' : val;
         }
@@ -632,6 +666,7 @@ export default class Defaults {
     }
     return opts;
   }
+
   stackedBars() {
     const barDefaults = this.bar();
     return {
@@ -650,31 +685,45 @@ export default class Defaults {
   // This function removes the left and right spacing in chart for line/area/scatter if xaxis type = category for those charts by converting xaxis = numeric. Numeric/Datetime xaxis prevents the unnecessary spacing in the left/right of the chart area
   convertCatToNumeric(opts) {
     opts.xaxis.convertedCatToNumeric = true;
+
     return opts;
   }
+
   convertCatToNumericXaxis(opts, ctx, cats) {
     opts.xaxis.type = 'numeric';
     opts.xaxis.labels = opts.xaxis.labels || {};
-    opts.xaxis.labels.formatter = opts.xaxis.labels.formatter || function (val) {
+    opts.xaxis.labels.formatter =
+    opts.xaxis.labels.formatter ||
+    function (val) {
       return Utils.isNumber(val) ? Math.floor(val) : val;
     };
+
     const defaultFormatter = opts.xaxis.labels.formatter;
-    let labels = opts.xaxis.categories && opts.xaxis.categories.length ? opts.xaxis.categories : opts.labels;
+    let labels =
+    opts.xaxis.categories && opts.xaxis.categories.length ?
+    opts.xaxis.categories :
+    opts.labels;
+
     if (cats && cats.length) {
       labels = cats.map((c) => {
         return Array.isArray(c) ? c : String(c);
       });
     }
+
     if (labels && labels.length) {
       opts.xaxis.labels.formatter = function (val) {
-        return Utils.isNumber(val) ? defaultFormatter(labels[Math.floor(val) - 1]) : defaultFormatter(val);
+        return Utils.isNumber(val) ?
+        defaultFormatter(labels[Math.floor(val) - 1]) :
+        defaultFormatter(val);
       };
     }
+
     opts.xaxis.categories = [];
     opts.labels = [];
     opts.xaxis.tickAmount = opts.xaxis.tickAmount || 'dataPoints';
     return opts;
   }
+
   bubble() {
     return {
       dataLabels: {
@@ -703,6 +752,7 @@ export default class Defaults {
       }
     };
   }
+
   scatter() {
     return {
       dataLabels: {
@@ -721,6 +771,7 @@ export default class Defaults {
       }
     };
   }
+
   heatmap() {
     return {
       chart: {
@@ -761,6 +812,7 @@ export default class Defaults {
       }
     };
   }
+
   treemap() {
     return {
       chart: {
@@ -810,6 +862,7 @@ export default class Defaults {
       }
     };
   }
+
   pie() {
     return {
       chart: {
@@ -859,6 +912,7 @@ export default class Defaults {
       }
     };
   }
+
   donut() {
     return {
       chart: {
@@ -902,6 +956,7 @@ export default class Defaults {
       }
     };
   }
+
   polarArea() {
     return {
       chart: {
@@ -931,8 +986,12 @@ export default class Defaults {
       }
     };
   }
+
   radar() {
-    this.opts.yaxis[0].labels.offsetY = this.opts.yaxis[0].labels.offsetY ? this.opts.yaxis[0].labels.offsetY : 6;
+    this.opts.yaxis[0].labels.offsetY = this.opts.yaxis[0].labels.offsetY ?
+    this.opts.yaxis[0].labels.offsetY :
+    6;
+
     return {
       dataLabels: {
         enabled: false,
@@ -976,6 +1035,7 @@ export default class Defaults {
       }
     };
   }
+
   radialBar() {
     return {
       chart: {
@@ -1010,18 +1070,45 @@ export default class Defaults {
       }
     };
   }
+
   _getBoxTooltip(w, seriesIndex, dataPointIndex, labels, chartType) {
     const o = w.globals.seriesCandleO[seriesIndex][dataPointIndex];
     const h = w.globals.seriesCandleH[seriesIndex][dataPointIndex];
     const m = w.globals.seriesCandleM[seriesIndex][dataPointIndex];
     const l = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
     const c = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
-    if (w.config.series[seriesIndex].type && w.config.series[seriesIndex].type !== chartType) {
+
+    if (
+    w.config.series[seriesIndex].type &&
+    w.config.series[seriesIndex].type !== chartType)
+    {
       return `<div class="apexcharts-custom-tooltip">
-          ${w.config.series[seriesIndex].name ? w.config.series[seriesIndex].name : 'series-' + (seriesIndex + 1)}: <strong>${w.globals.series[seriesIndex][dataPointIndex]}</strong>
+          ${
+      w.config.series[seriesIndex].name ?
+      w.config.series[seriesIndex].name :
+      'series-' + (seriesIndex + 1)
+      }: <strong>${w.globals.series[seriesIndex][dataPointIndex]}</strong>
         </div>`;
     } else {
-      return `<div class="apexcharts-tooltip-box apexcharts-tooltip-${w.config.chart.type}">` + `<div>${labels[0]}: <span class="value">` + o + '</span></div>' + `<div>${labels[1]}: <span class="value">` + h + '</span></div>' + (m ? `<div>${labels[2]}: <span class="value">` + m + '</span></div>' : '') + `<div>${labels[3]}: <span class="value">` + l + '</span></div>' + `<div>${labels[4]}: <span class="value">` + c + '</span></div>' + '</div>';
+      return (
+        `<div class="apexcharts-tooltip-box apexcharts-tooltip-${w.config.chart.type}">` +
+        `<div>${labels[0]}: <span class="value">` +
+        o +
+        '</span></div>' +
+        `<div>${labels[1]}: <span class="value">` +
+        h +
+        '</span></div>' + (
+        m ?
+        `<div>${labels[2]}: <span class="value">` + m + '</span></div>' :
+        '') +
+        `<div>${labels[3]}: <span class="value">` +
+        l +
+        '</span></div>' +
+        `<div>${labels[4]}: <span class="value">` +
+        c +
+        '</span></div>' +
+        '</div>');
+
     }
   }
 }

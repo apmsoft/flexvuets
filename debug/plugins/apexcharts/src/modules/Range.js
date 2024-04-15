@@ -12,21 +12,31 @@ class Range {
   constructor(ctx) {
     this.ctx = ctx;
     this.w = ctx.w;
+
     this.scales = new Scales(ctx);
   }
+
   init() {
     this.setYRange();
     this.setXRange();
     this.setZRange();
   }
-  getMinYMaxY(startingSeriesIndex, lowestY = Number.MAX_VALUE, highestY = -Number.MAX_VALUE, endingSeriesIndex = null) {
+
+  getMinYMaxY(
+  startingSeriesIndex,
+  lowestY = Number.MAX_VALUE,
+  highestY = -Number.MAX_VALUE,
+  endingSeriesIndex = null)
+  {
     const cnf = this.w.config;
     const gl = this.w.globals;
     let maxY = -Number.MAX_VALUE;
     let minY = Number.MIN_VALUE;
+
     if (endingSeriesIndex === null) {
       endingSeriesIndex = startingSeriesIndex + 1;
     }
+
     let firstXIndex = 0;
     let lastXIndex = 0;
     let seriesX = undefined;
@@ -37,19 +47,31 @@ class Range {
       // Eventually brushSource will be set if the current chart is a target.
       // That is, after the appropriate event causes us to update.
       let brush = gl.brushSource?.w.config.chart.brush;
-      if (cnf.chart.zoom.enabled && cnf.chart.zoom.autoScaleYaxis || brush?.enabled && brush?.autoScaleYaxis) {
+      if (cnf.chart.zoom.enabled && cnf.chart.zoom.autoScaleYaxis ||
+      brush?.enabled && brush?.autoScaleYaxis)
+      {
         // Scale the Y axis to the min..max within the zoomed X axis domain.
         if (cnf.xaxis.min) {
-          for (firstXIndex = 0; firstXIndex < lastXIndex && seriesX[firstXIndex] < cnf.xaxis.min; firstXIndex++) {}
+          for (
+          firstXIndex = 0;
+          firstXIndex < lastXIndex && seriesX[firstXIndex] < cnf.xaxis.min;
+          firstXIndex++)
+          {}
         }
         if (cnf.xaxis.max) {
-          for (; lastXIndex > firstXIndex && seriesX[lastXIndex] > cnf.xaxis.max; lastXIndex--) {}
+          for (;
+
+          lastXIndex > firstXIndex && seriesX[lastXIndex] > cnf.xaxis.max;
+          lastXIndex--)
+          {}
         }
       }
     }
+
     let series = gl.series;
     let seriesMin = series;
     let seriesMax = series;
+
     if (cnf.chart.type === 'candlestick') {
       seriesMin = gl.seriesCandleL;
       seriesMax = gl.seriesCandleH;
@@ -60,13 +82,23 @@ class Range {
       seriesMin = gl.seriesRangeStart;
       seriesMax = gl.seriesRangeEnd;
     }
+
     for (let i = startingSeriesIndex; i < endingSeriesIndex; i++) {
       gl.dataPoints = Math.max(gl.dataPoints, series[i].length);
+
       const seriesType = cnf.series[i].type;
+
       if (gl.categoryLabels.length) {
-        gl.dataPoints = gl.categoryLabels.filter((label) => typeof label !== 'undefined').length;
+        gl.dataPoints = gl.categoryLabels.filter(
+          (label) => typeof label !== 'undefined'
+        ).length;
       }
-      if (gl.labels.length && cnf.xaxis.type !== 'datetime' && gl.series.reduce((a, c) => a + c.length, 0) !== 0) {
+
+      if (
+      gl.labels.length &&
+      cnf.xaxis.type !== 'datetime' &&
+      gl.series.reduce((a, c) => a + c.length, 0) !== 0)
+      {
         // the condition cnf.xaxis.type !== 'datetime' fixes #3897 and #3905
         gl.dataPoints = Math.max(gl.dataPoints, gl.labels.length);
       }
@@ -91,15 +123,13 @@ class Range {
           // Candlestick: O        H                 L        C
           // Boxplot    : Min      Q1       Median   Q3       Max
           switch (seriesType) {
-            case 'candlestick':
-              {
+            case 'candlestick':{
                 if (typeof gl.seriesCandleC[i][j] !== 'undefined') {
                   maxY = Math.max(maxY, gl.seriesCandleH[i][j]);
                   lowestY = Math.min(lowestY, gl.seriesCandleL[i][j]);
                 }
               }
-            case 'boxPlot':
-              {
+            case 'boxPlot':{
                 if (typeof gl.seriesCandleC[i][j] !== 'undefined') {
                   maxY = Math.max(maxY, gl.seriesCandleC[i][j]);
                   lowestY = Math.min(lowestY, gl.seriesCandleO[i][j]);
@@ -109,12 +139,23 @@ class Range {
 
           // there is a combo chart and the specified series in not either
           // candlestick, boxplot, or rangeArea/rangeBar; find the max there.
-          if (seriesType && seriesType !== 'candlestick' && seriesType !== 'boxPlot' && seriesType !== 'rangeArea' && seriesType !== 'rangeBar') {
+          if (
+          seriesType &&
+          seriesType !== 'candlestick' &&
+          seriesType !== 'boxPlot' &&
+          seriesType !== 'rangeArea' &&
+          seriesType !== 'rangeBar')
+          {
             maxY = Math.max(maxY, gl.series[i][j]);
             lowestY = Math.min(lowestY, gl.series[i][j]);
           }
           highestY = maxY;
-          if (gl.seriesGoals[i] && gl.seriesGoals[i][j] && Array.isArray(gl.seriesGoals[i][j])) {
+
+          if (
+          gl.seriesGoals[i] &&
+          gl.seriesGoals[i][j] &&
+          Array.isArray(gl.seriesGoals[i][j]))
+          {
             gl.seriesGoals[i][j].forEach((g) => {
               if (minY !== Number.MIN_VALUE) {
                 minY = Math.min(minY, g.value);
@@ -124,9 +165,13 @@ class Range {
               highestY = maxY;
             });
           }
+
           if (Utils.isFloat(val)) {
             val = Utils.noExponents(val);
-            gl.yValueDecimal = Math.max(gl.yValueDecimal, val.toString().split('.')[1].length);
+            gl.yValueDecimal = Math.max(
+              gl.yValueDecimal,
+              val.toString().split('.')[1].length
+            );
           }
           if (minY > seriesMin[i][j] && seriesMin[i][j] < 0) {
             minY = seriesMin[i][j];
@@ -147,9 +192,15 @@ class Range {
         }
       }
     }
-    if (cnf.chart.type === 'rangeBar' && gl.seriesRangeStart.length && gl.isBarHorizontal) {
+
+    if (
+    cnf.chart.type === 'rangeBar' &&
+    gl.seriesRangeStart.length &&
+    gl.isBarHorizontal)
+    {
       minY = lowestY;
     }
+
     if (cnf.chart.type === 'bar') {
       if (minY < 0 && maxY < 0) {
         // all negative values in a bar chart, hence make the max to 0
@@ -159,6 +210,7 @@ class Range {
         minY = 0;
       }
     }
+
     return {
       minY,
       maxY,
@@ -166,13 +218,16 @@ class Range {
       highestY
     };
   }
+
   setYRange() {
     let gl = this.w.globals;
     let cnf = this.w.config;
     gl.maxY = -Number.MAX_VALUE;
     gl.minY = Number.MIN_VALUE;
+
     let lowestYInAllSeries = Number.MAX_VALUE;
     let minYMaxY;
+
     if (gl.isMultipleYAxis) {
       // we need to get minY and maxY for multiple y axis
       lowestYInAllSeries = Number.MAX_VALUE;
@@ -185,7 +240,12 @@ class Range {
     }
 
     // and then, get the minY and maxY from all series
-    minYMaxY = this.getMinYMaxY(0, lowestYInAllSeries, null, gl.series.length);
+    minYMaxY = this.getMinYMaxY(
+      0,
+      lowestYInAllSeries,
+      null,
+      gl.series.length
+    );
     if (cnf.chart.type === 'bar') {
       gl.minY = minYMaxY.minY;
       gl.maxY = minYMaxY.maxY;
@@ -194,6 +254,7 @@ class Range {
       gl.maxY = minYMaxY.highestY;
     }
     lowestYInAllSeries = minYMaxY.lowestY;
+
     if (cnf.chart.stacked) {
       this._setStackedMinMax();
     }
@@ -202,14 +263,25 @@ class Range {
     // for eg, if number is between 100000-110000, putting 0 as the lowest
     // value is not so good idea. So change the gl.minY for
     // line/area/scatter/candlesticks/boxPlot/vertical rangebar
-    if (cnf.chart.type === 'line' || cnf.chart.type === 'area' || cnf.chart.type === 'scatter' || cnf.chart.type === 'candlestick' || cnf.chart.type === 'boxPlot' || cnf.chart.type === 'rangeBar' && !gl.isBarHorizontal) {
-      if (gl.minY === Number.MIN_VALUE && lowestYInAllSeries !== -Number.MAX_VALUE && lowestYInAllSeries !== gl.maxY // single value possibility
+    if (
+    cnf.chart.type === 'line' ||
+    cnf.chart.type === 'area' ||
+    cnf.chart.type === 'scatter' ||
+    cnf.chart.type === 'candlestick' ||
+    cnf.chart.type === 'boxPlot' ||
+    cnf.chart.type === 'rangeBar' && !gl.isBarHorizontal)
+    {
+      if (
+      gl.minY === Number.MIN_VALUE &&
+      lowestYInAllSeries !== -Number.MAX_VALUE &&
+      lowestYInAllSeries !== gl.maxY // single value possibility
       ) {
         gl.minY = lowestYInAllSeries;
       }
     } else {
       gl.minY = minYMaxY.minY;
     }
+
     cnf.yaxis.forEach((yaxe, index) => {
       // override all min/max values by user defined values (y axis)
       if (yaxe.max !== undefined) {
@@ -217,7 +289,9 @@ class Range {
           gl.maxYArr[index] = yaxe.max;
         } else if (typeof yaxe.max === 'function') {
           // fixes apexcharts.js/issues/2098
-          gl.maxYArr[index] = yaxe.max(gl.isMultipleYAxis ? gl.maxYArr[index] : gl.maxY);
+          gl.maxYArr[index] = yaxe.max(
+            gl.isMultipleYAxis ? gl.maxYArr[index] : gl.maxY
+          );
         }
 
         // gl.maxY is for single y-axis chart, it will be ignored in multi-yaxis
@@ -228,7 +302,13 @@ class Range {
           gl.minYArr[index] = yaxe.min;
         } else if (typeof yaxe.min === 'function') {
           // fixes apexcharts.js/issues/2098
-          gl.minYArr[index] = yaxe.min(gl.isMultipleYAxis ? gl.minYArr[index] === Number.MIN_VALUE ? 0 : gl.minYArr[index] : gl.minY);
+          gl.minYArr[index] = yaxe.min(
+            gl.isMultipleYAxis ?
+            gl.minYArr[index] === Number.MIN_VALUE ?
+            0 :
+            gl.minYArr[index] :
+            gl.minY
+          );
         }
         // gl.minY is for single y-axis chart, it will be ignored in multi-yaxis
         gl.minY = gl.minYArr[index];
@@ -258,6 +338,7 @@ class Range {
       gl.seriesYAxisMap = [gl.series.map((x, i) => i)];
       gl.seriesYAxisReverseMap = gl.series.map((x, i) => 0);
     }
+
     return {
       minY: gl.minY,
       maxY: gl.maxY,
@@ -266,10 +347,18 @@ class Range {
       yAxisScale: gl.yAxisScale
     };
   }
+
   setXRange() {
     let gl = this.w.globals;
     let cnf = this.w.config;
-    const isXNumeric = cnf.xaxis.type === 'numeric' || cnf.xaxis.type === 'datetime' || cnf.xaxis.type === 'category' && !gl.noLabelsProvided || gl.noLabelsProvided || gl.isXNumeric;
+
+    const isXNumeric =
+    cnf.xaxis.type === 'numeric' ||
+    cnf.xaxis.type === 'datetime' ||
+    cnf.xaxis.type === 'category' && !gl.noLabelsProvided ||
+    gl.noLabelsProvided ||
+    gl.isXNumeric;
+
     const getInitialMinXMaxX = () => {
       for (let i = 0; i < gl.series.length; i++) {
         if (gl.labels[i]) {
@@ -288,6 +377,7 @@ class Range {
     if (gl.isXNumeric) {
       getInitialMinXMaxX();
     }
+
     if (gl.noLabelsProvided) {
       if (cnf.xaxis.categories.length === 0) {
         gl.maxX = gl.labels[gl.labels.length - 1];
@@ -296,8 +386,10 @@ class Range {
         gl.initialMinX = 1;
       }
     }
+
     if (gl.isXNumeric || gl.noLabelsProvided || gl.dataFormatXNumeric) {
       let ticks;
+
       if (cnf.xaxis.tickAmount === undefined) {
         ticks = Math.round(gl.svgWidth / 150);
 
@@ -334,6 +426,7 @@ class Range {
       if (cnf.xaxis.range !== undefined) {
         gl.minX = gl.maxX - cnf.xaxis.range;
       }
+
       if (gl.minX !== Number.MAX_VALUE && gl.maxX !== -Number.MAX_VALUE) {
         if (cnf.xaxis.convertedCatToNumeric && !gl.dataFormatXNumeric) {
           let catScale = [];
@@ -349,9 +442,21 @@ class Range {
           gl.xAxisScale = this.scales.setXScale(gl.minX, gl.maxX);
         }
       } else {
-        gl.xAxisScale = this.scales.linearScale(0, ticks, ticks, 0, cnf.xaxis.stepSize);
+        gl.xAxisScale = this.scales.linearScale(
+          0,
+          ticks,
+          ticks,
+          0,
+          cnf.xaxis.stepSize
+        );
         if (gl.noLabelsProvided && gl.labels.length > 0) {
-          gl.xAxisScale = this.scales.linearScale(1, gl.labels.length, ticks - 1, 0, cnf.xaxis.stepSize);
+          gl.xAxisScale = this.scales.linearScale(
+            1,
+            gl.labels.length,
+            ticks - 1,
+            0,
+            cnf.xaxis.stepSize
+          );
 
           // this is the only place seriesX is again mutated
           gl.seriesX = gl.labels.slice();
@@ -362,6 +467,7 @@ class Range {
         gl.labels = gl.xAxisScale.result.slice();
       }
     }
+
     if (gl.isBarHorizontal && gl.labels.length) {
       gl.xTickAmount = gl.labels.length;
     }
@@ -371,14 +477,17 @@ class Range {
 
     // minimum x difference to calculate bar width in numeric bars
     this._getMinXDiff();
+
     return {
       minX: gl.minX,
       maxX: gl.maxX
     };
   }
+
   setZRange() {
     // minZ, maxZ starts here
     let gl = this.w.globals;
+
     if (!gl.isDataXYZ) return;
     for (let i = 0; i < gl.series.length; i++) {
       if (typeof gl.seriesZ[i] !== 'undefined') {
@@ -391,11 +500,14 @@ class Range {
       }
     }
   }
+
   _handleSingleDataPoint() {
     const gl = this.w.globals;
     const cnf = this.w.config;
+
     if (gl.minX === gl.maxX) {
       let datetimeObj = new DateTime(this.ctx);
+
       if (cnf.xaxis.type === 'datetime') {
         const newMinX = datetimeObj.getDate(gl.minX);
         if (cnf.xaxis.labels.datetimeUTC) {
@@ -403,7 +515,9 @@ class Range {
         } else {
           newMinX.setDate(newMinX.getDate() - 2);
         }
+
         gl.minX = new Date(newMinX).getTime();
+
         const newMaxX = datetimeObj.getDate(gl.maxX);
         if (cnf.xaxis.labels.datetimeUTC) {
           newMaxX.setUTCDate(newMaxX.getUTCDate() + 2);
@@ -411,7 +525,10 @@ class Range {
           newMaxX.setDate(newMaxX.getDate() + 2);
         }
         gl.maxX = new Date(newMaxX).getTime();
-      } else if (cnf.xaxis.type === 'numeric' || cnf.xaxis.type === 'category' && !gl.noLabelsProvided) {
+      } else if (
+      cnf.xaxis.type === 'numeric' ||
+      cnf.xaxis.type === 'category' && !gl.noLabelsProvided)
+      {
         gl.minX = gl.minX - 2;
         gl.initialMinX = gl.minX;
         gl.maxX = gl.maxX + 2;
@@ -419,20 +536,27 @@ class Range {
       }
     }
   }
+
   _getMinXDiff() {
     const gl = this.w.globals;
+
     if (gl.isXNumeric) {
       // get the least x diff if numeric x axis is present
       gl.seriesX.forEach((sX, i) => {
         if (sX.length === 1) {
           // a small hack to prevent overlapping multiple bars when there is just 1 datapoint in bar series.
           // fix #811
-          sX.push(gl.seriesX[gl.maxValsInArrayIndex][gl.seriesX[gl.maxValsInArrayIndex].length - 1]);
+          sX.push(
+            gl.seriesX[gl.maxValsInArrayIndex][
+            gl.seriesX[gl.maxValsInArrayIndex].length - 1]
+
+          );
         }
 
         // fix #983 (clone the array to avoid side effects)
         const seriesX = sX.slice();
         seriesX.sort((a, b) => a - b);
+
         seriesX.forEach((s, j) => {
           if (j > 0) {
             let xDiff = s - seriesX[j - 1];
@@ -448,6 +572,7 @@ class Range {
       });
     }
   }
+
   _setStackedMinMax() {
     const gl = this.w.globals;
     // for stacked charts, we calculate each series's parallel values.
@@ -456,30 +581,46 @@ class Range {
 
     if (!gl.series.length) return;
     let seriesGroups = gl.seriesGroups;
+
     if (!seriesGroups.length) {
       seriesGroups = [this.w.config.series.map((serie) => serie.name)];
     }
     let stackedPoss = {};
     let stackedNegs = {};
+
     seriesGroups.forEach((group) => {
       stackedPoss[group] = [];
       stackedNegs[group] = [];
-      const indicesOfSeriesInGroup = this.w.config.series.map((serie, si) => group.indexOf(serie.name) > -1 ? si : null).filter((f) => f !== null);
+      const indicesOfSeriesInGroup = this.w.config.series.
+      map((serie, si) => group.indexOf(serie.name) > -1 ? si : null).
+      filter((f) => f !== null);
+
       indicesOfSeriesInGroup.forEach((i) => {
         for (let j = 0; j < gl.series[gl.maxValsInArrayIndex].length; j++) {
           if (typeof stackedPoss[group][j] === 'undefined') {
             stackedPoss[group][j] = 0;
             stackedNegs[group][j] = 0;
           }
-          let stackSeries = this.w.config.chart.stacked && !gl.comboCharts || this.w.config.chart.stacked && gl.comboCharts && (!this.w.config.chart.stackOnlyBar || this.w.config.series?.[i]?.type === 'bar');
+
+          let stackSeries =
+          this.w.config.chart.stacked && !gl.comboCharts ||
+          this.w.config.chart.stacked &&
+          gl.comboCharts && (
+          !this.w.config.chart.stackOnlyBar ||
+          this.w.config.series?.[i]?.type === 'bar');
+
           if (stackSeries) {
             if (gl.series[i][j] !== null && Utils.isNumber(gl.series[i][j])) {
-              gl.series[i][j] > 0 ? stackedPoss[group][j] += parseFloat(gl.series[i][j]) + 0.0001 : stackedNegs[group][j] += parseFloat(gl.series[i][j]);
+              gl.series[i][j] > 0 ?
+              stackedPoss[group][j] +=
+              parseFloat(gl.series[i][j]) + 0.0001 :
+              stackedNegs[group][j] += parseFloat(gl.series[i][j]);
             }
           }
         }
       });
     });
+
     Object.entries(stackedPoss).forEach(([key]) => {
       stackedPoss[key].forEach((_, stgi) => {
         gl.maxY = Math.max(gl.maxY, stackedPoss[key][stgi]);
@@ -488,4 +629,5 @@ class Range {
     });
   }
 }
+
 export default Range;

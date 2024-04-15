@@ -1,10 +1,12 @@
 import Graphics from "../Graphics";
 import Utils from "../../utils/Utils";
+
 export default class Helpers {
   constructor(lgCtx) {
     this.w = lgCtx.w;
     this.lgCtx = lgCtx;
   }
+
   getLegendStyles() {
     let stylesheet = document.createElement('style');
     stylesheet.setAttribute('type', 'text/css');
@@ -12,6 +14,7 @@ export default class Helpers {
     if (nonce) {
       stylesheet.setAttribute('nonce', nonce);
     }
+
     const text = `
       .apexcharts-legend {
         display: flex;
@@ -69,81 +72,112 @@ export default class Helpers {
       .apexcharts-inactive-legend {
         opacity: 0.45;
       }`;
+
     let rules = document.createTextNode(text);
+
     stylesheet.appendChild(rules);
+
     return stylesheet;
   }
+
   getLegendBBox() {
     const w = this.w;
-    let currLegendsWrap = w.globals.dom.baseEl.querySelector('.apexcharts-legend');
+    let currLegendsWrap = w.globals.dom.baseEl.querySelector(
+      '.apexcharts-legend'
+    );
     let currLegendsWrapRect = currLegendsWrap.getBoundingClientRect();
+
     let currLegendsWrapWidth = currLegendsWrapRect.width;
     let currLegendsWrapHeight = currLegendsWrapRect.height;
+
     return {
       clwh: currLegendsWrapHeight,
       clww: currLegendsWrapWidth
     };
   }
+
   appendToForeignObject() {
     const gl = this.w.globals;
+
     gl.dom.elLegendForeign.appendChild(this.getLegendStyles());
   }
+
   toggleDataSeries(seriesCnt, isHidden) {
     const w = this.w;
     if (w.globals.axisCharts || w.config.chart.type === 'radialBar') {
       w.globals.resized = true; // we don't want initial animations again
 
       let seriesEl = null;
+
       let realIndex = null;
 
       // yes, make it null. 1 series will rise at a time
       w.globals.risingSeries = [];
+
       if (w.globals.axisCharts) {
-        seriesEl = w.globals.dom.baseEl.querySelector(`.apexcharts-series[data\\:realIndex='${seriesCnt}']`);
+        seriesEl = w.globals.dom.baseEl.querySelector(
+          `.apexcharts-series[data\\:realIndex='${seriesCnt}']`
+        );
         realIndex = parseInt(seriesEl.getAttribute('data:realIndex'), 10);
       } else {
-        seriesEl = w.globals.dom.baseEl.querySelector(`.apexcharts-series[rel='${seriesCnt + 1}']`);
+        seriesEl = w.globals.dom.baseEl.querySelector(
+          `.apexcharts-series[rel='${seriesCnt + 1}']`
+        );
         realIndex = parseInt(seriesEl.getAttribute('rel'), 10) - 1;
       }
+
       if (isHidden) {
-        const seriesToMakeVisible = [{
+        const seriesToMakeVisible = [
+        {
           cs: w.globals.collapsedSeries,
           csi: w.globals.collapsedSeriesIndices
-        }, {
+        },
+        {
           cs: w.globals.ancillaryCollapsedSeries,
           csi: w.globals.ancillaryCollapsedSeriesIndices
         }];
+
         seriesToMakeVisible.forEach((r) => {
           this.riseCollapsedSeries(r.cs, r.csi, realIndex);
         });
       } else {
-        this.hideSeries({
-          seriesEl,
-          realIndex
-        });
+        this.hideSeries({ seriesEl, realIndex });
       }
     } else {
       // for non-axis charts i.e pie / donuts
-      let seriesEl = w.globals.dom.Paper.select(` .apexcharts-series[rel='${seriesCnt + 1}'] path`);
+      let seriesEl = w.globals.dom.Paper.select(
+        ` .apexcharts-series[rel='${seriesCnt + 1}'] path`
+      );
+
       const type = w.config.chart.type;
       if (type === 'pie' || type === 'polarArea' || type === 'donut') {
         let dataLabels = w.config.plotOptions.pie.donut.labels;
+
         const graphics = new Graphics(this.lgCtx.ctx);
         graphics.pathMouseDown(seriesEl.members[0], null);
-        this.lgCtx.ctx.pie.printDataLabelsInner(seriesEl.members[0].node, dataLabels);
+        this.lgCtx.ctx.pie.printDataLabelsInner(
+          seriesEl.members[0].node,
+          dataLabels
+        );
       }
+
       seriesEl.fire('click');
     }
   }
-  hideSeries({
-    seriesEl,
-    realIndex
-  }) {
+
+  hideSeries({ seriesEl, realIndex }) {
     const w = this.w;
+
     let series = Utils.clone(w.config.series);
+
     if (w.globals.axisCharts) {
       let yaxis = w.config.yaxis[w.globals.seriesYAxisReverseMap[realIndex]];
-      if (yaxis && yaxis.show && yaxis.showAlways) {
+
+      if (
+      yaxis &&
+      yaxis.show &&
+      yaxis.showAlways)
+      {
         if (w.globals.ancillaryCollapsedSeriesIndices.indexOf(realIndex) < 0) {
           w.globals.ancillaryCollapsedSeries.push({
             index: realIndex,
@@ -160,6 +194,7 @@ export default class Helpers {
             type: seriesEl.parentNode.className.baseVal.split('-')[1]
           });
           w.globals.collapsedSeriesIndices.push(realIndex);
+
           let removeIndexOfRising = w.globals.risingSeries.indexOf(realIndex);
           w.globals.risingSeries.splice(removeIndexOfRising, 1);
         }
@@ -171,9 +206,12 @@ export default class Helpers {
       });
       w.globals.collapsedSeriesIndices.push(realIndex);
     }
+
     let seriesChildren = seriesEl.childNodes;
     for (let sc = 0; sc < seriesChildren.length; sc++) {
-      if (seriesChildren[sc].classList.contains('apexcharts-series-markers-wrap')) {
+      if (
+      seriesChildren[sc].classList.contains('apexcharts-series-markers-wrap'))
+      {
         if (seriesChildren[sc].classList.contains('apexcharts-hide')) {
           seriesChildren[sc].classList.remove('apexcharts-hide');
         } else {
@@ -181,13 +219,21 @@ export default class Helpers {
         }
       }
     }
-    w.globals.allSeriesCollapsed = w.globals.collapsedSeries.length === w.config.series.length;
+
+    w.globals.allSeriesCollapsed =
+    w.globals.collapsedSeries.length === w.config.series.length;
+
     series = this._getSeriesBasedOnCollapsedState(series);
-    this.lgCtx.ctx.updateHelpers._updateSeries(series, w.config.chart.animations.dynamicAnimation.enabled);
+    this.lgCtx.ctx.updateHelpers._updateSeries(
+      series,
+      w.config.chart.animations.dynamicAnimation.enabled
+    );
   }
+
   riseCollapsedSeries(collapsedSeries, seriesIndices, realIndex) {
     const w = this.w;
     let series = Utils.clone(w.config.series);
+
     if (collapsedSeries.length > 0) {
       for (let c = 0; c < collapsedSeries.length; c++) {
         if (collapsedSeries[c].index === realIndex) {
@@ -204,12 +250,19 @@ export default class Helpers {
           }
         }
       }
+
       series = this._getSeriesBasedOnCollapsedState(series);
-      this.lgCtx.ctx.updateHelpers._updateSeries(series, w.config.chart.animations.dynamicAnimation.enabled);
+
+      this.lgCtx.ctx.updateHelpers._updateSeries(
+        series,
+        w.config.chart.animations.dynamicAnimation.enabled
+      );
     }
   }
+
   _getSeriesBasedOnCollapsedState(series) {
     const w = this.w;
+
     if (w.globals.axisCharts) {
       series.forEach((s, sI) => {
         if (w.globals.collapsedSeriesIndices.indexOf(sI) > -1) {
@@ -223,6 +276,7 @@ export default class Helpers {
         }
       });
     }
+
     return series;
   }
 }

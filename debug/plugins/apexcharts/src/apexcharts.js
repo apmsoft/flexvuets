@@ -27,11 +27,17 @@ export default class ApexCharts {
 
     // Pass the user supplied options to the Base Class where these options will be extended with defaults. The returned object from Base Class will become the config object in the entire codebase.
     this.w = new Base(opts).init();
+
     this.el = el;
+
     this.w.globals.cuid = Utils.randomId();
-    this.w.globals.chartID = this.w.config.chart.id ? Utils.escapeString(this.w.config.chart.id) : this.w.globals.cuid;
+    this.w.globals.chartID = this.w.config.chart.id ?
+    Utils.escapeString(this.w.config.chart.id) :
+    this.w.globals.cuid;
+
     const initCtx = new InitCtxVariables(this);
     initCtx.initModules();
+
     this.create = Utils.bind(this.create, this);
     this.windowResizeHandler = this._windowResizeHandler.bind(this);
     this.parentResizeHandler = this._parentResizeCallback.bind(this);
@@ -62,13 +68,18 @@ export default class ApexCharts {
         if (typeof beforeMount === 'function') {
           beforeMount(this, this.w);
         }
+
         this.events.fireEvent('beforeMount', [this, this.w]);
         window.addEventListener('resize', this.windowResizeHandler);
         addResizeListener(this.el.parentNode, this.parentResizeHandler);
+
         let rootNode = this.el.getRootNode && this.el.getRootNode();
         let inShadowRoot = Utils.is('ShadowRoot', rootNode);
         let doc = this.el.ownerDocument;
-        let css = inShadowRoot ? rootNode.getElementById('apexcharts-css') : doc.getElementById('apexcharts-css');
+        let css = inShadowRoot ?
+        rootNode.getElementById('apexcharts-css') :
+        doc.getElementById('apexcharts-css');
+
         if (!css) {
           css = document.createElement('style');
           css.id = 'apexcharts-css';
@@ -77,6 +88,7 @@ export default class ApexCharts {
           if (nonce) {
             css.setAttribute('nonce', nonce);
           }
+
           if (inShadowRoot) {
             // We are in Shadow DOM, add to shadow root
             rootNode.prepend(css);
@@ -85,15 +97,19 @@ export default class ApexCharts {
             doc.head.appendChild(css);
           }
         }
+
         let graphData = this.create(this.w.config.series, {});
         if (!graphData) return resolve(this);
-        this.mount(graphData).then(() => {
+        this.mount(graphData).
+        then(() => {
           if (typeof this.w.config.chart.events.mounted === 'function') {
             this.w.config.chart.events.mounted(this, this.w);
           }
+
           this.events.fireEvent('mounted', [this, this.w]);
           resolve(graphData);
-        }).catch((e) => {
+        }).
+        catch((e) => {
           reject(e);
           // handle error in case no data or element not found
         });
@@ -102,39 +118,52 @@ export default class ApexCharts {
       }
     });
   }
+
   create(ser, opts) {
     let w = this.w;
+
     const initCtx = new InitCtxVariables(this);
     initCtx.initModules();
     let gl = this.w.globals;
+
     gl.noData = false;
     gl.animationEnded = false;
+
     this.responsive.checkResponsiveConfig(opts);
+
     if (w.config.xaxis.convertedCatToNumeric) {
       const defaults = new Defaults(w.config);
       defaults.convertCatToNumericXaxis(w.config, this.ctx);
     }
+
     if (this.el === null) {
       gl.animationEnded = true;
       return null;
     }
+
     this.core.setupElements();
+
     if (w.config.chart.type === 'treemap') {
       w.config.grid.show = false;
       w.config.yaxis[0].show = false;
     }
+
     if (gl.svgWidth === 0) {
       // if the element is hidden, skip drawing
       gl.animationEnded = true;
       return null;
     }
+
     const combo = CoreUtils.checkComboSeries(ser, w.config.chart.type);
     gl.comboCharts = combo.comboCharts;
     gl.comboBarCount = combo.comboBarCount;
+
     const allSeriesAreEmpty = ser.every((s) => s.data && s.data.length === 0);
+
     if (ser.length === 0 || allSeriesAreEmpty) {
       this.series.handleNoData();
     }
+
     this.events.setupEventHandlers();
 
     // Handle the data inputted by user and set some of the global variables (for eg, if data is datetime / numeric / category). Don't calculate the range / min / max at this time
@@ -153,7 +182,11 @@ export default class ApexCharts {
 
     // legend is calculated here before coreCalculations because it affects the plottable area
     // if there is some data to show or user collapsed all series, then proceed drawing legend
-    if (!gl.noData || gl.collapsedSeries.length === gl.series.length || w.config.legend.showForSingleSeries) {
+    if (
+    !gl.noData ||
+    gl.collapsedSeries.length === gl.series.length ||
+    w.config.legend.showForSingleSeries)
+    {
       this.legend.init();
     }
 
@@ -181,9 +214,13 @@ export default class ApexCharts {
 
     // We got plottable area here, next task would be to calculate axis areas
     this.dimensions.plotCoords();
+
     const xyRatios = this.core.xySettings();
+
     this.grid.createGridMask();
+
     const elGraph = this.core.plotChartType(ser, xyRatios);
+
     const dataLabels = new DataLabels(this);
     dataLabels.bringForward();
     if (w.config.dataLabels.background.enabled) {
@@ -192,6 +229,7 @@ export default class ApexCharts {
 
     // after all the drawing calculations, shift the graphical area (actual charts/bars) excluding legends
     this.core.shiftGraphPosition();
+
     const dim = {
       plot: {
         left: w.globals.translateX,
@@ -200,27 +238,35 @@ export default class ApexCharts {
         height: w.globals.gridHeight
       }
     };
+
     return {
       elGraph,
       xyRatios,
       dimensions: dim
     };
   }
+
   mount(graphData = null) {
     let me = this;
     let w = me.w;
+
     return new Promise((resolve, reject) => {
       // no data to display
       if (me.el === null) {
-        return reject(new Error('Not enough data to display or target element not found'));
+        return reject(
+          new Error('Not enough data to display or target element not found')
+        );
       } else if (graphData === null || w.globals.allSeriesCollapsed) {
         me.series.handleNoData();
       }
+
       me.grid = new Grid(me);
       let elgrid = me.grid.drawGrid();
+
       me.annotations = new Annotations(me);
       me.annotations.drawImageAnnos();
       me.annotations.drawTextAnnos();
+
       if (w.config.grid.position === 'back') {
         if (elgrid) {
           w.globals.dom.elGraphical.add(elgrid.el);
@@ -229,6 +275,7 @@ export default class ApexCharts {
           w.globals.dom.elGraphical.add(elgrid.elGridBorders);
         }
       }
+
       if (Array.isArray(graphData.elGraph)) {
         for (let g = 0; g < graphData.elGraph.length; g++) {
           w.globals.dom.elGraphical.add(graphData.elGraph[g]);
@@ -236,6 +283,7 @@ export default class ApexCharts {
       } else {
         w.globals.dom.elGraphical.add(graphData.elGraph);
       }
+
       if (w.config.grid.position === 'front') {
         if (elgrid) {
           w.globals.dom.elGraphical.add(elgrid.el);
@@ -244,54 +292,81 @@ export default class ApexCharts {
           w.globals.dom.elGraphical.add(elgrid.elGridBorders);
         }
       }
+
       if (w.config.xaxis.crosshairs.position === 'front') {
         me.crosshairs.drawXCrosshairs();
       }
+
       if (w.config.yaxis[0].crosshairs.position === 'front') {
         me.crosshairs.drawYCrosshairs();
       }
+
       if (w.config.chart.type !== 'treemap') {
         me.axes.drawAxis(w.config.chart.type, elgrid);
       }
+
       let xAxis = new XAxis(this.ctx, elgrid);
       let yaxis = new YAxis(this.ctx, elgrid);
       if (elgrid !== null) {
         xAxis.xAxisLabelCorrections(elgrid.xAxisTickWidth);
         yaxis.setYAxisTextAlignments();
+
         w.config.yaxis.map((yaxe, index) => {
           if (w.globals.ignoreYAxisIndexes.indexOf(index) === -1) {
             yaxis.yAxisTitleRotate(index, yaxe.opposite);
           }
         });
       }
+
       me.annotations.drawAxesAnnotations();
+
       if (!w.globals.noData) {
         // draw tooltips at the end
         if (w.config.tooltip.enabled && !w.globals.noData) {
           me.w.globals.tooltip.drawTooltip(graphData.xyRatios);
         }
-        if (w.globals.axisCharts && (w.globals.isXNumeric || w.config.xaxis.convertedCatToNumeric || w.globals.isRangeBar)) {
-          if (w.config.chart.zoom.enabled || w.config.chart.selection && w.config.chart.selection.enabled || w.config.chart.pan && w.config.chart.pan.enabled) {
+
+        if (
+        w.globals.axisCharts && (
+        w.globals.isXNumeric ||
+        w.config.xaxis.convertedCatToNumeric ||
+        w.globals.isRangeBar))
+        {
+          if (
+          w.config.chart.zoom.enabled ||
+          w.config.chart.selection && w.config.chart.selection.enabled ||
+          w.config.chart.pan && w.config.chart.pan.enabled)
+          {
             me.zoomPanSelection.init({
               xyRatios: graphData.xyRatios
             });
           }
         } else {
           const tools = w.config.chart.toolbar.tools;
-          let toolsArr = ['zoom', 'zoomin', 'zoomout', 'selection', 'pan', 'reset'];
+          let toolsArr = [
+          'zoom',
+          'zoomin',
+          'zoomout',
+          'selection',
+          'pan',
+          'reset'];
+
           toolsArr.forEach((t) => {
             tools[t] = false;
           });
         }
+
         if (w.config.chart.toolbar.show && !w.globals.allSeriesCollapsed) {
           me.toolbar.createToolbar();
         }
       }
+
       if (w.globals.memory.methodsToExec.length > 0) {
         w.globals.memory.methodsToExec.forEach((fn) => {
           fn.method(fn.params, false, fn.context);
         });
       }
+
       if (!w.globals.axisCharts && !w.globals.noData) {
         me.core.resizeNonAxisCharts();
       }
@@ -304,6 +379,7 @@ export default class ApexCharts {
    */
   destroy() {
     window.removeEventListener('resize', this.windowResizeHandler);
+
     removeResizeListener(this.el.parentNode, this.parentResizeHandler);
     // remove the chart's instance from the global Apex._chartInstances
     const chartID = this.w.config.chart.id;
@@ -314,9 +390,7 @@ export default class ApexCharts {
         }
       });
     }
-    new Destroy(this.ctx).clear({
-      isUpdating: false
-    });
+    new Destroy(this.ctx).clear({ isUpdating: false });
   }
 
   /**
@@ -326,12 +400,19 @@ export default class ApexCharts {
    * @param {boolean} redraw - should redraw from beginning or should use existing paths and redraw from there
    * @param {boolean} animate - should animate or not on updating Options
    */
-  updateOptions(options, redraw = false, animate = true, updateSyncedCharts = true, overwriteInitialConfig = true) {
+  updateOptions(
+  options,
+  redraw = false,
+  animate = true,
+  updateSyncedCharts = true,
+  overwriteInitialConfig = true)
+  {
     const w = this.w;
 
     // when called externally, clear some global variables
     // fixes apexcharts.js#1488
     w.globals.selection = undefined;
+
     if (options.series) {
       this.series.resetSeries(false, true, false);
       if (options.series.length && options.series[0].data) {
@@ -358,7 +439,13 @@ export default class ApexCharts {
     if (options.theme) {
       options = this.theme.updateThemeOptions(options);
     }
-    return this.updateHelpers._updateOptions(options, redraw, animate, updateSyncedCharts, overwriteInitialConfig);
+    return this.updateHelpers._updateOptions(
+      options,
+      redraw,
+      animate,
+      updateSyncedCharts,
+      overwriteInitialConfig
+    );
   }
 
   /**
@@ -369,7 +456,11 @@ export default class ApexCharts {
   updateSeries(newSeries = [], animate = true, overwriteInitialSeries = true) {
     this.series.resetSeries(false);
     this.updateHelpers.revertDefaultAxisMinMax();
-    return this.updateHelpers._updateSeries(newSeries, animate, overwriteInitialSeries);
+    return this.updateHelpers._updateSeries(
+      newSeries,
+      animate,
+      overwriteInitialSeries
+    );
   }
 
   /**
@@ -382,7 +473,11 @@ export default class ApexCharts {
     newSeries.push(newSerie);
     this.series.resetSeries(false);
     this.updateHelpers.revertDefaultAxisMinMax();
-    return this.updateHelpers._updateSeries(newSeries, animate, overwriteInitialSeries);
+    return this.updateHelpers._updateSeries(
+      newSeries,
+      animate,
+      overwriteInitialSeries
+    );
   }
 
   /**
@@ -392,9 +487,13 @@ export default class ApexCharts {
    */
   appendData(newData, overwriteInitialSeries = true) {
     let me = this;
+
     me.w.globals.dataChanged = true;
+
     me.series.getPreviousPaths();
+
     let newSeries = me.w.config.series.slice();
+
     for (let i = 0; i < newSeries.length; i++) {
       if (newData[i] !== null && typeof newData[i] !== 'undefined') {
         for (let j = 0; j < newData[i].data.length; j++) {
@@ -406,23 +505,28 @@ export default class ApexCharts {
     if (overwriteInitialSeries) {
       me.w.globals.initialSeries = Utils.clone(me.w.config.series);
     }
+
     return this.update();
   }
+
   update(options) {
     return new Promise((resolve, reject) => {
-      new Destroy(this.ctx).clear({
-        isUpdating: true
-      });
+      new Destroy(this.ctx).clear({ isUpdating: true });
+
       const graphData = this.create(this.w.config.series, options);
       if (!graphData) return resolve(this);
-      this.mount(graphData).then(() => {
+      this.mount(graphData).
+      then(() => {
         if (typeof this.w.config.chart.events.updated === 'function') {
           this.w.config.chart.events.updated(this, this.w);
         }
         this.events.fireEvent('updated', [this, this.w]);
+
         this.w.globals.isDirty = true;
+
         resolve(this);
-      }).catch((e) => {
+      }).
+      catch((e) => {
         reject(e);
       });
     });
@@ -440,6 +544,7 @@ export default class ApexCharts {
         allCharts.push(ch);
       });
     }
+
     return allCharts;
   }
 
@@ -447,15 +552,19 @@ export default class ApexCharts {
    * Get charts in the same "group" (excluding the instance which is called upon) to perform operations on the other charts of the same group (eg., tooltip hovering)
    */
   getGroupedCharts() {
-    return Apex._chartInstances.filter((ch) => {
+    return Apex._chartInstances.
+    filter((ch) => {
       if (ch.group) {
         return true;
       }
-    }).map((ch) => this.w.config.chart.group === ch.group ? ch.chart : this);
+    }).
+    map((ch) => this.w.config.chart.group === ch.group ? ch.chart : this);
   }
+
   static getChartByID(id) {
     const chartId = Utils.escapeString(id);
     if (!Apex._chartInstances) return undefined;
+
     const c = Apex._chartInstances.filter((ch) => ch.id === chartId)[0];
     return c && c.chart;
   }
@@ -465,6 +574,7 @@ export default class ApexCharts {
    */
   static initOnLoad() {
     const els = document.querySelectorAll('[data-apexcharts]');
+
     for (let i = 0; i < els.length; i++) {
       const el = els[i];
       const options = JSON.parse(els[i].getAttribute('data-options'));
@@ -494,30 +604,38 @@ export default class ApexCharts {
 
     // turn on the global exec flag to indicate this method was called
     chart.w.globals.isExecCalled = true;
+
     let ret = null;
     if (chart.publicMethods.indexOf(fn) !== -1) {
       ret = chart[fn](...opts);
     }
     return ret;
   }
+
   static merge(target, source) {
     return Utils.extend(target, source);
   }
+
   toggleSeries(seriesName) {
     return this.series.toggleSeries(seriesName);
   }
+
   highlightSeriesOnLegendHover(e, targetElement) {
     return this.series.toggleSeriesOnHover(e, targetElement);
   }
+
   showSeries(seriesName) {
     this.series.showSeries(seriesName);
   }
+
   hideSeries(seriesName) {
     this.series.hideSeries(seriesName);
   }
+
   isSeriesHidden(seriesName) {
     this.series.isSeriesHidden(seriesName);
   }
+
   resetSeries(shouldUpdateChart = true, shouldResetZoom = true) {
     this.series.resetSeries(shouldUpdateChart, shouldResetZoom);
   }
@@ -531,6 +649,7 @@ export default class ApexCharts {
   removeEventListener(name, handler) {
     this.events.removeEventListener(name, handler);
   }
+
   addXaxisAnnotation(opts, pushToMemory = true, context = undefined) {
     let me = this;
     if (context) {
@@ -538,6 +657,7 @@ export default class ApexCharts {
     }
     me.annotations.addXaxisAnnotationExternal(opts, pushToMemory, me);
   }
+
   addYaxisAnnotation(opts, pushToMemory = true, context = undefined) {
     let me = this;
     if (context) {
@@ -545,6 +665,7 @@ export default class ApexCharts {
     }
     me.annotations.addYaxisAnnotationExternal(opts, pushToMemory, me);
   }
+
   addPointAnnotation(opts, pushToMemory = true, context = undefined) {
     let me = this;
     if (context) {
@@ -552,6 +673,7 @@ export default class ApexCharts {
     }
     me.annotations.addPointAnnotationExternal(opts, pushToMemory, me);
   }
+
   clearAnnotations(context = undefined) {
     let me = this;
     if (context) {
@@ -559,6 +681,7 @@ export default class ApexCharts {
     }
     me.annotations.clearAnnotations(me);
   }
+
   removeAnnotation(id, context = undefined) {
     let me = this;
     if (context) {
@@ -566,46 +689,65 @@ export default class ApexCharts {
     }
     me.annotations.removeAnnotation(me, id);
   }
+
   getChartArea() {
     const el = this.w.globals.dom.baseEl.querySelector('.apexcharts-inner');
+
     return el;
   }
+
   getSeriesTotalXRange(minX, maxX) {
     return this.coreUtils.getSeriesTotalsXRange(minX, maxX);
   }
+
   getHighestValueInSeries(seriesIndex = 0) {
     const range = new Range(this.ctx);
     return range.getMinYMaxY(seriesIndex).highestY;
   }
+
   getLowestValueInSeries(seriesIndex = 0) {
     const range = new Range(this.ctx);
     return range.getMinYMaxY(seriesIndex).lowestY;
   }
+
   getSeriesTotal() {
     return this.w.globals.seriesTotals;
   }
+
   toggleDataPointSelection(seriesIndex, dataPointIndex) {
-    return this.updateHelpers.toggleDataPointSelection(seriesIndex, dataPointIndex);
+    return this.updateHelpers.toggleDataPointSelection(
+      seriesIndex,
+      dataPointIndex
+    );
   }
+
   zoomX(min, max) {
     this.ctx.toolbar.zoomUpdateOptions(min, max);
   }
+
   setLocale(localeName) {
     this.localization.setCurrentLocaleValues(localeName);
   }
+
   dataURI(options) {
     const exp = new Exports(this.ctx);
     return exp.dataURI(options);
   }
+
   exportToCSV(options = {}) {
     const exp = new Exports(this.ctx);
     return exp.exportToCSV(options);
   }
+
   paper() {
     return this.w.globals.dom.Paper;
   }
+
   _parentResizeCallback() {
-    if (this.w.globals.animationEnded && this.w.config.chart.redrawOnParentResize) {
+    if (
+    this.w.globals.animationEnded &&
+    this.w.config.chart.redrawOnParentResize)
+    {
       this._windowResize();
     }
   }
@@ -623,13 +765,14 @@ export default class ApexCharts {
       this.ctx.update();
     }, 150);
   }
+
   _windowResizeHandler() {
-    let {
-      redrawOnWindowResize: redraw
-    } = this.w.config.chart;
+    let { redrawOnWindowResize: redraw } = this.w.config.chart;
+
     if (typeof redraw === 'function') {
       redraw = redraw();
     }
+
     redraw && this._windowResize();
   }
 }

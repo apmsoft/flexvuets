@@ -7,10 +7,12 @@ class CoreUtils {
     this.ctx = ctx;
     this.w = ctx.w;
   }
+
   static checkComboSeries(series, chartType) {
     let comboCharts = false;
     let comboBarCount = 0;
     let comboCount = 0;
+
     if (chartType === undefined) {
       chartType = 'line';
     }
@@ -21,7 +23,12 @@ class CoreUtils {
     // this should not be considered a combo chart.
     if (series.length && typeof series[0].type !== 'undefined') {
       series.forEach((s) => {
-        if (s.type === 'bar' || s.type === 'column' || s.type === 'candlestick' || s.type === 'boxPlot') {
+        if (
+        s.type === 'bar' ||
+        s.type === 'column' ||
+        s.type === 'candlestick' ||
+        s.type === 'boxPlot')
+        {
           comboBarCount++;
         }
         if (typeof s.type !== 'undefined' && s.type !== chartType) {
@@ -32,6 +39,7 @@ class CoreUtils {
     if (comboCount > 0) {
       comboCharts = true;
     }
+
     return {
       comboBarCount,
       comboCharts
@@ -47,11 +55,20 @@ class CoreUtils {
   getStackedSeriesTotals(excludedSeriesIndices = []) {
     const w = this.w;
     let total = [];
+
     if (w.globals.series.length === 0) return total;
-    for (let i = 0; i < w.globals.series[w.globals.maxValsInArrayIndex].length; i++) {
+
+    for (
+    let i = 0;
+    i < w.globals.series[w.globals.maxValsInArrayIndex].length;
+    i++)
+    {
       let t = 0;
       for (let j = 0; j < w.globals.series.length; j++) {
-        if (typeof w.globals.series[j][i] !== 'undefined' && excludedSeriesIndices.indexOf(j) === -1) {
+        if (
+        typeof w.globals.series[j][i] !== 'undefined' &&
+        excludedSeriesIndices.indexOf(j) === -1)
+        {
           t += w.globals.series[j][i];
         }
       }
@@ -81,6 +98,7 @@ class CoreUtils {
   getStackedSeriesTotalsByGroups() {
     const w = this.w;
     let total = [];
+
     w.globals.seriesGroups.forEach((sg) => {
       let includedIndexes = [];
       w.config.series.forEach((s, si) => {
@@ -88,11 +106,16 @@ class CoreUtils {
           includedIndexes.push(si);
         }
       });
-      const excludedIndices = w.globals.series.map((_, fi) => includedIndexes.indexOf(fi) === -1 ? fi : -1).filter((f) => f !== -1);
+
+      const excludedIndices = w.globals.series.
+      map((_, fi) => includedIndexes.indexOf(fi) === -1 ? fi : -1).
+      filter((f) => f !== -1);
+
       total.push(this.getStackedSeriesTotals(excludedIndices));
     });
     return total;
   }
+
   isSeriesNull(index = null) {
     let r = [];
     if (index === null) {
@@ -102,11 +125,14 @@ class CoreUtils {
       // axis charts - supporting multiple series
       r = this.w.config.series[index].data.filter((d) => d !== null);
     }
+
     return r.length === 0;
   }
+
   seriesHaveSameValues(index) {
     return this.w.globals.series[index].every((val, i, arr) => val === arr[0]);
   }
+
   getCategoryLabels(labels) {
     const w = this.w;
     let catLabels = labels.slice();
@@ -120,23 +146,36 @@ class CoreUtils {
   // maxValsInArrayIndex is the index of series[] which has the largest number of items
   getLargestSeries() {
     const w = this.w;
-    w.globals.maxValsInArrayIndex = w.globals.series.map((a) => a.length).indexOf(Math.max.apply(Math, w.globals.series.map((a) => a.length)));
+    w.globals.maxValsInArrayIndex = w.globals.series.
+    map((a) => a.length).
+    indexOf(
+      Math.max.apply(
+        Math,
+        w.globals.series.map((a) => a.length)
+      )
+    );
   }
+
   getLargestMarkerSize() {
     const w = this.w;
     let size = 0;
+
     w.globals.markers.size.forEach((m) => {
       size = Math.max(size, m);
     });
+
     if (w.config.markers.discrete && w.config.markers.discrete.length) {
       w.config.markers.discrete.forEach((m) => {
         size = Math.max(size, m.size);
       });
     }
+
     if (size > 0) {
       size += w.config.markers.hover.sizeOffset + 1;
     }
+
     w.globals.markers.largestSize = size;
+
     return size;
   }
 
@@ -148,8 +187,10 @@ class CoreUtils {
    **/
   getSeriesTotals() {
     const w = this.w;
+
     w.globals.seriesTotals = w.globals.series.map((ser, index) => {
       let total = 0;
+
       if (Array.isArray(ser)) {
         for (let j = 0; j < ser.length; j++) {
           total += ser[j];
@@ -158,20 +199,29 @@ class CoreUtils {
         // for pie/donuts/gauges
         total += ser;
       }
+
       return total;
     });
   }
+
   getSeriesTotalsXRange(minX, maxX) {
     const w = this.w;
+
     const seriesTotalsXRange = w.globals.series.map((ser, index) => {
       let total = 0;
+
       for (let j = 0; j < ser.length; j++) {
-        if (w.globals.seriesX[index][j] > minX && w.globals.seriesX[index][j] < maxX) {
+        if (
+        w.globals.seriesX[index][j] > minX &&
+        w.globals.seriesX[index][j] < maxX)
+        {
           total += ser[j];
         }
       }
+
       return total;
     });
+
     return seriesTotalsXRange;
   }
 
@@ -183,6 +233,7 @@ class CoreUtils {
    **/
   getPercentSeries() {
     const w = this.w;
+
     w.globals.seriesPercent = w.globals.series.map((ser, index) => {
       let seriesPercent = [];
       if (Array.isArray(ser)) {
@@ -199,12 +250,15 @@ class CoreUtils {
         let percent = 100 * ser / total;
         seriesPercent.push(percent);
       }
+
       return seriesPercent;
     });
   }
+
   getCalculatedRatios() {
     let w = this.w;
     let gl = w.globals;
+
     let yRatio = [];
     let invertedYRatio = 0;
     let xRatio = 0;
@@ -213,6 +267,7 @@ class CoreUtils {
     let baseLineY = [];
     let baseLineInvertedY = 0.1;
     let baseLineX = 0;
+
     gl.yRange = [];
     if (gl.isMultipleYAxis) {
       for (let i = 0; i < gl.minYArr.length; i++) {
@@ -229,13 +284,17 @@ class CoreUtils {
     for (let i = 0; i < gl.yRange.length; i++) {
       yRatio.push(gl.yRange[i] / gl.gridHeight);
     }
+
     xRatio = gl.xRange / gl.gridWidth;
+
     invertedYRatio = gl.yRange / gl.gridWidth;
     invertedXRatio = gl.xRange / gl.gridHeight;
     zRatio = gl.zRange / gl.gridHeight * 16;
+
     if (!zRatio) {
       zRatio = 1;
     }
+
     if (gl.minY !== Number.MIN_VALUE && Math.abs(gl.minY) !== 0) {
       // Negative numbers present in series
       gl.hasNegs = true;
@@ -261,6 +320,7 @@ class CoreUtils {
       } else {
         baseLineY = [];
         baseLineY.push(scaleBaseLineYScale(gl.minY, 0));
+
         if (gl.minY !== Number.MIN_VALUE && Math.abs(gl.minY) !== 0) {
           baseLineInvertedY = -gl.minY / invertedYRatio; // this is for bar chart
           baseLineX = gl.minX / xRatio;
@@ -272,6 +332,7 @@ class CoreUtils {
       baseLineInvertedY = 0;
       baseLineX = 0;
     }
+
     return {
       yRatio,
       invertedYRatio,
@@ -283,8 +344,10 @@ class CoreUtils {
       baseLineX
     };
   }
+
   getLogSeries(series) {
     const w = this.w;
+
     w.globals.seriesLog = series.map((s, i) => {
       let yAxisIndex = w.globals.seriesYAxisReverseMap[i];
       if (w.config.yaxis[yAxisIndex] && w.config.yaxis[yAxisIndex].logarithmic) {
@@ -296,6 +359,7 @@ class CoreUtils {
         return s;
       }
     });
+
     return w.globals.invalidLogScale ? series : w.globals.seriesLog;
   }
   getBaseLog(base, value) {
@@ -306,19 +370,26 @@ class CoreUtils {
       return 0; // Should be Number.NEGATIVE_INFINITY
     }
     const w = this.w;
-    const min_log_val = w.globals.minYArr[seriesIndex] === 0 ? -1 // make sure we dont calculate log of 0
+    const min_log_val =
+    w.globals.minYArr[seriesIndex] === 0 ?
+    -1 // make sure we dont calculate log of 0
     : this.getBaseLog(b, w.globals.minYArr[seriesIndex]);
-    const max_log_val = w.globals.maxYArr[seriesIndex] === 0 ? 0 // make sure we dont calculate log of 0
+    const max_log_val =
+    w.globals.maxYArr[seriesIndex] === 0 ?
+    0 // make sure we dont calculate log of 0
     : this.getBaseLog(b, w.globals.maxYArr[seriesIndex]);
     const number_of_height_levels = max_log_val - min_log_val;
     if (d < 1) return d / number_of_height_levels;
     const log_height_value = this.getBaseLog(b, d) - min_log_val;
     return log_height_value / number_of_height_levels;
   }
+
   getLogYRatios(yRatio) {
     const w = this.w;
     const gl = this.w.globals;
+
     gl.yLogRatio = yRatio.slice();
+
     gl.logYRange = gl.yRange.map((yRange, i) => {
       let yAxisIndex = w.globals.seriesYAxisReverseMap[i];
       if (w.config.yaxis[yAxisIndex] && this.w.config.yaxis[yAxisIndex].logarithmic) {
@@ -333,11 +404,14 @@ class CoreUtils {
             }
           });
         });
+
         range = Math.pow(gl.yRange[i], Math.abs(minY - maxY) / gl.yRange[i]);
+
         gl.yLogRatio[i] = range / gl.gridHeight;
         return range;
       }
     });
+
     return gl.invalidLogScale ? yRatio.slice() : gl.yLogRatio;
   }
 
@@ -357,7 +431,9 @@ class CoreUtils {
         options = configInstance.extendPointAnnotations(options);
       }
     }
+
     return options;
   }
 }
+
 export default CoreUtils;

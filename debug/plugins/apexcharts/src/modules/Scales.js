@@ -1,4 +1,5 @@
 import Utils from "../utils/Utils";
+
 export default class Scales {
   constructor(ctx) {
     this.ctx = ctx;
@@ -30,9 +31,17 @@ export default class Scales {
     }
     gotMin = axisCnf.min !== undefined && axisCnf.min !== null;
     gotMax = axisCnf.max !== undefined && axisCnf.min !== null;
-    let gotStepSize = axisCnf.stepSize !== undefined && axisCnf.stepSize !== null;
-    let gotTickAmount = axisCnf.tickAmount !== undefined && axisCnf.tickAmount !== null;
-    let ticks = gotTickAmount ? axisCnf.tickAmount : !axisCnf.forceNiceScale ? 10 : gl.niceScaleDefaultTicks[Math.min(Math.round(maxTicks / 2), gl.niceScaleDefaultTicks.length - 1)];
+    let gotStepSize =
+    axisCnf.stepSize !== undefined && axisCnf.stepSize !== null;
+    let gotTickAmount =
+    axisCnf.tickAmount !== undefined && axisCnf.tickAmount !== null;
+    let ticks = gotTickAmount ?
+    axisCnf.tickAmount :
+    !axisCnf.forceNiceScale ?
+    10 :
+    gl.niceScaleDefaultTicks[
+    Math.min(Math.round(maxTicks / 2),
+    gl.niceScaleDefaultTicks.length - 1)];
 
     // In case we have a multi axis chart:
     // Ensure subsequent series start with the same tickAmount as series[0],
@@ -42,22 +51,31 @@ export default class Scales {
       ticks = gl.multiAxisTickAmount;
       gotTickAmount = true;
     }
+
     if (ticks === 'dataPoints') {
       ticks = gl.dataPoints - 1;
     } else {
       // Ensure ticks is an integer
       ticks = Math.abs(Math.round(ticks));
     }
-    if (yMin === Number.MIN_VALUE && yMax === 0 || !Utils.isNumber(yMin) && !Utils.isNumber(yMax) || yMin === Number.MIN_VALUE && yMax === -Number.MAX_VALUE) {
+
+    if (
+    yMin === Number.MIN_VALUE && yMax === 0 ||
+    !Utils.isNumber(yMin) && !Utils.isNumber(yMax) ||
+    yMin === Number.MIN_VALUE && yMax === -Number.MAX_VALUE)
+    {
       // when all values are 0
       yMin = 0;
       yMax = ticks;
       gl.allSeriesCollapsed = false;
     }
+
     if (yMin > yMax) {
       // if somehow due to some wrong config, user sent max less than min,
       // adjust the min/max again
-      console.warn('axis.min cannot be greater than axis.max: swapping min and max');
+      console.warn(
+        'axis.min cannot be greater than axis.max: swapping min and max'
+      );
       let temp = yMax;
       yMax = yMin;
       yMin = temp;
@@ -68,7 +86,9 @@ export default class Scales {
       yMin = yMin === 0 ? 0 : yMin - 1; // choose an integer in case yValueDecimals=0
       yMax = yMax === 0 ? 2 : yMax + 1; // choose an integer in case yValueDecimals=0
     }
+
     let result = [];
+
     if (ticks < 1) {
       ticks = 1;
     }
@@ -76,6 +96,7 @@ export default class Scales {
 
     // Determine Range
     let range = Math.abs(yMax - yMin);
+
     if (axisCnf.forceNiceScale) {
       // Snap min or max to zero if close
       let proximityRatio = 0.15;
@@ -110,7 +131,11 @@ export default class Scales {
     stepSize = niceStep;
 
     // Get step value
-    if (gl.isBarHorizontal && axisCnf.stepSize && axisCnf.type !== 'datetime') {
+    if (
+    gl.isBarHorizontal &&
+    axisCnf.stepSize &&
+    axisCnf.type !== 'datetime')
+    {
       stepSize = axisCnf.stepSize;
       gotStepSize = true;
     } else if (gotStepSize) {
@@ -265,7 +290,11 @@ export default class Scales {
     // range is very low (< 10 or so). Skip this step if tickAmount is true
     // because, either the user set it, or the chart is multiscale and this
     // axis is not determining the number of grid lines.
-    if (!gotTickAmount && axisCnf.forceNiceScale && gl.yValueDecimal === 0 && tiks > range) {
+    if (!gotTickAmount &&
+    axisCnf.forceNiceScale &&
+    gl.yValueDecimal === 0 &&
+    tiks > range)
+    {
       tiks = range;
       stepSize = Math.round(range / tiks);
     }
@@ -275,7 +304,11 @@ export default class Scales {
     if (gl.isMultipleYAxis && gl.multiAxisTickAmount == 0) {
       gl.multiAxisTickAmount = tiks;
     }
-    if (tiks > maxTicks && (!(gotTickAmount || gotStepSize) || axisCnf.forceNiceScale)) {
+
+    if (
+    tiks > maxTicks && (
+    !(gotTickAmount || gotStepSize) || axisCnf.forceNiceScale))
+    {
       // Reduce the number of ticks nicely if chart svg dimensions shrink too far.
       // The reduced tick set should always be a subset of the full set.
       //
@@ -347,60 +380,75 @@ export default class Scales {
       val += stepSize;
       result.push(Utils.stripNumber(val, 7));
     } while (yMax - val > err);
+
     return {
       result,
       niceMin: result[0],
       niceMax: result[result.length - 1]
     };
   }
+
   linearScale(yMin, yMax, ticks = 10, index = 0, step = undefined) {
     let range = Math.abs(yMax - yMin);
+
     ticks = this._adjustTicksForSmallRange(ticks, index, range);
+
     if (ticks === 'dataPoints') {
       ticks = this.w.globals.dataPoints - 1;
     }
+
     if (!step) {
       step = range / ticks;
     }
+
     if (ticks === Number.MAX_VALUE) {
       ticks = 5;
       step = 1;
     }
+
     let result = [];
     let v = yMin;
+
     while (ticks >= 0) {
       result.push(v);
       v = v + step;
       ticks -= 1;
     }
+
     return {
       result,
       niceMin: result[0],
       niceMax: result[result.length - 1]
     };
   }
+
   logarithmicScaleNice(yMin, yMax, base) {
     // Basic validation to avoid for loop starting at -inf.
     if (yMax <= 0) yMax = Math.max(yMin, base);
     if (yMin <= 0) yMin = Math.min(yMax, base);
+
     const logs = [];
 
     // Get powers of base for our max and min
     const logMax = Math.ceil(Math.log(yMax) / Math.log(base) + 1);
     const logMin = Math.floor(Math.log(yMin) / Math.log(base));
+
     for (let i = logMin; i < logMax; i++) {
       logs.push(Math.pow(base, i));
     }
+
     return {
       result: logs,
       niceMin: logs[0],
       niceMax: logs[logs.length - 1]
     };
   }
+
   logarithmicScale(yMin, yMax, base) {
     // Basic validation to avoid for loop starting at -inf.
     if (yMax <= 0) yMax = Math.max(yMin, base);
     if (yMin <= 0) yMin = Math.min(yMax, base);
+
     const logs = [];
 
     // Get the logarithmic range.
@@ -420,46 +468,72 @@ export default class Scales {
     const logTickSpacing = logRange / ticks;
 
     // Create as many ticks as there is range in the logs.
-    for (let i = 0, logTick = logMin; i < ticks; i++, logTick += logTickSpacing) {
+    for (
+    let i = 0, logTick = logMin;
+    i < ticks;
+    i++, logTick += logTickSpacing)
+    {
       logs.push(Math.pow(base, logTick));
     }
 
     // Add a final tick at the yMax.
     logs.push(Math.pow(base, logMax));
+
     return {
       result: logs,
       niceMin: yMin,
       niceMax: yMax
     };
   }
+
   _adjustTicksForSmallRange(ticks, index, range) {
     let newTicks = ticks;
-    if (typeof index !== 'undefined' && this.w.config.yaxis[index].labels.formatter && this.w.config.yaxis[index].tickAmount === undefined) {
-      const formattedVal = Number(this.w.config.yaxis[index].labels.formatter(1));
+    if (
+    typeof index !== 'undefined' &&
+    this.w.config.yaxis[index].labels.formatter &&
+    this.w.config.yaxis[index].tickAmount === undefined)
+    {
+      const formattedVal = Number(
+        this.w.config.yaxis[index].labels.formatter(1)
+      );
       if (Utils.isNumber(formattedVal) && this.w.globals.yValueDecimal === 0) {
         newTicks = Math.ceil(range);
       }
     }
     return newTicks < ticks ? newTicks : ticks;
   }
+
   setYScaleForIndex(index, minY, maxY) {
     const gl = this.w.globals;
     const cnf = this.w.config;
+
     let y = gl.isBarHorizontal ? cnf.xaxis : cnf.yaxis[index];
+
     if (typeof gl.yAxisScale[index] === 'undefined') {
       gl.yAxisScale[index] = [];
     }
+
     let range = Math.abs(maxY - minY);
+
     if (y.logarithmic && range <= 5) {
       gl.invalidLogScale = true;
     }
+
     if (y.logarithmic && range > 5) {
       gl.allSeriesCollapsed = false;
-      gl.yAxisScale[index] = y.forceNiceScale ? this.logarithmicScaleNice(minY, maxY, y.logBase) : this.logarithmicScale(minY, maxY, y.logBase);
+      gl.yAxisScale[index] = y.forceNiceScale ?
+      this.logarithmicScaleNice(minY, maxY, y.logBase) :
+      this.logarithmicScale(minY, maxY, y.logBase);
     } else {
       if (maxY === -Number.MAX_VALUE || !Utils.isNumber(maxY)) {
         // no data in the chart. Either all series collapsed or user passed a blank array
-        gl.yAxisScale[index] = this.linearScale(0, 10, 10, index, cnf.yaxis[index].stepSize);
+        gl.yAxisScale[index] = this.linearScale(
+          0,
+          10,
+          10,
+          index,
+          cnf.yaxis[index].stepSize
+        );
       } else {
         // there is some data. Turn off the allSeriesCollapsed flag
         gl.allSeriesCollapsed = false;
@@ -467,6 +541,7 @@ export default class Scales {
       }
     }
   }
+
   setXScale(minX, maxX) {
     const w = this.w;
     const gl = w.globals;
@@ -475,13 +550,25 @@ export default class Scales {
       // no data in the chart. Either all series collapsed or user passed a blank array
       gl.xAxisScale = this.linearScale(0, 10, 10);
     } else {
-      gl.xAxisScale = this.linearScale(minX, maxX, w.config.xaxis.tickAmount ? w.config.xaxis.tickAmount : diff < 10 && diff > 1 ? diff + 1 : 10, 0, w.config.xaxis.stepSize);
+      gl.xAxisScale = this.linearScale(
+        minX,
+        maxX,
+        w.config.xaxis.tickAmount ?
+        w.config.xaxis.tickAmount :
+        diff < 10 && diff > 1 ?
+        diff + 1 :
+        10,
+        0,
+        w.config.xaxis.stepSize
+      );
     }
     return gl.xAxisScale;
   }
+
   setMultipleYScales() {
     const gl = this.w.globals;
     const cnf = this.w.config;
+
     const minYArr = gl.minYArr;
     const maxYArr = gl.maxYArr;
 
@@ -533,6 +620,7 @@ export default class Scales {
     let seriesYAxisReverseMap = [];
     let unassignedSeriesIndices = [];
     let assumeSeriesNameArrays = cnf.yaxis.length !== cnf.series.length;
+
     cnf.series.forEach((s, i) => {
       unassignedSeriesIndices.push(i);
       seriesYAxisReverseMap.push(null);
@@ -540,6 +628,7 @@ export default class Scales {
     cnf.yaxis.forEach((yaxe, yi) => {
       axisSeriesMap[yi] = [];
     });
+
     let unassignedYAxisIndices = [];
     // here, we loop through the yaxis array and find the item which has "seriesName" property
     cnf.yaxis.forEach((yaxe, yi) => {
@@ -600,6 +689,7 @@ export default class Scales {
         break;
       }
     }
+
     if (lastUnassignedYAxis) {
       unassignedSeriesIndices.forEach((i) => {
         axisSeriesMap[lastUnassignedYAxis].push(i);
@@ -613,6 +703,7 @@ export default class Scales {
     gl.seriesYAxisReverseMap = seriesYAxisReverseMap.map((x) => x);
     this.sameScaleInMultipleAxes(minYArr, maxYArr, axisSeriesMap);
   }
+
   sameScaleInMultipleAxes(minYArr, maxYArr, axisSeriesMap) {
     const cnf = this.w.config;
     const gl = this.w.globals;

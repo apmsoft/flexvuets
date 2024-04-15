@@ -8,14 +8,18 @@ class Utils {
       return fn.apply(me, arguments);
     };
   }
+
   static isObject(item) {
-    return item && typeof item === 'object' && !Array.isArray(item) && item != null;
+    return (
+      item && typeof item === 'object' && !Array.isArray(item) && item != null);
+
   }
 
   // Type checking that works across different window objects
   static is(type, val) {
     return Object.prototype.toString.call(val) === '[object ' + type + ']';
   }
+
   static listToArray(list) {
     let i,
       array = [];
@@ -29,15 +33,14 @@ class Utils {
   // credit: http://stackoverflow.com/questions/27936772/deep-object-merging-in-es6-es7#answer-34749873
   static extend(target, source) {
     if (typeof Object.assign !== 'function') {
-      ;
-      (function () {
+      ;(function () {
         Object.assign = function (target) {
           'use strict';
-
           // We must check against these specific cases.
           if (target === undefined || target === null) {
             throw new TypeError('Cannot convert undefined or null to object');
           }
+
           let output = Object(target);
           for (let index = 1; index < arguments.length; index++) {
             let source = arguments[index];
@@ -53,6 +56,7 @@ class Utils {
         };
       })();
     }
+
     let output = Object.assign({}, target);
     if (this.isObject(target) && this.isObject(source)) {
       Object.keys(source).forEach((key) => {
@@ -73,6 +77,7 @@ class Utils {
     }
     return output;
   }
+
   static extendArray(arrToExtend, resultArr) {
     let extendedArr = [];
     arrToExtend.map((item) => {
@@ -86,6 +91,7 @@ class Utils {
   static monthMod(month) {
     return month % 12;
   }
+
   static clone(source) {
     if (Utils.is('Array', source)) {
       let cloneResult = [];
@@ -110,32 +116,41 @@ class Utils {
       return source;
     }
   }
+
   static log10(x) {
     return Math.log(x) / Math.LN10;
   }
+
   static roundToBase10(x) {
     return Math.pow(10, Math.floor(Math.log10(x)));
   }
+
   static roundToBase(x, base) {
     return Math.pow(base, Math.floor(Math.log(x) / Math.log(base)));
   }
+
   static parseNumber(val) {
     if (val === null) return val;
     return parseFloat(val);
   }
+
   static stripNumber(num, precision = 2) {
     return Number.isInteger(num) ? num : parseFloat(num.toPrecision(precision));
   }
+
   static randomId() {
     return (Math.random() + 1).toString(36).substring(4);
   }
+
   static noExponents(val) {
     let data = String(val).split(/[eE]/);
     if (data.length === 1) return data[0];
+
     let z = '',
       sign = val < 0 ? '-' : '',
       str = data[0].replace('.', ''),
       mag = Number(data[1]) + 1;
+
     if (mag < 0) {
       z = sign + '0.';
       while (mag++) z += '0';
@@ -145,14 +160,22 @@ class Utils {
     while (mag--) z += '0';
     return str + z;
   }
+
   static getDimensions(el) {
     const computedStyle = getComputedStyle(el, null);
+
     let elementHeight = el.clientHeight;
     let elementWidth = el.clientWidth;
-    elementHeight -= parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom);
-    elementWidth -= parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight);
+    elementHeight -=
+    parseFloat(computedStyle.paddingTop) +
+    parseFloat(computedStyle.paddingBottom);
+    elementWidth -=
+    parseFloat(computedStyle.paddingLeft) +
+    parseFloat(computedStyle.paddingRight);
+
     return [elementWidth, elementHeight];
   }
+
   static getBoundingClientRect(element) {
     const rect = element.getBoundingClientRect();
     return {
@@ -166,6 +189,7 @@ class Utils {
       y: rect.top
     };
   }
+
   static getLargestStringFromArr(arr) {
     return arr.reduce((a, b) => {
       if (Array.isArray(b)) {
@@ -180,21 +204,35 @@ class Utils {
     if (hex.substring(0, 1) !== '#') {
       hex = '#999999';
     }
+
     let h = hex.replace('#', '');
     h = h.match(new RegExp('(.{' + h.length / 3 + '})', 'g'));
+
     for (let i = 0; i < h.length; i++) {
       h[i] = parseInt(h[i].length === 1 ? h[i] + h[i] : h[i], 16);
     }
+
     if (typeof opacity !== 'undefined') h.push(opacity);
+
     return 'rgba(' + h.join(',') + ')';
   }
+
   static getOpacityFromRGBA(rgba) {
     return parseFloat(rgba.replace(/^.*,(.+)\)/, '$1'));
   }
+
   static rgb2hex(rgb) {
-    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-    return rgb && rgb.length === 4 ? '#' + ('0' + parseInt(rgb[1], 10).toString(16)).slice(-2) + ('0' + parseInt(rgb[2], 10).toString(16)).slice(-2) + ('0' + parseInt(rgb[3], 10).toString(16)).slice(-2) : '';
+    rgb = rgb.match(
+      /^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i
+    );
+    return rgb && rgb.length === 4 ?
+    '#' +
+    ('0' + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+    ('0' + parseInt(rgb[3], 10).toString(16)).slice(-2) :
+    '';
   }
+
   shadeRGBColor(percent, color) {
     let f = color.split(','),
       t = percent < 0 ? 0 : 255,
@@ -202,8 +240,17 @@ class Utils {
       R = parseInt(f[0].slice(4), 10),
       G = parseInt(f[1], 10),
       B = parseInt(f[2], 10);
-    return 'rgb(' + (Math.round((t - R) * p) + R) + ',' + (Math.round((t - G) * p) + G) + ',' + (Math.round((t - B) * p) + B) + ')';
+    return (
+      'rgb(' + (
+      Math.round((t - R) * p) + R) +
+      ',' + (
+      Math.round((t - G) * p) + G) +
+      ',' + (
+      Math.round((t - B) * p) + B) +
+      ')');
+
   }
+
   shadeHexColor(percent, color) {
     let f = parseInt(color.slice(1), 16),
       t = percent < 0 ? 0 : 255,
@@ -211,7 +258,17 @@ class Utils {
       R = f >> 16,
       G = f >> 8 & 0x00ff,
       B = f & 0x0000ff;
-    return '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+    return (
+      '#' +
+      (
+      0x1000000 +
+      (Math.round((t - R) * p) + R) * 0x10000 +
+      (Math.round((t - G) * p) + G) * 0x100 + (
+      Math.round((t - B) * p) + B)).
+
+      toString(16).
+      slice(1));
+
   }
 
   // beautiful color shading blending code
@@ -223,9 +280,11 @@ class Utils {
       return this.shadeRGBColor(p, color);
     }
   }
+
   static isColorHex(color) {
     return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)|(^#[0-9A-F]{8}$)/i.test(color);
   }
+
   static getPolygonPos(size, dataPointsLen) {
     let dotsArray = [];
     let angle = Math.PI * 2 / dataPointsLen;
@@ -237,21 +296,29 @@ class Utils {
     }
     return dotsArray;
   }
+
   static polarToCartesian(centerX, centerY, radius, angleInDegrees) {
     let angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+
     return {
       x: centerX + radius * Math.cos(angleInRadians),
       y: centerY + radius * Math.sin(angleInRadians)
     };
   }
+
   static escapeString(str, escapeWith = 'x') {
     let newStr = str.toString().slice();
-    newStr = newStr.replace(/[` ~!@#$%^&*()|+\=?;:'",.<>{}[\]\\/]/gi, escapeWith);
+    newStr = newStr.replace(
+      /[` ~!@#$%^&*()|+\=?;:'",.<>{}[\]\\/]/gi,
+      escapeWith
+    );
     return newStr;
   }
+
   static negToZero(val) {
     return val < 0 ? 0 : val;
   }
+
   static moveIndexInArray(arr, old_index, new_index) {
     if (new_index >= arr.length) {
       let k = new_index - arr.length + 1;
@@ -262,13 +329,16 @@ class Utils {
     arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
     return arr;
   }
+
   static extractNumber(s) {
     return parseFloat(s.replace(/[^\d.]*/g, ''));
   }
+
   static findAncestor(el, cls) {
     while ((el = el.parentElement) && !el.classList.contains(cls));
     return el;
   }
+
   static setELstyles(el, styles) {
     for (let key in styles) {
       if (styles.hasOwnProperty(key)) {
@@ -276,36 +346,52 @@ class Utils {
       }
     }
   }
+
   static isNumber(value) {
-    return !isNaN(value) && parseFloat(Number(value)) === value && !isNaN(parseInt(value, 10));
+    return (
+      !isNaN(value) &&
+      parseFloat(Number(value)) === value &&
+      !isNaN(parseInt(value, 10)));
+
   }
+
   static isFloat(n) {
     return Number(n) === n && n % 1 !== 0;
   }
+
   static isSafari() {
     return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   }
+
   static isFirefox() {
     return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
   }
+
   static isIE11() {
-    if (window.navigator.userAgent.indexOf('MSIE') !== -1 || window.navigator.appVersion.indexOf('Trident/') > -1) {
+    if (
+    window.navigator.userAgent.indexOf('MSIE') !== -1 ||
+    window.navigator.appVersion.indexOf('Trident/') > -1)
+    {
       return true;
     }
   }
+
   static isIE() {
     let ua = window.navigator.userAgent;
+
     let msie = ua.indexOf('MSIE ');
     if (msie > 0) {
       // IE 10 or older => return version number
       return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
     }
+
     let trident = ua.indexOf('Trident/');
     if (trident > 0) {
       // IE 11 => return version number
       let rv = ua.indexOf('rv:');
       return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
     }
+
     let edge = ua.indexOf('Edge/');
     if (edge > 0) {
       // Edge (IE 12+) => return version number
@@ -322,6 +408,7 @@ class Utils {
     let big = Math.pow(10, p - Math.floor(Math.log10(Math.max(a, b))));
     a = Math.round(Math.abs(a) * big);
     b = Math.round(Math.abs(b) * big);
+
     while (b) {
       let t = b;
       b = a % b;
@@ -329,9 +416,11 @@ class Utils {
     }
     return a / big;
   }
+
   static getPrimeFactors(n) {
     const factors = [];
     let divisor = 2;
+
     while (n >= 2) {
       if (n % divisor == 0) {
         factors.push(divisor);
@@ -342,11 +431,14 @@ class Utils {
     }
     return factors;
   }
+
   static mod(a, b, p = 7) {
     let big = Math.pow(10, p - Math.floor(Math.log10(Math.max(a, b))));
     a = Math.round(Math.abs(a) * big);
     b = Math.round(Math.abs(b) * big);
+
     return a % b / big;
   }
 }
+
 export default Utils;

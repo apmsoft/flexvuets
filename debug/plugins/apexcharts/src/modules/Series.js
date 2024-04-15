@@ -11,23 +11,32 @@ export default class Series {
   constructor(ctx) {
     this.ctx = ctx;
     this.w = ctx.w;
+
     this.legendInactiveClass = 'legend-mouseover-inactive';
   }
+
   getAllSeriesEls() {
     return this.w.globals.dom.baseEl.getElementsByClassName(`apexcharts-series`);
   }
+
   getSeriesByName(seriesName) {
-    return this.w.globals.dom.baseEl.querySelector(`.apexcharts-inner .apexcharts-series[seriesName='${Utils.escapeString(seriesName)}']`);
+    return this.w.globals.dom.baseEl.querySelector(
+      `.apexcharts-inner .apexcharts-series[seriesName='${Utils.escapeString(
+        seriesName
+      )}']`
+    );
   }
+
   isSeriesHidden(seriesName) {
     const targetElement = this.getSeriesByName(seriesName);
     let realIndex = parseInt(targetElement.getAttribute('data:realIndex'), 10);
-    let isHidden = targetElement.classList.contains('apexcharts-series-collapsed');
-    return {
-      isHidden,
-      realIndex
-    };
+    let isHidden = targetElement.classList.contains(
+      'apexcharts-series-collapsed'
+    );
+
+    return { isHidden, realIndex };
   }
+
   addCollapsedClassToSeries(elSeries, index) {
     const w = this.w;
     function iterateOnAllCollapsedSeries(series) {
@@ -37,30 +46,55 @@ export default class Series {
         }
       }
     }
+
     iterateOnAllCollapsedSeries(w.globals.collapsedSeries);
     iterateOnAllCollapsedSeries(w.globals.ancillaryCollapsedSeries);
   }
+
   toggleSeries(seriesName) {
     let isSeriesHidden = this.isSeriesHidden(seriesName);
-    this.ctx.legend.legendHelpers.toggleDataSeries(isSeriesHidden.realIndex, isSeriesHidden.isHidden);
+
+    this.ctx.legend.legendHelpers.toggleDataSeries(
+      isSeriesHidden.realIndex,
+      isSeriesHidden.isHidden
+    );
+
     return isSeriesHidden.isHidden;
   }
+
   showSeries(seriesName) {
     let isSeriesHidden = this.isSeriesHidden(seriesName);
+
     if (isSeriesHidden.isHidden) {
-      this.ctx.legend.legendHelpers.toggleDataSeries(isSeriesHidden.realIndex, true);
+      this.ctx.legend.legendHelpers.toggleDataSeries(
+        isSeriesHidden.realIndex,
+        true
+      );
     }
   }
+
   hideSeries(seriesName) {
     let isSeriesHidden = this.isSeriesHidden(seriesName);
+
     if (!isSeriesHidden.isHidden) {
-      this.ctx.legend.legendHelpers.toggleDataSeries(isSeriesHidden.realIndex, false);
+      this.ctx.legend.legendHelpers.toggleDataSeries(
+        isSeriesHidden.realIndex,
+        false
+      );
     }
   }
-  resetSeries(shouldUpdateChart = true, shouldResetZoom = true, shouldResetCollapsed = true) {
+
+  resetSeries(
+  shouldUpdateChart = true,
+  shouldResetZoom = true,
+  shouldResetCollapsed = true)
+  {
     const w = this.w;
+
     let series = Utils.clone(w.globals.initialSeries);
+
     w.globals.previousPaths = [];
+
     if (shouldResetCollapsed) {
       w.globals.collapsedSeries = [];
       w.globals.ancillaryCollapsedSeries = [];
@@ -69,15 +103,21 @@ export default class Series {
     } else {
       series = this.emptyCollapsedSeries(series);
     }
+
     w.config.series = series;
+
     if (shouldUpdateChart) {
       if (shouldResetZoom) {
         w.globals.zoomed = false;
         this.ctx.updateHelpers.revertDefaultAxisMinMax();
       }
-      this.ctx.updateHelpers._updateSeries(series, w.config.chart.animations.dynamicAnimation.enabled);
+      this.ctx.updateHelpers._updateSeries(
+        series,
+        w.config.chart.animations.dynamicAnimation.enabled
+      );
     }
   }
+
   emptyCollapsedSeries(series) {
     const w = this.w;
     for (let i = 0; i < series.length; i++) {
@@ -89,30 +129,47 @@ export default class Series {
   }
   toggleSeriesOnHover(e, targetElement) {
     const w = this.w;
+
     if (!targetElement) targetElement = e.target;
-    let allSeriesEls = w.globals.dom.baseEl.querySelectorAll(`.apexcharts-series, .apexcharts-datalabels`);
+
+    let allSeriesEls = w.globals.dom.baseEl.querySelectorAll(
+      `.apexcharts-series, .apexcharts-datalabels`
+    );
+
     if (e.type === 'mousemove') {
       let seriesCnt = parseInt(targetElement.getAttribute('rel'), 10) - 1;
+
       let seriesEl = null;
       let dataLabelEl = null;
       if (w.globals.axisCharts || w.config.chart.type === 'radialBar') {
         if (w.globals.axisCharts) {
-          seriesEl = w.globals.dom.baseEl.querySelector(`.apexcharts-series[data\\:realIndex='${seriesCnt}']`);
-          dataLabelEl = w.globals.dom.baseEl.querySelector(`.apexcharts-datalabels[data\\:realIndex='${seriesCnt}']`);
+          seriesEl = w.globals.dom.baseEl.querySelector(
+            `.apexcharts-series[data\\:realIndex='${seriesCnt}']`
+          );
+          dataLabelEl = w.globals.dom.baseEl.querySelector(
+            `.apexcharts-datalabels[data\\:realIndex='${seriesCnt}']`
+          );
         } else {
-          seriesEl = w.globals.dom.baseEl.querySelector(`.apexcharts-series[rel='${seriesCnt + 1}']`);
+          seriesEl = w.globals.dom.baseEl.querySelector(
+            `.apexcharts-series[rel='${seriesCnt + 1}']`
+          );
         }
       } else {
-        seriesEl = w.globals.dom.baseEl.querySelector(`.apexcharts-series[rel='${seriesCnt + 1}'] path`);
+        seriesEl = w.globals.dom.baseEl.querySelector(
+          `.apexcharts-series[rel='${seriesCnt + 1}'] path`
+        );
       }
+
       for (let se = 0; se < allSeriesEls.length; se++) {
         allSeriesEls[se].classList.add(this.legendInactiveClass);
       }
+
       if (seriesEl !== null) {
         if (!w.globals.axisCharts) {
           seriesEl.parentNode.classList.remove(this.legendInactiveClass);
         }
         seriesEl.classList.remove(this.legendInactiveClass);
+
         if (dataLabelEl !== null) {
           dataLabelEl.classList.remove(this.legendInactiveClass);
         }
@@ -123,14 +180,19 @@ export default class Series {
       }
     }
   }
+
   highlightRangeInSeries(e, targetElement) {
     const w = this.w;
-    const allHeatMapElements = w.globals.dom.baseEl.getElementsByClassName('apexcharts-heatmap-rect');
+    const allHeatMapElements = w.globals.dom.baseEl.getElementsByClassName(
+      'apexcharts-heatmap-rect'
+    );
+
     const activeInactive = (action) => {
       for (let i = 0; i < allHeatMapElements.length; i++) {
         allHeatMapElements[i].classList[action](this.legendInactiveClass);
       }
     };
+
     const removeInactiveClassFromHoveredRange = (range) => {
       for (let i = 0; i < allHeatMapElements.length; i++) {
         const val = parseInt(allHeatMapElements[i].getAttribute('val'), 10);
@@ -139,45 +201,67 @@ export default class Series {
         }
       }
     };
+
     if (e.type === 'mousemove') {
       let seriesCnt = parseInt(targetElement.getAttribute('rel'), 10) - 1;
       activeInactive('add');
+
       const range = w.config.plotOptions.heatmap.colorScale.ranges[seriesCnt];
+
       removeInactiveClassFromHoveredRange(range);
     } else if (e.type === 'mouseout') {
       activeInactive('remove');
     }
   }
+
   getActiveConfigSeriesIndex(order = 'asc', chartTypes = []) {
     const w = this.w;
     let activeIndex = 0;
+
     if (w.config.series.length > 1) {
       // active series flag is required to know if user has not deactivated via legend click
       let activeSeriesIndex = w.config.series.map((s, index) => {
         const checkChartType = () => {
           if (w.globals.comboCharts) {
-            return chartTypes.length === 0 || chartTypes.length && chartTypes.indexOf(w.config.series[index].type) > -1;
+            return (
+              chartTypes.length === 0 ||
+              chartTypes.length &&
+              chartTypes.indexOf(w.config.series[index].type) > -1);
+
           }
           return true;
         };
-        const hasData = s.data && s.data.length > 0 && w.globals.collapsedSeriesIndices.indexOf(index) === -1;
+
+        const hasData =
+        s.data &&
+        s.data.length > 0 &&
+        w.globals.collapsedSeriesIndices.indexOf(index) === -1;
+
         return hasData && checkChartType() ? index : -1;
       });
-      for (let a = order === 'asc' ? 0 : activeSeriesIndex.length - 1; order === 'asc' ? a < activeSeriesIndex.length : a >= 0; order === 'asc' ? a++ : a--) {
+      for (
+      let a = order === 'asc' ? 0 : activeSeriesIndex.length - 1;
+      order === 'asc' ? a < activeSeriesIndex.length : a >= 0;
+      order === 'asc' ? a++ : a--)
+      {
         if (activeSeriesIndex[a] !== -1) {
           activeIndex = activeSeriesIndex[a];
           break;
         }
       }
     }
+
     return activeIndex;
   }
+
   getBarSeriesIndices() {
     const w = this.w;
     if (w.globals.comboCharts) {
-      return this.w.config.series.map((s, i) => {
+      return this.w.config.series.
+      map((s, i) => {
         return s.type === 'bar' || s.type === 'column' ? i : -1;
-      }).filter((i) => {
+      }).
+      filter((i) => {
         return i !== -1;
       });
     }
@@ -185,9 +269,12 @@ export default class Series {
       return i;
     });
   }
+
   getPreviousPaths() {
     let w = this.w;
+
     w.globals.previousPaths = [];
+
     function pushPaths(seriesEls, i, type) {
       let paths = seriesEls[i].childNodes;
       let dArr = {
@@ -195,6 +282,7 @@ export default class Series {
         paths: [],
         realIndex: seriesEls[i].getAttribute('data:realIndex')
       };
+
       for (let j = 0; j < paths.length; j++) {
         if (paths[j].hasAttribute('pathTo')) {
           let d = paths[j].getAttribute('pathTo');
@@ -203,25 +291,47 @@ export default class Series {
           });
         }
       }
+
       w.globals.previousPaths.push(dArr);
     }
+
     const getPaths = (chartType) => {
-      return w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${chartType}-series .apexcharts-series`);
+      return w.globals.dom.baseEl.querySelectorAll(
+        `.apexcharts-${chartType}-series .apexcharts-series`
+      );
     };
-    const chartTypes = ['line', 'area', 'bar', 'rangebar', 'rangeArea', 'candlestick', 'radar'];
+
+    const chartTypes = [
+    'line',
+    'area',
+    'bar',
+    'rangebar',
+    'rangeArea',
+    'candlestick',
+    'radar'];
+
     chartTypes.forEach((type) => {
       const paths = getPaths(type);
       for (let p = 0; p < paths.length; p++) {
         pushPaths(paths, p, type);
       }
     });
+
     this.handlePrevBubbleScatterPaths('bubble');
     this.handlePrevBubbleScatterPaths('scatter');
-    let heatTreeSeries = w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${w.config.chart.type} .apexcharts-series`);
+
+    let heatTreeSeries = w.globals.dom.baseEl.querySelectorAll(
+      `.apexcharts-${w.config.chart.type} .apexcharts-series`
+    );
+
     if (heatTreeSeries.length > 0) {
       for (let h = 0; h < heatTreeSeries.length; h++) {
-        let seriesEls = w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${w.config.chart.type} .apexcharts-series[data\\:realIndex='${h}'] rect`);
+        let seriesEls = w.globals.dom.baseEl.querySelectorAll(
+          `.apexcharts-${w.config.chart.type} .apexcharts-series[data\\:realIndex='${h}'] rect`
+        );
+
         let dArr = [];
+
         for (let i = 0; i < seriesEls.length; i++) {
           const getAttr = (x) => {
             return seriesEls[i].getAttribute(x);
@@ -240,18 +350,25 @@ export default class Series {
         w.globals.previousPaths.push(dArr);
       }
     }
+
     if (!w.globals.axisCharts) {
       // for non-axis charts (i.e., circular charts, pathFrom is not usable. We need whole series)
       w.globals.previousPaths = w.globals.series;
     }
   }
+
   handlePrevBubbleScatterPaths(type) {
     const w = this.w;
-    let paths = w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${type}-series .apexcharts-series`);
+    let paths = w.globals.dom.baseEl.querySelectorAll(
+      `.apexcharts-${type}-series .apexcharts-series`
+    );
     if (paths.length > 0) {
       for (let s = 0; s < paths.length; s++) {
-        let seriesEls = w.globals.dom.baseEl.querySelectorAll(`.apexcharts-${type}-series .apexcharts-series[data\\:realIndex='${s}'] circle`);
+        let seriesEls = w.globals.dom.baseEl.querySelectorAll(
+          `.apexcharts-${type}-series .apexcharts-series[data\\:realIndex='${s}'] circle`
+        );
         let dArr = [];
+
         for (let i = 0; i < seriesEls.length; i++) {
           dArr.push({
             x: seriesEls[i].getAttribute('cx'),
@@ -263,21 +380,27 @@ export default class Series {
       }
     }
   }
+
   clearPreviousPaths() {
     const w = this.w;
     w.globals.previousPaths = [];
     w.globals.allSeriesCollapsed = false;
   }
+
   handleNoData() {
     const w = this.w;
     const me = this;
+
     const noDataOpts = w.config.noData;
     const graphics = new Graphics(me.ctx);
+
     let x = w.globals.svgWidth / 2;
     let y = w.globals.svgHeight / 2;
     let textAnchor = 'middle';
+
     w.globals.noData = true;
     w.globals.animationEnded = true;
+
     if (noDataOpts.align === 'left') {
       x = 10;
       textAnchor = 'start';
@@ -285,13 +408,16 @@ export default class Series {
       x = w.globals.svgWidth - 10;
       textAnchor = 'end';
     }
+
     if (noDataOpts.verticalAlign === 'top') {
       y = 50;
     } else if (noDataOpts.verticalAlign === 'bottom') {
       y = w.globals.svgHeight - 50;
     }
+
     x = x + noDataOpts.offsetX;
     y = y + parseInt(noDataOpts.style.fontSize, 10) + 2 + noDataOpts.offsetY;
+
     if (noDataOpts.text !== undefined && noDataOpts.text !== '') {
       let titleText = graphics.drawText({
         x,
@@ -304,6 +430,7 @@ export default class Series {
         opacity: 1,
         class: 'apexcharts-text-nodata'
       });
+
       w.globals.dom.Paper.add(titleText);
     }
   }
@@ -321,22 +448,32 @@ export default class Series {
     }
     return series;
   }
+
   hasAllSeriesEqualX() {
     let equalLen = true;
     const w = this.w;
+
     const filteredSerX = this.filteredSeriesX();
+
     for (let i = 0; i < filteredSerX.length - 1; i++) {
       if (filteredSerX[i][0] !== filteredSerX[i + 1][0]) {
         equalLen = false;
         break;
       }
     }
+
     w.globals.allSeriesHasEqualX = equalLen;
+
     return equalLen;
   }
+
   filteredSeriesX() {
     const w = this.w;
-    const filteredSeriesX = w.globals.seriesX.map((ser) => ser.length > 0 ? ser : []);
+
+    const filteredSeriesX = w.globals.seriesX.map((ser) =>
+    ser.length > 0 ? ser : []
+    );
+
     return filteredSeriesX;
   }
 }

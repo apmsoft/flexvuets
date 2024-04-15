@@ -1,5 +1,6 @@
 export default {
-  labelIdle: 'Træk & slip filer eller <span class = "filepond - label-action"> Gennemse </span>',
+  labelIdle:
+  'Træk & slip filer eller <span class = "filepond - label-action"> Gennemse </span>',
   labelInvalidField: 'Felt indeholder ugyldige filer',
   labelFileWaitingForSize: 'Venter på størrelse',
   labelFileSizeNotAvailable: 'Størrelse ikke tilgængelig',

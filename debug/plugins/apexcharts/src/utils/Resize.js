@@ -5,6 +5,7 @@ let ros = new WeakMap(); // Map callbacks to ResizeObserver instances for easy r
 
 export function addResizeListener(el, fn) {
   let called = false;
+
   if (el.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
     const elRect = el.getBoundingClientRect();
     if (el.style.display === 'none' || elRect.width === 0) {
@@ -16,6 +17,7 @@ export function addResizeListener(el, fn) {
       called = true;
     }
   }
+
   let ro = new ResizeObserver((r) => {
     // ROs fire immediately after being created,
     // per spec: https://drafts.csswg.org/resize-observer/#ref-for-element%E2%91%A3
@@ -25,14 +27,17 @@ export function addResizeListener(el, fn) {
     }
     called = true;
   });
+
   if (el.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
     // Document fragment, observe children instead (needed for Shadow DOM, see #1332)
     Array.from(el.children).forEach((c) => ro.observe(c));
   } else {
     ro.observe(el);
   }
+
   ros.set(fn, ro);
 }
+
 export function removeResizeListener(el, fn) {
   let ro = ros.get(fn);
   if (ro) {
