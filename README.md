@@ -12,6 +12,10 @@ http://flexvue.fancyupsoft.com
 >> chmod +x install.sh
 >> ./install.sh
 
+// 불필요한 플러그인들은 주석처리 하세요
+>> chmod +x install_plugins.sh
+>> ./install_plugins.sh
+
 # 설치 방법 2 =================
 >> git clone https://github.com/apmsoft/flexvuets.git
 >> mv flexvuets 새로운프로젝트명
