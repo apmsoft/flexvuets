@@ -1,6 +1,7 @@
 import UrlManager from '@flexvue/urlmanager';
 import FastRouter from '@flexvue/fastrouter';
 import {CacheMemory} from '@flexvue/caches';
+import AsyncTask from '@flexvue/asynctask';
 
 const onReady = () : void =>
 {
@@ -33,6 +34,19 @@ const onReady = () : void =>
     window.cacheMemory._getAsync('/test/array')
     .then(data =>{
         Log.d('_getAsync', data);
+    });
+
+    // Promise.all 예제
+    Promise.all([
+        window.cacheMemory._getAsync('/test/object') ?? new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+        new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)
+    ])
+    .then(data=>
+    {
+        Log.v('Promise.all', data);
+    })
+    .catch( e =>{
+        Log.e( e );
     });
 
     // 캐시 삭제
