@@ -1,6 +1,6 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
-import R from "../../flexvue/core/resource.class.js";
+// import R from '@flexvue/resource';
 import { MyException } from "./exception.class.js";
 import { HeaderActivity } from "./header.class.js";
 import { DrawerMenu } from "./drawer_menu.js";
@@ -11,7 +11,6 @@ const onReady = () => {
   config.src8 = 'server_8000.php';
   config.src = config.host + '/' + config.src8;
   // 앱 정보
-  new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // onBackPressed
   new Activity().onBackPressed((state) => {
@@ -77,9 +76,10 @@ const onReady = () => {
 // document ready
 // document ready
 document.addEventListener("DOMContentLoaded", () => {
+  // 지원언어 설정
+  // config.surport_langs = ['en'];
   // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
-  window.R = R;
-  window.R.__init({
+  R.__init({
     sysmsg: new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
     arrays: new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
     strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,

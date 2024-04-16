@@ -655,3 +655,17 @@ class Activity {
         }
     }
 }
+
+class R {
+    static [propName: string]: any;
+    static async __init(resources : {[key:string]: string}) {
+        try {
+            for (const [key, path] of Object.entries(resources)) {
+                const resourceData = await import(path);
+                R[key] = resourceData.default;
+            }
+        } catch (err) {
+            throw new Error("Error loading resource: " + err);
+        }
+    }
+}

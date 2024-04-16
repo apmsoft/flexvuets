@@ -1,7 +1,7 @@
 import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
-import R from '@flexvue/resource';
+// import R from '@flexvue/resource';
 
 import Navigation from '@t1/js/nav.class.js';
 import {MyException} from '@t1/js/exception.class.js';
@@ -95,7 +95,7 @@ const onReady = () : void =>
 
                 // navigation 2차 메뉴 실행 및 셀렉트
                 let _path = pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "");
-                let navi2 = window.R.arrays[_path] ?? {};
+                let navi2 = R.arrays[_path] ?? {};
                 navi2['gid'] = pathinfo.parse_path.slice(0,2).join('');
                 navigation.selectNav2(navi2);
 
@@ -114,8 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // config.surport_langs = ['en'];
 
     // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
-    window.R = R;
-    window.R.__init({
+    R.__init({
         sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
         arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
         strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,

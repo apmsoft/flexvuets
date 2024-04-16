@@ -1,7 +1,7 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import AsyncTask from "../../flexvue/core/asynctask.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
-import R from "../../flexvue/core/resource.class.js";
+// import R from '@flexvue/resource';
 import Navigation from "./nav.class.js";
 import { MyException } from "./exception.class.js";
 // 이전 화면 패널 위치
@@ -10,7 +10,6 @@ const onReady = () => {
   // config
   config.src = config.host + '/' + config.src9;
   // 앱 정보
-  new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // onBackPressed
   new Activity().onBackPressed((state) => {
@@ -74,7 +73,7 @@ const onReady = () => {
         navigation.selectNav1(pathinfo.parse_path[0]);
         // navigation 2차 메뉴 실행 및 셀렉트
         let _path = pathinfo.parse_path[0].replace(/[^a-zA-Z0-9-_]/g, "");
-        let navi2 = (_a = window.R.arrays[_path]) !== null && _a !== void 0 ? _a : {};
+        let navi2 = (_a = R.arrays[_path]) !== null && _a !== void 0 ? _a : {};
         navi2['gid'] = pathinfo.parse_path.slice(0, 2).join('');
         navigation.selectNav2(navi2);
         // fastRouter dispatcher
@@ -88,9 +87,10 @@ const onReady = () => {
 };
 // document ready
 document.addEventListener("DOMContentLoaded", () => {
+  // 지원언어 설정
+  // config.surport_langs = ['en'];
   // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
-  window.R = R;
-  window.R.__init({
+  R.__init({
     sysmsg: new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
     arrays: new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
     strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,

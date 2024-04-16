@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-16
+- R.class 전역 static 클래스 위치 이동 import필요 없이 전역에서 사용 가능 및 window global 등록 제외
+
 ### - 2024-04-15
 - R.class new add : 리소스 arrays,sysmsg,strings,numbers 등 다국어 리소스 컨트롤 클래스 제공
 - removde global Arrays,Sysmsg,Strings,Numbers 

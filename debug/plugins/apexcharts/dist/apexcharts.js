@@ -28741,6 +28741,18 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28795,19 +28807,7 @@ initAnimations:function initAnimations(){var source;var s=this.situation;if(s.in
 // }
 for(var j=source.length;j--;){// The condition is because some methods return a normal number instead
 // of a SVG.Number
-if(s.animations[i][j]instanceof SVG.Number){source[j]=new SVG.Number(source[j]);}s.animations[i][j]=source[j].morph(s.animations[i][j]);}}for(var i in s.attrs){s.attrs[i]=new SVG.MorphObj(this.target().attr(i),s.attrs[i]);}
-for(var i in s.styles){
-s.styles[i]=new SVG.MorphObj(this.target().style(i),s.styles[i]);
-}
-
-s.initialTransformation=this.target().matrixify();
-s.init=true;
-return this;
-},
-clearQueue:function clearQueue(){
-this.situations=[];
-return this;
-},
+if(s.animations[i][j]instanceof SVG.Number){source[j]=new SVG.Number(source[j]);}s.animations[i][j]=source[j].morph(s.animations[i][j]);}}for(var i in s.attrs){s.attrs[i]=new SVG.MorphObj(this.target().attr(i),s.attrs[i]);}for(var i in s.styles){s.styles[i]=new SVG.MorphObj(this.target().style(i),s.styles[i]);}s.initialTransformation=this.target().matrixify();s.init=true;return this;},clearQueue:function clearQueue(){this.situations=[];return this;},
 clearCurrent:function clearCurrent(){
 this.situation=null;
 return this;
@@ -29357,6 +29357,24 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29411,31 +29429,13 @@ this.node.removeAttribute(a);}else if(v==null){// act as a getter if the first a
 v=this.node.getAttribute(a);return v==null?SVG.defaults.attrs[a]:SVG.regex.isNumber.test(v)?parseFloat(v):v;}else{// BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
 if(a=='stroke-width'){this.attr('stroke',parseFloat(v)>0?this._stroke:null);}else if(a=='stroke'){this._stroke=v;}// convert image fill and stroke to patterns
 if(a=='fill'||a=='stroke'){if(SVG.regex.isImage.test(v)){v=this.doc().defs().image(v,0,0);}if(v instanceof SVG.Image){v=this.doc().defs().pattern(0,0,function(){this.add(v);});}}// ensure correct numeric values (also accepts NaN and Infinity)
-if(typeof v==='number'){v=new SVG.Number(v);
-}// ensure full hex color
-else if(SVG.Color.isColor(v)){
-v=new SVG.Color(v);
-}// parse array values
-else if(Array.isArray(v)){
-v=new SVG.Array(v);
-}// if the passed attribute is leading...
-
-
-if(a=='leading'){
-// ... call the leading method instead
-if(this.leading){
-this.leading(v);
-}
-}else{
-// set given attribute on node
-typeof n==='string'?this.node.setAttributeNS(n,a,v.toString()):this.node.setAttribute(a,v.toString());
-}// rebuild if required
-
-
-if(this.rebuild&&(a=='font-size'||a=='x')){
-this.rebuild(a,v);
-}
-}
+if(typeof v==='number'){v=new SVG.Number(v);}// ensure full hex color
+else if(SVG.Color.isColor(v)){v=new SVG.Color(v);}// parse array values
+else if(Array.isArray(v)){v=new SVG.Array(v);}// if the passed attribute is leading...
+if(a=='leading'){// ... call the leading method instead
+if(this.leading){this.leading(v);}}else{// set given attribute on node
+typeof n==='string'?this.node.setAttributeNS(n,a,v.toString()):this.node.setAttribute(a,v.toString());}// rebuild if required
+if(this.rebuild&&(a=='font-size'||a=='x')){this.rebuild(a,v);}}
 
 return this;
 }
@@ -30002,6 +30002,12 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
+
+
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30023,15 +30029,9 @@ to:function to(x,y){return(this._target||this).type=='radial'?this.attr({cx:new 
 SVG.extend(SVG.Defs,{// define gradient
 gradient:function gradient(type,block){return this.put(new SVG.Gradient(type)).update(block);}});SVG.Stop=SVG.invent({// Initialize node
 create:'stop',// Inherit from
-inherit:SVG.Element,
-// Add class methods
-extend:{
-// add color stops
-update:function update(o){
-if(typeof o==='number'||o instanceof SVG.Number){
-o={
-offset:arguments[0],
-color:arguments[1],
+inherit:SVG.Element,// Add class methods
+extend:{// add color stops
+update:function update(o){if(typeof o==='number'||o instanceof SVG.Number){o={offset:arguments[0],color:arguments[1],
 opacity:arguments[2]
 };
 }// set attributes

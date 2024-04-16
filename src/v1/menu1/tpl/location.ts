@@ -24,7 +24,7 @@ class Template implements InterfaceTemplate
 
             <div class="xl:container xl:mx-auto lg:m-h-[500px] relative pt-10 h-[800px]">
                 <ul class="absolute -top-8 left-0 w-full list-none rounded divide-x flex flex-row bg-transparent items-center h-[70px] space-x-0 shadow-lg">
-                    ${window.R.arrays.company_menu.map(navi => `
+                    ${R.arrays.company_menu.map(navi => `
                     <li class="flex-1 flex text-sm lg:text-xl font-bold text-center justify-center transition duration-200 ease-in-out transform ${("location" == navi.id) ? `bg-blue-default text-white scale-y-125 py-4 shadow-xl`:`bg-white py-4 hover:bg-blue-default hover:text-white hover:scale-y-125 hover:text-[150%] hover:shadow-xl`}">
                         <a href="#/menu1/${navi.id}" class="block w-full h-full">${navi.title}</a>
                     </li>

@@ -1,7 +1,7 @@
 import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
-import R from '@flexvue/resource';
+// import R from '@flexvue/resource';
 
 import {MyException} from '@v1/js/exception.class.js';
 import { HeaderActivity } from '@v1/js/header.class.js';
@@ -99,8 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // config.surport_langs = ['en'];
 
     // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
-    window.R = R;
-    window.R.__init({
+    R.__init({
         sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
         arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
         strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,

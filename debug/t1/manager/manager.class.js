@@ -52,10 +52,10 @@ class ComponentActivity {
           }
         });
         if (chks.length < 1) {
-          alert(window.R.sysmsg.i_checkbox);
+          alert(R.sysmsg.i_checkbox);
           return false;
         }
-        let cf = confirm(window.R.sysmsg.i_confirm_delete);
+        let cf = confirm(R.sysmsg.i_confirm_delete);
         if (cf) {
           ProgressBars.show();
           new AsyncTask().execute('DELETE', `${config.src}/manager/delete`, { chk: chks.join(",") }, config._options_, config._headers_).

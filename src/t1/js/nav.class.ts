@@ -17,10 +17,10 @@ export default class Navigation {
             const template : Template = new data.Template();
 
             // set title
-            document.querySelector<HTMLElement>('#left_title')!.innerText = window.R.strings.app_name;
+            document.querySelector<HTMLElement>('#left_title')!.innerText = R.strings.app_name;
 
             // 네비게이션
-            const outhtml_el = document.querySelector<HTMLElement>('#left-col-1')!.innerHTML = template.render( window.R.arrays );
+            const outhtml_el = document.querySelector<HTMLElement>('#left-col-1')!.innerHTML = template.render( R.arrays );
 
             // resolve
             return 'ok';

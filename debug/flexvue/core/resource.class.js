@@ -7,13 +7,12 @@ var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, gene
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
-import AsyncTask from "./asynctask.class.js";
 class R {
   static __init(resources) {
     return __awaiter(this, void 0, void 0, function* () {
       try {
         for (const [key, path] of Object.entries(resources)) {
-          const resourceData = yield new AsyncTask().doImport(path);
+          const resourceData = yield import(path);
           R[key] = resourceData.default;
         }
       }

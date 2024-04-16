@@ -1,6 +1,6 @@
 {
   "name": "flexvue",
-  "version": "3.0",
+  "version": "3.1",
   "description": "",
   "scripts": {
     "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug",
