@@ -4,6 +4,9 @@
 ### - 2024-04-16
 - R.class 전역 static 클래스 위치 이동 import필요 없이 전역에서 사용 가능 및 window global 등록 제외
 - Plugins @cevad-tokatli/date-picker 추가 및 테스트 빌드
+- uglify-js 압축 프로그램 설치 dev
+- release_minify.js 추가 (release 폴더의 t1,v1 의 js 파일 압축 기능)
+- install.sh minify 관련 업데이트
 
 ### - 2024-04-15
 - R.class new add : 리소스 arrays,sysmsg,strings,numbers 등 다국어 리소스 컨트롤 클래스 제공
