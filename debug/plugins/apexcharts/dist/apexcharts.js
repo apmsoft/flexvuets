@@ -28637,10 +28637,6 @@ this.animations={
 
 
 
-
-
-
-
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28663,7 +28659,11 @@ this.absPos=0;this._speed=1;},extend:{/**
          * @param ease function || string Function which should be used for easing or easing keyword
          * @param delay Number indicating the delay before the animation starts
          * @return target || this
-         */animate:function animate(o,ease,delay){if(_typeof(o)==='object'){ease=o.ease;delay=o.delay;o=o.duration;}var situation=new SVG.Situation({duration:o||1000,delay:delay||0,
+         */animate:function animate(o,ease,delay){if(_typeof(o)==='object'){ease=o.ease;delay=o.delay;o=o.duration;}
+
+var situation=new SVG.Situation({
+duration:o||1000,
+delay:delay||0,
 ease:SVG.easing[ease||'-']||ease
 });
 this.queue(situation);
@@ -29201,12 +29201,6 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
-
-
-
-
-
-
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29216,8 +29210,14 @@ SVG.prepare();}var clone=element.clone(SVG.parser.draw.instance).show();if(clone
 box=clone.node.getBBox();}if(clone&&typeof clone.remove==='function'){clone.remove();}}else{box={x:element.node.clientLeft,y:element.node.clientTop,width:element.node.clientWidth,height:element.node.clientHeight};}}SVG.Box.call(this,box);}},// Define ancestor
 inherit:SVG.Box,// Define Parent
 parent:SVG.Element,// Constructor
-construct:{// Get bounding box
-bbox:function bbox(){return new SVG.BBox(this);}}});SVG.BBox.prototype.constructor=SVG.BBox;
+construct:{
+// Get bounding box
+bbox:function bbox(){
+return new SVG.BBox(this);
+}
+}
+});
+SVG.BBox.prototype.constructor=SVG.BBox;
 SVG.Matrix=SVG.invent({
 // Initialize
 create:function create(source){
@@ -29950,8 +29950,6 @@ SVG.extend(SVG.Element,{
 
 
 
-
-
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29959,8 +29957,10 @@ this.type=type;},// Inherit from
 inherit:SVG.Container,// Add class methods
 extend:{// Add a color stop
 at:function at(offset,color,opacity){return this.put(new SVG.Stop()).update(offset,color,opacity);},// Update gradient
-update:function update(block){// remove all stops
+update:function update(block){
+// remove all stops
 this.clear();// invoke passed block
+
 if(typeof block==='function'){
 block.call(this,this);
 }

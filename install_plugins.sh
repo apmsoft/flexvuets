@@ -37,3 +37,7 @@ npm install apexcharts --save
 ## 암호화 알고리즘
 echo "install crypto"
 npm install crypto-es --save
+
+## Toast
+echo "install Notyf"
+npm i notyf --save

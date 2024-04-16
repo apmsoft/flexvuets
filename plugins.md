@@ -95,3 +95,11 @@ npm install crypto-es --save
 
 >> babel.config.js
 ,"crypto-es": `./${debugPath}/plugins/crypto-es/lib/index.js`
+
+
+### toast : https://github.com/caroso1222/notyf
+# demo : https://carlosroso.com/notyf/
+npm i notyf --save
+
+>> babel.config.js
+,"notyf" : `./${debugPath}/plugins/notyf/notyf.es.js`
