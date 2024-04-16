@@ -41,3 +41,7 @@ npm install crypto-es --save
 ## Toast
 echo "install Notyf"
 npm i notyf --save
+
+## Modal, alert
+echo "install micromodal"
+npm install micromodal --save

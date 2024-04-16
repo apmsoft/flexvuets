@@ -1011,26 +1011,6 @@
       this.animations = {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1043,475 +1023,495 @@
 
         // holds all styles which should be animated
         // e.g. fill-color: SVG.Color
-      };this.transforms = [// holds all transformations as transformation objects
+      };this.transforms = [
+        // holds all transformations as transformation objects
         // e.g. [SVG.Rotate, SVG.Translate, SVG.Matrix]
-      ];this.once = {
+      ];
 
-
-
+      this.once = {
 
 
         // functions to fire at a specific position
         // e.g. "0.5": function foo(){}
-      };} });SVG.FX = SVG.invent({ create: function (element) {this._target = element;this.situations = [];this.active = false;this.situation = null;this.paused = false;this.lastPos = 0;this.pos = 0; // The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
-        // When performing a delay, absPos is below 0 and when performing a loop, its value is above 1
-        this.absPos = 0;this._speed = 1;}, extend: { /**
-         * sets or returns the target of this animation
-         * @param o object || number In case of Object it holds all parameters. In case of number its the duration of the animation
-         * @param ease function || string Function which should be used for easing or easing keyword
-         * @param delay Number indicating the delay before the animation starts
-         * @return target || this
-         */animate: function (o, ease, delay) {
-          if (typeof o === 'object') {
-            ease = o.ease;
-            delay = o.delay;
-            o = o.duration;
-          }
-
-          var situation = new SVG.Situation({
-            duration: o || 1000,
-            delay: delay || 0,
-            ease: SVG.easing[ease || '-'] || ease
-          });
-
-          this.queue(situation);
-
-          return this;
-        },
-
-        /**
-        * sets a delay before the next element of the queue is called
-        * @param delay Duration of delay in milliseconds
-        * @return this.target()
-        */
-
-
-        /**
-        * sets or returns the target of this animation
-        * @param null || target SVG.Element which should be set as new target
-        * @return target || this
-        */
-        target: function (target) {
-          if (target && target instanceof SVG.Element) {
-            this._target = target;
-            return this;
-          }
-
-          return this._target;
-        },
-
-        // returns the absolute position at a given time
-        timeToAbsPos: function (timestamp) {
-          return (timestamp - this.situation.start) / (this.situation.duration / this._speed);
-        },
-
-        // returns the timestamp from a given absolute positon
-        absPosToTime: function (absPos) {
-          return this.situation.duration / this._speed * absPos + this.situation.start;
-        },
-
-        // starts the animationloop
-        startAnimFrame: function () {
-          this.stopAnimFrame();
-          this.animationFrame = window.requestAnimationFrame(function () {this.step();}.bind(this));
-        },
-
-        // cancels the animationframe
-        stopAnimFrame: function () {
-          window.cancelAnimationFrame(this.animationFrame);
-        },
-
-        // kicks off the animation - only does something when the queue is currently not active and at least one situation is set
-        start: function () {
-          // dont start if already started
-          if (!this.active && this.situation) {
-            this.active = true;
-            this.startCurrent();
-          }
-
-          return this;
-        },
-
-        // start the current situation
-        startCurrent: function () {
-          this.situation.start = +new Date() + this.situation.delay / this._speed;
-          this.situation.finish = this.situation.start + this.situation.duration / this._speed;
-          return this.initAnimations().step();
-        },
-
-        /**
-        * adds a function / Situation to the animation queue
-        * @param fn function / situation to add
-        * @return this
-        */
-        queue: function (fn) {
-          if (typeof fn === 'function' || fn instanceof SVG.Situation) {this.situations.push(fn);}
-
-          if (!this.situation) this.situation = this.situations.shift();
-
-          return this;
-        },
-
-        /**
-        * pulls next element from the queue and execute it
-        * @return this
-        */
-        dequeue: function () {
-          // stop current animation
-          this.stop();
-
-          // get next animation from queue
-          this.situation = this.situations.shift();
-
-          if (this.situation) {
-            if (this.situation instanceof SVG.Situation) {
-              this.start();
-            } else {
-              // If it is not a SVG.Situation, then it is a function, we execute it
-              this.situation.call(this);
-            }
-          }
-
-          return this;
-        },
-
-        // updates all animations to the current state of the element
-        // this is important when one property could be changed from another property
-        initAnimations: function () {
-          var source;
-          var s = this.situation;
-
-          if (s.init) return this;
-
-          for (var i in s.animations) {
-            source = this.target()[i]();
-
-            if (!Array.isArray(source)) {
-              source = [source];
-            }
-
-            if (!Array.isArray(s.animations[i])) {
-              s.animations[i] = [s.animations[i]];
-            }
-
-            // if(s.animations[i].length > source.length) {
-            //  source.concat = source.concat(s.animations[i].slice(source.length, s.animations[i].length))
-            // }
-
-            for (var j = source.length; j--;) {
-              // The condition is because some methods return a normal number instead
-              // of a SVG.Number
-              if (s.animations[i][j] instanceof SVG.Number) {source[j] = new SVG.Number(source[j]);}
-
-              s.animations[i][j] = source[j].morph(s.animations[i][j]);
-            }
-          }
-
-          for (var i in s.attrs) {
-            s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i]);
-          }
-
-          for (var i in s.styles) {
-            s.styles[i] = new SVG.MorphObj(this.target().style(i), s.styles[i]);
-          }
-
-          s.initialTransformation = this.target().matrixify();
-
-          s.init = true;
-          return this;
-        },
-        clearQueue: function () {
-          this.situations = [];
-          return this;
-        },
-        clearCurrent: function () {
-          this.situation = null;
-          return this;
-        },
-        /** stops the animation immediately
-        * @param jumpToEnd A Boolean indicating whether to complete the current animation immediately.
-        * @param clearQueue A Boolean indicating whether to remove queued animation as well.
-        * @return this
-        */
-        stop: function (jumpToEnd, clearQueue) {
-          var active = this.active;
-          this.active = false;
-
-          if (clearQueue) {
-            this.clearQueue();
-          }
-
-          if (jumpToEnd && this.situation) {
-            // initialize the situation if it was not
-            !active && this.startCurrent();
-            this.atEnd();
-          }
-
-          this.stopAnimFrame();
-
-          return this.clearCurrent();
-        },
-
-
-
-        after: function (fn) {
-          var c = this.last(),
-            wrapper = function wrapper(e) {
-              if (e.detail.situation == c) {
-                fn.call(this, c);
-                this.off('finished.fx', wrapper); // prevent memory leak
-              }
-            };
-
-          this.target().on('finished.fx', wrapper);
-
-          return this._callStart();
-        },
-        // adds a callback which is called whenever one animation step is performed
-        during: function (fn) {
-          var c = this.last(),
-            wrapper = function (e) {
-              if (e.detail.situation == c) {
-                fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);
-              }
-            };
-
-          // see above
-          this.target().off('during.fx', wrapper).on('during.fx', wrapper);
-
-          this.after(function () {
-            this.off('during.fx', wrapper);
-          });
-
-          return this._callStart();
-        },
-
-        // calls after ALL animations in the queue are finished
-        afterAll: function (fn) {
-          var wrapper = function wrapper(e) {
-            fn.call(this);
-            this.off('allfinished.fx', wrapper);
-          };
-
-          // see above
-          this.target().off('allfinished.fx', wrapper).on('allfinished.fx', wrapper);
-
-          return this._callStart();
-        },
-
-
-        last: function () {
-          return this.situations.length ? this.situations[this.situations.length - 1] : this.situation;
-        },
-
-        // adds one property to the animations
-        add: function (method, args, type) {
-          this.last()[type || 'animations'][method] = args;
-          return this._callStart();
-        },
-
-        /** perform one step of the animation
-        *  @param ignoreTime Boolean indicating whether to ignore time and use position directly or recalculate position based on time
-        *  @return this
-        */
-        step: function (ignoreTime) {
-          // convert current time to an absolute position
-          if (!ignoreTime) this.absPos = this.timeToAbsPos(+new Date());
-
-          // This part convert an absolute position to a position
-          if (this.situation.loops !== false) {
-            var absPos, absPosInt, lastLoop;
-
-            // If the absolute position is below 0, we just treat it as if it was 0
-            absPos = Math.max(this.absPos, 0);
-            absPosInt = Math.floor(absPos);
-
-            if (this.situation.loops === true || absPosInt < this.situation.loops) {
-              this.pos = absPos - absPosInt;
-              lastLoop = this.situation.loop;
-              this.situation.loop = absPosInt;
-            } else {
-              this.absPos = this.situation.loops;
-              this.pos = 1;
-              // The -1 here is because we don't want to toggle reversed when all the loops have been completed
-              lastLoop = this.situation.loop - 1;
-              this.situation.loop = this.situation.loops;
-            }
-
-            if (this.situation.reversing) {
-              // Toggle reversed if an odd number of loops as occured since the last call of step
-              this.situation.reversed = this.situation.reversed != Boolean((this.situation.loop - lastLoop) % 2);
-            }
-          } else {
-            // If there are no loop, the absolute position must not be above 1
-            this.absPos = Math.min(this.absPos, 1);
-            this.pos = this.absPos;
-          }
-
-          // while the absolute position can be below 0, the position must not be below 0
-          if (this.pos < 0) this.pos = 0;
-
-          if (this.situation.reversed) this.pos = 1 - this.pos;
-
-          // apply easing
-          var eased = this.situation.ease(this.pos);
-
-          // call once-callbacks
-          for (var i in this.situation.once) {
-            if (i > this.lastPos && i <= eased) {
-              this.situation.once[i].call(this.target(), this.pos, eased);
-              delete this.situation.once[i];
-            }
-          }
-
-          // fire during callback with position, eased position and current situation as parameter
-          if (this.active) this.target().fire('during', { pos: this.pos, eased: eased, fx: this, situation: this.situation });
-
-          // the user may call stop or finish in the during callback
-          // so make sure that we still have a valid situation
-          if (!this.situation) {
-            return this;
-          }
-
-          // apply the actual animation to every property
-          this.eachAt();
-
-          // do final code when situation is finished
-          if (this.pos == 1 && !this.situation.reversed || this.situation.reversed && this.pos == 0) {
-            // stop animation callback
-            this.stopAnimFrame();
-
-            // fire finished callback with current situation as parameter
-            this.target().fire('finished', { fx: this, situation: this.situation });
-
-            if (!this.situations.length) {
-              this.target().fire('allfinished');
-
-              // Recheck the length since the user may call animate in the afterAll callback
-              if (!this.situations.length) {
-                this.target().off('.fx'); // there shouldnt be any binding left, but to make sure...
-                this.active = false;
-              }
-            }
-
-            // start next animation
-            if (this.active) this.dequeue();else
-            this.clearCurrent();
-          } else if (!this.paused && this.active) {
-            // we continue animating when we are not at the end
-            this.startAnimFrame();
-          }
-
-          // save last eased position for once callback triggering
-          this.lastPos = eased;
-          return this;
-        },
-
-        // calculates the step for every property and calls block with it
-        eachAt: function () {
-          var len,at,self = this,target = this.target(),s = this.situation;
-
-          // apply animations which can be called trough a method
-          for (var i in s.animations) {
-            at = [].concat(s.animations[i]).map(function (el) {
-              return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el;
-            });
-
-            target[i].apply(target, at);
-          }
-
-          // apply animation which has to be applied with attr()
-          for (var i in s.attrs) {
-            at = [i].concat(s.attrs[i]).map(function (el) {
-              return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el;
-            });
-
-            target.attr.apply(target, at);
-          }
-
-          // apply animation which has to be applied with style()
-          for (var i in s.styles) {
-            at = [i].concat(s.styles[i]).map(function (el) {
-              return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el;
-            });
-
-            target.style.apply(target, at);
-          }
-
-          // animate initialTransformation which has to be chained
-          if (s.transforms.length) {
-            // get initial initialTransformation
-            at = s.initialTransformation;
-            for (var i = 0, len = s.transforms.length; i < len; i++) {
-              // get next transformation in chain
-              var a = s.transforms[i];
-
-              // multiply matrix directly
-              if (a instanceof SVG.Matrix) {
-                if (a.relative) {
-                  at = at.multiply(new SVG.Matrix().morph(a).at(s.ease(this.pos)));
-                } else {
-                  at = at.morph(a).at(s.ease(this.pos));
-                }
-                continue;
-              }
-
-              // when transformation is absolute we have to reset the needed transformation first
-              if (!a.relative) {a.undo(at.extract());}
-
-              // and reapply it after
-              at = at.multiply(a.at(s.ease(this.pos)));
-            }
-
-            // set new matrix on element
-            target.matrix(at);
-          }
-
-          return this;
-        },
-
-        // adds an once-callback which is called at a specific position and never again
-        once: function (pos, fn, isEased) {
-          var c = this.last();
-          if (!isEased) pos = c.ease(pos);
-
-          c.once[pos] = fn;
-
-          return this;
-        },
-
-        _callStart: function () {
-          setTimeout(function () {this.start();}.bind(this), 0);
-          return this;
+      };}
+  });
+
+  SVG.FX = SVG.invent({
+
+    create: function (element) {
+      this._target = element;
+      this.situations = [];
+      this.active = false;
+      this.situation = null;
+      this.paused = false;
+      this.lastPos = 0;
+      this.pos = 0;
+      // The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
+      // When performing a delay, absPos is below 0 and when performing a loop, its value is above 1
+      this.absPos = 0;
+      this._speed = 1;
+    },
+
+    extend: {
+
+      /**
+       * sets or returns the target of this animation
+       * @param o object || number In case of Object it holds all parameters. In case of number its the duration of the animation
+       * @param ease function || string Function which should be used for easing or easing keyword
+       * @param delay Number indicating the delay before the animation starts
+       * @return target || this
+       */
+      animate: function (o, ease, delay) {
+        if (typeof o === 'object') {
+          ease = o.ease;
+          delay = o.delay;
+          o = o.duration;
         }
 
+        var situation = new SVG.Situation({
+          duration: o || 1000,
+          delay: delay || 0,
+          ease: SVG.easing[ease || '-'] || ease
+        });
+
+        this.queue(situation);
+
+        return this;
       },
 
-      parent: SVG.Element,
+      /**
+      * sets a delay before the next element of the queue is called
+      * @param delay Duration of delay in milliseconds
+      * @return this.target()
+      */
 
-      // Add method to parent elements
-      construct: {
-        // Get fx module or create a new one, then animate with given duration and ease
-        animate: function (o, ease, delay) {
-          return (this.fx || (this.fx = new SVG.FX(this))).animate(o, ease, delay);
-        },
-        delay: function (delay) {
-          return (this.fx || (this.fx = new SVG.FX(this))).delay(delay);
-        },
-        stop: function (jumpToEnd, clearQueue) {
-          if (this.fx) {this.fx.stop(jumpToEnd, clearQueue);}
 
-          return this;
-        },
-        finish: function () {
-          if (this.fx) {this.fx.finish();}
-
+      /**
+      * sets or returns the target of this animation
+      * @param null || target SVG.Element which should be set as new target
+      * @return target || this
+      */
+      target: function (target) {
+        if (target && target instanceof SVG.Element) {
+          this._target = target;
           return this;
         }
 
+        return this._target;
+      },
+
+      // returns the absolute position at a given time
+      timeToAbsPos: function (timestamp) {
+        return (timestamp - this.situation.start) / (this.situation.duration / this._speed);
+      },
+
+      // returns the timestamp from a given absolute positon
+      absPosToTime: function (absPos) {
+        return this.situation.duration / this._speed * absPos + this.situation.start;
+      },
+
+      // starts the animationloop
+      startAnimFrame: function () {
+        this.stopAnimFrame();
+        this.animationFrame = window.requestAnimationFrame(function () {this.step();}.bind(this));
+      },
+
+      // cancels the animationframe
+      stopAnimFrame: function () {
+        window.cancelAnimationFrame(this.animationFrame);
+      },
+
+      // kicks off the animation - only does something when the queue is currently not active and at least one situation is set
+      start: function () {
+        // dont start if already started
+        if (!this.active && this.situation) {
+          this.active = true;
+          this.startCurrent();
+        }
+
+        return this;
+      },
+
+      // start the current situation
+      startCurrent: function () {
+        this.situation.start = +new Date() + this.situation.delay / this._speed;
+        this.situation.finish = this.situation.start + this.situation.duration / this._speed;
+        return this.initAnimations().step();
+      },
+
+      /**
+      * adds a function / Situation to the animation queue
+      * @param fn function / situation to add
+      * @return this
+      */
+      queue: function (fn) {
+        if (typeof fn === 'function' || fn instanceof SVG.Situation) {this.situations.push(fn);}
+
+        if (!this.situation) this.situation = this.situations.shift();
+
+        return this;
+      },
+
+      /**
+      * pulls next element from the queue and execute it
+      * @return this
+      */
+      dequeue: function () {
+        // stop current animation
+        this.stop();
+
+        // get next animation from queue
+        this.situation = this.situations.shift();
+
+        if (this.situation) {
+          if (this.situation instanceof SVG.Situation) {
+            this.start();
+          } else {
+            // If it is not a SVG.Situation, then it is a function, we execute it
+            this.situation.call(this);
+          }
+        }
+
+        return this;
+      },
+
+      // updates all animations to the current state of the element
+      // this is important when one property could be changed from another property
+      initAnimations: function () {
+        var source;
+        var s = this.situation;
+
+        if (s.init) return this;
+
+        for (var i in s.animations) {
+          source = this.target()[i]();
+
+          if (!Array.isArray(source)) {
+            source = [source];
+          }
+
+          if (!Array.isArray(s.animations[i])) {
+            s.animations[i] = [s.animations[i]];
+          }
+
+          // if(s.animations[i].length > source.length) {
+          //  source.concat = source.concat(s.animations[i].slice(source.length, s.animations[i].length))
+          // }
+
+          for (var j = source.length; j--;) {
+            // The condition is because some methods return a normal number instead
+            // of a SVG.Number
+            if (s.animations[i][j] instanceof SVG.Number) {source[j] = new SVG.Number(source[j]);}
+
+            s.animations[i][j] = source[j].morph(s.animations[i][j]);
+          }
+        }
+
+        for (var i in s.attrs) {
+          s.attrs[i] = new SVG.MorphObj(this.target().attr(i), s.attrs[i]);
+        }
+
+        for (var i in s.styles) {
+          s.styles[i] = new SVG.MorphObj(this.target().style(i), s.styles[i]);
+        }
+
+        s.initialTransformation = this.target().matrixify();
+
+        s.init = true;
+        return this;
+      },
+      clearQueue: function () {
+        this.situations = [];
+        return this;
+      },
+      clearCurrent: function () {
+        this.situation = null;
+        return this;
+      },
+      /** stops the animation immediately
+      * @param jumpToEnd A Boolean indicating whether to complete the current animation immediately.
+      * @param clearQueue A Boolean indicating whether to remove queued animation as well.
+      * @return this
+      */
+      stop: function (jumpToEnd, clearQueue) {
+        var active = this.active;
+        this.active = false;
+
+        if (clearQueue) {
+          this.clearQueue();
+        }
+
+        if (jumpToEnd && this.situation) {
+          // initialize the situation if it was not
+          !active && this.startCurrent();
+          this.atEnd();
+        }
+
+        this.stopAnimFrame();
+
+        return this.clearCurrent();
+      },
+
+
+
+      after: function (fn) {
+        var c = this.last(),
+          wrapper = function wrapper(e) {
+            if (e.detail.situation == c) {
+              fn.call(this, c);
+              this.off('finished.fx', wrapper); // prevent memory leak
+            }
+          };
+
+        this.target().on('finished.fx', wrapper);
+
+        return this._callStart();
+      },
+      // adds a callback which is called whenever one animation step is performed
+      during: function (fn) {
+        var c = this.last(),
+          wrapper = function (e) {
+            if (e.detail.situation == c) {
+              fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);
+            }
+          };
+
+        // see above
+        this.target().off('during.fx', wrapper).on('during.fx', wrapper);
+
+        this.after(function () {
+          this.off('during.fx', wrapper);
+        });
+
+        return this._callStart();
+      },
+
+      // calls after ALL animations in the queue are finished
+      afterAll: function (fn) {
+        var wrapper = function wrapper(e) {
+          fn.call(this);
+          this.off('allfinished.fx', wrapper);
+        };
+
+        // see above
+        this.target().off('allfinished.fx', wrapper).on('allfinished.fx', wrapper);
+
+        return this._callStart();
+      },
+
+
+      last: function () {
+        return this.situations.length ? this.situations[this.situations.length - 1] : this.situation;
+      },
+
+      // adds one property to the animations
+      add: function (method, args, type) {
+        this.last()[type || 'animations'][method] = args;
+        return this._callStart();
+      },
+
+      /** perform one step of the animation
+      *  @param ignoreTime Boolean indicating whether to ignore time and use position directly or recalculate position based on time
+      *  @return this
+      */
+      step: function (ignoreTime) {
+        // convert current time to an absolute position
+        if (!ignoreTime) this.absPos = this.timeToAbsPos(+new Date());
+
+        // This part convert an absolute position to a position
+        if (this.situation.loops !== false) {
+          var absPos, absPosInt, lastLoop;
+
+          // If the absolute position is below 0, we just treat it as if it was 0
+          absPos = Math.max(this.absPos, 0);
+          absPosInt = Math.floor(absPos);
+
+          if (this.situation.loops === true || absPosInt < this.situation.loops) {
+            this.pos = absPos - absPosInt;
+            lastLoop = this.situation.loop;
+            this.situation.loop = absPosInt;
+          } else {
+            this.absPos = this.situation.loops;
+            this.pos = 1;
+            // The -1 here is because we don't want to toggle reversed when all the loops have been completed
+            lastLoop = this.situation.loop - 1;
+            this.situation.loop = this.situation.loops;
+          }
+
+          if (this.situation.reversing) {
+            // Toggle reversed if an odd number of loops as occured since the last call of step
+            this.situation.reversed = this.situation.reversed != Boolean((this.situation.loop - lastLoop) % 2);
+          }
+        } else {
+          // If there are no loop, the absolute position must not be above 1
+          this.absPos = Math.min(this.absPos, 1);
+          this.pos = this.absPos;
+        }
+
+        // while the absolute position can be below 0, the position must not be below 0
+        if (this.pos < 0) this.pos = 0;
+
+        if (this.situation.reversed) this.pos = 1 - this.pos;
+
+        // apply easing
+        var eased = this.situation.ease(this.pos);
+
+        // call once-callbacks
+        for (var i in this.situation.once) {
+          if (i > this.lastPos && i <= eased) {
+            this.situation.once[i].call(this.target(), this.pos, eased);
+            delete this.situation.once[i];
+          }
+        }
+
+        // fire during callback with position, eased position and current situation as parameter
+        if (this.active) this.target().fire('during', { pos: this.pos, eased: eased, fx: this, situation: this.situation });
+
+        // the user may call stop or finish in the during callback
+        // so make sure that we still have a valid situation
+        if (!this.situation) {
+          return this;
+        }
+
+        // apply the actual animation to every property
+        this.eachAt();
+
+        // do final code when situation is finished
+        if (this.pos == 1 && !this.situation.reversed || this.situation.reversed && this.pos == 0) {
+          // stop animation callback
+          this.stopAnimFrame();
+
+          // fire finished callback with current situation as parameter
+          this.target().fire('finished', { fx: this, situation: this.situation });
+
+          if (!this.situations.length) {
+            this.target().fire('allfinished');
+
+            // Recheck the length since the user may call animate in the afterAll callback
+            if (!this.situations.length) {
+              this.target().off('.fx'); // there shouldnt be any binding left, but to make sure...
+              this.active = false;
+            }
+          }
+
+          // start next animation
+          if (this.active) this.dequeue();else
+          this.clearCurrent();
+        } else if (!this.paused && this.active) {
+          // we continue animating when we are not at the end
+          this.startAnimFrame();
+        }
+
+        // save last eased position for once callback triggering
+        this.lastPos = eased;
+        return this;
+      },
+
+      // calculates the step for every property and calls block with it
+      eachAt: function () {
+        var len,at,self = this,target = this.target(),s = this.situation;
+
+        // apply animations which can be called trough a method
+        for (var i in s.animations) {
+          at = [].concat(s.animations[i]).map(function (el) {
+            return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el;
+          });
+
+          target[i].apply(target, at);
+        }
+
+        // apply animation which has to be applied with attr()
+        for (var i in s.attrs) {
+          at = [i].concat(s.attrs[i]).map(function (el) {
+            return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el;
+          });
+
+          target.attr.apply(target, at);
+        }
+
+        // apply animation which has to be applied with style()
+        for (var i in s.styles) {
+          at = [i].concat(s.styles[i]).map(function (el) {
+            return typeof el !== 'string' && el.at ? el.at(s.ease(self.pos), self.pos) : el;
+          });
+
+          target.style.apply(target, at);
+        }
+
+        // animate initialTransformation which has to be chained
+        if (s.transforms.length) {
+          // get initial initialTransformation
+          at = s.initialTransformation;
+          for (var i = 0, len = s.transforms.length; i < len; i++) {
+            // get next transformation in chain
+            var a = s.transforms[i];
+
+            // multiply matrix directly
+            if (a instanceof SVG.Matrix) {
+              if (a.relative) {
+                at = at.multiply(new SVG.Matrix().morph(a).at(s.ease(this.pos)));
+              } else {
+                at = at.morph(a).at(s.ease(this.pos));
+              }
+              continue;
+            }
+
+            // when transformation is absolute we have to reset the needed transformation first
+            if (!a.relative) {a.undo(at.extract());}
+
+            // and reapply it after
+            at = at.multiply(a.at(s.ease(this.pos)));
+          }
+
+          // set new matrix on element
+          target.matrix(at);
+        }
+
+        return this;
+      },
+
+      // adds an once-callback which is called at a specific position and never again
+      once: function (pos, fn, isEased) {
+        var c = this.last();
+        if (!isEased) pos = c.ease(pos);
+
+        c.once[pos] = fn;
+
+        return this;
+      },
+
+      _callStart: function () {
+        setTimeout(function () {this.start();}.bind(this), 0);
+        return this;
       }
 
-    });
+    },
+
+    parent: SVG.Element,
+
+    // Add method to parent elements
+    construct: {
+      // Get fx module or create a new one, then animate with given duration and ease
+      animate: function (o, ease, delay) {
+        return (this.fx || (this.fx = new SVG.FX(this))).animate(o, ease, delay);
+      },
+      delay: function (delay) {
+        return (this.fx || (this.fx = new SVG.FX(this))).delay(delay);
+      },
+      stop: function (jumpToEnd, clearQueue) {
+        if (this.fx) {this.fx.stop(jumpToEnd, clearQueue);}
+
+        return this;
+      },
+      finish: function () {
+        if (this.fx) {this.fx.finish();}
+
+        return this;
+      }
+
+    }
+
+  });
 
   // MorphObj is used whenever no morphable object is given
   SVG.MorphObj = SVG.invent({
@@ -1608,45 +1608,45 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
           } // find native bbox
-          box = element.node.getBBox();} catch (e) {if (element instanceof SVG.Shape) {if (!SVG.parser.draw) {// fixes apexcharts/vue-apexcharts #14
-              SVG.prepare();}var clone = element.clone(SVG.parser.draw.instance).show();if (clone && clone.node && typeof clone.node.getBBox === 'function') {// this check fixes jest unit tests
-              box = clone.node.getBBox();}if (clone && typeof clone.remove === 'function') {clone.remove();}} else {box = { x: element.node.clientLeft, y: element.node.clientTop, width: element.node.clientWidth, height: element.node.clientHeight };}}SVG.Box.call(this, box);}}, // Define ancestor
-    inherit: SVG.Box, // Define Parent
+          box = element.node.getBBox();} catch (e) {
+          if (element instanceof SVG.Shape) {
+            if (!SVG.parser.draw) {
+              // fixes apexcharts/vue-apexcharts #14
+              SVG.prepare();
+            }
+            var clone = element.clone(SVG.parser.draw.instance).show();
+
+            if (clone && clone.node && typeof clone.node.getBBox === 'function') {
+              // this check fixes jest unit tests
+              box = clone.node.getBBox();
+            }
+            if (clone && typeof clone.remove === 'function') {
+              clone.remove();
+            }
+          } else {
+            box = {
+              x: element.node.clientLeft,
+              y: element.node.clientTop,
+              width: element.node.clientWidth,
+              height: element.node.clientHeight
+            };
+          }
+        }
+
+        SVG.Box.call(this, box);
+      }
+    },
+
+    // Define ancestor
+    inherit: SVG.Box,
+
+    // Define Parent
     parent: SVG.Element,
+
     // Constructor
     construct: {
       // Get bounding box
@@ -2454,61 +2454,61 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
     // Get all siblings, including myself
-  });SVG.Gradient = SVG.invent({ // Initialize node
-      create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
-        this.type = type;}, // Inherit from
-      inherit: SVG.Container,
+  });
 
-      // Add class methods
-      extend: {
-        // Add a color stop
-        at: function (offset, color, opacity) {
-          return this.put(new SVG.Stop()).update(offset, color, opacity);
-        },
-        // Update gradient
-        update: function (block) {
-          // remove all stops
-          this.clear();
 
-          // invoke passed block
-          if (typeof block === 'function') {block.call(this, this);}
+  SVG.Gradient = SVG.invent({
+    // Initialize node
+    create: function (type) {
+      this.constructor.call(this, SVG.create(type + 'Gradient'));
 
-          return this;
-        },
-        // Return the fill id
-        fill: function () {
-          return 'url(#' + this.id() + ')';
-        },
-        // Alias string convertion to fill
-        toString: function () {
-          return this.fill();
-        },
-        // custom attr to handle transform
-        attr: function (a, b, c) {
-          if (a == 'transform') a = 'gradientTransform';
-          return SVG.Container.prototype.attr.call(this, a, b, c);
-        }
+      // store type
+      this.type = type;
+    },
+
+    // Inherit from
+    inherit: SVG.Container,
+
+    // Add class methods
+    extend: {
+      // Add a color stop
+      at: function (offset, color, opacity) {
+        return this.put(new SVG.Stop()).update(offset, color, opacity);
       },
+      // Update gradient
+      update: function (block) {
+        // remove all stops
+        this.clear();
 
-      // Add parent method
-      construct: {
-        // Create gradient element in defs
-        gradient: function (type, block) {
-          return this.defs().gradient(type, block);
-        }
+        // invoke passed block
+        if (typeof block === 'function') {block.call(this, this);}
+
+        return this;
+      },
+      // Return the fill id
+      fill: function () {
+        return 'url(#' + this.id() + ')';
+      },
+      // Alias string convertion to fill
+      toString: function () {
+        return this.fill();
+      },
+      // custom attr to handle transform
+      attr: function (a, b, c) {
+        if (a == 'transform') a = 'gradientTransform';
+        return SVG.Container.prototype.attr.call(this, a, b, c);
       }
-    });
+    },
+
+    // Add parent method
+    construct: {
+      // Create gradient element in defs
+      gradient: function (type, block) {
+        return this.defs().gradient(type, block);
+      }
+    }
+  });
 
   // Add animatable methods to both gradient and fx module
   SVG.extend(SVG.Gradient, SVG.FX, {

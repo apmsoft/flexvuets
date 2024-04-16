@@ -114,6 +114,8 @@ module.exports = {
             ,"apexcharts": `./${debugPath}/plugins/apexcharts/dist/apexcharts.esm.js`
             ,"crypto-es": `./${debugPath}/plugins/crypto-es/lib/index.js`
             ,"@cevad-tokatli/date-picker" : `./${debugPath}/plugins/@cevad-tokatli/date-picker/js/date-picker.esm.js`
+            ,"notyf" : `./${debugPath}/plugins/notyf/notyf.es.js`
+            ,"micromodal" : `./${debugPath}/plugins/micromodal/dist/micromodal.es.js`
           }
         }
       ]

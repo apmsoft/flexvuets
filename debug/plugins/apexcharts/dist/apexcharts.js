@@ -28617,26 +28617,6 @@ this.loop=0;
 this.loops=false;
 this.animations={
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28651,15 +28631,35 @@ this.animations={
 
 // functions to fire at a specific position
 // e.g. "0.5": function foo(){}
-};}});SVG.FX=SVG.invent({create:function create(element){this._target=element;this.situations=[];this.active=false;this.situation=null;this.paused=false;this.lastPos=0;this.pos=0;// The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
+};}});
+SVG.FX=SVG.invent({
+create:function create(element){
+this._target=element;
+this.situations=[];
+this.active=false;
+this.situation=null;
+this.paused=false;
+this.lastPos=0;
+this.pos=0;// The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
 // When performing a delay, absPos is below 0 and when performing a loop, its value is above 1
-this.absPos=0;this._speed=1;},extend:{/**
+
+this.absPos=0;
+this._speed=1;
+},
+extend:{
+/**
          * sets or returns the target of this animation
          * @param o object || number In case of Object it holds all parameters. In case of number its the duration of the animation
          * @param ease function || string Function which should be used for easing or easing keyword
          * @param delay Number indicating the delay before the animation starts
          * @return target || this
-         */animate:function animate(o,ease,delay){if(_typeof(o)==='object'){ease=o.ease;delay=o.delay;o=o.duration;}
+         */
+animate:function animate(o,ease,delay){
+if(_typeof(o)==='object'){
+ease=o.ease;
+delay=o.delay;
+o=o.duration;
+}
 
 var situation=new SVG.Situation({
 duration:o||1000,
@@ -29171,45 +29171,45 @@ if(topParent!=document)throw new Error('Element not in the dom');
 }else{
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
 }// find native bbox
-box=element.node.getBBox();}catch(e){if(element instanceof SVG.Shape){if(!SVG.parser.draw){// fixes apexcharts/vue-apexcharts #14
-SVG.prepare();}var clone=element.clone(SVG.parser.draw.instance).show();if(clone&&clone.node&&typeof clone.node.getBBox==='function'){// this check fixes jest unit tests
-box=clone.node.getBBox();}if(clone&&typeof clone.remove==='function'){clone.remove();}}else{box={x:element.node.clientLeft,y:element.node.clientTop,width:element.node.clientWidth,height:element.node.clientHeight};}}SVG.Box.call(this,box);}},// Define ancestor
-inherit:SVG.Box,// Define Parent
-parent:SVG.Element,// Constructor
+box=element.node.getBBox();}catch(e){
+if(element instanceof SVG.Shape){
+if(!SVG.parser.draw){
+// fixes apexcharts/vue-apexcharts #14
+SVG.prepare();
+}
+
+var clone=element.clone(SVG.parser.draw.instance).show();
+
+if(clone&&clone.node&&typeof clone.node.getBBox==='function'){
+// this check fixes jest unit tests
+box=clone.node.getBBox();
+}
+
+if(clone&&typeof clone.remove==='function'){
+clone.remove();
+}
+}else{
+box={
+x:element.node.clientLeft,
+y:element.node.clientTop,
+width:element.node.clientWidth,
+height:element.node.clientHeight
+};
+}
+}
+
+SVG.Box.call(this,box);
+}
+},
+// Define ancestor
+inherit:SVG.Box,
+// Define Parent
+parent:SVG.Element,
+// Constructor
 construct:{
 // Get bounding box
 bbox:function bbox(){
@@ -29940,23 +29940,23 @@ return clone;
 //
 
 SVG.extend(SVG.Element,{
-
-
-
-
-
-
-
-
-
-
 // Get all siblings, including myself
-});SVG.Gradient=SVG.invent({// Initialize node
-create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
-this.type=type;},// Inherit from
-inherit:SVG.Container,// Add class methods
-extend:{// Add a color stop
-at:function at(offset,color,opacity){return this.put(new SVG.Stop()).update(offset,color,opacity);},// Update gradient
+});SVG.Gradient=SVG.invent({
+// Initialize node
+create:function create(type){
+this.constructor.call(this,SVG.create(type+'Gradient'));// store type
+
+this.type=type;
+},
+// Inherit from
+inherit:SVG.Container,
+// Add class methods
+extend:{
+// Add a color stop
+at:function at(offset,color,opacity){
+return this.put(new SVG.Stop()).update(offset,color,opacity);
+},
+// Update gradient
 update:function update(block){
 // remove all stops
 this.clear();// invoke passed block
