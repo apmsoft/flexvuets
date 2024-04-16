@@ -8,6 +8,7 @@
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
     "export-plugins": "node export-plugins.js",
     "release": "cp -fr ./debug/* ./release",
+    "release-minify": "node release_minify.js",
     "clean": "tsc --build --clean",
     "clean-release": "rm -fr ./release/*",
     "css-example": "npx tailwindcss -i ./tailwind-v1.css -o ./debug/example/css/tailwind.css --watch --minify",
@@ -56,6 +57,7 @@
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "uglify-js": "^3.17.4"
   }
 }
