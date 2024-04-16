@@ -2,6 +2,7 @@
 
 ## [3.1]
 ### - 2024-04-16
+- debug release 로 배포 할 경우 example 폴더는 제외 시키는 옵션 추가
 - R.class 전역 static 클래스 위치 이동 import필요 없이 전역에서 사용 가능 및 window global 등록 제외
 - Plugins @cevad-tokatli/date-picker 추가 및 테스트 빌드
 - uglify-js 압축 프로그램 설치 dev
