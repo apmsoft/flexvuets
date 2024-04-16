@@ -17,6 +17,7 @@
   "author": "http://flexvue.fancyupsoft.com",
   "license": "MIT",
   "dependencies": {
+    "@cevad-tokatli/date-picker": "^1.0.3",
     "@editorjs/checklist": "^1.6.0",
     "@editorjs/code": "^2.9.0",
     "@editorjs/editorjs": "^2.29.0",

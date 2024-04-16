@@ -56,7 +56,14 @@ npm install swiper --save
 # doc : https://vanilla-calendar.pro/docs/learn/additional-features/enable-time-picker
 npm install vanilla-calendar-pro --save
 
->> babel.config.js,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs`
+>> babel.config.js
+,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs`
+
+### date,time picker 머트리얼 디자인 : https://www.cssscript.com/flexible-date-time-selection/
+npm install @cevad-tokatli/date-picker --save
+
+>> babel.config.js
+,"@cevad-tokatli/date-picker" : `./${debugPath}/plugins/@cevad-tokatli/date-picker/js/date-picker.esm.js`
 
 
 #### filepond : https://pqina.nl/filepond/

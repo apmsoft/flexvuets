@@ -39,6 +39,7 @@ module.exports = {
             ,"filepond-plugin-image-validate-size": `./${debugPath}/plugins/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.esm.min.js`
             ,"apexcharts": `./${debugPath}/plugins/apexcharts/dist/apexcharts.esm.js`
             ,"crypto-es": `./${debugPath}/plugins/crypto-es/lib/index.js`
+            ,"@cevad-tokatli/date-picker" : `./${debugPath}/plugins/@cevad-tokatli/date-picker/js/date-picker.esm.js`
           }
         }
       ]
