@@ -4,11 +4,10 @@ class ComponentActivity {
     this.TAG = 'page1';
   }
   doList(params = {}) {
-    var _a;
     Log.v(this.TAG, 'doList', params);
     // promise.all 사용
     Promise.all([
-    (_a = window.cacheMemory._getAsync('/test/object')) !== null && _a !== void 0 ? _a : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+    window.cacheMemory._getAsync('/test/object').then((cacheData) => cacheData !== null ? cacheData : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href)),
     new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)]
     ).
     then((data) => {

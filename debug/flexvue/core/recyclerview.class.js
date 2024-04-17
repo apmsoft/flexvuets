@@ -1,16 +1,26 @@
 export class SimpleAdapter {
-  constructor(data, template, animationClass = null) {
+  constructor(data, template, classlist = null) {
     this.onDataChanged = () => {};
     this.data = data;
     this.template = template;
-    this.animationClass = animationClass;
+    this.classlist = classlist;
   }
   getItemCount() {
     return this.data.length;
   }
   onCreateViewHolder(parent) {
+    const htmlTagType = parent.tagName;
     const html = this.template.render({});
-    const view = document.createElement('div');
+    let view = null;
+    if (htmlTagType == 'TBODY' || htmlTagType == 'TABLE') {
+      view = document.createElement('tr');
+    } else
+    if (htmlTagType == 'UL' || htmlTagType == 'OL') {
+      view = document.createElement('li');
+    } else
+    {
+      view = document.createElement('div');
+    }
     view.innerHTML = html;
     parent.appendChild(view);
     return { view };
@@ -21,8 +31,8 @@ export class SimpleAdapter {
     // HTML 생성 및 설정
     const html = this.template.render(item);
     holder.view.innerHTML = html;
-    if (this.animationClass) {
-      const classes = this.animationClass.split(' ').map((className) => className.trim());
+    if (this.classlist) {
+      const classes = this.classlist.split(' ').map((className) => className.trim());
       holder.view.classList.add(...classes); // 사용자가 제공한 애니메이션 클래스 추가
     }
   }

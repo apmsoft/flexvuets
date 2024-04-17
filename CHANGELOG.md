@@ -2,6 +2,7 @@
 
 ## [3.1]
 ### - 2024-04-17
+- RecyclerView 업데이트, 테이블뷰 테스트 및 스크롤 테스트
 - CacheMomory 버그 패치 및 예제 업데이트
 - sweetalert2 alert 플러그인 설치 및 테스트
 - micromodal 모달 플러그인 삭제

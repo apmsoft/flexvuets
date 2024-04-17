@@ -35,13 +35,13 @@ interface DataItem {
 export class SimpleAdapter implements Adapter {
     private data: any[];
     private template: Template;
-    private animationClass: string | null;
+    private classlist: string | null;
     private onDataChanged: () => void = () => {};
 
-    constructor(data: any[], template: Template, animationClass: string | null = null) {
+    constructor(data: any[], template: Template, classlist: string | null = null) {
         this.data = data;
         this.template = template;
-        this.animationClass = animationClass;
+        this.classlist = classlist;
     }
 
     getItemCount(): number {
@@ -49,8 +49,16 @@ export class SimpleAdapter implements Adapter {
     }
 
     onCreateViewHolder(parent: HTMLElement): ViewHolder {
+        const htmlTagType = parent.tagName;
         const html = this.template.render({});
-        const view = document.createElement('div');
+        let view : HTMLElement | null = null;
+        if(htmlTagType == 'TBODY' || htmlTagType == 'TABLE'){
+            view = document.createElement('tr');
+        }else if(htmlTagType == 'UL' || htmlTagType == 'OL'){
+            view = document.createElement('li');
+        }else {
+            view = document.createElement('div');
+        }
         view.innerHTML = html;
         parent.appendChild(view);
         return { view };
@@ -64,8 +72,8 @@ export class SimpleAdapter implements Adapter {
         const html = this.template.render(item);
         holder.view.innerHTML = html;
 
-        if (this.animationClass) {
-            const classes = this.animationClass.split(' ').map(className => className.trim());
+        if (this.classlist) {
+            const classes = this.classlist.split(' ').map(className => className.trim());
             holder.view.classList.add(...classes); // 사용자가 제공한 애니메이션 클래스 추가
         }
     }
