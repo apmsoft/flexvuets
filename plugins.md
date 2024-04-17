@@ -103,3 +103,11 @@ npm i notyf --save
 
 >> babel.config.js
 ,"notyf" : `./${debugPath}/plugins/notyf/notyf.es.js`
+
+
+### alert : https://sweetalert2.github.io/#download
+# demo : https://sweetalert2.github.io/#examples
+npm install sweetalert2 --save
+
+>> babel.config.js
+"sweetalert2": `./${debugPath}/plugins/sweetalert2/src/sweetalert2.js`

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SweetAlert2</title>
+
+    <link rel="stylesheet" href="../../css/tailwind.css">
+    <link rel="stylesheet" href="../../css/fontawesome-all.css">
+    <link rel="stylesheet" href="../../css/animate.css">
+    <link rel="stylesheet" href="../../../plugins/sweetalert2/dist/sweetalert2.min.css">
+
+    <script defer src="../../../flexvue/flexvue.js"></script>
+
+</head>
+<body>
+    <!--left-->
+    <div id="left" class="fvue--layout z-0 bg-blue-lightd6">
+        <div class="fvue--layout--container">
+
+            <div class="fvue--layout--header py-3">
+                <div class="fvue--layout--header--row px-3">
+                    <div class="fvue--layout--icon">
+
+                    </div>
+                    <div class="fvue--layout--title text-gray-800">
+                      <a href="#">FlexVue (플렉스뷰)</a>
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation">
+                        <button type="button" class="text-gray-500" title="새소식" id="btn-alarm">
+                            <i class="far fa-bell"></i>
+                        </button>
+                        <button type="button" class="ml-3 text-gray-500" title="logout" id="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="fvue--layout--main h-full">
+                <div class="container">
+                    <!-- sweet alert 2 -->
+                    <button id="btn-confirm" class="bg-blue-500 w-full mb-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">alert</button>
+                    <button id="btn-confirm-feedback" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">confirm 및 선택에 따른 alert</button>
+                    <button id="btn-custom-image" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">커스텀 alert</button>
+                    <button id="btn-position" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Toast 타입 위치 지정 및 시간 설정, 에니메이션(Animate.css) alert</button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-balck">
+
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-white">
+
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-white">
+
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900 bg-opacity-70 flex content-center flex-wrap">
+
+    </div>
+
+    <script defer type="module" src="./sweetalert2.js"></script>
+</body>
+</html>

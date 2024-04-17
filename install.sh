@@ -115,7 +115,7 @@ module.exports = {
             ,"crypto-es": `./${debugPath}/plugins/crypto-es/lib/index.js`
             ,"@cevad-tokatli/date-picker" : `./${debugPath}/plugins/@cevad-tokatli/date-picker/js/date-picker.esm.js`
             ,"notyf" : `./${debugPath}/plugins/notyf/notyf.es.js`
-            ,"micromodal" : `./${debugPath}/plugins/micromodal/dist/micromodal.es.js`
+            ,"sweetalert2": `./${debugPath}/plugins/sweetalert2/src/sweetalert2.js`
           }
         }
       ]
@@ -187,7 +187,7 @@ echo '{
     "debug-start": "DEBUG_PATH=./debug concurrently \"tsc -p ./tsconfig.json --watch\" \"babel --config-file ./babel.config.js debug -d debug --watch\"",
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
     "export-plugins": "node export-plugins.js",
-    "release": "cp -fr ./debug/* ./release",
+    "release": "cp -fr ./debug/* ./release && rm -fr ./release/example",
     "release-minify": "node release_minify.js",
     "clean": "tsc --build --clean",
     "clean-release": "rm -fr ./release/*",

@@ -37,8 +37,8 @@
     "filepond-plugin-file-validate-type": "^1.2.9",
     "filepond-plugin-image-preview": "^4.6.12",
     "filepond-plugin-image-validate-size": "^1.2.7",
-    "micromodal": "^0.4.10",
     "notyf": "^3.10.0",
+    "sweetalert2": "^11.10.7",
     "swiper": "^11.0.7",
     "vanilla-calendar-pro": "^2.9.6"
   },

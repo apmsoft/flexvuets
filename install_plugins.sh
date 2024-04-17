@@ -29,7 +29,6 @@ npm install @cevad-tokatli/date-picker --save
 echo "install filepond"
 npm install filepond --save
 
-
 ## 차트
 echo "install apexcharts"
 npm install apexcharts --save
@@ -42,6 +41,6 @@ npm install crypto-es --save
 echo "install Notyf"
 npm i notyf --save
 
-## Modal, alert
-echo "install micromodal"
-npm install micromodal --save
+## SweetAlert2
+echo "install SweetAlert2"
+npm install sweetalert2 --save

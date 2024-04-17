@@ -1,6 +1,10 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-17
+- micromodal 모달 플러그인 삭제
+- sweetalert2 alert 플러그인 설치 및 테스트
+
 ### - 2024-04-16
 - micromodal 모달 플러그인 설치 및 테스트
 - notyf Toast 플러그인 설치 및 테스트
