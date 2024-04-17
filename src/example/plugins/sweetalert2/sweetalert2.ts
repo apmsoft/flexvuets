@@ -104,6 +104,7 @@ const onReady = () : void =>
         });
     });
 
+    // toast progress style
     document.querySelector<HTMLButtonElement>('#btn-toast')!.addEventListener('click',()=>
     {
         const Toast = Swal.mixin({
@@ -122,6 +123,28 @@ const onReady = () : void =>
             icon: 'success',
             title: 'toast 알림이 정상적으로 실행 되었습니다.'
         });
+    });
+
+    // toast progress style
+    document.querySelector<HTMLButtonElement>('#btn-prompt')!.addEventListener('click',()=>
+    {
+        (async () => {
+            const { value: rangeval } = await Swal.fire({
+                title: "Tempo",
+                icon: "question",
+                input: "range",
+                inputLabel: "설정하고자 하는 온도를 선택하세요",
+                inputAttributes: {
+                    min: "-20",
+                    max: "60",
+                    step: "1"
+                },
+                inputValue: 25
+            });
+            if (rangeval) {
+                Swal.fire(`설정온도 : ${rangeval}`);
+            }
+        })();
     });
 };
 

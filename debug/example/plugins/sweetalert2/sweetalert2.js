@@ -1,5 +1,18 @@
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {return value instanceof P ? value : new P(function (resolve) {resolve(value);});}
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {try {step(generator.next(value));} catch (e) {reject(e);}}
+    function rejected(value) {try {step(generator["throw"](value));} catch (e) {reject(e);}}
+    function step(result) {result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);}
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 import Swal from "../../../plugins/sweetalert2/src/sweetalert2.js";
 const onReady = () => {
+  // icons 종류
+  /**
+   * sucess, error, warning, info, question
+   */
   // alert
   document.querySelector('#btn-confirm').addEventListener('click', () => {
     //sweet plugins
@@ -90,6 +103,7 @@ const onReady = () => {
       }
     });
   });
+  // toast progress style
   document.querySelector('#btn-toast').addEventListener('click', () => {
     const Toast = Swal.mixin({
       toast: true,
@@ -106,6 +120,26 @@ const onReady = () => {
       icon: 'success',
       title: 'toast 알림이 정상적으로 실행 되었습니다.'
     });
+  });
+  // toast progress style
+  document.querySelector('#btn-prompt').addEventListener('click', () => {
+    (() => __awaiter(void 0, void 0, void 0, function* () {
+      const { value: rangeval } = yield Swal.fire({
+        title: "Tempo",
+        icon: "question",
+        input: "range",
+        inputLabel: "설정하고자 하는 온도를 선택하세요",
+        inputAttributes: {
+          min: "-20",
+          max: "60",
+          step: "1"
+        },
+        inputValue: 25
+      });
+      if (rangeval) {
+        Swal.fire(`설정온도 : ${rangeval}`);
+      }
+    }))();
   });
 };
 // document ready
