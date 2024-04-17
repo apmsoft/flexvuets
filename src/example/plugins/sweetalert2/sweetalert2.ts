@@ -2,6 +2,10 @@ import Swal from 'sweetalert2'
 
 const onReady = () : void =>
 {
+    // icons 종류
+    /**
+     * sucess, error, warning, info, question
+     */
     // alert
     document.querySelector<HTMLButtonElement>('#btn-confirm')!.addEventListener('click',()=>
     {
