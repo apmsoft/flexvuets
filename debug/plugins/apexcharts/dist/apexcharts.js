@@ -28651,6 +28651,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28681,9 +28683,7 @@ this.absPos=0;this._speed=1;},extend:{/**
         * sets or returns the target of this animation
         * @param null || target SVG.Element which should be set as new target
         * @return target || this
-        */target:function target(_target){
-if(_target&&_target instanceof SVG.Element){
-this._target=_target;
+        */target:function target(_target){if(_target&&_target instanceof SVG.Element){this._target=_target;
 return this;
 }
 
@@ -29222,6 +29222,9 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29239,10 +29242,7 @@ for(var i=abcdef.length-1;i>=0;--i){this[abcdef[i]]=source[abcdef[i]]!=null?sour
 extend:{// Extract individual transformations
 extract:function extract(){// find delta transform points
 var px=deltaTransformPoint(this,0,1);deltaTransformPoint(this,1,0);var skewX=180/Math.PI*Math.atan2(px.y,px.x)-90;return{// translation
-x:this.e,
-y:this.f,
-transformedX:(this.e*Math.cos(skewX*Math.PI/180)+this.f*Math.sin(skewX*Math.PI/180))/Math.sqrt(this.a*this.a+this.b*this.b),
-transformedY:(this.f*Math.cos(skewX*Math.PI/180)+this.e*Math.sin(-skewX*Math.PI/180))/Math.sqrt(this.c*this.c+this.d*this.d),
+x:this.e,y:this.f,transformedX:(this.e*Math.cos(skewX*Math.PI/180)+this.f*Math.sin(skewX*Math.PI/180))/Math.sqrt(this.a*this.a+this.b*this.b),transformedY:(this.f*Math.cos(skewX*Math.PI/180)+this.e*Math.sin(-skewX*Math.PI/180))/Math.sqrt(this.c*this.c+this.d*this.d),
 // rotation
 rotation:skewX,
 a:this.a,
@@ -29957,6 +29957,7 @@ SVG.extend(SVG.Element,{
 
 
 
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29966,8 +29967,7 @@ extend:{// Add a color stop
 at:function at(offset,color,opacity){return this.put(new SVG.Stop()).update(offset,color,opacity);},// Update gradient
 update:function update(block){// remove all stops
 this.clear();// invoke passed block
-if(typeof block==='function'){block.call(this,this);}return this;},
-// Return the fill id
+if(typeof block==='function'){block.call(this,this);}return this;},// Return the fill id
 fill:function fill(){
 return'url(#'+this.id()+')';
 },
