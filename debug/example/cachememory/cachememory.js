@@ -3,7 +3,6 @@ import FastRouter from "../../flexvue/core/fastrouter.class.js";
 import { CacheMemory } from "../../flexvue/core/caches.class.js";
 import AsyncTask from "../../flexvue/core/asynctask.class.js";
 const onReady = () => {
-  var _a, _b, _c, _d;
   new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // 캐시 클래스 선언
@@ -12,27 +11,31 @@ const onReady = () => {
   const data = { num: 1, title: "a" };
   const dataString = "홍길동";
   const dataArray = ["유관순", "이순신", "홍길동"];
-  // 캐시 데이터 체크 및 저장 및 데이터 가져오기
-  const cachedData = (_a = window.cacheMemory._get('/test/object')) !== null && _a !== void 0 ? _a : window.cacheMemory._set('/test/object', data, 60)._get('/test/object');
-  Log.d('cache', '/test/object', cachedData);
-  // string
-  const cachedString = (_b = window.cacheMemory._get('/test/string')) !== null && _b !== void 0 ? _b : window.cacheMemory._set('/test/string', dataString, 60)._get('/test/string');
-  Log.d('cache string', '/test/string', cachedString);
-  // array
-  const cachedArray = (_c = window.cacheMemory._get('/test/array')) !== null && _c !== void 0 ? _c : window.cacheMemory._set('/test/array', dataArray, 60)._get('/test/array');
-  Log.d('cache array', '/test/array', cachedArray);
-  // 비동기 
-  window.cacheMemory._getAsync('/test/array').
-  then((data) => {
-    Log.d('_getAsync', data);
-  });
+  // // 캐시 데이터 체크 및 저장 및 데이터 가져오기
+  // const cachedData = window.cacheMemory._get('/test/object') ?? window.cacheMemory._set('/test/object', data, 60)._get('/test/object');
+  // Log.d('cache','/test/object', cachedData);
+  // // string
+  // const cachedString = window.cacheMemory._get('/test/string') ?? window.cacheMemory._set('/test/string', dataString, 60)._get('/test/string');
+  // Log.d('cache string','/test/string', cachedString);
+  // // array
+  // const cachedArray = window.cacheMemory._get('/test/array') ?? window.cacheMemory._set('/test/array', dataArray, 60)._get('/test/array');
+  // Log.d('cache array','/test/array', cachedArray);
+  // // 비동기 
+  // window.cacheMemory._getAsync('/test/array')
+  // .then(data =>{
+  //     Log.d('_getAsync', data);
+  // });
   // Promise.all 예제
   Promise.all([
-  (_d = window.cacheMemory._getAsync('/test/object')) !== null && _d !== void 0 ? _d : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+  window.cacheMemory._getAsync('/test/array').then((cacheData) => cacheData !== null ? cacheData : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href)),
   new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)]
   ).
   then((data) => {
     Log.v('Promise.all', data);
+    // 캐시 상태 체크 및 캐시 설정
+    if (window.cacheMemory._get('/test/array') === null) {
+      window.cacheMemory._set('/test/array', data[0], 60);
+    }
   }).
   catch((e) => {
     Log.e(e);

@@ -38,12 +38,17 @@ const onReady = () : void =>
 
     // promise.all 사용
     Promise.all([
-        window.cacheStorage._getAsync('mc_array') ?? new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+        window.cacheMemory._getAsync('mc_array').then(cacheData => cacheData !== null ? cacheData : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href)),
         new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)
     ])
     .then(data=>
     {
         Log.d(data);
+
+        // 캐시 상태 체크 및 캐시 설정
+        if(window.cacheStorage._get('mc_array') === null){
+            window.cacheStorage._set( 'mc_array',data[0], 60 );
+        }
     })
     .catch( e =>{
         Log.e( e );

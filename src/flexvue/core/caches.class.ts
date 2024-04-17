@@ -112,7 +112,7 @@ export class CacheMemory {
     // @lifetimesec : 초
     public _set(key: string, data: any, lifetimesec: number = 0): CacheMemory {
         const cacheItem: CacheItem = {
-            data,
+            data: typeof data === 'string' ? data : JSON.stringify(data),
             expiry: lifetimesec > 0 ? Date.now() + lifetimesec * 1000 : 0,
         };
         this.cache[this.getKey(key)] = cacheItem;

@@ -311,27 +311,27 @@ location.host.match(/\.(ru|su|by|xn--p1ai)$/))
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           // ignore
         });}, 2500);}, 500);}} // Assign instance methods from src/instanceMethods/*.js to prototype
 SweetAlert.prototype.disableButtons = instanceMethods.disableButtons;SweetAlert.prototype.enableButtons = instanceMethods.enableButtons;SweetAlert.prototype.getInput = instanceMethods.getInput;SweetAlert.prototype.disableInput = instanceMethods.disableInput;SweetAlert.prototype.enableInput = instanceMethods.enableInput;SweetAlert.prototype.hideLoading = instanceMethods.hideLoading;SweetAlert.prototype.disableLoading = instanceMethods.disableLoading;SweetAlert.prototype.showValidationMessage = instanceMethods.showValidationMessage;SweetAlert.prototype.resetValidationMessage = instanceMethods.resetValidationMessage;SweetAlert.prototype.close = instanceMethods.close;SweetAlert.prototype.closePopup = instanceMethods.closePopup;SweetAlert.prototype.closeModal = instanceMethods.closeModal;SweetAlert.prototype.closeToast = instanceMethods.closeToast;SweetAlert.prototype.rejectPromise = instanceMethods.rejectPromise;SweetAlert.prototype.update = instanceMethods.update;SweetAlert.prototype._destroy = instanceMethods._destroy; // Assign static methods from src/staticMethods/*.js to constructor
-Object.assign(SweetAlert, staticMethods);
-
-// Proxy to instance methods to constructor, for now, for backwards compatibility
-Object.keys(instanceMethods).forEach((key) => {
-  /**
-   * @param {...any} args
-   * @returns {any | undefined}
-   */
-  SweetAlert[key] = function (...args) {
-    if (currentInstance && currentInstance[key]) {
-      return currentInstance[key](...args);
-    }
-    return null;
-  };
-});
-
-SweetAlert.DismissReason = DismissReason;
-
-SweetAlert.version = '11.10.7';
+Object.assign(SweetAlert, staticMethods); // Proxy to instance methods to constructor, for now, for backwards compatibility
+Object.keys(instanceMethods).forEach((key) => {/**
+    * @param {...any} args
+    * @returns {any | undefined}
+    */SweetAlert[key] = function (...args) {if (currentInstance && currentInstance[key]) {return currentInstance[key](...args);}return null;};});SweetAlert.DismissReason = DismissReason;SweetAlert.version = '11.10.7';
 
 export default SweetAlert;

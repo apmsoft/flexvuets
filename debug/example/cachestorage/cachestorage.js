@@ -1,7 +1,7 @@
 import { CacheLocalStorage } from "../../flexvue/core/caches.class.js";
 import AsyncTask from "../../flexvue/core/asynctask.class.js";
 const onReady = () => {
-  var _a, _b, _c, _d;
+  var _a, _b, _c;
   new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // 캐시 클래스 글로벌 선언
@@ -26,11 +26,15 @@ const onReady = () => {
   });
   // promise.all 사용
   Promise.all([
-  (_d = window.cacheStorage._getAsync('mc_array')) !== null && _d !== void 0 ? _d : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
+  window.cacheMemory._getAsync('mc_array').then((cacheData) => cacheData !== null ? cacheData : new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href)),
   new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)]
   ).
   then((data) => {
     Log.d(data);
+    // 캐시 상태 체크 및 캐시 설정
+    if (window.cacheStorage._get('mc_array') === null) {
+      window.cacheStorage._set('mc_array', data[0], 60);
+    }
   }).
   catch((e) => {
     Log.e(e);
