@@ -42,14 +42,15 @@ class Layout {
 
                         <div class="px-2" >
                             <table class="block w-full">
-                                <thead class="w-full block">
-                                    <tr class="w-full block">
+                                <thead class="w-full table table-fixed">
+                                    <tr class="w-full table table-fixed">
                                         <th>No</th>
                                         <th>Title</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tableview" class="w-full block max-h-[500px] overflow-y-auto"></tbody>
+                                <tbody id="tableview" class="w-full block max-h-[450px] overflow-y-auto"></tbody>
                             </table>
+                            
                         </div>
 
                     </div>

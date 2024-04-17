@@ -28771,6 +28771,32 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28830,36 +28856,10 @@ if(s.animations[i][j]instanceof SVG.Number){source[j]=new SVG.Number(source[j]);
         * @param clearQueue A Boolean indicating whether to remove queued animation as well.
         * @return this
         */stop:function stop(jumpToEnd,clearQueue){var active=this.active;this.active=false;if(clearQueue){this.clearQueue();}if(jumpToEnd&&this.situation){// initialize the situation if it was not
-!active&&this.startCurrent();this.atEnd();}
-
-this.stopAnimFrame();
-return this.clearCurrent();
-},
-after:function after(fn){
-var c=this.last(),
-wrapper=function wrapper(e){
-if(e.detail.situation==c){
-fn.call(this,c);
-this.off('finished.fx',wrapper);// prevent memory leak
-}
-};
-
-this.target().on('finished.fx',wrapper);
-return this._callStart();
-},
-// adds a callback which is called whenever one animation step is performed
-during:function during(fn){
-var c=this.last(),
-wrapper=function wrapper(e){
-if(e.detail.situation==c){
-fn.call(this,e.detail.pos,SVG.morph(e.detail.pos),e.detail.eased,c);
-}
-};// see above
-
-
-this.target().off('during.fx',wrapper).on('during.fx',wrapper);
-this.after(function(){
-this.off('during.fx',wrapper);
+!active&&this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();},after:function after(fn){var c=this.last(),wrapper=function wrapper(e){if(e.detail.situation==c){fn.call(this,c);this.off('finished.fx',wrapper);// prevent memory leak
+}};this.target().on('finished.fx',wrapper);return this._callStart();},// adds a callback which is called whenever one animation step is performed
+during:function during(fn){var c=this.last(),wrapper=function wrapper(e){if(e.detail.situation==c){fn.call(this,e.detail.pos,SVG.morph(e.detail.pos),e.detail.eased,c);}};// see above
+this.target().off('during.fx',wrapper).on('during.fx',wrapper);this.after(function(){this.off('during.fx',wrapper);
 });
 return this._callStart();
 },
@@ -29402,6 +29402,45 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29472,51 +29511,12 @@ relative=!!relative||!!o.relative;// act on matrix
 if(o.a!=null){matrix=relative// relative
 ?matrix.multiply(new SVG.Matrix(o))// absolute
 :new SVG.Matrix(o);}return this.attr('transform',matrix);}});SVG.extend(SVG.Element,{// Reset all transformations
-untransform:function untransform(){return this.attr('transform',null);},
-// merge the whole transformation chain into one matrix and returns it
-matrixify:function matrixify(){
-var matrix=(this.attr('transform')||'').split(SVG.regex.transforms).slice(0,-1).map(function(str){
-// generate key => value pairs
-var kv=str.trim().split('(');
-return[kv[0],kv[1].split(SVG.regex.delimiter).map(function(str){
-return parseFloat(str);
-})];
-})// merge every transformation into one matrix
-.reduce(function(matrix,transform){
-if(transform[0]=='matrix')return matrix.multiply(arrayToMatrix(transform[1]));
-return matrix[transform[0]].apply(matrix,transform[1]);
-},new SVG.Matrix());
-return matrix;
-},
-// add an element to another parent without changing the visual representation on the screen
-toParent:function toParent(parent){
-if(this==parent)return this;
-var ctm=this.screenCTM();
-var pCtm=parent.screenCTM().inverse();
-this.addTo(parent).untransform().transform(pCtm.multiply(ctm));
-return this;
-},
-// same as above with parent equals root-svg
-toDoc:function toDoc(){
-return this.toParent(this.doc());
-}
-});
-SVG.Transformation=SVG.invent({
-create:function create(source,inversed){
-if(arguments.length>1&&typeof inversed!=='boolean'){
-return this.constructor.call(this,[].slice.call(arguments));
-}
-
-if(Array.isArray(source)){
-for(var i=0,len=this.arguments.length;i<len;++i){
-this[this.arguments[i]]=source[i];
-}
-}else if(source&&_typeof(source)==='object'){
-for(var i=0,len=this.arguments.length;i<len;++i){
-this[this.arguments[i]]=source[this.arguments[i]];
-}
-}
-
+untransform:function untransform(){return this.attr('transform',null);},// merge the whole transformation chain into one matrix and returns it
+matrixify:function matrixify(){var matrix=(this.attr('transform')||'').split(SVG.regex.transforms).slice(0,-1).map(function(str){// generate key => value pairs
+var kv=str.trim().split('(');return[kv[0],kv[1].split(SVG.regex.delimiter).map(function(str){return parseFloat(str);})];})// merge every transformation into one matrix
+.reduce(function(matrix,transform){if(transform[0]=='matrix')return matrix.multiply(arrayToMatrix(transform[1]));return matrix[transform[0]].apply(matrix,transform[1]);},new SVG.Matrix());return matrix;},// add an element to another parent without changing the visual representation on the screen
+toParent:function toParent(parent){if(this==parent)return this;var ctm=this.screenCTM();var pCtm=parent.screenCTM().inverse();this.addTo(parent).untransform().transform(pCtm.multiply(ctm));return this;},// same as above with parent equals root-svg
+toDoc:function toDoc(){return this.toParent(this.doc());}});SVG.Transformation=SVG.invent({create:function create(source,inversed){if(arguments.length>1&&typeof inversed!=='boolean'){return this.constructor.call(this,[].slice.call(arguments));}if(Array.isArray(source)){for(var i=0,len=this.arguments.length;i<len;++i){this[this.arguments[i]]=source[i];}}else if(source&&_typeof(source)==='object'){for(var i=0,len=this.arguments.length;i<len;++i){this[this.arguments[i]]=source[this.arguments[i]];}}
 this.inversed=false;
 
 if(inversed===true){
@@ -30017,6 +30017,19 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30041,27 +30054,14 @@ create:'stop',// Inherit from
 inherit:SVG.Element,// Add class methods
 extend:{// add color stops
 update:function update(o){if(typeof o==='number'||o instanceof SVG.Number){o={offset:arguments[0],color:arguments[1],opacity:arguments[2]};}// set attributes
-if(o.opacity!=null)this.attr('stop-opacity',o.opacity);if(o.color!=null)this.attr('stop-color',o.color);if(o.offset!=null)this.attr('offset',new SVG.Number(o.offset));return this;}
-}
-});
-SVG.Pattern=SVG.invent({
-// Initialize node
-create:'pattern',
-// Inherit from
-inherit:SVG.Container,
-// Add class methods
-extend:{
-// Return the fill id
-fill:function fill(){
-return'url(#'+this.id()+')';
-},
-// Update pattern by rebuilding
-update:function update(block){
-// remove content
+if(o.opacity!=null)this.attr('stop-opacity',o.opacity);if(o.color!=null)this.attr('stop-color',o.color);if(o.offset!=null)this.attr('offset',new SVG.Number(o.offset));return this;}}});SVG.Pattern=SVG.invent({// Initialize node
+create:'pattern',// Inherit from
+inherit:SVG.Container,// Add class methods
+extend:{// Return the fill id
+fill:function fill(){return'url(#'+this.id()+')';},// Update pattern by rebuilding
+update:function update(block){// remove content
 this.clear();// invoke passed block
-
-if(typeof block==='function'){
-block.call(this,this);
+if(typeof block==='function'){block.call(this,this);
 }
 
 return this;
