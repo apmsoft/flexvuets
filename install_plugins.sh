@@ -44,3 +44,7 @@ npm i notyf --save
 ## SweetAlert2
 echo "install SweetAlert2"
 npm install sweetalert2 --save
+
+# Draggable
+echo "install Draggable"
+npm install @shopify/draggable --save

@@ -42,6 +42,7 @@ module.exports = {
             ,"@cevad-tokatli/date-picker" : `./${debugPath}/plugins/@cevad-tokatli/date-picker/js/date-picker.esm.js`
             ,"notyf" : `./${debugPath}/plugins/notyf/notyf.es.js`
             ,"sweetalert2": `./${debugPath}/plugins/sweetalert2/src/sweetalert2.js`
+            ,"@shopify/draggable": `./${debugPath}/plugins/@shopify/draggable`
           }
         }
       ]

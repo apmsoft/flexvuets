@@ -111,3 +111,9 @@ npm install sweetalert2 --save
 
 >> babel.config.js
 "sweetalert2": `./${debugPath}/plugins/sweetalert2/src/sweetalert2.js`
+
+### draggable : https://github.com/Shopify/draggable?tab=readme-ov-file
+npm install @shopify/draggable --save
+
+>> babel.config.js
+"@shopify/draggable": `./${debugPath}/plugins/@shopify/draggable`
