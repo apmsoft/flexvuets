@@ -108,9 +108,9 @@ class Observable {
         this.observers[_channel] = this.observers[_channel].filter(subscriber => subscriber !== o);
     }
 
-    public notify(channel: string, message: any): void {
+    async notify(channel: string, message: any) {
         const _channel : any = this._findChannel(channel);
-        this.observers[_channel].forEach(observer => observer.update(message));
+        await Promise.all(this.observers[_channel].map(observer => observer.update(message)));
     }
 }
 
