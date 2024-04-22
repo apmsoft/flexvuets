@@ -1,6 +1,5 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
-// import R from '@flexvue/resource';
 import Navigation from "./nav.class.js";
 import { MyException } from "./exception.class.js";
 // 이전 화면 패널 위치
@@ -94,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
   R.__init({
     sysmsg: new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
     arrays: new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
-    strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,
-    numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
+    strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href
+    // numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
   }).then(() => {
     onReady();
   }).catch((err) => {

@@ -15,6 +15,7 @@ const onReady = () => {
     Log.clear();
     Log.d(form_params);
     window.observable.notify('public', (_a = form_params.message) !== null && _a !== void 0 ? _a : '-');
+    // window.observable.notify('public', form_params.message?? '-' ).then(()=> Log.d('모든 update 완료'));
   });
 };
 // document ready

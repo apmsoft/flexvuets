@@ -2,6 +2,7 @@
 
 ## [3.1]
 ### - 2024-04-22
+- prism-es6 소스 코드 뷰어 플러그인 새로 추가
 - Observable 클래스 notify 메소드 비동기로 업데이트
 - AsyncTask option,headers 따로 또는 결합에 따른 버그 패치
 - AsyncTask GET,POST 에 따른 option, params 자동 위치 설정 기능 추가

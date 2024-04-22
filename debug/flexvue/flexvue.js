@@ -75,8 +75,10 @@ class Observable {
     this.observers[_channel] = this.observers[_channel].filter((subscriber) => subscriber !== o);
   }
   notify(channel, message) {
-    const _channel = this._findChannel(channel);
-    this.observers[_channel].forEach((observer) => observer.update(message));
+    return __awaiter(this, void 0, void 0, function* () {
+      const _channel = this._findChannel(channel);
+      yield Promise.all(this.observers[_channel].map((observer) => observer.update(message)));
+    });
   }
 }
 class ScrollObserver {

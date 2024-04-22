@@ -117,3 +117,9 @@ npm install @shopify/draggable --save
 
 >> babel.config.js
 "@shopify/draggable": `./${debugPath}/plugins/@shopify/draggable`
+
+### prism-es6 : https://github.com/elisiondesign/prism-es6
+npm install --save prism-es6
+
+>> babel.config.js
+,"prism-es6": `./${debugPath}/plugins/prism-es6/prism.js`
