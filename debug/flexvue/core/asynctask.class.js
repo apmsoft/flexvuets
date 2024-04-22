@@ -21,7 +21,6 @@ export default class AsyncTask {
       let redirect_url = url;
       let headers = _method == 'GET' ? { 'Content-Type': 'text/plain' } : { 'Content-Type': 'application/json' };
       let _options = method == 'GET' ? params !== null ? [params] : options : options;
-      Log.d('_options', _options);
       let otherOptions = {};
       if (_options !== null) {
         _options.forEach((opt) => {
@@ -38,7 +37,6 @@ export default class AsyncTask {
           }
         });
       }
-      Log.d('headers', headers);
       let requestOptions = {
         method: _method,
         cache: 'no-cache',
@@ -52,7 +50,6 @@ export default class AsyncTask {
       Object.entries(otherOptions).forEach(([key, value]) => {
         requestOptions[key] = value;
       });
-      Log.d('requestOptions', requestOptions);
       const response = yield fetch(redirect_url, requestOptions);
       const contentType = response.headers.get('content-type');
       if (!response.ok) {

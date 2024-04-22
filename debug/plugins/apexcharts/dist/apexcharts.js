@@ -28725,6 +28725,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28774,9 +28776,7 @@ this.stop();// get next animation from queue
 this.situation=this.situations.shift();if(this.situation){if(this.situation instanceof SVG.Situation){this.start();}else{// If it is not a SVG.Situation, then it is a function, we execute it
 this.situation.call(this);}}return this;},// updates all animations to the current state of the element
 // this is important when one property could be changed from another property
-initAnimations:function initAnimations(){var source;var s=this.situation;if(s.init)return this;for(var i in s.animations){source=this.target()[i]();if(!Array.isArray(source)){source=[source];}if(!Array.isArray(s.animations[i])){
-s.animations[i]=[s.animations[i]];
-}// if(s.animations[i].length > source.length) {
+initAnimations:function initAnimations(){var source;var s=this.situation;if(s.init)return this;for(var i in s.animations){source=this.target()[i]();if(!Array.isArray(source)){source=[source];}if(!Array.isArray(s.animations[i])){s.animations[i]=[s.animations[i]];}// if(s.animations[i].length > source.length) {
 //  source.concat = source.concat(s.animations[i].slice(source.length, s.animations[i].length))
 // }
 
@@ -29333,6 +29333,9 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29383,11 +29386,8 @@ attr:function attr(a,v,n){// act as full getter
 if(a==null){// get an object of attributes
 a={};v=this.node.attributes;for(var n=v.length-1;n>=0;n--){a[v[n].nodeName]=SVG.regex.isNumber.test(v[n].nodeValue)?parseFloat(v[n].nodeValue):v[n].nodeValue;}return a;}else if(_typeof(a)==='object'){// apply every attribute individually if an object is passed
 for(var v_ in a){this.attr(v_,a[v_]);}}else if(v===null){// remove value
-this.node.removeAttribute(a);
-}else if(v==null){
-// act as a getter if the first and only argument is not an object
-v=this.node.getAttribute(a);
-return v==null?SVG.defaults.attrs[a]:SVG.regex.isNumber.test(v)?parseFloat(v):v;
+this.node.removeAttribute(a);}else if(v==null){// act as a getter if the first and only argument is not an object
+v=this.node.getAttribute(a);return v==null?SVG.defaults.attrs[a]:SVG.regex.isNumber.test(v)?parseFloat(v):v;
 }else{
 // BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
 if(a=='stroke-width'){
@@ -29994,6 +29994,7 @@ SVG.extend(SVG.Element,{
 
 
 
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30012,7 +30013,6 @@ gradient:function gradient(type,block){return this.defs().gradient(type,block);}
 SVG.extend(SVG.Gradient,SVG.FX,{// From position
 from:function from(x,y){return(this._target||this).type=='radial'?this.attr({fx:new SVG.Number(x),fy:new SVG.Number(y)}):this.attr({x1:new SVG.Number(x),y1:new SVG.Number(y)});},// To position
 to:function to(x,y){return(this._target||this).type=='radial'?this.attr({cx:new SVG.Number(x),cy:new SVG.Number(y)}):this.attr({x2:new SVG.Number(x),y2:new SVG.Number(y)});}});// Base gradient generation
-
 SVG.extend(SVG.Defs,{
 // define gradient
 gradient:function gradient(type,block){

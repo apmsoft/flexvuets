@@ -1119,6 +1119,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1174,11 +1176,9 @@
         */dequeue: function () {// stop current animation
           this.stop(); // get next animation from queue
           this.situation = this.situations.shift();if (this.situation) {if (this.situation instanceof SVG.Situation) {this.start();} else {// If it is not a SVG.Situation, then it is a function, we execute it
-              this.situation.call(this);}}return this;},
-        // updates all animations to the current state of the element
+              this.situation.call(this);}}return this;}, // updates all animations to the current state of the element
         // this is important when one property could be changed from another property
-        initAnimations: function () {
-          var source;
+        initAnimations: function () {var source;
           var s = this.situation;
 
           if (s.init) return this;
@@ -1770,6 +1770,9 @@
 
 
 
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1814,10 +1817,7 @@
       extend: { // Clone point
         clone: function () {return new SVG.Point(this);}, // Morph one point into another
         morph: function (x, y) {// store new destination
-          this.destination = new SVG.Point(x, y);return this;
-        }
-
-
+          this.destination = new SVG.Point(x, y);return this;}
 
       }
 
@@ -2508,6 +2508,7 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2525,8 +2526,7 @@
         gradient: function (type, block) {return this.defs().gradient(type, block);} } }); // Add animatable methods to both gradient and fx module
   SVG.extend(SVG.Gradient, SVG.FX, { // From position
       from: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ fx: new SVG.Number(x), fy: new SVG.Number(y) }) : this.attr({ x1: new SVG.Number(x), y1: new SVG.Number(y) });}, // To position
-      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });} });
-  // Base gradient generation
+      to: function (x, y) {return (this._target || this).type == 'radial' ? this.attr({ cx: new SVG.Number(x), cy: new SVG.Number(y) }) : this.attr({ x2: new SVG.Number(x), y2: new SVG.Number(y) });} }); // Base gradient generation
   SVG.extend(SVG.Defs, {
     // define gradient
     gradient: function (type, block) {

@@ -1,7 +1,6 @@
 import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
-// import R from '@flexvue/resource';
 
 import Navigation from '@t1/js/nav.class.js';
 import {MyException} from '@t1/js/exception.class.js';
@@ -47,22 +46,23 @@ const onReady = () : void =>
     {
         btn_logout.addEventListener("click", () => 
         {
-            new AsyncTask().execute('POST', `${config.src}/manager/login/out`,{},config._options_,config._headers_)
-            .then((resp)=>
-            {
-                // result
-                if(resp.result == 'false'){
-                    throw resp;
-                }
+            alert('로그아웃');
+            // new AsyncTask().execute('POST', `${config.src}/manager/login/out`,{},config._options_,config._headers_)
+            // .then((resp)=>
+            // {
+            //     // result
+            //     if(resp.result == 'false'){
+            //         throw resp;
+            //     }
 
-                window.location.href = "../login.html";
-            })
-            .catch(err => {
-                window.observable.notify('exception',err);
-            })
-            .finally(()=>{
-                ProgressBars.close();
-            });
+            //     window.location.href = "../login.html";
+            // })
+            // .catch(err => {
+            //     window.observable.notify('exception',err);
+            // })
+            // .finally(()=>{
+            //     ProgressBars.close();
+            // });
         }, false);
     }
 
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
         arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
         strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,
-        numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
+        // numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
     }).then(() => {
         onReady();
     }).catch(err => {

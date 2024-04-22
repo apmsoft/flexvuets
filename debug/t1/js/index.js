@@ -1,5 +1,4 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
 // import R from '@flexvue/resource';
 import Navigation from "./nav.class.js";
@@ -32,20 +31,22 @@ const onReady = () => {
   const btn_logout = document.querySelector("#btn-logout");
   if (btn_logout) {
     btn_logout.addEventListener("click", () => {
-      new AsyncTask().execute('POST', `${config.src}/manager/login/out`, {}, config._options_, config._headers_).
-      then((resp) => {
-        // result
-        if (resp.result == 'false') {
-          throw resp;
-        }
-        window.location.href = "../login.html";
-      }).
-      catch((err) => {
-        window.observable.notify('exception', err);
-      }).
-      finally(() => {
-        ProgressBars.close();
-      });
+      alert('로그아웃');
+      // new AsyncTask().execute('POST', `${config.src}/manager/login/out`,{},config._options_,config._headers_)
+      // .then((resp)=>
+      // {
+      //     // result
+      //     if(resp.result == 'false'){
+      //         throw resp;
+      //     }
+      //     window.location.href = "../login.html";
+      // })
+      // .catch(err => {
+      //     window.observable.notify('exception',err);
+      // })
+      // .finally(()=>{
+      //     ProgressBars.close();
+      // });
     }, false);
   }
   // routes

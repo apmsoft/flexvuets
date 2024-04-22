@@ -11,39 +11,35 @@ const onReady = () => {
   formData.forEach((value, key) => {
     post_params.append(key, value);
   });
-  // AsyncTask, 옵션 | 헤더
-  // new AsyncTask().execute('POST','http://127.0.0.1:5500/test/list',post_params,{
-  //         mode : 'cors', // no-cors, cors, *same-origin
-  //         redirect : 'follow',
-  //         // 'Content-Type' : 'application/json',
-  //         'Content-Type': 'application/x-www-form-urlencoded',
-  //         'Authorization-Access-Token':'Y29tZmFuY3l1cHN'
-  //     }
-  // )
-  // .then( data =>{
-  //     const resp : Response = data;
-  //     Log.d('strings >>> ',resp);
-  //     // document.querySelector<HTMLDivElement>('#echo_contents')!.innerHTML = JSON.stringify(resp,null,2);
-  // })
-  // .catch(e =>{
-  //     Log.e(e);
-  // });
-  // // AsyncTask , 헤더
-  // new AsyncTask().execute('POST','http://127.0.0.1:5500/ddd/list',{a:1,b:2},
-  //     {'mode':'origin',},
-  //     {
-  //         'Content-Type' : 'application/json',
-  //         'Access-Token' : 'ddddd'
-  //     }
-  // )
-  // .then( data =>{
-  //     const resp : Response = data;
-  //     Log.d('arrays >>> ',resp);
-  // })
-  // .catch(e =>{
-  //     Log.e(e);
-  // });
-  // AsyncTask , 헤더+옵션
+  // POST, 옵션+헤더
+  new AsyncTask().execute('POST', 'http://127.0.0.1:5500/test/list', post_params, {
+    mode: 'cors', // no-cors, cors, *same-origin
+    redirect: 'follow',
+    // 'Content-Type' : 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Authorization-Access-Token': 'Y29tZmFuY3l1cHN'
+  }).
+  then((data) => {
+    const resp = data;
+    Log.d('strings >>> ', resp);
+    // document.querySelector<HTMLDivElement>('#echo_contents')!.innerHTML = JSON.stringify(resp,null,2);
+  }).
+  catch((e) => {
+    Log.e(e);
+  });
+  // POST , 옵션, 헤더
+  new AsyncTask().execute('POST', 'http://127.0.0.1:5500/ddd/list', { a: 1, b: 2 }, { 'mode': 'origin' }, {
+    'Content-Type': 'application/json',
+    'Access-Token': 'ddddd'
+  }).
+  then((data) => {
+    const resp = data;
+    Log.d('arrays >>> ', resp);
+  }).
+  catch((e) => {
+    Log.e(e);
+  });
+  // GET , 헤더+옵션
   new AsyncTask().execute('GET', 'http://127.0.0.1:5500/ddd/view/1', {
     mode: 'cors',
     'Content-Type': 'application/json'
