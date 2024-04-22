@@ -12,17 +12,31 @@ export default class AsyncTask {
         method: string,
         url: string,
         params: Record<string, any> = {},
-        ...options: (Record<string, any> | Record<string, string> | null)[]
+        ...options: (Record<string, any> | null)[]
     ): Promise<any> {
         const _method = method.toUpperCase();
 
         let redirect_url = url;
+        let headers = ((_method == 'GET') ? {'Content-Type': 'text/plain'} : {'Content-Type': 'application/json'});
+        let _options = (method == 'GET') ? (params !==null) ? [params] : options : options;
 
-        let headers = options.find(opt => typeof opt === 'object' && !Array.isArray(opt)) as Record<string, string> | null;
-        let otherOptions = options.filter(opt => opt !== headers);
-        otherOptions = otherOptions.filter(opt => opt !== null);
+        let otherOptions : object = {};
+        if(_options !== null)
+        {
+            _options.forEach(opt => {
+                if(opt !==null){
+                    Object.entries(opt).forEach(([key, value]) => {
+                        let _startString : string = key.substring(0, 1);
+                        if(/^[A-Z]+$/.test(_startString)){
+                            headers[key] = value;
+                        }else{
+                            otherOptions[key] = value;
+                        }
+                    });
+                }
+            });
+        }
 
-        headers = headers || ((_method == 'GET') ? {'Content-Type': 'text/plain'} : {'Content-Type': 'application/json'});
         let requestOptions: OptionsRequestInit = {
             method: _method,
             cache: 'no-cache',
@@ -35,12 +49,8 @@ export default class AsyncTask {
             requestOptions.body = JSON.stringify(params);
         }
 
-        otherOptions.forEach(opt => {
-            if (opt !== null) {
-                Object.entries(opt).forEach(([key, value]) => {
-                    requestOptions[key] = value;
-                });
-            }
+        Object.entries(otherOptions).forEach(([key, value]) => {
+            requestOptions[key] = value;
         });
 
         const response = await fetch(redirect_url, requestOptions);

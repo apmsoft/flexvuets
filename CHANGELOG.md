@@ -1,6 +1,10 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-22
+- AsyncTask option,headers 따로 또는 결합에 따른 버그 패치
+- AsyncTask GET,POST 에 따른 option, params 자동 위치 설정 기능 추가
+
 ### - 2024-04-21
 - Draggable Plugins New Add
 
