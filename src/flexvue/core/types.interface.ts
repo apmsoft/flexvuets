@@ -1,7 +1,7 @@
 export interface Response {
     result : "true" | "false";
     msg_code? : string | number;
-    msg : string | Record<string,any>
+    msg : string | Record<string,any> | any[]
     [propName : string] : any
 }
 

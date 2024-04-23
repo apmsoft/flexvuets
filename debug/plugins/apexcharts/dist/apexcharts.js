@@ -28617,6 +28617,40 @@ this.loop=0;
 this.loops=false;
 this.animations={
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28631,57 +28665,23 @@ this.animations={
 
 // functions to fire at a specific position
 // e.g. "0.5": function foo(){}
-};}});
-SVG.FX=SVG.invent({
-create:function create(element){
-this._target=element;
-this.situations=[];
-this.active=false;
-this.situation=null;
-this.paused=false;
-this.lastPos=0;
-this.pos=0;// The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
+};}});SVG.FX=SVG.invent({create:function create(element){this._target=element;this.situations=[];this.active=false;this.situation=null;this.paused=false;this.lastPos=0;this.pos=0;// The absolute position of an animation is its position in the context of its complete duration (including delay and loops)
 // When performing a delay, absPos is below 0 and when performing a loop, its value is above 1
-
-this.absPos=0;
-this._speed=1;
-},
-extend:{
-/**
+this.absPos=0;this._speed=1;},extend:{/**
          * sets or returns the target of this animation
          * @param o object || number In case of Object it holds all parameters. In case of number its the duration of the animation
          * @param ease function || string Function which should be used for easing or easing keyword
          * @param delay Number indicating the delay before the animation starts
          * @return target || this
-         */
-animate:function animate(o,ease,delay){
-if(_typeof(o)==='object'){
-ease=o.ease;
-delay=o.delay;
-o=o.duration;
-}
-
-var situation=new SVG.Situation({
-duration:o||1000,
-delay:delay||0,
-ease:SVG.easing[ease||'-']||ease
-});
-this.queue(situation);
-return this;
-},
-
-/**
+         */animate:function animate(o,ease,delay){if(_typeof(o)==='object'){ease=o.ease;delay=o.delay;o=o.duration;}var situation=new SVG.Situation({duration:o||1000,delay:delay||0,ease:SVG.easing[ease||'-']||ease});this.queue(situation);return this;},/**
         * sets a delay before the next element of the queue is called
         * @param delay Duration of delay in milliseconds
         * @return this.target()
-        */
-
-/**
+        */ /**
         * sets or returns the target of this animation
         * @param null || target SVG.Element which should be set as new target
         * @return target || this
-        */
-target:function target(_target){
+        */target:function target(_target){
 if(_target&&_target instanceof SVG.Element){
 this._target=_target;
 return this;
@@ -29171,74 +29171,74 @@ if(topParent!=document)throw new Error('Element not in the dom');
 }else{
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
 }// find native bbox
-box=element.node.getBBox();}catch(e){
-if(element instanceof SVG.Shape){
-if(!SVG.parser.draw){
-// fixes apexcharts/vue-apexcharts #14
-SVG.prepare();
-}
-
-var clone=element.clone(SVG.parser.draw.instance).show();
-
-if(clone&&clone.node&&typeof clone.node.getBBox==='function'){
-// this check fixes jest unit tests
-box=clone.node.getBBox();
-}
-
-if(clone&&typeof clone.remove==='function'){
-clone.remove();
-}
-}else{
-box={
-x:element.node.clientLeft,
-y:element.node.clientTop,
-width:element.node.clientWidth,
-height:element.node.clientHeight
-};
-}
-}
-
-SVG.Box.call(this,box);
-}
-},
-// Define ancestor
-inherit:SVG.Box,
-// Define Parent
-parent:SVG.Element,
-// Constructor
-construct:{
-// Get bounding box
-bbox:function bbox(){
-return new SVG.BBox(this);
-}
-}
-});
-SVG.BBox.prototype.constructor=SVG.BBox;
-SVG.Matrix=SVG.invent({
-// Initialize
-create:function create(source){
-var base=arrayToMatrix([1,0,0,1,0,0]);// ensure source as object
-
+box=element.node.getBBox();}catch(e){if(element instanceof SVG.Shape){if(!SVG.parser.draw){// fixes apexcharts/vue-apexcharts #14
+SVG.prepare();}var clone=element.clone(SVG.parser.draw.instance).show();if(clone&&clone.node&&typeof clone.node.getBBox==='function'){// this check fixes jest unit tests
+box=clone.node.getBBox();}if(clone&&typeof clone.remove==='function'){clone.remove();}}else{box={x:element.node.clientLeft,y:element.node.clientTop,width:element.node.clientWidth,height:element.node.clientHeight};}}SVG.Box.call(this,box);}},// Define ancestor
+inherit:SVG.Box,// Define Parent
+parent:SVG.Element,// Constructor
+construct:{// Get bounding box
+bbox:function bbox(){return new SVG.BBox(this);}}});SVG.BBox.prototype.constructor=SVG.BBox;SVG.Matrix=SVG.invent({// Initialize
+create:function create(source){var base=arrayToMatrix([1,0,0,1,0,0]);// ensure source as object
 source=source===null?base:source instanceof SVG.Element?source.matrixify():typeof source==='string'?arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)):arguments.length==6?arrayToMatrix([].slice.call(arguments)):Array.isArray(source)?arrayToMatrix(source):source&&_typeof(source)==='object'?source:base;// merge source
-
-for(var i=abcdef.length-1;i>=0;--i){
-this[abcdef[i]]=source[abcdef[i]]!=null?source[abcdef[i]]:base[abcdef[i]];
-}
-},
-// Add methods
-extend:{
-// Extract individual transformations
-extract:function extract(){
-// find delta transform points
-var px=deltaTransformPoint(this,0,1);
-deltaTransformPoint(this,1,0);
-var skewX=180/Math.PI*Math.atan2(px.y,px.x)-90;
-return{
-// translation
+for(var i=abcdef.length-1;i>=0;--i){this[abcdef[i]]=source[abcdef[i]]!=null?source[abcdef[i]]:base[abcdef[i]];}},// Add methods
+extend:{// Extract individual transformations
+extract:function extract(){// find delta transform points
+var px=deltaTransformPoint(this,0,1);deltaTransformPoint(this,1,0);var skewX=180/Math.PI*Math.atan2(px.y,px.x)-90;return{// translation
 x:this.e,
 y:this.f,
 transformedX:(this.e*Math.cos(skewX*Math.PI/180)+this.f*Math.sin(skewX*Math.PI/180))/Math.sqrt(this.a*this.a+this.b*this.b),
@@ -29940,33 +29940,33 @@ return clone;
 //
 
 SVG.extend(SVG.Element,{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Get all siblings, including myself
-});SVG.Gradient=SVG.invent({
-// Initialize node
-create:function create(type){
-this.constructor.call(this,SVG.create(type+'Gradient'));// store type
-
-this.type=type;
-},
-// Inherit from
-inherit:SVG.Container,
-// Add class methods
-extend:{
-// Add a color stop
-at:function at(offset,color,opacity){
-return this.put(new SVG.Stop()).update(offset,color,opacity);
-},
-// Update gradient
-update:function update(block){
-// remove all stops
+});SVG.Gradient=SVG.invent({// Initialize node
+create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
+this.type=type;},// Inherit from
+inherit:SVG.Container,// Add class methods
+extend:{// Add a color stop
+at:function at(offset,color,opacity){return this.put(new SVG.Stop()).update(offset,color,opacity);},// Update gradient
+update:function update(block){// remove all stops
 this.clear();// invoke passed block
-
-if(typeof block==='function'){
-block.call(this,this);
-}
-
-return this;
-},
+if(typeof block==='function'){block.call(this,this);}return this;},
 // Return the fill id
 fill:function fill(){
 return'url(#'+this.id()+')';

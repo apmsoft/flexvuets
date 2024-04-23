@@ -1,6 +1,10 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-23
+- prism-es6 example 추가
+- Response type 추가 msg : string | Record<string,any> | any[]
+
 ### - 2024-04-22
 - prism-es6 소스 코드 뷰어 플러그인 새로 추가
 - Observable 클래스 notify 메소드 비동기로 업데이트

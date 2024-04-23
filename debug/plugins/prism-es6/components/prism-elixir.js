@@ -15,44 +15,44 @@ Prism.languages.elixir = {
     greedy: true,
     inside: {
 
-      // See interpolation below
-    } },
-  {
-    pattern: /("""|''')[\s\S]*?\1/,
-    greedy: true,
-    inside: {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       // See interpolation below
-    } },
-  {
-    // Multi-line strings are allowed
-    pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
-    greedy: true,
-    inside: {
+    } }, { pattern: /("""|''')[\s\S]*?\1/, greedy: true, inside: {
+
+
+
+
 
       // See interpolation below
-    } }],
+    } }, { // Multi-line strings are allowed
+    pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/, greedy: true, inside: {
 
-  'atom': {
-    // Look-behind prevents bad highlighting of the :: operator
-    pattern: /(^|[^:]):\w+/,
-    lookbehind: true,
-    alias: 'symbol'
-  },
-  // Look-ahead prevents bad highlighting of the :: operator
-  'attr-name': /\w+:(?!:)/,
-  'capture': {
-    // Look-behind prevents bad highlighting of the && operator
-    pattern: /(^|[^&])&(?:[^&\s\d()][^\s()]*|(?=\())/,
-    lookbehind: true,
-    alias: 'function'
-  },
-  'argument': {
-    // Look-behind prevents bad highlighting of the && operator
-    pattern: /(^|[^&])&\d+/,
-    lookbehind: true,
-    alias: 'variable'
-  },
+
+
+
+
+      // See interpolation below
+    } }], 'atom': { // Look-behind prevents bad highlighting of the :: operator
+    pattern: /(^|[^:]):\w+/, lookbehind: true, alias: 'symbol' }, // Look-ahead prevents bad highlighting of the :: operator
+  'attr-name': /\w+:(?!:)/, 'capture': { // Look-behind prevents bad highlighting of the && operator
+    pattern: /(^|[^&])&(?:[^&\s\d()][^\s()]*|(?=\())/, lookbehind: true, alias: 'function' }, 'argument': { // Look-behind prevents bad highlighting of the && operator
+    pattern: /(^|[^&])&\d+/, lookbehind: true, alias: 'variable' },
   'attribute': {
     pattern: /@\w+/,
     alias: 'variable'
