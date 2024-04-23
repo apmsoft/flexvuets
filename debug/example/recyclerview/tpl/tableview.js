@@ -3,8 +3,8 @@ class TableView {
   }
   render(message = {}) {
     return `
-        <td>${message.id}</td>
-        <td class="item" data-id="${message.id}">${message.title}</td>
+        <td class="w-auto">${message.id}</td>
+        <td class="item w-auto" data-id="${message.id}">${message.title}</td>
         `;
   }
 }

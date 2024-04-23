@@ -41,14 +41,14 @@ class Layout {
                     <div class="xl:container xl:mx-auto lg:m-h-[500px] relative pt-10 h-[800px]">
 
                         <div class="px-2" >
-                            <table class="block w-full">
-                                <thead class="w-full table table-fixed">
-                                    <tr class="w-full table table-fixed">
+                            <table class="w-full table-auto">
+                                <thead>
+                                    <tr>
                                         <th>No</th>
                                         <th>Title</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tableview" class="w-full block max-h-[450px] overflow-y-auto"></tbody>
+                                <tbody id="tableview" class=" max-h-[450px] overflow-y-auto flex flex-col"></tbody>
                             </table>
                             
                         </div>
