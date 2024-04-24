@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-24
+- nouislider plugins 추가 및 example 
+
 ### - 2024-04-23
 - prism-es6 example 추가
 - Response type 추가 msg : string | Record<string,any> | any[]

@@ -44,6 +44,7 @@ module.exports = {
             ,"sweetalert2": `./${debugPath}/plugins/sweetalert2/src/sweetalert2.js`
             ,"@shopify/draggable": `./${debugPath}/plugins/@shopify/draggable`
             ,"prism-es6": `./${debugPath}/plugins/prism-es6/prism.js`
+            ,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.mjs`
           }
         }
       ]

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SweetAlert2</title>
+
+    <link rel="stylesheet" href="../../css/tailwind.css">
+    <link rel="stylesheet" href="../../css/fontawesome-all.css">
+    <link rel="stylesheet" href="../../css/animate.css">
+    <link rel="stylesheet" href="../../../plugins/nouislider/dist/nouislider.css">
+
+    <style>
+        #slider-pips .noUi-value-horizontal {
+            -webkit-transform: translate(-50%, 25px);
+            transform: translate(-50%, 25px);
+            writing-mode: vertical-lr;
+        }
+
+        .active-pip {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+
+    <script defer src="../../../flexvue/flexvue.js"></script>
+
+</head>
+<body>
+    <!--left-->
+    <div id="left" class="fvue--layout z-0 bg-blue-lightd6">
+        <div class="fvue--layout--container">
+
+            <div class="fvue--layout--header py-3">
+                <div class="fvue--layout--header--row px-3">
+                    <div class="fvue--layout--icon">
+
+                    </div>
+                    <div class="fvue--layout--title text-gray-800">
+                      <a href="#">FlexVue (플렉스뷰)</a>
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation">
+                        <button type="button" class="text-gray-500" title="새소식" id="btn-alarm">
+                            <i class="far fa-bell"></i>
+                        </button>
+                        <button type="button" class="ml-3 text-gray-500" title="logout" id="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="fvue--layout--main h-full">
+                <div class="container py-10 px-4">
+                    <div class="flex flex-col space-y-8">
+                        <div>
+                            <div id="slider"></div>
+                        </div>
+
+                        <div>
+                            <div id="slider-pips"></div>
+                        </div>
+
+                        <div class="pt-[100px] flex flex-col space-y-5">
+                            <div id="steps-slider"></div>
+                            <div class="text-center">
+                                <input type="text" id="input-with-keypress-0" />
+                                <input type="text" id="input-with-keypress-1" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-balck">
+
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-white">
+
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-white">
+
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900 bg-opacity-70 flex content-center flex-wrap">
+
+    </div>
+
+    <script defer type="module" src="./nouislider.js"></script>
+</body>
+</html>

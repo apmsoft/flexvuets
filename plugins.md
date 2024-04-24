@@ -124,3 +124,10 @@ npm install --save prism-es6
 
 >> babel.config.js
 ,"prism-es6": `./${debugPath}/plugins/prism-es6/prism.js`
+
+### noUiSlider :
+## demo : https://refreshless.com/nouislider/examples/
+npm install nouislider --save
+
+>> babel.config.js
+,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.mjs`

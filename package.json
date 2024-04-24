@@ -1,5 +1,5 @@
 {
-  "name": "flexvue",
+  "name": "flexvuets",
   "version": "3.1",
   "description": "",
   "scripts": {
@@ -39,6 +39,7 @@
     "filepond-plugin-image-preview": "^4.6.12",
     "filepond-plugin-image-validate-size": "^1.2.7",
     "notyf": "^3.10.0",
+    "nouislider": "^15.7.1",
     "prism-es6": "^1.2.0",
     "sweetalert2": "^11.6.13",
     "swiper": "^11.0.7",
