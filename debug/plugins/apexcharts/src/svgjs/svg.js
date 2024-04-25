@@ -1041,6 +1041,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1071,29 +1085,15 @@
         * @param ease function || string Function which should be used for easing or easing keyword
         * @param delay Number indicating the delay before the animation starts
         * @return target || this
-        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}var situation = new SVG.Situation({ duration: o || 1000, delay: delay || 0, ease: SVG.easing[ease || '-'] || ease
-            });
-
-          this.queue(situation);
-
-          return this;
-        },
-
-        /**
+        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}var situation = new SVG.Situation({ duration: o || 1000, delay: delay || 0, ease: SVG.easing[ease || '-'] || ease });this.queue(situation);return this;}, /**
         * sets a delay before the next element of the queue is called
         * @param delay Duration of delay in milliseconds
         * @return this.target()
-        */
-
-
-        /**
+        */ /**
         * sets or returns the target of this animation
         * @param null || target SVG.Element which should be set as new target
         * @return target || this
-        */
-        target: function (target) {
-          if (target && target instanceof SVG.Element) {
-            this._target = target;
+        */target: function (target) {if (target && target instanceof SVG.Element) {this._target = target;
             return this;
           }
 
@@ -1653,6 +1653,27 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1664,33 +1685,12 @@
     parent: SVG.Element, // Constructor
     construct: { // Get bounding box
       bbox: function () {return new SVG.BBox(this);} } });SVG.BBox.prototype.constructor = SVG.BBox;SVG.Matrix = SVG.invent({ // Initialize
-      create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]);
-        // ensure source as object
-        source = source === null ? base : source instanceof SVG.Element ?
-        source.matrixify() :
-        typeof source === 'string' ?
-        arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) :
-        arguments.length == 6 ?
-        arrayToMatrix([].slice.call(arguments)) :
-        Array.isArray(source) ?
-        arrayToMatrix(source) :
-        source && typeof source === 'object' ?
-        source : base;
-
-        // merge source
-        for (var i = abcdef.length - 1; i >= 0; --i) {
-          this[abcdef[i]] = source[abcdef[i]] != null ?
-          source[abcdef[i]] : base[abcdef[i]];
-        }
-      },
-
-      // Add methods
-      extend: {
-        // Extract individual transformations
-        extract: function () {
-          // find delta transform points
-          var px = deltaTransformPoint(this, 0, 1),
-            py = deltaTransformPoint(this, 1, 0),
+      create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]); // ensure source as object
+        source = source === null ? base : source instanceof SVG.Element ? source.matrixify() : typeof source === 'string' ? arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) : arguments.length == 6 ? arrayToMatrix([].slice.call(arguments)) : Array.isArray(source) ? arrayToMatrix(source) : source && typeof source === 'object' ? source : base; // merge source
+        for (var i = abcdef.length - 1; i >= 0; --i) {this[abcdef[i]] = source[abcdef[i]] != null ? source[abcdef[i]] : base[abcdef[i]];}}, // Add methods
+      extend: { // Extract individual transformations
+        extract: function () {// find delta transform points
+          var px = deltaTransformPoint(this, 0, 1),py = deltaTransformPoint(this, 1, 0),
             skewX = 180 / Math.PI * Math.atan2(px.y, px.x) - 90;
 
           return {
@@ -2469,23 +2469,23 @@
 
 
 
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
         this.type = type;}, // Inherit from
       inherit: SVG.Container, // Add class methods
       extend: { // Add a color stop
-        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);},
-        // Update gradient
-        update: function (block) {
-          // remove all stops
-          this.clear();
-
-          // invoke passed block
-          if (typeof block === 'function') {block.call(this, this);}
-
-          return this;
-        },
+        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);}, // Update gradient
+        update: function (block) {// remove all stops
+          this.clear(); // invoke passed block
+          if (typeof block === 'function') {block.call(this, this);}return this;},
         // Return the fill id
         fill: function () {
           return 'url(#' + this.id() + ')';

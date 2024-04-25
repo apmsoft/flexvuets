@@ -30,6 +30,13 @@ Prism.languages.elixir = {
 
 
 
+
+
+
+
+
+
+
       // See interpolation below
     } }, { pattern: /("""|''')[\s\S]*?\1/, greedy: true, inside: {
 
@@ -50,14 +57,7 @@ Prism.languages.elixir = {
     pattern: /(^|[^:]):\w+/, lookbehind: true, alias: 'symbol' }, // Look-ahead prevents bad highlighting of the :: operator
   'attr-name': /\w+:(?!:)/, 'capture': { // Look-behind prevents bad highlighting of the && operator
     pattern: /(^|[^&])&(?:[^&\s\d()][^\s()]*|(?=\())/, lookbehind: true, alias: 'function' }, 'argument': { // Look-behind prevents bad highlighting of the && operator
-    pattern: /(^|[^&])&\d+/, lookbehind: true,
-    alias: 'variable'
-  },
-  'attribute': {
-    pattern: /@\w+/,
-    alias: 'variable'
-  },
-  'number': /\b(?:0[box][a-f\d_]+|\d[\d_]*)(?:\.[\d_]+)?(?:e[+-]?[\d_]+)?\b/i,
+    pattern: /(^|[^&])&\d+/, lookbehind: true, alias: 'variable' }, 'attribute': { pattern: /@\w+/, alias: 'variable' }, 'number': /\b(?:0[box][a-f\d_]+|\d[\d_]*)(?:\.[\d_]+)?(?:e[+-]?[\d_]+)?\b/i,
   'keyword': /\b(?:after|alias|and|case|catch|cond|def(?:callback|exception|impl|module|p|protocol|struct)?|do|else|end|fn|for|if|import|not|or|require|rescue|try|unless|use|when)\b/,
   'boolean': /\b(?:true|false|nil)\b/,
   'operator': [
