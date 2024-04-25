@@ -30,7 +30,6 @@ Prism.languages.elixir = {
 
 
 
-
       // See interpolation below
     } }, { pattern: /("""|''')[\s\S]*?\1/, greedy: true, inside: {
 
@@ -51,7 +50,8 @@ Prism.languages.elixir = {
     pattern: /(^|[^:]):\w+/, lookbehind: true, alias: 'symbol' }, // Look-ahead prevents bad highlighting of the :: operator
   'attr-name': /\w+:(?!:)/, 'capture': { // Look-behind prevents bad highlighting of the && operator
     pattern: /(^|[^&])&(?:[^&\s\d()][^\s()]*|(?=\())/, lookbehind: true, alias: 'function' }, 'argument': { // Look-behind prevents bad highlighting of the && operator
-    pattern: /(^|[^&])&\d+/, lookbehind: true, alias: 'variable'
+    pattern: /(^|[^&])&\d+/, lookbehind: true,
+    alias: 'variable'
   },
   'attribute': {
     pattern: /@\w+/,

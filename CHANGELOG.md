@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-25
+- LazyLoad plugins 추가 및 example (불규칙 레이아웃 출력에 효과 적임)
+
 ### - 2024-04-24
 - nouislider plugins 추가 및 example 
 

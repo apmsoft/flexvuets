@@ -1041,8 +1041,6 @@
 
 
 
-
-
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1073,7 +1071,9 @@
         * @param ease function || string Function which should be used for easing or easing keyword
         * @param delay Number indicating the delay before the animation starts
         * @return target || this
-        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}var situation = new SVG.Situation({ duration: o || 1000, delay: delay || 0, ease: SVG.easing[ease || '-'] || ease });
+        */animate: function (o, ease, delay) {if (typeof o === 'object') {ease = o.ease;delay = o.delay;o = o.duration;}var situation = new SVG.Situation({ duration: o || 1000, delay: delay || 0, ease: SVG.easing[ease || '-'] || ease
+            });
+
           this.queue(situation);
 
           return this;
@@ -1653,9 +1653,6 @@
 
 
 
-
-
-
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1667,8 +1664,11 @@
     parent: SVG.Element, // Constructor
     construct: { // Get bounding box
       bbox: function () {return new SVG.BBox(this);} } });SVG.BBox.prototype.constructor = SVG.BBox;SVG.Matrix = SVG.invent({ // Initialize
-      create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]); // ensure source as object
-        source = source === null ? base : source instanceof SVG.Element ? source.matrixify() : typeof source === 'string' ?
+      create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]);
+        // ensure source as object
+        source = source === null ? base : source instanceof SVG.Element ?
+        source.matrixify() :
+        typeof source === 'string' ?
         arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) :
         arguments.length == 6 ?
         arrayToMatrix([].slice.call(arguments)) :
@@ -2469,14 +2469,14 @@
 
 
 
-
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
         this.type = type;}, // Inherit from
       inherit: SVG.Container, // Add class methods
       extend: { // Add a color stop
-        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);}, // Update gradient
+        at: function (offset, color, opacity) {return this.put(new SVG.Stop()).update(offset, color, opacity);},
+        // Update gradient
         update: function (block) {
           // remove all stops
           this.clear();

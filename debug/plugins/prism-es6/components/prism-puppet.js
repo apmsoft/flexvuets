@@ -85,9 +85,9 @@
 
 
 
-
             // See interpolation below
           } } } }, 'variable': { pattern: /\$(?:::)?\w+(?:::\w+)*/, inside: { 'punctuation': /::/ } }, 'attr-name': /(?:\w+|\*)(?=\s*=>)/, 'function': [{ pattern: /(\.)(?!\d)\w+/, lookbehind: true }, /\b(?:contain|debug|err|fail|include|info|notice|realize|require|tag|warning)\b|\b(?!\d)\w+(?=\()/],
+
     'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e-?\d+)?)\b/i,
     'boolean': /\b(?:true|false)\b/,
     // Includes words reserved for future use

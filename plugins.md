@@ -131,3 +131,11 @@ npm install nouislider --save
 
 >> babel.config.js
 ,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.mjs`
+
+
+### LazyLoad : https://github.com/verlok/vanilla-lazyload?tab=readme-ov-file
+## demo : https://github.com/verlok/vanilla-lazyload?tab=readme-ov-file
+npm install vanilla-lazyload --save
+
+>> babel.config.js
+,"vanilla-lazyload": `./${debugPath}/plugins/vanilla-lazyload/dist/esm/lazyload.js`

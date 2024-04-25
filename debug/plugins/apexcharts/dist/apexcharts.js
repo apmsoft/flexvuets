@@ -28647,8 +28647,6 @@ this.animations={
 
 
 
-
-
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28671,11 +28669,13 @@ this.absPos=0;this._speed=1;},extend:{/**
          * @param ease function || string Function which should be used for easing or easing keyword
          * @param delay Number indicating the delay before the animation starts
          * @return target || this
-         */animate:function animate(o,ease,delay){if(_typeof(o)==='object'){ease=o.ease;delay=o.delay;o=o.duration;}var situation=new SVG.Situation({duration:o||1000,delay:delay||0,ease:SVG.easing[ease||'-']||ease});this.queue(situation);return this;},/**
+         */animate:function animate(o,ease,delay){if(_typeof(o)==='object'){ease=o.ease;delay=o.delay;o=o.duration;}var situation=new SVG.Situation({duration:o||1000,delay:delay||0,ease:SVG.easing[ease||'-']||ease});this.queue(situation);return this;},
+/**
         * sets a delay before the next element of the queue is called
         * @param delay Duration of delay in milliseconds
         * @return this.target()
         */
+
 /**
         * sets or returns the target of this animation
         * @param null || target SVG.Element which should be set as new target
@@ -29216,9 +29216,6 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
-
-
-
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29233,9 +29230,12 @@ bbox:function bbox(){return new SVG.BBox(this);}}});SVG.BBox.prototype.construct
 create:function create(source){var base=arrayToMatrix([1,0,0,1,0,0]);// ensure source as object
 source=source===null?base:source instanceof SVG.Element?source.matrixify():typeof source==='string'?arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)):arguments.length==6?arrayToMatrix([].slice.call(arguments)):Array.isArray(source)?arrayToMatrix(source):source&&_typeof(source)==='object'?source:base;// merge source
 for(var i=abcdef.length-1;i>=0;--i){this[abcdef[i]]=source[abcdef[i]]!=null?source[abcdef[i]]:base[abcdef[i]];}},// Add methods
-extend:{// Extract individual transformations
-extract:function extract(){// find delta transform points
-var px=deltaTransformPoint(this,0,1);deltaTransformPoint(this,1,0);
+extend:{
+// Extract individual transformations
+extract:function extract(){
+// find delta transform points
+var px=deltaTransformPoint(this,0,1);
+deltaTransformPoint(this,1,0);
 var skewX=180/Math.PI*Math.atan2(px.y,px.x)-90;
 return{
 // translation
@@ -29955,7 +29955,6 @@ SVG.extend(SVG.Element,{
 
 
 
-
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29965,7 +29964,8 @@ extend:{// Add a color stop
 at:function at(offset,color,opacity){return this.put(new SVG.Stop()).update(offset,color,opacity);},// Update gradient
 update:function update(block){// remove all stops
 this.clear();// invoke passed block
-if(typeof block==='function'){block.call(this,this);}return this;
+if(typeof block==='function'){block.call(this,this);}
+return this;
 },
 // Return the fill id
 fill:function fill(){

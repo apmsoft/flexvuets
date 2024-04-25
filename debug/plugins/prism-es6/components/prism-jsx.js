@@ -82,12 +82,12 @@
 
 
 
-
               // Autoclosed tag, ignore
             } else {// Opening tag
               openedTags.push({ tagName: stringifyToken(token.content[0].content[1]), openedBraces: 0 });}}} else if (openedTags.length > 0 && token.type === 'punctuation' && token.content === '{') {// Here we might have entered a JSX context inside a tag
           openedTags[openedTags.length - 1].openedBraces++;} else if (openedTags.length > 0 && openedTags[openedTags.length - 1].openedBraces > 0 && token.type === 'punctuation' && token.content === '}') {// Here we might have left a JSX context inside a tag
-          openedTags[openedTags.length - 1].openedBraces--;} else {notTagNorBrace = true;}
+          openedTags[openedTags.length - 1].openedBraces--;} else {notTagNorBrace = true;
+        }
       }
       if (notTagNorBrace || typeof token === 'string') {
         if (openedTags.length > 0 && openedTags[openedTags.length - 1].openedBraces === 0) {
