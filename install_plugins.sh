@@ -41,10 +41,22 @@ npm install crypto-es --save
 echo "install Notyf"
 npm i notyf --save
 
-## SweetAlert2
+## alert SweetAlert2
 echo "install SweetAlert2"
 npm install sweetalert2 --save
 
 # Draggable
 echo "install Draggable"
 npm install @shopify/draggable --save
+
+# prism-es6
+echo "install prism-es6"
+npm install --save prism-es6
+
+# noUiSlider
+echo "install noUiSlider"
+npm install nouislider --save
+
+# LazyLoad
+echo "install LazyLoad"
+npm install vanilla-lazyload --save
