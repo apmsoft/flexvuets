@@ -1,6 +1,8 @@
 import Forms from '@flexvue/forms';
 import AsyncTask from '@flexvue/asynctask';
 import {Response} from '@flexvue/types';
+import CryptoES from 'crypto-es';
+import {CacheLocalStorage} from '@flexvue/caches';
 
 const onReady = () : void =>
 {
@@ -23,13 +25,13 @@ const onReady = () : void =>
     // show progress
     ProgressBars.show();
 
-    // application
-    if(typeof localStorage.getItem(config.app_name+'am') !== 'undefined'){
-        document.querySelector<HTMLInputElement>('#userid')!.value = localStorage.getItem(config.app_name+'am') ?? '';
-    }
+    // cache
+    window.cacheStorage = new CacheLocalStorage( config.app_name+"am" );
 
-    // focus
-    document.querySelector<HTMLInputElement>('#userid')!.focus();
+    // check cache
+    const input_userid = document.querySelector<HTMLInputElement>('#userid')!;
+    input_userid.value = window.cacheStorage._get('amid') ?? '';
+    input_userid.focus();
 
     // submit
     new Forms('#theAdminLoginForm').doSubmit((form_params)=>
@@ -37,8 +39,10 @@ const onReady = () : void =>
         ProgressBars.show();
 
         let send_params : Record<string, any> = Object.assign({}, form_params);
-        new AsyncTask().execute('POST',`${config.src}/manager/login`, send_params,config._options_,config._headers_)
-        .then((resp : Response)=>{
+
+        new AsyncTask().execute('POST',`${config.src}/member/gettokens`, {userid : send_params.userid},config._options_,config._headers_)
+        .then((resp : Response)=>
+        {
             // Log.d(resp);
 
             // reject
@@ -46,26 +50,45 @@ const onReady = () : void =>
                 throw resp;
             }
 
-            // true
-            return resp;
-        })
-        .then( resp =>{
-            localStorage.setItem(config.app_name+'am', send_params.userid);
-            const userinfo = JSON.stringify(resp.msg);
-            localStorage.setItem(config.app_name+'mngmsg', userinfo);
+            const secret_key   = resp.secret_key;
+            const iv           = CryptoES.SHA256(resp.iv).toString(CryptoES.enc.Hex).substring(0, 16);
+            send_params.passwd = CryptoES.AES.encrypt(send_params.passwd, secret_key, { iv: CryptoES.enc.Hex.parse(iv), mode: CryptoES.mode.CBC }).toString();
 
-            // move
-            window.location.href = `./index.html#/manager/list`;
+            // true
+            return 'ok';
+        })
+        .then(ok =>
+        {
+            new AsyncTask().execute('POST',`${config.src}/manager/login`, send_params,config._options_,config._headers_)
+            .then((resp : Response)=>{
+                // Log.d(resp);
+
+                // reject
+                if(resp.result == 'false'){
+                    throw resp;
+                }
+
+                window.cacheStorage._set('amid',send_params.userid,0);
+                window.cacheStorage._set('aminfo',CryptoES.AES.encrypt(JSON.stringify(resp.msg), config.app_name).toString(),60*60);
+
+                // move
+                window.location.href = `./index.html#/`;
+            })
+            .catch( e =>{
+                window.cacheStorage._clear();
+                alert(e.msg);
+                if(typeof e.fieldname !=='undefined'){
+                    document.querySelector<HTMLInputElement>(`#${e.fieldname}`)!.focus();
+                }
+            })
+            .finally(()=>{
+                ProgressBars.close();
+            });
         })
         .catch( e =>{
-            localStorage.setItem(config.app_name+'am', send_params.userid);
             alert(e.msg);
-            if(typeof e.fieldname !=='undefined'){
-                document.querySelector<HTMLInputElement>(`#${e.fieldname}`)!.focus();
-            }
         })
         .finally(()=>{
-            // close progress
             ProgressBars.close();
         });
     });
@@ -106,4 +129,18 @@ const onReady = () : void =>
 };
 
 // document ready
-document.addEventListener("DOMContentLoaded",onReady);
+document.addEventListener("DOMContentLoaded", () => {
+    // 지원언어 설정
+    // config.surport_langs = ['en'];
+
+    // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
+    R.__init({
+        sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
+        arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
+        strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href
+    }).then(() => {
+        onReady();
+    }).catch(err => {
+        Log.e("Error initializing R:", err);
+    });
+});

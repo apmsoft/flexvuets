@@ -1,6 +1,8 @@
 import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
+import CryptoES from 'crypto-es';
+import {CacheLocalStorage} from '@flexvue/caches';
 
 import Navigation from '@t1/js/nav.class.js';
 import {MyException} from '@t1/js/exception.class.js';
@@ -20,6 +22,10 @@ const onReady = () : void =>
     new Activity().onBackPressed( state =>{
         Log.d('onBackPressed : ------>',state);
     });
+
+    // cache
+    window.cacheStorage = new CacheLocalStorage( config.app_name+"am" );
+    config.userinfo = window.cacheStorage._get('aminfo') ? JSON.parse(CryptoES.AES.decrypt(window.cacheStorage._get('aminfo'), config.app_name).toString(CryptoES.enc.Utf8)) : {};
 
     // url manager
     const urlManager = new UrlManager(document.location.toString());
