@@ -1,6 +1,7 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
-// import R from '@flexvue/resource';
+import CryptoES from "../../plugins/crypto-es/lib/index.js";
+import { CacheLocalStorage } from "../../flexvue/core/caches.class.js";
 import { MyException } from "./exception.class.js";
 import { HeaderActivity } from "./header.class.js";
 import { DrawerMenu } from "./drawer_menu.js";
@@ -16,6 +17,9 @@ const onReady = () => {
   new Activity().onBackPressed((state) => {
     Log.d('onBackPressed : ------>', state);
   });
+  // cache
+  window.cacheStorage = new CacheLocalStorage(config.app_name + "um");
+  config.userinfo = window.cacheStorage._get('uminfo') ? JSON.parse(CryptoES.AES.decrypt(window.cacheStorage._get('uminfo'), config.app_name).toString(CryptoES.enc.Utf8)) : {};
   // url manager
   const urlManager = new UrlManager(document.location.toString());
   // class
@@ -82,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
   R.__init({
     sysmsg: new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
     arrays: new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
-    strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,
-    numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
+    strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href
+    // numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
   }).then(() => {
     onReady();
   }).catch((err) => {

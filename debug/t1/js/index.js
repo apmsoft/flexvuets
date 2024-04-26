@@ -1,5 +1,7 @@
 import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
+import CryptoES from "../../plugins/crypto-es/lib/index.js";
+import { CacheLocalStorage } from "../../flexvue/core/caches.class.js";
 import Navigation from "./nav.class.js";
 import { MyException } from "./exception.class.js";
 // 이전 화면 패널 위치
@@ -13,6 +15,9 @@ const onReady = () => {
   new Activity().onBackPressed((state) => {
     Log.d('onBackPressed : ------>', state);
   });
+  // cache
+  window.cacheStorage = new CacheLocalStorage(config.app_name + "am");
+  config.userinfo = window.cacheStorage._get('aminfo') ? JSON.parse(CryptoES.AES.decrypt(window.cacheStorage._get('aminfo'), config.app_name).toString(CryptoES.enc.Utf8)) : {};
   // url manager
   const urlManager = new UrlManager(document.location.toString());
   // observe

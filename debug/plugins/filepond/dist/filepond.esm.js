@@ -1594,13 +1594,13 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
-      dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };
-const getUniqueId = () =>
-Math.random().
-toString(36).
-substring(2, 11);
+      dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);
 
 const arrayRemove = (arr, index) => arr.splice(index, 1);
 
@@ -7432,12 +7432,12 @@ const getLinks = (dataTransfer) => {
 
 
 
-    // nope nope nope (probably IE trouble)
-  }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];
 
-const eventPosition = (e) => ({
-  pageLeft: e.pageX,
-  pageTop: e.pageY,
+
+
+
+    // nope nope nope (probably IE trouble)
+  }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY,
   scopeLeft: e.offsetX || e.layerX,
   scopeTop: e.offsetY || e.layerY
 });

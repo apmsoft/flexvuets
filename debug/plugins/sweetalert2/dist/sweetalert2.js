@@ -4579,25 +4579,25 @@
 
 
 
+
+
+
+
             // ignore
           });}, 2500);}, 500);}} // Assign instance methods from src/instanceMethods/*.js to prototype
   SweetAlert.prototype.disableButtons = disableButtons;SweetAlert.prototype.enableButtons = enableButtons;SweetAlert.prototype.getInput = getInput;SweetAlert.prototype.disableInput = disableInput;SweetAlert.prototype.enableInput = enableInput;SweetAlert.prototype.hideLoading = hideLoading;SweetAlert.prototype.disableLoading = hideLoading;SweetAlert.prototype.showValidationMessage = showValidationMessage;SweetAlert.prototype.resetValidationMessage = resetValidationMessage;SweetAlert.prototype.close = close;SweetAlert.prototype.closePopup = close;SweetAlert.prototype.closeModal = close;SweetAlert.prototype.closeToast = close;SweetAlert.prototype.rejectPromise = rejectPromise;SweetAlert.prototype.update = update;SweetAlert.prototype._destroy = _destroy; // Assign static methods from src/staticMethods/*.js to constructor
-  Object.assign(SweetAlert, staticMethods);
-
-  // Proxy to instance methods to constructor, for now, for backwards compatibility
-  Object.keys(instanceMethods).forEach(function (key) {
-    /**
-     * @param {...any} args
-     * @returns {any | undefined}
-     */
-    SweetAlert[key] = function () {
-      if (currentInstance && currentInstance[key]) {
-        var _currentInstance;
-        return (_currentInstance = currentInstance)[key].apply(_currentInstance, arguments);
-      }
-      return null;
-    };
-  });
+  Object.assign(SweetAlert, staticMethods); // Proxy to instance methods to constructor, for now, for backwards compatibility
+  Object.keys(instanceMethods).forEach(function (key) {/**
+      * @param {...any} args
+      * @returns {any | undefined}
+      */SweetAlert[key] = function () {
+        if (currentInstance && currentInstance[key]) {
+          var _currentInstance;
+          return (_currentInstance = currentInstance)[key].apply(_currentInstance, arguments);
+        }
+        return null;
+      };
+    });
   SweetAlert.DismissReason = DismissReason;
   SweetAlert.version = '11.10.8';
 

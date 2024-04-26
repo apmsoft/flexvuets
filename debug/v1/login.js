@@ -1,5 +1,7 @@
 import Forms from "../flexvue/core/forms.class.js";
 import AsyncTask from "../flexvue/core/asynctask.class.js";
+import CryptoES from "../plugins/crypto-es/lib/index.js";
+import { CacheLocalStorage } from "../flexvue/core/caches.class.js";
 const onReady = () => {
   var _a;
   // config
@@ -16,42 +18,57 @@ const onReady = () => {
   new ProgressBars();
   // show progress
   ProgressBars.show();
-  // application
-  if (typeof localStorage.getItem(config.app_name + 'um') !== 'undefined') {
-    document.querySelector('#userid').value = (_a = localStorage.getItem(config.app_name + 'um')) !== null && _a !== void 0 ? _a : '';
-  }
-  // focus
-  document.querySelector('#userid').focus();
+  // cache
+  window.cacheStorage = new CacheLocalStorage(config.app_name + "um");
+  // check cache
+  const input_userid = document.querySelector('#userid');
+  input_userid.value = (_a = window.cacheStorage._get("umid")) !== null && _a !== void 0 ? _a : '';
+  input_userid.focus();
   // submit
   new Forms('#theLoginForm').doSubmit((form_params) => {
     ProgressBars.show();
     let send_params = Object.assign({}, form_params);
-    new AsyncTask().execute('POST', `${config.src}/member/login`, send_params, config._options_, config._headers_).
+    new AsyncTask().execute('POST', `${config.src}/member/gettokens`, { userid: send_params.userid }, config._options_, config._headers_).
     then((resp) => {
       // Log.d(resp);
       // reject
       if (resp.result == 'false') {
         throw resp;
       }
+      const secret_key = resp.secret_key;
+      const iv = CryptoES.SHA256(resp.iv).toString(CryptoES.enc.Hex).substring(0, 16);
+      send_params.passwd = CryptoES.AES.encrypt(send_params.passwd, secret_key, { iv: CryptoES.enc.Hex.parse(iv), mode: CryptoES.mode.CBC }).toString();
       // true
-      return resp;
+      return 'ok';
     }).
-    then((resp) => {
-      localStorage.setItem(config.app_name + 'um', send_params.userid);
-      const userinfo = JSON.stringify(resp.msg);
-      localStorage.setItem(config.app_name + 'ummsg', userinfo);
-      // move
-      window.location.href = `./index.html#/`;
+    then((ok) => {
+      new AsyncTask().execute('POST', `${config.src}/member/login`, send_params, config._options_, config._headers_).
+      then((resp) => {
+        // Log.d(resp);
+        // reject
+        if (resp.result == 'false') {
+          throw resp;
+        }
+        window.cacheStorage._set('umid', send_params.userid, 0);
+        window.cacheStorage._set('uminfo', CryptoES.AES.encrypt(JSON.stringify(resp.msg), config.app_name).toString(), 60 * 60);
+        // move
+        window.location.href = `./index.html#/`;
+      }).
+      catch((e) => {
+        window.cacheStorage._clear();
+        alert(e.msg);
+        if (typeof e.fieldname !== 'undefined') {
+          document.querySelector(`#${e.fieldname}`).focus();
+        }
+      }).
+      finally(() => {
+        ProgressBars.close();
+      });
     }).
     catch((e) => {
-      localStorage.setItem(config.app_name + 'um', send_params.userid);
       alert(e.msg);
-      if (typeof e.fieldname !== 'undefined') {
-        document.querySelector(`#${e.fieldname}`).focus();
-      }
     }).
     finally(() => {
-      // close progress
       ProgressBars.close();
     });
   });
@@ -86,4 +103,17 @@ const onReady = () => {
   ProgressBars.close();
 };
 // document ready
-document.addEventListener("DOMContentLoaded", onReady);
+document.addEventListener("DOMContentLoaded", () => {
+  // 지원언어 설정
+  // config.surport_langs = ['en'];
+  // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
+  R.__init({
+    sysmsg: new URL(`./js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
+    arrays: new URL(`./js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
+    strings: new URL(`./js/values/strings${App.getLocale()}.js`, import.meta.url).href
+  }).then(() => {
+    onReady();
+  }).catch((err) => {
+    Log.e("Error initializing R:", err);
+  });
+});
