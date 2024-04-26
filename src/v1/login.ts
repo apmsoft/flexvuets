@@ -11,7 +11,6 @@ const onReady = () : void =>
     config.src = config.host+'/'+config.src8;
 
     // 앱 정보
-    const app = new App();
     Log.i(App.browser, App.version, App.os, App.lang);
 
     // activity

@@ -10,7 +10,6 @@ const onReady = () : void =>
     config.src = config.host+'/'+config.src9;
 
     // 앱 정보
-    const app = new App();
     Log.i(App.browser, App.version, App.os, App.lang);
 
     // activity
@@ -40,7 +39,7 @@ const onReady = () : void =>
 
         let send_params : Record<string, any> = Object.assign({}, form_params);
 
-        new AsyncTask().execute('POST',`${config.src}/member/gettokens`, {userid : send_params.userid},config._options_,config._headers_)
+        new AsyncTask().execute('POST',`${config.src}/manager/gettokens`, {userid : send_params.userid},config._options_,config._headers_)
         .then((resp : Response)=>
         {
             // Log.d(resp);
