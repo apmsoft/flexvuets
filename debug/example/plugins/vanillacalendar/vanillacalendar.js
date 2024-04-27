@@ -1,6 +1,7 @@
 import VanillaCalendar from "../../../plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs";
 import Forms from "../../../flexvue/core/forms.class.js";
 const onReady = () => {
+  // date picker ==========================================
   const dateOptions = {
     input: true,
     actions: {
@@ -14,27 +15,21 @@ const onReady = () => {
         {
           self.HTMLInputElement.value = '';
         }
-      },
-      showCalendar(self) {
-        // reset days
-        document.querySelectorAll('.' + self.CSSClasses.header).forEach((el) => {el.classList.remove('!hidden');});
-        document.querySelectorAll('.' + self.CSSClasses.wrapper).forEach((el) => {el.classList.remove('!hidden');});
-        document.querySelectorAll('.' + self.CSSClasses.time).forEach((el) => {el.classList.remove('!border-0', '!mt-0', '!pt-0');});
       }
     },
     settings: {
       visibility: {
-        positionToInput: 'center',
+        positionToInput: ["bottom", "left"],
         theme: 'light'
       },
       lang: App.lang,
       iso8601: false
     }
   };
-  // datepicker
+  // start_date
   const datePicker = new VanillaCalendar('#date-input', dateOptions);
   datePicker.init();
-  // time picker
+  // time picker =========================================
   const timeOptions = {
     DOMTemplates: {
       default: `
@@ -88,7 +83,7 @@ const onReady = () => {
         stepMinutes: 10
       },
       visibility: {
-        positionToInput: 'center',
+        positionToInput: ["bottom", "left"],
         theme: 'light'
       },
       lang: App.lang,
@@ -98,8 +93,10 @@ const onReady = () => {
       }
     }
   };
+  // start time
   const startTimePicker = new VanillaCalendar('#start_time', timeOptions);
   startTimePicker.init();
+  // end time
   const endTimePicker = new VanillaCalendar('#end_time', timeOptions);
   endTimePicker.init();
   // form

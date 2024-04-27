@@ -17,17 +17,11 @@ const onReady = () : void =>
                 } else {
                     self.HTMLInputElement.value = '';
                 }
-            },
-            showCalendar(self) {
-                // reset days
-                document.querySelectorAll<HTMLDivElement>('.'+self.CSSClasses.header)!.forEach(el=>{el.classList.remove('!hidden');});
-                document.querySelectorAll<HTMLDivElement>('.'+self.CSSClasses.wrapper)!.forEach(el=>{el.classList.remove('!hidden');});
-                document.querySelectorAll<HTMLDivElement>('.'+self.CSSClasses.time)!.forEach(el=>{el.classList.remove('!border-0', '!mt-0', '!pt-0');});
-            },
+            }
         },
         settings: {
             visibility: {
-                positionToInput: 'center',
+                positionToInput: ["bottom","left"],
                 theme: 'light',
             },
             lang: App.lang,
@@ -97,7 +91,7 @@ const onReady = () : void =>
                 stepMinutes: 10,
             },
             visibility: {
-                positionToInput: 'center',
+                positionToInput: ["bottom","left"],
                 theme: 'light',
             },
             lang: App.lang,
