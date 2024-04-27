@@ -3,6 +3,7 @@
 ## [3.1]
 ### - 2024-04-27
 - CountUP plubins 추가 및 example 
+- vanillacalendar datepicker, timepicker 관련 응용 예제 업데이트 (time picker 방식으로만 사용할 수 있드록 커스텀 테스트)
 
 ### - 2024-04-25
 - LazyLoad plugins 추가 및 example (불규칙 레이아웃 출력에 효과 적임)

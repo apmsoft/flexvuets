@@ -60,6 +60,7 @@ npm install vanilla-calendar-pro --save
 ,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs`
 
 ### date,time picker 머트리얼 디자인 : https://www.cssscript.com/flexible-date-time-selection/
+# doc : https://github.com/cevadtokatli/date-picker
 npm install @cevad-tokatli/date-picker --save
 
 >> babel.config.js
