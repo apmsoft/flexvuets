@@ -36,6 +36,11 @@ const onReady = () => {
   datePicker.init();
   // time picker
   const timeOptions = {
+    DOMTemplates: {
+      default: `
+            <#ControlTime />
+            `
+    },
     input: true,
     actions: {
       // clickDay(e, self) {
@@ -55,13 +60,12 @@ const onReady = () => {
       //         self.HTMLInputElement.value = '';
       //     }
       // },
-      showCalendar(self) {
-        // hidden days
-        document.querySelectorAll('.' + self.CSSClasses.header).forEach((el) => {el.classList.add('!hidden');});
-        document.querySelectorAll('.' + self.CSSClasses.wrapper).forEach((el) => {el.classList.add('!hidden');});
+      initCalendar(self) {
+        console.log(self);
+        // reset css
         document.querySelectorAll('.' + self.CSSClasses.time).forEach((el) => {el.classList.add('!border-0', '!mt-0', '!pt-0');});
         // set time ranges
-        const hoursRange = document.querySelectorAll('.' + self.CSSClasses.timeRange + ' input[name="hours"]').forEach((el) => {
+        document.querySelectorAll('.' + self.CSSClasses.timeRange + ' input[name="hours"]').forEach((el) => {
           el.min = "9";
           el.max = "18";
         });

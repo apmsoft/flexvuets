@@ -1185,6 +1185,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1252,25 +1268,9 @@
         * @param clearQueue A Boolean indicating whether to remove queued animation as well.
         * @return this
         */stop: function (jumpToEnd, clearQueue) {var active = this.active;this.active = false;if (clearQueue) {this.clearQueue();}if (jumpToEnd && this.situation) {// initialize the situation if it was not
-            !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();},
-
-        after: function (fn) {
-          var c = this.last(),
-            wrapper = function wrapper(e) {
-              if (e.detail.situation == c) {
-                fn.call(this, c);
-                this.off('finished.fx', wrapper); // prevent memory leak
-              }
-            };
-
-          this.target().on('finished.fx', wrapper);
-
-          return this._callStart();
-        },
-        // adds a callback which is called whenever one animation step is performed
-        during: function (fn) {
-          var c = this.last(),
-            wrapper = function (e) {
+            !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();}, after: function (fn) {var c = this.last(),wrapper = function wrapper(e) {if (e.detail.situation == c) {fn.call(this, c);this.off('finished.fx', wrapper); // prevent memory leak
+              }};this.target().on('finished.fx', wrapper);return this._callStart();}, // adds a callback which is called whenever one animation step is performed
+        during: function (fn) {var c = this.last(),wrapper = function (e) {
               if (e.detail.situation == c) {
                 fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);
               }
@@ -1869,6 +1869,30 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1939,37 +1963,13 @@
         if (o.a != null) {matrix = relative // relative
           ? matrix.multiply(new SVG.Matrix(o)) // absolute
           : new SVG.Matrix(o);}return this.attr('transform', matrix);} });SVG.extend(SVG.Element, { // Reset all transformations
-      untransform: function () {return this.attr('transform', null);},
-      // merge the whole transformation chain into one matrix and returns it
-      matrixify: function () {
-        var matrix = (this.attr('transform') || ''
-        // split transformations
-        ).split(SVG.regex.transforms).slice(0, -1).map(function (str) {
-          // generate key => value pairs
-          var kv = str.trim().split('(');
-          return [kv[0], kv[1].split(SVG.regex.delimiter).map(function (str) {return parseFloat(str);})];
-        })
-        // merge every transformation into one matrix
-        .reduce(function (matrix, transform) {
-          if (transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]));
-          return matrix[transform[0]].apply(matrix, transform[1]);
-        }, new SVG.Matrix());
-
-        return matrix;
-      },
-      // add an element to another parent without changing the visual representation on the screen
-      toParent: function (parent) {
-        if (this == parent) return this;
-        var ctm = this.screenCTM();
-        var pCtm = parent.screenCTM().inverse();
-
-        this.addTo(parent).untransform().transform(pCtm.multiply(ctm));
-
-        return this;
-      },
-      // same as above with parent equals root-svg
-      toDoc: function () {
-        return this.toParent(this.doc());
+      untransform: function () {return this.attr('transform', null);}, // merge the whole transformation chain into one matrix and returns it
+      matrixify: function () {var matrix = (this.attr('transform') || '' // split transformations
+        ).split(SVG.regex.transforms).slice(0, -1).map(function (str) {// generate key => value pairs
+            var kv = str.trim().split('(');return [kv[0], kv[1].split(SVG.regex.delimiter).map(function (str) {return parseFloat(str);})];}) // merge every transformation into one matrix
+        .reduce(function (matrix, transform) {if (transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]));return matrix[transform[0]].apply(matrix, transform[1]);}, new SVG.Matrix());return matrix;}, // add an element to another parent without changing the visual representation on the screen
+      toParent: function (parent) {if (this == parent) return this;var ctm = this.screenCTM();var pCtm = parent.screenCTM().inverse();this.addTo(parent).untransform().transform(pCtm.multiply(ctm));return this;}, // same as above with parent equals root-svg
+      toDoc: function () {return this.toParent(this.doc());
       }
 
     });
@@ -2541,6 +2541,14 @@
 
 
 
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2565,49 +2573,41 @@
       inherit: SVG.Element, // Add class methods
       extend: { // add color stops
         update: function (o) {if (typeof o === 'number' || o instanceof SVG.Number) {o = { offset: arguments[0], color: arguments[1], opacity: arguments[2] };} // set attributes
-          if (o.opacity != null) this.attr('stop-opacity', o.opacity);if (o.color != null) this.attr('stop-color', o.color);if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));return this;} } });SVG.Pattern = SVG.invent({
-    // Initialize node
-    create: 'pattern',
+          if (o.opacity != null) this.attr('stop-opacity', o.opacity);if (o.color != null) this.attr('stop-color', o.color);if (o.offset != null) this.attr('offset', new SVG.Number(o.offset));return this;} } });SVG.Pattern = SVG.invent({ // Initialize node
+      create: 'pattern', // Inherit from
+      inherit: SVG.Container, // Add class methods
+      extend: { // Return the fill id
+        fill: function () {return 'url(#' + this.id() + ')';},
+        // Update pattern by rebuilding
+        update: function (block) {
+          // remove content
+          this.clear();
 
-    // Inherit from
-    inherit: SVG.Container,
+          // invoke passed block
+          if (typeof block === 'function') {block.call(this, this);}
 
-    // Add class methods
-    extend: {
-      // Return the fill id
-      fill: function () {
-        return 'url(#' + this.id() + ')';
+          return this;
+        },
+        // Alias string convertion to fill
+        toString: function () {
+          return this.fill();
+        },
+        // custom attr to handle transform
+        attr: function (a, b, c) {
+          if (a == 'transform') a = 'patternTransform';
+          return SVG.Container.prototype.attr.call(this, a, b, c);
+        }
+
       },
-      // Update pattern by rebuilding
-      update: function (block) {
-        // remove content
-        this.clear();
 
-        // invoke passed block
-        if (typeof block === 'function') {block.call(this, this);}
-
-        return this;
-      },
-      // Alias string convertion to fill
-      toString: function () {
-        return this.fill();
-      },
-      // custom attr to handle transform
-      attr: function (a, b, c) {
-        if (a == 'transform') a = 'patternTransform';
-        return SVG.Container.prototype.attr.call(this, a, b, c);
+      // Add parent method
+      construct: {
+        // Create pattern element in defs
+        pattern: function (width, height, block) {
+          return this.defs().pattern(width, height, block);
+        }
       }
-
-    },
-
-    // Add parent method
-    construct: {
-      // Create pattern element in defs
-      pattern: function (width, height, block) {
-        return this.defs().pattern(width, height, block);
-      }
-    }
-  });
+    });
 
   SVG.extend(SVG.Defs, {
     // Define gradient

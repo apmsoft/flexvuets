@@ -5,6 +5,7 @@ import Forms from '@flexvue/forms';
 
 const onReady = () : void =>
 {
+    // date picker ==========================================
     const dateOptions: IOptions = {
         input: true,
         actions: {
@@ -34,12 +35,20 @@ const onReady = () : void =>
         },
     };
 
-    // datepicker
+    // start_date
     const datePicker = new VanillaCalendar('#date-input', dateOptions);
     datePicker.init();
 
-    // time picker
+
+
+
+    // time picker =========================================
     const timeOptions: IOptions = {
+        DOMTemplates: {
+            default: `
+            <#ControlTime />
+            `
+        },
         input: true,
         actions: {
             // clickDay(e, self) {
@@ -59,14 +68,13 @@ const onReady = () : void =>
             //         self.HTMLInputElement.value = '';
             //     }
             // },
-            showCalendar(self) {
-                // hidden days
-                document.querySelectorAll<HTMLDivElement>('.'+self.CSSClasses.header)!.forEach(el=>{el.classList.add('!hidden');});
-                document.querySelectorAll<HTMLDivElement>('.'+self.CSSClasses.wrapper)!.forEach(el=>{el.classList.add('!hidden');});
+            initCalendar(self) {
+                console.log(self);
+                // reset css
                 document.querySelectorAll<HTMLDivElement>('.'+self.CSSClasses.time)!.forEach(el=>{el.classList.add('!border-0', '!mt-0', '!pt-0');});
 
                 // set time ranges
-                const hoursRange = document.querySelectorAll<HTMLInputElement>('.'+self.CSSClasses.timeRange+' input[name="hours"]')!.forEach(el=>{
+                document.querySelectorAll<HTMLInputElement>('.'+self.CSSClasses.timeRange+' input[name="hours"]')!.forEach(el=>{
                     el.min = "9";
                     el.max = "18";
                 });
@@ -100,11 +108,16 @@ const onReady = () : void =>
         }
     };
 
+    // start time
     const startTimePicker = new VanillaCalendar('#start_time', timeOptions);
     startTimePicker.init();
 
+    // end time
     const endTimePicker = new VanillaCalendar('#end_time', timeOptions);
     endTimePicker.init();
+
+
+
 
     // form
     new Forms('#theForm').doSubmit( (form_params: { [key: string]: string }) =>
