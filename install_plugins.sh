@@ -60,3 +60,7 @@ npm install nouislider --save
 # LazyLoad
 echo "install LazyLoad"
 npm install vanilla-lazyload --save
+
+# CountUP
+echo "install CountUP"
+npm i countup.js --save

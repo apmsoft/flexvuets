@@ -139,3 +139,11 @@ npm install vanilla-lazyload --save
 
 >> babel.config.js
 ,"vanilla-lazyload": `./${debugPath}/plugins/vanilla-lazyload/dist/esm/lazyload.js`
+
+
+### CountUP : https://github.com/inorganik/CountUp.js?tab=readme-ov-file
+## demo : https://inorganik.github.io/countUp.js/
+npm i countup.js --save
+
+>> babel.config.js
+,"countup.js": `./${debugPath}/plugins/countup.js/dist/countup.js`

@@ -46,6 +46,7 @@ module.exports = {
             ,"prism-es6": `./${debugPath}/plugins/prism-es6/prism.js`
             ,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.mjs`
             ,"vanilla-lazyload": `./${debugPath}/plugins/vanilla-lazyload/dist/esm/lazyload.js`
+            ,"countup.js": `./${debugPath}/plugins/countup.js/dist/countup.js`
           }
         }
       ]

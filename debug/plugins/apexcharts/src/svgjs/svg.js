@@ -1059,10 +1059,6 @@
 
 
 
-
-
-
-
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1101,8 +1097,12 @@
         * sets or returns the target of this animation
         * @param null || target SVG.Element which should be set as new target
         * @return target || this
-        */target: function (target) {if (target && target instanceof SVG.Element) {this._target = target;return this;}return this._target;}, // returns the absolute position at a given time
-        timeToAbsPos: function (timestamp) {return (timestamp - this.situation.start) / (this.situation.duration / this._speed);
+        */target: function (target) {if (target && target instanceof SVG.Element) {this._target = target;return this;}return this._target;
+        },
+
+        // returns the absolute position at a given time
+        timeToAbsPos: function (timestamp) {
+          return (timestamp - this.situation.start) / (this.situation.duration / this._speed);
         },
 
         // returns the timestamp from a given absolute positon
@@ -1680,12 +1680,6 @@
 
 
 
-
-
-
-
-
-
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1703,8 +1697,14 @@
       extend: { // Extract individual transformations
         extract: function () {// find delta transform points
           var px = deltaTransformPoint(this, 0, 1),py = deltaTransformPoint(this, 1, 0),skewX = 180 / Math.PI * Math.atan2(px.y, px.x) - 90;return { // translation
-            x: this.e, y: this.f, transformedX: (this.e * Math.cos(skewX * Math.PI / 180) + this.f * Math.sin(skewX * Math.PI / 180)) / Math.sqrt(this.a * this.a + this.b * this.b), transformedY: (this.f * Math.cos(skewX * Math.PI / 180) + this.e * Math.sin(-skewX * Math.PI / 180)) / Math.sqrt(this.c * this.c + this.d * this.d), // rotation
-            rotation: skewX, a: this.a, b: this.b, c: this.c,
+            x: this.e, y: this.f, transformedX: (this.e * Math.cos(skewX * Math.PI / 180) + this.f * Math.sin(skewX * Math.PI / 180)) / Math.sqrt(this.a * this.a + this.b * this.b),
+            transformedY: (this.f * Math.cos(skewX * Math.PI / 180) + this.e * Math.sin(-skewX * Math.PI / 180)) / Math.sqrt(this.c * this.c + this.d * this.d),
+
+            // rotation
+            rotation: skewX,
+            a: this.a,
+            b: this.b,
+            c: this.c,
             d: this.d,
             e: this.e,
             f: this.f,
@@ -2478,8 +2478,6 @@
 
 
 
-
-
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2490,7 +2488,9 @@
         update: function (block) {// remove all stops
           this.clear(); // invoke passed block
           if (typeof block === 'function') {block.call(this, this);}return this;}, // Return the fill id
-        fill: function () {return 'url(#' + this.id() + ')';}, // Alias string convertion to fill
+        fill: function () {return 'url(#' + this.id() + ')';
+        },
+        // Alias string convertion to fill
         toString: function () {
           return this.fill();
         },

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CountUp</title>
+
+    <link rel="stylesheet" href="../../css/tailwind.css">
+    <link rel="stylesheet" href="../../css/fontawesome-all.css">
+    <link rel="stylesheet" href="../../../plugins/notyf/notyf.min.css">
+
+    <script defer src="../../../flexvue/flexvue.js"></script>
+
+</head>
+<body>
+    <!--left-->
+    <div id="left" class="fvue--layout z-0">
+        <div class="fvue--layout--container">
+
+            <div class="fvue--layout--header py-3">
+                <div class="fvue--layout--header--row px-3">
+                    <div class="fvue--layout--icon">
+
+                    </div>
+                    <div class="fvue--layout--title text-gray-800">
+                      <a href="#">FlexVue (플렉스뷰)</a>
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation">
+
+                    </div>
+                </div>
+            </div>
+            <div class="fvue--layout--main h-full">
+
+                <div class="container mx-auto card py-4">
+                    <div class="flex flex-col space-y-2">
+                        <div id="countupjs" class="p-2 w-[200px] text-center rounded-3xl bg-black text-white text-3xl">
+
+                        </div>
+                        <div>
+                            <button id="btn-reset" class="btn">초기화(0)</button>
+                            <button id="btn-update" class="btn">데이터업데이트(989)</button>
+                            <button id="btn-update2" class="btn">데이터업데이트(2000)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container mx-auto card py-4">
+                    <div id="countupjs2" class="p-2 w-[200px] text-center rounded-3xl bg-blue-500 text-white text-3xl">
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-balck">
+
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-white">
+
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-white">
+
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900 bg-opacity-70 flex content-center flex-wrap">
+
+    </div>
+
+    <script defer type="module" src="./countup.js"></script>
+</body>
+</html>

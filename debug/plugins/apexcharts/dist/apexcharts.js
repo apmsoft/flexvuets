@@ -28665,10 +28665,6 @@ this.animations={
 
 
 
-
-
-
-
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28702,7 +28698,11 @@ this.absPos=0;this._speed=1;},extend:{/**
         */target:function target(_target){if(_target&&_target instanceof SVG.Element){this._target=_target;return this;}return this._target;},// returns the absolute position at a given time
 timeToAbsPos:function timeToAbsPos(timestamp){return(timestamp-this.situation.start)/(this.situation.duration/this._speed);},// returns the timestamp from a given absolute positon
 absPosToTime:function absPosToTime(absPos){return this.situation.duration/this._speed*absPos+this.situation.start;},// starts the animationloop
-startAnimFrame:function startAnimFrame(){this.stopAnimFrame();this.animationFrame=window.requestAnimationFrame(function(){this.step();}.bind(this));
+startAnimFrame:function startAnimFrame(){
+this.stopAnimFrame();
+this.animationFrame=window.requestAnimationFrame(function(){
+this.step();
+}.bind(this));
 },
 // cancels the animationframe
 stopAnimFrame:function stopAnimFrame(){
@@ -29243,12 +29243,6 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
-
-
-
-
-
-
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29271,8 +29265,14 @@ rotation:skewX,a:this.a,b:this.b,c:this.c,d:this.d,e:this.e,f:this.f,matrix:new 
 clone:function clone(){return new SVG.Matrix(this);},// Morph one matrix into another
 morph:function morph(matrix){// store new destination
 this.destination=new SVG.Matrix(matrix);return this;},// Multiplies by given matrix
-multiply:function multiply(matrix){return new SVG.Matrix(this.native().multiply(parseMatrix(matrix).native()));},// Inverses matrix
-inverse:function inverse(){return new SVG.Matrix(this.native().inverse());},// Translate matrix
+multiply:function multiply(matrix){
+return new SVG.Matrix(this.native().multiply(parseMatrix(matrix).native()));
+},
+// Inverses matrix
+inverse:function inverse(){
+return new SVG.Matrix(this.native().inverse());
+},
+// Translate matrix
 translate:function translate(x,y){
 return new SVG.Matrix(this.native().translate(x||0,y||0));
 },
@@ -29964,8 +29964,6 @@ SVG.extend(SVG.Element,{
 
 
 
-
-
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29978,7 +29976,9 @@ this.clear();// invoke passed block
 if(typeof block==='function'){block.call(this,this);}return this;},// Return the fill id
 fill:function fill(){return'url(#'+this.id()+')';},// Alias string convertion to fill
 toString:function toString(){return this.fill();},// custom attr to handle transform
-attr:function attr(a,b,c){if(a=='transform')a='gradientTransform';return SVG.Container.prototype.attr.call(this,a,b,c);
+attr:function attr(a,b,c){
+if(a=='transform')a='gradientTransform';
+return SVG.Container.prototype.attr.call(this,a,b,c);
 }
 },
 // Add parent method

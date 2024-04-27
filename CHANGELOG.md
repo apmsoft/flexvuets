@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.1]
+### - 2024-04-27
+- CountUP plubins 추가 및 example 
+
 ### - 2024-04-25
 - LazyLoad plugins 추가 및 example (불규칙 레이아웃 출력에 효과 적임)
 

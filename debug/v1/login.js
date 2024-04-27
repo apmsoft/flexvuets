@@ -8,7 +8,6 @@ const onReady = () => {
   config.src8 = '';
   config.src = config.host + '/' + config.src8;
   // 앱 정보
-  const app = new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // activity
   new Activity().onBackPressed((state) => {

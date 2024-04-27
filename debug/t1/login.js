@@ -7,7 +7,6 @@ const onReady = () => {
   // config
   config.src = config.host + '/' + config.src9;
   // 앱 정보
-  const app = new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // activity
   new Activity().onBackPressed((state) => {
@@ -28,7 +27,7 @@ const onReady = () => {
   new Forms('#theAdminLoginForm').doSubmit((form_params) => {
     ProgressBars.show();
     let send_params = Object.assign({}, form_params);
-    new AsyncTask().execute('POST', `${config.src}/member/gettokens`, { userid: send_params.userid }, config._options_, config._headers_).
+    new AsyncTask().execute('POST', `${config.src}/manager/gettokens`, { userid: send_params.userid }, config._options_, config._headers_).
     then((resp) => {
       // Log.d(resp);
       // reject
