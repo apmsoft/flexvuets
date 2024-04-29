@@ -20,7 +20,7 @@ const onReady = () => {
   }).
   then((tableView) => {
     // RecyclerView 인스턴스 생성 및 초기화
-    const adapter = new SimpleAdapter(listData, tableView, 'border-b border-gray-100 text-center');
+    const adapter = new SimpleAdapter(listData, tableView, 'w-full text-center');
     const recyclerView = new RecyclerView('#tableview', adapter, {
       itemCount: 2
     });

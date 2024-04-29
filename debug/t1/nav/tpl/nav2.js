@@ -11,10 +11,10 @@ class Template {
             <div class="flex flex-col pt-5">
                 <!--펼침메뉴-->
                 <div class="mb-10">
-                    <button type="button" id="btn-close-lm" class="btn py-1 px-3 border-0 text-sm">
+                    <button type="button" id="btn-close-lm" class="btn btn-xs py-1 px-3 border-0 text-sm">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button type="button" id="btn-open-lm" class="btn py-1 px-3 border-0 text-sm hidden">
+                    <button type="button" id="btn-open-lm" class="btn btn-xs py-1 px-3 border-0 text-sm hidden">
                         <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
@@ -28,7 +28,7 @@ class Template {
                     <ul class="list-disc">
                     ${menus.map((menu) => `
                         <a href="${menu.action}" class="">
-                            <li class="flex flex-row justify-between cursor-pointer py-2 px-3 ${menu.id == gid ? `btn-active` : `btn-outline`} mb-3">
+                            <li class="flex flex-row rounded-lg justify-between cursor-pointer py-2 px-3 ${menu.id == gid ? `btn-active` : `btn-outline`} mb-3">
                                 <div>${menu.title}</div>
                                 <div>${menu.icon}</div>
                             </li>
@@ -41,7 +41,7 @@ class Template {
                     <ul>
                         ${acts.map((act) => `
                         <a href="${act.action}">
-                            <li class="flex flex-row px-3 py-4 ${act.id == gid ? `btn-active` : 'btn-outline'} mb-3">
+                            <li class="flex flex-row rounded-lg px-3 py-4 ${act.id == gid ? `btn-active` : 'btn-outline'} mb-3">
                                 <div class="flex item-center"><span class="py-2 px-3 w-10 h-10 text-center">${act.icon}</span></div>
                                 <div class="pl-3 ${act.id == gid ? `` : ``}">
                                     ${act.title}

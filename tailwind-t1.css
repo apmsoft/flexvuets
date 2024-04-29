@@ -213,6 +213,10 @@
         height: 120px;
         @apply fixed mx-auto
     }
+
+    .tooltip {
+        @apply !text-xs
+    }
 }
 
 @layer utilities {

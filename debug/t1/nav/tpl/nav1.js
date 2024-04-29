@@ -11,8 +11,8 @@ class Template {
                 <div id="lay-menu-icon" class="flex flex-col justify-between h-full">
                     <div class="flex flex-col">
                         ${general.map((navig) => `
-                            <a href="${navig.action}" ${navig.target != '' ? `target="navig_navi.target"` : ``} class="tooltip tooltip-top" data-tip="${navig.title}">
-                                <div class="px-3 py-2 w-10 rounded-lg text-center navigation-icon" data-id="${navig.id}" data-action="${navig.action}">
+                            <a href="${navig.action}" ${navig.target != '' ? `target="navig_navi.target"` : ``} class="tooltip tooltip-bottom" data-tip="${navig.title}">
+                                <div class="px-3 py-2 w-10 text-sm rounded-lg text-center navigation-icon" data-id="${navig.id}" data-action="${navig.action}">
                                     ${navig.icon}
                                 </div>
                             </a>`).join('')}
@@ -21,7 +21,7 @@ class Template {
                     <div class="border-t pt-3 flex flex-col">
                         ${superadm.map((navis) => `
                             <a href="${navis.action}" ${navis.target != '' ? `target="general_navi.target"` : ``} class="tooltip tooltip-top" data-tip="${navis.title}">
-                                <div class="px-3 py-2 w-10 rounded-lg text-center navigation-icon" data-id="${navis.id}" data-action="${navis.action}">
+                                <div class="px-3 py-2 w-10 text-sm rounded-lg text-center navigation-icon" data-id="${navis.id}" data-action="${navis.action}">
                                     ${navis.icon}
                                 </div>
                             </a>`).join('')}
@@ -33,7 +33,7 @@ class Template {
                     <div class="flex flex-col">
                         ${general.map((navig) => `
                             <a href="${navig.action}" ${navig.target != '' ? `target="navig_navi.target"` : ``}>
-                                <div class="px-3 py-2 text-left rounded-lg">
+                                <div class="px-3 py-2 text-sm text-left rounded-lg">
                                     ${navig.title}
                                 </div>
                             </a>`).join('')}
@@ -42,7 +42,7 @@ class Template {
                     <div class="border-t pt-3 flex flex-col">
                         ${superadm.map((navis) => `
                             <a href="${navis.action}" ${navis.target != '' ? `target="general_navi.target"` : ``}>
-                                <div class="px-3 py-2 text-left rounded-lg">
+                                <div class="px-3 py-2 text-sm text-left rounded-lg">
                                     ${navis.title}
                                 </div>
                             </a>`).join('')}

@@ -45,18 +45,26 @@ class Layout implements Template
 
                     <div class="xl:container xl:mx-auto lg:m-h-[500px] relative pt-10 h-[800px]">
 
-                        <div class="px-2" >
-                            <table class="w-full table-auto">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableview" class=" max-h-[450px] overflow-y-auto flex flex-col"></tbody>
-                            </table>
-                            
+                        <div role="tablist" class="tabs tabs-lifted">
+                            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Data" checked />
+                            <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                                <div class="overflow-x-auto">
+                                    <table class="table table-zebra">
+                                        <!-- head -->
+                                        <thead>
+                                            <tr class="w-full text-center">
+                                                <th class="text-center w-1/3">No</th>
+                                                <th class="text-center w-1/3">Title</th>
+                                                <th class="text-center w-1/3">d</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableview" class="h-[450px] overflow-y-auto flex flex-col">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+
 
                     </div>
 

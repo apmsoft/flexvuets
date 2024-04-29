@@ -28903,6 +28903,56 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28995,66 +29045,16 @@ this.startAnimFrame();}// save last eased position for once callback triggering
 this.lastPos=eased;return this;},// calculates the step for every property and calls block with it
 eachAt:function eachAt(){var len,at,self=this,target=this.target(),s=this.situation;// apply animations which can be called trough a method
 for(var i in s.animations){at=[].concat(s.animations[i]).map(function(el){return typeof el!=='string'&&el.at?el.at(s.ease(self.pos),self.pos):el;});target[i].apply(target,at);}// apply animation which has to be applied with attr()
-for(var i in s.attrs){at=[i].concat(s.attrs[i]).map(function(el){
-return typeof el!=='string'&&el.at?el.at(s.ease(self.pos),self.pos):el;
-});
-target.attr.apply(target,at);
-}// apply animation which has to be applied with style()
-
-
-for(var i in s.styles){
-at=[i].concat(s.styles[i]).map(function(el){
-return typeof el!=='string'&&el.at?el.at(s.ease(self.pos),self.pos):el;
-});
-target.style.apply(target,at);
-}// animate initialTransformation which has to be chained
-
-
-if(s.transforms.length){
-// get initial initialTransformation
-at=s.initialTransformation;
-
-for(var i=0,len=s.transforms.length;i<len;i++){
-// get next transformation in chain
+for(var i in s.attrs){at=[i].concat(s.attrs[i]).map(function(el){return typeof el!=='string'&&el.at?el.at(s.ease(self.pos),self.pos):el;});target.attr.apply(target,at);}// apply animation which has to be applied with style()
+for(var i in s.styles){at=[i].concat(s.styles[i]).map(function(el){return typeof el!=='string'&&el.at?el.at(s.ease(self.pos),self.pos):el;});target.style.apply(target,at);}// animate initialTransformation which has to be chained
+if(s.transforms.length){// get initial initialTransformation
+at=s.initialTransformation;for(var i=0,len=s.transforms.length;i<len;i++){// get next transformation in chain
 var a=s.transforms[i];// multiply matrix directly
-
-if(a instanceof SVG.Matrix){
-if(a.relative){
-at=at.multiply(new SVG.Matrix().morph(a).at(s.ease(this.pos)));
-}else{
-at=at.morph(a).at(s.ease(this.pos));
-}
-
-continue;
-}// when transformation is absolute we have to reset the needed transformation first
-
-
-if(!a.relative){
-a.undo(at.extract());
-}// and reapply it after
-
-
-at=at.multiply(a.at(s.ease(this.pos)));
-}// set new matrix on element
-
-
-target.matrix(at);
-}
-
-return this;
-},
-// adds an once-callback which is called at a specific position and never again
-once:function once(pos,fn,isEased){
-var c=this.last();
-if(!isEased)pos=c.ease(pos);
-c.once[pos]=fn;
-return this;
-},
-_callStart:function _callStart(){
-setTimeout(function(){
-this.start();
-}.bind(this),0);
-return this;
+if(a instanceof SVG.Matrix){if(a.relative){at=at.multiply(new SVG.Matrix().morph(a).at(s.ease(this.pos)));}else{at=at.morph(a).at(s.ease(this.pos));}continue;}// when transformation is absolute we have to reset the needed transformation first
+if(!a.relative){a.undo(at.extract());}// and reapply it after
+at=at.multiply(a.at(s.ease(this.pos)));}// set new matrix on element
+target.matrix(at);}return this;},// adds an once-callback which is called at a specific position and never again
+once:function once(pos,fn,isEased){var c=this.last();if(!isEased)pos=c.ease(pos);c.once[pos]=fn;return this;},_callStart:function _callStart(){setTimeout(function(){this.start();}.bind(this),0);return this;
 }
 },
 parent:SVG.Element,
@@ -29600,6 +29600,81 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29712,96 +29787,21 @@ SVG.on(this.node,event,f);return this;};});// Initialize listeners stack
 SVG.listeners=[];SVG.handlerMap=[];SVG.listenerId=0;// Add event binder in the SVG namespace
 SVG.on=function(node,event,listener,binding,options){// create listener, get object-index
 var l=listener.bind(binding||node.instance||node),index=(SVG.handlerMap.indexOf(node)+1||SVG.handlerMap.push(node))-1,ev=event.split('.')[0],ns=event.split('.')[1]||'*';// ensure valid object
-
-SVG.listeners[index]=SVG.listeners[index]||{};
-SVG.listeners[index][ev]=SVG.listeners[index][ev]||{};
-SVG.listeners[index][ev][ns]=SVG.listeners[index][ev][ns]||{};
-
-if(!listener._svgjsListenerId){
-listener._svgjsListenerId=++SVG.listenerId;
-}// reference listener
-
-
+SVG.listeners[index]=SVG.listeners[index]||{};SVG.listeners[index][ev]=SVG.listeners[index][ev]||{};SVG.listeners[index][ev][ns]=SVG.listeners[index][ev][ns]||{};if(!listener._svgjsListenerId){listener._svgjsListenerId=++SVG.listenerId;}// reference listener
 SVG.listeners[index][ev][ns][listener._svgjsListenerId]=l;// add listener
-
-node.addEventListener(ev,l,options||{
-passive:false
-});
-};// Add event unbinder in the SVG namespace
-
-
-SVG.off=function(node,event,listener){
-var index=SVG.handlerMap.indexOf(node),
-ev=event&&event.split('.')[0],
-ns=event&&event.split('.')[1],
-namespace='';
-if(index==-1)return;
-
-if(listener){
-if(typeof listener==='function')listener=listener._svgjsListenerId;
-if(!listener)return;// remove listener reference
-
-if(SVG.listeners[index][ev]&&SVG.listeners[index][ev][ns||'*']){
-// remove listener
-node.removeEventListener(ev,SVG.listeners[index][ev][ns||'*'][listener],false);
-delete SVG.listeners[index][ev][ns||'*'][listener];
-}
-}else if(ns&&ev){
-// remove all listeners for a namespaced event
-if(SVG.listeners[index][ev]&&SVG.listeners[index][ev][ns]){
-for(var listener_ in SVG.listeners[index][ev][ns]){
-SVG.off(node,[ev,ns].join('.'),listener_);
-}
-
-delete SVG.listeners[index][ev][ns];
-}
-}else if(ns){
-// remove all listeners for a specific namespace
-for(var event_ in SVG.listeners[index]){
-for(var namespace in SVG.listeners[index][event_]){
-if(ns===namespace){
-SVG.off(node,[event_,ns].join('.'));
-}
-}
-}
-}else if(ev){
-// remove all listeners for the event
-if(SVG.listeners[index][ev]){
-for(var namespace in SVG.listeners[index][ev]){
-SVG.off(node,[ev,namespace].join('.'));
-}
-
-delete SVG.listeners[index][ev];
-}
-}else{
-// remove all listeners on a given node
-for(var event_ in SVG.listeners[index]){
-SVG.off(node,event_);
-}
-
-delete SVG.listeners[index];
-delete SVG.handlerMap[index];
-}
-};//
-
-
-SVG.extend(SVG.Element,{
-// Bind given event to listener
-on:function on(event,listener,binding,options){
-SVG.on(this.node,event,listener,binding,options);
-return this;
-},
-// Unbind event from listener
-off:function off(event,listener){
-SVG.off(this.node,event,listener);
-return this;
-},
-// Fire given event
-fire:function fire(event,data){
-// Dispatch event
-if(event instanceof window.Event){
-this.node.dispatchEvent(event);
-}else{
+node.addEventListener(ev,l,options||{passive:false});};// Add event unbinder in the SVG namespace
+SVG.off=function(node,event,listener){var index=SVG.handlerMap.indexOf(node),ev=event&&event.split('.')[0],ns=event&&event.split('.')[1],namespace='';if(index==-1)return;if(listener){if(typeof listener==='function')listener=listener._svgjsListenerId;if(!listener)return;// remove listener reference
+if(SVG.listeners[index][ev]&&SVG.listeners[index][ev][ns||'*']){// remove listener
+node.removeEventListener(ev,SVG.listeners[index][ev][ns||'*'][listener],false);delete SVG.listeners[index][ev][ns||'*'][listener];}}else if(ns&&ev){// remove all listeners for a namespaced event
+if(SVG.listeners[index][ev]&&SVG.listeners[index][ev][ns]){for(var listener_ in SVG.listeners[index][ev][ns]){SVG.off(node,[ev,ns].join('.'),listener_);}delete SVG.listeners[index][ev][ns];}}else if(ns){// remove all listeners for a specific namespace
+for(var event_ in SVG.listeners[index]){for(var namespace in SVG.listeners[index][event_]){if(ns===namespace){SVG.off(node,[event_,ns].join('.'));}}}}else if(ev){// remove all listeners for the event
+if(SVG.listeners[index][ev]){for(var namespace in SVG.listeners[index][ev]){SVG.off(node,[ev,namespace].join('.'));}delete SVG.listeners[index][ev];}}else{// remove all listeners on a given node
+for(var event_ in SVG.listeners[index]){SVG.off(node,event_);}delete SVG.listeners[index];delete SVG.handlerMap[index];}};//
+SVG.extend(SVG.Element,{// Bind given event to listener
+on:function on(event,listener,binding,options){SVG.on(this.node,event,listener,binding,options);return this;},// Unbind event from listener
+off:function off(event,listener){SVG.off(this.node,event,listener);return this;},// Fire given event
+fire:function fire(event,data){// Dispatch event
+if(event instanceof window.Event){this.node.dispatchEvent(event);}else{
 this.node.dispatchEvent(event=new SVG.CustomEvent(event,{
 detail:data,
 cancelable:true
@@ -30083,6 +30083,31 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30130,41 +30155,16 @@ inherit:SVG.Shape,// Add class methods
 extend:{// Use element as a reference
 element:function element(_element,file){// Set lined element
 return this.attr('href',(file||'')+'#'+_element,SVG.xlink);}},// Add parent method
-construct:{
-// Create a use element
-use:function use(element,file){
-return this.put(new SVG.Use()).element(element,file);
-}
-}
-});
-SVG.Rect=SVG.invent({
-// Initialize node
-create:'rect',
-// Inherit from
-inherit:SVG.Shape,
-// Add parent method
-construct:{
-// Create a rect element
-rect:function rect(width,height){
-return this.put(new SVG.Rect()).size(width,height);
-}
-}
-});
-SVG.Circle=SVG.invent({
-// Initialize node
-create:'circle',
-// Inherit from
-inherit:SVG.Shape,
-// Add parent method
-construct:{
-// Create circle element, based on ellipse
-circle:function circle(size){
-return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0,0);
-}
-}
-});
-SVG.extend(SVG.Circle,SVG.FX,{
-// Radius x value
+construct:{// Create a use element
+use:function use(element,file){return this.put(new SVG.Use()).element(element,file);}}});SVG.Rect=SVG.invent({// Initialize node
+create:'rect',// Inherit from
+inherit:SVG.Shape,// Add parent method
+construct:{// Create a rect element
+rect:function rect(width,height){return this.put(new SVG.Rect()).size(width,height);}}});SVG.Circle=SVG.invent({// Initialize node
+create:'circle',// Inherit from
+inherit:SVG.Shape,// Add parent method
+construct:{// Create circle element, based on ellipse
+circle:function circle(size){return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0,0);}}});SVG.extend(SVG.Circle,SVG.FX,{// Radius x value
 rx:function rx(_rx){
 return this.attr('r',_rx);
 },
