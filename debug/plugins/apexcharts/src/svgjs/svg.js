@@ -1277,6 +1277,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1362,36 +1382,16 @@
             this.absPos = Math.min(this.absPos, 1);this.pos = this.absPos;} // while the absolute position can be below 0, the position must not be below 0
           if (this.pos < 0) this.pos = 0;if (this.situation.reversed) this.pos = 1 - this.pos; // apply easing
           var eased = this.situation.ease(this.pos); // call once-callbacks
-          for (var i in this.situation.once) {if (i > this.lastPos && i <= eased) {this.situation.once[i].call(this.target(), this.pos, eased);delete this.situation.once[i];}}
-
-          // fire during callback with position, eased position and current situation as parameter
-          if (this.active) this.target().fire('during', { pos: this.pos, eased: eased, fx: this, situation: this.situation });
-
-          // the user may call stop or finish in the during callback
+          for (var i in this.situation.once) {if (i > this.lastPos && i <= eased) {this.situation.once[i].call(this.target(), this.pos, eased);delete this.situation.once[i];}} // fire during callback with position, eased position and current situation as parameter
+          if (this.active) this.target().fire('during', { pos: this.pos, eased: eased, fx: this, situation: this.situation }); // the user may call stop or finish in the during callback
           // so make sure that we still have a valid situation
-          if (!this.situation) {
-            return this;
-          }
-
-          // apply the actual animation to every property
-          this.eachAt();
-
-          // do final code when situation is finished
-          if (this.pos == 1 && !this.situation.reversed || this.situation.reversed && this.pos == 0) {
-            // stop animation callback
-            this.stopAnimFrame();
-
-            // fire finished callback with current situation as parameter
-            this.target().fire('finished', { fx: this, situation: this.situation });
-
-            if (!this.situations.length) {
-              this.target().fire('allfinished');
-
-              // Recheck the length since the user may call animate in the afterAll callback
-              if (!this.situations.length) {
-                this.target().off('.fx'); // there shouldnt be any binding left, but to make sure...
-                this.active = false;
-              }
+          if (!this.situation) {return this;} // apply the actual animation to every property
+          this.eachAt(); // do final code when situation is finished
+          if (this.pos == 1 && !this.situation.reversed || this.situation.reversed && this.pos == 0) {// stop animation callback
+            this.stopAnimFrame(); // fire finished callback with current situation as parameter
+            this.target().fire('finished', { fx: this, situation: this.situation });if (!this.situations.length) {this.target().fire('allfinished'); // Recheck the length since the user may call animate in the afterAll callback
+              if (!this.situations.length) {this.target().off('.fx'); // there shouldnt be any binding left, but to make sure...
+                this.active = false;}
             }
 
             // start next animation
@@ -2007,6 +2007,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -2102,64 +2132,34 @@
         get: function (i) {return SVG.adopt(this.node.childNodes[i]);}, // Get first child
         first: function () {return this.get(0);}, // Get the last child
         last: function () {return this.get(this.node.childNodes.length - 1);}, // Iterates over all children and invokes a given block
-        each: function (block, deep) {var il,
-            children = this.children();
+        each: function (block, deep) {var il,children = this.children();for (var i = 0, il = children.length; i < il; i++) {if (children[i] instanceof SVG.Element) {block.apply(children[i], [i, children]);}if (deep && children[i] instanceof SVG.Container) {children[i].each(block, deep);}}return this;}, // Remove a given child
+        removeElement: function (element) {this.node.removeChild(element.node);return this;}, // Remove all elements in this container
+        clear: function () {// remove children
+          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);} // remove defs reference
+          delete this._defs;return this;}, // Get defs
+        defs: function () {return this.doc().defs();} } });SVG.extend(SVG.Parent, {
+      ungroup: function (parent, depth) {
+        if (depth === 0 || this instanceof SVG.Defs || this.node == SVG.parser.draw) return this;
 
-          for (var i = 0, il = children.length; i < il; i++) {
-            if (children[i] instanceof SVG.Element) {block.apply(children[i], [i, children]);}
+        parent = parent || (this instanceof SVG.Doc ? this : this.parent(SVG.Parent));
+        depth = depth || Infinity;
 
-            if (deep && children[i] instanceof SVG.Container) {children[i].each(block, deep);}
-          }
+        this.each(function () {
+          if (this instanceof SVG.Defs) return this;
+          if (this instanceof SVG.Parent) return this.ungroup(parent, depth - 1);
+          return this.toParent(parent);
+        });
 
-          return this;
-        },
-        // Remove a given child
-        removeElement: function (element) {
-          this.node.removeChild(element.node);
+        this.node.firstChild || this.remove();
 
-          return this;
-        },
-        // Remove all elements in this container
-        clear: function () {
-          // remove children
-          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);}
+        return this;
+      },
 
-          // remove defs reference
-          delete this._defs;
-
-          return this;
-        }, // Get defs
-        defs: function () {
-          return this.doc().defs();
-        }
+      flatten: function (parent, depth) {
+        return this.ungroup(parent, depth);
       }
 
     });
-
-  SVG.extend(SVG.Parent, {
-
-    ungroup: function (parent, depth) {
-      if (depth === 0 || this instanceof SVG.Defs || this.node == SVG.parser.draw) return this;
-
-      parent = parent || (this instanceof SVG.Doc ? this : this.parent(SVG.Parent));
-      depth = depth || Infinity;
-
-      this.each(function () {
-        if (this instanceof SVG.Defs) return this;
-        if (this instanceof SVG.Parent) return this.ungroup(parent, depth - 1);
-        return this.toParent(parent);
-      });
-
-      this.node.firstChild || this.remove();
-
-      return this;
-    },
-
-    flatten: function (parent, depth) {
-      return this.ungroup(parent, depth);
-    }
-
-  });
   SVG.Container = SVG.invent({
     // Initialize node
     create: function (element) {
@@ -2587,6 +2587,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2624,29 +2634,19 @@
       construct: { // Create pattern element in defs
         pattern: function (width, height, block) {return this.defs().pattern(width, height, block);} } });SVG.extend(SVG.Defs, { // Define gradient
       pattern: function (width, height, block) {return this.put(new SVG.Pattern()).update(block).attr({ x: 0, y: 0, width: width, height: height, patternUnits: 'userSpaceOnUse' });} });SVG.Shape = SVG.invent({ // Initialize node
-      create: function (element) {
-        this.constructor.call(this, element);
-      },
-
+      create: function (element) {this.constructor.call(this, element);}, // Inherit from
+      inherit: SVG.Element });SVG.Symbol = SVG.invent({ // Initialize node
+      create: 'symbol',
       // Inherit from
-      inherit: SVG.Element
+      inherit: SVG.Container,
 
-    });
-
-  SVG.Symbol = SVG.invent({
-    // Initialize node
-    create: 'symbol',
-
-    // Inherit from
-    inherit: SVG.Container,
-
-    construct: {
-      // create symbol
-      symbol: function () {
-        return this.put(new SVG.Symbol());
+      construct: {
+        // create symbol
+        symbol: function () {
+          return this.put(new SVG.Symbol());
+        }
       }
-    }
-  });
+    });
 
   SVG.Use = SVG.invent({
     // Initialize node
