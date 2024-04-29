@@ -121,7 +121,7 @@ export class RecyclerView {
     // 현재 스크롤 위치
     const scrollPosition = this.scrollCaptureElement.scrollTop;
     if (scrollPosition !== this.prevScrollPosition && this.scrollPositionCallback) {
-      this.scrollPositionCallback(scrollPosition); // Callback with the current scroll position
+      this.scrollPositionCallback(scrollPosition, this.renderedItems.size); // Callback with the current scroll position
       this.prevScrollPosition = scrollPosition; // Update previous scroll position
     }
     const containerHeight = this.container.clientHeight;

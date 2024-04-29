@@ -1207,6 +1207,10 @@
 
 
 
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1277,11 +1281,7 @@
             !active && this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();}, after: function (fn) {var c = this.last(),wrapper = function wrapper(e) {if (e.detail.situation == c) {fn.call(this, c);this.off('finished.fx', wrapper); // prevent memory leak
               }};this.target().on('finished.fx', wrapper);return this._callStart();}, // adds a callback which is called whenever one animation step is performed
         during: function (fn) {var c = this.last(),wrapper = function (e) {if (e.detail.situation == c) {fn.call(this, e.detail.pos, SVG.morph(e.detail.pos), e.detail.eased, c);}}; // see above
-          this.target().off('during.fx', wrapper).on('during.fx', wrapper);
-
-          this.after(function () {
-            this.off('during.fx', wrapper);
-          });
+          this.target().off('during.fx', wrapper).on('during.fx', wrapper);this.after(function () {this.off('during.fx', wrapper);});
 
           return this._callStart();
         },
@@ -1902,6 +1902,12 @@
 
 
 
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -1978,13 +1984,7 @@
             var kv = str.trim().split('(');return [kv[0], kv[1].split(SVG.regex.delimiter).map(function (str) {return parseFloat(str);})];}) // merge every transformation into one matrix
         .reduce(function (matrix, transform) {if (transform[0] == 'matrix') return matrix.multiply(arrayToMatrix(transform[1]));return matrix[transform[0]].apply(matrix, transform[1]);}, new SVG.Matrix());return matrix;}, // add an element to another parent without changing the visual representation on the screen
       toParent: function (parent) {if (this == parent) return this;var ctm = this.screenCTM();var pCtm = parent.screenCTM().inverse();this.addTo(parent).untransform().transform(pCtm.multiply(ctm));return this;}, // same as above with parent equals root-svg
-      toDoc: function () {return this.toParent(this.doc());} });SVG.Transformation = SVG.invent({ create: function (source, inversed) {if (arguments.length > 1 && typeof inversed !== 'boolean') {return this.constructor.call(this, [].slice.call(arguments));
-        }
-
-        if (Array.isArray(source)) {
-          for (var i = 0, len = this.arguments.length; i < len; ++i) {
-            this[this.arguments[i]] = source[i];
-          }
+      toDoc: function () {return this.toParent(this.doc());} });SVG.Transformation = SVG.invent({ create: function (source, inversed) {if (arguments.length > 1 && typeof inversed !== 'boolean') {return this.constructor.call(this, [].slice.call(arguments));}if (Array.isArray(source)) {for (var i = 0, len = this.arguments.length; i < len; ++i) {this[this.arguments[i]] = source[i];}
         } else if (source && typeof source === 'object') {
           for (var i = 0, len = this.arguments.length; i < len; ++i) {
             this[this.arguments[i]] = source[this.arguments[i]];
@@ -2552,6 +2552,8 @@
 
 
 
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2582,10 +2584,8 @@
       extend: { // Return the fill id
         fill: function () {return 'url(#' + this.id() + ')';}, // Update pattern by rebuilding
         update: function (block) {// remove content
-          this.clear();
-          // invoke passed block
+          this.clear(); // invoke passed block
           if (typeof block === 'function') {block.call(this, this);}
-
           return this;
         },
         // Alias string convertion to fill

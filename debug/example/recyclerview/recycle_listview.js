@@ -27,8 +27,8 @@ const onReady = () => {
       alert(id);
     });
     // 스크롤 포지션 캡쳐
-    recyclerView.onChangedScrollPosition(function (pos) {
-      Log.d('scroll position', pos);
+    recyclerView.onChangedScrollPosition(function (pos, render_count) {
+      Log.d('scroll position', pos, 'rendered_count', render_count, 'total item count', adapter.getItemCount());
     });
     // 데이터 추가 예제
     const addButton = document.getElementById('addButton');

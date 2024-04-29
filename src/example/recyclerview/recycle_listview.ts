@@ -41,8 +41,8 @@ const onReady = () : void =>
         });
 
         // 스크롤 포지션 캡쳐
-        recyclerView.onChangedScrollPosition(function(pos : number){
-            Log.d('scroll position', pos);
+        recyclerView.onChangedScrollPosition(function(pos : number, render_count : number){
+            Log.d('scroll pos', pos, 'rendered_count', render_count,'total item count',adapter.getItemCount());
         });
 
         // 데이터 추가 예제

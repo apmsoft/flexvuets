@@ -28813,6 +28813,10 @@ this.animations={
 
 
 
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28878,11 +28882,7 @@ during:function during(fn){var c=this.last(),wrapper=function wrapper(e){if(e.de
 this.target().off('during.fx',wrapper).on('during.fx',wrapper);this.after(function(){this.off('during.fx',wrapper);});return this._callStart();},// calls after ALL animations in the queue are finished
 afterAll:function afterAll(fn){var wrapper=function wrapper(e){fn.call(this);this.off('allfinished.fx',wrapper);};// see above
 this.target().off('allfinished.fx',wrapper).on('allfinished.fx',wrapper);return this._callStart();},last:function last(){return this.situations.length?this.situations[this.situations.length-1]:this.situation;},// adds one property to the animations
-add:function add(method,args,type){
-this.last()[type||'animations'][method]=args;
-return this._callStart();
-},
-
+add:function add(method,args,type){this.last()[type||'animations'][method]=args;return this._callStart();},
 /** perform one step of the animation
         *  @param ignoreTime Boolean indicating whether to ignore time and use position directly or recalculate position based on time
         *  @return this
@@ -29465,6 +29465,12 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29543,15 +29549,9 @@ toParent:function toParent(parent){if(this==parent)return this;var ctm=this.scre
 toDoc:function toDoc(){return this.toParent(this.doc());}});SVG.Transformation=SVG.invent({create:function create(source,inversed){if(arguments.length>1&&typeof inversed!=='boolean'){return this.constructor.call(this,[].slice.call(arguments));}if(Array.isArray(source)){for(var i=0,len=this.arguments.length;i<len;++i){this[this.arguments[i]]=source[i];}}else if(source&&_typeof(source)==='object'){for(var i=0,len=this.arguments.length;i<len;++i){this[this.arguments[i]]=source[this.arguments[i]];}}this.inversed=false;if(inversed===true){this.inversed=true;}}});SVG.Translate=SVG.invent({parent:SVG.Matrix,inherit:SVG.Transformation,create:function create(source,inversed){this.constructor.apply(this,[].slice.call(arguments));},extend:{arguments:['transformedX','transformedY'],method:'translate'}});SVG.extend(SVG.Element,{// Dynamic style generator
 style:function style(s,v){if(arguments.length==0){// get full style
 return this.node.style.cssText||'';}else if(arguments.length<2){// apply every style individually if an object is passed
-if(_typeof(s)==='object'){
-for(var v_ in s){
-this.style(v_,s[v_]);
-}
-}else if(SVG.regex.isCss.test(s)){
-// parse css string
+if(_typeof(s)==='object'){for(var v_ in s){this.style(v_,s[v_]);}}else if(SVG.regex.isCss.test(s)){// parse css string
 s=s.split(/\s*;\s*/)// filter out suffix ; and stuff like ;;
-.filter(function(e){
-return!!e;
+.filter(function(e){return!!e;
 }).map(function(e){
 return e.split(/\s*:\s*/);
 });// apply every definition individually
@@ -30038,6 +30038,8 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30071,9 +30073,7 @@ update:function update(block){// remove content
 this.clear();// invoke passed block
 if(typeof block==='function'){block.call(this,this);}return this;},// Alias string convertion to fill
 toString:function toString(){return this.fill();},// custom attr to handle transform
-attr:function attr(a,b,c){
-if(a=='transform')a='patternTransform';
-return SVG.Container.prototype.attr.call(this,a,b,c);
+attr:function attr(a,b,c){if(a=='transform')a='patternTransform';return SVG.Container.prototype.attr.call(this,a,b,c);
 }
 },
 // Add parent method
