@@ -47,14 +47,14 @@ const Arrays = {
       "action": "#/manager/list",
       "id": "/manager/list",
       "icon": "<i class=\"fas fa-chevron-right\"></i>",
-      "class": "text-gray-400 mb-3"
+      "class": "mb-3"
     },
     {
       "title": "관리자 등록",
       "action": "#/manager/post",
       "id": "/manager/post",
-      "icon": "<button class=\"btn p-1 border-0 bg-blue-dark w-8 text-sm text-blue-100\"><i class=\"fas fa-plus\"></i></button>",
-      "class": "mt-5 btn bg-blue-default text-white"
+      "icon": "<button class=\"text-neutral px-1 py-0 border-0\"><i class=\"fas fa-plus\"></i></button>",
+      "class": "mt-5"
     }],
 
     "acts": []
@@ -68,7 +68,7 @@ const Arrays = {
       "action": "#/analysis/tables",
       "id": "/analysis/tables",
       "icon": "<i class=\"fas fa-list-ul\"></i>",
-      "class": "mb-3 text-gray-500",
+      "class": "mb-3",
       "comment": "Statistics"
     }],
 
@@ -84,7 +84,7 @@ const Arrays = {
       "action": "#/bbs/attach/list",
       "id": "/bbs/attach",
       "icon": "<i class=\"fas fa-folder-open\"></i>",
-      "class": "mb-3 text-gray-500",
+      "class": "mb-3 btn btn-outline",
       "comment": "attach"
     }]
 
@@ -98,14 +98,14 @@ const Arrays = {
       "action": "#/item/list",
       "id": "/item/list",
       "icon": "<i class=\"fas fa-chevron-right\"></i>",
-      "class": "text-gray-400 mb-3"
+      "class": "mb-3"
     },
     {
       "title": "제품 등록",
       "action": "#/item/post",
       "id": "/item/post",
-      "icon": "<button class=\"btn p-1 border-0 bg-blue-dark w-8 text-sm text-blue-100\"><i class=\"fas fa-plus\"></i></button>",
-      "class": "mt-5 btn bg-blue-default text-white"
+      "icon": "<button class=\"text-neutral px-1 py-0 border-0\"><i class=\"fas fa-plus\"></i></button>",
+      "class": "mt-5"
     }],
 
     "acts": [
@@ -114,7 +114,7 @@ const Arrays = {
       "action": "#/itemgroup/list",
       "id": "/itemgroup/list",
       "icon": "<i class=\"fas fa-folder-open\"></i>",
-      "class": "mb-3 text-gray-500",
+      "class": "mb-3 btn btn-outline",
       "comment": "Group"
     }]
 
@@ -128,14 +128,14 @@ const Arrays = {
       "action": "#/itemgroup/list",
       "id": "/itemgroup/list",
       "icon": "<i class=\"fas fa-chevron-right\"></i>",
-      "class": "text-gray-400 mb-3"
+      "class": "mb-3"
     },
     {
       "title": "1차 그룹 등록",
       "action": "#/itemgroup/post",
       "id": "/itemgroup/post",
-      "icon": "<button class=\"btn p-1 border-0 bg-blue-dark w-8 text-sm text-blue-100\"><i class=\"fas fa-plus\"></i></button>",
-      "class": "mt-5 btn bg-blue-default text-white"
+      "icon": "<button class=\"text-netural p-1 border-0\"><i class=\"fas fa-plus\"></i></button>",
+      "class": "mt-5"
     }],
 
     "acts": []

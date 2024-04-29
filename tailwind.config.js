@@ -3,7 +3,10 @@ module.exports = {
   darkMode: 'media',
   content: [
     "./debug/**/*.{html,js}"
-    ],
+  ],
+  daisyui: {
+    themes: ["light", "dark", "cupcake"],
+  },
   theme: {
     extend: {
       zIndex: {
@@ -30,18 +33,18 @@ module.exports = {
         'max-h-screen-lg' : '1024px'
       },
       colors :{
-        'blue-light' : '#EFF7FD',
-        'blue-lightd6' : '#D6E1EA',
-        'blue-default' : '#37A0EA',
-        'blue-dark' : '#2786C8',
-        'gray-light' : '#F3F6F9',
-        'gray-default' : '#5B7688',
-        'gray-dark' : '#19496A',
-        'cblue-default' : '#ECEBFB',
-        'clube-dark' : '#3D3DD9',
-        'gray-v2-bg' : '#191f28',
-        'dark':'#091A3D',
-        'warning':'#FD6336'
+        // 'blue-light' : '#EFF7FD',
+        // 'blue-lightd6' : '#D6E1EA',
+        // 'blue-default' : '#37A0EA',
+        // 'blue-dark' : '#2786C8',
+        // 'gray-light' : '#F3F6F9',
+        // 'gray-default' : '#5B7688',
+        // 'gray-dark' : '#19496A',
+        // 'cblue-default' : '#ECEBFB',
+        // 'clube-dark' : '#3D3DD9',
+        // 'gray-v2-bg' : '#191f28',
+        // 'dark':'#091A3D',
+        // 'warning':'#FD6336'
       }
     },
   },
@@ -51,6 +54,7 @@ module.exports = {
     }
   },
   plugins: [
+    require('daisyui'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ]

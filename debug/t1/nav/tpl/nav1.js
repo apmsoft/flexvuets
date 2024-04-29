@@ -5,8 +5,8 @@ class Template {
     const general = message.general;
     const superadm = message.superadm;
     return `
-        <div class="bg-blue-default dark:bg-gray-900 pt-2 rounded-l-3xl h-full">
-            <div class="flex flex-row px-3 py-3 justify-between h-full text-blue-50 dark:text-gray-100">
+        <div class="pt-2 rounded-l-3xl h-full">
+            <div class="flex flex-row px-3 py-3 justify-between h-full">
                 <!--top-->
                 <div id="lay-menu-icon" class="flex flex-col justify-between h-full">
                     <div>
@@ -18,7 +18,7 @@ class Template {
                             </a>`).join('')}
                     </div>
 
-                    <div class="border-t border-blue-300 dark:border-gray-600 pt-3">
+                    <div class="border-t pt-3">
                         ${superadm.map((navis) => `
                             <a href="${navis.action}" ${navis.target != '' ? `target="general_navi.target"` : ``}>
                                 <div class="px-3 py-2 w-10 rounded-lg text-center navigation-icon" data-id="${navis.id}" data-action="${navis.action}">
@@ -39,7 +39,7 @@ class Template {
                             </a>`).join('')}
                     </div>
 
-                    <div class="border-t border-blue-300 dark:border-gray-600 pt-3">
+                    <div class="border-t pt-3">
                         ${superadm.map((navis) => `
                             <a href="${navis.action}" ${navis.target != '' ? `target="general_navi.target"` : ``}>
                                 <div class="px-3 py-2 rounded-lg">

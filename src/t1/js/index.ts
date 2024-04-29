@@ -41,7 +41,7 @@ const onReady = () : void =>
     window.observable.subscribe('exception', myException);
 
     // progress init
-    new ProgressBars();
+    // new ProgressBars();
 
     // scroll Observer
     new ScrollObserver([]);

@@ -12,7 +12,7 @@ export default class Navigation {
       // set title
       document.querySelector('#left_title').innerText = R.strings.app_name;
       // 네비게이션
-      const outhtml_el = document.querySelector('#left-col-1').innerHTML = template.render(R.arrays);
+      document.querySelector('#left-col-1').innerHTML = template.render(R.arrays);
       // resolve
       return 'ok';
     }).
@@ -40,11 +40,11 @@ export default class Navigation {
       let path = cur_mid.match(path_pattern);
       if (path != null && this.preNavigation != null) {
         if (this.preNavigation == path[0] || this.preNavigation == path[0] + '/') {
-          el.classList.remove('bg-blue-light', 'text-blue-dark');
+          el.classList.remove('btn-active');
         }
       }
       if (path != null && (path[0] == k || path[0] + '/' == k)) {
-        el.classList.add('bg-blue-light', 'text-blue-dark');
+        el.classList.add('btn-active');
       }
     });
     this.preNavigation = k;
@@ -65,8 +65,8 @@ export default class Navigation {
       // 메뉴 접고/펼침
       if (document.querySelector("#btn-close-lm")) {
         // 메뉴 기본 설정에 따른 자동 열기/닫기
-        if (typeof localStorage.getItem(config.app_name + 'mco') !== 'undefined') {
-          if (localStorage.getItem(config.app_name + 'mco') == 'open') {
+        if (window.cacheStorage._get('mco') !== null) {
+          if (window.cacheStorage._get('mco') == 'open') {
             document.querySelector("#lay-menu-title").style.display = '';
             document.querySelector("#btn-open-lm").classList.add('hidden');
             document.querySelector("#btn-close-lm").classList.remove('hidden');
@@ -83,7 +83,7 @@ export default class Navigation {
           document.querySelector("#btn-close-lm").classList.add('hidden');
           document.querySelector("#btn-open-lm").classList.remove('hidden');
           // set storage
-          localStorage.setItem(config.app_name + 'mco', 'close');
+          window.cacheStorage._set('mco', 'close', 0);
         }, false);
         // 열기
         document.querySelector("#btn-open-lm").addEventListener("click", () => {
@@ -91,13 +91,13 @@ export default class Navigation {
           document.querySelector("#btn-open-lm").classList.add('hidden');
           document.querySelector("#btn-close-lm").classList.remove('hidden');
           // set storage
-          localStorage.setItem(config.app_name + 'mco', 'open');
+          window.cacheStorage._set('mco', 'open', 0);
         }, false);
       }
       if (document.querySelector("#btn-close-window")) {
         // 전체 메뉴 열기/닫기 자동 설정
-        if (typeof localStorage.getItem(config.app_name + 'wco') !== 'undefined') {
-          if (localStorage.getItem(config.app_name + 'wco') == 'close') {
+        if (window.cacheStorage._get('wco') !== null) {
+          if (window.cacheStorage._get('wco') == 'close') {
             document.querySelector("#left-col-1").style.display = 'none';
             document.querySelector("#left-col-2").style.display = 'none';
             document.querySelector("#btn-close-window").classList.add('hidden');
@@ -117,7 +117,7 @@ export default class Navigation {
           document.querySelector("#btn-close-window").classList.add('hidden');
           document.querySelector("#btn-open-window").classList.remove('hidden');
           // set storage
-          localStorage.setItem(config.app_name + 'wco', 'close');
+          window.cacheStorage._set('wco', 'close', 0);
         }, false);
         // 열기
         document.querySelector("#btn-open-window").addEventListener("click", () => {
@@ -126,7 +126,7 @@ export default class Navigation {
           document.querySelector("#btn-open-window").classList.add('hidden');
           document.querySelector("#btn-close-window").classList.remove('hidden');
           // set storage
-          localStorage.setItem(config.app_name + 'wco', 'open');
+          window.cacheStorage._set('wco', 'open', 0);
         }, false);
       }
     }).

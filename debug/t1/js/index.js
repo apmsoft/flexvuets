@@ -28,7 +28,7 @@ const onReady = () => {
   navigation.onCreateView();
   window.observable.subscribe('exception', myException);
   // progress init
-  new ProgressBars();
+  // new ProgressBars();
   // scroll Observer
   new ScrollObserver([]);
   // 로그아웃 버튼

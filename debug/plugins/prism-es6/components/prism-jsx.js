@@ -167,6 +167,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               // Autoclosed tag, ignore
             } else {// Opening tag
               openedTags.push({ tagName: stringifyToken(token.content[0].content[1]), openedBraces: 0 });}}} else if (openedTags.length > 0 && token.type === 'punctuation' && token.content === '{') {// Here we might have entered a JSX context inside a tag

@@ -10223,6 +10223,39 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10230,45 +10263,12 @@
         clients.push(client); // return removeListener function
         return function () {// remove client
           clients.splice(clients.indexOf(client), 1); // if no more clients, clean up observer
-          if (clients.length === 0) {dragNDropObservers.splice(dragNDropObservers.indexOf(observer), 1);forin(routes, function (event) {element.removeEventListener(event, handlers[event], false);});
-          }
-        };
-      }
-    };
-
-    return observer;
-  };
-
-  var elementFromPoint = function elementFromPoint(root, point) {
-    if (!('elementFromPoint' in root)) {
-      root = document;
-    }
-    return root.elementFromPoint(point.x, point.y);
-  };
-
-  var isEventTarget = function isEventTarget(e, target) {
-    // get root
-    var root = getRootNode(target);
-
-    // get element at position
+          if (clients.length === 0) {dragNDropObservers.splice(dragNDropObservers.indexOf(observer), 1);forin(routes, function (event) {element.removeEventListener(event, handlers[event], false);});}};} };return observer;};var elementFromPoint = function elementFromPoint(root, point) {if (!('elementFromPoint' in root)) {root = document;}return root.elementFromPoint(point.x, point.y);};var isEventTarget = function isEventTarget(e, target) {// get root
+    var root = getRootNode(target); // get element at position
     // if root is not actual shadow DOM and does not have elementFromPoint method, use the one on document
-    var elementAtPosition = elementFromPoint(root, {
-      x: e.pageX - window.pageXOffset,
-      y: e.pageY - window.pageYOffset
-    });
-
-    // test if target is the element or if one of its children is
-    return elementAtPosition === target || target.contains(elementAtPosition);
-  };
-
-  var initialTarget = null;
-
-  var setDropEffect = function setDropEffect(dataTransfer, effect) {
-    // is in try catch as IE11 will throw error if not
-    try {
-      dataTransfer.dropEffect = effect;
-    } catch (e) {}
-  };
+    var elementAtPosition = elementFromPoint(root, { x: e.pageX - window.pageXOffset, y: e.pageY - window.pageYOffset }); // test if target is the element or if one of its children is
+    return elementAtPosition === target || target.contains(elementAtPosition);};var initialTarget = null;var setDropEffect = function setDropEffect(dataTransfer, effect) {// is in try catch as IE11 will throw error if not
+    try {dataTransfer.dropEffect = effect;} catch (e) {}};
 
   var dragenter = function dragenter(root, clients) {
     return function (e) {
