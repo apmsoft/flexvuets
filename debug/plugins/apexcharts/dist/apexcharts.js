@@ -28953,6 +28953,10 @@ this.animations={
 
 
 
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29054,11 +29058,7 @@ if(a instanceof SVG.Matrix){if(a.relative){at=at.multiply(new SVG.Matrix().morph
 if(!a.relative){a.undo(at.extract());}// and reapply it after
 at=at.multiply(a.at(s.ease(this.pos)));}// set new matrix on element
 target.matrix(at);}return this;},// adds an once-callback which is called at a specific position and never again
-once:function once(pos,fn,isEased){var c=this.last();if(!isEased)pos=c.ease(pos);c.once[pos]=fn;return this;},_callStart:function _callStart(){setTimeout(function(){this.start();}.bind(this),0);return this;
-}
-},
-parent:SVG.Element,
-// Add method to parent elements
+once:function once(pos,fn,isEased){var c=this.last();if(!isEased)pos=c.ease(pos);c.once[pos]=fn;return this;},_callStart:function _callStart(){setTimeout(function(){this.start();}.bind(this),0);return this;}},parent:SVG.Element,// Add method to parent elements
 construct:{
 // Get fx module or create a new one, then animate with given duration and ease
 animate:function animate(o,ease,delay){
@@ -29169,6 +29169,12 @@ topParent=topParent.parentNode;
 
 if(topParent!=document)throw new Error('Element not in the dom');
 }else{
+
+
+
+
+
+
 
 
 
@@ -29801,13 +29807,7 @@ SVG.extend(SVG.Element,{// Bind given event to listener
 on:function on(event,listener,binding,options){SVG.on(this.node,event,listener,binding,options);return this;},// Unbind event from listener
 off:function off(event,listener){SVG.off(this.node,event,listener);return this;},// Fire given event
 fire:function fire(event,data){// Dispatch event
-if(event instanceof window.Event){this.node.dispatchEvent(event);}else{
-this.node.dispatchEvent(event=new SVG.CustomEvent(event,{
-detail:data,
-cancelable:true
-}));
-}
-
+if(event instanceof window.Event){this.node.dispatchEvent(event);}else{this.node.dispatchEvent(event=new SVG.CustomEvent(event,{detail:data,cancelable:true}));}
 this._event=event;
 return this;
 },
@@ -30108,6 +30108,8 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30165,9 +30167,7 @@ create:'circle',// Inherit from
 inherit:SVG.Shape,// Add parent method
 construct:{// Create circle element, based on ellipse
 circle:function circle(size){return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0,0);}}});SVG.extend(SVG.Circle,SVG.FX,{// Radius x value
-rx:function rx(_rx){
-return this.attr('r',_rx);
-},
+rx:function rx(_rx){return this.attr('r',_rx);},
 // Alias radius x value
 ry:function ry(_ry){
 return this.rx(_ry);
