@@ -24,6 +24,9 @@ interface Adapter {
     // 데이터 삭제
     removeData(position: number): void;
 
+    // 데이터 비우기
+    clearData(): void;
+
     // 데이터 변화 감지에 따른 콜백
     doOnDataChanged(callback: () => void): void;
 }
@@ -96,6 +99,10 @@ export class SimpleAdapter implements Adapter {
         }
     }
 
+    clearData() : void{
+        this.data = [];
+    }
+
     doOnDataChanged(callback: () => void): void {
         this.onDataChanged = callback;
     }
@@ -148,7 +155,7 @@ export class RecyclerView {
         this.renderedItems.clear();
         this.firstRenderItemCount = 0;
         this.render();
-        this.container.addEventListener('scroll', this.handleScroll.bind(this));
+        this.scrollCaptureElement.addEventListener('scroll', this.handleScroll.bind(this));
         window.addEventListener('resize', this.handleResize.bind(this));
 
         // 데이터 변화 감지
@@ -266,7 +273,6 @@ export class RecyclerView {
         return responsiveItemCount;
     }
 
-
     private handleResize(): void {
         this.calculateInitialRenderItemCount();
         this.handleScroll();
@@ -287,6 +293,11 @@ export class RecyclerView {
                 }
             }
         });
+    }
+
+    clear() : void {
+        this.renderedItems.clear();
+        this.firstRenderItemCount = 0;
     }
 
     onChangedScrollPosition(callback: (scrollPosition: number, render_count : number) => void): void {

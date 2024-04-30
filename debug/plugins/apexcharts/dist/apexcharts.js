@@ -28961,6 +28961,38 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29064,46 +29096,14 @@ at=at.multiply(a.at(s.ease(this.pos)));}// set new matrix on element
 target.matrix(at);}return this;},// adds an once-callback which is called at a specific position and never again
 once:function once(pos,fn,isEased){var c=this.last();if(!isEased)pos=c.ease(pos);c.once[pos]=fn;return this;},_callStart:function _callStart(){setTimeout(function(){this.start();}.bind(this),0);return this;}},parent:SVG.Element,// Add method to parent elements
 construct:{// Get fx module or create a new one, then animate with given duration and ease
-animate:function animate(o,ease,delay){return(this.fx||(this.fx=new SVG.FX(this))).animate(o,ease,delay);},delay:function delay(_delay){
-return(this.fx||(this.fx=new SVG.FX(this))).delay(_delay);
-},
-stop:function stop(jumpToEnd,clearQueue){
-if(this.fx){
-this.fx.stop(jumpToEnd,clearQueue);
-}
-
-return this;
-},
-finish:function finish(){
-if(this.fx){
-this.fx.finish();
-}
-
-return this;
-}
-}
-});// MorphObj is used whenever no morphable object is given
-
-SVG.MorphObj=SVG.invent({
-create:function create(from,to){
-// prepare color for morphing
+animate:function animate(o,ease,delay){return(this.fx||(this.fx=new SVG.FX(this))).animate(o,ease,delay);},delay:function delay(_delay){return(this.fx||(this.fx=new SVG.FX(this))).delay(_delay);},stop:function stop(jumpToEnd,clearQueue){if(this.fx){this.fx.stop(jumpToEnd,clearQueue);}return this;},finish:function finish(){if(this.fx){this.fx.finish();}return this;}}});// MorphObj is used whenever no morphable object is given
+SVG.MorphObj=SVG.invent({create:function create(from,to){// prepare color for morphing
 if(SVG.Color.isColor(to))return new SVG.Color(from).morph(to);// check if we have a list of values
-
-if(SVG.regex.delimiter.test(from)){
-// prepare path for morphing
+if(SVG.regex.delimiter.test(from)){// prepare path for morphing
 if(SVG.regex.pathLetters.test(from))return new SVG.PathArray(from).morph(to);// prepare value list for morphing
-else return new SVG.Array(from).morph(to);
-}// prepare number for morphing
-
-
+else return new SVG.Array(from).morph(to);}// prepare number for morphing
 if(SVG.regex.numberAndUnit.test(to))return new SVG.Number(from).morph(to);// prepare for plain morphing
-
-this.value=from;
-this.destination=to;
-},
-extend:{
-at:function at(pos,real){
-return real<1?this.value:this.destination;
+this.value=from;this.destination=to;},extend:{at:function at(pos,real){return real<1?this.value:this.destination;
 },
 valueOf:function valueOf(){
 return this.value;
@@ -29169,6 +29169,54 @@ topParent=topParent.parentNode;
 
 if(topParent!=document)throw new Error('Element not in the dom');
 }else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -29813,72 +29861,24 @@ SVG.extend(SVG.Element,{// Bind given event to listener
 on:function on(event,listener,binding,options){SVG.on(this.node,event,listener,binding,options);return this;},// Unbind event from listener
 off:function off(event,listener){SVG.off(this.node,event,listener);return this;},// Fire given event
 fire:function fire(event,data){// Dispatch event
-if(event instanceof window.Event){this.node.dispatchEvent(event);}else{this.node.dispatchEvent(event=new SVG.CustomEvent(event,{detail:data,cancelable:true}));}this._event=event;return this;},event:function event(){return this._event;}
-});
-SVG.Defs=SVG.invent({
-// Initialize node
-create:'defs',
-// Inherit from
-inherit:SVG.Container
-});
-SVG.G=SVG.invent({
-// Initialize node
-create:'g',
-// Inherit from
-inherit:SVG.Container,
-// Add class methods
-extend:{
-// Move over x-axis
-x:function x(_x2){
-return _x2==null?this.transform('x'):this.transform({
-x:_x2-this.x()
-},true);
-}
-},
-// Add parent method
-construct:{
-// Create a group element
-group:function group(){
-return this.put(new SVG.G());
-}
-}
-});
-SVG.Doc=SVG.invent({
-// Initialize node
-create:function create(element){
-if(element){
-// ensure the presence of a dom element
+if(event instanceof window.Event){this.node.dispatchEvent(event);}else{this.node.dispatchEvent(event=new SVG.CustomEvent(event,{detail:data,cancelable:true}));}this._event=event;return this;},event:function event(){return this._event;}});SVG.Defs=SVG.invent({// Initialize node
+create:'defs',// Inherit from
+inherit:SVG.Container});SVG.G=SVG.invent({// Initialize node
+create:'g',// Inherit from
+inherit:SVG.Container,// Add class methods
+extend:{// Move over x-axis
+x:function x(_x2){return _x2==null?this.transform('x'):this.transform({x:_x2-this.x()},true);}},// Add parent method
+construct:{// Create a group element
+group:function group(){return this.put(new SVG.G());}}});SVG.Doc=SVG.invent({// Initialize node
+create:function create(element){if(element){// ensure the presence of a dom element
 element=typeof element==='string'?document.getElementById(element):element;// If the target is an svg element, use that element as the main wrapper.
 // This allows svg.js to work with svg documents as well.
-
-if(element.nodeName=='svg'){
-this.constructor.call(this,element);
-}else{
-this.constructor.call(this,SVG.create('svg'));
-element.appendChild(this.node);
-this.size('100%','100%');
-}// set svg element attributes and ensure defs node
-
-
-this.namespace().defs();
-}
-},
-// Inherit from
-inherit:SVG.Container,
-// Add class methods
-extend:{
-// Add namespaces
-namespace:function namespace(){
-return this.attr({
-xmlns:SVG.ns,
-version:'1.1'
-}).attr('xmlns:xlink',SVG.xlink,SVG.xmlns).attr('xmlns:svgjs',SVG.svgjs,SVG.xmlns);
-},
-// Creates and returns defs element
-defs:function defs(){
-if(!this._defs){
-var defs;// Find or create a defs element in this instance
-
+if(element.nodeName=='svg'){this.constructor.call(this,element);}else{this.constructor.call(this,SVG.create('svg'));element.appendChild(this.node);this.size('100%','100%');}// set svg element attributes and ensure defs node
+this.namespace().defs();}},// Inherit from
+inherit:SVG.Container,// Add class methods
+extend:{// Add namespaces
+namespace:function namespace(){return this.attr({xmlns:SVG.ns,version:'1.1'}).attr('xmlns:xlink',SVG.xlink,SVG.xmlns).attr('xmlns:svgjs',SVG.svgjs,SVG.xmlns);},// Creates and returns defs element
+defs:function defs(){if(!this._defs){var defs;// Find or create a defs element in this instance
 if(defs=this.node.getElementsByTagName('defs')[0]){
 this._defs=SVG.adopt(defs);
 }else{
@@ -30112,6 +30112,22 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30170,28 +30186,12 @@ inherit:SVG.Shape,// Add parent method
 construct:{// Create circle element, based on ellipse
 circle:function circle(size){return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0,0);}}});SVG.extend(SVG.Circle,SVG.FX,{// Radius x value
 rx:function rx(_rx){return this.attr('r',_rx);},// Alias radius x value
-ry:function ry(_ry){return this.rx(_ry);
-}
-});
-SVG.Ellipse=SVG.invent({
-// Initialize node
-create:'ellipse',
-// Inherit from
-inherit:SVG.Shape,
-// Add parent method
-construct:{
-// Create an ellipse
-ellipse:function ellipse(width,height){
-return this.put(new SVG.Ellipse()).size(width,height).move(0,0);
-}
-}
-});
-SVG.extend(SVG.Ellipse,SVG.Rect,SVG.FX,{
-// Radius x value
-rx:function rx(_rx2){
-return this.attr('rx',_rx2);
-},
-// Radius y value
+ry:function ry(_ry){return this.rx(_ry);}});SVG.Ellipse=SVG.invent({// Initialize node
+create:'ellipse',// Inherit from
+inherit:SVG.Shape,// Add parent method
+construct:{// Create an ellipse
+ellipse:function ellipse(width,height){return this.put(new SVG.Ellipse()).size(width,height).move(0,0);}}});SVG.extend(SVG.Ellipse,SVG.Rect,SVG.FX,{// Radius x value
+rx:function rx(_rx2){return this.attr('rx',_rx2);},// Radius y value
 ry:function ry(_ry2){
 return this.attr('ry',_ry2);
 }
