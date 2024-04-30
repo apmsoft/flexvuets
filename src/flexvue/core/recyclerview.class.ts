@@ -146,8 +146,8 @@ export class RecyclerView {
         this.adapter = adapter;
         this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) as HTMLElement : this.container;
         this.renderedItems.clear();
-        this.render();
         this.firstRenderItemCount = 0;
+        this.render();
         this.container.addEventListener('scroll', this.handleScroll.bind(this));
         window.addEventListener('resize', this.handleResize.bind(this));
 

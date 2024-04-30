@@ -82,8 +82,8 @@ export class RecyclerView {
     this.adapter = adapter;
     this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) : this.container;
     this.renderedItems.clear();
-    this.render();
     this.firstRenderItemCount = 0;
+    this.render();
     this.container.addEventListener('scroll', this.handleScroll.bind(this));
     window.addEventListener('resize', this.handleResize.bind(this));
     // 데이터 변화 감지

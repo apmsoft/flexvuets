@@ -1351,6 +1351,10 @@
 
 
 
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1457,12 +1461,8 @@
             at = s.initialTransformation;for (var i = 0, len = s.transforms.length; i < len; i++) {// get next transformation in chain
               var a = s.transforms[i]; // multiply matrix directly
               if (a instanceof SVG.Matrix) {if (a.relative) {at = at.multiply(new SVG.Matrix().morph(a).at(s.ease(this.pos)));} else {at = at.morph(a).at(s.ease(this.pos));}continue;} // when transformation is absolute we have to reset the needed transformation first
-              if (!a.relative) {a.undo(at.extract());}
-
-              // and reapply it after
-              at = at.multiply(a.at(s.ease(this.pos)));
-            }
-
+              if (!a.relative) {a.undo(at.extract());} // and reapply it after
+              at = at.multiply(a.at(s.ease(this.pos)));}
             // set new matrix on element
             target.matrix(at);
           }
@@ -2118,6 +2118,12 @@
 
 
 
+
+
+
+
+
+
             // the element is NOT in the dom, throw error
             // disabling the check below which fixes issue #76
             // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -2234,13 +2240,7 @@
     SVG.listeners[index] = SVG.listeners[index] || {};SVG.listeners[index][ev] = SVG.listeners[index][ev] || {};SVG.listeners[index][ev][ns] = SVG.listeners[index][ev][ns] || {};if (!listener._svgjsListenerId) {listener._svgjsListenerId = ++SVG.listenerId;} // reference listener
     SVG.listeners[index][ev][ns][listener._svgjsListenerId] = l; // add listener
     node.addEventListener(ev, l, options || { passive: false });}; // Add event unbinder in the SVG namespace
-  SVG.off = function (node, event, listener) {var index = SVG.handlerMap.indexOf(node),
-      ev = event && event.split('.')[0],
-      ns = event && event.split('.')[1],
-      namespace = '';
-
-    if (index == -1) return;
-
+  SVG.off = function (node, event, listener) {var index = SVG.handlerMap.indexOf(node),ev = event && event.split('.')[0],ns = event && event.split('.')[1],namespace = '';if (index == -1) return;
     if (listener) {
       if (typeof listener === 'function') listener = listener._svgjsListenerId;
       if (!listener) return;
@@ -2624,6 +2624,8 @@
 
 
 
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2672,21 +2674,19 @@
         element: function (element, file) {// Set lined element
           return this.attr('href', (file || '') + '#' + element, SVG.xlink);} }, // Add parent method
       construct: { // Create a use element
-        use: function (element, file) {return this.put(new SVG.Use()).element(element, file);} } });SVG.Rect = SVG.invent({
-    // Initialize node
-    create: 'rect',
+        use: function (element, file) {return this.put(new SVG.Use()).element(element, file);} } });SVG.Rect = SVG.invent({ // Initialize node
+      create: 'rect',
+      // Inherit from
+      inherit: SVG.Shape,
 
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add parent method
-    construct: {
-      // Create a rect element
-      rect: function (width, height) {
-        return this.put(new SVG.Rect()).size(width, height);
+      // Add parent method
+      construct: {
+        // Create a rect element
+        rect: function (width, height) {
+          return this.put(new SVG.Rect()).size(width, height);
+        }
       }
-    }
-  });
+    });
   SVG.Circle = SVG.invent({
     // Initialize node
     create: 'circle',

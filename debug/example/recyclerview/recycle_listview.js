@@ -2,6 +2,7 @@ import { SimpleAdapter, RecyclerView } from "../../flexvue/core/recyclerview.cla
 import AsyncTask from "../../flexvue/core/asynctask.class.js";
 const onReady = () => {
   ProgressBars.show();
+  let page = 1;
   function doList(page) {
     // 데이터
     const data = [];
@@ -34,7 +35,7 @@ const onReady = () => {
       // recall
       const btnReset = document.querySelector('#reset');
       btnReset.addEventListener('click', () => {
-        doList(2);
+        doList(page + 1);
       });
       // 데이터 추가 예제
       const addButton = document.getElementById('addButton');
@@ -62,7 +63,7 @@ const onReady = () => {
       ProgressBars.close();
     });
   }
-  doList(1);
+  doList(page);
 };
 // document ready
 document.addEventListener("DOMContentLoaded", onReady);

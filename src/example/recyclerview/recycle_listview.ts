@@ -12,6 +12,8 @@ const onReady = () : void =>
         title: string;
     }
 
+    let page : number = 1;
+
     function doList(page : number)
     {
         // 데이터
@@ -51,7 +53,7 @@ const onReady = () : void =>
             // recall
             const btnReset = document.querySelector<HTMLButtonElement>('#reset')!;
             btnReset.addEventListener('click', ()=>{
-                doList(2);
+                doList(page + 1);
             });
 
             // 데이터 추가 예제
@@ -82,7 +84,7 @@ const onReady = () : void =>
         });
     }
 
-    doList(1);
+    doList(page);
 };
 
 // document ready
