@@ -1,3 +1,7 @@
+### ui
+# https://tailwindcss.com
+# https://daisyui.com/components/range/
+# https://www.hyperui.dev/components/marketing/forms
 
 #### editorjs : https://editorjs.io/getting-started/
 # plugins : https://github.com/orgs/editor-js/repositories?type=all
