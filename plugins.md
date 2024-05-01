@@ -1,6 +1,6 @@
 ### ui
-# https://tailwindcss.com
-# https://daisyui.com/components/range/
+# https://tailwindcss.com *
+# https://daisyui.com/components/range/ *
 # https://www.hyperui.dev/components/marketing/forms
 # https://flowbite.com/docs/components/tables/
 
