@@ -28993,6 +28993,22 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29103,25 +29119,9 @@ if(SVG.regex.delimiter.test(from)){// prepare path for morphing
 if(SVG.regex.pathLetters.test(from))return new SVG.PathArray(from).morph(to);// prepare value list for morphing
 else return new SVG.Array(from).morph(to);}// prepare number for morphing
 if(SVG.regex.numberAndUnit.test(to))return new SVG.Number(from).morph(to);// prepare for plain morphing
-this.value=from;this.destination=to;},extend:{at:function at(pos,real){return real<1?this.value:this.destination;
-},
-valueOf:function valueOf(){
-return this.value;
-}
-}
-});
-SVG.extend(SVG.FX,{
-// Add animatable attributes
-attr:function attr(a,v,relative){
-// apply attributes individually
-if(_typeof(a)==='object'){
-for(var key in a){
-this.attr(key,a[key]);
-}
-}else{
-this.add(a,v,'attrs');
-}
-
+this.value=from;this.destination=to;},extend:{at:function at(pos,real){return real<1?this.value:this.destination;},valueOf:function valueOf(){return this.value;}}});SVG.extend(SVG.FX,{// Add animatable attributes
+attr:function attr(a,v,relative){// apply attributes individually
+if(_typeof(a)==='object'){for(var key in a){this.attr(key,a[key]);}}else{this.add(a,v,'attrs');}
 return this;
 },
 // Add animatable plot
@@ -29169,6 +29169,30 @@ topParent=topParent.parentNode;
 
 if(topParent!=document)throw new Error('Element not in the dom');
 }else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -29879,35 +29903,11 @@ inherit:SVG.Container,// Add class methods
 extend:{// Add namespaces
 namespace:function namespace(){return this.attr({xmlns:SVG.ns,version:'1.1'}).attr('xmlns:xlink',SVG.xlink,SVG.xmlns).attr('xmlns:svgjs',SVG.svgjs,SVG.xmlns);},// Creates and returns defs element
 defs:function defs(){if(!this._defs){var defs;// Find or create a defs element in this instance
-if(defs=this.node.getElementsByTagName('defs')[0]){
-this._defs=SVG.adopt(defs);
-}else{
-this._defs=new SVG.Defs();
-}// Make sure the defs node is at the end of the stack
-
-
-this.node.appendChild(this._defs.node);
-}
-
-return this._defs;
-},
-// custom parent method
-parent:function parent(){
-if(!this.node.parentNode||this.node.parentNode.nodeName=='#document')return null;
-return this.node.parentNode;
-},
-// Removes the doc from the DOM
-remove:function remove(){
-if(this.parent()){
-this.parent().removeChild(this.node);
-}
-
-return this;
-},
-clear:function clear(){
-// remove children
-while(this.node.hasChildNodes()){
-this.node.removeChild(this.node.lastChild);
+if(defs=this.node.getElementsByTagName('defs')[0]){this._defs=SVG.adopt(defs);}else{this._defs=new SVG.Defs();}// Make sure the defs node is at the end of the stack
+this.node.appendChild(this._defs.node);}return this._defs;},// custom parent method
+parent:function parent(){if(!this.node.parentNode||this.node.parentNode.nodeName=='#document')return null;return this.node.parentNode;},// Removes the doc from the DOM
+remove:function remove(){if(this.parent()){this.parent().removeChild(this.node);}return this;},clear:function clear(){// remove children
+while(this.node.hasChildNodes()){this.node.removeChild(this.node.lastChild);
 }// remove defs reference
 
 
@@ -29940,6 +29940,14 @@ return clone;
 //
 
 SVG.extend(SVG.Element,{
+
+
+
+
+
+
+
+
 
 
 
@@ -30192,17 +30200,9 @@ inherit:SVG.Shape,// Add parent method
 construct:{// Create an ellipse
 ellipse:function ellipse(width,height){return this.put(new SVG.Ellipse()).size(width,height).move(0,0);}}});SVG.extend(SVG.Ellipse,SVG.Rect,SVG.FX,{// Radius x value
 rx:function rx(_rx2){return this.attr('rx',_rx2);},// Radius y value
-ry:function ry(_ry2){
-return this.attr('ry',_ry2);
-}
-});// Add common method
-
-SVG.extend(SVG.Circle,SVG.Ellipse,{
-// Move over x-axis
-x:function x(_x3){
-return _x3==null?this.cx()-this.rx():this.cx(_x3+this.rx());
-},
-// Move over y-axis
+ry:function ry(_ry2){return this.attr('ry',_ry2);}});// Add common method
+SVG.extend(SVG.Circle,SVG.Ellipse,{// Move over x-axis
+x:function x(_x3){return _x3==null?this.cx()-this.rx():this.cx(_x3+this.rx());},// Move over y-axis
 y:function y(_y2){
 return _y2==null?this.cy()-this.ry():this.cy(_y2+this.ry());
 },

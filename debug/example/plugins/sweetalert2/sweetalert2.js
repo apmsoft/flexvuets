@@ -121,7 +121,7 @@ const onReady = () => {
       title: 'toast 알림이 정상적으로 실행 되었습니다.'
     });
   });
-  // toast progress style
+  // prompt
   document.querySelector('#btn-prompt').addEventListener('click', () => {
     (() => __awaiter(void 0, void 0, void 0, function* () {
       const { value: rangeval } = yield Swal.fire({

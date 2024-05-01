@@ -125,7 +125,7 @@ const onReady = () : void =>
         });
     });
 
-    // toast progress style
+    // prompt
     document.querySelector<HTMLButtonElement>('#btn-prompt')!.addEventListener('click',()=>
     {
         (async () => {

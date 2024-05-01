@@ -3,6 +3,7 @@ import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
 import CryptoES from 'crypto-es';
 import {CacheLocalStorage} from '@flexvue/caches';
+import Swal from 'sweetalert2';
 
 import Navigation from '@t1/js/nav.class.js';
 import {MyException} from '@t1/js/exception.class.js';
@@ -48,11 +49,26 @@ const onReady = () : void =>
 
     // 로그아웃 버튼
     const btn_logout = document.querySelector<HTMLButtonElement>("#btn-logout");
-    if(btn_logout) 
+    if(btn_logout)
     {
-        btn_logout.addEventListener("click", () => 
+        btn_logout.addEventListener("click", () =>
         {
-            alert('로그아웃');
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'center',
+                showConfirmButton: false,
+                timer: 1000,
+                timerProgressBar: true
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: R.sysmsg.v_logout
+            });
+
+            Handler.post(()=>{
+                alert('페이지 이동');
+            },1100);
             // new AsyncTask().execute('POST', `${config.src}/manager/login/out`,{},config._options_,config._headers_)
             // .then((resp)=>
             // {

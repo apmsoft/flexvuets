@@ -54,6 +54,9 @@ export class SimpleAdapter {
       console.error('데이터 제거 위치가 잘못되었습니다.');
     }
   }
+  clearData() {
+    this.data = [];
+  }
   doOnDataChanged(callback) {
     this.onDataChanged = callback;
   }
@@ -201,6 +204,10 @@ export class RecyclerView {
         }
       }
     });
+  }
+  clear() {
+    this.renderedItems.clear();
+    this.firstRenderItemCount = 0;
   }
   onChangedScrollPosition(callback) {
     this.scrollPositionCallback = callback;

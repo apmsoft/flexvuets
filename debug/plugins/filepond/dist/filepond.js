@@ -10311,6 +10311,14 @@
 
 
 
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10329,17 +10337,9 @@
               var allowsTransfer = allowdrop(items); // only used when can be dropped on page
               if (!allowsTransfer) {setDropEffect(dataTransfer, 'none');return;} // targetting this client
               if (isEventTarget(e, element)) {overDropTarget = true; // had no previous state, means we are entering this client
-                if (client.state === null) {client.state = 'enter';onenter(eventPosition(e));return;}
-                // now over element (no matter if it allows the drop or not)
-                client.state = 'over';
-
-                // needs to allow transfer
-                if (filterElement && !allowsTransfer) {
-                  setDropEffect(dataTransfer, 'none');
-                  return;
-                }
-
-                // dragging
+                if (client.state === null) {client.state = 'enter';onenter(eventPosition(e));return;} // now over element (no matter if it allows the drop or not)
+                client.state = 'over'; // needs to allow transfer
+                if (filterElement && !allowsTransfer) {setDropEffect(dataTransfer, 'none');return;} // dragging
                 ondrag(eventPosition(e));
               } else {
                 // should be over an element to drop

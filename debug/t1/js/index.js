@@ -2,6 +2,7 @@ import UrlManager from "../../flexvue/core/urlmanager.class.js";
 import FastRouter from "../../flexvue/core/fastrouter.class.js";
 import CryptoES from "../../plugins/crypto-es/lib/index.js";
 import { CacheLocalStorage } from "../../flexvue/core/caches.class.js";
+import Swal from "../../plugins/sweetalert2/src/sweetalert2.js";
 import Navigation from "./nav.class.js";
 import { MyException } from "./exception.class.js";
 // 이전 화면 패널 위치
@@ -35,7 +36,20 @@ const onReady = () => {
   const btn_logout = document.querySelector("#btn-logout");
   if (btn_logout) {
     btn_logout.addEventListener("click", () => {
-      alert('로그아웃');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true
+      });
+      Toast.fire({
+        icon: 'success',
+        title: R.sysmsg.v_logout
+      });
+      Handler.post(() => {
+        alert('페이지 이동');
+      }, 1100);
       // new AsyncTask().execute('POST', `${config.src}/manager/login/out`,{},config._options_,config._headers_)
       // .then((resp)=>
       // {
