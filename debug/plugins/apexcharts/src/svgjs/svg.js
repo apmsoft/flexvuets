@@ -1403,6 +1403,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1515,9 +1517,7 @@
         once: function (pos, fn, isEased) {var c = this.last();if (!isEased) pos = c.ease(pos);c.once[pos] = fn;return this;}, _callStart: function () {setTimeout(function () {this.start();}.bind(this), 0);return this;} }, parent: SVG.Element, // Add method to parent elements
       construct: { // Get fx module or create a new one, then animate with given duration and ease
         animate: function (o, ease, delay) {return (this.fx || (this.fx = new SVG.FX(this))).animate(o, ease, delay);}, delay: function (delay) {return (this.fx || (this.fx = new SVG.FX(this))).delay(delay);}, stop: function (jumpToEnd, clearQueue) {if (this.fx) {this.fx.stop(jumpToEnd, clearQueue);}return this;}, finish: function () {if (this.fx) {this.fx.finish();}return this;} } }); // MorphObj is used whenever no morphable object is given
-  SVG.MorphObj = SVG.invent({
-      create: function (from, to) {
-        // prepare color for morphing
+  SVG.MorphObj = SVG.invent({ create: function (from, to) {// prepare color for morphing
         if (SVG.Color.isColor(to)) return new SVG.Color(from).morph(to);
         // check if we have a list of values
         if (SVG.regex.delimiter.test(from)) {
@@ -1605,6 +1605,9 @@
             }
             if (topParent != document) throw new Error('Element not in the dom');
           } else {
+
+
+
 
 
 
@@ -2326,11 +2329,8 @@
         if (event instanceof window.Event) {this.node.dispatchEvent(event);} else {this.node.dispatchEvent(event = new SVG.CustomEvent(event, { detail: data, cancelable: true }));}this._event = event;return this;}, event: function () {return this._event;} });SVG.Defs = SVG.invent({ // Initialize node
       create: 'defs', // Inherit from
       inherit: SVG.Container });SVG.G = SVG.invent({ // Initialize node
-      create: 'g',
-      // Inherit from
-      inherit: SVG.Container,
-
-      // Add class methods
+      create: 'g', // Inherit from
+      inherit: SVG.Container, // Add class methods
       extend: {
         // Move over x-axis
         x: function (x) {
@@ -2650,6 +2650,7 @@
 
 
 
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2707,8 +2708,7 @@
       inherit: SVG.Shape, // Add parent method
       construct: { // Create circle element, based on ellipse
         circle: function (size) {return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0, 0);} } });SVG.extend(SVG.Circle, SVG.FX, { // Radius x value
-      rx: function (rx) {return this.attr('r', rx);},
-      // Alias radius x value
+      rx: function (rx) {return this.attr('r', rx);}, // Alias radius x value
       ry: function (ry) {
         return this.rx(ry);
       }

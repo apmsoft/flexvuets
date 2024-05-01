@@ -64,22 +64,17 @@
                             </div>
                             <div id="left_docs_contents" class="flex-1 pt-10 pb-3 h-full overflow-y-auto">
                                 <!-- Open the modal using ID.showModal() method -->
-                                <button class="btn" onclick="my_modal_2.showModal()">open modal</button>
-
-                                <div class="card w-96 bg-base-100 shadow-xl">
-                                    <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
-                                    <div class="card-body">
-                                        <h2 class="card-title">
-                                        Shoes!
-                                        <div class="badge badge-secondary">NEW</div>
-                                        </h2>
-                                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                                        <div class="card-actions justify-end">
-                                        <div class="badge badge-outline">Fashion</div> 
-                                        <div class="badge badge-outline">Products</div>
-                                        </div>
-                                    </div>
+                                <!-- You can open the modal using ID.showModal() method -->
+                                <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
+                                <dialog id="my_modal_3" class="modal">
+                                <div class="modal-box">
+                                    <form method="dialog">
+                                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                    </form>
+                                    <h3 class="font-bold text-lg">Hello!</h3>
+                                    <p class="py-4">Press ESC key or click on ✕ button to close</p>
                                 </div>
+                                </dialog>
 
                                 <ul class="steps steps-vertical lg:steps-horizontal">
                                     <li class="step step-primary">Register</li>
@@ -133,16 +128,18 @@
                                   </div>
 
 
-                                  <div role="tablist" class="tabs tabs-lifted">
-                                    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 1" />
-                                    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 1</div>
-                                  
-                                    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 2" checked />
-                                    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 2</div>
-                                  
-                                    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
-                                    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">Tab content 3</div>
-                                  </div>
+                                  <div class="container mx-auto py-4">
+                                    <div role="tablist" class="tabs tabs-lifted">
+                                        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 1" />
+                                        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded p-6">Tab content 1</div>
+                                    
+                                        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 2" checked />
+                                        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded p-6">Tab content 2</div>
+                                    
+                                        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
+                                        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded p-6">Tab content 3</div>
+                                    </div>
+                                </div>
 
 
 
