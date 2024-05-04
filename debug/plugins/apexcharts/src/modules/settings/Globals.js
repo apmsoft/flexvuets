@@ -1,75 +1,75 @@
-import Utils from "./../../utils/Utils";
+import Utils from './../../utils/Utils'
 
 export default class Globals {
   initGlobalVars(gl) {
-    gl.series = []; // the MAIN series array (y values)
-    gl.seriesCandleO = [];
-    gl.seriesCandleH = [];
-    gl.seriesCandleM = [];
-    gl.seriesCandleL = [];
-    gl.seriesCandleC = [];
-    gl.seriesRangeStart = [];
-    gl.seriesRangeEnd = [];
-    gl.seriesRange = [];
-    gl.seriesPercent = [];
-    gl.seriesGoals = [];
-    gl.seriesX = [];
-    gl.seriesZ = [];
-    gl.seriesNames = [];
-    gl.seriesTotals = [];
-    gl.seriesLog = [];
-    gl.seriesColors = [];
-    gl.stackedSeriesTotals = [];
-    gl.seriesXvalues = []; // we will need this in tooltip (it's x position)
+    gl.series = [] // the MAIN series array (y values)
+    gl.seriesCandleO = []
+    gl.seriesCandleH = []
+    gl.seriesCandleM = []
+    gl.seriesCandleL = []
+    gl.seriesCandleC = []
+    gl.seriesRangeStart = []
+    gl.seriesRangeEnd = []
+    gl.seriesRange = []
+    gl.seriesPercent = []
+    gl.seriesGoals = []
+    gl.seriesX = []
+    gl.seriesZ = []
+    gl.seriesNames = []
+    gl.seriesTotals = []
+    gl.seriesLog = []
+    gl.seriesColors = []
+    gl.stackedSeriesTotals = []
+    gl.seriesXvalues = [] // we will need this in tooltip (it's x position)
     // when we will have unequal x values, we will need
     // some way to get x value depending on mouse pointer
-    gl.seriesYvalues = []; // we will need this when deciding which series
+    gl.seriesYvalues = [] // we will need this when deciding which series
     // user hovered on
-    gl.labels = [];
-    gl.hasXaxisGroups = false;
-    gl.groups = [];
-    gl.hasSeriesGroups = false;
-    gl.seriesGroups = [];
-    gl.categoryLabels = [];
-    gl.timescaleLabels = [];
-    gl.noLabelsProvided = false;
-    gl.resizeTimer = null;
-    gl.selectionResizeTimer = null;
-    gl.delayedElements = [];
-    gl.pointsArray = [];
-    gl.dataLabelsRects = [];
-    gl.isXNumeric = false;
-    gl.skipLastTimelinelabel = false;
-    gl.skipFirstTimelinelabel = false;
-    gl.isDataXYZ = false;
-    gl.isMultiLineX = false;
-    gl.isMultipleYAxis = false;
-    gl.maxY = -Number.MAX_VALUE;
-    gl.minY = Number.MIN_VALUE;
-    gl.minYArr = [];
-    gl.maxYArr = [];
-    gl.maxX = -Number.MAX_VALUE;
-    gl.minX = Number.MAX_VALUE;
-    gl.initialMaxX = -Number.MAX_VALUE;
-    gl.initialMinX = Number.MAX_VALUE;
-    gl.maxDate = 0;
-    gl.minDate = Number.MAX_VALUE;
-    gl.minZ = Number.MAX_VALUE;
-    gl.maxZ = -Number.MAX_VALUE;
-    gl.minXDiff = Number.MAX_VALUE;
-    gl.yAxisScale = [];
-    gl.xAxisScale = null;
-    gl.xAxisTicksPositions = [];
-    gl.yLabelsCoords = [];
-    gl.yTitleCoords = [];
-    gl.barPadForNumericAxis = 0;
-    gl.padHorizontal = 0;
-    gl.xRange = 0;
-    gl.yRange = [];
-    gl.zRange = 0;
-    gl.dataPoints = 0;
-    gl.xTickAmount = 0;
-    gl.multiAxisTickAmount = 0;
+    gl.labels = []
+    gl.hasXaxisGroups = false
+    gl.groups = []
+    gl.hasSeriesGroups = false
+    gl.seriesGroups = []
+    gl.categoryLabels = []
+    gl.timescaleLabels = []
+    gl.noLabelsProvided = false
+    gl.resizeTimer = null
+    gl.selectionResizeTimer = null
+    gl.delayedElements = []
+    gl.pointsArray = []
+    gl.dataLabelsRects = []
+    gl.isXNumeric = false
+    gl.skipLastTimelinelabel = false
+    gl.skipFirstTimelinelabel = false
+    gl.isDataXYZ = false
+    gl.isMultiLineX = false
+    gl.isMultipleYAxis = false
+    gl.maxY = -Number.MAX_VALUE
+    gl.minY = Number.MIN_VALUE
+    gl.minYArr = []
+    gl.maxYArr = []
+    gl.maxX = -Number.MAX_VALUE
+    gl.minX = Number.MAX_VALUE
+    gl.initialMaxX = -Number.MAX_VALUE
+    gl.initialMinX = Number.MAX_VALUE
+    gl.maxDate = 0
+    gl.minDate = Number.MAX_VALUE
+    gl.minZ = Number.MAX_VALUE
+    gl.maxZ = -Number.MAX_VALUE
+    gl.minXDiff = Number.MAX_VALUE
+    gl.yAxisScale = []
+    gl.xAxisScale = null
+    gl.xAxisTicksPositions = []
+    gl.yLabelsCoords = []
+    gl.yTitleCoords = []
+    gl.barPadForNumericAxis = 0
+    gl.padHorizontal = 0
+    gl.xRange = 0
+    gl.yRange = []
+    gl.zRange = 0
+    gl.dataPoints = 0
+    gl.xTickAmount = 0
+    gl.multiAxisTickAmount = 0
   }
 
   globalVars(config) {
@@ -140,15 +140,15 @@ export default class Globals {
       radialSize: 0,
       selection: undefined,
       zoomEnabled:
-      config.chart.toolbar.autoSelected === 'zoom' &&
-      config.chart.toolbar.tools.zoom &&
-      config.chart.zoom.enabled,
+        config.chart.toolbar.autoSelected === 'zoom' &&
+        config.chart.toolbar.tools.zoom &&
+        config.chart.zoom.enabled,
       panEnabled:
-      config.chart.toolbar.autoSelected === 'pan' &&
-      config.chart.toolbar.tools.pan,
+        config.chart.toolbar.autoSelected === 'pan' &&
+        config.chart.toolbar.tools.pan,
       selectionEnabled:
-      config.chart.toolbar.autoSelected === 'selection' &&
-      config.chart.toolbar.tools.selection,
+        config.chart.toolbar.autoSelected === 'selection' &&
+        config.chart.toolbar.tools.selection,
       yaxis: null,
       mousedown: false,
       lastClientPosition: {}, // don't reset this variable this the chart is destroyed. It is used to detect right or left mousemove in panning
@@ -228,25 +228,25 @@ export default class Globals {
       // example, stepSize: 3. This value will be preferred to the value determined through
       // this array. The range-normalized value is checked for consistency with other
       // user defined options and will be ignored if inconsistent.
-      niceScaleAllowedMagMsd: [[1, 1, 2, 5, 5, 5, 10, 10, 10, 10, 10], [1, 1, 2, 5, 5, 5, 10, 10, 10, 10, 10]],
+      niceScaleAllowedMagMsd: [[1,1,2,5,5,5,10,10,10,10,10],[1,1,2,5,5,5,10,10,10,10,10]],
       // Default ticks based on SVG size. These values have high numbers
       // of divisors. The array is indexed using a calculated maxTicks value
       // divided by 2 simply to halve the array size. See Scales.niceScale().
-      niceScaleDefaultTicks: [1, 2, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 12, 12, 12, 12, 12, 12, 12, 12, 24],
+      niceScaleDefaultTicks: [1,2,4,4,6,6,6,6,6,6,6,6,6,6,6,6,6,6,12,12,12,12,12,12,12,12,12,24],
       seriesYAxisMap: [], // Given yAxis index, return all series indices belonging to it. Multiple series can be referenced to each yAxis.
       seriesYAxisReverseMap: [] // Given a Series index, return its yAxis index.
-    };
+    }
   }
 
   init(config) {
-    let globals = this.globalVars(config);
-    this.initGlobalVars(globals);
+    let globals = this.globalVars(config)
+    this.initGlobalVars(globals)
 
-    globals.initialConfig = Utils.extend({}, config);
-    globals.initialSeries = Utils.clone(config.series);
+    globals.initialConfig = Utils.extend({}, config)
+    globals.initialSeries = Utils.clone(config.series)
 
-    globals.lastXAxis = Utils.clone(globals.initialConfig.xaxis);
-    globals.lastYAxis = Utils.clone(globals.initialConfig.yaxis);
-    return globals;
+    globals.lastXAxis = Utils.clone(globals.initialConfig.xaxis)
+    globals.lastYAxis = Utils.clone(globals.initialConfig.yaxis)
+    return globals
   }
 }

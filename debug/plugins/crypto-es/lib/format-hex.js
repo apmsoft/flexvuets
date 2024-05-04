@@ -1,9 +1,9 @@
 import {
-  CipherParams } from "./cipher-core.js";
-
+  CipherParams,
+} from './cipher-core.js';
 import {
-  Hex } from "./core.js";
-
+  Hex,
+} from './core.js';
 
 export const HexFormatter = {
   /**
@@ -39,5 +39,5 @@ export const HexFormatter = {
   parse(input) {
     const ciphertext = Hex.parse(input);
     return CipherParams.create({ ciphertext });
-  }
+  },
 };

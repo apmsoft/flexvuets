@@ -20,9 +20,9 @@
 export function mixin(mixinParams) {
   class MixinSwal extends this {
     _main(params, priorityMixinParams) {
-      return super._main(params, Object.assign({}, mixinParams, priorityMixinParams));
+      return super._main(params, Object.assign({}, mixinParams, priorityMixinParams))
     }
   }
   // @ts-ignore
-  return MixinSwal;
+  return MixinSwal
 }

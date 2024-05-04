@@ -1,27 +1,27 @@
-import * as dom from "../../dom/index.js";
+import * as dom from '../../dom/index.js'
 
 /**
  * @param {SweetAlert} instance
  * @param {SweetAlertOptions} params
  */
 export const renderTitle = (instance, params) => {
-  const title = dom.getTitle();
+  const title = dom.getTitle()
   if (!title) {
-    return;
+    return
   }
 
-  dom.showWhenInnerHtmlPresent(title);
+  dom.showWhenInnerHtmlPresent(title)
 
-  dom.toggle(title, params.title || params.titleText, 'block');
+  dom.toggle(title, params.title || params.titleText, 'block')
 
   if (params.title) {
-    dom.parseHtmlToContainer(params.title, title);
+    dom.parseHtmlToContainer(params.title, title)
   }
 
   if (params.titleText) {
-    title.innerText = params.titleText;
+    title.innerText = params.titleText
   }
 
   // Custom class
-  dom.applyCustomClass(title, params, 'title');
-};
+  dom.applyCustomClass(title, params, 'title')
+}

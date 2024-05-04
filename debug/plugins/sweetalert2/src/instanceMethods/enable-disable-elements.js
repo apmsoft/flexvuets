@@ -1,6 +1,6 @@
-import * as dom from "../utils/dom/index.js";
-import privateProps from "../privateProps.js";
-import { swalClasses } from "../utils/classes.js";
+import * as dom from '../utils/dom/index.js'
+import privateProps from '../privateProps.js'
+import { swalClasses } from '../utils/classes.js'
 
 /**
  * @param {SweetAlert} instance
@@ -8,10 +8,10 @@ import { swalClasses } from "../utils/classes.js";
  * @param {boolean} disabled
  */
 function setButtonsDisabled(instance, buttons, disabled) {
-  const domCache = privateProps.domCache.get(instance);
+  const domCache = privateProps.domCache.get(instance)
   buttons.forEach((button) => {
-    domCache[button].disabled = disabled;
-  });
+    domCache[button].disabled = disabled
+  })
 }
 
 /**
@@ -19,18 +19,18 @@ function setButtonsDisabled(instance, buttons, disabled) {
  * @param {boolean} disabled
  */
 function setInputDisabled(input, disabled) {
-  const popup = dom.getPopup();
+  const popup = dom.getPopup()
   if (!popup || !input) {
-    return;
+    return
   }
   if (input.type === 'radio') {
     /** @type {NodeListOf<HTMLInputElement>} */
-    const radios = popup.querySelectorAll(`[name="${swalClasses.radio}"]`);
+    const radios = popup.querySelectorAll(`[name="${swalClasses.radio}"]`)
     for (let i = 0; i < radios.length; i++) {
-      radios[i].disabled = disabled;
+      radios[i].disabled = disabled
     }
   } else {
-    input.disabled = disabled;
+    input.disabled = disabled
   }
 }
 
@@ -39,7 +39,7 @@ function setInputDisabled(input, disabled) {
  * @this {SweetAlert}
  */
 export function enableButtons() {
-  setButtonsDisabled(this, ['confirmButton', 'denyButton', 'cancelButton'], false);
+  setButtonsDisabled(this, ['confirmButton', 'denyButton', 'cancelButton'], false)
 }
 
 /**
@@ -47,7 +47,7 @@ export function enableButtons() {
  * @this {SweetAlert}
  */
 export function disableButtons() {
-  setButtonsDisabled(this, ['confirmButton', 'denyButton', 'cancelButton'], true);
+  setButtonsDisabled(this, ['confirmButton', 'denyButton', 'cancelButton'], true)
 }
 
 /**
@@ -55,7 +55,7 @@ export function disableButtons() {
  * @this {SweetAlert}
  */
 export function enableInput() {
-  setInputDisabled(this.getInput(), false);
+  setInputDisabled(this.getInput(), false)
 }
 
 /**
@@ -63,5 +63,5 @@ export function enableInput() {
  * @this {SweetAlert}
  */
 export function disableInput() {
-  setInputDisabled(this.getInput(), true);
+  setInputDisabled(this.getInput(), true)
 }

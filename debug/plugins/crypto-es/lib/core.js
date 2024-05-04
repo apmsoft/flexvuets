@@ -1,11 +1,11 @@
 /* eslint-disable no-use-before-define */
 
 const crypto =
-(typeof globalThis != 'undefined' ? globalThis : void 0)?.crypto ||
-(typeof global != 'undefined' ? global : void 0)?.crypto ||
-(typeof window != 'undefined' ? window : void 0)?.crypto ||
-(typeof self != 'undefined' ? self : void 0)?.crypto ||
-(typeof frames != 'undefined' ? frames : void 0)?.[0]?.crypto;
+  (typeof globalThis != 'undefined' ? globalThis : void 0)?.crypto ||
+  (typeof global != 'undefined' ? global : void 0)?.crypto ||
+  (typeof window != 'undefined' ? window : void 0)?.crypto ||
+  (typeof self != 'undefined' ? self : void 0)?.crypto ||
+  (typeof frames != 'undefined' ? frames : void 0)?.[0]?.crypto;
 
 let randomWordArray;
 
@@ -18,37 +18,37 @@ if (crypto) {
     }
 
     return new WordArray(words, nBytes);
-  };
+  }
 } else {
   // Because there is no global crypto property in this context, cryptographically unsafe Math.random() is used.
 
   randomWordArray = (nBytes) => {
     const words = [];
-
+  
     const r = (m_w) => {
       let _m_w = m_w;
       let _m_z = 0x3ade68b1;
       const mask = 0xffffffff;
-
+  
       return () => {
-        _m_z = 0x9069 * (_m_z & 0xFFFF) + (_m_z >> 0x10) & mask;
-        _m_w = 0x4650 * (_m_w & 0xFFFF) + (_m_w >> 0x10) & mask;
-        let result = (_m_z << 0x10) + _m_w & mask;
+        _m_z = (0x9069 * (_m_z & 0xFFFF) + (_m_z >> 0x10)) & mask;
+        _m_w = (0x4650 * (_m_w & 0xFFFF) + (_m_w >> 0x10)) & mask;
+        let result = ((_m_z << 0x10) + _m_w) & mask;
         result /= 0x100000000;
         result += 0.5;
         return result * (Math.random() > 0.5 ? 1 : -1);
       };
     };
-
+  
     for (let i = 0, rcache; i < nBytes; i += 4) {
       const _r = r((rcache || Math.random()) * 0x100000000);
-
+  
       rcache = _r() * 0x3ade67b7;
-      words.push(_r() * 0x100000000 | 0);
+      words.push((_r() * 0x100000000) | 0);
     }
-
+  
     return new WordArray(words, nBytes);
-  };
+  }
 }
 
 /**
@@ -132,15 +132,15 @@ export class WordArray extends Base {
 
     // Convert other array views to uint8
     if (
-    typedArray instanceof Int8Array ||
-    typedArray instanceof Uint8ClampedArray ||
-    typedArray instanceof Int16Array ||
-    typedArray instanceof Uint16Array ||
-    typedArray instanceof Int32Array ||
-    typedArray instanceof Uint32Array ||
-    typedArray instanceof Float32Array ||
-    typedArray instanceof Float64Array)
-    {
+      typedArray instanceof Int8Array
+      || typedArray instanceof Uint8ClampedArray
+      || typedArray instanceof Int16Array
+      || typedArray instanceof Uint16Array
+      || typedArray instanceof Int32Array
+      || typedArray instanceof Uint32Array
+      || typedArray instanceof Float32Array
+      || typedArray instanceof Float64Array
+    ) {
       typedArray = new Uint8Array(typedArray.buffer, typedArray.byteOffset, typedArray.byteLength);
     }
 
@@ -152,7 +152,7 @@ export class WordArray extends Base {
       // Extract bytes
       const _words = [];
       for (let i = 0; i < typedArrayByteLength; i += 1) {
-        _words[i >>> 2] |= typedArray[i] << 24 - i % 4 * 8;
+        _words[i >>> 2] |= typedArray[i] << (24 - (i % 4) * 8);
       }
 
       // Initialize this word array
@@ -222,13 +222,13 @@ export class WordArray extends Base {
     if (thisSigBytes % 4) {
       // Copy one byte at a time
       for (let i = 0; i < thatSigBytes; i += 1) {
-        const thatByte = thatWords[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
-        thisWords[thisSigBytes + i >>> 2] |= thatByte << 24 - (thisSigBytes + i) % 4 * 8;
+        const thatByte = (thatWords[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
+        thisWords[(thisSigBytes + i) >>> 2] |= thatByte << (24 - ((thisSigBytes + i) % 4) * 8);
       }
     } else {
       // Copy one word at a time
       for (let i = 0; i < thatSigBytes; i += 4) {
-        thisWords[thisSigBytes + i >>> 2] = thatWords[i >>> 2];
+        thisWords[(thisSigBytes + i) >>> 2] = thatWords[i >>> 2];
       }
     }
     this.sigBytes += thatSigBytes;
@@ -249,7 +249,7 @@ export class WordArray extends Base {
     const { words, sigBytes } = this;
 
     // Clamp
-    words[sigBytes >>> 2] &= 0xffffffff << 32 - sigBytes % 4 * 8;
+    words[sigBytes >>> 2] &= 0xffffffff << (32 - (sigBytes % 4) * 8);
     words.length = Math.ceil(sigBytes / 4);
   }
 
@@ -294,7 +294,7 @@ export const Hex = {
     // Convert
     const hexChars = [];
     for (let i = 0; i < sigBytes; i += 1) {
-      const bite = words[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
+      const bite = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
       hexChars.push((bite >>> 4).toString(16));
       hexChars.push((bite & 0x0f).toString(16));
     }
@@ -322,11 +322,11 @@ export const Hex = {
     // Convert
     const words = [];
     for (let i = 0; i < hexStrLength; i += 2) {
-      words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << 24 - i % 8 * 4;
+      words[i >>> 3] |= parseInt(hexStr.substr(i, 2), 16) << (24 - (i % 8) * 4);
     }
 
     return new WordArray(words, hexStrLength / 2);
-  }
+  },
 };
 
 /**
@@ -353,7 +353,7 @@ export const Latin1 = {
     // Convert
     const latin1Chars = [];
     for (let i = 0; i < sigBytes; i += 1) {
-      const bite = words[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
+      const bite = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
       latin1Chars.push(String.fromCharCode(bite));
     }
 
@@ -380,11 +380,11 @@ export const Latin1 = {
     // Convert
     const words = [];
     for (let i = 0; i < latin1StrLength; i += 1) {
-      words[i >>> 2] |= (latin1Str.charCodeAt(i) & 0xff) << 24 - i % 4 * 8;
+      words[i >>> 2] |= (latin1Str.charCodeAt(i) & 0xff) << (24 - (i % 4) * 8);
     }
 
     return new WordArray(words, latin1StrLength);
-  }
+  },
 };
 
 /**
@@ -427,7 +427,7 @@ export const Utf8 = {
    */
   parse(utf8Str) {
     return Latin1.parse(unescape(encodeURIComponent(utf8Str)));
-  }
+  },
 };
 
 /**

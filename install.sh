@@ -21,6 +21,15 @@ npm install -D postcss --save-dev
 npm install -D prettier --save-dev
 npm install -D prettier-plugin-tailwindcss --save-dev
 
+# ui insatll
+npm i -D daisyui@latest --save
+# tailwind.config.js
+#module.exports = {
+#  plugins: [
+#    require('daisyui'),
+#  ],
+#}
+
 # js minify 압축 프로그램
 npm install uglify-js --save-dev
 

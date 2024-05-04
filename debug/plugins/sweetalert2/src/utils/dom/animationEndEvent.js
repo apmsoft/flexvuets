@@ -1,4 +1,4 @@
-import { isNodeEnv } from "../isNodeEnv.js";
+import { isNodeEnv } from '../isNodeEnv.js'
 
 /**
  * @returns {'webkitAnimationEnd' | 'animationend' | false}
@@ -6,20 +6,20 @@ import { isNodeEnv } from "../isNodeEnv.js";
 export const animationEndEvent = (() => {
   // Prevent run in Node env
   if (isNodeEnv()) {
-    return false;
+    return false
   }
 
-  const testEl = document.createElement('div');
+  const testEl = document.createElement('div')
 
   // Chrome, Safari and Opera
   if (typeof testEl.style.webkitAnimation !== 'undefined') {
-    return 'webkitAnimationEnd';
+    return 'webkitAnimationEnd'
   }
 
   // Standard syntax
   if (typeof testEl.style.animation !== 'undefined') {
-    return 'animationend';
+    return 'animationend'
   }
 
-  return false;
-})();
+  return false
+})()

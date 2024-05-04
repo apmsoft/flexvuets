@@ -29,40 +29,40 @@
  * @returns {Array}
  */
 export const tangents = (points) => {
-  const m = finiteDifferences(points);
-  const n = points.length - 1;
+  const m = finiteDifferences(points)
+  const n = points.length - 1
 
-  const ε = 1e-6;
+  const ε = 1e-6
 
-  const tgts = [];
-  let a, b, d, s;
+  const tgts = []
+  let a, b, d, s
 
   for (let i = 0; i < n; i++) {
-    d = slope(points[i], points[i + 1]);
+    d = slope(points[i], points[i + 1])
 
     if (Math.abs(d) < ε) {
-      m[i] = m[i + 1] = 0;
+      m[i] = m[i + 1] = 0
     } else {
-      a = m[i] / d;
-      b = m[i + 1] / d;
-      s = a * a + b * b;
+      a = m[i] / d
+      b = m[i + 1] / d
+      s = a * a + b * b
       if (s > 9) {
-        s = d * 3 / Math.sqrt(s);
-        m[i] = s * a;
-        m[i + 1] = s * b;
+        s = (d * 3) / Math.sqrt(s)
+        m[i] = s * a
+        m[i + 1] = s * b
       }
     }
   }
 
   for (let i = 0; i <= n; i++) {
     s =
-    (points[Math.min(n, i + 1)][0] - points[Math.max(0, i - 1)][0]) / (
-    6 * (1 + m[i] * m[i]));
-    tgts.push([s || 0, m[i] * s || 0]);
+      (points[Math.min(n, i + 1)][0] - points[Math.max(0, i - 1)][0]) /
+      (6 * (1 + m[i] * m[i]))
+    tgts.push([s || 0, m[i] * s || 0])
   }
 
-  return tgts;
-};
+  return tgts
+}
 
 /**
  * Convert 'points' to svg path
@@ -70,24 +70,24 @@ export const tangents = (points) => {
  * @returns {String}
  */
 export const svgPath = (points) => {
-  let p = '';
+  let p = ''
 
   for (let i = 0; i < points.length; i++) {
-    const point = points[i];
-    const n = point.length;
+    const point = points[i]
+    const n = point.length
 
     if (n > 4) {
-      p += `C${point[0]}, ${point[1]}`;
-      p += `, ${point[2]}, ${point[3]}`;
-      p += `, ${point[4]}, ${point[5]}`;
+      p += `C${point[0]}, ${point[1]}`
+      p += `, ${point[2]}, ${point[3]}`
+      p += `, ${point[4]}, ${point[5]}`
     } else if (n > 2) {
-      p += `S${point[0]}, ${point[1]}`;
-      p += `, ${point[2]}, ${point[3]}`;
+      p += `S${point[0]}, ${point[1]}`
+      p += `, ${point[2]}, ${point[3]}`
     }
   }
 
-  return p;
-};
+  return p
+}
 
 export const spline = {
   /**
@@ -96,33 +96,33 @@ export const spline = {
    * @returns {Array}
    */
   points(points) {
-    const tgts = tangents(points);
+    const tgts = tangents(points)
 
-    const p = points[1];
-    const p0 = points[0];
-    const pts = [];
-    const t = tgts[1];
-    const t0 = tgts[0];
+    const p = points[1]
+    const p0 = points[0]
+    const pts = []
+    const t = tgts[1]
+    const t0 = tgts[0]
 
     // Add starting 'M' and 'C' points
     pts.push(p0, [
-    p0[0] + t0[0],
-    p0[1] + t0[1],
-    p[0] - t[0],
-    p[1] - t[1],
-    p[0],
-    p[1]]
-    );
+      p0[0] + t0[0],
+      p0[1] + t0[1],
+      p[0] - t[0],
+      p[1] - t[1],
+      p[0],
+      p[1],
+    ])
 
     // Add 'S' points
     for (let i = 2, n = tgts.length; i < n; i++) {
-      const p = points[i];
-      const t = tgts[i];
+      const p = points[i]
+      const t = tgts[i]
 
-      pts.push([p[0] - t[0], p[1] - t[1], p[0], p[1]]);
+      pts.push([p[0] - t[0], p[1] - t[1], p[0], p[1]])
     }
 
-    return pts;
+    return pts
   },
 
   /**
@@ -133,25 +133,25 @@ export const spline = {
    * @returns {Array}
    */
   slice(points, start, end) {
-    const pts = points.slice(start, end);
+    const pts = points.slice(start, end)
 
     if (start) {
       // Add additional 'C' points
       if (pts[1].length < 6) {
-        const n = pts[0].length;
+        const n = pts[0].length
 
         pts[1] = [
-        pts[0][n - 2] * 2 - pts[0][n - 4],
-        pts[0][n - 1] * 2 - pts[0][n - 3]].
-        concat(pts[1]);
+          pts[0][n - 2] * 2 - pts[0][n - 4],
+          pts[0][n - 1] * 2 - pts[0][n - 3],
+        ].concat(pts[1])
       }
       // Remove control points for 'M'
-      pts[0] = pts[0].slice(-2);
+      pts[0] = pts[0].slice(-2)
     }
 
-    return pts;
-  }
-};
+    return pts
+  },
+}
 
 /**
  * Compute slope from point 'p0' to 'p1'
@@ -160,7 +160,7 @@ export const spline = {
  * @returns {Number}
  */
 function slope(p0, p1) {
-  return (p1[1] - p0[1]) / (p1[0] - p0[0]);
+  return (p1[1] - p0[1]) / (p1[0] - p0[0])
 }
 
 /**
@@ -169,18 +169,18 @@ function slope(p0, p1) {
  * @returns {Array}
  */
 function finiteDifferences(points) {
-  const m = [];
-  let p0 = points[0];
-  let p1 = points[1];
-  let d = m[0] = slope(p0, p1);
-  let i = 1;
+  const m = []
+  let p0 = points[0]
+  let p1 = points[1]
+  let d = (m[0] = slope(p0, p1))
+  let i = 1
 
   for (let n = points.length - 1; i < n; i++) {
-    p0 = p1;
-    p1 = points[i + 1];
-    m[i] = (d + (d = slope(p0, p1))) * 0.5;
+    p0 = p1
+    p1 = points[i + 1]
+    m[i] = (d + (d = slope(p0, p1))) * 0.5
   }
-  m[i] = d;
+  m[i] = d
 
-  return m;
+  return m
 }

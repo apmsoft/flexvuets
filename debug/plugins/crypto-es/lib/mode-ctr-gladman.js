@@ -1,16 +1,16 @@
 import {
-  BlockCipherMode } from "./cipher-core.js";
-
+  BlockCipherMode,
+} from './cipher-core.js';
 
 const incWord = (word) => {
   let _word = word;
 
-  if ((word >> 24 & 0xff) === 0xff) {// overflow
-    let b1 = word >> 16 & 0xff;
-    let b2 = word >> 8 & 0xff;
+  if (((word >> 24) & 0xff) === 0xff) { // overflow
+    let b1 = (word >> 16) & 0xff;
+    let b2 = (word >> 8) & 0xff;
     let b3 = word & 0xff;
 
-    if (b1 === 0xff) {// overflow b1
+    if (b1 === 0xff) { // overflow b1
       b1 = 0;
       if (b2 === 0xff) {
         b2 = 0;
@@ -27,11 +27,11 @@ const incWord = (word) => {
     }
 
     _word = 0;
-    _word += b1 << 16;
-    _word += b2 << 8;
+    _word += (b1 << 16);
+    _word += (b2 << 8);
     _word += b3;
   } else {
-    _word += 0x01 << 24;
+    _word += (0x01 << 24);
   }
   return _word;
 };
@@ -52,8 +52,8 @@ const incCounter = (counter) => {
  * derived from CryptoJS.mode.CTR
  * Jan Hruby jhruby.web@gmail.com
  */
-export class CTRGladman extends BlockCipherMode {}
-
+export class CTRGladman extends BlockCipherMode {
+}
 CTRGladman.Encryptor = class extends CTRGladman {
   processBlock(words, offset) {
     const _words = words;

@@ -1,12 +1,12 @@
 import {
-  BlockCipherMode } from "./cipher-core.js";
-
+  BlockCipherMode,
+} from './cipher-core.js';
 
 /**
  * Counter block mode.
  */
-export class CTR extends BlockCipherMode {}
-
+export class CTR extends BlockCipherMode {
+}
 CTR.Encryptor = class extends CTR {
   processBlock(words, offset) {
     const _words = words;
@@ -29,7 +29,7 @@ CTR.Encryptor = class extends CTR {
     cipher.encryptBlock(keystream, 0);
 
     // Increment counter
-    counter[blockSize - 1] = counter[blockSize - 1] + 1 | 0;
+    counter[blockSize - 1] = (counter[blockSize - 1] + 1) | 0;
 
     // Encrypt
     for (let i = 0; i < blockSize; i += 1) {

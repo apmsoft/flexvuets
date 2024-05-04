@@ -8,25 +8,26 @@ import { terser } from 'rollup-plugin-terser';
  * on just the global scope is harmless and doesn't break anything.
  */
 export default [
-// minified build
-{
-  input: 'dist/countUp.js',
-  output: {
-    file: 'dist/countUp.min.js'
+  // minified build
+  {
+    input: 'dist/countUp.js',
+    output: {
+      file: 'dist/countUp.min.js',
+    },
+    plugins: [
+      terser(), // minify the output
+    ],
   },
-  plugins: [
-  terser() // minify the output
-  ]
-},
-// UMD build
-{
-  input: 'dist/countUp.js',
-  output: {
-    file: 'dist/countUp.umd.js',
-    name: 'countUp',
-    format: 'umd'
-  },
-  plugins: [
-  terser()]
-
-}];
+  // UMD build
+  {
+    input: 'dist/countUp.js',
+    output: {
+      file: 'dist/countUp.umd.js',
+      name: 'countUp',
+      format: 'umd',
+    },
+    plugins: [
+      terser(),
+    ],
+  }
+];

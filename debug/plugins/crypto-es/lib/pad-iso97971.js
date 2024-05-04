@@ -1,9 +1,9 @@
 import {
-  WordArray } from "./core.js";
-
+  WordArray,
+} from './core.js';
 import {
-  ZeroPadding } from "./pad-zeropadding.js";
-
+  ZeroPadding,
+} from './pad-zeropadding.js';
 
 /**
  * ISO/IEC 9797-1 Padding Method 2.
@@ -25,5 +25,5 @@ export const Iso97971 = {
 
     // Remove one more byte -- the 0x80 byte
     _data.sigBytes -= 1;
-  }
+  },
 };

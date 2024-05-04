@@ -1,34 +1,34 @@
 import {
   WordArray,
-  Hasher } from "./core.js";
-
+  Hasher,
+} from './core.js';
 
 // Constants table
 const T = [];
 
 // Compute constants
 for (let i = 0; i < 64; i += 1) {
-  T[i] = Math.abs(Math.sin(i + 1)) * 0x100000000 | 0;
+  T[i] = (Math.abs(Math.sin(i + 1)) * 0x100000000) | 0;
 }
 
 const FF = (a, b, c, d, x, s, t) => {
-  const n = a + (b & c | ~b & d) + x + t;
-  return (n << s | n >>> 32 - s) + b;
+  const n = a + ((b & c) | (~b & d)) + x + t;
+  return ((n << s) | (n >>> (32 - s))) + b;
 };
 
 const GG = (a, b, c, d, x, s, t) => {
-  const n = a + (b & d | c & ~d) + x + t;
-  return (n << s | n >>> 32 - s) + b;
+  const n = a + ((b & d) | (c & ~d)) + x + t;
+  return ((n << s) | (n >>> (32 - s))) + b;
 };
 
 const HH = (a, b, c, d, x, s, t) => {
   const n = a + (b ^ c ^ d) + x + t;
-  return (n << s | n >>> 32 - s) + b;
+  return ((n << s) | (n >>> (32 - s))) + b;
 };
 
 const II = (a, b, c, d, x, s, t) => {
   const n = a + (c ^ (b | ~d)) + x + t;
-  return (n << s | n >>> 32 - s) + b;
+  return ((n << s) | (n >>> (32 - s))) + b;
 };
 
 /**
@@ -37,11 +37,11 @@ const II = (a, b, c, d, x, s, t) => {
 export class MD5Algo extends Hasher {
   _doReset() {
     this._hash = new WordArray([
-    0x67452301,
-    0xefcdab89,
-    0x98badcfe,
-    0x10325476]
-    );
+      0x67452301,
+      0xefcdab89,
+      0x98badcfe,
+      0x10325476,
+    ]);
   }
 
   _doProcessBlock(M, offset) {
@@ -53,10 +53,10 @@ export class MD5Algo extends Hasher {
       const offset_i = offset + i;
       const M_offset_i = M[offset_i];
 
-      _M[offset_i] =
-      (M_offset_i << 8 | M_offset_i >>> 24) & 0x00ff00ff |
-      (M_offset_i << 24 | M_offset_i >>> 8) & 0xff00ff00;
-
+      _M[offset_i] = (
+        (((M_offset_i << 8) | (M_offset_i >>> 24)) & 0x00ff00ff)
+          | (((M_offset_i << 24) | (M_offset_i >>> 8)) & 0xff00ff00)
+      );
     }
 
     // Shortcuts
@@ -155,10 +155,10 @@ export class MD5Algo extends Hasher {
     b = II(b, c, d, a, M_offset_9, 21, T[63]);
 
     // Intermediate hash value
-    H[0] = H[0] + a | 0;
-    H[1] = H[1] + b | 0;
-    H[2] = H[2] + c | 0;
-    H[3] = H[3] + d | 0;
+    H[0] = (H[0] + a) | 0;
+    H[1] = (H[1] + b) | 0;
+    H[2] = (H[2] + c) | 0;
+    H[3] = (H[3] + d) | 0;
   }
   /* eslint-ensable no-param-reassign */
 
@@ -171,18 +171,18 @@ export class MD5Algo extends Hasher {
     const nBitsLeft = data.sigBytes * 8;
 
     // Add padding
-    dataWords[nBitsLeft >>> 5] |= 0x80 << 24 - nBitsLeft % 32;
+    dataWords[nBitsLeft >>> 5] |= 0x80 << (24 - (nBitsLeft % 32));
 
     const nBitsTotalH = Math.floor(nBitsTotal / 0x100000000);
     const nBitsTotalL = nBitsTotal;
-    dataWords[(nBitsLeft + 64 >>> 9 << 4) + 15] =
-    (nBitsTotalH << 8 | nBitsTotalH >>> 24) & 0x00ff00ff |
-    (nBitsTotalH << 24 | nBitsTotalH >>> 8) & 0xff00ff00;
-
-    dataWords[(nBitsLeft + 64 >>> 9 << 4) + 14] =
-    (nBitsTotalL << 8 | nBitsTotalL >>> 24) & 0x00ff00ff |
-    (nBitsTotalL << 24 | nBitsTotalL >>> 8) & 0xff00ff00;
-
+    dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 15] = (
+      (((nBitsTotalH << 8) | (nBitsTotalH >>> 24)) & 0x00ff00ff)
+        | (((nBitsTotalH << 24) | (nBitsTotalH >>> 8)) & 0xff00ff00)
+    );
+    dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 14] = (
+      (((nBitsTotalL << 8) | (nBitsTotalL >>> 24)) & 0x00ff00ff)
+        | (((nBitsTotalL << 24) | (nBitsTotalL >>> 8)) & 0xff00ff00)
+    );
 
     data.sigBytes = (dataWords.length + 1) * 4;
 
@@ -198,8 +198,8 @@ export class MD5Algo extends Hasher {
       // Shortcut
       const H_i = H[i];
 
-      H[i] = (H_i << 8 | H_i >>> 24) & 0x00ff00ff |
-      (H_i << 24 | H_i >>> 8) & 0xff00ff00;
+      H[i] = (((H_i << 8) | (H_i >>> 24)) & 0x00ff00ff)
+        | (((H_i << 24) | (H_i >>> 8)) & 0xff00ff00);
     }
 
     // Return final computed hash

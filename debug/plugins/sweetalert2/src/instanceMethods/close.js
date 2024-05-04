@@ -1,13 +1,13 @@
-import globalState, { restoreActiveElement } from "../globalState.js";
-import { removeKeydownHandler } from "../keydown-handler.js";
-import privateMethods from "../privateMethods.js";
-import privateProps from "../privateProps.js";
-import { unsetAriaHidden } from "../utils/aria.js";
-import { swalClasses } from "../utils/classes.js";
-import * as dom from "../utils/dom/index.js";
-import { undoIOSfix } from "../utils/iosFix.js";
-import { undoReplaceScrollbarWithPadding } from "../utils/scrollbar.js";
-import { isSafariOrIOS } from "../utils/iosFix.js";
+import globalState, { restoreActiveElement } from '../globalState.js'
+import { removeKeydownHandler } from '../keydown-handler.js'
+import privateMethods from '../privateMethods.js'
+import privateProps from '../privateProps.js'
+import { unsetAriaHidden } from '../utils/aria.js'
+import { swalClasses } from '../utils/classes.js'
+import * as dom from '../utils/dom/index.js'
+import { undoIOSfix } from '../utils/iosFix.js'
+import { undoReplaceScrollbarWithPadding } from '../utils/scrollbar.js'
+import { isSafariOrIOS } from '../utils/iosFix.js'
 
 /**
  * @param {SweetAlert} instance
@@ -17,29 +17,29 @@ import { isSafariOrIOS } from "../utils/iosFix.js";
  */
 function removePopupAndResetState(instance, container, returnFocus, didClose) {
   if (dom.isToast()) {
-    triggerDidCloseAndDispose(instance, didClose);
+    triggerDidCloseAndDispose(instance, didClose)
   } else {
-    restoreActiveElement(returnFocus).then(() => triggerDidCloseAndDispose(instance, didClose));
-    removeKeydownHandler(globalState);
+    restoreActiveElement(returnFocus).then(() => triggerDidCloseAndDispose(instance, didClose))
+    removeKeydownHandler(globalState)
   }
 
   // workaround for https://github.com/sweetalert2/sweetalert2/issues/2088
   // for some reason removing the container in Safari will scroll the document to bottom
   if (isSafariOrIOS) {
-    container.setAttribute('style', 'display:none !important');
-    container.removeAttribute('class');
-    container.innerHTML = '';
+    container.setAttribute('style', 'display:none !important')
+    container.removeAttribute('class')
+    container.innerHTML = ''
   } else {
-    container.remove();
+    container.remove()
   }
 
   if (dom.isModal()) {
-    undoReplaceScrollbarWithPadding();
-    undoIOSfix();
-    unsetAriaHidden();
+    undoReplaceScrollbarWithPadding()
+    undoIOSfix()
+    unsetAriaHidden()
   }
 
-  removeBodyClasses();
+  removeBodyClasses()
 }
 
 /**
@@ -49,7 +49,7 @@ function removeBodyClasses() {
   dom.removeClass(
     [document.documentElement, document.body],
     [swalClasses.shown, swalClasses['height-auto'], swalClasses['no-backdrop'], swalClasses['toast-shown']]
-  );
+  )
 }
 
 /**
@@ -58,57 +58,57 @@ function removeBodyClasses() {
  * @param {any} resolveValue
  */
 export function close(resolveValue) {
-  resolveValue = prepareResolveValue(resolveValue);
+  resolveValue = prepareResolveValue(resolveValue)
 
-  const swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
+  const swalPromiseResolve = privateMethods.swalPromiseResolve.get(this)
 
-  const didClose = triggerClosePopup(this);
+  const didClose = triggerClosePopup(this)
 
   if (this.isAwaitingPromise) {
     // A swal awaiting for a promise (after a click on Confirm or Deny) cannot be dismissed anymore #2335
     if (!resolveValue.isDismissed) {
-      handleAwaitingPromise(this);
-      swalPromiseResolve(resolveValue);
+      handleAwaitingPromise(this)
+      swalPromiseResolve(resolveValue)
     }
   } else if (didClose) {
     // Resolve Swal promise
-    swalPromiseResolve(resolveValue);
+    swalPromiseResolve(resolveValue)
   }
 }
 
 const triggerClosePopup = (instance) => {
-  const popup = dom.getPopup();
+  const popup = dom.getPopup()
 
   if (!popup) {
-    return false;
+    return false
   }
 
-  const innerParams = privateProps.innerParams.get(instance);
+  const innerParams = privateProps.innerParams.get(instance)
   if (!innerParams || dom.hasClass(popup, innerParams.hideClass.popup)) {
-    return false;
+    return false
   }
 
-  dom.removeClass(popup, innerParams.showClass.popup);
-  dom.addClass(popup, innerParams.hideClass.popup);
+  dom.removeClass(popup, innerParams.showClass.popup)
+  dom.addClass(popup, innerParams.hideClass.popup)
 
-  const backdrop = dom.getContainer();
-  dom.removeClass(backdrop, innerParams.showClass.backdrop);
-  dom.addClass(backdrop, innerParams.hideClass.backdrop);
+  const backdrop = dom.getContainer()
+  dom.removeClass(backdrop, innerParams.showClass.backdrop)
+  dom.addClass(backdrop, innerParams.hideClass.backdrop)
 
-  handlePopupAnimation(instance, popup, innerParams);
+  handlePopupAnimation(instance, popup, innerParams)
 
-  return true;
-};
+  return true
+}
 
 /**
  * @param {any} error
  */
 export function rejectPromise(error) {
-  const rejectPromise = privateMethods.swalPromiseReject.get(this);
-  handleAwaitingPromise(this);
+  const rejectPromise = privateMethods.swalPromiseReject.get(this)
+  handleAwaitingPromise(this)
   if (rejectPromise) {
     // Reject Swal promise
-    rejectPromise(error);
+    rejectPromise(error)
   }
 }
 
@@ -117,13 +117,13 @@ export function rejectPromise(error) {
  */
 export const handleAwaitingPromise = (instance) => {
   if (instance.isAwaitingPromise) {
-    delete instance.isAwaitingPromise;
+    delete instance.isAwaitingPromise
     // The instance might have been previously partly destroyed, we must resume the destroy process in this case #2335
     if (!privateProps.innerParams.get(instance)) {
-      instance._destroy();
+      instance._destroy()
     }
   }
-};
+}
 
 /**
  * @param {any} resolveValue
@@ -135,19 +135,19 @@ const prepareResolveValue = (resolveValue) => {
     return {
       isConfirmed: false,
       isDenied: false,
-      isDismissed: true
-    };
+      isDismissed: true,
+    }
   }
 
   return Object.assign(
     {
       isConfirmed: false,
       isDenied: false,
-      isDismissed: false
+      isDismissed: false,
     },
     resolveValue
-  );
-};
+  )
+}
 
 /**
  * @param {SweetAlert} instance
@@ -155,21 +155,21 @@ const prepareResolveValue = (resolveValue) => {
  * @param {SweetAlertOptions} innerParams
  */
 const handlePopupAnimation = (instance, popup, innerParams) => {
-  const container = dom.getContainer();
+  const container = dom.getContainer()
   // If animation is supported, animate
-  const animationIsSupported = dom.animationEndEvent && dom.hasCssAnimation(popup);
+  const animationIsSupported = dom.animationEndEvent && dom.hasCssAnimation(popup)
 
   if (typeof innerParams.willClose === 'function') {
-    innerParams.willClose(popup);
+    innerParams.willClose(popup)
   }
 
   if (animationIsSupported) {
-    animatePopup(instance, popup, container, innerParams.returnFocus, innerParams.didClose);
+    animatePopup(instance, popup, container, innerParams.returnFocus, innerParams.didClose)
   } else {
     // Otherwise, remove immediately
-    removePopupAndResetState(instance, container, innerParams.returnFocus, innerParams.didClose);
+    removePopupAndResetState(instance, container, innerParams.returnFocus, innerParams.didClose)
   }
-};
+}
 
 /**
  * @param {SweetAlert} instance
@@ -180,7 +180,7 @@ const handlePopupAnimation = (instance, popup, innerParams) => {
  */
 const animatePopup = (instance, popup, container, returnFocus, didClose) => {
   if (!dom.animationEndEvent) {
-    return;
+    return
   }
   globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(
     null,
@@ -188,14 +188,14 @@ const animatePopup = (instance, popup, container, returnFocus, didClose) => {
     container,
     returnFocus,
     didClose
-  );
+  )
   popup.addEventListener(dom.animationEndEvent, function (e) {
     if (e.target === popup) {
-      globalState.swalCloseEventFinishedCallback();
-      delete globalState.swalCloseEventFinishedCallback;
+      globalState.swalCloseEventFinishedCallback()
+      delete globalState.swalCloseEventFinishedCallback
     }
-  });
-};
+  })
+}
 
 /**
  * @param {SweetAlert} instance
@@ -204,13 +204,13 @@ const animatePopup = (instance, popup, container, returnFocus, didClose) => {
 const triggerDidCloseAndDispose = (instance, didClose) => {
   setTimeout(() => {
     if (typeof didClose === 'function') {
-      didClose.bind(instance.params)();
+      didClose.bind(instance.params)()
     }
     // instance might have been destroyed already
     if (instance._destroy) {
-      instance._destroy();
+      instance._destroy()
     }
-  });
-};
+  })
+}
 
-export { close as closePopup, close as closeModal, close as closeToast };
+export { close as closePopup, close as closeModal, close as closeToast }

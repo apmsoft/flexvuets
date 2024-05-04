@@ -1,7 +1,7 @@
 Prism.languages.jsonp = Prism.languages.extend('json', {
-  'punctuation': /[{}[\]();,.]/
+	'punctuation': /[{}[\]();,.]/
 });
 
 Prism.languages.insertBefore('jsonp', 'punctuation', {
-  'function': /[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*\()/
+	'function': /[_$a-zA-Z\xA0-\uFFFF][$\w\xA0-\uFFFF]*(?=\s*\()/
 });

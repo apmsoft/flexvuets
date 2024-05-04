@@ -1,8 +1,8 @@
 import {
   Base,
-  WordArray } from "./core.js";
-
-import { MD5Algo } from "./md5.js";
+  WordArray,
+} from './core.js';
+import { MD5Algo } from './md5.js';
 
 /**
  * This key derivation function is meant to conform with EVP_BytesToKey.
@@ -35,9 +35,9 @@ export class EvpKDFAlgo extends Base {
       {
         keySize: 128 / 32,
         hasher: MD5Algo,
-        iterations: 1
+        iterations: 1,
       },
-      cfg
+      cfg,
     );
   }
 

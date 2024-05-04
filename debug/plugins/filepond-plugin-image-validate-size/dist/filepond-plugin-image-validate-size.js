@@ -6,14 +6,14 @@
 
 /* eslint-disable */
 
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ?
-  module.exports = factory() :
-  typeof define === 'function' && define.amd ?
-  define(factory) : (
-  global = global || self,
-  global.FilePondPluginImageValidateSize = factory());
-})(this, function () {
+(function(global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined'
+    ? (module.exports = factory())
+    : typeof define === 'function' && define.amd
+    ? define(factory)
+    : ((global = global || self),
+      (global.FilePondPluginImageValidateSize = factory()));
+})(this, function() {
   'use strict';
 
   // test if file is of type image
@@ -22,14 +22,14 @@
   };
 
   var getImageSize = function getImageSize(file) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       var image = document.createElement('img');
       image.src = URL.createObjectURL(file);
-      image.onerror = function (err) {
+      image.onerror = function(err) {
         clearInterval(intervalId);
         reject(err);
       };
-      var intervalId = setInterval(function () {
+      var intervalId = setInterval(function() {
         if (image.naturalWidth && image.naturalHeight) {
           clearInterval(intervalId);
           URL.revokeObjectURL(image.src);
@@ -52,7 +52,7 @@
 
     // required file size
     var validateFile = function validateFile(file, bounds, measure) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         var onReceiveSize = function onReceiveSize(_ref2) {
           var width = _ref2.width,
             height = _ref2.height;
@@ -80,36 +80,36 @@
           resolve();
         };
 
-        getImageSize(file).
-        then(onReceiveSize).
-        catch(function () {
-          // no custom measure method supplied, exit here
-          if (!measure) {
-            reject();
-            return;
-          }
+        getImageSize(file)
+          .then(onReceiveSize)
+          .catch(function() {
+            // no custom measure method supplied, exit here
+            if (!measure) {
+              reject();
+              return;
+            }
 
-          // try fallback if defined by user, else reject
-          measure(file, bounds).
-          then(onReceiveSize).
-          catch(function () {
-            return reject();
+            // try fallback if defined by user, else reject
+            measure(file, bounds)
+              .then(onReceiveSize)
+              .catch(function() {
+                return reject();
+              });
           });
-        });
       });
     };
 
     // called for each file that is loaded
     // right before it is set to the item state
     // should return a promise
-    addFilter('LOAD_FILE', function (file, _ref3) {
+    addFilter('LOAD_FILE', function(file, _ref3) {
       var query = _ref3.query;
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         if (
-        !isFile(file) ||
-        !isImage(file) ||
-        !query('GET_ALLOW_IMAGE_VALIDATE_SIZE'))
-        {
+          !isFile(file) ||
+          !isImage(file) ||
+          !query('GET_ALLOW_IMAGE_VALIDATE_SIZE')
+        ) {
           resolve(file);
           return;
         }
@@ -127,63 +127,63 @@
         // get optional custom measure function
         var measure = query('GET_IMAGE_VALIDATE_SIZE_MEASURE');
 
-        validateFile(file, bounds, measure).
-        then(function () {
-          resolve(file);
-        }).
-        catch(function (error) {
-          var status = error ?
-          {
-            TOO_SMALL: {
-              label: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_SIZE_TOO_SMALL'
-              ),
-              details: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MIN_SIZE'
-              )
-            },
+        validateFile(file, bounds, measure)
+          .then(function() {
+            resolve(file);
+          })
+          .catch(function(error) {
+            var status = error
+              ? {
+                  TOO_SMALL: {
+                    label: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_SIZE_TOO_SMALL'
+                    ),
+                    details: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MIN_SIZE'
+                    )
+                  },
 
-            TOO_BIG: {
-              label: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_SIZE_TOO_BIG'
-              ),
-              details: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MAX_SIZE'
-              )
-            },
+                  TOO_BIG: {
+                    label: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_SIZE_TOO_BIG'
+                    ),
+                    details: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MAX_SIZE'
+                    )
+                  },
 
-            TOO_LOW_RES: {
-              label: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_RESOLUTION_TOO_LOW'
-              ),
-              details: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MIN_RESOLUTION'
-              )
-            },
+                  TOO_LOW_RES: {
+                    label: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_RESOLUTION_TOO_LOW'
+                    ),
+                    details: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MIN_RESOLUTION'
+                    )
+                  },
 
-            TOO_HIGH_RES: {
-              label: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_RESOLUTION_TOO_HIGH'
-              ),
-              details: query(
-                'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MAX_RESOLUTION'
-              )
-            }
-          }[error] :
-          {
-            label: query('GET_IMAGE_VALIDATE_SIZE_LABEL_FORMAT_ERROR'),
-            details: file.type
-          };
+                  TOO_HIGH_RES: {
+                    label: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_IMAGE_RESOLUTION_TOO_HIGH'
+                    ),
+                    details: query(
+                      'GET_IMAGE_VALIDATE_SIZE_LABEL_EXPECTED_MAX_RESOLUTION'
+                    )
+                  }
+                }[error]
+              : {
+                  label: query('GET_IMAGE_VALIDATE_SIZE_LABEL_FORMAT_ERROR'),
+                  details: file.type
+                };
 
-          reject({
-            status: {
-              main: status.label,
-              sub: error ?
-              replaceInString(status.details, bounds) :
-              status.details
-            }
+            reject({
+              status: {
+                main: status.label,
+                sub: error
+                  ? replaceInString(status.details, bounds)
+                  : status.details
+              }
+            });
           });
-        });
       });
     });
 
@@ -196,9 +196,9 @@
 
         // Error thrown when image can not be loaded
         imageValidateSizeLabelFormatError: [
-        'Image type not supported',
-        Type.STRING],
-
+          'Image type not supported',
+          Type.STRING
+        ],
 
         // Custom function to use as image measure
         imageValidateSizeMeasure: [null, Type.FUNCTION],
@@ -207,21 +207,21 @@
         imageValidateSizeMinResolution: [null, Type.INT],
         imageValidateSizeMaxResolution: [null, Type.INT],
         imageValidateSizeLabelImageResolutionTooLow: [
-        'Resolution is too low',
-        Type.STRING],
-
+          'Resolution is too low',
+          Type.STRING
+        ],
         imageValidateSizeLabelImageResolutionTooHigh: [
-        'Resolution is too high',
-        Type.STRING],
-
+          'Resolution is too high',
+          Type.STRING
+        ],
         imageValidateSizeLabelExpectedMinResolution: [
-        'Minimum resolution is {minResolution}',
-        Type.STRING],
-
+          'Minimum resolution is {minResolution}',
+          Type.STRING
+        ],
         imageValidateSizeLabelExpectedMaxResolution: [
-        'Maximum resolution is {maxResolution}',
-        Type.STRING],
-
+          'Maximum resolution is {maxResolution}',
+          Type.STRING
+        ],
 
         // Required dimensions
         imageValidateSizeMinWidth: [1, Type.INT], // needs to be at least one pixel
@@ -231,28 +231,28 @@
 
         // Label to show when an image is too small or image is too big
         imageValidateSizeLabelImageSizeTooSmall: [
-        'Image is too small',
-        Type.STRING],
-
+          'Image is too small',
+          Type.STRING
+        ],
         imageValidateSizeLabelImageSizeTooBig: [
-        'Image is too big',
-        Type.STRING],
-
+          'Image is too big',
+          Type.STRING
+        ],
         imageValidateSizeLabelExpectedMinSize: [
-        'Minimum size is {minWidth} × {minHeight}',
-        Type.STRING],
-
+          'Minimum size is {minWidth} × {minHeight}',
+          Type.STRING
+        ],
         imageValidateSizeLabelExpectedMaxSize: [
-        'Maximum size is {maxWidth} × {maxHeight}',
-        Type.STRING]
-
+          'Maximum size is {maxWidth} × {maxHeight}',
+          Type.STRING
+        ]
       }
     };
   };
 
   // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
   var isBrowser =
-  typeof window !== 'undefined' && typeof window.document !== 'undefined';
+    typeof window !== 'undefined' && typeof window.document !== 'undefined';
   if (isBrowser) {
     document.dispatchEvent(
       new CustomEvent('FilePond:pluginloaded', { detail: plugin })

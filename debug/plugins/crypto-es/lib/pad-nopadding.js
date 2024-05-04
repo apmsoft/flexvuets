@@ -6,5 +6,5 @@ export const NoPadding = {
   },
 
   unpad() {
-  }
+  },
 };

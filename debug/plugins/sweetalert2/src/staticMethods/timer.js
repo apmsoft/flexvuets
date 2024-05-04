@@ -1,5 +1,5 @@
-import globalState from "../globalState.js";
-import { animateTimerProgressBar, stopTimerProgressBar } from "../utils/dom/domUtils.js";
+import globalState from '../globalState.js'
+import { animateTimerProgressBar, stopTimerProgressBar } from '../utils/dom/domUtils.js'
 
 /**
  * If `timer` parameter is set, returns number of milliseconds of timer remained.
@@ -8,8 +8,8 @@ import { animateTimerProgressBar, stopTimerProgressBar } from "../utils/dom/domU
  * @returns {number | undefined}
  */
 export const getTimerLeft = () => {
-  return globalState.timeout && globalState.timeout.getTimerLeft();
-};
+  return globalState.timeout && globalState.timeout.getTimerLeft()
+}
 
 /**
  * Stop timer. Returns number of milliseconds of timer remained.
@@ -19,10 +19,10 @@ export const getTimerLeft = () => {
  */
 export const stopTimer = () => {
   if (globalState.timeout) {
-    stopTimerProgressBar();
-    return globalState.timeout.stop();
+    stopTimerProgressBar()
+    return globalState.timeout.stop()
   }
-};
+}
 
 /**
  * Resume timer. Returns number of milliseconds of timer remained.
@@ -32,11 +32,11 @@ export const stopTimer = () => {
  */
 export const resumeTimer = () => {
   if (globalState.timeout) {
-    const remaining = globalState.timeout.start();
-    animateTimerProgressBar(remaining);
-    return remaining;
+    const remaining = globalState.timeout.start()
+    animateTimerProgressBar(remaining)
+    return remaining
   }
-};
+}
 
 /**
  * Resume timer. Returns number of milliseconds of timer remained.
@@ -45,9 +45,9 @@ export const resumeTimer = () => {
  * @returns {number | undefined}
  */
 export const toggleTimer = () => {
-  const timer = globalState.timeout;
-  return timer && (timer.running ? stopTimer() : resumeTimer());
-};
+  const timer = globalState.timeout
+  return timer && (timer.running ? stopTimer() : resumeTimer())
+}
 
 /**
  * Increase timer. Returns number of milliseconds of an updated timer.
@@ -58,11 +58,11 @@ export const toggleTimer = () => {
  */
 export const increaseTimer = (ms) => {
   if (globalState.timeout) {
-    const remaining = globalState.timeout.increase(ms);
-    animateTimerProgressBar(remaining, true);
-    return remaining;
+    const remaining = globalState.timeout.increase(ms)
+    animateTimerProgressBar(remaining, true)
+    return remaining
   }
-};
+}
 
 /**
  * Check if timer is running. Returns true if timer is running
@@ -72,5 +72,5 @@ export const increaseTimer = (ms) => {
  * @returns {boolean}
  */
 export const isTimerRunning = () => {
-  return !!(globalState.timeout && globalState.timeout.isRunning());
-};
+  return !!(globalState.timeout && globalState.timeout.isRunning())
+}

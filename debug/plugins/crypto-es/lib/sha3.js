@@ -1,8 +1,8 @@
 import {
   WordArray,
-  Hasher } from "./core.js";
-
-import { X64Word } from "./x64-core.js";
+  Hasher,
+} from './core.js';
+import { X64Word } from './x64-core.js';
 
 // Constants tables
 const RHO_OFFSETS = [];
@@ -14,7 +14,7 @@ const ROUND_CONSTANTS = [];
 let _x = 1;
 let _y = 0;
 for (let t = 0; t < 24; t += 1) {
-  RHO_OFFSETS[_x + 5 * _y] = (t + 1) * (t + 2) / 2 % 64;
+  RHO_OFFSETS[_x + 5 * _y] = ((t + 1) * (t + 2) / 2) % 64;
 
   const newX = _y % 5;
   const newY = (2 * _x + 3 * _y) % 5;
@@ -25,7 +25,7 @@ for (let t = 0; t < 24; t += 1) {
 // Compute pi index constants
 for (let x = 0; x < 5; x += 1) {
   for (let y = 0; y < 5; y += 1) {
-    PI_INDEXES[x + 5 * y] = y + (2 * x + 3 * y) % 5 * 5;
+    PI_INDEXES[x + 5 * y] = y + ((2 * x + 3 * y) % 5) * 5;
   }
 }
 
@@ -40,15 +40,15 @@ for (let i = 0; i < 24; i += 1) {
       const bitPosition = (1 << j) - 1;
       if (bitPosition < 32) {
         roundConstantLsw ^= 1 << bitPosition;
-      } else /* if (bitPosition >= 32) */{
-          roundConstantMsw ^= 1 << bitPosition - 32;
-        }
+      } else /* if (bitPosition >= 32) */ {
+        roundConstantMsw ^= 1 << (bitPosition - 32);
+      }
     }
 
     // Compute next LFSR
     if (LFSR & 0x80) {
       // Primitive polynomial over GF(2): x^8 + x^6 + x^5 + x^4 + 1
-      LFSR = LFSR << 1 ^ 0x71;
+      LFSR = (LFSR << 1) ^ 0x71;
     } else {
       LFSR <<= 1;
     }
@@ -78,7 +78,7 @@ export class SHA3Algo extends Hasher {
      */
     super(Object.assign(
       { outputLength: 512 },
-      cfg
+      cfg,
     ));
   }
 
@@ -104,10 +104,10 @@ export class SHA3Algo extends Hasher {
       let M2i1 = M[offset + 2 * i + 1];
 
       // Swap endian
-      M2i = (M2i << 8 | M2i >>> 24) & 0x00ff00ff |
-      (M2i << 24 | M2i >>> 8) & 0xff00ff00;
-      M2i1 = (M2i1 << 8 | M2i1 >>> 24) & 0x00ff00ff |
-      (M2i1 << 24 | M2i1 >>> 8) & 0xff00ff00;
+      M2i = (((M2i << 8) | (M2i >>> 24)) & 0x00ff00ff)
+        | (((M2i << 24) | (M2i >>> 8)) & 0xff00ff00);
+      M2i1 = (((M2i1 << 8) | (M2i1 >>> 24)) & 0x00ff00ff)
+        | (((M2i1 << 24) | (M2i1 >>> 8)) & 0xff00ff00);
 
       // Absorb message into state
       const lane = state[i];
@@ -141,8 +141,8 @@ export class SHA3Algo extends Hasher {
         const Tx1Lsw = Tx1.low;
 
         // Mix surrounding columns
-        const tMsw = Tx4.high ^ (Tx1Msw << 1 | Tx1Lsw >>> 31);
-        const tLsw = Tx4.low ^ (Tx1Lsw << 1 | Tx1Msw >>> 31);
+        const tMsw = Tx4.high ^ ((Tx1Msw << 1) | (Tx1Lsw >>> 31));
+        const tLsw = Tx4.low ^ ((Tx1Lsw << 1) | (Tx1Msw >>> 31));
         for (let y = 0; y < 5; y += 1) {
           const lane = state[x + 5 * y];
           lane.high ^= tMsw;
@@ -163,12 +163,12 @@ export class SHA3Algo extends Hasher {
 
         // Rotate lanes
         if (rhoOffset < 32) {
-          tMsw = laneMsw << rhoOffset | laneLsw >>> 32 - rhoOffset;
-          tLsw = laneLsw << rhoOffset | laneMsw >>> 32 - rhoOffset;
-        } else /* if (rhoOffset >= 32) */{
-            tMsw = laneLsw << rhoOffset - 32 | laneMsw >>> 64 - rhoOffset;
-            tLsw = laneMsw << rhoOffset - 32 | laneLsw >>> 64 - rhoOffset;
-          }
+          tMsw = (laneMsw << rhoOffset) | (laneLsw >>> (32 - rhoOffset));
+          tLsw = (laneLsw << rhoOffset) | (laneMsw >>> (32 - rhoOffset));
+        } else /* if (rhoOffset >= 32) */ {
+          tMsw = (laneLsw << (rhoOffset - 32)) | (laneMsw >>> (64 - rhoOffset));
+          tLsw = (laneMsw << (rhoOffset - 32)) | (laneLsw >>> (64 - rhoOffset));
+        }
 
         // Transpose lanes
         const TPiLane = T[PI_INDEXES[laneIndex]];
@@ -189,12 +189,12 @@ export class SHA3Algo extends Hasher {
           const laneIndex = x + 5 * y;
           const lane = state[laneIndex];
           const TLane = T[laneIndex];
-          const Tx1Lane = T[(x + 1) % 5 + 5 * y];
-          const Tx2Lane = T[(x + 2) % 5 + 5 * y];
+          const Tx1Lane = T[((x + 1) % 5) + 5 * y];
+          const Tx2Lane = T[((x + 2) % 5) + 5 * y];
 
           // Mix rows
-          lane.high = TLane.high ^ ~Tx1Lane.high & Tx2Lane.high;
-          lane.low = TLane.low ^ ~Tx1Lane.low & Tx2Lane.low;
+          lane.high = TLane.high ^ (~Tx1Lane.high & Tx2Lane.high);
+          lane.low = TLane.low ^ (~Tx1Lane.low & Tx2Lane.low);
         }
       }
 
@@ -214,8 +214,8 @@ export class SHA3Algo extends Hasher {
     const blockSizeBits = this.blockSize * 32;
 
     // Add padding
-    dataWords[nBitsLeft >>> 5] |= 0x1 << 24 - nBitsLeft % 32;
-    dataWords[(Math.ceil((nBitsLeft + 1) / blockSizeBits) * blockSizeBits >>> 5) - 1] |= 0x80;
+    dataWords[nBitsLeft >>> 5] |= 0x1 << (24 - (nBitsLeft % 32));
+    dataWords[((Math.ceil((nBitsLeft + 1) / blockSizeBits) * blockSizeBits) >>> 5) - 1] |= 0x80;
     data.sigBytes = dataWords.length * 4;
 
     // Hash final blocks
@@ -235,10 +235,10 @@ export class SHA3Algo extends Hasher {
       let laneLsw = lane.low;
 
       // Swap endian
-      laneMsw = (laneMsw << 8 | laneMsw >>> 24) & 0x00ff00ff |
-      (laneMsw << 24 | laneMsw >>> 8) & 0xff00ff00;
-      laneLsw = (laneLsw << 8 | laneLsw >>> 24) & 0x00ff00ff |
-      (laneLsw << 24 | laneLsw >>> 8) & 0xff00ff00;
+      laneMsw = (((laneMsw << 8) | (laneMsw >>> 24)) & 0x00ff00ff)
+        | (((laneMsw << 24) | (laneMsw >>> 8)) & 0xff00ff00);
+      laneLsw = (((laneLsw << 8) | (laneLsw >>> 24)) & 0x00ff00ff)
+        | (((laneLsw << 24) | (laneLsw >>> 8)) & 0xff00ff00);
 
       // Squeeze state to retrieve hash
       hashWords.push(laneLsw);

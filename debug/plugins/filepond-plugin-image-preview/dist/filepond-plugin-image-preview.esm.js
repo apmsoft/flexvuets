@@ -7,13 +7,13 @@
 /* eslint-disable */
 
 // test if file is of type image and can be viewed in canvas
-const isPreviewableImage = (file) => /^image/.test(file.type);
+const isPreviewableImage = file => /^image/.test(file.type);
 
 const vectorMultiply = (v, amount) => createVector(v.x * amount, v.y * amount);
 
 const vectorAdd = (a, b) => createVector(a.x + b.x, a.y + b.y);
 
-const vectorNormalize = (v) => {
+const vectorNormalize = v => {
   const l = Math.sqrt(v.x * v.x + v.y * v.y);
   if (l === 0) {
     return {
@@ -58,9 +58,9 @@ const getMarkupStyles = (markup, size, scale) => {
   const lineCap = markup.lineCap || 'round';
   const lineJoin = markup.lineJoin || 'round';
   const dashes =
-  typeof lineStyle === 'string' ?
-  '' :
-  lineStyle.map((v) => getMarkupValue(v, size, scale)).join(',');
+    typeof lineStyle === 'string'
+      ? ''
+      : lineStyle.map(v => getMarkupValue(v, size, scale)).join(',');
   const opacity = markup.opacity || 1;
   return {
     'stroke-linecap': lineCap,
@@ -73,15 +73,15 @@ const getMarkupStyles = (markup, size, scale) => {
   };
 };
 
-const isDefined = (value) => value != null;
+const isDefined = value => value != null;
 
 const getMarkupRect = (rect, size, scalar = 1) => {
   let left =
-  getMarkupValue(rect.x, size, scalar, 'width') ||
-  getMarkupValue(rect.left, size, scalar, 'width');
+    getMarkupValue(rect.x, size, scalar, 'width') ||
+    getMarkupValue(rect.left, size, scalar, 'width');
   let top =
-  getMarkupValue(rect.y, size, scalar, 'height') ||
-  getMarkupValue(rect.top, size, scalar, 'height');
+    getMarkupValue(rect.y, size, scalar, 'height') ||
+    getMarkupValue(rect.top, size, scalar, 'height');
   let width = getMarkupValue(rect.width, size, scalar, 'width');
   let height = getMarkupValue(rect.height, size, scalar, 'height');
   let right = getMarkupValue(rect.right, size, scalar, 'width');
@@ -127,13 +127,13 @@ const getMarkupRect = (rect, size, scalar = 1) => {
   };
 };
 
-const pointsToPathShape = (points) =>
-points.
-map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).
-join(' ');
+const pointsToPathShape = points =>
+  points
+    .map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`)
+    .join(' ');
 
 const setAttributes = (element, attr) =>
-Object.keys(attr).forEach((key) => element.setAttribute(key, attr[key]));
+  Object.keys(attr).forEach(key => element.setAttribute(key, attr[key]));
 
 const ns = 'http://www.w3.org/2000/svg';
 const svg = (tag, attr) => {
@@ -144,13 +144,13 @@ const svg = (tag, attr) => {
   return element;
 };
 
-const updateRect = (element) =>
-setAttributes(element, {
-  ...element.rect,
-  ...element.styles
-});
+const updateRect = element =>
+  setAttributes(element, {
+    ...element.rect,
+    ...element.styles
+  });
 
-const updateEllipse = (element) => {
+const updateEllipse = element => {
   const cx = element.rect.x + element.rect.width * 0.5;
   const cy = element.rect.y + element.rect.height * 0.5;
   const rx = element.rect.width * 0.5;
@@ -252,7 +252,7 @@ const updateLine = (element, markup, size, scale) => {
     setAttributes(begin, {
       style: 'display:block;',
       d: `M${arrowBeginA.x},${arrowBeginA.y} L${origin.x},${origin.y} L${
-      arrowBeginB.x
+        arrowBeginB.x
       },${arrowBeginB.y}`
     });
   }
@@ -266,7 +266,7 @@ const updateLine = (element, markup, size, scale) => {
     setAttributes(end, {
       style: 'display:block;',
       d: `M${arrowEndA.x},${arrowEndA.y} L${target.x},${target.y} L${
-      arrowEndB.x
+        arrowEndB.x
       },${arrowEndB.y}`
     });
   }
@@ -277,7 +277,7 @@ const updatePath = (element, markup, size, scale) => {
     ...element.styles,
     fill: 'none',
     d: pointsToPathShape(
-      markup.points.map((point) => ({
+      markup.points.map(point => ({
         x: getMarkupValue(point.x, size, scale, 'width'),
         y: getMarkupValue(point.y, size, scale, 'height')
       }))
@@ -285,9 +285,9 @@ const updatePath = (element, markup, size, scale) => {
   });
 };
 
-const createShape = (node) => (markup) => svg(node, { id: markup.id });
+const createShape = node => markup => svg(node, { id: markup.id });
 
-const createImage = (markup) => {
+const createImage = markup => {
   const shape = svg('image', {
     id: markup.id,
     'stroke-linecap': 'round',
@@ -305,7 +305,7 @@ const createImage = (markup) => {
   return shape;
 };
 
-const createLine = (markup) => {
+const createLine = markup => {
   const shape = svg('g', {
     id: markup.id,
     'stroke-linecap': 'round',
@@ -353,40 +353,40 @@ const updateMarkupByType = (element, type, markup, size, scale) => {
 };
 
 const MARKUP_RECT = [
-'x',
-'y',
-'left',
-'top',
-'right',
-'bottom',
-'width',
-'height'];
+  'x',
+  'y',
+  'left',
+  'top',
+  'right',
+  'bottom',
+  'width',
+  'height'
+];
 
-
-const toOptionalFraction = (value) =>
-typeof value === 'string' && /%/.test(value) ?
-parseFloat(value) / 100 :
-value;
+const toOptionalFraction = value =>
+  typeof value === 'string' && /%/.test(value)
+    ? parseFloat(value) / 100
+    : value;
 
 // adds default markup properties, clones markup
-const prepareMarkup = (markup) => {
+const prepareMarkup = markup => {
   const [type, props] = markup;
 
-  const rect = props.points ?
-  {} :
-  MARKUP_RECT.reduce((prev, curr) => {
-    prev[curr] = toOptionalFraction(props[curr]);
-    return prev;
-  }, {});
+  const rect = props.points
+    ? {}
+    : MARKUP_RECT.reduce((prev, curr) => {
+        prev[curr] = toOptionalFraction(props[curr]);
+        return prev;
+      }, {});
 
   return [
-  type,
-  {
-    zIndex: 0,
-    ...props,
-    ...rect
-  }];
-
+    type,
+    {
+      zIndex: 0,
+      ...props,
+      ...rect
+    }
+  ];
 };
 
 const sortMarkupByZIndex = (a, b) => {
@@ -399,94 +399,94 @@ const sortMarkupByZIndex = (a, b) => {
   return 0;
 };
 
-const createMarkupView = (_) =>
-_.utils.createView({
-  name: 'image-preview-markup',
-  tag: 'svg',
-  ignoreRect: true,
-  mixins: {
-    apis: ['width', 'height', 'crop', 'markup', 'resize', 'dirty']
-  },
-  write: ({ root, props }) => {
-    if (!props.dirty) return;
+const createMarkupView = _ =>
+  _.utils.createView({
+    name: 'image-preview-markup',
+    tag: 'svg',
+    ignoreRect: true,
+    mixins: {
+      apis: ['width', 'height', 'crop', 'markup', 'resize', 'dirty']
+    },
+    write: ({ root, props }) => {
+      if (!props.dirty) return;
 
-    const { crop, resize, markup } = props;
+      const { crop, resize, markup } = props;
 
-    const viewWidth = props.width;
-    const viewHeight = props.height;
+      const viewWidth = props.width;
+      const viewHeight = props.height;
 
-    let cropWidth = crop.width;
-    let cropHeight = crop.height;
+      let cropWidth = crop.width;
+      let cropHeight = crop.height;
 
-    if (resize) {
-      const { size } = resize;
+      if (resize) {
+        const { size } = resize;
 
-      let outputWidth = size && size.width;
-      let outputHeight = size && size.height;
-      const outputFit = resize.mode;
-      const outputUpscale = resize.upscale;
+        let outputWidth = size && size.width;
+        let outputHeight = size && size.height;
+        const outputFit = resize.mode;
+        const outputUpscale = resize.upscale;
 
-      if (outputWidth && !outputHeight) outputHeight = outputWidth;
-      if (outputHeight && !outputWidth) outputWidth = outputHeight;
+        if (outputWidth && !outputHeight) outputHeight = outputWidth;
+        if (outputHeight && !outputWidth) outputWidth = outputHeight;
 
-      const shouldUpscale =
-      cropWidth < outputWidth && cropHeight < outputHeight;
+        const shouldUpscale =
+          cropWidth < outputWidth && cropHeight < outputHeight;
 
-      if (!shouldUpscale || shouldUpscale && outputUpscale) {
-        let scalarWidth = outputWidth / cropWidth;
-        let scalarHeight = outputHeight / cropHeight;
+        if (!shouldUpscale || (shouldUpscale && outputUpscale)) {
+          let scalarWidth = outputWidth / cropWidth;
+          let scalarHeight = outputHeight / cropHeight;
 
-        if (outputFit === 'force') {
-          cropWidth = outputWidth;
-          cropHeight = outputHeight;
-        } else {
-          let scalar;
-          if (outputFit === 'cover') {
-            scalar = Math.max(scalarWidth, scalarHeight);
-          } else if (outputFit === 'contain') {
-            scalar = Math.min(scalarWidth, scalarHeight);
+          if (outputFit === 'force') {
+            cropWidth = outputWidth;
+            cropHeight = outputHeight;
+          } else {
+            let scalar;
+            if (outputFit === 'cover') {
+              scalar = Math.max(scalarWidth, scalarHeight);
+            } else if (outputFit === 'contain') {
+              scalar = Math.min(scalarWidth, scalarHeight);
+            }
+            cropWidth = cropWidth * scalar;
+            cropHeight = cropHeight * scalar;
           }
-          cropWidth = cropWidth * scalar;
-          cropHeight = cropHeight * scalar;
         }
       }
+
+      const size = {
+        width: viewWidth,
+        height: viewHeight
+      };
+
+      root.element.setAttribute('width', size.width);
+      root.element.setAttribute('height', size.height);
+
+      const scale = Math.min(viewWidth / cropWidth, viewHeight / cropHeight);
+
+      // clear
+      root.element.innerHTML = '';
+
+      // get filter
+      const markupFilter = root.query('GET_IMAGE_PREVIEW_MARKUP_FILTER');
+
+      // draw new
+      markup
+        .filter(markupFilter)
+        .map(prepareMarkup)
+        .sort(sortMarkupByZIndex)
+        .forEach(markup => {
+          const [type, settings] = markup;
+
+          // create
+          const element = createMarkupByType(type, settings);
+
+          // update
+          updateMarkupByType(element, type, settings, size, scale);
+
+          // add
+          root.element.appendChild(element);
+        });
     }
-
-    const size = {
-      width: viewWidth,
-      height: viewHeight
-    };
-
-    root.element.setAttribute('width', size.width);
-    root.element.setAttribute('height', size.height);
-
-    const scale = Math.min(viewWidth / cropWidth, viewHeight / cropHeight);
-
-    // clear
-    root.element.innerHTML = '';
-
-    // get filter
-    const markupFilter = root.query('GET_IMAGE_PREVIEW_MARKUP_FILTER');
-
-    // draw new
-    markup.
-    filter(markupFilter).
-    map(prepareMarkup).
-    sort(sortMarkupByZIndex).
-    forEach((markup) => {
-      const [type, settings] = markup;
-
-      // create
-      const element = createMarkupByType(type, settings);
-
-      // update
-      updateMarkupByType(element, type, settings, size, scale);
-
-      // add
-      root.element.appendChild(element);
-    });
-  }
-});
+  });
 
 const createVector$1 = (x, y) => ({ x, y });
 
@@ -495,7 +495,7 @@ const vectorDot = (a, b) => a.x * b.x + a.y * b.y;
 const vectorSubtract = (a, b) => createVector$1(a.x - b.x, a.y - b.y);
 
 const vectorDistanceSquared = (a, b) =>
-vectorDot(vectorSubtract(a, b), vectorSubtract(a, b));
+  vectorDot(vectorSubtract(a, b), vectorSubtract(a, b));
 
 const vectorDistance = (a, b) => Math.sqrt(vectorDistanceSquared(a, b));
 
@@ -648,292 +648,292 @@ const IMAGE_SCALE_SPRING_PROPS = {
 };
 
 // does horizontal and vertical flipping
-const createBitmapView = (_) =>
-_.utils.createView({
-  name: 'image-bitmap',
-  ignoreRect: true,
-  mixins: { styles: ['scaleX', 'scaleY'] },
-  create: ({ root, props }) => {
-    root.appendChild(props.image);
-  }
-});
+const createBitmapView = _ =>
+  _.utils.createView({
+    name: 'image-bitmap',
+    ignoreRect: true,
+    mixins: { styles: ['scaleX', 'scaleY'] },
+    create: ({ root, props }) => {
+      root.appendChild(props.image);
+    }
+  });
 
 // shifts and rotates image
-const createImageCanvasWrapper = (_) =>
-_.utils.createView({
-  name: 'image-canvas-wrapper',
-  tag: 'div',
-  ignoreRect: true,
-  mixins: {
-    apis: ['crop', 'width', 'height'],
-    styles: [
-    'originX',
-    'originY',
-    'translateX',
-    'translateY',
-    'scaleX',
-    'scaleY',
-    'rotateZ'],
-
-    animations: {
-      originX: IMAGE_SCALE_SPRING_PROPS,
-      originY: IMAGE_SCALE_SPRING_PROPS,
-      scaleX: IMAGE_SCALE_SPRING_PROPS,
-      scaleY: IMAGE_SCALE_SPRING_PROPS,
-      translateX: IMAGE_SCALE_SPRING_PROPS,
-      translateY: IMAGE_SCALE_SPRING_PROPS,
-      rotateZ: IMAGE_SCALE_SPRING_PROPS
+const createImageCanvasWrapper = _ =>
+  _.utils.createView({
+    name: 'image-canvas-wrapper',
+    tag: 'div',
+    ignoreRect: true,
+    mixins: {
+      apis: ['crop', 'width', 'height'],
+      styles: [
+        'originX',
+        'originY',
+        'translateX',
+        'translateY',
+        'scaleX',
+        'scaleY',
+        'rotateZ'
+      ],
+      animations: {
+        originX: IMAGE_SCALE_SPRING_PROPS,
+        originY: IMAGE_SCALE_SPRING_PROPS,
+        scaleX: IMAGE_SCALE_SPRING_PROPS,
+        scaleY: IMAGE_SCALE_SPRING_PROPS,
+        translateX: IMAGE_SCALE_SPRING_PROPS,
+        translateY: IMAGE_SCALE_SPRING_PROPS,
+        rotateZ: IMAGE_SCALE_SPRING_PROPS
+      }
+    },
+    create: ({ root, props }) => {
+      props.width = props.image.width;
+      props.height = props.image.height;
+      root.ref.bitmap = root.appendChildView(
+        root.createChildView(createBitmapView(_), { image: props.image })
+      );
+    },
+    write: ({ root, props }) => {
+      const { flip } = props.crop;
+      const { bitmap } = root.ref;
+      bitmap.scaleX = flip.horizontal ? -1 : 1;
+      bitmap.scaleY = flip.vertical ? -1 : 1;
     }
-  },
-  create: ({ root, props }) => {
-    props.width = props.image.width;
-    props.height = props.image.height;
-    root.ref.bitmap = root.appendChildView(
-      root.createChildView(createBitmapView(_), { image: props.image })
-    );
-  },
-  write: ({ root, props }) => {
-    const { flip } = props.crop;
-    const { bitmap } = root.ref;
-    bitmap.scaleX = flip.horizontal ? -1 : 1;
-    bitmap.scaleY = flip.vertical ? -1 : 1;
-  }
-});
+  });
 
 // clips canvas to correct aspect ratio
-const createClipView = (_) =>
-_.utils.createView({
-  name: 'image-clip',
-  tag: 'div',
-  ignoreRect: true,
-  mixins: {
-    apis: [
-    'crop',
-    'markup',
-    'resize',
-    'width',
-    'height',
-    'dirty',
-    'background'],
-
-    styles: ['width', 'height', 'opacity'],
-    animations: {
-      opacity: { type: 'tween', duration: 250 }
-    }
-  },
-  didWriteView: function ({ root, props }) {
-    if (!props.background) return;
-    root.element.style.backgroundColor = props.background;
-  },
-  create: ({ root, props }) => {
-    root.ref.image = root.appendChildView(
-      root.createChildView(
-        createImageCanvasWrapper(_),
-        Object.assign({}, props)
-      )
-    );
-
-    root.ref.createMarkup = () => {
-      if (root.ref.markup) return;
-      root.ref.markup = root.appendChildView(
-        root.createChildView(createMarkupView(_), Object.assign({}, props))
-      );
-    };
-
-    root.ref.destroyMarkup = () => {
-      if (!root.ref.markup) return;
-      root.removeChildView(root.ref.markup);
-      root.ref.markup = null;
-    };
-
-    // set up transparency grid
-    const transparencyIndicator = root.query(
-      'GET_IMAGE_PREVIEW_TRANSPARENCY_INDICATOR'
-    );
-    if (transparencyIndicator === null) return;
-
-    // grid pattern
-    if (transparencyIndicator === 'grid') {
-      root.element.dataset.transparencyIndicator = transparencyIndicator;
-    }
-    // basic color
-    else {
-      root.element.dataset.transparencyIndicator = 'color';
-    }
-  },
-  write: ({ root, props, shouldOptimize }) => {
-    const { crop, markup, resize, dirty, width, height } = props;
-
-    root.ref.image.crop = crop;
-
-    const stage = {
-      x: 0,
-      y: 0,
-      width,
-      height,
-      center: {
-        x: width * 0.5,
-        y: height * 0.5
+const createClipView = _ =>
+  _.utils.createView({
+    name: 'image-clip',
+    tag: 'div',
+    ignoreRect: true,
+    mixins: {
+      apis: [
+        'crop',
+        'markup',
+        'resize',
+        'width',
+        'height',
+        'dirty',
+        'background'
+      ],
+      styles: ['width', 'height', 'opacity'],
+      animations: {
+        opacity: { type: 'tween', duration: 250 }
       }
-    };
+    },
+    didWriteView: function({ root, props }) {
+      if (!props.background) return;
+      root.element.style.backgroundColor = props.background;
+    },
+    create: ({ root, props }) => {
+      root.ref.image = root.appendChildView(
+        root.createChildView(
+          createImageCanvasWrapper(_),
+          Object.assign({}, props)
+        )
+      );
 
-    const image = {
-      width: root.ref.image.width,
-      height: root.ref.image.height
-    };
+      root.ref.createMarkup = () => {
+        if (root.ref.markup) return;
+        root.ref.markup = root.appendChildView(
+          root.createChildView(createMarkupView(_), Object.assign({}, props))
+        );
+      };
 
-    const origin = {
-      x: crop.center.x * image.width,
-      y: crop.center.y * image.height
-    };
+      root.ref.destroyMarkup = () => {
+        if (!root.ref.markup) return;
+        root.removeChildView(root.ref.markup);
+        root.ref.markup = null;
+      };
 
-    const translation = {
-      x: stage.center.x - image.width * crop.center.x,
-      y: stage.center.y - image.height * crop.center.y
-    };
+      // set up transparency grid
+      const transparencyIndicator = root.query(
+        'GET_IMAGE_PREVIEW_TRANSPARENCY_INDICATOR'
+      );
+      if (transparencyIndicator === null) return;
 
-    const rotation = Math.PI * 2 + crop.rotation % (Math.PI * 2);
+      // grid pattern
+      if (transparencyIndicator === 'grid') {
+        root.element.dataset.transparencyIndicator = transparencyIndicator;
+      }
+      // basic color
+      else {
+        root.element.dataset.transparencyIndicator = 'color';
+      }
+    },
+    write: ({ root, props, shouldOptimize }) => {
+      const { crop, markup, resize, dirty, width, height } = props;
 
-    const cropAspectRatio = crop.aspectRatio || image.height / image.width;
+      root.ref.image.crop = crop;
 
-    const shouldLimit =
-    typeof crop.scaleToFit === 'undefined' || crop.scaleToFit;
+      const stage = {
+        x: 0,
+        y: 0,
+        width,
+        height,
+        center: {
+          x: width * 0.5,
+          y: height * 0.5
+        }
+      };
 
-    const stageZoomFactor = getImageRectZoomFactor(
-      image,
-      getCenteredCropRect(stage, cropAspectRatio),
-      rotation,
-      shouldLimit ? crop.center : { x: 0.5, y: 0.5 }
-    );
+      const image = {
+        width: root.ref.image.width,
+        height: root.ref.image.height
+      };
 
-    const scale = crop.zoom * stageZoomFactor;
+      const origin = {
+        x: crop.center.x * image.width,
+        y: crop.center.y * image.height
+      };
 
-    // update markup view
-    if (markup && markup.length) {
-      root.ref.createMarkup();
-      root.ref.markup.width = width;
-      root.ref.markup.height = height;
-      root.ref.markup.resize = resize;
-      root.ref.markup.dirty = dirty;
-      root.ref.markup.markup = markup;
-      root.ref.markup.crop = getCurrentCropSize(image, crop);
-    } else if (root.ref.markup) {
-      root.ref.destroyMarkup();
+      const translation = {
+        x: stage.center.x - image.width * crop.center.x,
+        y: stage.center.y - image.height * crop.center.y
+      };
+
+      const rotation = Math.PI * 2 + (crop.rotation % (Math.PI * 2));
+
+      const cropAspectRatio = crop.aspectRatio || image.height / image.width;
+
+      const shouldLimit =
+        typeof crop.scaleToFit === 'undefined' || crop.scaleToFit;
+
+      const stageZoomFactor = getImageRectZoomFactor(
+        image,
+        getCenteredCropRect(stage, cropAspectRatio),
+        rotation,
+        shouldLimit ? crop.center : { x: 0.5, y: 0.5 }
+      );
+
+      const scale = crop.zoom * stageZoomFactor;
+
+      // update markup view
+      if (markup && markup.length) {
+        root.ref.createMarkup();
+        root.ref.markup.width = width;
+        root.ref.markup.height = height;
+        root.ref.markup.resize = resize;
+        root.ref.markup.dirty = dirty;
+        root.ref.markup.markup = markup;
+        root.ref.markup.crop = getCurrentCropSize(image, crop);
+      } else if (root.ref.markup) {
+        root.ref.destroyMarkup();
+      }
+
+      // update image view
+      const imageView = root.ref.image;
+
+      // don't update clip layout
+      if (shouldOptimize) {
+        imageView.originX = null;
+        imageView.originY = null;
+        imageView.translateX = null;
+        imageView.translateY = null;
+        imageView.rotateZ = null;
+        imageView.scaleX = null;
+        imageView.scaleY = null;
+        return;
+      }
+
+      imageView.originX = origin.x;
+      imageView.originY = origin.y;
+      imageView.translateX = translation.x;
+      imageView.translateY = translation.y;
+      imageView.rotateZ = rotation;
+      imageView.scaleX = scale;
+      imageView.scaleY = scale;
     }
+  });
 
-    // update image view
-    const imageView = root.ref.image;
+const createImageView = _ =>
+  _.utils.createView({
+    name: 'image-preview',
+    tag: 'div',
+    ignoreRect: true,
+    mixins: {
+      apis: ['image', 'crop', 'markup', 'resize', 'dirty', 'background'],
+      styles: ['translateY', 'scaleX', 'scaleY', 'opacity'],
+      animations: {
+        scaleX: IMAGE_SCALE_SPRING_PROPS,
+        scaleY: IMAGE_SCALE_SPRING_PROPS,
+        translateY: IMAGE_SCALE_SPRING_PROPS,
+        opacity: { type: 'tween', duration: 400 }
+      }
+    },
+    create: ({ root, props }) => {
+      root.ref.clip = root.appendChildView(
+        root.createChildView(createClipView(_), {
+          id: props.id,
+          image: props.image,
+          crop: props.crop,
+          markup: props.markup,
+          resize: props.resize,
+          dirty: props.dirty,
+          background: props.background
+        })
+      );
+    },
+    write: ({ root, props, shouldOptimize }) => {
+      const { clip } = root.ref;
 
-    // don't update clip layout
-    if (shouldOptimize) {
-      imageView.originX = null;
-      imageView.originY = null;
-      imageView.translateX = null;
-      imageView.translateY = null;
-      imageView.rotateZ = null;
-      imageView.scaleX = null;
-      imageView.scaleY = null;
-      return;
+      const { image, crop, markup, resize, dirty } = props;
+
+      clip.crop = crop;
+      clip.markup = markup;
+      clip.resize = resize;
+      clip.dirty = dirty;
+
+      // don't update clip layout
+      clip.opacity = shouldOptimize ? 0 : 1;
+
+      // don't re-render if optimizing or hidden (width will be zero resulting in weird animations)
+      if (shouldOptimize || root.rect.element.hidden) return;
+
+      // calculate scaled preview image size
+      const imageAspectRatio = image.height / image.width;
+      let aspectRatio = crop.aspectRatio || imageAspectRatio;
+
+      // calculate container size
+      const containerWidth = root.rect.inner.width;
+      const containerHeight = root.rect.inner.height;
+
+      let fixedPreviewHeight = root.query('GET_IMAGE_PREVIEW_HEIGHT');
+      const minPreviewHeight = root.query('GET_IMAGE_PREVIEW_MIN_HEIGHT');
+      const maxPreviewHeight = root.query('GET_IMAGE_PREVIEW_MAX_HEIGHT');
+
+      const panelAspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
+      const allowMultiple = root.query('GET_ALLOW_MULTIPLE');
+
+      if (panelAspectRatio && !allowMultiple) {
+        fixedPreviewHeight = containerWidth * panelAspectRatio;
+        aspectRatio = panelAspectRatio;
+      }
+
+      // determine clip width and height
+      let clipHeight =
+        fixedPreviewHeight !== null
+          ? fixedPreviewHeight
+          : Math.max(
+              minPreviewHeight,
+              Math.min(containerWidth * aspectRatio, maxPreviewHeight)
+            );
+
+      let clipWidth = clipHeight / aspectRatio;
+      if (clipWidth > containerWidth) {
+        clipWidth = containerWidth;
+        clipHeight = clipWidth * aspectRatio;
+      }
+
+      if (clipHeight > containerHeight) {
+        clipHeight = containerHeight;
+        clipWidth = containerHeight / aspectRatio;
+      }
+
+      clip.width = clipWidth;
+      clip.height = clipHeight;
     }
-
-    imageView.originX = origin.x;
-    imageView.originY = origin.y;
-    imageView.translateX = translation.x;
-    imageView.translateY = translation.y;
-    imageView.rotateZ = rotation;
-    imageView.scaleX = scale;
-    imageView.scaleY = scale;
-  }
-});
-
-const createImageView = (_) =>
-_.utils.createView({
-  name: 'image-preview',
-  tag: 'div',
-  ignoreRect: true,
-  mixins: {
-    apis: ['image', 'crop', 'markup', 'resize', 'dirty', 'background'],
-    styles: ['translateY', 'scaleX', 'scaleY', 'opacity'],
-    animations: {
-      scaleX: IMAGE_SCALE_SPRING_PROPS,
-      scaleY: IMAGE_SCALE_SPRING_PROPS,
-      translateY: IMAGE_SCALE_SPRING_PROPS,
-      opacity: { type: 'tween', duration: 400 }
-    }
-  },
-  create: ({ root, props }) => {
-    root.ref.clip = root.appendChildView(
-      root.createChildView(createClipView(_), {
-        id: props.id,
-        image: props.image,
-        crop: props.crop,
-        markup: props.markup,
-        resize: props.resize,
-        dirty: props.dirty,
-        background: props.background
-      })
-    );
-  },
-  write: ({ root, props, shouldOptimize }) => {
-    const { clip } = root.ref;
-
-    const { image, crop, markup, resize, dirty } = props;
-
-    clip.crop = crop;
-    clip.markup = markup;
-    clip.resize = resize;
-    clip.dirty = dirty;
-
-    // don't update clip layout
-    clip.opacity = shouldOptimize ? 0 : 1;
-
-    // don't re-render if optimizing or hidden (width will be zero resulting in weird animations)
-    if (shouldOptimize || root.rect.element.hidden) return;
-
-    // calculate scaled preview image size
-    const imageAspectRatio = image.height / image.width;
-    let aspectRatio = crop.aspectRatio || imageAspectRatio;
-
-    // calculate container size
-    const containerWidth = root.rect.inner.width;
-    const containerHeight = root.rect.inner.height;
-
-    let fixedPreviewHeight = root.query('GET_IMAGE_PREVIEW_HEIGHT');
-    const minPreviewHeight = root.query('GET_IMAGE_PREVIEW_MIN_HEIGHT');
-    const maxPreviewHeight = root.query('GET_IMAGE_PREVIEW_MAX_HEIGHT');
-
-    const panelAspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
-    const allowMultiple = root.query('GET_ALLOW_MULTIPLE');
-
-    if (panelAspectRatio && !allowMultiple) {
-      fixedPreviewHeight = containerWidth * panelAspectRatio;
-      aspectRatio = panelAspectRatio;
-    }
-
-    // determine clip width and height
-    let clipHeight =
-    fixedPreviewHeight !== null ?
-    fixedPreviewHeight :
-    Math.max(
-      minPreviewHeight,
-      Math.min(containerWidth * aspectRatio, maxPreviewHeight)
-    );
-
-    let clipWidth = clipHeight / aspectRatio;
-    if (clipWidth > containerWidth) {
-      clipWidth = containerWidth;
-      clipHeight = clipWidth * aspectRatio;
-    }
-
-    if (clipHeight > containerHeight) {
-      clipHeight = containerHeight;
-      clipWidth = containerHeight / aspectRatio;
-    }
-
-    clip.width = clipWidth;
-    clip.height = clipHeight;
-  }
-});
+  });
 
 let SVG_MASK = `<svg width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none">
     <defs>
@@ -957,40 +957,40 @@ let SVG_MASK = `<svg width="500" height="200" viewBox="0 0 500 200" preserveAspe
 
 let SVGMaskUniqueId = 0;
 
-const createImageOverlayView = (fpAPI) =>
-fpAPI.utils.createView({
-  name: 'image-preview-overlay',
-  tag: 'div',
-  ignoreRect: true,
-  create: ({ root, props }) => {
-    let mask = SVG_MASK;
-    if (document.querySelector('base')) {
-      const url = new URL(
-        window.location.href.replace(window.location.hash, '')
-      ).href;
-      mask = mask.replace(/url\(\#/g, 'url(' + url + '#');
-    }
+const createImageOverlayView = fpAPI =>
+  fpAPI.utils.createView({
+    name: 'image-preview-overlay',
+    tag: 'div',
+    ignoreRect: true,
+    create: ({ root, props }) => {
+      let mask = SVG_MASK;
+      if (document.querySelector('base')) {
+        const url = new URL(
+          window.location.href.replace(window.location.hash, '')
+        ).href;
+        mask = mask.replace(/url\(\#/g, 'url(' + url + '#');
+      }
 
-    SVGMaskUniqueId++;
-    root.element.classList.add(
-      `filepond--image-preview-overlay-${props.status}`
-    );
-    root.element.innerHTML = mask.replace(/__UID__/g, SVGMaskUniqueId);
-  },
-  mixins: {
-    styles: ['opacity'],
-    animations: {
-      opacity: { type: 'spring', mass: 25 }
+      SVGMaskUniqueId++;
+      root.element.classList.add(
+        `filepond--image-preview-overlay-${props.status}`
+      );
+      root.element.innerHTML = mask.replace(/__UID__/g, SVGMaskUniqueId);
+    },
+    mixins: {
+      styles: ['opacity'],
+      animations: {
+        opacity: { type: 'spring', mass: 25 }
+      }
     }
-  }
-});
+  });
 
 /**
  * Bitmap Worker
  */
-const BitmapWorker = function () {
-  self.onmessage = (e) => {
-    createImageBitmap(e.data.message.file).then((bitmap) => {
+const BitmapWorker = function() {
+  self.onmessage = e => {
+    createImageBitmap(e.data.message.file).then(bitmap => {
       self.postMessage({ id: e.data.id, message: bitmap }, [bitmap]);
     });
   };
@@ -999,8 +999,8 @@ const BitmapWorker = function () {
 /**
  * ColorMatrix Worker
  */
-const ColorMatrixWorker = function () {
-  self.onmessage = (e) => {
+const ColorMatrixWorker = function() {
+  self.onmessage = e => {
     const imageData = e.data.message.imageData;
     const matrix = e.data.message.colorMatrix;
 
@@ -1061,8 +1061,8 @@ const ColorMatrixWorker = function () {
     }
 
     self.postMessage({ id: e.data.id, message: imageData }, [
-    imageData.data.buffer]
-    );
+      imageData.data.buffer
+    ]);
   };
 };
 
@@ -1079,13 +1079,13 @@ const getImageSize = (url, cb) => {
 
 const transforms = {
   1: () => [1, 0, 0, 1, 0, 0],
-  2: (width) => [-1, 0, 0, 1, width, 0],
+  2: width => [-1, 0, 0, 1, width, 0],
   3: (width, height) => [-1, 0, 0, -1, width, height],
   4: (width, height) => [1, 0, 0, -1, 0, height],
   5: () => [0, 1, 1, 0, 0, 0],
   6: (width, height) => [0, 1, -1, 0, height, 0],
   7: (width, height) => [0, -1, -1, 0, height, width],
-  8: (width) => [0, -1, 1, 0, 0, width]
+  8: width => [0, -1, 1, 0, 0, width]
 };
 
 const fixImageOrientation = (ctx, width, height, orientation) => {
@@ -1123,18 +1123,18 @@ const createPreviewImage = (data, width, height, orientation) => {
   return canvas;
 };
 
-const isBitmap = (file) => /^image/.test(file.type) && !/svg/.test(file.type);
+const isBitmap = file => /^image/.test(file.type) && !/svg/.test(file.type);
 
 const MAX_WIDTH = 10;
 const MAX_HEIGHT = 10;
 
-const calculateAverageColor = (image) => {
+const calculateAverageColor = image => {
   const scalar = Math.min(MAX_WIDTH / image.width, MAX_HEIGHT / image.height);
 
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  const width = canvas.width = Math.ceil(image.width * scalar);
-  const height = canvas.height = Math.ceil(image.height * scalar);
+  const width = (canvas.width = Math.ceil(image.width * scalar));
+  const height = (canvas.height = Math.ceil(image.height * scalar));
   ctx.drawImage(image, 0, 0, width, height);
   let data = null;
   try {
@@ -1173,7 +1173,7 @@ const cloneCanvas = (origin, target) => {
   return target;
 };
 
-const cloneImageData = (imageData) => {
+const cloneImageData = imageData => {
   let id;
   try {
     id = new ImageData(imageData.width, imageData.height);
@@ -1186,20 +1186,20 @@ const cloneImageData = (imageData) => {
   return id;
 };
 
-const loadImage = (url) =>
-new Promise((resolve, reject) => {
-  const img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.onload = () => {
-    resolve(img);
-  };
-  img.onerror = (e) => {
-    reject(e);
-  };
-  img.src = url;
-});
+const loadImage = url =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      resolve(img);
+    };
+    img.onerror = e => {
+      reject(e);
+    };
+    img.src = url;
+  });
 
-const createImageWrapperView = (_) => {
+const createImageWrapperView = _ => {
   // create overlay view
   const OverlayView = createImageOverlayView(_);
 
@@ -1208,41 +1208,41 @@ const createImageWrapperView = (_) => {
   const { createWorker } = _.utils;
 
   const applyFilter = (root, filter, target) =>
-  new Promise((resolve) => {
-    // will store image data for future filter updates
-    if (!root.ref.imageData) {
-      root.ref.imageData = target.
-      getContext('2d').
-      getImageData(0, 0, target.width, target.height);
-    }
+    new Promise(resolve => {
+      // will store image data for future filter updates
+      if (!root.ref.imageData) {
+        root.ref.imageData = target
+          .getContext('2d')
+          .getImageData(0, 0, target.width, target.height);
+      }
 
-    // get image data reference
-    const imageData = cloneImageData(root.ref.imageData);
+      // get image data reference
+      const imageData = cloneImageData(root.ref.imageData);
 
-    if (!filter || filter.length !== 20) {
-      target.getContext('2d').putImageData(imageData, 0, 0);
-      return resolve();
-    }
+      if (!filter || filter.length !== 20) {
+        target.getContext('2d').putImageData(imageData, 0, 0);
+        return resolve();
+      }
 
-    const worker = createWorker(ColorMatrixWorker);
-    worker.post(
-      {
-        imageData,
-        colorMatrix: filter
-      },
-      (response) => {
-        // apply filtered colors
-        target.getContext('2d').putImageData(response, 0, 0);
+      const worker = createWorker(ColorMatrixWorker);
+      worker.post(
+        {
+          imageData,
+          colorMatrix: filter
+        },
+        response => {
+          // apply filtered colors
+          target.getContext('2d').putImageData(response, 0, 0);
 
-        // stop worker
-        worker.terminate();
+          // stop worker
+          worker.terminate();
 
-        // done!
-        resolve();
-      },
-      [imageData.data.buffer]
-    );
-  });
+          // done!
+          resolve();
+        },
+        [imageData.data.buffer]
+      );
+    });
 
   const removeImageView = (root, imageView) => {
     root.removeChildView(imageView);
@@ -1364,12 +1364,12 @@ const createImageWrapperView = (_) => {
 
       // if aspect ratio has changed, we need to create a new image
       if (
-      crop &&
-      crop.aspectRatio &&
-      image.crop &&
-      image.crop.aspectRatio &&
-      Math.abs(crop.aspectRatio - image.crop.aspectRatio) > 0.00001)
-      {
+        crop &&
+        crop.aspectRatio &&
+        image.crop &&
+        image.crop.aspectRatio &&
+        Math.abs(crop.aspectRatio - image.crop.aspectRatio) > 0.00001
+      ) {
         const imageView = shiftImage({ root });
         pushImage({ root, props, image: cloneCanvas(imageView.image) });
       }
@@ -1380,7 +1380,7 @@ const createImageWrapperView = (_) => {
     }
   };
 
-  const canCreateImageBitmap = (file) => {
+  const canCreateImageBitmap = file => {
     // Firefox versions before 58 will freeze when running createImageBitmap
     // in a Web Worker so we detect those versions and return false for support
     const userAgent = window.navigator.userAgent;
@@ -1432,7 +1432,7 @@ const createImageWrapperView = (_) => {
     };
 
     // image is now ready
-    const previewImageLoaded = (imageData) => {
+    const previewImageLoaded = imageData => {
       // the file url is no longer needed
       URL.revokeObjectURL(fileURL);
 
@@ -1494,9 +1494,9 @@ const createImageWrapperView = (_) => {
         // calculate average image color, disabled for now
         const averageColor = root.query(
           'GET_IMAGE_PREVIEW_CALCULATE_AVERAGE_IMAGE_COLOR'
-        ) ?
-        calculateAverageColor(data) :
-        null;
+        )
+          ? calculateAverageColor(data)
+          : null;
         item.setMetadata('color', averageColor, true);
 
         // data has been transferred to canvas ( if was ImageBitmap )
@@ -1529,7 +1529,7 @@ const createImageWrapperView = (_) => {
         {
           file: item.file
         },
-        (imageBitmap) => {
+        imageBitmap => {
           // destroy worker
           worker.terminate();
 
@@ -1624,13 +1624,13 @@ const createImageWrapperView = (_) => {
     apis: ['height'],
     destroy: ({ root }) => {
       // we resize the image so memory on iOS 12 is released more quickly (it seems)
-      root.ref.images.forEach((imageView) => {
+      root.ref.images.forEach(imageView => {
         imageView.image.width = 1;
         imageView.image.height = 1;
       });
     },
     didWriteView: ({ root }) => {
-      root.ref.images.forEach((imageView) => {
+      root.ref.images.forEach(imageView => {
         imageView.dirty = false;
       });
     },
@@ -1653,16 +1653,16 @@ const createImageWrapperView = (_) => {
       ({ root }) => {
         // views on death row
         const viewsToRemove = root.ref.imageViewBin.filter(
-          (imageView) => imageView.opacity === 0
+          imageView => imageView.opacity === 0
         );
 
         // views to retain
         root.ref.imageViewBin = root.ref.imageViewBin.filter(
-          (imageView) => imageView.opacity > 0
+          imageView => imageView.opacity > 0
         );
 
         // remove these views
-        viewsToRemove.forEach((imageView) => removeImageView(root, imageView));
+        viewsToRemove.forEach(imageView => removeImageView(root, imageView));
         viewsToRemove.length = 0;
       }
     )
@@ -1672,7 +1672,7 @@ const createImageWrapperView = (_) => {
 /**
  * Image Preview Plugin
  */
-const plugin = (fpAPI) => {
+const plugin = fpAPI => {
   const { addFilter, utils } = fpAPI;
   const { Type, createRoute, isFile } = utils;
 
@@ -1680,7 +1680,7 @@ const plugin = (fpAPI) => {
   const imagePreviewView = createImageWrapperView(fpAPI);
 
   // called for each view that is created right after the 'create' method
-  addFilter('CREATE_VIEW', (viewAPI) => {
+  addFilter('CREATE_VIEW', viewAPI => {
     // get reference to created view
     const { is, view, query } = viewAPI;
 
@@ -1706,13 +1706,13 @@ const plugin = (fpAPI) => {
 
       // exit if image size is too high and no createImageBitmap support
       // this would simply bring the browser to its knees and that is not what we want
-      const supportsCreateImageBitmap = ('createImageBitmap' in (window || {}));
+      const supportsCreateImageBitmap = 'createImageBitmap' in (window || {});
       const maxPreviewFileSize = query('GET_IMAGE_PREVIEW_MAX_FILE_SIZE');
       if (
-      !supportsCreateImageBitmap &&
-      maxPreviewFileSize && file.size > maxPreviewFileSize)
-
-      return;
+        !supportsCreateImageBitmap &&
+        (maxPreviewFileSize && file.size > maxPreviewFileSize)
+      )
+        return;
 
       // set preview view
       root.ref.imagePreview = view.appendChildView(
@@ -1730,8 +1730,8 @@ const plugin = (fpAPI) => {
 
       // now ready
       const queue =
-      !supportsCreateImageBitmap &&
-      file.size > query('GET_IMAGE_PREVIEW_MAX_INSTANT_PREVIEW_FILE_SIZE');
+        !supportsCreateImageBitmap &&
+        file.size > query('GET_IMAGE_PREVIEW_MAX_INSTANT_PREVIEW_FILE_SIZE');
       root.dispatch('DID_IMAGE_PREVIEW_CONTAINER_CREATE', { id }, queue);
     };
 
@@ -1764,7 +1764,7 @@ const plugin = (fpAPI) => {
 
       // get width and height from action, and swap of orientation is incorrect
       if (orientation >= 5 && orientation <= 8)
-      [imageWidth, imageHeight] = [imageHeight, imageWidth];
+        [imageWidth, imageHeight] = [imageHeight, imageWidth];
 
       // scale up width and height when we're dealing with an SVG
       if (!isBitmap(item.file) || root.query('GET_IMAGE_PREVIEW_UPSCALE')) {
@@ -1778,7 +1778,7 @@ const plugin = (fpAPI) => {
 
       // we need the item to get to the crop size
       const previewAspectRatio =
-      (item.getMetadata('crop') || {}).aspectRatio || imageAspectRatio;
+        (item.getMetadata('crop') || {}).aspectRatio || imageAspectRatio;
 
       // preview height range
       let previewHeightMax = Math.max(
@@ -1912,7 +1912,7 @@ const plugin = (fpAPI) => {
 
 // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
 const isBrowser =
-typeof window !== 'undefined' && typeof window.document !== 'undefined';
+  typeof window !== 'undefined' && typeof window.document !== 'undefined';
 if (isBrowser) {
   document.dispatchEvent(
     new CustomEvent('FilePond:pluginloaded', { detail: plugin })

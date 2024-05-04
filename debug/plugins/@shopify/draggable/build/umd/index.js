@@ -1,8 +1,8 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) : (
-  global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.Draggable = {}));
-})(this, function (exports) {'use strict';
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.Draggable = {}));
+})(this, (function (exports) { 'use strict';
 
   class AbstractEvent {
 
@@ -95,7 +95,7 @@
     }
 
     removeContainer(...containers) {
-      this.containers = this.containers.filter((container) => !containers.includes(container));
+      this.containers = this.containers.filter(container => !containers.includes(container));
     }
 
     trigger(element, sensorEvent) {
@@ -432,7 +432,7 @@
 
   let preventScrolling = false;
 
-  window.addEventListener('touchmove', (event) => {
+  window.addEventListener('touchmove', event => {
     if (!preventScrolling) {
       return;
     }
@@ -741,7 +741,7 @@
       if (!originalSource) {
         return;
       }
-      const nativeDraggableElement = closest(event.target, (element) => element.draggable);
+      const nativeDraggableElement = closest(event.target, element => element.draggable);
       if (nativeDraggableElement) {
         nativeDraggableElement.draggable = false;
         this.nativeDraggableElement = nativeDraggableElement;
@@ -1060,7 +1060,7 @@
     [onRequestAnimationFrame](target) {
       return () => {
         const collidables = this.getCollidables();
-        this.currentlyCollidingElement = closest(target, (element) => collidables.includes(element));
+        this.currentlyCollidingElement = closest(target, element => collidables.includes(element));
       };
     }
   }
@@ -1743,7 +1743,7 @@
         sourceContainer
       } = dragEvent;
       const elements = this.draggable.getDraggableElementsForContainer(sourceContainer);
-      this.lastElements = Array.from(elements).map((el) => {
+      this.lastElements = Array.from(elements).map(el => {
         return {
           domEl: el,
           offsetTop: el.offsetTop,
@@ -1783,7 +1783,7 @@
       cancelAnimationFrame(this.lastAnimationFrame);
 
       this.lastAnimationFrame = requestAnimationFrame(() => {
-        effectedElements.forEach((element) => animate(element, this.options));
+        effectedElements.forEach(element => animate(element, this.options));
       });
     }
   }
@@ -1883,7 +1883,7 @@
 
     [onInitialize$1]() {
 
-      this.draggable.trigger = (event) => {
+      this.draggable.trigger = event => {
         try {
           this[announceEvent](event);
         } finally {
@@ -1969,14 +1969,14 @@
     [onInitialize]() {
 
       requestAnimationFrame(() => {
-        this.getElements().forEach((element) => decorateElement(element));
+        this.getElements().forEach(element => decorateElement(element));
       });
     }
 
     [onDestroy]() {
 
       requestAnimationFrame(() => {
-        this.getElements().forEach((element) => stripElement(element));
+        this.getElements().forEach(element => stripElement(element));
       });
     }
   }
@@ -2323,9 +2323,9 @@
         passedThreshX: true,
         passedThreshY: true
       };
-      return Promise.resolve(initialState).
+      return Promise.resolve(initialState)
 
-      then(computeMirrorDimensions).then(calculateMirrorOffset).then(resetMirror).then(addMirrorClasses).then(positionMirror({
+      .then(computeMirrorDimensions).then(calculateMirrorOffset).then(resetMirror).then(addMirrorClasses).then(positionMirror({
         initial: true
       })).then(removeMirrorID).then(setState);
     }
@@ -2347,7 +2347,7 @@
           ...args
         };
       };
-      const triggerMoved = (args) => {
+      const triggerMoved = args => {
         const mirrorMovedEvent = new MirrorMovedEvent({
           source: mirrorEvent.source,
           originalSource: mirrorEvent.originalSource,
@@ -2397,7 +2397,7 @@
     source,
     ...args
   }) {
-    return withPromise((resolve) => {
+    return withPromise(resolve => {
       const sourceRect = source.getBoundingClientRect();
       resolve({
         source,
@@ -2413,7 +2413,7 @@
     options,
     ...args
   }) {
-    return withPromise((resolve) => {
+    return withPromise(resolve => {
       const top = options.cursorOffsetY === null ? sensorEvent.clientY - sourceRect.top : options.cursorOffsetY;
       const left = options.cursorOffsetX === null ? sensorEvent.clientX - sourceRect.left : options.cursorOffsetX;
       const mirrorOffset = {
@@ -2436,7 +2436,7 @@
     options,
     ...args
   }) {
-    return withPromise((resolve) => {
+    return withPromise(resolve => {
       let offsetHeight;
       let offsetWidth;
       if (options.constrainDimensions) {
@@ -2468,7 +2468,7 @@
     mirrorClasses,
     ...args
   }) {
-    return withPromise((resolve) => {
+    return withPromise(resolve => {
       mirror.classList.add(...mirrorClasses);
       resolve({
         mirror,
@@ -2482,7 +2482,7 @@
     mirror,
     ...args
   }) {
-    return withPromise((resolve) => {
+    return withPromise(resolve => {
       mirror.removeAttribute('id');
       delete mirror.id;
       resolve({
@@ -2510,7 +2510,7 @@
       lastMovedY,
       ...args
     }) => {
-      return withPromise((resolve) => {
+      return withPromise(resolve => {
         const result = {
           mirror,
           sensorEvent,
@@ -2726,7 +2726,7 @@
     }
     const position = getComputedStyle(element).getPropertyValue('position');
     const excludeStaticParents = position === 'absolute';
-    const scrollableElement = closest(element, (parent) => {
+    const scrollableElement = closest(element, parent => {
       if (excludeStaticParents && isStaticallyPositioned(parent)) {
         return false;
       }
@@ -2814,8 +2814,8 @@
   const dragStop = Symbol('dragStop');
 
   const defaultAnnouncements$3 = {
-    'drag:start': (event) => `Picked up ${event.source.textContent.trim() || event.source.id || 'draggable element'}`,
-    'drag:stop': (event) => `Released ${event.source.textContent.trim() || event.source.id || 'draggable element'}`
+    'drag:start': event => `Picked up ${event.source.textContent.trim() || event.source.id || 'draggable element'}`,
+    'drag:stop': event => `Released ${event.source.textContent.trim() || event.source.id || 'draggable element'}`
   };
   const defaultClasses$1 = {
     'container:dragging': 'draggable-container--is-dragging',
@@ -2886,8 +2886,8 @@
       document.addEventListener('drag:move', this[onDragMove$1], true);
       document.addEventListener('drag:stop', this[onDragStop$3], true);
       document.addEventListener('drag:pressure', this[onDragPressure], true);
-      const defaultPlugins = Object.values(Draggable.Plugins).filter((Plugin) => !this.options.exclude.plugins.includes(Plugin));
-      const defaultSensors = Object.values(Draggable.Sensors).filter((sensor) => !this.options.exclude.sensors.includes(sensor));
+      const defaultPlugins = Object.values(Draggable.Plugins).filter(Plugin => !this.options.exclude.plugins.includes(Plugin));
+      const defaultSensors = Object.values(Draggable.Sensors).filter(sensor => !this.options.exclude.sensors.includes(sensor));
       this.addPlugin(...[...defaultPlugins, ...this.options.plugins]);
       this.addSensor(...[...defaultSensors, ...this.options.sensors]);
       const draggableInitializedEvent = new DraggableInitializedEvent({
@@ -2909,47 +2909,47 @@
         draggable: this
       });
       this.trigger(draggableDestroyEvent);
-      this.removePlugin(...this.plugins.map((plugin) => plugin.constructor));
-      this.removeSensor(...this.sensors.map((sensor) => sensor.constructor));
+      this.removePlugin(...this.plugins.map(plugin => plugin.constructor));
+      this.removeSensor(...this.sensors.map(sensor => sensor.constructor));
     }
 
     addPlugin(...plugins) {
-      const activePlugins = plugins.map((Plugin) => new Plugin(this));
-      activePlugins.forEach((plugin) => plugin.attach());
+      const activePlugins = plugins.map(Plugin => new Plugin(this));
+      activePlugins.forEach(plugin => plugin.attach());
       this.plugins = [...this.plugins, ...activePlugins];
       return this;
     }
 
     removePlugin(...plugins) {
-      const removedPlugins = this.plugins.filter((plugin) => plugins.includes(plugin.constructor));
-      removedPlugins.forEach((plugin) => plugin.detach());
-      this.plugins = this.plugins.filter((plugin) => !plugins.includes(plugin.constructor));
+      const removedPlugins = this.plugins.filter(plugin => plugins.includes(plugin.constructor));
+      removedPlugins.forEach(plugin => plugin.detach());
+      this.plugins = this.plugins.filter(plugin => !plugins.includes(plugin.constructor));
       return this;
     }
 
     addSensor(...sensors) {
-      const activeSensors = sensors.map((Sensor) => new Sensor(this.containers, this.options));
-      activeSensors.forEach((sensor) => sensor.attach());
+      const activeSensors = sensors.map(Sensor => new Sensor(this.containers, this.options));
+      activeSensors.forEach(sensor => sensor.attach());
       this.sensors = [...this.sensors, ...activeSensors];
       return this;
     }
 
     removeSensor(...sensors) {
-      const removedSensors = this.sensors.filter((sensor) => sensors.includes(sensor.constructor));
-      removedSensors.forEach((sensor) => sensor.detach());
-      this.sensors = this.sensors.filter((sensor) => !sensors.includes(sensor.constructor));
+      const removedSensors = this.sensors.filter(sensor => sensors.includes(sensor.constructor));
+      removedSensors.forEach(sensor => sensor.detach());
+      this.sensors = this.sensors.filter(sensor => !sensors.includes(sensor.constructor));
       return this;
     }
 
     addContainer(...containers) {
       this.containers = [...this.containers, ...containers];
-      this.sensors.forEach((sensor) => sensor.addContainer(...containers));
+      this.sensors.forEach(sensor => sensor.addContainer(...containers));
       return this;
     }
 
     removeContainer(...containers) {
-      this.containers = this.containers.filter((container) => !containers.includes(container));
-      this.sensors.forEach((sensor) => sensor.removeContainer(...containers));
+      this.containers = this.containers.filter(container => !containers.includes(container));
+      this.sensors.forEach(sensor => sensor.removeContainer(...containers));
       return this;
     }
 
@@ -2995,7 +2995,7 @@
 
     getDraggableElementsForContainer(container) {
       const allDraggableElements = container.querySelectorAll(this.options.draggable);
-      return [...allDraggableElements].filter((childElement) => {
+      return [...allDraggableElements].filter(childElement => {
         return childElement !== this.originalSource && childElement !== this.mirror;
       });
     }
@@ -3599,7 +3599,7 @@
   function swap(source, over) {
     const overParent = over.parentNode;
     const sourceParent = source.parentNode;
-    withTempElement((tmpElement) => {
+    withTempElement(tmpElement => {
       sourceParent.insertBefore(tmpElement, source);
       overParent.insertBefore(source, over);
       sourceParent.insertBefore(over, tmpElement);
@@ -3748,7 +3748,7 @@
 
     getSortableElementsForContainer(container) {
       const allSortableElements = container.querySelectorAll(this.options.draggable);
-      return [...allSortableElements].filter((childElement) => {
+      return [...allSortableElements].filter(childElement => {
         return childElement !== this.originalSource && childElement !== this.mirror && childElement.parentNode === container;
       });
     }
@@ -3936,4 +3936,4 @@
   exports.Sortable = Sortable;
   exports.Swappable = Swappable;
 
-});
+}));
