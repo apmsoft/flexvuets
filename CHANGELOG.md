@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.1.1]
+### - 2024-05-06
+- t1,v1 index.html "script defer src" -> "script src" 로 변경
+
 ### - 2024-04-30
 - RecyclerView 클래스 호출시 랜더링 데이터 초기화 되도록 업데이트
 - SimpleAdapter Data Clear, RecyclerView RenderedData clear 비우기 기능 추가
