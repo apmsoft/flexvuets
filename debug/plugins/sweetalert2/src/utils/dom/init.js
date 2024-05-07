@@ -1,9 +1,9 @@
-import globalState from '../../globalState.js'
-import { swalClasses } from '../classes.js'
-import { isNodeEnv } from '../isNodeEnv.js'
-import { error } from '../utils.js'
-import { addClass, getDirectChildByClass, removeClass, setInnerHtml } from './domUtils.js'
-import { getContainer, getPopup } from './getters.js'
+import globalState from "../../globalState.js";
+import { swalClasses } from "../classes.js";
+import { isNodeEnv } from "../isNodeEnv.js";
+import { error } from "../utils.js";
+import { addClass, getDirectChildByClass, removeClass, setInnerHtml } from "./domUtils.js";
+import { getContainer, getPopup } from "./getters.js";
 
 const sweetHTML = `
  <div aria-labelledby="${swalClasses.title}" aria-describedby="${swalClasses['html-container']}" class="${swalClasses.popup}" tabindex="-1">
@@ -38,88 +38,88 @@ const sweetHTML = `
      <div class="${swalClasses['timer-progress-bar']}"></div>
    </div>
  </div>
-`.replace(/(^|\n)\s*/g, '')
+`.replace(/(^|\n)\s*/g, '');
 
 /**
  * @returns {boolean}
  */
 const resetOldContainer = () => {
-  const oldContainer = getContainer()
+  const oldContainer = getContainer();
   if (!oldContainer) {
-    return false
+    return false;
   }
 
-  oldContainer.remove()
+  oldContainer.remove();
   removeClass(
     [document.documentElement, document.body],
     [swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['has-column']]
-  )
+  );
 
-  return true
-}
+  return true;
+};
 
 const resetValidationMessage = () => {
-  globalState.currentInstance.resetValidationMessage()
-}
+  globalState.currentInstance.resetValidationMessage();
+};
 
 const addInputChangeListeners = () => {
-  const popup = getPopup()
+  const popup = getPopup();
 
-  const input = getDirectChildByClass(popup, swalClasses.input)
-  const file = getDirectChildByClass(popup, swalClasses.file)
+  const input = getDirectChildByClass(popup, swalClasses.input);
+  const file = getDirectChildByClass(popup, swalClasses.file);
   /** @type {HTMLInputElement} */
-  const range = popup.querySelector(`.${swalClasses.range} input`)
+  const range = popup.querySelector(`.${swalClasses.range} input`);
   /** @type {HTMLOutputElement} */
-  const rangeOutput = popup.querySelector(`.${swalClasses.range} output`)
-  const select = getDirectChildByClass(popup, swalClasses.select)
+  const rangeOutput = popup.querySelector(`.${swalClasses.range} output`);
+  const select = getDirectChildByClass(popup, swalClasses.select);
   /** @type {HTMLInputElement} */
-  const checkbox = popup.querySelector(`.${swalClasses.checkbox} input`)
-  const textarea = getDirectChildByClass(popup, swalClasses.textarea)
+  const checkbox = popup.querySelector(`.${swalClasses.checkbox} input`);
+  const textarea = getDirectChildByClass(popup, swalClasses.textarea);
 
-  input.oninput = resetValidationMessage
-  file.onchange = resetValidationMessage
-  select.onchange = resetValidationMessage
-  checkbox.onchange = resetValidationMessage
-  textarea.oninput = resetValidationMessage
+  input.oninput = resetValidationMessage;
+  file.onchange = resetValidationMessage;
+  select.onchange = resetValidationMessage;
+  checkbox.onchange = resetValidationMessage;
+  textarea.oninput = resetValidationMessage;
 
   range.oninput = () => {
-    resetValidationMessage()
-    rangeOutput.value = range.value
-  }
+    resetValidationMessage();
+    rangeOutput.value = range.value;
+  };
 
   range.onchange = () => {
-    resetValidationMessage()
-    rangeOutput.value = range.value
-  }
-}
+    resetValidationMessage();
+    rangeOutput.value = range.value;
+  };
+};
 
 /**
  * @param {string | HTMLElement} target
  * @returns {HTMLElement}
  */
-const getTarget = (target) => (typeof target === 'string' ? document.querySelector(target) : target)
+const getTarget = (target) => typeof target === 'string' ? document.querySelector(target) : target;
 
 /**
  * @param {SweetAlertOptions} params
  */
 const setupAccessibility = (params) => {
-  const popup = getPopup()
+  const popup = getPopup();
 
-  popup.setAttribute('role', params.toast ? 'alert' : 'dialog')
-  popup.setAttribute('aria-live', params.toast ? 'polite' : 'assertive')
+  popup.setAttribute('role', params.toast ? 'alert' : 'dialog');
+  popup.setAttribute('aria-live', params.toast ? 'polite' : 'assertive');
   if (!params.toast) {
-    popup.setAttribute('aria-modal', 'true')
+    popup.setAttribute('aria-modal', 'true');
   }
-}
+};
 
 /**
  * @param {HTMLElement} targetElement
  */
 const setupRTL = (targetElement) => {
   if (window.getComputedStyle(targetElement).direction === 'rtl') {
-    addClass(getContainer(), swalClasses.rtl)
+    addClass(getContainer(), swalClasses.rtl);
   }
-}
+};
 
 /**
  * Add modal + backdrop + no-war message for Russians to DOM
@@ -128,24 +128,24 @@ const setupRTL = (targetElement) => {
  */
 export const init = (params) => {
   // Clean up the old popup container if it exists
-  const oldContainerExisted = resetOldContainer()
+  const oldContainerExisted = resetOldContainer();
 
   if (isNodeEnv()) {
-    error('SweetAlert2 requires document to initialize')
-    return
+    error('SweetAlert2 requires document to initialize');
+    return;
   }
 
-  const container = document.createElement('div')
-  container.className = swalClasses.container
+  const container = document.createElement('div');
+  container.className = swalClasses.container;
   if (oldContainerExisted) {
-    addClass(container, swalClasses['no-transition'])
+    addClass(container, swalClasses['no-transition']);
   }
-  setInnerHtml(container, sweetHTML)
+  setInnerHtml(container, sweetHTML);
 
-  const targetElement = getTarget(params.target)
-  targetElement.appendChild(container)
+  const targetElement = getTarget(params.target);
+  targetElement.appendChild(container);
 
-  setupAccessibility(params)
-  setupRTL(targetElement)
-  addInputChangeListeners()
-}
+  setupAccessibility(params);
+  setupRTL(targetElement);
+  addInputChangeListeners();
+};

@@ -10,14 +10,14 @@ export const AnsiX923 = {
     const blockSizeBytes = blockSize * 4;
 
     // Count padding bytes
-    const nPaddingBytes = blockSizeBytes - (dataSigBytes % blockSizeBytes);
+    const nPaddingBytes = blockSizeBytes - dataSigBytes % blockSizeBytes;
 
     // Compute last byte position
     const lastBytePos = dataSigBytes + nPaddingBytes - 1;
 
     // Pad
     _data.clamp();
-    _data.words[lastBytePos >>> 2] |= nPaddingBytes << (24 - (lastBytePos % 4) * 8);
+    _data.words[lastBytePos >>> 2] |= nPaddingBytes << 24 - lastBytePos % 4 * 8;
     _data.sigBytes += nPaddingBytes;
   },
 
@@ -25,9 +25,9 @@ export const AnsiX923 = {
     const _data = data;
 
     // Get number of padding bytes from last byte
-    const nPaddingBytes = _data.words[(_data.sigBytes - 1) >>> 2] & 0xff;
+    const nPaddingBytes = _data.words[_data.sigBytes - 1 >>> 2] & 0xff;
 
     // Remove padding
     _data.sigBytes -= nPaddingBytes;
-  },
+  }
 };

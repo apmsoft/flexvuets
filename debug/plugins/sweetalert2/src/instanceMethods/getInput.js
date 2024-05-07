@@ -1,5 +1,5 @@
-import privateProps from '../privateProps.js'
-import * as dom from '../utils/dom/index.js'
+import privateProps from "../privateProps.js";
+import * as dom from "../utils/dom/index.js";
 
 /**
  * Gets the input DOM node, this method works with input parameter.
@@ -7,10 +7,10 @@ import * as dom from '../utils/dom/index.js'
  * @returns {HTMLInputElement | null}
  */
 export function getInput() {
-  const innerParams = privateProps.innerParams.get(this)
-  const domCache = privateProps.domCache.get(this)
+  const innerParams = privateProps.innerParams.get(this);
+  const domCache = privateProps.domCache.get(this);
   if (!domCache) {
-    return null
+    return null;
   }
-  return dom.getInput(domCache.popup, innerParams.input)
+  return dom.getInput(domCache.popup, innerParams.input);
 }

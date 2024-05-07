@@ -1,4 +1,4 @@
-import { warn, warnAboutDeprecation } from '../utils/utils.js'
+import { warn, warnAboutDeprecation } from "../utils/utils.js";
 
 export const defaultParams = {
   title: '',
@@ -15,12 +15,12 @@ export const defaultParams = {
   showClass: {
     popup: 'swal2-show',
     backdrop: 'swal2-backdrop-show',
-    icon: 'swal2-icon-show',
+    icon: 'swal2-icon-show'
   },
   hideClass: {
     popup: 'swal2-hide',
     backdrop: 'swal2-backdrop-hide',
-    icon: 'swal2-icon-hide',
+    icon: 'swal2-icon-hide'
   },
   customClass: {},
   target: 'body',
@@ -89,69 +89,69 @@ export const defaultParams = {
   willClose: undefined,
   didClose: undefined,
   didDestroy: undefined,
-  scrollbarPadding: true,
-}
+  scrollbarPadding: true
+};
 
 export const updatableParams = [
-  'allowEscapeKey',
-  'allowOutsideClick',
-  'background',
-  'buttonsStyling',
-  'cancelButtonAriaLabel',
-  'cancelButtonColor',
-  'cancelButtonText',
-  'closeButtonAriaLabel',
-  'closeButtonHtml',
-  'color',
-  'confirmButtonAriaLabel',
-  'confirmButtonColor',
-  'confirmButtonText',
-  'currentProgressStep',
-  'customClass',
-  'denyButtonAriaLabel',
-  'denyButtonColor',
-  'denyButtonText',
-  'didClose',
-  'didDestroy',
-  'footer',
-  'hideClass',
-  'html',
-  'icon',
-  'iconColor',
-  'iconHtml',
-  'imageAlt',
-  'imageHeight',
-  'imageUrl',
-  'imageWidth',
-  'preConfirm',
-  'preDeny',
-  'progressSteps',
-  'returnFocus',
-  'reverseButtons',
-  'showCancelButton',
-  'showCloseButton',
-  'showConfirmButton',
-  'showDenyButton',
-  'text',
-  'title',
-  'titleText',
-  'willClose',
-]
+'allowEscapeKey',
+'allowOutsideClick',
+'background',
+'buttonsStyling',
+'cancelButtonAriaLabel',
+'cancelButtonColor',
+'cancelButtonText',
+'closeButtonAriaLabel',
+'closeButtonHtml',
+'color',
+'confirmButtonAriaLabel',
+'confirmButtonColor',
+'confirmButtonText',
+'currentProgressStep',
+'customClass',
+'denyButtonAriaLabel',
+'denyButtonColor',
+'denyButtonText',
+'didClose',
+'didDestroy',
+'footer',
+'hideClass',
+'html',
+'icon',
+'iconColor',
+'iconHtml',
+'imageAlt',
+'imageHeight',
+'imageUrl',
+'imageWidth',
+'preConfirm',
+'preDeny',
+'progressSteps',
+'returnFocus',
+'reverseButtons',
+'showCancelButton',
+'showCloseButton',
+'showConfirmButton',
+'showDenyButton',
+'text',
+'title',
+'titleText',
+'willClose'];
+
 
 /** @type {Record<string, string>} */
-export const deprecatedParams = {}
+export const deprecatedParams = {};
 
 const toastIncompatibleParams = [
-  'allowOutsideClick',
-  'allowEnterKey',
-  'backdrop',
-  'focusConfirm',
-  'focusDeny',
-  'focusCancel',
-  'returnFocus',
-  'heightAuto',
-  'keydownListenerCapture',
-]
+'allowOutsideClick',
+'allowEnterKey',
+'backdrop',
+'focusConfirm',
+'focusDeny',
+'focusCancel',
+'returnFocus',
+'heightAuto',
+'keydownListenerCapture'];
+
 
 /**
  * Is valid parameter
@@ -160,8 +160,8 @@ const toastIncompatibleParams = [
  * @returns {boolean}
  */
 export const isValidParameter = (paramName) => {
-  return Object.prototype.hasOwnProperty.call(defaultParams, paramName)
-}
+  return Object.prototype.hasOwnProperty.call(defaultParams, paramName);
+};
 
 /**
  * Is valid parameter for Swal.update() method
@@ -170,8 +170,8 @@ export const isValidParameter = (paramName) => {
  * @returns {boolean}
  */
 export const isUpdatableParameter = (paramName) => {
-  return updatableParams.indexOf(paramName) !== -1
-}
+  return updatableParams.indexOf(paramName) !== -1;
+};
 
 /**
  * Is deprecated parameter
@@ -180,36 +180,36 @@ export const isUpdatableParameter = (paramName) => {
  * @returns {string | undefined}
  */
 export const isDeprecatedParameter = (paramName) => {
-  return deprecatedParams[paramName]
-}
+  return deprecatedParams[paramName];
+};
 
 /**
  * @param {string} param
  */
 const checkIfParamIsValid = (param) => {
   if (!isValidParameter(param)) {
-    warn(`Unknown parameter "${param}"`)
+    warn(`Unknown parameter "${param}"`);
   }
-}
+};
 
 /**
  * @param {string} param
  */
 const checkIfToastParamIsValid = (param) => {
   if (toastIncompatibleParams.includes(param)) {
-    warn(`The parameter "${param}" is incompatible with toasts`)
+    warn(`The parameter "${param}" is incompatible with toasts`);
   }
-}
+};
 
 /**
  * @param {string} param
  */
 const checkIfParamIsDeprecated = (param) => {
-  const isDeprecated = isDeprecatedParameter(param)
+  const isDeprecated = isDeprecatedParameter(param);
   if (isDeprecated) {
-    warnAboutDeprecation(param, isDeprecated)
+    warnAboutDeprecation(param, isDeprecated);
   }
-}
+};
 
 /**
  * Show relevant warnings for given params
@@ -218,18 +218,18 @@ const checkIfParamIsDeprecated = (param) => {
  */
 export const showWarningsForParams = (params) => {
   if (params.backdrop === false && params.allowOutsideClick) {
-    warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`')
+    warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
   }
 
   for (const param in params) {
-    checkIfParamIsValid(param)
+    checkIfParamIsValid(param);
 
     if (params.toast) {
-      checkIfToastParamIsValid(param)
+      checkIfToastParamIsValid(param);
     }
 
-    checkIfParamIsDeprecated(param)
+    checkIfParamIsDeprecated(param);
   }
-}
+};
 
-export default defaultParams
+export default defaultParams;

@@ -10,7 +10,7 @@ export const ZeroPadding = {
 
     // Pad
     _data.clamp();
-    _data.sigBytes += blockSizeBytes - ((data.sigBytes % blockSizeBytes) || blockSizeBytes);
+    _data.sigBytes += blockSizeBytes - (data.sigBytes % blockSizeBytes || blockSizeBytes);
   },
 
   unpad(data) {
@@ -21,10 +21,10 @@ export const ZeroPadding = {
 
     // Unpad
     for (let i = _data.sigBytes - 1; i >= 0; i -= 1) {
-      if (((dataWords[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff)) {
+      if (dataWords[i >>> 2] >>> 24 - i % 4 * 8 & 0xff) {
         _data.sigBytes = i + 1;
         break;
       }
     }
-  },
+  }
 };

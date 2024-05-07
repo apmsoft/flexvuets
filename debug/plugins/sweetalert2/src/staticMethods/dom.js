@@ -1,5 +1,5 @@
-import * as domUtils from '../utils/dom/domUtils.js'
-import * as dom from '../utils/dom/index.js'
+import * as domUtils from "../utils/dom/domUtils.js";
+import * as dom from "../utils/dom/index.js";
 
 export {
   getContainer,
@@ -21,27 +21,27 @@ export {
   getFocusableElements,
   getValidationMessage,
   getProgressSteps,
-  isLoading,
-} from '../utils/dom/index.js'
+  isLoading } from "../utils/dom/index.js";
+
 
 /*
  * Global function to determine if SweetAlert2 popup is shown
  */
 export const isVisible = () => {
-  return domUtils.isVisible(dom.getPopup())
-}
+  return domUtils.isVisible(dom.getPopup());
+};
 
 /*
  * Global function to click 'Confirm' button
  */
-export const clickConfirm = () => dom.getConfirmButton()?.click()
+export const clickConfirm = () => dom.getConfirmButton()?.click();
 
 /*
  * Global function to click 'Deny' button
  */
-export const clickDeny = () => dom.getDenyButton()?.click()
+export const clickDeny = () => dom.getDenyButton()?.click();
 
 /*
  * Global function to click 'Cancel' button
  */
-export const clickCancel = () => dom.getCancelButton()?.click()
+export const clickCancel = () => dom.getCancelButton()?.click();

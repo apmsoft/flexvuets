@@ -1,8 +1,8 @@
 import {
-  WordArray,
-} from './core.js';
+  WordArray } from "./core.js";
 
-const swapEndian = word => ((word << 8) & 0xff00ff00) | ((word >>> 8) & 0x00ff00ff);
+
+const swapEndian = (word) => word << 8 & 0xff00ff00 | word >>> 8 & 0x00ff00ff;
 
 /**
  * UTF-16 BE encoding strategy.
@@ -28,7 +28,7 @@ export const Utf16BE = {
     // Convert
     const utf16Chars = [];
     for (let i = 0; i < sigBytes; i += 2) {
-      const codePoint = (words[i >>> 2] >>> (16 - (i % 4) * 8)) & 0xffff;
+      const codePoint = words[i >>> 2] >>> 16 - i % 4 * 8 & 0xffff;
       utf16Chars.push(String.fromCharCode(codePoint));
     }
 
@@ -55,11 +55,11 @@ export const Utf16BE = {
     // Convert
     const words = [];
     for (let i = 0; i < utf16StrLength; i += 1) {
-      words[i >>> 1] |= utf16Str.charCodeAt(i) << (16 - (i % 2) * 16);
+      words[i >>> 1] |= utf16Str.charCodeAt(i) << 16 - i % 2 * 16;
     }
 
     return WordArray.create(words, utf16StrLength * 2);
-  },
+  }
 };
 export const Utf16 = Utf16BE;
 
@@ -87,7 +87,7 @@ export const Utf16LE = {
     // Convert
     const utf16Chars = [];
     for (let i = 0; i < sigBytes; i += 2) {
-      const codePoint = swapEndian((words[i >>> 2] >>> (16 - (i % 4) * 8)) & 0xffff);
+      const codePoint = swapEndian(words[i >>> 2] >>> 16 - i % 4 * 8 & 0xffff);
       utf16Chars.push(String.fromCharCode(codePoint));
     }
 
@@ -114,9 +114,9 @@ export const Utf16LE = {
     // Convert
     const words = [];
     for (let i = 0; i < utf16StrLength; i += 1) {
-      words[i >>> 1] |= swapEndian(utf16Str.charCodeAt(i) << (16 - (i % 2) * 16));
+      words[i >>> 1] |= swapEndian(utf16Str.charCodeAt(i) << 16 - i % 2 * 16);
     }
 
     return WordArray.create(words, utf16StrLength * 2);
-  },
+  }
 };

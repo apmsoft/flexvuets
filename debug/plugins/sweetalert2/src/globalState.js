@@ -1,18 +1,18 @@
-import { RESTORE_FOCUS_TIMEOUT } from './constants.js'
+import { RESTORE_FOCUS_TIMEOUT } from "./constants.js";
 
 /** @type {GlobalState} */
-const globalState = {}
+const globalState = {};
 
-export default globalState
+export default globalState;
 
 const focusPreviousActiveElement = () => {
   if (globalState.previousActiveElement instanceof HTMLElement) {
-    globalState.previousActiveElement.focus()
-    globalState.previousActiveElement = null
+    globalState.previousActiveElement.focus();
+    globalState.previousActiveElement = null;
   } else if (document.body) {
-    document.body.focus()
+    document.body.focus();
   }
-}
+};
 
 /**
  * Restore previous active (focused) element
@@ -23,16 +23,16 @@ const focusPreviousActiveElement = () => {
 export const restoreActiveElement = (returnFocus) => {
   return new Promise((resolve) => {
     if (!returnFocus) {
-      return resolve()
+      return resolve();
     }
-    const x = window.scrollX
-    const y = window.scrollY
+    const x = window.scrollX;
+    const y = window.scrollY;
 
     globalState.restoreFocusTimeout = setTimeout(() => {
-      focusPreviousActiveElement()
-      resolve()
-    }, RESTORE_FOCUS_TIMEOUT) // issues/900
+      focusPreviousActiveElement();
+      resolve();
+    }, RESTORE_FOCUS_TIMEOUT); // issues/900
 
-    window.scrollTo(x, y)
-  })
-}
+    window.scrollTo(x, y);
+  });
+};

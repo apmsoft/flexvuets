@@ -1,7 +1,7 @@
 /**
  * ApexCharts Options for setting the initial configuration of ApexCharts
  **/
-import en from './../../locales/en.json'
+import en from "./../../locales/en.json";
 
 export default class Options {
   constructor() {
@@ -35,23 +35,23 @@ export default class Options {
           fontSize: '11px',
           fontWeight: 400,
           fontFamily: undefined,
-          cssClass: '',
+          cssClass: ''
         },
-        formatter: undefined,
+        formatter: undefined
       },
       axisBorder: {
         show: false,
         color: '#e0e0e0',
         width: 1,
         offsetX: 0,
-        offsetY: 0,
+        offsetY: 0
       },
       axisTicks: {
         show: false,
         color: '#e0e0e0',
         width: 6,
         offsetX: 0,
-        offsetY: 0,
+        offsetY: 0
       },
       title: {
         text: undefined,
@@ -63,12 +63,12 @@ export default class Options {
           fontSize: '11px',
           fontWeight: 900,
           fontFamily: undefined,
-          cssClass: '',
-        },
+          cssClass: ''
+        }
       },
       tooltip: {
         enabled: false,
-        offsetX: 0,
+        offsetX: 0
       },
       crosshairs: {
         show: true,
@@ -76,10 +76,10 @@ export default class Options {
         stroke: {
           color: '#b6b6b6',
           width: 1,
-          dashArray: 0,
-        },
-      },
-    }
+          dashArray: 0
+        }
+      }
+    };
 
     this.pointAnnotation = {
       id: undefined,
@@ -99,7 +99,7 @@ export default class Options {
         offsetX: 0,
         offsetY: 0,
         radius: 2,
-        cssClass: '',
+        cssClass: ''
       },
       label: {
         borderColor: '#c2c2c2',
@@ -123,25 +123,25 @@ export default class Options {
             left: 5,
             right: 5,
             top: 2,
-            bottom: 2,
-          },
-        },
+            bottom: 2
+          }
+        }
       },
       customSVG: {
         // this will be deprecated in the next major version as it is going to be replaced with a better alternative below
         SVG: undefined,
         cssClass: undefined,
         offsetX: 0,
-        offsetY: 0,
+        offsetY: 0
       },
       image: {
         path: undefined,
         width: 20,
         height: 20,
         offsetX: 0,
-        offsetY: 0,
-      },
-    }
+        offsetY: 0
+      }
+    };
 
     this.yAxisAnnotation = {
       id: undefined,
@@ -179,11 +179,11 @@ export default class Options {
             left: 5,
             right: 5,
             top: 2,
-            bottom: 2,
-          },
-        },
-      },
-    }
+            bottom: 2
+          }
+        }
+      }
+    };
 
     this.xAxisAnnotation = {
       id: undefined,
@@ -220,11 +220,11 @@ export default class Options {
             left: 5,
             right: 5,
             top: 2,
-            bottom: 2,
-          },
-        },
-      },
-    }
+            bottom: 2
+          }
+        }
+      }
+    };
 
     this.text = {
       x: 0,
@@ -243,8 +243,8 @@ export default class Options {
       paddingLeft: 4,
       paddingRight: 4,
       paddingTop: 2,
-      paddingBottom: 2,
-    }
+      paddingBottom: 2
+    };
   }
   init() {
     return {
@@ -254,7 +254,7 @@ export default class Options {
         points: [this.pointAnnotation],
         texts: [],
         images: [],
-        shapes: [],
+        shapes: []
       },
       chart: {
         animations: {
@@ -263,12 +263,12 @@ export default class Options {
           speed: 800,
           animateGradually: {
             delay: 150,
-            enabled: true,
+            enabled: true
           },
           dynamicAnimation: {
             enabled: true,
-            speed: 350,
-          },
+            speed: 350
+          }
         },
         background: 'transparent',
         locales: [en],
@@ -280,7 +280,7 @@ export default class Options {
           left: 2,
           blur: 4,
           color: '#000',
-          opacity: 0.35,
+          opacity: 0.35
         },
         events: {
           animationEnd: undefined,
@@ -301,7 +301,7 @@ export default class Options {
           beforeResetZoom: undefined,
           zoomed: undefined,
           scrolled: undefined,
-          brushScrolled: undefined,
+          brushScrolled: undefined
         },
         foreColor: '#373d3f',
         fontFamily: 'Helvetica, Arial, sans-serif',
@@ -320,31 +320,31 @@ export default class Options {
           // selectedPoints: undefined, // default datapoints that should be selected automatically
           fill: {
             color: '#24292e',
-            opacity: 0.1,
+            opacity: 0.1
           },
           stroke: {
             width: 1,
             color: '#24292e',
             opacity: 0.4,
-            dashArray: 3,
+            dashArray: 3
           },
           xaxis: {
             min: undefined,
-            max: undefined,
+            max: undefined
           },
           yaxis: {
             min: undefined,
-            max: undefined,
-          },
+            max: undefined
+          }
         },
         sparkline: {
-          enabled: false,
+          enabled: false
         },
         brush: {
           enabled: false,
           autoScaleYaxis: true,
           target: undefined,
-          targets: undefined,
+          targets: undefined
         },
         stacked: false,
         stackOnlyBar: true, // mixed chart with stacked bars and line series - incorrect line draw #907
@@ -361,7 +361,7 @@ export default class Options {
             zoomout: true,
             pan: true,
             reset: true,
-            customIcons: [],
+            customIcons: []
           },
           export: {
             csv: {
@@ -370,17 +370,17 @@ export default class Options {
               headerCategory: 'category',
               headerValue: 'value',
               dateFormatter(timestamp) {
-                return new Date(timestamp).toDateString()
-              },
+                return new Date(timestamp).toDateString();
+              }
             },
             png: {
-              filename: undefined,
+              filename: undefined
             },
             svg: {
-              filename: undefined,
-            },
+              filename: undefined
+            }
           },
-          autoSelected: 'zoom', // accepts -> zoom, pan, selection
+          autoSelected: 'zoom' // accepts -> zoom, pan, selection
         },
         type: 'line',
         width: '100%',
@@ -391,19 +391,19 @@ export default class Options {
           zoomedArea: {
             fill: {
               color: '#90CAF9',
-              opacity: 0.4,
+              opacity: 0.4
             },
             stroke: {
               color: '#0D47A1',
               opacity: 0.4,
-              width: 1,
-            },
-          },
-        },
+              width: 1
+            }
+          }
+        }
       },
       plotOptions: {
         area: {
-          fillTo: 'origin',
+          fillTo: 'origin'
         },
         bar: {
           horizontal: false,
@@ -424,7 +424,7 @@ export default class Options {
             ranges: [],
             backgroundBarColors: [],
             backgroundBarOpacity: 1,
-            backgroundBarRadius: 0,
+            backgroundBarRadius: 0
           },
           dataLabels: {
             position: 'top', // top, center, bottom
@@ -440,30 +440,30 @@ export default class Options {
                 color: '#373d3f',
                 fontSize: '12px',
                 fontFamily: undefined,
-                fontWeight: 600,
-              },
-            },
-          },
+                fontWeight: 600
+              }
+            }
+          }
         },
         bubble: {
           zScaling: true,
           minBubbleRadius: undefined,
-          maxBubbleRadius: undefined,
+          maxBubbleRadius: undefined
         },
         candlestick: {
           colors: {
             upward: '#00B746',
-            downward: '#EF403C',
+            downward: '#EF403C'
           },
           wick: {
-            useFillColor: true,
-          },
+            useFillColor: true
+          }
         },
         boxPlot: {
           colors: {
             upper: '#00E396',
-            lower: '#008FFB',
-          },
+            lower: '#008FFB'
+          }
         },
         heatmap: {
           radius: 2,
@@ -476,8 +476,8 @@ export default class Options {
             inverse: false,
             ranges: [],
             min: undefined,
-            max: undefined,
-          },
+            max: undefined
+          }
         },
         treemap: {
           enableShades: true,
@@ -487,14 +487,14 @@ export default class Options {
           useFillColorAsStroke: false,
           borderRadius: 4,
           dataLabels: {
-            format: 'scale', // scale | truncate
+            format: 'scale' // scale | truncate
           },
           colorScale: {
             inverse: false,
             ranges: [],
             min: undefined,
-            max: undefined,
-          },
+            max: undefined
+          }
         },
         radialBar: {
           inverseOrder: false,
@@ -519,8 +519,8 @@ export default class Options {
               left: 0,
               blur: 3,
               color: '#000',
-              opacity: 0.5,
-            },
+              opacity: 0.5
+            }
           },
           track: {
             show: true,
@@ -536,8 +536,8 @@ export default class Options {
               left: 0,
               blur: 3,
               color: '#000',
-              opacity: 0.5,
-            },
+              opacity: 0.5
+            }
           },
           dataLabels: {
             show: true,
@@ -549,8 +549,8 @@ export default class Options {
               color: undefined,
               offsetY: 0,
               formatter(val) {
-                return val
-              },
+                return val;
+              }
             },
             value: {
               show: true,
@@ -560,8 +560,8 @@ export default class Options {
               color: undefined,
               offsetY: 16,
               formatter(val) {
-                return val + '%'
-              },
+                return val + '%';
+              }
             },
             total: {
               show: false,
@@ -573,11 +573,11 @@ export default class Options {
               formatter(w) {
                 return (
                   w.globals.seriesTotals.reduce((a, b) => a + b, 0) /
-                    w.globals.series.length +
-                  '%'
-                )
-              },
-            },
+                  w.globals.series.length +
+                  '%');
+
+              }
+            }
           },
           barLabels: {
             enabled: false,
@@ -587,10 +587,10 @@ export default class Options {
             fontWeight: 600,
             fontSize: '16px',
             formatter(val) {
-              return val
+              return val;
             },
-            onClick: undefined,
-          },
+            onClick: undefined
+          }
         },
         pie: {
           customScale: 1,
@@ -602,7 +602,7 @@ export default class Options {
           dataLabels: {
             // These are the percentage values which are displayed on slice
             offset: 0, // offset by which labels will move outside
-            minAngleToShowLabel: 10,
+            minAngleToShowLabel: 10
           },
           donut: {
             size: '65%',
@@ -618,8 +618,8 @@ export default class Options {
                 color: undefined,
                 offsetY: -10,
                 formatter(val) {
-                  return val
-                },
+                  return val;
+                }
               },
               value: {
                 show: true,
@@ -629,8 +629,8 @@ export default class Options {
                 color: undefined,
                 offsetY: 10,
                 formatter(val) {
-                  return val
-                },
+                  return val;
+                }
               },
               total: {
                 show: false,
@@ -641,21 +641,21 @@ export default class Options {
                 fontFamily: undefined,
                 color: undefined,
                 formatter(w) {
-                  return w.globals.seriesTotals.reduce((a, b) => a + b, 0)
-                },
-              },
-            },
-          },
+                  return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                }
+              }
+            }
+          }
         },
         polarArea: {
           rings: {
             strokeWidth: 1,
-            strokeColor: '#e8e8e8',
+            strokeColor: '#e8e8e8'
           },
           spokes: {
             strokeWidth: 1,
-            connectorColors: '#e8e8e8',
-          },
+            connectorColors: '#e8e8e8'
+          }
         },
         radar: {
           size: undefined,
@@ -667,17 +667,17 @@ export default class Options {
             strokeColors: '#e8e8e8',
             connectorColors: '#e8e8e8',
             fill: {
-              colors: undefined,
-            },
-          },
-        },
+              colors: undefined
+            }
+          }
+        }
       },
       colors: undefined,
       dataLabels: {
         enabled: true,
         enabledOnSeries: undefined,
         formatter(val) {
-          return val !== null ? val : ''
+          return val !== null ? val : '';
         },
         textAnchor: 'middle',
         distributed: false,
@@ -687,7 +687,7 @@ export default class Options {
           fontSize: '12px',
           fontFamily: undefined,
           fontWeight: 600,
-          colors: undefined,
+          colors: undefined
         },
         background: {
           enabled: true,
@@ -703,8 +703,8 @@ export default class Options {
             left: 1,
             blur: 1,
             color: '#000',
-            opacity: 0.45,
-          },
+            opacity: 0.45
+          }
         },
         dropShadow: {
           enabled: false,
@@ -712,8 +712,8 @@ export default class Options {
           left: 1,
           blur: 1,
           color: '#000',
-          opacity: 0.45,
-        },
+          opacity: 0.45
+        }
       },
       fill: {
         type: 'solid',
@@ -728,25 +728,25 @@ export default class Options {
           opacityFrom: 1,
           opacityTo: 1,
           stops: [0, 50, 100],
-          colorStops: [],
+          colorStops: []
         },
         image: {
           src: [],
           width: undefined, // optional
-          height: undefined, // optional
+          height: undefined // optional
         },
         pattern: {
           style: 'squares', // String | Array of Strings
           width: 6,
           height: 6,
-          strokeWidth: 2,
-        },
+          strokeWidth: 2
+        }
       },
       forecastDataPoints: {
         count: 0,
         fillOpacity: 0.5,
         strokeWidth: undefined,
-        dashArray: 4,
+        dashArray: 4
       },
       grid: {
         show: true,
@@ -755,28 +755,28 @@ export default class Options {
         position: 'back',
         xaxis: {
           lines: {
-            show: false,
-          },
+            show: false
+          }
         },
         yaxis: {
           lines: {
-            show: true,
-          },
+            show: true
+          }
         },
         row: {
           colors: undefined, // takes as array which will be repeated on rows
-          opacity: 0.5,
+          opacity: 0.5
         },
         column: {
           colors: undefined, // takes an array which will be repeated on columns
-          opacity: 0.5,
+          opacity: 0.5
         },
         padding: {
           top: 0,
           right: 10,
           bottom: 0,
-          left: 12,
-        },
+          left: 12
+        }
       },
       labels: [],
       legend: {
@@ -801,7 +801,7 @@ export default class Options {
         customLegendItems: [],
         labels: {
           colors: undefined,
-          useSeriesColors: false,
+          useSeriesColors: false
         },
         markers: {
           width: 12,
@@ -813,18 +813,18 @@ export default class Options {
           customHTML: undefined,
           offsetX: 0,
           offsetY: 0,
-          onClick: undefined,
+          onClick: undefined
         },
         itemMargin: {
           horizontal: 5,
-          vertical: 2,
+          vertical: 2
         },
         onItemClick: {
-          toggleDataSeries: true,
+          toggleDataSeries: true
         },
         onItemHover: {
-          highlightDataSeries: true,
-        },
+          highlightDataSeries: true
+        }
       },
       markers: {
         discrete: [],
@@ -847,8 +847,8 @@ export default class Options {
         showNullDataPoints: true,
         hover: {
           size: undefined,
-          sizeOffset: 3,
-        },
+          sizeOffset: 3
+        }
       },
       noData: {
         text: undefined,
@@ -859,8 +859,8 @@ export default class Options {
         style: {
           color: undefined,
           fontSize: '14px',
-          fontFamily: undefined,
-        },
+          fontFamily: undefined
+        }
       },
       responsive: [], // breakpoints should follow ascending order 400, then 700, then 1000
       series: undefined,
@@ -868,22 +868,22 @@ export default class Options {
         normal: {
           filter: {
             type: 'none',
-            value: 0,
-          },
+            value: 0
+          }
         },
         hover: {
           filter: {
             type: 'lighten',
-            value: 0.1,
-          },
+            value: 0.1
+          }
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
             type: 'darken',
-            value: 0.5,
-          },
-        },
+            value: 0.5
+          }
+        }
       },
       title: {
         text: undefined,
@@ -896,8 +896,8 @@ export default class Options {
           fontSize: '14px',
           fontWeight: 900,
           fontFamily: undefined,
-          color: undefined,
-        },
+          color: undefined
+        }
       },
       subtitle: {
         text: undefined,
@@ -910,8 +910,8 @@ export default class Options {
           fontSize: '12px',
           fontWeight: 400,
           fontFamily: undefined,
-          color: undefined,
-        },
+          color: undefined
+        }
       },
       stroke: {
         show: true,
@@ -933,9 +933,9 @@ export default class Options {
             opacityFrom: 1,
             opacityTo: 1,
             stops: [0, 50, 100],
-            colorStops: [],
-          },
-        },
+            colorStops: []
+          }
+        }
       },
       tooltip: {
         enabled: true,
@@ -951,42 +951,42 @@ export default class Options {
         cssClass: '',
         style: {
           fontSize: '12px',
-          fontFamily: undefined,
+          fontFamily: undefined
         },
         onDatasetHover: {
-          highlightDataSeries: false,
+          highlightDataSeries: false
         },
         x: {
           // x value
           show: true,
           format: 'dd MMM', // dd/MM, dd MMM yy, dd MMM yyyy
-          formatter: undefined, // a custom user supplied formatter function
+          formatter: undefined // a custom user supplied formatter function
         },
         y: {
           formatter: undefined,
           title: {
             formatter(seriesName) {
-              return seriesName ? seriesName + ': ' : ''
-            },
-          },
+              return seriesName ? seriesName + ': ' : '';
+            }
+          }
         },
         z: {
           formatter: undefined,
-          title: 'Size: ',
+          title: 'Size: '
         },
         marker: {
           show: true,
-          fillColors: undefined,
+          fillColors: undefined
         },
         items: {
-          display: 'flex',
+          display: 'flex'
         },
         fixed: {
           enabled: false,
           position: 'topRight', // topRight, topLeft, bottomRight, bottomLeft
           offsetX: 0,
-          offsetY: 0,
-        },
+          offsetY: 0
+        }
       },
       xaxis: {
         type: 'category',
@@ -1009,7 +1009,7 @@ export default class Options {
             fontSize: '12px',
             fontWeight: 400,
             fontFamily: undefined,
-            cssClass: '',
+            cssClass: ''
           },
           offsetX: 0,
           offsetY: 0,
@@ -1022,8 +1022,8 @@ export default class Options {
             day: 'dd MMM',
             hour: 'HH:mm',
             minute: 'HH:mm:ss',
-            second: 'HH:mm:ss',
-          },
+            second: 'HH:mm:ss'
+          }
         },
         group: {
           groups: [],
@@ -1032,8 +1032,8 @@ export default class Options {
             fontSize: '12px',
             fontWeight: 400,
             fontFamily: undefined,
-            cssClass: '',
-          },
+            cssClass: ''
+          }
         },
         axisBorder: {
           show: true,
@@ -1041,14 +1041,14 @@ export default class Options {
           width: '100%',
           height: 1,
           offsetX: 0,
-          offsetY: 0,
+          offsetY: 0
         },
         axisTicks: {
           show: true,
           color: '#e0e0e0',
           height: 6,
           offsetX: 0,
-          offsetY: 0,
+          offsetY: 0
         },
         stepSize: undefined,
         tickAmount: undefined,
@@ -1068,8 +1068,8 @@ export default class Options {
             fontSize: '12px',
             fontWeight: 900,
             fontFamily: undefined,
-            cssClass: '',
-          },
+            cssClass: ''
+          }
         },
         crosshairs: {
           show: true,
@@ -1079,7 +1079,7 @@ export default class Options {
           stroke: {
             color: '#b6b6b6',
             width: 1,
-            dashArray: 3,
+            dashArray: 3
           },
           fill: {
             type: 'solid', // solid, gradient
@@ -1089,16 +1089,16 @@ export default class Options {
               colorTo: '#BED1E6',
               stops: [0, 100],
               opacityFrom: 0.4,
-              opacityTo: 0.5,
-            },
+              opacityTo: 0.5
+            }
           },
           dropShadow: {
             enabled: false,
             left: 0,
             top: 0,
             blur: 1,
-            opacity: 0.4,
-          },
+            opacity: 0.4
+          }
         },
         tooltip: {
           enabled: true,
@@ -1106,9 +1106,9 @@ export default class Options {
           formatter: undefined,
           style: {
             fontSize: '12px',
-            fontFamily: undefined,
-          },
-        },
+            fontFamily: undefined
+          }
+        }
       },
       yaxis: this.yAxis,
       theme: {
@@ -1119,9 +1119,9 @@ export default class Options {
           enabled: false,
           color: '#008FFB',
           shadeTo: 'light',
-          shadeIntensity: 0.65,
-        },
-      },
-    }
+          shadeIntensity: 0.65
+        }
+      }
+    };
   }
 }

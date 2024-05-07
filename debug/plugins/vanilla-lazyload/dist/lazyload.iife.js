@@ -1,4 +1,4 @@
-var LazyLoad = (function () {
+var LazyLoad = function () {
   'use strict';
 
   const runningOnBrowser = typeof window !== "undefined";
@@ -39,7 +39,7 @@ var LazyLoad = (function () {
     use_native: false,
     restore_on_error: false
   };
-  const getExtendedSettings = customSettings => {
+  const getExtendedSettings = (customSettings) => {
     return Object.assign({}, defaultSettings, customSettings);
   };
 
@@ -109,15 +109,15 @@ var LazyLoad = (function () {
     }
     element.setAttribute(attrName, value);
   };
-  const getStatus = element => getData(element, statusDataName);
+  const getStatus = (element) => getData(element, statusDataName);
   const setStatus = (element, status) => setData(element, statusDataName, status);
-  const resetStatus = element => setStatus(element, null);
-  const hasEmptyStatus = element => getStatus(element) === null;
-  const hasStatusLoading = element => getStatus(element) === statusLoading;
-  const hasStatusError = element => getStatus(element) === statusError;
-  const hasStatusNative = element => getStatus(element) === statusNative;
+  const resetStatus = (element) => setStatus(element, null);
+  const hasEmptyStatus = (element) => getStatus(element) === null;
+  const hasStatusLoading = (element) => getStatus(element) === statusLoading;
+  const hasStatusError = (element) => getStatus(element) === statusError;
+  const hasStatusNative = (element) => getStatus(element) === statusNative;
   const statusesAfterLoading = [statusLoading, statusLoaded, statusApplied, statusError];
-  const hadStartedLoading = element => statusesAfterLoading.indexOf(getStatus(element)) >= 0;
+  const hadStartedLoading = (element) => statusesAfterLoading.indexOf(getStatus(element)) >= 0;
 
   const safeCallback = (callback, arg1, arg2, arg3) => {
     if (!callback || typeof callback !== 'function') {
@@ -153,13 +153,13 @@ var LazyLoad = (function () {
     element.classList.remove(className);
   };
 
-  const addTempImage = element => {
+  const addTempImage = (element) => {
     element.llTempImage = document.createElement("IMG");
   };
-  const deleteTempImage = element => {
+  const deleteTempImage = (element) => {
     delete element.llTempImage;
   };
-  const getTempImage = element => element.llTempImage;
+  const getTempImage = (element) => element.llTempImage;
 
   const unobserve = (element, instance) => {
     if (!instance) return;
@@ -167,7 +167,7 @@ var LazyLoad = (function () {
     if (!observer) return;
     observer.unobserve(element);
   };
-  const resetObserver = observer => {
+  const resetObserver = (observer) => {
     observer.disconnect();
   };
   const unobserveEntered = (element, settings, instance) => {
@@ -178,7 +178,7 @@ var LazyLoad = (function () {
     if (!instance) return;
     instance.loadingCount += delta;
   };
-  const decreaseToLoadCount = instance => {
+  const decreaseToLoadCount = (instance) => {
     if (!instance) return;
     instance.toLoadCount -= 1;
   };
@@ -186,10 +186,10 @@ var LazyLoad = (function () {
     if (!instance) return;
     instance.toLoadCount = value;
   };
-  const isSomethingLoading = instance => instance.loadingCount > 0;
-  const haveElementsToLoad = instance => instance.toLoadCount > 0;
+  const isSomethingLoading = (instance) => instance.loadingCount > 0;
+  const haveElementsToLoad = (instance) => instance.toLoadCount > 0;
 
-  const getSourceTags = parentTag => {
+  const getSourceTags = (parentTag) => {
     let sourceTags = [];
     for (let i = 0, childTag; childTag = parentTag.children[i]; i += 1) {
       if (childTag.tagName === "SOURCE") {
@@ -215,9 +215,9 @@ var LazyLoad = (function () {
   const attrsSrcPoster = [SRC, POSTER];
   const attrsSrcSrcsetSizes = [SRC, SRCSET, SIZES];
   const attrsData = [DATA];
-  const hasOriginalAttrs = element => !!element[ORIGINALS];
-  const getOriginalAttrs = element => element[ORIGINALS];
-  const deleteOriginalAttrs = element => delete element[ORIGINALS];
+  const hasOriginalAttrs = (element) => !!element[ORIGINALS];
+  const getOriginalAttrs = (element) => element[ORIGINALS];
+  const deleteOriginalAttrs = (element) => delete element[ORIGINALS];
 
   // ## SAVE ##
 
@@ -226,12 +226,12 @@ var LazyLoad = (function () {
       return;
     }
     const originals = {};
-    attributes.forEach(attribute => {
+    attributes.forEach((attribute) => {
       originals[attribute] = element.getAttribute(attribute);
     });
     element[ORIGINALS] = originals;
   };
-  const saveOriginalBackgroundStyle = element => {
+  const saveOriginalBackgroundStyle = (element) => {
     if (hasOriginalAttrs(element)) {
       return;
     }
@@ -254,11 +254,11 @@ var LazyLoad = (function () {
       return;
     }
     const originals = getOriginalAttrs(element);
-    attributes.forEach(attribute => {
+    attributes.forEach((attribute) => {
       setOrResetAttribute(element, attribute, originals[attribute]);
     });
   };
-  const restoreOriginalBgImage = element => {
+  const restoreOriginalBgImage = (element) => {
     if (!hasOriginalAttrs(element)) {
       return;
     }
@@ -297,7 +297,7 @@ var LazyLoad = (function () {
     setAttributeIfValue(element, SRC, getData(element, settings.data_src));
   };
   const setSourcesImg = (imgEl, settings) => {
-    forEachPictureSource(imgEl, sourceTag => {
+    forEachPictureSource(imgEl, (sourceTag) => {
       setOriginalsObject(sourceTag, attrsSrcSrcsetSizes);
       setImageAttributes(sourceTag, settings);
     });
@@ -309,7 +309,7 @@ var LazyLoad = (function () {
     setAttributeIfValue(iframe, SRC, getData(iframe, settings.data_src));
   };
   const setSourcesVideo = (videoEl, settings) => {
-    forEachVideoSource(videoEl, sourceEl => {
+    forEachVideoSource(videoEl, (sourceEl) => {
       setOriginalsObject(sourceEl, attrsSrc);
       setAttributeIfValue(sourceEl, SRC, getData(sourceEl, settings.data_src));
     });
@@ -351,7 +351,7 @@ var LazyLoad = (function () {
       return;
     }
     const imgSetValues = bgImgSetDataValue.split("|");
-    let bgImageValues = imgSetValues.map(value => `image-set(${value})`);
+    let bgImageValues = imgSetValues.map((value) => `image-set(${value})`);
     element.style.backgroundImage = bgImageValues.join();
     manageApplied(element, settings, instance);
   };
@@ -378,7 +378,7 @@ var LazyLoad = (function () {
   };
 
   const elementsWithLoadEvent = ["IMG", "IFRAME", "VIDEO", "OBJECT"];
-  const hasLoadEvent = element => elementsWithLoadEvent.indexOf(element.tagName) > -1;
+  const hasLoadEvent = (element) => elementsWithLoadEvent.indexOf(element.tagName) > -1;
   const checkFinish = (settings, instance) => {
     if (instance && !isSomethingLoading(instance) && !haveElementsToLoad(instance)) {
       safeCallback(settings.callback_finish, instance);
@@ -391,7 +391,7 @@ var LazyLoad = (function () {
   const removeEventListener = (element, eventName, handler) => {
     element.removeEventListener(eventName, handler);
   };
-  const hasEventListeners = element => {
+  const hasEventListeners = (element) => {
     return !!element.llEvLisnrs;
   };
   const addEventListeners = (element, loadHandler, errorHandler) => {
@@ -400,7 +400,7 @@ var LazyLoad = (function () {
     addEventListener(element, loadEventName, loadHandler);
     addEventListener(element, "error", errorHandler);
   };
-  const removeEventListeners = element => {
+  const removeEventListeners = (element) => {
     if (!hasEventListeners(element)) {
       return;
     }
@@ -443,11 +443,11 @@ var LazyLoad = (function () {
       // This happens when loading is retried twice
       return;
     }
-    const _loadHandler = event => {
+    const _loadHandler = (event) => {
       loadHandler(event, element, settings, instance);
       removeEventListeners(elementToListenTo);
     };
-    const _errorHandler = event => {
+    const _errorHandler = (event) => {
       errorHandler(event, element, settings, instance);
       removeEventListeners(elementToListenTo);
     };
@@ -480,35 +480,35 @@ var LazyLoad = (function () {
     setStatus(element, statusNative);
   };
 
-  const removeImageAttributes = element => {
+  const removeImageAttributes = (element) => {
     element.removeAttribute(SRC);
     element.removeAttribute(SRCSET);
     element.removeAttribute(SIZES);
   };
-  const resetSourcesImg = element => {
-    forEachPictureSource(element, sourceTag => {
+  const resetSourcesImg = (element) => {
+    forEachPictureSource(element, (sourceTag) => {
       removeImageAttributes(sourceTag);
     });
     removeImageAttributes(element);
   };
 
-  const restoreImg = imgEl => {
-    forEachPictureSource(imgEl, sourceEl => {
+  const restoreImg = (imgEl) => {
+    forEachPictureSource(imgEl, (sourceEl) => {
       restoreOriginalAttrs(sourceEl, attrsSrcSrcsetSizes);
     });
     restoreOriginalAttrs(imgEl, attrsSrcSrcsetSizes);
   };
-  const restoreVideo = videoEl => {
-    forEachVideoSource(videoEl, sourceEl => {
+  const restoreVideo = (videoEl) => {
+    forEachVideoSource(videoEl, (sourceEl) => {
       restoreOriginalAttrs(sourceEl, attrsSrc);
     });
     restoreOriginalAttrs(videoEl, attrsSrcPoster);
     videoEl.load();
   };
-  const restoreIframe = iframeEl => {
+  const restoreIframe = (iframeEl) => {
     restoreOriginalAttrs(iframeEl, attrsSrc);
   };
-  const restoreObject = objectEl => {
+  const restoreObject = (objectEl) => {
     restoreOriginalAttrs(objectEl, attrsData);
   };
   const restoreFunctions = {
@@ -517,7 +517,7 @@ var LazyLoad = (function () {
     VIDEO: restoreVideo,
     OBJECT: restoreObject
   };
-  const restoreAttributes = element => {
+  const restoreAttributes = (element) => {
     const restoreFunction = restoreFunctions[element.tagName];
     if (!restoreFunction) {
       restoreOriginalBgImage(element);
@@ -558,7 +558,7 @@ var LazyLoad = (function () {
 
   const onEnter = (element, entry, settings, instance) => {
     const dontLoad = hadStartedLoading(element); /* Save status
-                                                 before setting it, to prevent loading it again. Fixes #526. */
+    before setting it, to prevent loading it again. Fixes #526. */
     setStatus(element, statusEntered);
     addClass(element, settings.class_entered);
     removeClass(element, settings.class_exited);
@@ -575,9 +575,9 @@ var LazyLoad = (function () {
   };
 
   const tagsWithNativeLazy = ["IMG", "IFRAME", "VIDEO"];
-  const shouldUseNative = settings => settings.use_native && "loading" in HTMLImageElement.prototype;
+  const shouldUseNative = (settings) => settings.use_native && "loading" in HTMLImageElement.prototype;
   const loadAllNative = (elements, settings, instance) => {
-    elements.forEach(element => {
+    elements.forEach((element) => {
       if (tagsWithNativeLazy.indexOf(element.tagName) === -1) {
         return;
       }
@@ -586,16 +586,16 @@ var LazyLoad = (function () {
     setToLoadCount(instance, 0);
   };
 
-  const isIntersecting = entry => entry.isIntersecting || entry.intersectionRatio > 0;
-  const getObserverSettings = settings => ({
+  const isIntersecting = (entry) => entry.isIntersecting || entry.intersectionRatio > 0;
+  const getObserverSettings = (settings) => ({
     root: settings.container === document ? null : settings.container,
     rootMargin: settings.thresholds || settings.threshold + "px"
   });
   const intersectionHandler = (entries, settings, instance) => {
-    entries.forEach(entry => isIntersecting(entry) ? onEnter(entry.target, entry, settings, instance) : onExit(entry.target, entry, settings, instance));
+    entries.forEach((entry) => isIntersecting(entry) ? onEnter(entry.target, entry, settings, instance) : onExit(entry.target, entry, settings, instance));
   };
   const observeElements = (observer, elements) => {
-    elements.forEach(element => {
+    elements.forEach((element) => {
       observer.observe(element);
     });
   };
@@ -607,21 +607,21 @@ var LazyLoad = (function () {
     if (shouldUseNative(settings)) {
       return;
     }
-    instance._observer = new IntersectionObserver(entries => {
+    instance._observer = new IntersectionObserver((entries) => {
       intersectionHandler(entries, settings, instance);
     }, getObserverSettings(settings));
   };
 
-  const toArray = nodeSet => Array.prototype.slice.call(nodeSet);
-  const queryElements = settings => settings.container.querySelectorAll(settings.elements_selector);
-  const excludeManagedElements = elements => toArray(elements).filter(hasEmptyStatus);
-  const hasError = element => hasStatusError(element);
-  const filterErrorElements = elements => toArray(elements).filter(hasError);
+  const toArray = (nodeSet) => Array.prototype.slice.call(nodeSet);
+  const queryElements = (settings) => settings.container.querySelectorAll(settings.elements_selector);
+  const excludeManagedElements = (elements) => toArray(elements).filter(hasEmptyStatus);
+  const hasError = (element) => hasStatusError(element);
+  const filterErrorElements = (elements) => toArray(elements).filter(hasError);
   const getElementsToLoad = (elements, settings) => excludeManagedElements(elements || queryElements(settings));
 
   const retryLazyLoad = (settings, instance) => {
     const errorElements = filterErrorElements(queryElements(settings));
-    errorElements.forEach(element => {
+    errorElements.forEach((element) => {
       removeClass(element, settings.class_error);
       resetStatus(element);
     });
@@ -636,7 +636,7 @@ var LazyLoad = (function () {
     };
     window.addEventListener("online", instance._onlineHandler);
   };
-  const resetOnlineCheck = instance => {
+  const resetOnlineCheck = (instance) => {
     if (!runningOnBrowser) {
       return;
     }
@@ -674,7 +674,7 @@ var LazyLoad = (function () {
       // Clean handlers
       resetOnlineCheck(this);
       // Clean custom attributes on elements
-      queryElements(this._settings).forEach(element => {
+      queryElements(this._settings).forEach((element) => {
         deleteOriginalAttrs(element);
       });
       // Delete all internal props
@@ -687,14 +687,14 @@ var LazyLoad = (function () {
     loadAll: function (elements) {
       const settings = this._settings;
       const elementsToLoad = getElementsToLoad(elements, settings);
-      elementsToLoad.forEach(element => {
+      elementsToLoad.forEach((element) => {
         unobserve(element, this);
         load(element, settings, this);
       });
     },
     restoreAll: function () {
       const settings = this._settings;
-      queryElements(settings).forEach(element => {
+      queryElements(settings).forEach((element) => {
         restore(element, settings);
       });
     }
@@ -703,7 +703,7 @@ var LazyLoad = (function () {
     const settings = getExtendedSettings(customSettings);
     load(element, settings);
   };
-  LazyLoad.resetStatus = element => {
+  LazyLoad.resetStatus = (element) => {
     resetStatus(element);
   };
 
@@ -714,4 +714,4 @@ var LazyLoad = (function () {
 
   return LazyLoad;
 
-})();
+}();

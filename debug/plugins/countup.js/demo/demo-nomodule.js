@@ -96,7 +96,7 @@ window.onload = function () {
         return null;
     }
   }
-  var stringifyArray = function (arr) { return '[\'' + arr.join('\', \'') + '\']'; };
+  var stringifyArray = function (arr) {return '[\'' + arr.join('\', \'') + '\']';};
 
   // COUNTUP AND CODE VISUALIZER
 
@@ -107,8 +107,8 @@ window.onload = function () {
       errorSection.style.display = 'none';
       demo.start();
       updateCodeVisualizer();
-    }
-    else {
+    } else
+    {
       errorSection.style.display = 'block';
       document.getElementById('error').innerHTML = demo.error;
       console.error(demo.error);
@@ -157,31 +157,31 @@ window.onload = function () {
       }
     }
     function indentedLine(keyPair, singleLine) {
-      if (singleLine === void 0) { singleLine = false; }
-      var delimeter = (singleLine) ? ';' : ',';
+      if (singleLine === void 0) {singleLine = false;}
+      var delimeter = singleLine ? ';' : ',';
       return "&emsp;&emsp;" + keyPair + delimeter + "<br>";
     }
     var opts = '';
-    opts += (options.startVal !== '0') ? indentedLine("startVal: " + options.startVal) : '';
-    opts += (options.decimalPlaces !== '0') ? indentedLine("decimalPlaces: " + options.decimalPlaces) : '';
-    opts += (options.duration !== 2) ? indentedLine("duration: " + options.duration) : '';
-    opts += (options.useEasing) ? '' : indentedLine("useEasing: " + options.useEasing);
-    opts += (options.useEasing && options.easingFn) ? indentedLine("easingFn") : '';
-    opts += (options.useGrouping) ? '' : indentedLine("useGrouping: " + options.useGrouping);
-    opts += (options.useIndianSeparators) ? indentedLine("useIndianSeparators: " + options.useIndianSeparators) : '';
-    opts += (options.separator !== ',') ? indentedLine("separator: '" + options.separator + "'") : '';
-    opts += (options.decimal !== '.') ? indentedLine("decimal: '" + options.decimal + "'") : '';
-    opts += (options.prefix.length) ? indentedLine("prefix: '" + options.prefix + "'") : '';
-    opts += (options.suffix.length) ? indentedLine("suffix: '" + options.suffix + "'") : '';
-    opts += (options.numerals && options.numerals.length) ?
-      indentedLine("numerals: " + stringifyArray(options.numerals)) : '';
-    opts += (options.onCompleteCallback) ? indentedLine("onCompleteCallback: methodToCallOnComplete") : '';
+    opts += options.startVal !== '0' ? indentedLine("startVal: " + options.startVal) : '';
+    opts += options.decimalPlaces !== '0' ? indentedLine("decimalPlaces: " + options.decimalPlaces) : '';
+    opts += options.duration !== 2 ? indentedLine("duration: " + options.duration) : '';
+    opts += options.useEasing ? '' : indentedLine("useEasing: " + options.useEasing);
+    opts += options.useEasing && options.easingFn ? indentedLine("easingFn") : '';
+    opts += options.useGrouping ? '' : indentedLine("useGrouping: " + options.useGrouping);
+    opts += options.useIndianSeparators ? indentedLine("useIndianSeparators: " + options.useIndianSeparators) : '';
+    opts += options.separator !== ',' ? indentedLine("separator: '" + options.separator + "'") : '';
+    opts += options.decimal !== '.' ? indentedLine("decimal: '" + options.decimal + "'") : '';
+    opts += options.prefix.length ? indentedLine("prefix: '" + options.prefix + "'") : '';
+    opts += options.suffix.length ? indentedLine("suffix: '" + options.suffix + "'") : '';
+    opts += options.numerals && options.numerals.length ?
+    indentedLine("numerals: " + stringifyArray(options.numerals)) : '';
+    opts += options.onCompleteCallback ? indentedLine("onCompleteCallback: methodToCallOnComplete") : '';
 
     if (opts.length) {
       code += "const options = {<br>" + opts + "};<br>";
       code += "let demo = new CountUp('myTargetElement', " + endVal + ", options);<br>";
-    }
-    else {
+    } else
+    {
       code += "let demo = new CountUp('myTargetElement', " + endVal + ");<br>";
     }
     code += 'if (!demo.error) {<br>';
@@ -218,4 +218,4 @@ window.onload = function () {
     demo.start();
   };
   getStars.send();
-}
+};

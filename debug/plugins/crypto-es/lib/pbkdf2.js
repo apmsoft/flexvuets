@@ -1,9 +1,9 @@
 import {
   Base,
-  WordArray,
-} from './core.js';
-import { SHA256Algo } from './sha256.js';
-import { HMAC } from './hmac.js';
+  WordArray } from "./core.js";
+
+import { SHA256Algo } from "./sha256.js";
+import { HMAC } from "./hmac.js";
 
 /**
  * Password-Based Key Derivation Function 2 algorithm.
@@ -38,9 +38,9 @@ export class PBKDF2Algo extends Base {
       {
         keySize: 128 / 32,
         hasher: SHA256Algo,
-        iterations: 250000,
+        iterations: 250000
       },
-      cfg,
+      cfg
     );
   }
 

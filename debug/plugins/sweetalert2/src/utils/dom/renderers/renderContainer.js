@@ -1,26 +1,26 @@
-import { swalClasses } from '../../classes.js'
-import * as dom from '../../dom/index.js'
-import { warn } from '../../utils.js'
+import { swalClasses } from "../../classes.js";
+import * as dom from "../../dom/index.js";
+import { warn } from "../../utils.js";
 
 /**
  * @param {SweetAlert} instance
  * @param {SweetAlertOptions} params
  */
 export const renderContainer = (instance, params) => {
-  const container = dom.getContainer()
+  const container = dom.getContainer();
 
   if (!container) {
-    return
+    return;
   }
 
-  handleBackdropParam(container, params.backdrop)
+  handleBackdropParam(container, params.backdrop);
 
-  handlePositionParam(container, params.position)
-  handleGrowParam(container, params.grow)
+  handlePositionParam(container, params.position);
+  handleGrowParam(container, params.grow);
 
   // Custom class
-  dom.applyCustomClass(container, params, 'container')
-}
+  dom.applyCustomClass(container, params, 'container');
+};
 
 /**
  * @param {HTMLElement} container
@@ -28,9 +28,9 @@ export const renderContainer = (instance, params) => {
  */
 function handleBackdropParam(container, backdrop) {
   if (typeof backdrop === 'string') {
-    container.style.background = backdrop
+    container.style.background = backdrop;
   } else if (!backdrop) {
-    dom.addClass([document.documentElement, document.body], swalClasses['no-backdrop'])
+    dom.addClass([document.documentElement, document.body], swalClasses['no-backdrop']);
   }
 }
 
@@ -40,13 +40,13 @@ function handleBackdropParam(container, backdrop) {
  */
 function handlePositionParam(container, position) {
   if (!position) {
-    return
+    return;
   }
   if (position in swalClasses) {
-    dom.addClass(container, swalClasses[position])
+    dom.addClass(container, swalClasses[position]);
   } else {
-    warn('The "position" parameter is not valid, defaulting to "center"')
-    dom.addClass(container, swalClasses.center)
+    warn('The "position" parameter is not valid, defaulting to "center"');
+    dom.addClass(container, swalClasses.center);
   }
 }
 
@@ -56,7 +56,7 @@ function handlePositionParam(container, position) {
  */
 function handleGrowParam(container, grow) {
   if (!grow) {
-    return
+    return;
   }
-  dom.addClass(container, swalClasses[`grow-${grow}`])
+  dom.addClass(container, swalClasses[`grow-${grow}`]);
 }

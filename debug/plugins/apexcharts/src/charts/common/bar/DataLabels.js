@@ -1,16 +1,16 @@
-import Graphics from '../../../modules/Graphics'
-import DataLabels from '../../../modules/DataLabels'
+import Graphics from "../../../modules/Graphics";
+import DataLabels from "../../../modules/DataLabels";
 
 export default class BarDataLabels {
   constructor(barCtx) {
-    this.w = barCtx.w
-    this.barCtx = barCtx
+    this.w = barCtx.w;
+    this.barCtx = barCtx;
 
     this.totalFormatter =
-      this.w.config.plotOptions.bar.dataLabels.total.formatter
+    this.w.config.plotOptions.bar.dataLabels.total.formatter;
 
     if (!this.totalFormatter) {
-      this.totalFormatter = this.w.config.dataLabels.formatter
+      this.totalFormatter = this.w.config.dataLabels.formatter;
     }
   }
   /** handleBarDataLabels is used to calculate the positions for the data-labels
@@ -37,59 +37,59 @@ export default class BarDataLabels {
       barXPosition,
       barYPosition,
       visibleSeries,
-      renderedPath,
-    } = opts
-    let w = this.w
-    let graphics = new Graphics(this.barCtx.ctx)
+      renderedPath
+    } = opts;
+    let w = this.w;
+    let graphics = new Graphics(this.barCtx.ctx);
 
-    let strokeWidth = Array.isArray(this.barCtx.strokeWidth)
-      ? this.barCtx.strokeWidth[realIndex]
-      : this.barCtx.strokeWidth
+    let strokeWidth = Array.isArray(this.barCtx.strokeWidth) ?
+    this.barCtx.strokeWidth[realIndex] :
+    this.barCtx.strokeWidth;
 
-    let bcx = x + parseFloat(barWidth * visibleSeries)
-    let bcy = y + parseFloat(barHeight * visibleSeries)
+    let bcx = x + parseFloat(barWidth * visibleSeries);
+    let bcy = y + parseFloat(barHeight * visibleSeries);
 
     if (w.globals.isXNumeric && !w.globals.isBarHorizontal) {
-      bcx = x + parseFloat(barWidth * (visibleSeries + 1))
-      bcy = y + parseFloat(barHeight * (visibleSeries + 1)) - strokeWidth
+      bcx = x + parseFloat(barWidth * (visibleSeries + 1));
+      bcy = y + parseFloat(barHeight * (visibleSeries + 1)) - strokeWidth;
     }
 
-    let dataLabels = null
-    let totalDataLabels = null
-    let dataLabelsX = x
-    let dataLabelsY = y
-    let dataLabelsPos = {}
-    let dataLabelsConfig = w.config.dataLabels
-    let barDataLabelsConfig = this.barCtx.barOptions.dataLabels
-    let barTotalDataLabelsConfig = this.barCtx.barOptions.dataLabels.total
+    let dataLabels = null;
+    let totalDataLabels = null;
+    let dataLabelsX = x;
+    let dataLabelsY = y;
+    let dataLabelsPos = {};
+    let dataLabelsConfig = w.config.dataLabels;
+    let barDataLabelsConfig = this.barCtx.barOptions.dataLabels;
+    let barTotalDataLabelsConfig = this.barCtx.barOptions.dataLabels.total;
 
     if (typeof barYPosition !== 'undefined' && this.barCtx.isRangeBar) {
-      bcy = barYPosition
-      dataLabelsY = barYPosition
+      bcy = barYPosition;
+      dataLabelsY = barYPosition;
     }
 
     if (
-      typeof barXPosition !== 'undefined' &&
-      this.barCtx.isVerticalGroupedRangeBar
-    ) {
-      bcx = barXPosition
-      dataLabelsX = barXPosition
+    typeof barXPosition !== 'undefined' &&
+    this.barCtx.isVerticalGroupedRangeBar)
+    {
+      bcx = barXPosition;
+      dataLabelsX = barXPosition;
     }
 
-    const offX = dataLabelsConfig.offsetX
-    const offY = dataLabelsConfig.offsetY
+    const offX = dataLabelsConfig.offsetX;
+    const offY = dataLabelsConfig.offsetY;
 
     let textRects = {
       width: 0,
-      height: 0,
-    }
+      height: 0
+    };
     if (w.config.dataLabels.enabled) {
-      const yLabel = this.barCtx.series[i][j]
+      const yLabel = this.barCtx.series[i][j];
 
       textRects = graphics.getTextRects(
         w.globals.yLabelFormatters[0](yLabel),
         parseFloat(dataLabelsConfig.style.fontSize)
-      )
+      );
     }
 
     const params = {
@@ -112,13 +112,13 @@ export default class BarDataLabels {
       barDataLabelsConfig,
       barTotalDataLabelsConfig,
       offX,
-      offY,
-    }
+      offY
+    };
 
     if (this.barCtx.isHorizontal) {
-      dataLabelsPos = this.calculateBarsDataLabelsPosition(params)
+      dataLabelsPos = this.calculateBarsDataLabelsPosition(params);
     } else {
-      dataLabelsPos = this.calculateColumnsDataLabelsPosition(params)
+      dataLabelsPos = this.calculateColumnsDataLabelsPosition(params);
     }
 
     renderedPath.attr({
@@ -127,8 +127,8 @@ export default class BarDataLabels {
       j,
       val: series[i][j],
       barHeight,
-      barWidth,
-    })
+      barWidth
+    });
 
     dataLabels = this.drawCalculatedDataLabels({
       x: dataLabelsPos.dataLabelsX,
@@ -139,8 +139,8 @@ export default class BarDataLabels {
       barWidth,
       barHeight,
       textRects,
-      dataLabelsConfig,
-    })
+      dataLabelsConfig
+    });
 
     if (w.config.chart.stacked && barTotalDataLabelsConfig.enabled) {
       totalDataLabels = this.drawTotalDataLabels({
@@ -152,34 +152,34 @@ export default class BarDataLabels {
         textAnchor: dataLabelsPos.totalDataLabelsAnchor,
         val: this.getStackedTotalDataLabel({ realIndex, j }),
         dataLabelsConfig,
-        barTotalDataLabelsConfig,
-      })
+        barTotalDataLabelsConfig
+      });
     }
 
     return {
       dataLabels,
-      totalDataLabels,
-    }
+      totalDataLabels
+    };
   }
 
   getStackedTotalDataLabel({ realIndex, j }) {
-    const w = this.w
+    const w = this.w;
 
-    let val = this.barCtx.stackedSeriesTotals[j]
+    let val = this.barCtx.stackedSeriesTotals[j];
     if (this.totalFormatter) {
       val = this.totalFormatter(val, {
         ...w,
         seriesIndex: realIndex,
         dataPointIndex: j,
-        w,
-      })
+        w
+      });
     }
 
-    return val
+    return val;
   }
 
   calculateColumnsDataLabelsPosition(opts) {
-    const w = this.w
+    const w = this.w;
     let {
       i,
       j,
@@ -197,143 +197,143 @@ export default class BarDataLabels {
       barTotalDataLabelsConfig,
       strokeWidth,
       offX,
-      offY,
-    } = opts
+      offY
+    } = opts;
 
-    let totalDataLabelsY
-    let totalDataLabelsX
-    let totalDataLabelsAnchor = 'middle'
-    barHeight = Math.abs(barHeight)
+    let totalDataLabelsY;
+    let totalDataLabelsX;
+    let totalDataLabelsAnchor = 'middle';
+    barHeight = Math.abs(barHeight);
 
     let vertical =
-      w.config.plotOptions.bar.dataLabels.orientation === 'vertical'
+    w.config.plotOptions.bar.dataLabels.orientation === 'vertical';
 
     const { zeroEncounters } = this.barCtx.barHelpers.getZeroValueEncounters({
       i,
-      j,
-    })
+      j
+    });
 
     bcx =
-      bcx - strokeWidth / 2 + (groupIndex !== -1 ? groupIndex * barWidth : 0)
+    bcx - strokeWidth / 2 + (groupIndex !== -1 ? groupIndex * barWidth : 0);
 
-    let dataPointsDividedWidth = w.globals.gridWidth / w.globals.dataPoints
+    let dataPointsDividedWidth = w.globals.gridWidth / w.globals.dataPoints;
 
     if (this.barCtx.isVerticalGroupedRangeBar) {
-      dataLabelsX = dataLabelsX + barWidth / 2
+      dataLabelsX = dataLabelsX + barWidth / 2;
     } else {
       if (w.globals.isXNumeric) {
-        dataLabelsX = bcx - barWidth / 2 + offX
+        dataLabelsX = bcx - barWidth / 2 + offX;
       } else {
-        dataLabelsX = bcx - dataPointsDividedWidth + barWidth / 2 + offX
+        dataLabelsX = bcx - dataPointsDividedWidth + barWidth / 2 + offX;
       }
       if (
-        zeroEncounters > 0 &&
-        w.config.plotOptions.bar.hideZeroBarsWhenGrouped
-      ) {
-        dataLabelsX = dataLabelsX - barWidth * zeroEncounters
+      zeroEncounters > 0 &&
+      w.config.plotOptions.bar.hideZeroBarsWhenGrouped)
+      {
+        dataLabelsX = dataLabelsX - barWidth * zeroEncounters;
       }
     }
 
     if (vertical) {
-      const offsetDLX = 2
+      const offsetDLX = 2;
       dataLabelsX =
-        dataLabelsX + textRects.height / 2 - strokeWidth / 2 - offsetDLX
+      dataLabelsX + textRects.height / 2 - strokeWidth / 2 - offsetDLX;
     }
 
-    let valIsNegative = this.barCtx.series[i][j] < 0
+    let valIsNegative = this.barCtx.series[i][j] < 0;
 
-    let newY = y
+    let newY = y;
     if (this.barCtx.isReversed) {
-      newY = y - barHeight + (valIsNegative ? barHeight * 2 : 0)
-      y = y - barHeight
+      newY = y - barHeight + (valIsNegative ? barHeight * 2 : 0);
+      y = y - barHeight;
     }
 
     switch (barDataLabelsConfig.position) {
       case 'center':
         if (vertical) {
           if (valIsNegative) {
-            dataLabelsY = newY - barHeight / 2 + offY
+            dataLabelsY = newY - barHeight / 2 + offY;
           } else {
-            dataLabelsY = newY + barHeight / 2 - offY
+            dataLabelsY = newY + barHeight / 2 - offY;
           }
         } else {
           if (valIsNegative) {
-            dataLabelsY = newY - barHeight / 2 + textRects.height / 2 + offY
+            dataLabelsY = newY - barHeight / 2 + textRects.height / 2 + offY;
           } else {
-            dataLabelsY = newY + barHeight / 2 + textRects.height / 2 - offY
+            dataLabelsY = newY + barHeight / 2 + textRects.height / 2 - offY;
           }
         }
-        break
+        break;
       case 'bottom':
         if (vertical) {
           if (valIsNegative) {
-            dataLabelsY = newY - barHeight + offY
+            dataLabelsY = newY - barHeight + offY;
           } else {
-            dataLabelsY = newY + barHeight - offY
+            dataLabelsY = newY + barHeight - offY;
           }
         } else {
           if (valIsNegative) {
             dataLabelsY =
-              newY - barHeight + textRects.height + strokeWidth + offY
+            newY - barHeight + textRects.height + strokeWidth + offY;
           } else {
             dataLabelsY =
-              newY + barHeight - textRects.height / 2 + strokeWidth - offY
+            newY + barHeight - textRects.height / 2 + strokeWidth - offY;
           }
         }
-        break
+        break;
       case 'top':
         if (vertical) {
           if (valIsNegative) {
-            dataLabelsY = newY + offY
+            dataLabelsY = newY + offY;
           } else {
-            dataLabelsY = newY - offY
+            dataLabelsY = newY - offY;
           }
         } else {
           if (valIsNegative) {
-            dataLabelsY = newY - textRects.height / 2 - offY
+            dataLabelsY = newY - textRects.height / 2 - offY;
           } else {
-            dataLabelsY = newY + textRects.height + offY
+            dataLabelsY = newY + textRects.height + offY;
           }
         }
-        break
+        break;
     }
 
     if (
-      this.barCtx.lastActiveBarSerieIndex === realIndex &&
-      barTotalDataLabelsConfig.enabled
-    ) {
-      const ADDITIONAL_OFFX = 18
+    this.barCtx.lastActiveBarSerieIndex === realIndex &&
+    barTotalDataLabelsConfig.enabled)
+    {
+      const ADDITIONAL_OFFX = 18;
 
-      const graphics = new Graphics(this.barCtx.ctx)
+      const graphics = new Graphics(this.barCtx.ctx);
       const totalLabeltextRects = graphics.getTextRects(
         this.getStackedTotalDataLabel({ realIndex, j }),
         dataLabelsConfig.fontSize
-      )
+      );
 
       if (valIsNegative) {
         totalDataLabelsY =
-          newY -
-          totalLabeltextRects.height / 2 -
-          offY -
-          barTotalDataLabelsConfig.offsetY +
-          ADDITIONAL_OFFX
+        newY -
+        totalLabeltextRects.height / 2 -
+        offY -
+        barTotalDataLabelsConfig.offsetY +
+        ADDITIONAL_OFFX;
       } else {
         totalDataLabelsY =
-          newY +
-          totalLabeltextRects.height +
-          offY +
-          barTotalDataLabelsConfig.offsetY -
-          ADDITIONAL_OFFX
+        newY +
+        totalLabeltextRects.height +
+        offY +
+        barTotalDataLabelsConfig.offsetY -
+        ADDITIONAL_OFFX;
       }
 
-      totalDataLabelsX = dataLabelsX + barTotalDataLabelsConfig.offsetX
+      totalDataLabelsX = dataLabelsX + barTotalDataLabelsConfig.offsetX;
     }
 
     if (!w.config.chart.stacked) {
       if (dataLabelsY < 0) {
-        dataLabelsY = 0 + strokeWidth
+        dataLabelsY = 0 + strokeWidth;
       } else if (dataLabelsY + textRects.height / 3 > w.globals.gridHeight) {
-        dataLabelsY = w.globals.gridHeight - strokeWidth
+        dataLabelsY = w.globals.gridHeight - strokeWidth;
       }
     }
 
@@ -344,12 +344,12 @@ export default class BarDataLabels {
       dataLabelsY,
       totalDataLabelsX,
       totalDataLabelsY,
-      totalDataLabelsAnchor,
-    }
+      totalDataLabelsAnchor
+    };
   }
 
   calculateBarsDataLabelsPosition(opts) {
-    const w = this.w
+    const w = this.w;
     let {
       x,
       i,
@@ -366,109 +366,109 @@ export default class BarDataLabels {
       barDataLabelsConfig,
       barTotalDataLabelsConfig,
       offX,
-      offY,
-    } = opts
+      offY
+    } = opts;
 
-    let dataPointsDividedHeight = w.globals.gridHeight / w.globals.dataPoints
+    let dataPointsDividedHeight = w.globals.gridHeight / w.globals.dataPoints;
 
-    barWidth = Math.abs(barWidth)
+    barWidth = Math.abs(barWidth);
 
-    bcy = bcy + (groupIndex !== -1 ? groupIndex * barHeight : 0)
+    bcy = bcy + (groupIndex !== -1 ? groupIndex * barHeight : 0);
 
     let dataLabelsY =
-      bcy -
-      (this.barCtx.isRangeBar ? 0 : dataPointsDividedHeight) +
-      barHeight / 2 +
-      textRects.height / 2 +
-      offY -
-      3
+    bcy - (
+    this.barCtx.isRangeBar ? 0 : dataPointsDividedHeight) +
+    barHeight / 2 +
+    textRects.height / 2 +
+    offY -
+    3;
 
-    let totalDataLabelsX
-    let totalDataLabelsY
-    let totalDataLabelsAnchor = 'start'
+    let totalDataLabelsX;
+    let totalDataLabelsY;
+    let totalDataLabelsAnchor = 'start';
 
-    let valIsNegative = this.barCtx.series[i][j] < 0
+    let valIsNegative = this.barCtx.series[i][j] < 0;
 
-    let newX = x
+    let newX = x;
     if (this.barCtx.isReversed) {
-      newX = x + barWidth - (valIsNegative ? barWidth * 2 : 0)
-      x = w.globals.gridWidth - barWidth
+      newX = x + barWidth - (valIsNegative ? barWidth * 2 : 0);
+      x = w.globals.gridWidth - barWidth;
     }
 
     switch (barDataLabelsConfig.position) {
       case 'center':
         if (valIsNegative) {
-          dataLabelsX = newX + barWidth / 2 - offX
+          dataLabelsX = newX + barWidth / 2 - offX;
         } else {
           dataLabelsX =
-            Math.max(textRects.width / 2, newX - barWidth / 2) + offX
+          Math.max(textRects.width / 2, newX - barWidth / 2) + offX;
         }
-        break
+        break;
       case 'bottom':
         if (valIsNegative) {
           dataLabelsX =
-            newX +
-            barWidth -
-            strokeWidth -
-            Math.round(textRects.width / 2) -
-            offX
+          newX +
+          barWidth -
+          strokeWidth -
+          Math.round(textRects.width / 2) -
+          offX;
         } else {
           dataLabelsX =
-            newX -
-            barWidth +
-            strokeWidth +
-            Math.round(textRects.width / 2) +
-            offX
+          newX -
+          barWidth +
+          strokeWidth +
+          Math.round(textRects.width / 2) +
+          offX;
         }
-        break
+        break;
       case 'top':
         if (valIsNegative) {
           dataLabelsX =
-            newX - strokeWidth + Math.round(textRects.width / 2) - offX
+          newX - strokeWidth + Math.round(textRects.width / 2) - offX;
         } else {
           dataLabelsX =
-            newX - strokeWidth - Math.round(textRects.width / 2) + offX
+          newX - strokeWidth - Math.round(textRects.width / 2) + offX;
         }
-        break
+        break;
     }
 
     if (
-      this.barCtx.lastActiveBarSerieIndex === realIndex &&
-      barTotalDataLabelsConfig.enabled
-    ) {
-      const ADDITIONAL_OFFX = 15
-      const graphics = new Graphics(this.barCtx.ctx)
+    this.barCtx.lastActiveBarSerieIndex === realIndex &&
+    barTotalDataLabelsConfig.enabled)
+    {
+      const ADDITIONAL_OFFX = 15;
+      const graphics = new Graphics(this.barCtx.ctx);
       const totalLabeltextRects = graphics.getTextRects(
         this.getStackedTotalDataLabel({ realIndex, j }),
         dataLabelsConfig.fontSize
-      )
+      );
       if (valIsNegative) {
         totalDataLabelsX =
-          newX -
-          strokeWidth +
-          Math.round(totalLabeltextRects.width / 2) -
-          offX -
-          barTotalDataLabelsConfig.offsetX -
-          ADDITIONAL_OFFX
+        newX -
+        strokeWidth +
+        Math.round(totalLabeltextRects.width / 2) -
+        offX -
+        barTotalDataLabelsConfig.offsetX -
+        ADDITIONAL_OFFX;
 
-        totalDataLabelsAnchor = 'end'
+        totalDataLabelsAnchor = 'end';
       } else {
         totalDataLabelsX =
-          newX -
-          strokeWidth -
-          Math.round(totalLabeltextRects.width / 2) +
-          offX +
-          barTotalDataLabelsConfig.offsetX +
-          ADDITIONAL_OFFX
+        newX -
+        strokeWidth -
+        Math.round(totalLabeltextRects.width / 2) +
+        offX +
+        barTotalDataLabelsConfig.offsetX +
+        ADDITIONAL_OFFX;
       }
-      totalDataLabelsY = dataLabelsY + barTotalDataLabelsConfig.offsetY
+      totalDataLabelsY = dataLabelsY + barTotalDataLabelsConfig.offsetY;
     }
 
     if (!w.config.chart.stacked) {
       if (dataLabelsX < 0) {
-        dataLabelsX = dataLabelsX + textRects.width + strokeWidth
+        dataLabelsX = dataLabelsX + textRects.width + strokeWidth;
       } else if (dataLabelsX + textRects.width / 2 > w.globals.gridWidth) {
-        dataLabelsX = w.globals.gridWidth - textRects.width - strokeWidth
+        dataLabelsX = w.globals.gridWidth - textRects.width - strokeWidth;
       }
     }
 
@@ -479,8 +479,8 @@ export default class BarDataLabels {
       dataLabelsY,
       totalDataLabelsX,
       totalDataLabelsY,
-      totalDataLabelsAnchor,
-    }
+      totalDataLabelsAnchor
+    };
   }
 
   drawCalculatedDataLabels({
@@ -492,98 +492,98 @@ export default class BarDataLabels {
     textRects,
     barHeight,
     barWidth,
-    dataLabelsConfig,
+    dataLabelsConfig
   }) {
-    const w = this.w
-    let rotate = 'rotate(0)'
+    const w = this.w;
+    let rotate = 'rotate(0)';
     if (w.config.plotOptions.bar.dataLabels.orientation === 'vertical')
-      rotate = `rotate(-90, ${x}, ${y})`
+    rotate = `rotate(-90, ${x}, ${y})`;
 
-    const dataLabels = new DataLabels(this.barCtx.ctx)
-    const graphics = new Graphics(this.barCtx.ctx)
-    const formatter = dataLabelsConfig.formatter
+    const dataLabels = new DataLabels(this.barCtx.ctx);
+    const graphics = new Graphics(this.barCtx.ctx);
+    const formatter = dataLabelsConfig.formatter;
 
-    let elDataLabelsWrap = null
+    let elDataLabelsWrap = null;
 
     const isSeriesNotCollapsed =
-      w.globals.collapsedSeriesIndices.indexOf(i) > -1
+    w.globals.collapsedSeriesIndices.indexOf(i) > -1;
 
     if (dataLabelsConfig.enabled && !isSeriesNotCollapsed) {
       elDataLabelsWrap = graphics.group({
         class: 'apexcharts-data-labels',
-        transform: rotate,
-      })
+        transform: rotate
+      });
 
-      let text = ''
+      let text = '';
       if (typeof val !== 'undefined') {
         text = formatter(val, {
           ...w,
           seriesIndex: i,
           dataPointIndex: j,
-          w,
-        })
+          w
+        });
       }
 
       if (!val && w.config.plotOptions.bar.hideZeroBarsWhenGrouped) {
-        text = ''
+        text = '';
       }
 
-      let valIsNegative = w.globals.series[i][j] < 0
-      let position = w.config.plotOptions.bar.dataLabels.position
+      let valIsNegative = w.globals.series[i][j] < 0;
+      let position = w.config.plotOptions.bar.dataLabels.position;
       if (w.config.plotOptions.bar.dataLabels.orientation === 'vertical') {
         if (position === 'top') {
-          if (valIsNegative) dataLabelsConfig.textAnchor = 'end'
-          else dataLabelsConfig.textAnchor = 'start'
+          if (valIsNegative) dataLabelsConfig.textAnchor = 'end';else
+          dataLabelsConfig.textAnchor = 'start';
         }
         if (position === 'center') {
-          dataLabelsConfig.textAnchor = 'middle'
+          dataLabelsConfig.textAnchor = 'middle';
         }
         if (position === 'bottom') {
-          if (valIsNegative) dataLabelsConfig.textAnchor = 'end'
-          else dataLabelsConfig.textAnchor = 'start'
+          if (valIsNegative) dataLabelsConfig.textAnchor = 'end';else
+          dataLabelsConfig.textAnchor = 'start';
         }
       }
 
       if (
-        this.barCtx.isRangeBar &&
-        this.barCtx.barOptions.dataLabels.hideOverflowingLabels
-      ) {
+      this.barCtx.isRangeBar &&
+      this.barCtx.barOptions.dataLabels.hideOverflowingLabels)
+      {
         // hide the datalabel if it cannot fit into the rect
         const txRect = graphics.getTextRects(
           text,
           parseFloat(dataLabelsConfig.style.fontSize)
-        )
+        );
         if (barWidth < txRect.width) {
-          text = ''
+          text = '';
         }
       }
 
       if (
-        w.config.chart.stacked &&
-        this.barCtx.barOptions.dataLabels.hideOverflowingLabels
-      ) {
+      w.config.chart.stacked &&
+      this.barCtx.barOptions.dataLabels.hideOverflowingLabels)
+      {
         // if there is not enough space to draw the label in the bar/column rect, check hideOverflowingLabels property to prevent overflowing on wrong rect
         // Note: This issue is only seen in stacked charts
         if (this.barCtx.isHorizontal) {
           if (textRects.width / 1.6 > Math.abs(barWidth)) {
-            text = ''
+            text = '';
           }
         } else {
           if (textRects.height / 1.6 > Math.abs(barHeight)) {
-            text = ''
+            text = '';
           }
         }
       }
 
       let modifiedDataLabelsConfig = {
-        ...dataLabelsConfig,
-      }
+        ...dataLabelsConfig
+      };
       if (this.barCtx.isHorizontal) {
         if (val < 0) {
           if (dataLabelsConfig.textAnchor === 'start') {
-            modifiedDataLabelsConfig.textAnchor = 'end'
+            modifiedDataLabelsConfig.textAnchor = 'end';
           } else if (dataLabelsConfig.textAnchor === 'end') {
-            modifiedDataLabelsConfig.textAnchor = 'start'
+            modifiedDataLabelsConfig.textAnchor = 'start';
           }
         }
       }
@@ -597,11 +597,11 @@ export default class BarDataLabels {
         parent: elDataLabelsWrap,
         dataLabelsConfig: modifiedDataLabelsConfig,
         alwaysDrawDataLabel: true,
-        offsetCorrection: true,
-      })
+        offsetCorrection: true
+      });
     }
 
-    return elDataLabelsWrap
+    return elDataLabelsWrap;
   }
 
   drawTotalDataLabels({
@@ -612,39 +612,39 @@ export default class BarDataLabels {
     barHeight,
     realIndex,
     textAnchor,
-    barTotalDataLabelsConfig,
+    barTotalDataLabelsConfig
   }) {
-    const w = this.w
-    const graphics = new Graphics(this.barCtx.ctx)
+    const w = this.w;
+    const graphics = new Graphics(this.barCtx.ctx);
 
-    let totalDataLabelText
+    let totalDataLabelText;
 
     if (
-      barTotalDataLabelsConfig.enabled &&
-      typeof x !== 'undefined' &&
-      typeof y !== 'undefined' &&
-      this.barCtx.lastActiveBarSerieIndex === realIndex
-    ) {
+    barTotalDataLabelsConfig.enabled &&
+    typeof x !== 'undefined' &&
+    typeof y !== 'undefined' &&
+    this.barCtx.lastActiveBarSerieIndex === realIndex)
+    {
       totalDataLabelText = graphics.drawText({
         x:
-          x -
-          (!w.globals.isBarHorizontal && w.globals.seriesGroups.length
-            ? barWidth / w.globals.seriesGroups.length
-            : 0),
+        x - (
+        !w.globals.isBarHorizontal && w.globals.seriesGroups.length ?
+        barWidth / w.globals.seriesGroups.length :
+        0),
         y:
-          y -
-          (w.globals.isBarHorizontal && w.globals.seriesGroups.length
-            ? barHeight / w.globals.seriesGroups.length
-            : 0),
+        y - (
+        w.globals.isBarHorizontal && w.globals.seriesGroups.length ?
+        barHeight / w.globals.seriesGroups.length :
+        0),
         foreColor: barTotalDataLabelsConfig.style.color,
         text: val,
         textAnchor,
         fontFamily: barTotalDataLabelsConfig.style.fontFamily,
         fontSize: barTotalDataLabelsConfig.style.fontSize,
-        fontWeight: barTotalDataLabelsConfig.style.fontWeight,
-      })
+        fontWeight: barTotalDataLabelsConfig.style.fontWeight
+      });
     }
 
-    return totalDataLabelText
+    return totalDataLabelText;
   }
 }

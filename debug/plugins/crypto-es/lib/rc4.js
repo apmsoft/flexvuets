@@ -1,6 +1,6 @@
 import {
-  StreamCipher,
-} from './cipher-core.js';
+  StreamCipher } from "./cipher-core.js";
+
 
 function generateKeystreamWord() {
   // Shortcuts
@@ -19,7 +19,7 @@ function generateKeystreamWord() {
     S[i] = S[j];
     S[j] = t;
 
-    keystreamWord |= S[(S[i] + S[j]) % 256] << (24 - n * 8);
+    keystreamWord |= S[(S[i] + S[j]) % 256] << 24 - n * 8;
   }
 
   // Update counters
@@ -49,7 +49,7 @@ export class RC4Algo extends StreamCipher {
     // Key setup
     for (let i = 0, j = 0; i < 256; i += 1) {
       const keyByteIndex = i % keySigBytes;
-      const keyByte = (keyWords[keyByteIndex >>> 2] >>> (24 - (keyByteIndex % 4) * 8)) & 0xff;
+      const keyByte = keyWords[keyByteIndex >>> 2] >>> 24 - keyByteIndex % 4 * 8 & 0xff;
 
       j = (j + S[i] + keyByte) % 256;
 

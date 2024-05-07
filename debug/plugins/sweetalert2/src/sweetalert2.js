@@ -1,7 +1,7 @@
-import SweetAlert from './SweetAlert.js'
+import SweetAlert from "./SweetAlert.js";
 
-const Swal = SweetAlert
+const Swal = SweetAlert;
 // @ts-ignore
-Swal.default = Swal
+Swal.default = Swal;
 
-export default Swal
+export default Swal;

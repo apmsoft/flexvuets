@@ -1,4 +1,4 @@
-import { setInnerHtml } from './domUtils.js'
+import { setInnerHtml } from "./domUtils.js";
 
 /**
  * @param {HTMLElement | object | string} param
@@ -7,19 +7,19 @@ import { setInnerHtml } from './domUtils.js'
 export const parseHtmlToContainer = (param, target) => {
   // DOM element
   if (param instanceof HTMLElement) {
-    target.appendChild(param)
+    target.appendChild(param);
   }
 
   // Object
   else if (typeof param === 'object') {
-    handleObject(param, target)
+    handleObject(param, target);
   }
 
   // Plain string
   else if (param) {
-    setInnerHtml(target, param)
+    setInnerHtml(target, param);
   }
-}
+};
 
 /**
  * @param {any} param
@@ -28,26 +28,26 @@ export const parseHtmlToContainer = (param, target) => {
 const handleObject = (param, target) => {
   // JQuery element(s)
   if (param.jquery) {
-    handleJqueryElem(target, param)
+    handleJqueryElem(target, param);
   }
 
   // For other objects use their string representation
   else {
-    setInnerHtml(target, param.toString())
+    setInnerHtml(target, param.toString());
   }
-}
+};
 
 /**
  * @param {HTMLElement} target
  * @param {any} elem
  */
 const handleJqueryElem = (target, elem) => {
-  target.textContent = ''
+  target.textContent = '';
   if (0 in elem) {
-    for (let i = 0; i in elem; i++) {
-      target.appendChild(elem[i].cloneNode(true))
+    for (let i = 0; (i in elem); i++) {
+      target.appendChild(elem[i].cloneNode(true));
     }
   } else {
-    target.appendChild(elem.cloneNode(true))
+    target.appendChild(elem.cloneNode(true));
   }
-}
+};

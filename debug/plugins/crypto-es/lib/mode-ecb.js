@@ -1,12 +1,12 @@
 import {
-  BlockCipherMode,
-} from './cipher-core.js';
+  BlockCipherMode } from "./cipher-core.js";
+
 
 /**
  * Electronic Codebook block mode.
  */
-export class ECB extends BlockCipherMode {
-}
+export class ECB extends BlockCipherMode {}
+
 ECB.Encryptor = class extends ECB {
   processBlock(words, offset) {
     this._cipher.encryptBlock(words, offset);

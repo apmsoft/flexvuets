@@ -1,6 +1,6 @@
-import Animations from './Animations'
-import Filters from './Filters'
-import Utils from '../utils/Utils'
+import Animations from "./Animations";
+import Filters from "./Filters";
+import Utils from "../utils/Utils";
 
 /**
  * ApexCharts Graphics Class for all drawing operations.
@@ -10,8 +10,8 @@ import Utils from '../utils/Utils'
 
 class Graphics {
   constructor(ctx) {
-    this.ctx = ctx
-    this.w = ctx.w
+    this.ctx = ctx;
+    this.w = ctx.w;
   }
 
   /*****************************************************************************
@@ -45,32 +45,32 @@ class Graphics {
    * @returns A new SVG path string with the rounding
    */
   roundPathCorners(pathString, radius) {
-    if (pathString.indexOf('NaN') > -1) pathString = ''
+    if (pathString.indexOf('NaN') > -1) pathString = '';
 
     function moveTowardsLength(movingPoint, targetPoint, amount) {
-      var width = targetPoint.x - movingPoint.x
-      var height = targetPoint.y - movingPoint.y
+      var width = targetPoint.x - movingPoint.x;
+      var height = targetPoint.y - movingPoint.y;
 
-      var distance = Math.sqrt(width * width + height * height)
+      var distance = Math.sqrt(width * width + height * height);
 
       return moveTowardsFractional(
         movingPoint,
         targetPoint,
         Math.min(1, amount / distance)
-      )
+      );
     }
     function moveTowardsFractional(movingPoint, targetPoint, fraction) {
       return {
         x: movingPoint.x + (targetPoint.x - movingPoint.x) * fraction,
-        y: movingPoint.y + (targetPoint.y - movingPoint.y) * fraction,
-      }
+        y: movingPoint.y + (targetPoint.y - movingPoint.y) * fraction
+      };
     }
 
     // Adjusts the ending position of a command
     function adjustCommand(cmd, newPoint) {
       if (cmd.length > 2) {
-        cmd[cmd.length - 2] = newPoint.x
-        cmd[cmd.length - 1] = newPoint.y
+        cmd[cmd.length - 2] = newPoint.x;
+        cmd[cmd.length - 1] = newPoint.y;
       }
     }
 
@@ -78,105 +78,105 @@ class Graphics {
     function pointForCommand(cmd) {
       return {
         x: parseFloat(cmd[cmd.length - 2]),
-        y: parseFloat(cmd[cmd.length - 1]),
-      }
+        y: parseFloat(cmd[cmd.length - 1])
+      };
     }
 
     // Split apart the path, handing concatonated letters and numbers
     var pathParts = pathString.split(/[,\s]/).reduce(function (parts, part) {
-      var match = part.match('([a-zA-Z])(.+)')
+      var match = part.match('([a-zA-Z])(.+)');
       if (match) {
-        parts.push(match[1])
-        parts.push(match[2])
+        parts.push(match[1]);
+        parts.push(match[2]);
       } else {
-        parts.push(part)
+        parts.push(part);
       }
 
-      return parts
-    }, [])
+      return parts;
+    }, []);
 
     // Group the commands with their arguments for easier handling
     var commands = pathParts.reduce(function (commands, part) {
       if (parseFloat(part) == part && commands.length) {
-        commands[commands.length - 1].push(part)
+        commands[commands.length - 1].push(part);
       } else {
-        commands.push([part])
+        commands.push([part]);
       }
 
-      return commands
-    }, [])
+      return commands;
+    }, []);
 
     // The resulting commands, also grouped
-    var resultCommands = []
+    var resultCommands = [];
 
     if (commands.length > 1) {
-      var startPoint = pointForCommand(commands[0])
+      var startPoint = pointForCommand(commands[0]);
 
       // Handle the close path case with a "virtual" closing line
-      var virtualCloseLine = null
+      var virtualCloseLine = null;
       if (commands[commands.length - 1][0] == 'Z' && commands[0].length > 2) {
-        virtualCloseLine = ['L', startPoint.x, startPoint.y]
-        commands[commands.length - 1] = virtualCloseLine
+        virtualCloseLine = ['L', startPoint.x, startPoint.y];
+        commands[commands.length - 1] = virtualCloseLine;
       }
 
       // We always use the first command (but it may be mutated)
-      resultCommands.push(commands[0])
+      resultCommands.push(commands[0]);
 
       for (var cmdIndex = 1; cmdIndex < commands.length; cmdIndex++) {
-        var prevCmd = resultCommands[resultCommands.length - 1]
+        var prevCmd = resultCommands[resultCommands.length - 1];
 
-        var curCmd = commands[cmdIndex]
+        var curCmd = commands[cmdIndex];
 
         // Handle closing case
         var nextCmd =
-          curCmd == virtualCloseLine ? commands[1] : commands[cmdIndex + 1]
+        curCmd == virtualCloseLine ? commands[1] : commands[cmdIndex + 1];
 
         // Nasty logic to decide if this path is a candidite.
         if (
-          nextCmd &&
-          prevCmd &&
-          prevCmd.length > 2 &&
-          curCmd[0] == 'L' &&
-          nextCmd.length > 2 &&
-          nextCmd[0] == 'L'
-        ) {
+        nextCmd &&
+        prevCmd &&
+        prevCmd.length > 2 &&
+        curCmd[0] == 'L' &&
+        nextCmd.length > 2 &&
+        nextCmd[0] == 'L')
+        {
           // Calc the points we're dealing with
-          var prevPoint = pointForCommand(prevCmd)
-          var curPoint = pointForCommand(curCmd)
-          var nextPoint = pointForCommand(nextCmd)
+          var prevPoint = pointForCommand(prevCmd);
+          var curPoint = pointForCommand(curCmd);
+          var nextPoint = pointForCommand(nextCmd);
 
           // The start and end of the cuve are just our point moved towards the previous and next points, respectivly
-          var curveStart, curveEnd
+          var curveStart, curveEnd;
 
-          curveStart = moveTowardsLength(curPoint, prevPoint, radius)
-          curveEnd = moveTowardsLength(curPoint, nextPoint, radius)
+          curveStart = moveTowardsLength(curPoint, prevPoint, radius);
+          curveEnd = moveTowardsLength(curPoint, nextPoint, radius);
 
           // Adjust the current command and add it
-          adjustCommand(curCmd, curveStart)
-          curCmd.origPoint = curPoint
-          resultCommands.push(curCmd)
+          adjustCommand(curCmd, curveStart);
+          curCmd.origPoint = curPoint;
+          resultCommands.push(curCmd);
 
           // The curve control points are halfway between the start/end of the curve and
           // the original point
-          var startControl = moveTowardsFractional(curveStart, curPoint, 0.5)
-          var endControl = moveTowardsFractional(curPoint, curveEnd, 0.5)
+          var startControl = moveTowardsFractional(curveStart, curPoint, 0.5);
+          var endControl = moveTowardsFractional(curPoint, curveEnd, 0.5);
 
           // Create the curve
           var curveCmd = [
-            'C',
-            startControl.x,
-            startControl.y,
-            endControl.x,
-            endControl.y,
-            curveEnd.x,
-            curveEnd.y,
-          ]
+          'C',
+          startControl.x,
+          startControl.y,
+          endControl.x,
+          endControl.y,
+          curveEnd.x,
+          curveEnd.y];
+
           // Save the original point for fractional calculations
-          curveCmd.origPoint = curPoint
-          resultCommands.push(curveCmd)
+          curveCmd.origPoint = curPoint;
+          resultCommands.push(curveCmd);
         } else {
           // Pass through commands that don't qualify
-          resultCommands.push(curCmd)
+          resultCommands.push(curCmd);
         }
       }
 
@@ -184,30 +184,30 @@ class Graphics {
       if (virtualCloseLine) {
         var newStartPoint = pointForCommand(
           resultCommands[resultCommands.length - 1]
-        )
-        resultCommands.push(['Z'])
-        adjustCommand(resultCommands[0], newStartPoint)
+        );
+        resultCommands.push(['Z']);
+        adjustCommand(resultCommands[0], newStartPoint);
       }
     } else {
-      resultCommands = commands
+      resultCommands = commands;
     }
 
     return resultCommands.reduce(function (str, c) {
-      return str + c.join(' ') + ' '
-    }, '')
+      return str + c.join(' ') + ' ';
+    }, '');
   }
 
   drawLine(
-    x1,
-    y1,
-    x2,
-    y2,
-    lineColor = '#a8a8a8',
-    dashArray = 0,
-    strokeWidth = null,
-    strokeLineCap = 'butt'
-  ) {
-    let w = this.w
+  x1,
+  y1,
+  x2,
+  y2,
+  lineColor = '#a8a8a8',
+  dashArray = 0,
+  strokeWidth = null,
+  strokeLineCap = 'butt')
+  {
+    let w = this.w;
     let line = w.globals.dom.Paper.line().attr({
       x1,
       y1,
@@ -216,26 +216,26 @@ class Graphics {
       stroke: lineColor,
       'stroke-dasharray': dashArray,
       'stroke-width': strokeWidth,
-      'stroke-linecap': strokeLineCap,
-    })
+      'stroke-linecap': strokeLineCap
+    });
 
-    return line
+    return line;
   }
 
   drawRect(
-    x1 = 0,
-    y1 = 0,
-    x2 = 0,
-    y2 = 0,
-    radius = 0,
-    color = '#fefefe',
-    opacity = 1,
-    strokeWidth = null,
-    strokeColor = null,
-    strokeDashArray = 0
-  ) {
-    let w = this.w
-    let rect = w.globals.dom.Paper.rect()
+  x1 = 0,
+  y1 = 0,
+  x2 = 0,
+  y2 = 0,
+  radius = 0,
+  color = '#fefefe',
+  opacity = 1,
+  strokeWidth = null,
+  strokeColor = null,
+  strokeDashArray = 0)
+  {
+    let w = this.w;
+    let rect = w.globals.dom.Paper.rect();
 
     rect.attr({
       x: x1,
@@ -247,40 +247,40 @@ class Graphics {
       opacity,
       'stroke-width': strokeWidth !== null ? strokeWidth : 0,
       stroke: strokeColor !== null ? strokeColor : 'none',
-      'stroke-dasharray': strokeDashArray,
-    })
+      'stroke-dasharray': strokeDashArray
+    });
 
     // fix apexcharts.js#1410
-    rect.node.setAttribute('fill', color)
+    rect.node.setAttribute('fill', color);
 
-    return rect
+    return rect;
   }
 
   drawPolygon(
-    polygonString,
-    stroke = '#e1e1e1',
-    strokeWidth = 1,
-    fill = 'none'
-  ) {
-    const w = this.w
+  polygonString,
+  stroke = '#e1e1e1',
+  strokeWidth = 1,
+  fill = 'none')
+  {
+    const w = this.w;
     const polygon = w.globals.dom.Paper.polygon(polygonString).attr({
       fill,
       stroke,
-      'stroke-width': strokeWidth,
-    })
+      'stroke-width': strokeWidth
+    });
 
-    return polygon
+    return polygon;
   }
 
   drawCircle(radius, attrs = null) {
-    const w = this.w
+    const w = this.w;
 
-    if (radius < 0) radius = 0
-    const c = w.globals.dom.Paper.circle(radius * 2)
+    if (radius < 0) radius = 0;
+    const c = w.globals.dom.Paper.circle(radius * 2);
     if (attrs !== null) {
-      c.attr(attrs)
+      c.attr(attrs);
     }
-    return c
+    return c;
   }
 
   drawPath({
@@ -292,16 +292,16 @@ class Graphics {
     strokeOpacity = 1,
     classes,
     strokeLinecap = null,
-    strokeDashArray = 0,
+    strokeDashArray = 0
   }) {
-    let w = this.w
+    let w = this.w;
 
     if (strokeLinecap === null) {
-      strokeLinecap = w.config.stroke.lineCap
+      strokeLinecap = w.config.stroke.lineCap;
     }
 
     if (d.indexOf('undefined') > -1 || d.indexOf('NaN') > -1) {
-      d = `M 0 ${w.globals.gridHeight}`
+      d = `M 0 ${w.globals.gridHeight}`;
     }
     let p = w.globals.dom.Paper.path(d).attr({
       fill,
@@ -311,57 +311,57 @@ class Graphics {
       'stroke-linecap': strokeLinecap,
       'stroke-width': strokeWidth,
       'stroke-dasharray': strokeDashArray,
-      class: classes,
-    })
+      class: classes
+    });
 
-    return p
+    return p;
   }
 
   group(attrs = null) {
-    const w = this.w
-    const g = w.globals.dom.Paper.group()
+    const w = this.w;
+    const g = w.globals.dom.Paper.group();
 
     if (attrs !== null) {
-      g.attr(attrs)
+      g.attr(attrs);
     }
-    return g
+    return g;
   }
 
   move(x, y) {
-    let move = ['M', x, y].join(' ')
-    return move
+    let move = ['M', x, y].join(' ');
+    return move;
   }
 
   line(x, y, hORv = null) {
-    let line = null
+    let line = null;
     if (hORv === null) {
-      line = [' L', x, y].join(' ')
+      line = [' L', x, y].join(' ');
     } else if (hORv === 'H') {
-      line = [' H', x].join(' ')
+      line = [' H', x].join(' ');
     } else if (hORv === 'V') {
-      line = [' V', y].join(' ')
+      line = [' V', y].join(' ');
     }
-    return line
+    return line;
   }
 
   curve(x1, y1, x2, y2, x, y) {
-    let curve = ['C', x1, y1, x2, y2, x, y].join(' ')
-    return curve
+    let curve = ['C', x1, y1, x2, y2, x, y].join(' ');
+    return curve;
   }
 
   quadraticCurve(x1, y1, x, y) {
-    let curve = ['Q', x1, y1, x, y].join(' ')
-    return curve
+    let curve = ['Q', x1, y1, x, y].join(' ');
+    return curve;
   }
 
   arc(rx, ry, axisRotation, largeArcFlag, sweepFlag, x, y, relative = false) {
-    let coord = 'A'
-    if (relative) coord = 'a'
+    let coord = 'A';
+    if (relative) coord = 'a';
 
     let arc = [coord, rx, ry, axisRotation, largeArcFlag, sweepFlag, x, y].join(
       ' '
-    )
-    return arc
+    );
+    return arc;
   }
 
   /**
@@ -394,35 +394,35 @@ class Graphics {
     className,
     shouldClipToGrid = true,
     bindEventsOnPaths = true,
-    drawShadow = true,
+    drawShadow = true
   }) {
-    let w = this.w
-    const filters = new Filters(this.ctx)
-    const anim = new Animations(this.ctx)
+    let w = this.w;
+    const filters = new Filters(this.ctx);
+    const anim = new Animations(this.ctx);
 
-    let initialAnim = this.w.config.chart.animations.enabled
+    let initialAnim = this.w.config.chart.animations.enabled;
     let dynamicAnim =
-      initialAnim && this.w.config.chart.animations.dynamicAnimation.enabled
+    initialAnim && this.w.config.chart.animations.dynamicAnimation.enabled;
 
-    let d
+    let d;
     let shouldAnimate = !!(
-      (initialAnim && !w.globals.resized) ||
-      (dynamicAnim && w.globals.dataChanged && w.globals.shouldAnimate)
-    )
+    initialAnim && !w.globals.resized ||
+    dynamicAnim && w.globals.dataChanged && w.globals.shouldAnimate);
+
 
     if (shouldAnimate) {
-      d = pathFrom
+      d = pathFrom;
     } else {
-      d = pathTo
-      w.globals.animationEnded = true
+      d = pathTo;
+      w.globals.animationEnded = true;
     }
 
-    let strokeDashArrayOpt = w.config.stroke.dashArray
-    let strokeDashArray = 0
+    let strokeDashArrayOpt = w.config.stroke.dashArray;
+    let strokeDashArray = 0;
     if (Array.isArray(strokeDashArrayOpt)) {
-      strokeDashArray = strokeDashArrayOpt[realIndex]
+      strokeDashArray = strokeDashArrayOpt[realIndex];
     } else {
-      strokeDashArray = w.config.stroke.dashArray
+      strokeDashArray = w.config.stroke.dashArray;
     }
 
     let el = this.drawPath({
@@ -433,38 +433,38 @@ class Graphics {
       fillOpacity: 1,
       classes: className,
       strokeLinecap,
-      strokeDashArray,
-    })
+      strokeDashArray
+    });
 
-    el.attr('index', realIndex)
+    el.attr('index', realIndex);
 
     if (shouldClipToGrid) {
       el.attr({
-        'clip-path': `url(#gridRectMask${w.globals.cuid})`,
-      })
+        'clip-path': `url(#gridRectMask${w.globals.cuid})`
+      });
     }
 
     // const defaultFilter = el.filterer
 
     if (w.config.states.normal.filter.type !== 'none') {
-      filters.getDefaultFilter(el, realIndex)
+      filters.getDefaultFilter(el, realIndex);
     } else {
       if (w.config.chart.dropShadow.enabled && drawShadow) {
-        const shadow = w.config.chart.dropShadow
-        filters.dropShadow(el, shadow, realIndex)
+        const shadow = w.config.chart.dropShadow;
+        filters.dropShadow(el, shadow, realIndex);
       }
     }
 
     if (bindEventsOnPaths) {
-      el.node.addEventListener('mouseenter', this.pathMouseEnter.bind(this, el))
-      el.node.addEventListener('mouseleave', this.pathMouseLeave.bind(this, el))
-      el.node.addEventListener('mousedown', this.pathMouseDown.bind(this, el))
+      el.node.addEventListener('mouseenter', this.pathMouseEnter.bind(this, el));
+      el.node.addEventListener('mouseleave', this.pathMouseLeave.bind(this, el));
+      el.node.addEventListener('mousedown', this.pathMouseDown.bind(this, el));
     }
 
     el.attr({
       pathTo,
-      pathFrom,
-    })
+      pathFrom
+    });
 
     const defaultAnimateOpts = {
       el,
@@ -474,173 +474,173 @@ class Graphics {
       pathTo,
       fill,
       strokeWidth,
-      delay: animationDelay,
-    }
+      delay: animationDelay
+    };
 
     if (initialAnim && !w.globals.resized && !w.globals.dataChanged) {
       anim.animatePathsGradually({
         ...defaultAnimateOpts,
-        speed: initialSpeed,
-      })
+        speed: initialSpeed
+      });
     } else {
       if (w.globals.resized || !w.globals.dataChanged) {
-        anim.showDelayedElements()
+        anim.showDelayedElements();
       }
     }
 
     if (w.globals.dataChanged && dynamicAnim && shouldAnimate) {
       anim.animatePathsGradually({
         ...defaultAnimateOpts,
-        speed: dataChangeSpeed,
-      })
+        speed: dataChangeSpeed
+      });
     }
 
-    return el
+    return el;
   }
 
   drawPattern(
-    style,
-    width,
-    height,
-    stroke = '#a8a8a8',
-    strokeWidth = 0,
-    opacity = 1
-  ) {
-    let w = this.w
+  style,
+  width,
+  height,
+  stroke = '#a8a8a8',
+  strokeWidth = 0,
+  opacity = 1)
+  {
+    let w = this.w;
 
     let p = w.globals.dom.Paper.pattern(width, height, (add) => {
       if (style === 'horizontalLines') {
-        add
-          .line(0, 0, height, 0)
-          .stroke({ color: stroke, width: strokeWidth + 1 })
+        add.
+        line(0, 0, height, 0).
+        stroke({ color: stroke, width: strokeWidth + 1 });
       } else if (style === 'verticalLines') {
-        add
-          .line(0, 0, 0, width)
-          .stroke({ color: stroke, width: strokeWidth + 1 })
+        add.
+        line(0, 0, 0, width).
+        stroke({ color: stroke, width: strokeWidth + 1 });
       } else if (style === 'slantedLines') {
-        add
-          .line(0, 0, width, height)
-          .stroke({ color: stroke, width: strokeWidth })
+        add.
+        line(0, 0, width, height).
+        stroke({ color: stroke, width: strokeWidth });
       } else if (style === 'squares') {
-        add
-          .rect(width, height)
-          .fill('none')
-          .stroke({ color: stroke, width: strokeWidth })
+        add.
+        rect(width, height).
+        fill('none').
+        stroke({ color: stroke, width: strokeWidth });
       } else if (style === 'circles') {
-        add
-          .circle(width)
-          .fill('none')
-          .stroke({ color: stroke, width: strokeWidth })
+        add.
+        circle(width).
+        fill('none').
+        stroke({ color: stroke, width: strokeWidth });
       }
-    })
+    });
 
-    return p
+    return p;
   }
 
   drawGradient(
-    style,
-    gfrom,
-    gto,
-    opacityFrom,
-    opacityTo,
-    size = null,
-    stops = null,
-    colorStops = null,
-    i = 0
-  ) {
-    let w = this.w
-    let g
+  style,
+  gfrom,
+  gto,
+  opacityFrom,
+  opacityTo,
+  size = null,
+  stops = null,
+  colorStops = null,
+  i = 0)
+  {
+    let w = this.w;
+    let g;
 
     if (gfrom.length < 9 && gfrom.indexOf('#') === 0) {
       // if the hex contains alpha and is of 9 digit, skip the opacity
-      gfrom = Utils.hexToRgba(gfrom, opacityFrom)
+      gfrom = Utils.hexToRgba(gfrom, opacityFrom);
     }
     if (gto.length < 9 && gto.indexOf('#') === 0) {
-      gto = Utils.hexToRgba(gto, opacityTo)
+      gto = Utils.hexToRgba(gto, opacityTo);
     }
 
-    let stop1 = 0
-    let stop2 = 1
-    let stop3 = 1
-    let stop4 = null
+    let stop1 = 0;
+    let stop2 = 1;
+    let stop3 = 1;
+    let stop4 = null;
 
     if (stops !== null) {
-      stop1 = typeof stops[0] !== 'undefined' ? stops[0] / 100 : 0
-      stop2 = typeof stops[1] !== 'undefined' ? stops[1] / 100 : 1
-      stop3 = typeof stops[2] !== 'undefined' ? stops[2] / 100 : 1
-      stop4 = typeof stops[3] !== 'undefined' ? stops[3] / 100 : null
+      stop1 = typeof stops[0] !== 'undefined' ? stops[0] / 100 : 0;
+      stop2 = typeof stops[1] !== 'undefined' ? stops[1] / 100 : 1;
+      stop3 = typeof stops[2] !== 'undefined' ? stops[2] / 100 : 1;
+      stop4 = typeof stops[3] !== 'undefined' ? stops[3] / 100 : null;
     }
 
     let radial = !!(
-      w.config.chart.type === 'donut' ||
-      w.config.chart.type === 'pie' ||
-      w.config.chart.type === 'polarArea' ||
-      w.config.chart.type === 'bubble'
-    )
+    w.config.chart.type === 'donut' ||
+    w.config.chart.type === 'pie' ||
+    w.config.chart.type === 'polarArea' ||
+    w.config.chart.type === 'bubble');
+
 
     if (colorStops === null || colorStops.length === 0) {
       g = w.globals.dom.Paper.gradient(radial ? 'radial' : 'linear', (stop) => {
-        stop.at(stop1, gfrom, opacityFrom)
-        stop.at(stop2, gto, opacityTo)
-        stop.at(stop3, gto, opacityTo)
+        stop.at(stop1, gfrom, opacityFrom);
+        stop.at(stop2, gto, opacityTo);
+        stop.at(stop3, gto, opacityTo);
         if (stop4 !== null) {
-          stop.at(stop4, gfrom, opacityFrom)
+          stop.at(stop4, gfrom, opacityFrom);
         }
-      })
+      });
     } else {
       g = w.globals.dom.Paper.gradient(radial ? 'radial' : 'linear', (stop) => {
-        let gradientStops = Array.isArray(colorStops[i])
-          ? colorStops[i]
-          : colorStops
+        let gradientStops = Array.isArray(colorStops[i]) ?
+        colorStops[i] :
+        colorStops;
         gradientStops.forEach((s) => {
-          stop.at(s.offset / 100, s.color, s.opacity)
-        })
-      })
+          stop.at(s.offset / 100, s.color, s.opacity);
+        });
+      });
     }
 
     if (!radial) {
       if (style === 'vertical') {
-        g.from(0, 0).to(0, 1)
+        g.from(0, 0).to(0, 1);
       } else if (style === 'diagonal') {
-        g.from(0, 0).to(1, 1)
+        g.from(0, 0).to(1, 1);
       } else if (style === 'horizontal') {
-        g.from(0, 1).to(1, 1)
+        g.from(0, 1).to(1, 1);
       } else if (style === 'diagonal2') {
-        g.from(1, 0).to(0, 1)
+        g.from(1, 0).to(0, 1);
       }
     } else {
-      let offx = w.globals.gridWidth / 2
-      let offy = w.globals.gridHeight / 2
+      let offx = w.globals.gridWidth / 2;
+      let offy = w.globals.gridHeight / 2;
 
       if (w.config.chart.type !== 'bubble') {
         g.attr({
           gradientUnits: 'userSpaceOnUse',
           cx: offx,
           cy: offy,
-          r: size,
-        })
+          r: size
+        });
       } else {
         g.attr({
           cx: 0.5,
           cy: 0.5,
           r: 0.8,
           fx: 0.2,
-          fy: 0.2,
-        })
+          fy: 0.2
+        });
       }
     }
 
-    return g
+    return g;
   }
 
   getTextBasedOnMaxWidth({ text, maxWidth, fontSize, fontFamily }) {
-    const tRects = this.getTextRects(text, fontSize, fontFamily)
-    const wordWidth = tRects.width / text.length
-    const wordsBasedOnWidth = Math.floor(maxWidth / wordWidth)
+    const tRects = this.getTextRects(text, fontSize, fontFamily);
+    const wordWidth = tRects.width / text.length;
+    const wordsBasedOnWidth = Math.floor(maxWidth / wordWidth);
     if (maxWidth < tRects.width) {
-      return text.slice(0, wordsBasedOnWidth - 3) + '...'
+      return text.slice(0, wordsBasedOnWidth - 3) + '...';
     }
-    return text
+    return text;
   }
 
   drawText({
@@ -656,55 +656,55 @@ class Graphics {
     maxWidth,
     cssClass = '',
     isPlainText = true,
-    dominantBaseline = 'auto',
+    dominantBaseline = 'auto'
   }) {
-    let w = this.w
+    let w = this.w;
 
-    if (typeof text === 'undefined') text = ''
+    if (typeof text === 'undefined') text = '';
 
-    let truncatedText = text
+    let truncatedText = text;
     if (!textAnchor) {
-      textAnchor = 'start'
+      textAnchor = 'start';
     }
 
     if (!foreColor || !foreColor.length) {
-      foreColor = w.config.chart.foreColor
+      foreColor = w.config.chart.foreColor;
     }
-    fontFamily = fontFamily || w.config.chart.fontFamily
-    fontSize = fontSize || '11px'
-    fontWeight = fontWeight || 'regular'
+    fontFamily = fontFamily || w.config.chart.fontFamily;
+    fontSize = fontSize || '11px';
+    fontWeight = fontWeight || 'regular';
 
     const commonProps = {
       maxWidth,
       fontSize,
-      fontFamily,
-    }
-    let elText
+      fontFamily
+    };
+    let elText;
     if (Array.isArray(text)) {
       elText = w.globals.dom.Paper.text((add) => {
         for (let i = 0; i < text.length; i++) {
-          truncatedText = text[i]
+          truncatedText = text[i];
           if (maxWidth) {
             truncatedText = this.getTextBasedOnMaxWidth({
               text: text[i],
-              ...commonProps,
-            })
+              ...commonProps
+            });
           }
-          i === 0
-            ? add.tspan(truncatedText)
-            : add.tspan(truncatedText).newLine()
+          i === 0 ?
+          add.tspan(truncatedText) :
+          add.tspan(truncatedText).newLine();
         }
-      })
+      });
     } else {
       if (maxWidth) {
         truncatedText = this.getTextBasedOnMaxWidth({
           text,
-          ...commonProps,
-        })
+          ...commonProps
+        });
       }
-      elText = isPlainText
-        ? w.globals.dom.Paper.plain(text)
-        : w.globals.dom.Paper.text((add) => add.tspan(truncatedText))
+      elText = isPlainText ?
+      w.globals.dom.Paper.plain(text) :
+      w.globals.dom.Paper.text((add) => add.tspan(truncatedText));
     }
 
     elText.attr({
@@ -716,13 +716,13 @@ class Graphics {
       'font-family': fontFamily,
       'font-weight': fontWeight,
       fill: foreColor,
-      class: 'apexcharts-text ' + cssClass,
-    })
+      class: 'apexcharts-text ' + cssClass
+    });
 
-    elText.node.style.fontFamily = fontFamily
-    elText.node.style.opacity = opacity
+    elText.node.style.fontFamily = fontFamily;
+    elText.node.style.opacity = opacity;
 
-    return elText
+    return elText;
   }
 
   /**
@@ -734,14 +734,14 @@ class Graphics {
    * @returns {Object} The created group.
    */
   createGroupWithAttributes(x, y, lines, opts) {
-    let elPoint = this.group()
-    lines.forEach((line) => elPoint.add(line))
+    let elPoint = this.group();
+    lines.forEach((line) => elPoint.add(line));
     elPoint.attr({
       class: opts.class ? opts.class : '',
       cy: y,
-      cx: x,
-    })
-    return elPoint
+      cx: x
+    });
+    return elPoint;
   }
 
   /**
@@ -753,7 +753,7 @@ class Graphics {
    * @returns {Object} The created plus sign.
    */
   drawPlus(x, y, size, opts) {
-    let halfSize = size / 2
+    let halfSize = size / 2;
     let line1 = this.drawLine(
       x,
       y - halfSize,
@@ -763,7 +763,7 @@ class Graphics {
       opts.pointStrokeDashArray,
       opts.pointStrokeWidth,
       opts.pointStrokeLineCap
-    )
+    );
     let line2 = this.drawLine(
       x - halfSize,
       y,
@@ -773,9 +773,9 @@ class Graphics {
       opts.pointStrokeDashArray,
       opts.pointStrokeWidth,
       opts.pointStrokeLineCap
-    )
+    );
 
-    return this.createGroupWithAttributes(x, y, [line1, line2], opts)
+    return this.createGroupWithAttributes(x, y, [line1, line2], opts);
   }
 
   /**
@@ -787,7 +787,7 @@ class Graphics {
    * @returns {Object} The created 'X'.
    */
   drawX(x, y, size, opts) {
-    let halfSize = size / 2
+    let halfSize = size / 2;
     let line1 = this.drawLine(
       x - halfSize,
       y - halfSize,
@@ -797,7 +797,7 @@ class Graphics {
       opts.pointStrokeDashArray,
       opts.pointStrokeWidth,
       opts.pointStrokeLineCap
-    )
+    );
     let line2 = this.drawLine(
       x - halfSize,
       y + halfSize,
@@ -807,31 +807,31 @@ class Graphics {
       opts.pointStrokeDashArray,
       opts.pointStrokeWidth,
       opts.pointStrokeLineCap
-    )
+    );
 
-    return this.createGroupWithAttributes(x, y, [line1, line2], opts)
+    return this.createGroupWithAttributes(x, y, [line1, line2], opts);
   }
 
   drawMarker(x, y, opts) {
-    x = x || 0
-    let size = opts.pSize || 0
+    x = x || 0;
+    let size = opts.pSize || 0;
 
-    let elPoint = null
+    let elPoint = null;
     if (opts?.shape === 'X' || opts?.shape === 'x') {
-      elPoint = this.drawX(x, y, size, opts)
+      elPoint = this.drawX(x, y, size, opts);
     } else if (opts?.shape === 'plus' || opts?.shape === '+') {
-      elPoint = this.drawPlus(x, y, size, opts)
+      elPoint = this.drawPlus(x, y, size, opts);
     } else if (opts.shape === 'square' || opts.shape === 'rect') {
-      let radius = opts.pRadius === undefined ? size / 2 : opts.pRadius
+      let radius = opts.pRadius === undefined ? size / 2 : opts.pRadius;
 
       if (y === null || !size) {
-        size = 0
-        radius = 0
+        size = 0;
+        radius = 0;
       }
 
-      let nSize = size * 1.2 + radius
+      let nSize = size * 1.2 + radius;
 
-      let p = this.drawRect(nSize, nSize, nSize, nSize, radius)
+      let p = this.drawRect(nSize, nSize, nSize, nSize, radius);
 
       p.attr({
         x: x - nSize / 2,
@@ -843,14 +843,14 @@ class Graphics {
         'fill-opacity': opts.pointFillOpacity ? opts.pointFillOpacity : 1,
         stroke: opts.pointStrokeColor,
         'stroke-width': opts.pointStrokeWidth ? opts.pointStrokeWidth : 0,
-        'stroke-opacity': opts.pointStrokeOpacity ? opts.pointStrokeOpacity : 1,
-      })
+        'stroke-opacity': opts.pointStrokeOpacity ? opts.pointStrokeOpacity : 1
+      });
 
-      elPoint = p
+      elPoint = p;
     } else if (opts.shape === 'circle' || !opts.shape) {
       if (!Utils.isNumber(y)) {
-        size = 0
-        y = 0
+        size = 0;
+        y = 0;
       }
 
       // let nSize = size - opts.pRadius / 2 < 0 ? 0 : size - opts.pRadius / 2
@@ -863,135 +863,135 @@ class Graphics {
         fill: opts.pointFillColor,
         'fill-opacity': opts.pointFillOpacity ? opts.pointFillOpacity : 1,
         'stroke-width': opts.pointStrokeWidth ? opts.pointStrokeWidth : 0,
-        'stroke-opacity': opts.pointStrokeOpacity ? opts.pointStrokeOpacity : 1,
-      })
+        'stroke-opacity': opts.pointStrokeOpacity ? opts.pointStrokeOpacity : 1
+      });
     }
 
-    return elPoint
+    return elPoint;
   }
 
   pathMouseEnter(path, e) {
-    let w = this.w
-    const filters = new Filters(this.ctx)
+    let w = this.w;
+    const filters = new Filters(this.ctx);
 
-    const i = parseInt(path.node.getAttribute('index'), 10)
-    const j = parseInt(path.node.getAttribute('j'), 10)
+    const i = parseInt(path.node.getAttribute('index'), 10);
+    const j = parseInt(path.node.getAttribute('j'), 10);
 
     if (typeof w.config.chart.events.dataPointMouseEnter === 'function') {
       w.config.chart.events.dataPointMouseEnter(e, this.ctx, {
         seriesIndex: i,
         dataPointIndex: j,
-        w,
-      })
+        w
+      });
     }
     this.ctx.events.fireEvent('dataPointMouseEnter', [
-      e,
-      this.ctx,
-      { seriesIndex: i, dataPointIndex: j, w },
-    ])
+    e,
+    this.ctx,
+    { seriesIndex: i, dataPointIndex: j, w }]
+    );
 
     if (w.config.states.active.filter.type !== 'none') {
       if (path.node.getAttribute('selected') === 'true') {
-        return
+        return;
       }
     }
 
     if (w.config.states.hover.filter.type !== 'none') {
       if (!w.globals.isTouchDevice) {
-        let hoverFilter = w.config.states.hover.filter
-        filters.applyFilter(path, i, hoverFilter.type, hoverFilter.value)
+        let hoverFilter = w.config.states.hover.filter;
+        filters.applyFilter(path, i, hoverFilter.type, hoverFilter.value);
       }
     }
   }
 
   pathMouseLeave(path, e) {
-    let w = this.w
-    const filters = new Filters(this.ctx)
+    let w = this.w;
+    const filters = new Filters(this.ctx);
 
-    const i = parseInt(path.node.getAttribute('index'), 10)
-    const j = parseInt(path.node.getAttribute('j'), 10)
+    const i = parseInt(path.node.getAttribute('index'), 10);
+    const j = parseInt(path.node.getAttribute('j'), 10);
 
     if (typeof w.config.chart.events.dataPointMouseLeave === 'function') {
       w.config.chart.events.dataPointMouseLeave(e, this.ctx, {
         seriesIndex: i,
         dataPointIndex: j,
-        w,
-      })
+        w
+      });
     }
     this.ctx.events.fireEvent('dataPointMouseLeave', [
-      e,
-      this.ctx,
-      { seriesIndex: i, dataPointIndex: j, w },
-    ])
+    e,
+    this.ctx,
+    { seriesIndex: i, dataPointIndex: j, w }]
+    );
 
     if (w.config.states.active.filter.type !== 'none') {
       if (path.node.getAttribute('selected') === 'true') {
-        return
+        return;
       }
     }
 
     if (w.config.states.hover.filter.type !== 'none') {
-      filters.getDefaultFilter(path, i)
+      filters.getDefaultFilter(path, i);
     }
   }
 
   pathMouseDown(path, e) {
-    let w = this.w
-    const filters = new Filters(this.ctx)
+    let w = this.w;
+    const filters = new Filters(this.ctx);
 
-    const i = parseInt(path.node.getAttribute('index'), 10)
-    const j = parseInt(path.node.getAttribute('j'), 10)
+    const i = parseInt(path.node.getAttribute('index'), 10);
+    const j = parseInt(path.node.getAttribute('j'), 10);
 
-    let selected = 'false'
+    let selected = 'false';
     if (path.node.getAttribute('selected') === 'true') {
-      path.node.setAttribute('selected', 'false')
+      path.node.setAttribute('selected', 'false');
 
       if (w.globals.selectedDataPoints[i].indexOf(j) > -1) {
-        let index = w.globals.selectedDataPoints[i].indexOf(j)
-        w.globals.selectedDataPoints[i].splice(index, 1)
+        let index = w.globals.selectedDataPoints[i].indexOf(j);
+        w.globals.selectedDataPoints[i].splice(index, 1);
       }
     } else {
       if (
-        !w.config.states.active.allowMultipleDataPointsSelection &&
-        w.globals.selectedDataPoints.length > 0
-      ) {
-        w.globals.selectedDataPoints = []
+      !w.config.states.active.allowMultipleDataPointsSelection &&
+      w.globals.selectedDataPoints.length > 0)
+      {
+        w.globals.selectedDataPoints = [];
         const elPaths = w.globals.dom.Paper.select(
           '.apexcharts-series path'
-        ).members
+        ).members;
         const elCircles = w.globals.dom.Paper.select(
           '.apexcharts-series circle, .apexcharts-series rect'
-        ).members
+        ).members;
 
         const deSelect = (els) => {
           Array.prototype.forEach.call(els, (el) => {
-            el.node.setAttribute('selected', 'false')
-            filters.getDefaultFilter(el, i)
-          })
-        }
-        deSelect(elPaths)
-        deSelect(elCircles)
+            el.node.setAttribute('selected', 'false');
+            filters.getDefaultFilter(el, i);
+          });
+        };
+        deSelect(elPaths);
+        deSelect(elCircles);
       }
 
-      path.node.setAttribute('selected', 'true')
-      selected = 'true'
+      path.node.setAttribute('selected', 'true');
+      selected = 'true';
 
       if (typeof w.globals.selectedDataPoints[i] === 'undefined') {
-        w.globals.selectedDataPoints[i] = []
+        w.globals.selectedDataPoints[i] = [];
       }
-      w.globals.selectedDataPoints[i].push(j)
+      w.globals.selectedDataPoints[i].push(j);
     }
 
     if (selected === 'true') {
-      let activeFilter = w.config.states.active.filter
+      let activeFilter = w.config.states.active.filter;
       if (activeFilter !== 'none') {
-        filters.applyFilter(path, i, activeFilter.type, activeFilter.value)
+        filters.applyFilter(path, i, activeFilter.type, activeFilter.value);
       } else {
         // Reapply the hover filter in case it was removed by `deselect`when there is no active filter and it is not a touch device
         if (w.config.states.hover.filter !== 'none') {
           if (!w.globals.isTouchDevice) {
-            var hoverFilter = w.config.states.hover.filter
-            filters.applyFilter(path, i, hoverFilter.type, hoverFilter.value)
+            var hoverFilter = w.config.states.hover.filter;
+            filters.applyFilter(path, i, hoverFilter.type, hoverFilter.value);
           }
         }
       }
@@ -999,13 +999,13 @@ class Graphics {
       // If the item was deselected, apply hover state filter if it is not a touch device
       if (w.config.states.active.filter.type !== 'none') {
         if (
-          w.config.states.hover.filter.type !== 'none' &&
-          !w.globals.isTouchDevice
-        ) {
-          var hoverFilter = w.config.states.hover.filter
-          filters.applyFilter(path, i, hoverFilter.type, hoverFilter.value)
+        w.config.states.hover.filter.type !== 'none' &&
+        !w.globals.isTouchDevice)
+        {
+          var hoverFilter = w.config.states.hover.filter;
+          filters.applyFilter(path, i, hoverFilter.type, hoverFilter.value);
         } else {
-          filters.getDefaultFilter(path, i)
+          filters.getDefaultFilter(path, i);
         }
       }
     }
@@ -1015,48 +1015,48 @@ class Graphics {
         selectedDataPoints: w.globals.selectedDataPoints,
         seriesIndex: i,
         dataPointIndex: j,
-        w,
-      })
+        w
+      });
     }
 
     if (e) {
       this.ctx.events.fireEvent('dataPointSelection', [
-        e,
-        this.ctx,
-        {
-          selectedDataPoints: w.globals.selectedDataPoints,
-          seriesIndex: i,
-          dataPointIndex: j,
-          w,
-        },
-      ])
+      e,
+      this.ctx,
+      {
+        selectedDataPoints: w.globals.selectedDataPoints,
+        seriesIndex: i,
+        dataPointIndex: j,
+        w
+      }]
+      );
     }
   }
 
   rotateAroundCenter(el) {
-    let coord = {}
+    let coord = {};
     if (el && typeof el.getBBox === 'function') {
-      coord = el.getBBox()
+      coord = el.getBBox();
     }
-    let x = coord.x + coord.width / 2
-    let y = coord.y + coord.height / 2
+    let x = coord.x + coord.width / 2;
+    let y = coord.y + coord.height / 2;
 
     return {
       x,
-      y,
-    }
+      y
+    };
   }
 
   static setAttrs(el, attrs) {
     for (let key in attrs) {
       if (attrs.hasOwnProperty(key)) {
-        el.setAttribute(key, attrs[key])
+        el.setAttribute(key, attrs[key]);
       }
     }
   }
 
   getTextRects(text, fontSize, fontFamily, transform, useBBox = true) {
-    let w = this.w
+    let w = this.w;
     let virtualText = this.drawText({
       x: -200,
       y: -200,
@@ -1065,25 +1065,25 @@ class Graphics {
       fontSize,
       fontFamily,
       foreColor: '#fff',
-      opacity: 0,
-    })
+      opacity: 0
+    });
 
     if (transform) {
-      virtualText.attr('transform', transform)
+      virtualText.attr('transform', transform);
     }
-    w.globals.dom.Paper.add(virtualText)
+    w.globals.dom.Paper.add(virtualText);
 
-    let rect = virtualText.bbox()
+    let rect = virtualText.bbox();
     if (!useBBox) {
-      rect = virtualText.node.getBoundingClientRect()
+      rect = virtualText.node.getBoundingClientRect();
     }
 
-    virtualText.remove()
+    virtualText.remove();
 
     return {
       width: rect.width,
-      height: rect.height,
-    }
+      height: rect.height
+    };
   }
 
   /**
@@ -1092,21 +1092,21 @@ class Graphics {
    * @memberof Graphics
    **/
   placeTextWithEllipsis(textObj, textString, width) {
-    if (typeof textObj.getComputedTextLength !== 'function') return
-    textObj.textContent = textString
+    if (typeof textObj.getComputedTextLength !== 'function') return;
+    textObj.textContent = textString;
     if (textString.length > 0) {
       // ellipsis is needed
       if (textObj.getComputedTextLength() >= width / 1.1) {
         for (let x = textString.length - 3; x > 0; x -= 3) {
           if (textObj.getSubStringLength(0, x) <= width / 1.1) {
-            textObj.textContent = textString.substring(0, x) + '...'
-            return
+            textObj.textContent = textString.substring(0, x) + '...';
+            return;
           }
         }
-        textObj.textContent = '.' // can't place at all
+        textObj.textContent = '.'; // can't place at all
       }
     }
   }
 }
 
-export default Graphics
+export default Graphics;

@@ -6,14 +6,14 @@
 
 /* eslint-disable */
 
-(function(global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined'
-    ? (module.exports = factory())
-    : typeof define === 'function' && define.amd
-    ? define(factory)
-    : ((global = global || self),
-      (global.FilePondPluginImagePreview = factory()));
-})(this, function() {
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ?
+  module.exports = factory() :
+  typeof define === 'function' && define.amd ?
+  define(factory) : (
+  global = global || self,
+  global.FilePondPluginImagePreview = factory());
+})(this, function () {
   'use strict';
 
   // test if file is of type image and can be viewed in canvas
@@ -23,17 +23,17 @@
 
   function _typeof(obj) {
     if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
-      _typeof = function(obj) {
+      _typeof = function (obj) {
         return typeof obj;
       };
     } else {
-      _typeof = function(obj) {
+      _typeof = function (obj) {
         return obj &&
-          typeof Symbol === 'function' &&
-          obj.constructor === Symbol &&
-          obj !== Symbol.prototype
-          ? 'symbol'
-          : typeof obj;
+        typeof Symbol === 'function' &&
+        obj.constructor === Symbol &&
+        obj !== Symbol.prototype ?
+        'symbol' :
+        typeof obj;
       };
     }
 
@@ -45,10 +45,10 @@
   function _jsx(type, props, key, children) {
     if (!REACT_ELEMENT_TYPE) {
       REACT_ELEMENT_TYPE =
-        (typeof Symbol === 'function' &&
-          Symbol.for &&
-          Symbol.for('react.element')) ||
-        0xeac7;
+      typeof Symbol === 'function' &&
+      Symbol.for &&
+      Symbol.for('react.element') ||
+      0xeac7;
     }
 
     var defaultProps = type && type.defaultProps;
@@ -118,7 +118,7 @@
     var front, back;
 
     function send(key, arg) {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         var request = {
           key: key,
           arg: arg,
@@ -142,7 +142,7 @@
         var value = result.value;
         var wrappedAwait = value instanceof _AwaitValue;
         Promise.resolve(wrappedAwait ? value.wrapped : value).then(
-          function(arg) {
+          function (arg) {
             if (wrappedAwait) {
               resume('next', arg);
               return;
@@ -150,7 +150,7 @@
 
             settle(result.done ? 'return' : 'normal', arg);
           },
-          function(err) {
+          function (err) {
             resume('throw', err);
           }
         );
@@ -197,25 +197,25 @@
   }
 
   if (typeof Symbol === 'function' && Symbol.asyncIterator) {
-    _AsyncGenerator.prototype[Symbol.asyncIterator] = function() {
+    _AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
       return this;
     };
   }
 
-  _AsyncGenerator.prototype.next = function(arg) {
+  _AsyncGenerator.prototype.next = function (arg) {
     return this._invoke('next', arg);
   };
 
-  _AsyncGenerator.prototype.throw = function(arg) {
+  _AsyncGenerator.prototype.throw = function (arg) {
     return this._invoke('throw', arg);
   };
 
-  _AsyncGenerator.prototype.return = function(arg) {
+  _AsyncGenerator.prototype.return = function (arg) {
     return this._invoke('return', arg);
   };
 
   function _wrapAsyncGenerator(fn) {
-    return function() {
+    return function () {
       return new _AsyncGenerator(fn.apply(this, arguments));
     };
   }
@@ -230,7 +230,7 @@
 
     function pump(key, value) {
       waiting = true;
-      value = new Promise(function(resolve) {
+      value = new Promise(function (resolve) {
         resolve(inner[key](value));
       });
       return {
@@ -240,12 +240,12 @@
     }
 
     if (typeof Symbol === 'function' && Symbol.iterator) {
-      iter[Symbol.iterator] = function() {
+      iter[Symbol.iterator] = function () {
         return this;
       };
     }
 
-    iter.next = function(value) {
+    iter.next = function (value) {
       if (waiting) {
         waiting = false;
         return value;
@@ -255,7 +255,7 @@
     };
 
     if (typeof inner.throw === 'function') {
-      iter.throw = function(value) {
+      iter.throw = function (value) {
         if (waiting) {
           waiting = false;
           throw value;
@@ -266,7 +266,7 @@
     }
 
     if (typeof inner.return === 'function') {
-      iter.return = function(value) {
+      iter.return = function (value) {
         return pump('return', value);
       };
     }
@@ -291,10 +291,10 @@
   }
 
   function _asyncToGenerator(fn) {
-    return function() {
+    return function () {
       var self = this,
         args = arguments;
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         var gen = fn.apply(self, args);
 
         function _next(value) {
@@ -395,20 +395,20 @@
 
   function _extends() {
     _extends =
-      Object.assign ||
-      function(target) {
-        for (var i = 1; i < arguments.length; i++) {
-          var source = arguments[i];
+    Object.assign ||
+    function (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
 
-          for (var key in source) {
-            if (Object.prototype.hasOwnProperty.call(source, key)) {
-              target[key] = source[key];
-            }
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
           }
         }
+      }
 
-        return target;
-      };
+      return target;
+    };
 
     return _extends.apply(this, arguments);
   }
@@ -420,13 +420,13 @@
 
       if (typeof Object.getOwnPropertySymbols === 'function') {
         ownKeys = ownKeys.concat(
-          Object.getOwnPropertySymbols(source).filter(function(sym) {
+          Object.getOwnPropertySymbols(source).filter(function (sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
           })
         );
       }
 
-      ownKeys.forEach(function(key) {
+      ownKeys.forEach(function (key) {
         _defineProperty(target, key, source[key]);
       });
     }
@@ -456,21 +456,21 @@
   }
 
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf
-      ? Object.getPrototypeOf
-      : function _getPrototypeOf(o) {
-          return o.__proto__ || Object.getPrototypeOf(o);
-        };
+    _getPrototypeOf = Object.setPrototypeOf ?
+    Object.getPrototypeOf :
+    function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
     return _getPrototypeOf(o);
   }
 
   function _setPrototypeOf(o, p) {
     _setPrototypeOf =
-      Object.setPrototypeOf ||
-      function _setPrototypeOf(o, p) {
-        o.__proto__ = p;
-        return o;
-      };
+    Object.setPrototypeOf ||
+    function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
 
     return _setPrototypeOf(o, p);
   }
@@ -481,7 +481,7 @@
     if (typeof Proxy === 'function') return true;
 
     try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
       return true;
     } catch (e) {
       return false;
@@ -547,10 +547,10 @@
 
   function _instanceof(left, right) {
     if (
-      right != null &&
-      typeof Symbol !== 'undefined' &&
-      right[Symbol.hasInstance]
-    ) {
+    right != null &&
+    typeof Symbol !== 'undefined' &&
+    right[Symbol.hasInstance])
+    {
       return right[Symbol.hasInstance](left);
     } else {
       return left instanceof right;
@@ -558,11 +558,11 @@
   }
 
   function _interopRequireDefault(obj) {
-    return obj && obj.__esModule
-      ? obj
-      : {
-          default: obj
-        };
+    return obj && obj.__esModule ?
+    obj :
+    {
+      default: obj
+    };
   }
 
   function _interopRequireWildcard(obj) {
@@ -575,9 +575,9 @@
         for (var key in obj) {
           if (Object.prototype.hasOwnProperty.call(obj, key)) {
             var desc =
-              Object.defineProperty && Object.getOwnPropertyDescriptor
-                ? Object.getOwnPropertyDescriptor(obj, key)
-                : {};
+            Object.defineProperty && Object.getOwnPropertyDescriptor ?
+            Object.getOwnPropertyDescriptor(obj, key) :
+            {};
 
             if (desc.get || desc.set) {
               Object.defineProperty(newObj, key, desc);
@@ -784,16 +784,16 @@
     return (
       _arrayWithHoles(arr) ||
       _iterableToArrayLimit(arr, i) ||
-      _nonIterableRest()
-    );
+      _nonIterableRest());
+
   }
 
   function _slicedToArrayLoose(arr, i) {
     return (
       _arrayWithHoles(arr) ||
       _iterableToArrayLimitLoose(arr, i) ||
-      _nonIterableRest()
-    );
+      _nonIterableRest());
+
   }
 
   function _toArray(arr) {
@@ -802,14 +802,14 @@
 
   function _toConsumableArray(arr) {
     return (
-      _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread()
-    );
+      _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread());
+
   }
 
   function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) {
       for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)
-        arr2[i] = arr[i];
+      arr2[i] = arr[i];
 
       return arr2;
     }
@@ -821,10 +821,10 @@
 
   function _iterableToArray(iter) {
     if (
-      Symbol.iterator in Object(iter) ||
-      Object.prototype.toString.call(iter) === '[object Arguments]'
-    )
-      return Array.from(iter);
+    Symbol.iterator in Object(iter) ||
+    Object.prototype.toString.call(iter) === '[object Arguments]')
+
+    return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
@@ -835,10 +835,10 @@
 
     try {
       for (
-        var _i = arr[Symbol.iterator](), _s;
-        !(_n = (_s = _i.next()).done);
-        _n = true
-      ) {
+      var _i = arr[Symbol.iterator](), _s;
+      !(_n = (_s = _i.next()).done);
+      _n = true)
+      {
         _arr.push(_s.value);
 
         if (i && _arr.length === i) break;
@@ -861,10 +861,10 @@
     var _arr = [];
 
     for (
-      var _iterator = arr[Symbol.iterator](), _step;
-      !(_step = _iterator.next()).done;
+    var _iterator = arr[Symbol.iterator](), _step;
+    !(_step = _iterator.next()).done;)
 
-    ) {
+    {
       _arr.push(_step.value);
 
       if (i && _arr.length === i) break;
@@ -882,7 +882,7 @@
   }
 
   function _skipFirstGeneratorNext(fn) {
-    return function() {
+    return function () {
       var it = fn.apply(this, arguments);
       it.next();
       return it;
@@ -911,9 +911,9 @@
   function _initializerWarningHelper(descriptor, context) {
     throw new Error(
       'Decorating class property failed. Please ensure that ' +
-        'proposal-class-properties is enabled and set to use loose mode. ' +
-        'To use proposal-class-properties in spec mode with decorators, wait for ' +
-        'the next major version of decorators in stage 2.'
+      'proposal-class-properties is enabled and set to use loose mode. ' +
+      'To use proposal-class-properties in spec mode with decorators, wait for ' +
+      'the next major version of decorators in stage 2.'
     );
   }
 
@@ -923,21 +923,21 @@
       enumerable: descriptor.enumerable,
       configurable: descriptor.configurable,
       writable: descriptor.writable,
-      value: descriptor.initializer
-        ? descriptor.initializer.call(context)
-        : void 0
+      value: descriptor.initializer ?
+      descriptor.initializer.call(context) :
+      void 0
     });
   }
 
   function _applyDecoratedDescriptor(
-    target,
-    property,
-    decorators,
-    descriptor,
-    context
-  ) {
+  target,
+  property,
+  decorators,
+  descriptor,
+  context)
+  {
     var desc = {};
-    Object.keys(descriptor).forEach(function(key) {
+    Object.keys(descriptor).forEach(function (key) {
       desc[key] = descriptor[key];
     });
     desc.enumerable = !!desc.enumerable;
@@ -947,12 +947,12 @@
       desc.writable = true;
     }
 
-    desc = decorators
-      .slice()
-      .reverse()
-      .reduce(function(desc, decorator) {
-        return decorator(target, property, desc) || desc;
-      }, desc);
+    desc = decorators.
+    slice().
+    reverse().
+    reduce(function (desc, decorator) {
+      return decorator(target, property, desc) || desc;
+    }, desc);
 
     if (context && desc.initializer !== void 0) {
       desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
@@ -1016,10 +1016,10 @@
   }
 
   function _classStaticPrivateFieldSpecGet(
-    receiver,
-    classConstructor,
-    descriptor
-  ) {
+  receiver,
+  classConstructor,
+  descriptor)
+  {
     if (receiver !== classConstructor) {
       throw new TypeError('Private static access of wrong provenance');
     }
@@ -1028,11 +1028,11 @@
   }
 
   function _classStaticPrivateFieldSpecSet(
-    receiver,
-    classConstructor,
-    descriptor,
-    value
-  ) {
+  receiver,
+  classConstructor,
+  descriptor,
+  value)
+  {
     if (receiver !== classConstructor) {
       throw new TypeError('Private static access of wrong provenance');
     }
@@ -1078,38 +1078,38 @@
   }
 
   function _getDecoratorsApi() {
-    _getDecoratorsApi = function() {
+    _getDecoratorsApi = function () {
       return api;
     };
 
     var api = {
       elementsDefinitionOrder: [['method'], ['field']],
-      initializeInstanceElements: function(O, elements) {
-        ['method', 'field'].forEach(function(kind) {
-          elements.forEach(function(element) {
+      initializeInstanceElements: function (O, elements) {
+        ['method', 'field'].forEach(function (kind) {
+          elements.forEach(function (element) {
             if (element.kind === kind && element.placement === 'own') {
               this.defineClassElement(O, element);
             }
           }, this);
         }, this);
       },
-      initializeClassElements: function(F, elements) {
+      initializeClassElements: function (F, elements) {
         var proto = F.prototype;
-        ['method', 'field'].forEach(function(kind) {
-          elements.forEach(function(element) {
+        ['method', 'field'].forEach(function (kind) {
+          elements.forEach(function (element) {
             var placement = element.placement;
 
             if (
-              element.kind === kind &&
-              (placement === 'static' || placement === 'prototype')
-            ) {
+            element.kind === kind && (
+            placement === 'static' || placement === 'prototype'))
+            {
               var receiver = placement === 'static' ? F : proto;
               this.defineClassElement(receiver, element);
             }
           }, this);
         }, this);
       },
-      defineClassElement: function(receiver, element) {
+      defineClassElement: function (receiver, element) {
         var descriptor = element.descriptor;
 
         if (element.kind === 'field') {
@@ -1124,7 +1124,7 @@
 
         Object.defineProperty(receiver, element.key, descriptor);
       },
-      decorateClass: function(elements, decorators) {
+      decorateClass: function (elements, decorators) {
         var newElements = [];
         var finishers = [];
         var placements = {
@@ -1132,10 +1132,10 @@
           prototype: [],
           own: []
         };
-        elements.forEach(function(element) {
+        elements.forEach(function (element) {
           this.addElementPlacement(element, placements);
         }, this);
-        elements.forEach(function(element) {
+        elements.forEach(function (element) {
           if (!_hasDecorators(element)) return newElements.push(element);
           var elementFinishersExtras = this.decorateElement(
             element,
@@ -1158,7 +1158,7 @@
         result.finishers = finishers;
         return result;
       },
-      addElementPlacement: function(element, placements, silent) {
+      addElementPlacement: function (element, placements, silent) {
         var keys = placements[element.placement];
 
         if (!silent && keys.indexOf(element.key) !== -1) {
@@ -1167,15 +1167,15 @@
 
         keys.push(element.key);
       },
-      decorateElement: function(element, placements) {
+      decorateElement: function (element, placements) {
         var extras = [];
         var finishers = [];
 
         for (
-          var decorators = element.decorators, i = decorators.length - 1;
-          i >= 0;
-          i--
-        ) {
+        var decorators = element.decorators, i = decorators.length - 1;
+        i >= 0;
+        i--)
+        {
           var keys = placements[element.placement];
           keys.splice(keys.indexOf(element.key), 1);
           var elementObject = this.fromElementDescriptor(element);
@@ -1206,7 +1206,7 @@
           extras: extras
         };
       },
-      decorateConstructor: function(elements, decorators) {
+      decorateConstructor: function (elements, decorators) {
         var finishers = [];
 
         for (var i = decorators.length - 1; i >= 0; i--) {
@@ -1225,9 +1225,9 @@
             for (var j = 0; j < elements.length - 1; j++) {
               for (var k = j + 1; k < elements.length; k++) {
                 if (
-                  elements[j].key === elements[k].key &&
-                  elements[j].placement === elements[k].placement
-                ) {
+                elements[j].key === elements[k].key &&
+                elements[j].placement === elements[k].placement)
+                {
                   throw new TypeError(
                     'Duplicated element (' + elements[j].key + ')'
                   );
@@ -1242,7 +1242,7 @@
           finishers: finishers
         };
       },
-      fromElementDescriptor: function(element) {
+      fromElementDescriptor: function (element) {
         var obj = {
           kind: element.kind,
           key: element.key,
@@ -1257,9 +1257,9 @@
         if (element.kind === 'field') obj.initializer = element.initializer;
         return obj;
       },
-      toElementDescriptors: function(elementObjects) {
+      toElementDescriptors: function (elementObjects) {
         if (elementObjects === undefined) return;
-        return _toArray(elementObjects).map(function(elementObject) {
+        return _toArray(elementObjects).map(function (elementObject) {
           var element = this.toElementDescriptor(elementObject);
           this.disallowProperty(
             elementObject,
@@ -1274,16 +1274,16 @@
           return element;
         }, this);
       },
-      toElementDescriptor: function(elementObject) {
+      toElementDescriptor: function (elementObject) {
         var kind = String(elementObject.kind);
 
         if (kind !== 'method' && kind !== 'field') {
           throw new TypeError(
             'An element descriptor\'s .kind property must be either "method" or' +
-              ' "field", but a decorator created an element descriptor with' +
-              ' .kind "' +
-              kind +
-              '"'
+            ' "field", but a decorator created an element descriptor with' +
+            ' .kind "' +
+            kind +
+            '"'
           );
         }
 
@@ -1292,16 +1292,16 @@
         var placement = String(elementObject.placement);
 
         if (
-          placement !== 'static' &&
-          placement !== 'prototype' &&
-          placement !== 'own'
-        ) {
+        placement !== 'static' &&
+        placement !== 'prototype' &&
+        placement !== 'own')
+        {
           throw new TypeError(
             'An element descriptor\'s .placement property must be one of "static",' +
-              ' "prototype" or "own", but a decorator created an element descriptor' +
-              ' with .placement "' +
-              placement +
-              '"'
+            ' "prototype" or "own", but a decorator created an element descriptor' +
+            ' with .placement "' +
+            placement +
+            '"'
           );
         }
 
@@ -1345,7 +1345,7 @@
 
         return element;
       },
-      toElementFinisherExtras: function(elementObject) {
+      toElementFinisherExtras: function (elementObject) {
         var element = this.toElementDescriptor(elementObject);
 
         var finisher = _optionalCallableProperty(elementObject, 'finisher');
@@ -1357,7 +1357,7 @@
           extras: extras
         };
       },
-      fromClassDescriptor: function(elements) {
+      fromClassDescriptor: function (elements) {
         var obj = {
           kind: 'class',
           elements: elements.map(this.fromElementDescriptor, this)
@@ -1369,15 +1369,15 @@
         Object.defineProperty(obj, Symbol.toStringTag, desc);
         return obj;
       },
-      toClassDescriptor: function(obj) {
+      toClassDescriptor: function (obj) {
         var kind = String(obj.kind);
 
         if (kind !== 'class') {
           throw new TypeError(
             'A class descriptor\'s .kind property must be "class", but a decorator' +
-              ' created a class descriptor with .kind "' +
-              kind +
-              '"'
+            ' created a class descriptor with .kind "' +
+            kind +
+            '"'
           );
         }
 
@@ -1395,7 +1395,7 @@
           finisher: finisher
         };
       },
-      runClassFinishers: function(constructor, finishers) {
+      runClassFinishers: function (constructor, finishers) {
         for (var i = 0; i < finishers.length; i++) {
           var newConstructor = (0, finishers[i])(constructor);
 
@@ -1410,7 +1410,7 @@
 
         return constructor;
       },
-      disallowProperty: function(obj, name, objectType) {
+      disallowProperty: function (obj, name, objectType) {
         if (obj[name] !== undefined) {
           throw new TypeError(
             objectType + " can't have a ." + name + ' property.'
@@ -1456,11 +1456,11 @@
     var element = {
       kind: def.kind === 'field' ? 'field' : 'method',
       key: key,
-      placement: def.static
-        ? 'static'
-        : def.kind === 'field'
-        ? 'own'
-        : 'prototype',
+      placement: def.static ?
+      'static' :
+      def.kind === 'field' ?
+      'own' :
+      'prototype',
       descriptor: descriptor
     };
     if (def.decorators) element.decorators = def.decorators;
@@ -1479,12 +1479,12 @@
   function _coalesceClassElements(elements) {
     var newElements = [];
 
-    var isSameElement = function(other) {
+    var isSameElement = function (other) {
       return (
         other.kind === 'method' &&
         other.key === element.key &&
-        other.placement === element.placement
-      );
+        other.placement === element.placement);
+
     };
 
     for (var i = 0; i < elements.length; i++) {
@@ -1492,13 +1492,13 @@
       var other;
 
       if (
-        element.kind === 'method' &&
-        (other = newElements.find(isSameElement))
-      ) {
+      element.kind === 'method' && (
+      other = newElements.find(isSameElement)))
+      {
         if (
-          _isDataDescriptor(element.descriptor) ||
-          _isDataDescriptor(other.descriptor)
-        ) {
+        _isDataDescriptor(element.descriptor) ||
+        _isDataDescriptor(other.descriptor))
+        {
           if (_hasDecorators(element) || _hasDecorators(other)) {
             throw new ReferenceError(
               'Duplicated methods (' + element.key + ") can't be decorated."
@@ -1511,9 +1511,9 @@
             if (_hasDecorators(other)) {
               throw new ReferenceError(
                 "Decorators can't be placed on different accessors with for " +
-                  'the same property (' +
-                  element.key +
-                  ').'
+                'the same property (' +
+                element.key +
+                ').'
               );
             }
 
@@ -1537,8 +1537,8 @@
   function _isDataDescriptor(desc) {
     return (
       desc !== undefined &&
-      !(desc.value === undefined && desc.writable === undefined)
-    );
+      !(desc.value === undefined && desc.writable === undefined));
+
   }
 
   function _optionalCallableProperty(obj, name) {
@@ -1564,7 +1564,7 @@
   }
 
   function _wrapRegExp(re, groups) {
-    _wrapRegExp = function(re, groups) {
+    _wrapRegExp = function (re, groups) {
       return new BabelRegExp(re, groups);
     };
 
@@ -1584,28 +1584,28 @@
 
     _inherits(BabelRegExp, _RegExp);
 
-    BabelRegExp.prototype.exec = function(str) {
+    BabelRegExp.prototype.exec = function (str) {
       var result = _super.exec.call(this, str);
 
       if (result) result.groups = buildGroups(result, this);
       return result;
     };
 
-    BabelRegExp.prototype[Symbol.replace] = function(str, substitution) {
+    BabelRegExp.prototype[Symbol.replace] = function (str, substitution) {
       if (typeof substitution === 'string') {
         var groups = _groups.get(this);
 
         return _super[Symbol.replace].call(
           this,
           str,
-          substitution.replace(/\$<([^>]+)>/g, function(_, name) {
+          substitution.replace(/\$<([^>]+)>/g, function (_, name) {
             return '$' + groups[name];
           })
         );
       } else if (typeof substitution === 'function') {
         var _this = this;
 
-        return _super[Symbol.replace].call(this, str, function() {
+        return _super[Symbol.replace].call(this, str, function () {
           var args = [];
           args.push.apply(args, arguments);
 
@@ -1623,7 +1623,7 @@
     function buildGroups(result, re) {
       var g = _groups.get(re);
 
-      return Object.keys(g).reduce(function(groups, name) {
+      return Object.keys(g).reduce(function (groups, name) {
         groups[name] = result[g[name]];
         return groups;
       }, Object.create(null));
@@ -1663,15 +1663,15 @@
 
   var createVector = function createVector() {
     var x =
-      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
     var y =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
     return { x: x, y: y };
   };
 
   var getMarkupValue = function getMarkupValue(value, size) {
     var scalar =
-      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
     var axis = arguments.length > 3 ? arguments[3] : undefined;
     if (typeof value === 'string') {
       return parseFloat(value) * scalar;
@@ -1694,13 +1694,13 @@
     var lineCap = markup.lineCap || 'round';
     var lineJoin = markup.lineJoin || 'round';
     var dashes =
-      typeof lineStyle === 'string'
-        ? ''
-        : lineStyle
-            .map(function(v) {
-              return getMarkupValue(v, size, scale);
-            })
-            .join(',');
+    typeof lineStyle === 'string' ?
+    '' :
+    lineStyle.
+    map(function (v) {
+      return getMarkupValue(v, size, scale);
+    }).
+    join(',');
     var opacity = markup.opacity || 1;
     return {
       'stroke-linecap': lineCap,
@@ -1719,14 +1719,14 @@
 
   var getMarkupRect = function getMarkupRect(rect, size) {
     var scalar =
-      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
 
     var left =
-      getMarkupValue(rect.x, size, scalar, 'width') ||
-      getMarkupValue(rect.left, size, scalar, 'width');
+    getMarkupValue(rect.x, size, scalar, 'width') ||
+    getMarkupValue(rect.left, size, scalar, 'width');
     var top =
-      getMarkupValue(rect.y, size, scalar, 'height') ||
-      getMarkupValue(rect.top, size, scalar, 'height');
+    getMarkupValue(rect.y, size, scalar, 'height') ||
+    getMarkupValue(rect.top, size, scalar, 'height');
     var width = getMarkupValue(rect.width, size, scalar, 'width');
     var height = getMarkupValue(rect.height, size, scalar, 'height');
     var right = getMarkupValue(rect.right, size, scalar, 'width');
@@ -1773,18 +1773,18 @@
   };
 
   var pointsToPathShape = function pointsToPathShape(points) {
-    return points
-      .map(function(point, index) {
-        return ''
-          .concat(index === 0 ? 'M' : 'L', ' ')
-          .concat(point.x, ' ')
-          .concat(point.y);
-      })
-      .join(' ');
+    return points.
+    map(function (point, index) {
+      return ''.
+      concat(index === 0 ? 'M' : 'L', ' ').
+      concat(point.x, ' ').
+      concat(point.y);
+    }).
+    join(' ');
   };
 
   var setAttributes = function setAttributes(element, attr) {
-    return Object.keys(attr).forEach(function(key) {
+    return Object.keys(attr).forEach(function (key) {
       return element.setAttribute(key, attr[key]);
     });
   };
@@ -1914,13 +1914,13 @@
 
       setAttributes(begin, {
         style: 'display:block;',
-        d: 'M'
-          .concat(arrowBeginA.x, ',')
-          .concat(arrowBeginA.y, ' L')
-          .concat(origin.x, ',')
-          .concat(origin.y, ' L')
-          .concat(arrowBeginB.x, ',')
-          .concat(arrowBeginB.y)
+        d: 'M'.
+        concat(arrowBeginA.x, ',').
+        concat(arrowBeginA.y, ' L').
+        concat(origin.x, ',').
+        concat(origin.y, ' L').
+        concat(arrowBeginB.x, ',').
+        concat(arrowBeginB.y)
       });
     }
 
@@ -1932,13 +1932,13 @@
 
       setAttributes(end, {
         style: 'display:block;',
-        d: 'M'
-          .concat(arrowEndA.x, ',')
-          .concat(arrowEndA.y, ' L')
-          .concat(target.x, ',')
-          .concat(target.y, ' L')
-          .concat(arrowEndB.x, ',')
-          .concat(arrowEndB.y)
+        d: 'M'.
+        concat(arrowEndA.x, ',').
+        concat(arrowEndA.y, ' L').
+        concat(target.x, ',').
+        concat(target.y, ' L').
+        concat(arrowEndB.x, ',').
+        concat(arrowEndB.y)
       });
     }
   };
@@ -1949,7 +1949,7 @@
       Object.assign({}, element.styles, {
         fill: 'none',
         d: pointsToPathShape(
-          markup.points.map(function(point) {
+          markup.points.map(function (point) {
             return {
               x: getMarkupValue(point.x, size, scale, 'width'),
               y: getMarkupValue(point.y, size, scale, 'height')
@@ -1961,7 +1961,7 @@
   };
 
   var createShape = function createShape(node) {
-    return function(markup) {
+    return function (markup) {
       return svg(node, { id: markup.id });
     };
   };
@@ -1974,7 +1974,7 @@
       opacity: '0'
     });
 
-    shape.onload = function() {
+    shape.onload = function () {
       shape.setAttribute('opacity', markup.opacity || 1);
     };
     shape.setAttributeNS(
@@ -2027,12 +2027,12 @@
   };
 
   var updateMarkupByType = function updateMarkupByType(
-    element,
-    type,
-    markup,
-    size,
-    scale
-  ) {
+  element,
+  type,
+  markup,
+  size,
+  scale)
+  {
     if (type !== 'path') {
       element.rect = getMarkupRect(markup, size, scale);
     }
@@ -2041,20 +2041,20 @@
   };
 
   var MARKUP_RECT = [
-    'x',
-    'y',
-    'left',
-    'top',
-    'right',
-    'bottom',
-    'width',
-    'height'
-  ];
+  'x',
+  'y',
+  'left',
+  'top',
+  'right',
+  'bottom',
+  'width',
+  'height'];
+
 
   var toOptionalFraction = function toOptionalFraction(value) {
-    return typeof value === 'string' && /%/.test(value)
-      ? parseFloat(value) / 100
-      : value;
+    return typeof value === 'string' && /%/.test(value) ?
+    parseFloat(value) / 100 :
+    value;
   };
 
   // adds default markup properties, clones markup
@@ -2063,23 +2063,23 @@
       type = _markup[0],
       props = _markup[1];
 
-    var rect = props.points
-      ? {}
-      : MARKUP_RECT.reduce(function(prev, curr) {
-          prev[curr] = toOptionalFraction(props[curr]);
-          return prev;
-        }, {});
+    var rect = props.points ?
+    {} :
+    MARKUP_RECT.reduce(function (prev, curr) {
+      prev[curr] = toOptionalFraction(props[curr]);
+      return prev;
+    }, {});
 
     return [
-      type,
-      Object.assign(
-        {
-          zIndex: 0
-        },
-        props,
-        rect
-      )
-    ];
+    type,
+    Object.assign(
+      {
+        zIndex: 0
+      },
+      props,
+      rect
+    )];
+
   };
 
   var sortMarkupByZIndex = function sortMarkupByZIndex(a, b) {
@@ -2128,9 +2128,9 @@
           if (outputHeight && !outputWidth) outputWidth = outputHeight;
 
           var shouldUpscale =
-            cropWidth < outputWidth && cropHeight < outputHeight;
+          cropWidth < outputWidth && cropHeight < outputHeight;
 
-          if (!shouldUpscale || (shouldUpscale && outputUpscale)) {
+          if (!shouldUpscale || shouldUpscale && outputUpscale) {
             var scalarWidth = outputWidth / cropWidth;
             var scalarHeight = outputHeight / cropHeight;
 
@@ -2167,24 +2167,24 @@
         var markupFilter = root.query('GET_IMAGE_PREVIEW_MARKUP_FILTER');
 
         // draw new
-        markup
-          .filter(markupFilter)
-          .map(prepareMarkup)
-          .sort(sortMarkupByZIndex)
-          .forEach(function(markup) {
-            var _markup = _slicedToArray(markup, 2),
-              type = _markup[0],
-              settings = _markup[1];
+        markup.
+        filter(markupFilter).
+        map(prepareMarkup).
+        sort(sortMarkupByZIndex).
+        forEach(function (markup) {
+          var _markup = _slicedToArray(markup, 2),
+            type = _markup[0],
+            settings = _markup[1];
 
-            // create
-            var element = createMarkupByType(type, settings);
+          // create
+          var element = createMarkupByType(type, settings);
 
-            // update
-            updateMarkupByType(element, type, settings, size, scale);
+          // update
+          updateMarkupByType(element, type, settings, size, scale);
 
-            // add
-            root.element.appendChild(element);
-          });
+          // add
+          root.element.appendChild(element);
+        });
       }
     });
   };
@@ -2253,11 +2253,11 @@
   };
 
   var calculateCanvasSize = function calculateCanvasSize(
-    image,
-    canvasAspectRatio
-  ) {
+  image,
+  canvasAspectRatio)
+  {
     var zoom =
-      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
 
     var imageAspectRatio = image.height / image.width;
 
@@ -2282,11 +2282,11 @@
   };
 
   var getImageRectZoomFactor = function getImageRectZoomFactor(
-    imageRect,
-    cropRect,
-    rotation,
-    center
-  ) {
+  imageRect,
+  cropRect,
+  rotation,
+  center)
+  {
     // calculate available space round image center position
     var cx = center.x > 0.5 ? 1 - center.x : center.x;
     var cy = center.y > 0.5 ? 1 - center.y : center.y;
@@ -2304,9 +2304,9 @@
   };
 
   var getCenteredCropRect = function getCenteredCropRect(
-    container,
-    aspectRatio
-  ) {
+  container,
+  aspectRatio)
+  {
     var width = container.width;
     var height = width * aspectRatio;
     if (height > container.height) {
@@ -2326,7 +2326,7 @@
 
   var getCurrentCropSize = function getCurrentCropSize(imageSize) {
     var crop =
-      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var zoom = crop.zoom,
       rotation = crop.rotation,
       center = crop.center,
@@ -2400,14 +2400,14 @@
         apis: ['crop', 'width', 'height'],
 
         styles: [
-          'originX',
-          'originY',
-          'translateX',
-          'translateY',
-          'scaleX',
-          'scaleY',
-          'rotateZ'
-        ],
+        'originX',
+        'originY',
+        'translateX',
+        'translateY',
+        'scaleX',
+        'scaleY',
+        'rotateZ'],
+
 
         animations: {
           originX: IMAGE_SCALE_SPRING_PROPS,
@@ -2448,14 +2448,14 @@
       ignoreRect: true,
       mixins: {
         apis: [
-          'crop',
-          'markup',
-          'resize',
-          'width',
-          'height',
-          'dirty',
-          'background'
-        ],
+        'crop',
+        'markup',
+        'resize',
+        'width',
+        'height',
+        'dirty',
+        'background'],
+
 
         styles: ['width', 'height', 'opacity'],
         animations: {
@@ -2480,14 +2480,14 @@
           )
         );
 
-        root.ref.createMarkup = function() {
+        root.ref.createMarkup = function () {
           if (root.ref.markup) return;
           root.ref.markup = root.appendChildView(
             root.createChildView(createMarkupView(_), Object.assign({}, props))
           );
         };
 
-        root.ref.destroyMarkup = function() {
+        root.ref.destroyMarkup = function () {
           if (!root.ref.markup) return;
           root.removeChildView(root.ref.markup);
           root.ref.markup = null;
@@ -2547,12 +2547,12 @@
           y: stage.center.y - image.height * crop.center.y
         };
 
-        var rotation = Math.PI * 2 + (crop.rotation % (Math.PI * 2));
+        var rotation = Math.PI * 2 + crop.rotation % (Math.PI * 2);
 
         var cropAspectRatio = crop.aspectRatio || image.height / image.width;
 
         var shouldLimit =
-          typeof crop.scaleToFit === 'undefined' || crop.scaleToFit;
+        typeof crop.scaleToFit === 'undefined' || crop.scaleToFit;
 
         var stageZoomFactor = getImageRectZoomFactor(
           image,
@@ -2680,12 +2680,12 @@
 
         // determine clip width and height
         var clipHeight =
-          fixedPreviewHeight !== null
-            ? fixedPreviewHeight
-            : Math.max(
-                minPreviewHeight,
-                Math.min(containerWidth * aspectRatio, maxPreviewHeight)
-              );
+        fixedPreviewHeight !== null ?
+        fixedPreviewHeight :
+        Math.max(
+          minPreviewHeight,
+          Math.min(containerWidth * aspectRatio, maxPreviewHeight)
+        );
 
         var clipWidth = clipHeight / aspectRatio;
         if (clipWidth > containerWidth) {
@@ -2705,7 +2705,7 @@
   };
 
   var SVG_MASK =
-    '<svg width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none">\n    <defs>\n        <radialGradient id="gradient-__UID__" cx=".5" cy="1.25" r="1.15">\n            <stop offset=\'50%\' stop-color=\'#000000\'/>\n            <stop offset=\'56%\' stop-color=\'#0a0a0a\'/>\n            <stop offset=\'63%\' stop-color=\'#262626\'/>\n            <stop offset=\'69%\' stop-color=\'#4f4f4f\'/>\n            <stop offset=\'75%\' stop-color=\'#808080\'/>\n            <stop offset=\'81%\' stop-color=\'#b1b1b1\'/>\n            <stop offset=\'88%\' stop-color=\'#dadada\'/>\n            <stop offset=\'94%\' stop-color=\'#f6f6f6\'/>\n            <stop offset=\'100%\' stop-color=\'#ffffff\'/>\n        </radialGradient>\n        <mask id="mask-__UID__">\n            <rect x="0" y="0" width="500" height="200" fill="url(#gradient-__UID__)"></rect>\n        </mask>\n    </defs>\n    <rect x="0" width="500" height="200" fill="currentColor" mask="url(#mask-__UID__)"></rect>\n</svg>';
+  '<svg width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none">\n    <defs>\n        <radialGradient id="gradient-__UID__" cx=".5" cy="1.25" r="1.15">\n            <stop offset=\'50%\' stop-color=\'#000000\'/>\n            <stop offset=\'56%\' stop-color=\'#0a0a0a\'/>\n            <stop offset=\'63%\' stop-color=\'#262626\'/>\n            <stop offset=\'69%\' stop-color=\'#4f4f4f\'/>\n            <stop offset=\'75%\' stop-color=\'#808080\'/>\n            <stop offset=\'81%\' stop-color=\'#b1b1b1\'/>\n            <stop offset=\'88%\' stop-color=\'#dadada\'/>\n            <stop offset=\'94%\' stop-color=\'#f6f6f6\'/>\n            <stop offset=\'100%\' stop-color=\'#ffffff\'/>\n        </radialGradient>\n        <mask id="mask-__UID__">\n            <rect x="0" y="0" width="500" height="200" fill="url(#gradient-__UID__)"></rect>\n        </mask>\n    </defs>\n    <rect x="0" width="500" height="200" fill="currentColor" mask="url(#mask-__UID__)"></rect>\n</svg>';
 
   var SVGMaskUniqueId = 0;
 
@@ -2745,8 +2745,8 @@
    * Bitmap Worker
    */
   var BitmapWorker = function BitmapWorker() {
-    self.onmessage = function(e) {
-      createImageBitmap(e.data.message.file).then(function(bitmap) {
+    self.onmessage = function (e) {
+      createImageBitmap(e.data.message.file).then(function (bitmap) {
         self.postMessage({ id: e.data.id, message: bitmap }, [bitmap]);
       });
     };
@@ -2756,7 +2756,7 @@
    * ColorMatrix Worker
    */
   var ColorMatrixWorker = function ColorMatrixWorker() {
-    self.onmessage = function(e) {
+    self.onmessage = function (e) {
       var imageData = e.data.message.imageData;
       var matrix = e.data.message.colorMatrix;
 
@@ -2817,14 +2817,14 @@
       }
 
       self.postMessage({ id: e.data.id, message: imageData }, [
-        imageData.data.buffer
-      ]);
+      imageData.data.buffer]
+      );
     };
   };
 
   var getImageSize = function getImageSize(url, cb) {
     var image = new Image();
-    image.onload = function() {
+    image.onload = function () {
       var width = image.naturalWidth;
       var height = image.naturalHeight;
       image = null;
@@ -2861,11 +2861,11 @@
   };
 
   var fixImageOrientation = function fixImageOrientation(
-    ctx,
-    width,
-    height,
-    orientation
-  ) {
+  ctx,
+  width,
+  height,
+  orientation)
+  {
     // no orientation supplied
     if (orientation === -1) {
       return;
@@ -2876,11 +2876,11 @@
 
   // draws the preview image to canvas
   var createPreviewImage = function createPreviewImage(
-    data,
-    width,
-    height,
-    orientation
-  ) {
+  data,
+  width,
+  height,
+  orientation)
+  {
     // can't draw on half pixels
     width = Math.round(width);
     height = Math.round(height);
@@ -2919,8 +2919,8 @@
 
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
-    var width = (canvas.width = Math.ceil(image.width * scalar));
-    var height = (canvas.height = Math.ceil(image.height * scalar));
+    var width = canvas.width = Math.ceil(image.width * scalar);
+    var height = canvas.height = Math.ceil(image.height * scalar);
     ctx.drawImage(image, 0, 0, width, height);
     var data = null;
     try {
@@ -2975,13 +2975,13 @@
   };
 
   var loadImage = function loadImage(url) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var img = new Image();
       img.crossOrigin = 'Anonymous';
-      img.onload = function() {
+      img.onload = function () {
         resolve(img);
       };
-      img.onerror = function(e) {
+      img.onerror = function (e) {
         reject(e);
       };
       img.src = url;
@@ -2996,12 +2996,12 @@
     var createWorker = _.utils.createWorker;
 
     var applyFilter = function applyFilter(root, filter, target) {
-      return new Promise(function(resolve) {
+      return new Promise(function (resolve) {
         // will store image data for future filter updates
         if (!root.ref.imageData) {
-          root.ref.imageData = target
-            .getContext('2d')
-            .getImageData(0, 0, target.width, target.height);
+          root.ref.imageData = target.
+          getContext('2d').
+          getImageData(0, 0, target.width, target.height);
         }
 
         // get image data reference
@@ -3019,7 +3019,7 @@
             colorMatrix: filter
           },
 
-          function(response) {
+          function (response) {
             // apply filtered colors
             target.getContext('2d').putImageData(response, 0, 0);
 
@@ -3117,7 +3117,7 @@
       imageView.translateY = 0;
 
       // the preview is now ready to be drawn
-      setTimeout(function() {
+      setTimeout(function () {
         root.dispatch('DID_IMAGE_PREVIEW_SHOW', { id: id });
       }, 250);
     };
@@ -3168,12 +3168,12 @@
 
         // if aspect ratio has changed, we need to create a new image
         if (
-          crop &&
-          crop.aspectRatio &&
-          image.crop &&
-          image.crop.aspectRatio &&
-          Math.abs(crop.aspectRatio - image.crop.aspectRatio) > 0.00001
-        ) {
+        crop &&
+        crop.aspectRatio &&
+        image.crop &&
+        image.crop.aspectRatio &&
+        Math.abs(crop.aspectRatio - image.crop.aspectRatio) > 0.00001)
+        {
           var _imageView = shiftImage({ root: root });
           pushImage({
             root: root,
@@ -3215,7 +3215,7 @@
       var fileURL = URL.createObjectURL(item.file);
 
       // determine image size of this item
-      getImageSize(fileURL, function(width, height) {
+      getImageSize(fileURL, function (width, height) {
         // we can now scale the panel to the final size
         root.dispatch('DID_IMAGE_PREVIEW_CALCULATE_SIZE', {
           id: id,
@@ -3309,9 +3309,9 @@
           // calculate average image color, disabled for now
           var averageColor = root.query(
             'GET_IMAGE_PREVIEW_CALCULATE_AVERAGE_IMAGE_COLOR'
-          )
-            ? calculateAverageColor(data)
-            : null;
+          ) ?
+          calculateAverageColor(data) :
+          null;
           item.setMetadata('color', averageColor, true);
 
           // data has been transferred to canvas ( if was ImageBitmap )
@@ -3345,7 +3345,7 @@
             file: item.file
           },
 
-          function(imageBitmap) {
+          function (imageBitmap) {
             // destroy worker
             worker.terminate();
 
@@ -3446,14 +3446,14 @@
       destroy: function destroy(_ref13) {
         var root = _ref13.root;
         // we resize the image so memory on iOS 12 is released more quickly (it seems)
-        root.ref.images.forEach(function(imageView) {
+        root.ref.images.forEach(function (imageView) {
           imageView.image.width = 1;
           imageView.image.height = 1;
         });
       },
       didWriteView: function didWriteView(_ref14) {
         var root = _ref14.root;
-        root.ref.images.forEach(function(imageView) {
+        root.ref.images.forEach(function (imageView) {
           imageView.dirty = false;
         });
       },
@@ -3474,22 +3474,22 @@
           DID_REVERT_ITEM_PROCESSING: restoreOverlay
         },
 
-        function(_ref15) {
+        function (_ref15) {
           var root = _ref15.root;
           // views on death row
-          var viewsToRemove = root.ref.imageViewBin.filter(function(imageView) {
+          var viewsToRemove = root.ref.imageViewBin.filter(function (imageView) {
             return imageView.opacity === 0;
           });
 
           // views to retain
-          root.ref.imageViewBin = root.ref.imageViewBin.filter(function(
-            imageView
-          ) {
+          root.ref.imageViewBin = root.ref.imageViewBin.filter(function (
+          imageView)
+          {
             return imageView.opacity > 0;
           });
 
           // remove these views
-          viewsToRemove.forEach(function(imageView) {
+          viewsToRemove.forEach(function (imageView) {
             return removeImageView(root, imageView);
           });
           viewsToRemove.length = 0;
@@ -3512,7 +3512,7 @@
     var imagePreviewView = createImageWrapperView(fpAPI);
 
     // called for each view that is created right after the 'create' method
-    addFilter('CREATE_VIEW', function(viewAPI) {
+    addFilter('CREATE_VIEW', function (viewAPI) {
       // get reference to created view
       var is = viewAPI.is,
         view = viewAPI.view,
@@ -3542,14 +3542,14 @@
 
         // exit if image size is too high and no createImageBitmap support
         // this would simply bring the browser to its knees and that is not what we want
-        var supportsCreateImageBitmap = 'createImageBitmap' in (window || {});
+        var supportsCreateImageBitmap = ('createImageBitmap' in (window || {}));
         var maxPreviewFileSize = query('GET_IMAGE_PREVIEW_MAX_FILE_SIZE');
         if (
-          !supportsCreateImageBitmap &&
-          maxPreviewFileSize &&
-          file.size > maxPreviewFileSize
-        )
-          return;
+        !supportsCreateImageBitmap &&
+        maxPreviewFileSize &&
+        file.size > maxPreviewFileSize)
+
+        return;
 
         // set preview view
         root.ref.imagePreview = view.appendChildView(
@@ -3567,8 +3567,8 @@
 
         // now ready
         var queue =
-          !supportsCreateImageBitmap &&
-          file.size > query('GET_IMAGE_PREVIEW_MAX_INSTANT_PREVIEW_FILE_SIZE');
+        !supportsCreateImageBitmap &&
+        file.size > query('GET_IMAGE_PREVIEW_MAX_INSTANT_PREVIEW_FILE_SIZE');
         root.dispatch('DID_IMAGE_PREVIEW_CONTAINER_CREATE', { id: id }, queue);
       };
 
@@ -3619,7 +3619,7 @@
 
         // we need the item to get to the crop size
         var previewAspectRatio =
-          (item.getMetadata('crop') || {}).aspectRatio || imageAspectRatio;
+        (item.getMetadata('crop') || {}).aspectRatio || imageAspectRatio;
 
         // preview height range
         var previewHeightMax = Math.max(
@@ -3681,7 +3681,7 @@
             DID_UPDATE_ITEM_METADATA: didUpdateItemMetadata
           },
 
-          function(_ref6) {
+          function (_ref6) {
             var root = _ref6.root,
               props = _ref6.props;
             // no preview view attached
@@ -3698,10 +3698,10 @@
 
             if (root.ref.shouldDrawPreview) {
               // queue till next frame so we're sure the height has been applied this forces the draw image call inside the wrapper view to use the correct height
-              requestAnimationFrame(function() {
+              requestAnimationFrame(function () {
                 // this requestAnimationFrame nesting is horrible but it fixes an issue with 100hz displays on Chrome
                 // https://github.com/pqina/filepond-plugin-image-preview/issues/57
-                requestAnimationFrame(function() {
+                requestAnimationFrame(function () {
                   root.dispatch('DID_FINISH_CALCULATE_PREVIEWSIZE', {
                     id: props.id
                   });
@@ -3723,11 +3723,11 @@
 
         // filters file items to determine which are shown as preview
         imagePreviewFilterItem: [
-          function() {
-            return true;
-          },
-          Type.FUNCTION
-        ],
+        function () {
+          return true;
+        },
+        Type.FUNCTION],
+
 
         // Fixed preview height
         imagePreviewHeight: [null, Type.INT],
@@ -3761,18 +3761,18 @@
 
         // Allows filtering of markup to only show certain shapes
         imagePreviewMarkupFilter: [
-          function() {
-            return true;
-          },
-          Type.FUNCTION
-        ]
+        function () {
+          return true;
+        },
+        Type.FUNCTION]
+
       }
     };
   };
 
   // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
   var isBrowser =
-    typeof window !== 'undefined' && typeof window.document !== 'undefined';
+  typeof window !== 'undefined' && typeof window.document !== 'undefined';
   if (isBrowser) {
     document.dispatchEvent(
       new CustomEvent('FilePond:pluginloaded', { detail: plugin })

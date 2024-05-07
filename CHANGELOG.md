@@ -1,6 +1,9 @@
 # Changelog
 
 ## [3.1.1]
+### - 2024-05-07
+- release, minify-release 를 한꺼번에 실행하는 release-minify 실행 명령어 추가
+
 ### - 2024-05-06
 - t1,v1 index.html "script defer src" -> "script src" 로 변경
 

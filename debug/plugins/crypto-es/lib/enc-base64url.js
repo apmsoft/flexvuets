@@ -1,9 +1,9 @@
 import {
-  WordArray,
-} from './core.js';
+  WordArray } from "./core.js";
+
 import {
-  parseLoop,
-} from './enc-base64.js'
+  parseLoop } from "./enc-base64.js";
+
 
 /**
  * Base64url encoding strategy.
@@ -35,14 +35,14 @@ export const Base64url = {
     // Convert
     const base64Chars = [];
     for (let i = 0; i < sigBytes; i += 3) {
-      const byte1 = (words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;
-      const byte2 = (words[(i + 1) >>> 2] >>> (24 - ((i + 1) % 4) * 8)) & 0xff;
-      const byte3 = (words[(i + 2) >>> 2] >>> (24 - ((i + 2) % 4) * 8)) & 0xff;
+      const byte1 = words[i >>> 2] >>> 24 - i % 4 * 8 & 0xff;
+      const byte2 = words[i + 1 >>> 2] >>> 24 - (i + 1) % 4 * 8 & 0xff;
+      const byte3 = words[i + 2 >>> 2] >>> 24 - (i + 2) % 4 * 8 & 0xff;
 
-      const triplet = (byte1 << 16) | (byte2 << 8) | byte3;
+      const triplet = byte1 << 16 | byte2 << 8 | byte3;
 
-      for (let j = 0; (j < 4) && (i + j * 0.75 < sigBytes); j += 1) {
-        base64Chars.push(map.charAt((triplet >>> (6 * (3 - j))) & 0x3f));
+      for (let j = 0; j < 4 && i + j * 0.75 < sigBytes; j += 1) {
+        base64Chars.push(map.charAt(triplet >>> 6 * (3 - j) & 0x3f));
       }
     }
 
@@ -101,5 +101,5 @@ export const Base64url = {
 
   _map: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
-  _safeMap: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
+  _safeMap: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
 };

@@ -3,10 +3,10 @@
 import {
   Base,
   WordArray,
-  BufferedBlockAlgorithm,
-} from './core.js';
-import { Base64 } from './enc-base64.js';
-import { EvpKDFAlgo } from './evpkdf.js';
+  BufferedBlockAlgorithm } from "./core.js";
+
+import { Base64 } from "./enc-base64.js";
+import { EvpKDFAlgo } from "./evpkdf.js";
 
 /**
  * Abstract base cipher template.
@@ -112,7 +112,7 @@ export class Cipher extends BufferedBlockAlgorithm {
 
       decrypt(ciphertext, key, cfg) {
         return selectCipherStrategy(key).decrypt(SubCipher, ciphertext, key, cfg);
-      },
+      }
     };
   }
 
@@ -288,8 +288,8 @@ function xorBlock(words, offset, blockSize) {
 /**
  * Abstract base CBC mode.
  */
-export class CBC extends BlockCipherMode {
-}
+export class CBC extends BlockCipherMode {}
+
 /**
  * CBC encryptor.
  */
@@ -369,13 +369,13 @@ export const Pkcs7 = {
     const blockSizeBytes = blockSize * 4;
 
     // Count padding bytes
-    const nPaddingBytes = blockSizeBytes - (data.sigBytes % blockSizeBytes);
+    const nPaddingBytes = blockSizeBytes - data.sigBytes % blockSizeBytes;
 
     // Create padding word
-    const paddingWord = (nPaddingBytes << 24)
-      | (nPaddingBytes << 16)
-      | (nPaddingBytes << 8)
-      | nPaddingBytes;
+    const paddingWord = nPaddingBytes << 24 |
+    nPaddingBytes << 16 |
+    nPaddingBytes << 8 |
+    nPaddingBytes;
 
     // Create padding
     const paddingWords = [];
@@ -403,11 +403,11 @@ export const Pkcs7 = {
     const _data = data;
 
     // Get number of padding bytes from last byte
-    const nPaddingBytes = _data.words[(_data.sigBytes - 1) >>> 2] & 0xff;
+    const nPaddingBytes = _data.words[_data.sigBytes - 1 >>> 2] & 0xff;
 
     // Remove padding
     _data.sigBytes -= nPaddingBytes;
-  },
+  }
 };
 
 /**
@@ -428,9 +428,9 @@ export class BlockCipher extends Cipher {
     super(xformMode, key, Object.assign(
       {
         mode: CBC,
-        padding: Pkcs7,
+        padding: Pkcs7
       },
-      cfg,
+      cfg
     ));
 
     this.blockSize = 128 / 32;
@@ -449,11 +449,11 @@ export class BlockCipher extends Cipher {
     // Reset block mode
     if (this._xformMode === this.constructor._ENC_XFORM_MODE) {
       modeCreator = mode.createEncryptor;
-    } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
-      modeCreator = mode.createDecryptor;
-      // Keep at least one block in the buffer for unpadding
-      this._minBufferSize = 1;
-    }
+    } else /* if (this._xformMode == this._DEC_XFORM_MODE) */{
+        modeCreator = mode.createDecryptor;
+        // Keep at least one block in the buffer for unpadding
+        this._minBufferSize = 1;
+      }
 
     this._mode = modeCreator.call(mode, this, iv && iv.words);
     this._mode.__creator = modeCreator;
@@ -476,13 +476,13 @@ export class BlockCipher extends Cipher {
 
       // Process final blocks
       finalProcessedBlocks = this._process(!!'flush');
-    } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
-      // Process final blocks
-      finalProcessedBlocks = this._process(!!'flush');
+    } else /* if (this._xformMode == this._DEC_XFORM_MODE) */{
+        // Process final blocks
+        finalProcessedBlocks = this._process(!!'flush');
 
-      // Unpad data
-      padding.unpad(finalProcessedBlocks);
-    }
+        // Unpad data
+        padding.unpad(finalProcessedBlocks);
+      }
 
     return finalProcessedBlocks;
   }
@@ -614,7 +614,7 @@ export const OpenSSLFormatter = {
     }
 
     return CipherParams.create({ ciphertext, salt });
-  },
+  }
 };
 
 /**
@@ -662,7 +662,7 @@ export class SerializableCipher extends Base {
       mode: cipherCfg.mode,
       padding: cipherCfg.padding,
       blockSize: encryptor.blockSize,
-      formatter: _cfg.format,
+      formatter: _cfg.format
     });
   }
 
@@ -735,7 +735,7 @@ export class SerializableCipher extends Base {
  */
 SerializableCipher.cfg = Object.assign(
   new Base(),
-  { format: OpenSSLFormatter },
+  { format: OpenSSLFormatter }
 );
 
 /**
@@ -782,7 +782,7 @@ export const OpenSSLKdf = {
 
     // Return params
     return CipherParams.create({ key, iv, salt: _salt });
-  },
+  }
 };
 
 /**
@@ -820,8 +820,8 @@ export class PasswordBasedCipher extends SerializableCipher {
     _cfg.iv = derivedParams.iv;
 
     // Encrypt
-    const ciphertext = SerializableCipher.encrypt
-      .call(this, cipher, message, derivedParams.key, _cfg);
+    const ciphertext = SerializableCipher.encrypt.
+    call(this, cipher, message, derivedParams.key, _cfg);
 
     // Mix in derived params
     ciphertext.mixIn(derivedParams);
@@ -860,15 +860,15 @@ export class PasswordBasedCipher extends SerializableCipher {
     _ciphertext = this._parse(_ciphertext, _cfg.format);
 
     // Derive key and other params
-    const derivedParams = _cfg.kdf
-      .execute(password, cipher.keySize, cipher.ivSize, _ciphertext.salt, _cfg.hasher);
+    const derivedParams = _cfg.kdf.
+    execute(password, cipher.keySize, cipher.ivSize, _ciphertext.salt, _cfg.hasher);
 
     // Add IV to config
     _cfg.iv = derivedParams.iv;
 
     // Decrypt
-    const plaintext = SerializableCipher.decrypt
-      .call(this, cipher, _ciphertext, derivedParams.key, _cfg);
+    const plaintext = SerializableCipher.decrypt.
+    call(this, cipher, _ciphertext, derivedParams.key, _cfg);
 
     return plaintext;
   }
