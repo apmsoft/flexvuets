@@ -20,7 +20,8 @@ npm install @editorjs/embed --save
 npm install @editorjs/quote --save
 npm install @editorjs/code --save
 
->> babal.config.js,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
+>> babal.config.js,
+"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.mjs`
 ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.mjs`
 ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.mjs`
 ,"@editorjs/link": `./${debugPath}/plugins/@editorjs/link/dist/link.mjs`
@@ -51,7 +52,7 @@ npm install @editorjs/code --save
 npm install swiper --save
 
 >> babel.config.js
-,"swiper/bundle": `./${debugPath}/plugins/swiper/swiper-bundle.min.mjs`
+,"swiper/bundle": `./${debugPath}/plugins/swiper/swiper-bundle.min.js`
 
 >> tsconfig.paths.json
 "swiper/bundle": ["node_modules/swiper"],
@@ -62,7 +63,7 @@ npm install swiper --save
 npm install vanilla-calendar-pro --save
 
 >> babel.config.js
-,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.mjs`
+,"vanilla-calendar-pro": `./${debugPath}/plugins/vanilla-calendar-pro/build/vanilla-calendar.min.js`
 
 ### date,time picker 머트리얼 디자인 : https://www.cssscript.com/flexible-date-time-selection/
 # doc : https://github.com/cevadtokatli/date-picker
@@ -136,7 +137,7 @@ npm install --save prism-es6
 npm install nouislider --save
 
 >> babel.config.js
-,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.mjs`
+,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.js`
 
 
 ### LazyLoad : https://github.com/verlok/vanilla-lazyload?tab=readme-ov-file

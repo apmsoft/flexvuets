@@ -1,4 +1,4 @@
-import noUiSlider, { PipsMode } from "../../../plugins/nouislider/dist/nouislider.mjs";
+import noUiSlider, { PipsMode } from "../../../plugins/nouislider/dist/nouislider.js";
 const onReady = () => {
   // example 1
   const slider = document.querySelector('#slider');

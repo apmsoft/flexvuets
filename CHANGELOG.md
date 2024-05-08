@@ -1,6 +1,10 @@
 # Changelog
 
 ## [3.1.1]
+
+### - 2024-05-08
+- 부분 .mjs -> .js 로 변환
+
 ### - 2024-05-07
 - release, minify-release 를 한꺼번에 실행하는 release-minify 실행 명령어 추가
 

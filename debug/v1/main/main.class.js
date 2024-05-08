@@ -1,5 +1,5 @@
 import AsyncTask from "../../flexvue/core/asynctask.class.js";
-import Swiper from "../../plugins/swiper/swiper-bundle.min.mjs";
+import Swiper from "../../plugins/swiper/swiper-bundle.min.js";
 class ComponentActivity {
   constructor() {
     this.TAG = 'MainActivity';

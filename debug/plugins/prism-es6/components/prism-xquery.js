@@ -112,15 +112,15 @@
 
 
 
+
+
+
               // Autoclosed tag, ignore
             } else {// Opening tag
               openedTags.push({ tagName: stringifyToken(token.content[0].content[1]), openedBraces: 0 });}}} else if (openedTags.length > 0 && token.type === 'punctuation' && token.content === '{' && ( // Ignore `{{`
         !tokens[i + 1] || tokens[i + 1].type !== 'punctuation' || tokens[i + 1].content !== '{') && (!tokens[i - 1] || tokens[i - 1].type !== 'plain-text' || tokens[i - 1].content !== '{')) {// Here we might have entered an XQuery expression inside a tag
           openedTags[openedTags.length - 1].openedBraces++;} else if (openedTags.length > 0 && openedTags[openedTags.length - 1].openedBraces > 0 && token.type === 'punctuation' && token.content === '}') {// Here we might have left an XQuery expression inside a tag
-          openedTags[openedTags.length - 1].openedBraces--;
-
-        } else if (token.type !== 'comment') {
-          notTagNorBrace = true;
+          openedTags[openedTags.length - 1].openedBraces--;} else if (token.type !== 'comment') {notTagNorBrace = true;
         }
       }
       if (notTagNorBrace || typeof token === 'string') {
