@@ -28675,6 +28675,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28711,9 +28713,7 @@ absPosToTime:function absPosToTime(absPos){return this.situation.duration/this._
 startAnimFrame:function startAnimFrame(){this.stopAnimFrame();this.animationFrame=window.requestAnimationFrame(function(){this.step();}.bind(this));},// cancels the animationframe
 stopAnimFrame:function stopAnimFrame(){window.cancelAnimationFrame(this.animationFrame);},// kicks off the animation - only does something when the queue is currently not active and at least one situation is set
 start:function start(){// dont start if already started
-if(!this.active&&this.situation){
-this.active=true;
-this.startCurrent();
+if(!this.active&&this.situation){this.active=true;this.startCurrent();
 }
 
 return this;
@@ -29258,6 +29258,9 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29285,11 +29288,8 @@ inverse:function inverse(){return new SVG.Matrix(this.native().inverse());},// T
 translate:function translate(x,y){return new SVG.Matrix(this.native().translate(x||0,y||0));},// Convert to native SVGMatrix
 native:function native(){// create new matrix
 var matrix=SVG.parser.native.createSVGMatrix();// update with current values
-for(var i=abcdef.length-1;i>=0;i--){matrix[abcdef[i]]=this[abcdef[i]];}return matrix;
-},
-// Convert matrix to string
-toString:function toString(){
-// Construct the matrix directly, avoid values that are too small
+for(var i=abcdef.length-1;i>=0;i--){matrix[abcdef[i]]=this[abcdef[i]];}return matrix;},// Convert matrix to string
+toString:function toString(){// Construct the matrix directly, avoid values that are too small
 return'matrix('+float32String(this.a)+','+float32String(this.b)+','+float32String(this.c)+','+float32String(this.d)+','+float32String(this.e)+','+float32String(this.f)+')';
 }
 },
@@ -29969,6 +29969,7 @@ SVG.extend(SVG.Element,{
 
 
 
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29982,8 +29983,7 @@ if(typeof block==='function'){block.call(this,this);}return this;},// Return the
 fill:function fill(){return'url(#'+this.id()+')';},// Alias string convertion to fill
 toString:function toString(){return this.fill();},// custom attr to handle transform
 attr:function attr(a,b,c){if(a=='transform')a='gradientTransform';return SVG.Container.prototype.attr.call(this,a,b,c);}},// Add parent method
-construct:{
-// Create gradient element in defs
+construct:{// Create gradient element in defs
 gradient:function gradient(type,block){
 return this.defs().gradient(type,block);
 }

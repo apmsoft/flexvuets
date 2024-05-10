@@ -64,8 +64,7 @@ export class SimpleAdapter {
 export class RecyclerView {
   constructor(container, adapter, options = {}) {
     this.isHandlingScroll = false;
-    this.renderedItems = new Set(); // 이미 출력된 항목의 인덱스를 추적용
-    this.firstRenderItemCount = 0;
+    this.renderedItems = new Set();
     this.prevScrollPosition = 0;
     if (typeof container === 'string') {
       const element = document.querySelector(container);
@@ -85,25 +84,24 @@ export class RecyclerView {
     this.adapter = adapter;
     this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) : this.container;
     this.renderedItems.clear();
-    this.firstRenderItemCount = 0;
     this.render();
     this.scrollCaptureElement.addEventListener('scroll', this.handleScroll.bind(this));
     window.addEventListener('resize', this.handleResize.bind(this));
-    // 데이터 변화 감지
+    // Listen for data changes
     this.adapter.doOnDataChanged(() => {
       this.render();
     });
+    // Initialize scroll position callback
+    this.onChangedScrollPosition((scrollPosition, render_count) => {});
   }
   render() {
-    // 처음 렌더링할 때는 화면 크기만큼만 출력합니다.
     this.calculateInitialRenderItemCount();
     this.handleScroll();
-    this.firstRenderItemCount = this.container.children.length;
   }
   calculateInitialRenderItemCount() {
     const screenWidth = window.innerWidth;
     let itemCount = this.options.itemCount;
-    // 가로 항목 수에 대한 반응형 옵션 확인
+    // Check responsive options
     if (this.options.response) {
       const responsiveOptions = this.options.response;
       const breakpoints = Object.keys(responsiveOptions).sort((a, b) => parseInt(a) - parseInt(b));
@@ -115,75 +113,47 @@ export class RecyclerView {
         }
       }
     }
-    // Update item count
     this.options.itemCount = itemCount;
   }
   handleScroll() {
     if (this.isHandlingScroll) {
-      return; // 이미 스크롤 처리 중이면 무시
+      return; // Ignore if already handling scroll
     }
     this.isHandlingScroll = true;
-    // 현재 스크롤 위치
     const scrollPosition = this.scrollCaptureElement.scrollTop;
-    if (scrollPosition !== this.prevScrollPosition && this.scrollPositionCallback) {
-      this.scrollPositionCallback(scrollPosition, this.renderedItems.size); // Callback with the current scroll position
-      this.prevScrollPosition = scrollPosition; // Update previous scroll position
+    if (scrollPosition !== this.prevScrollPosition) {
+      this.prevScrollPosition = scrollPosition;
     }
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
+    const renderChunkSize = this.options.itemCount;
     const templateItem = this.adapter.onCreateViewHolder(this.container);
     let templateHeight = templateItem.view.getBoundingClientRect().height;
     templateItem.view.remove();
-    const responsiveItemCount = this.getResponsiveItemCount();
-    templateHeight = responsiveItemCount > 1 ? templateHeight / responsiveItemCount : templateHeight;
-    // 스크롤 위치에 해당하는 항목의 시작 인덱스와 끝 인덱스를 계산
+    const totalItemsVisible = Math.ceil(containerHeight / templateHeight);
     let startIndex = Math.floor(scrollPosition / templateHeight);
-    let endIndex = Math.min(itemCount, responsiveItemCount > 1 ? startIndex + this.options.itemCount + responsiveItemCount : Math.ceil((scrollPosition + containerHeight) / templateHeight));
-    // 가로 사이즈에 따른 추가 항목 출력
+    let endIndex = Math.min(startIndex + totalItemsVisible + renderChunkSize, itemCount);
     if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-      endIndex = Math.min(itemCount, responsiveItemCount > 1 ? endIndex + +this.options.itemCount + responsiveItemCount : endIndex + this.options.itemCount);
-    } else
-    {
-      endIndex = Math.min(this.firstRenderItemCount, endIndex);
+      endIndex = Math.min(endIndex + renderChunkSize, itemCount);
     }
-    // 이미 출력된 항목은 다시 출력하지 않도록
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
         const holder = this.adapter.onCreateViewHolder(this.container);
         this.adapter.onBindViewHolder(holder, i);
         if (this.options.prepend) {
-          // prepend
           this.container.prepend(holder.view);
         } else
         {
-          // append
           this.container.appendChild(holder.view);
         }
-        this.renderedItems.add(i); // 이미 출력된 항목을 추적
+        this.renderedItems.add(i);
       }
     }
     this.isHandlingScroll = false;
-    window.requestAnimationFrame(() => {
-      this.handleScroll();
-    });
-  }
-  getResponsiveItemCount() {
-    const containerWidth = this.container.clientWidth; // 컨테이너의 너비를 가져옴
-    let responsiveItemCount = 1; // 기본값으로 1 설정
-    if (this.options.response) {
-      const breakpoints = Object.keys(this.options.response).
-      map(Number).
-      sort((a, b) => a - b);
-      for (const breakpoint of breakpoints) {
-        if (containerWidth >= breakpoint) {
-          responsiveItemCount = this.options.response[breakpoint];
-        } else
-        {
-          break;
-        }
-      }
+    // Call scroll position callback
+    if (this.scrollPositionCallback) {
+      this.scrollPositionCallback(scrollPosition, this.renderedItems.size);
     }
-    return responsiveItemCount;
   }
   handleResize() {
     this.calculateInitialRenderItemCount();
@@ -192,12 +162,10 @@ export class RecyclerView {
   addEventListener(eventName, selector, callback) {
     this.container.addEventListener(eventName, (event) => {
       const target = event.target;
-      // 클릭 이벤트가 발생한 요소가 주어진 selector에 해당하는지 확인
       if (target.matches(selector)) {
         callback(target);
       } else
       {
-        // 클릭 이벤트가 발생한 요소의 부모 요소 중 가장 가까운 selector 가진 요소를 찾음
         const item = target.closest(selector);
         if (item && item.matches(selector)) {
           callback(item);
@@ -207,7 +175,6 @@ export class RecyclerView {
   }
   clear() {
     this.renderedItems.clear();
-    this.firstRenderItemCount = 0;
   }
   onChangedScrollPosition(callback) {
     this.scrollPositionCallback = callback;
