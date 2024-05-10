@@ -101,36 +101,92 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             // See interpolation below
           } } } }, 'variable': { pattern: /\$(?:::)?\w+(?:::\w+)*/, inside: { 'punctuation': /::/ } }, 'attr-name': /(?:\w+|\*)(?=\s*=>)/, 'function': [{ pattern: /(\.)(?!\d)\w+/, lookbehind: true }, /\b(?:contain|debug|err|fail|include|info|notice|realize|require|tag|warning)\b|\b(?!\d)\w+(?=\()/], 'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e-?\d+)?)\b/i, 'boolean': /\b(?:true|false)\b/, // Includes words reserved for future use
     'keyword': /\b(?:application|attr|case|class|consumes|default|define|else|elsif|function|if|import|inherits|node|private|produces|type|undef|unless)\b/, 'datatype': { pattern: /\b(?:Any|Array|Boolean|Callable|Catalogentry|Class|Collection|Data|Default|Enum|Float|Hash|Integer|NotUndef|Numeric|Optional|Pattern|Regexp|Resource|Runtime|Scalar|String|Struct|Tuple|Type|Undef|Variant)\b/, alias: 'symbol' }, 'operator': /=[=~>]?|![=~]?|<(?:<\|?|[=~|-])?|>[>=]?|->?|~>|\|>?>?|[*\/%+?]|\b(?:and|in|or)\b/, 'punctuation': /[\[\]{}().,;]|:+/ };var interpolation = [{ // Allow for one nested level of braces inside interpolation
-    pattern: /(^|[^\\])\$\{(?:[^'"{}]|\{[^}]*\}|(["'])(?:(?!\2)[^\\]|\\[\s\S])*\2)+\}/, lookbehind: true,
-    inside: {
-      'short-variable': {
-        // Negative look-ahead prevent wrong highlighting of functions
-        pattern: /(^\$\{)(?!\w+\()(?:::)?\w+(?:::\w+)*/,
-        lookbehind: true,
-        alias: 'variable',
-        inside: {
-          'punctuation': /::/
-        }
-      },
-      'delimiter': {
-        pattern: /^\$/,
-        alias: 'variable'
-      },
-      rest: Prism.languages.puppet
-    }
-  },
-  {
-    pattern: /(^|[^\\])\$(?:::)?\w+(?:::\w+)*/,
-    lookbehind: true,
-    alias: 'variable',
-    inside: {
-      'punctuation': /::/
-    }
-  }];
-
-  Prism.languages.puppet['heredoc'][0].inside.interpolation = interpolation;
-  Prism.languages.puppet['string'].inside['double-quoted'].inside.interpolation = interpolation;
-})(Prism);
+    pattern: /(^|[^\\])\$\{(?:[^'"{}]|\{[^}]*\}|(["'])(?:(?!\2)[^\\]|\\[\s\S])*\2)+\}/, lookbehind: true, inside: { 'short-variable': { // Negative look-ahead prevent wrong highlighting of functions
+        pattern: /(^\$\{)(?!\w+\()(?:::)?\w+(?:::\w+)*/, lookbehind: true, alias: 'variable', inside: { 'punctuation': /::/ } }, 'delimiter': { pattern: /^\$/, alias: 'variable' }, rest: Prism.languages.puppet } }, { pattern: /(^|[^\\])\$(?:::)?\w+(?:::\w+)*/, lookbehind: true, alias: 'variable', inside: { 'punctuation': /::/ } }];Prism.languages.puppet['heredoc'][0].inside.interpolation = interpolation;Prism.languages.puppet['string'].inside['double-quoted'].inside.interpolation = interpolation;})(Prism);

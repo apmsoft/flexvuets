@@ -3,7 +3,7 @@
 ## [3.1.1]
 
 ### - 2024-05-10
-- RecyclerView class 메모리 누수 문제 해결 패치
+- RecyclerView class 메모리 누수 문제 해결 패치 + 리스트뷰 | 그리드뷰, tableview remove
 
 ### - 2024-05-08
 - 부분 .mjs -> .js 로 변환

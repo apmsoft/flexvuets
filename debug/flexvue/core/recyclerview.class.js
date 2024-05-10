@@ -12,9 +12,6 @@ export class SimpleAdapter {
     const htmlTagType = parent.tagName;
     const html = this.template.render({});
     let view = null;
-    if (htmlTagType == 'TBODY' || htmlTagType == 'TABLE') {
-      view = document.createElement('tr');
-    } else
     if (htmlTagType == 'UL' || htmlTagType == 'OL') {
       view = document.createElement('li');
     } else
@@ -65,12 +62,12 @@ export class RecyclerView {
   constructor(container, adapter, options = {}) {
     this.isHandlingScroll = false;
     this.renderedItems = new Set();
+    this.responsive_cnt = 0;
     this.prevScrollPosition = 0;
-    this.pageSize = 50;
     if (typeof container === 'string') {
       const element = document.querySelector(container);
       if (!element) {
-        throw new Error(`Container element with selector '${container}' not found.`);
+        throw new Error(`'${container}' 선택기가 있는 컨테이너 요소를 찾을 수 없습니다.`);
       }
       this.container = element;
     } else
@@ -78,9 +75,9 @@ export class RecyclerView {
       this.container = container;
     } else
     {
-      throw new Error('Invalid container type. Expected string or HTMLElement.');
+      throw new Error('컨테이너 유형이 잘못되었습니다. 문자열 또는 HTMLElement가 필요합니다.');
     }
-    const { itemCount = 10, bottomBuffer = 50, prepend = false, scrollCapture = null, response = {} } = options;
+    const { itemCount = 10, bottomBuffer = 100, prepend = false, scrollCapture = null, response = {} } = options;
     this.options = { itemCount, bottomBuffer, prepend, response };
     this.adapter = adapter;
     this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) : this.container;
@@ -88,11 +85,9 @@ export class RecyclerView {
     this.render();
     this.scrollCaptureElement.addEventListener('scroll', this.handleScroll.bind(this));
     window.addEventListener('resize', this.handleResize.bind(this));
-    // Listen for data changes
     this.adapter.doOnDataChanged(() => {
       this.render();
     });
-    // Initialize scroll position callback
     this.onChangedScrollPosition((scrollPosition, render_count) => {});
   }
   render() {
@@ -101,24 +96,21 @@ export class RecyclerView {
   }
   calculateInitialRenderItemCount() {
     const screenWidth = window.innerWidth;
-    let itemCount = this.options.itemCount;
-    // Check responsive options
     if (this.options.response) {
       const responsiveOptions = this.options.response;
       const breakpoints = Object.keys(responsiveOptions).sort((a, b) => parseInt(a) - parseInt(b));
       for (let i = breakpoints.length - 1; i >= 0; i--) {
         const breakpoint = parseInt(breakpoints[i]);
         if (screenWidth >= breakpoint) {
-          itemCount = responsiveOptions[breakpoint];
+          this.responsive_cnt = responsiveOptions[breakpoint];
           break;
         }
       }
     }
-    this.options.itemCount = itemCount;
   }
   handleScroll() {
     if (this.isHandlingScroll) {
-      return; // Ignore if already handling scroll
+      return; // 이미 스크롤을 처리 중이면 무시
     }
     this.isHandlingScroll = true;
     const scrollPosition = this.scrollCaptureElement.scrollTop;
@@ -127,15 +119,17 @@ export class RecyclerView {
     }
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
-    const renderChunkSize = this.options.itemCount;
     const templateItem = this.adapter.onCreateViewHolder(this.container);
     let templateHeight = templateItem.view.getBoundingClientRect().height;
     templateItem.view.remove();
-    const totalItemsVisible = Math.ceil(containerHeight / templateHeight);
-    let startIndex = Math.floor(scrollPosition / templateHeight);
-    let endIndex = Math.min(startIndex + totalItemsVisible + renderChunkSize, itemCount);
+    const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / templateHeight);
+    let startIndex = this.responsive_cnt > 0 ? Math.floor(scrollPosition / totalItemsVisible) : Math.floor(scrollPosition / templateHeight);
+    let endIndex = this.responsive_cnt > 0 ? Math.min(startIndex + totalItemsVisible, itemCount) : Math.min(startIndex + totalItemsVisible + this.options.itemCount, itemCount);
     if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-      endIndex = Math.min(endIndex + renderChunkSize, itemCount);
+      endIndex = Math.min(endIndex + this.options.itemCount, itemCount);
+    } else
+    {
+      endIndex = Math.min(endIndex, itemCount);
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
@@ -151,7 +145,7 @@ export class RecyclerView {
       }
     }
     this.isHandlingScroll = false;
-    // Call scroll position callback
+    // 스크롤 위치 콜백 호출
     if (this.scrollPositionCallback) {
       this.scrollPositionCallback(scrollPosition, this.renderedItems.size);
     }

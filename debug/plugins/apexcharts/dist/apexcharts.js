@@ -28679,6 +28679,174 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -28715,214 +28883,46 @@ absPosToTime:function absPosToTime(absPos){return this.situation.duration/this._
 startAnimFrame:function startAnimFrame(){this.stopAnimFrame();this.animationFrame=window.requestAnimationFrame(function(){this.step();}.bind(this));},// cancels the animationframe
 stopAnimFrame:function stopAnimFrame(){window.cancelAnimationFrame(this.animationFrame);},// kicks off the animation - only does something when the queue is currently not active and at least one situation is set
 start:function start(){// dont start if already started
-if(!this.active&&this.situation){this.active=true;this.startCurrent();}
-return this;
-},
-// start the current situation
-startCurrent:function startCurrent(){
-this.situation.start=+new Date()+this.situation.delay/this._speed;
-this.situation.finish=this.situation.start+this.situation.duration/this._speed;
-return this.initAnimations().step();
-},
-
-/**
+if(!this.active&&this.situation){this.active=true;this.startCurrent();}return this;},// start the current situation
+startCurrent:function startCurrent(){this.situation.start=+new Date()+this.situation.delay/this._speed;this.situation.finish=this.situation.start+this.situation.duration/this._speed;return this.initAnimations().step();},/**
         * adds a function / Situation to the animation queue
         * @param fn function / situation to add
         * @return this
-        */
-queue:function queue(fn){
-if(typeof fn==='function'||fn instanceof SVG.Situation){
-this.situations.push(fn);
-}
-
-if(!this.situation)this.situation=this.situations.shift();
-return this;
-},
-
-/**
+        */queue:function queue(fn){if(typeof fn==='function'||fn instanceof SVG.Situation){this.situations.push(fn);}if(!this.situation)this.situation=this.situations.shift();return this;},/**
         * pulls next element from the queue and execute it
         * @return this
-        */
-dequeue:function dequeue(){
-// stop current animation
+        */dequeue:function dequeue(){// stop current animation
 this.stop();// get next animation from queue
-
-this.situation=this.situations.shift();
-
-if(this.situation){
-if(this.situation instanceof SVG.Situation){
-this.start();
-}else{
-// If it is not a SVG.Situation, then it is a function, we execute it
-this.situation.call(this);
-}
-}
-
-return this;
-},
-// updates all animations to the current state of the element
+this.situation=this.situations.shift();if(this.situation){if(this.situation instanceof SVG.Situation){this.start();}else{// If it is not a SVG.Situation, then it is a function, we execute it
+this.situation.call(this);}}return this;},// updates all animations to the current state of the element
 // this is important when one property could be changed from another property
-initAnimations:function initAnimations(){
-var source;
-var s=this.situation;
-if(s.init)return this;
-
-for(var i in s.animations){
-source=this.target()[i]();
-
-if(!Array.isArray(source)){
-source=[source];
-}
-
-if(!Array.isArray(s.animations[i])){
-s.animations[i]=[s.animations[i]];
-}// if(s.animations[i].length > source.length) {
+initAnimations:function initAnimations(){var source;var s=this.situation;if(s.init)return this;for(var i in s.animations){source=this.target()[i]();if(!Array.isArray(source)){source=[source];}if(!Array.isArray(s.animations[i])){s.animations[i]=[s.animations[i]];}// if(s.animations[i].length > source.length) {
 //  source.concat = source.concat(s.animations[i].slice(source.length, s.animations[i].length))
 // }
-
-
-for(var j=source.length;j--;){
-// The condition is because some methods return a normal number instead
+for(var j=source.length;j--;){// The condition is because some methods return a normal number instead
 // of a SVG.Number
-if(s.animations[i][j]instanceof SVG.Number){
-source[j]=new SVG.Number(source[j]);
-}
-
-s.animations[i][j]=source[j].morph(s.animations[i][j]);
-}
-}
-
-for(var i in s.attrs){
-s.attrs[i]=new SVG.MorphObj(this.target().attr(i),s.attrs[i]);
-}
-
-for(var i in s.styles){
-s.styles[i]=new SVG.MorphObj(this.target().style(i),s.styles[i]);
-}
-
-s.initialTransformation=this.target().matrixify();
-s.init=true;
-return this;
-},
-clearQueue:function clearQueue(){
-this.situations=[];
-return this;
-},
-clearCurrent:function clearCurrent(){
-this.situation=null;
-return this;
-},
-
-/** stops the animation immediately
+if(s.animations[i][j]instanceof SVG.Number){source[j]=new SVG.Number(source[j]);}s.animations[i][j]=source[j].morph(s.animations[i][j]);}}for(var i in s.attrs){s.attrs[i]=new SVG.MorphObj(this.target().attr(i),s.attrs[i]);}for(var i in s.styles){s.styles[i]=new SVG.MorphObj(this.target().style(i),s.styles[i]);}s.initialTransformation=this.target().matrixify();s.init=true;return this;},clearQueue:function clearQueue(){this.situations=[];return this;},clearCurrent:function clearCurrent(){this.situation=null;return this;},/** stops the animation immediately
         * @param jumpToEnd A Boolean indicating whether to complete the current animation immediately.
         * @param clearQueue A Boolean indicating whether to remove queued animation as well.
         * @return this
-        */
-stop:function stop(jumpToEnd,clearQueue){
-var active=this.active;
-this.active=false;
-
-if(clearQueue){
-this.clearQueue();
-}
-
-if(jumpToEnd&&this.situation){
-// initialize the situation if it was not
-!active&&this.startCurrent();
-this.atEnd();
-}
-
-this.stopAnimFrame();
-return this.clearCurrent();
-},
-after:function after(fn){
-var c=this.last(),
-wrapper=function wrapper(e){
-if(e.detail.situation==c){
-fn.call(this,c);
-this.off('finished.fx',wrapper);// prevent memory leak
-}
-};
-
-this.target().on('finished.fx',wrapper);
-return this._callStart();
-},
-// adds a callback which is called whenever one animation step is performed
-during:function during(fn){
-var c=this.last(),
-wrapper=function wrapper(e){
-if(e.detail.situation==c){
-fn.call(this,e.detail.pos,SVG.morph(e.detail.pos),e.detail.eased,c);
-}
-};// see above
-
-
-this.target().off('during.fx',wrapper).on('during.fx',wrapper);
-this.after(function(){
-this.off('during.fx',wrapper);
-});
-return this._callStart();
-},
-// calls after ALL animations in the queue are finished
-afterAll:function afterAll(fn){
-var wrapper=function wrapper(e){
-fn.call(this);
-this.off('allfinished.fx',wrapper);
-};// see above
-
-
-this.target().off('allfinished.fx',wrapper).on('allfinished.fx',wrapper);
-return this._callStart();
-},
-last:function last(){
-return this.situations.length?this.situations[this.situations.length-1]:this.situation;
-},
-// adds one property to the animations
-add:function add(method,args,type){
-this.last()[type||'animations'][method]=args;
-return this._callStart();
-},
-
-/** perform one step of the animation
+        */stop:function stop(jumpToEnd,clearQueue){var active=this.active;this.active=false;if(clearQueue){this.clearQueue();}if(jumpToEnd&&this.situation){// initialize the situation if it was not
+!active&&this.startCurrent();this.atEnd();}this.stopAnimFrame();return this.clearCurrent();},after:function after(fn){var c=this.last(),wrapper=function wrapper(e){if(e.detail.situation==c){fn.call(this,c);this.off('finished.fx',wrapper);// prevent memory leak
+}};this.target().on('finished.fx',wrapper);return this._callStart();},// adds a callback which is called whenever one animation step is performed
+during:function during(fn){var c=this.last(),wrapper=function wrapper(e){if(e.detail.situation==c){fn.call(this,e.detail.pos,SVG.morph(e.detail.pos),e.detail.eased,c);}};// see above
+this.target().off('during.fx',wrapper).on('during.fx',wrapper);this.after(function(){this.off('during.fx',wrapper);});return this._callStart();},// calls after ALL animations in the queue are finished
+afterAll:function afterAll(fn){var wrapper=function wrapper(e){fn.call(this);this.off('allfinished.fx',wrapper);};// see above
+this.target().off('allfinished.fx',wrapper).on('allfinished.fx',wrapper);return this._callStart();},last:function last(){return this.situations.length?this.situations[this.situations.length-1]:this.situation;},// adds one property to the animations
+add:function add(method,args,type){this.last()[type||'animations'][method]=args;return this._callStart();},/** perform one step of the animation
         *  @param ignoreTime Boolean indicating whether to ignore time and use position directly or recalculate position based on time
         *  @return this
-        */
-step:function step(ignoreTime){
-// convert current time to an absolute position
+        */step:function step(ignoreTime){// convert current time to an absolute position
 if(!ignoreTime)this.absPos=this.timeToAbsPos(+new Date());// This part convert an absolute position to a position
-
-if(this.situation.loops!==false){
-var absPos,absPosInt,lastLoop;// If the absolute position is below 0, we just treat it as if it was 0
-
-absPos=Math.max(this.absPos,0);
-absPosInt=Math.floor(absPos);
-
-if(this.situation.loops===true||absPosInt<this.situation.loops){
-this.pos=absPos-absPosInt;
-lastLoop=this.situation.loop;
-this.situation.loop=absPosInt;
-}else{
-this.absPos=this.situation.loops;
-this.pos=1;// The -1 here is because we don't want to toggle reversed when all the loops have been completed
-
-lastLoop=this.situation.loop-1;
-this.situation.loop=this.situation.loops;
-}
-
-if(this.situation.reversing){
-// Toggle reversed if an odd number of loops as occured since the last call of step
-this.situation.reversed=this.situation.reversed!=Boolean((this.situation.loop-lastLoop)%2);
-}
-}else{
-// If there are no loop, the absolute position must not be above 1
-this.absPos=Math.min(this.absPos,1);
-this.pos=this.absPos;
-}// while the absolute position can be below 0, the position must not be below 0
-
-
-if(this.pos<0)this.pos=0;
-if(this.situation.reversed)this.pos=1-this.pos;// apply easing
-
+if(this.situation.loops!==false){var absPos,absPosInt,lastLoop;// If the absolute position is below 0, we just treat it as if it was 0
+absPos=Math.max(this.absPos,0);absPosInt=Math.floor(absPos);if(this.situation.loops===true||absPosInt<this.situation.loops){this.pos=absPos-absPosInt;lastLoop=this.situation.loop;this.situation.loop=absPosInt;}else{this.absPos=this.situation.loops;this.pos=1;// The -1 here is because we don't want to toggle reversed when all the loops have been completed
+lastLoop=this.situation.loop-1;this.situation.loop=this.situation.loops;}if(this.situation.reversing){// Toggle reversed if an odd number of loops as occured since the last call of step
+this.situation.reversed=this.situation.reversed!=Boolean((this.situation.loop-lastLoop)%2);}}else{// If there are no loop, the absolute position must not be above 1
+this.absPos=Math.min(this.absPos,1);this.pos=this.absPos;}// while the absolute position can be below 0, the position must not be below 0
+if(this.pos<0)this.pos=0;if(this.situation.reversed)this.pos=1-this.pos;// apply easing
 var eased=this.situation.ease(this.pos);// call once-callbacks
 
 for(var i in this.situation.once){
@@ -29264,6 +29264,258 @@ if(topParent!=document)throw new Error('Element not in the dom');
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // the element is NOT in the dom, throw error
 // disabling the check below which fixes issue #76
 // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
@@ -29294,319 +29546,67 @@ var matrix=SVG.parser.native.createSVGMatrix();// update with current values
 for(var i=abcdef.length-1;i>=0;i--){matrix[abcdef[i]]=this[abcdef[i]];}return matrix;},// Convert matrix to string
 toString:function toString(){// Construct the matrix directly, avoid values that are too small
 return'matrix('+float32String(this.a)+','+float32String(this.b)+','+float32String(this.c)+','+float32String(this.d)+','+float32String(this.e)+','+float32String(this.f)+')';}},// Define parent
-parent:SVG.Element,
-// Add parent method
-construct:{
-// Get current matrix
-ctm:function ctm(){
-return new SVG.Matrix(this.node.getCTM());
-},
-// Get current screen matrix
-screenCTM:function screenCTM(){
-/* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
+parent:SVG.Element,// Add parent method
+construct:{// Get current matrix
+ctm:function ctm(){return new SVG.Matrix(this.node.getCTM());},// Get current screen matrix
+screenCTM:function screenCTM(){/* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
              This is needed because FF does not return the transformation matrix
              for the inner coordinate system when getScreenCTM() is called on nested svgs.
-             However all other Browsers do that */
-if(this instanceof SVG.Nested){
-var rect=this.rect(1,1);
-var m=rect.node.getScreenCTM();
-rect.remove();
-return new SVG.Matrix(m);
-}
-
-return new SVG.Matrix(this.node.getScreenCTM());
-}
-}
-});
-SVG.Point=SVG.invent({
-// Initialize
-create:function create(x,y){
-var source,
-base={
-x:0,
-y:0
-};// ensure source as object
-
-source=Array.isArray(x)?{
-x:x[0],
-y:x[1]
-}:_typeof(x)==='object'?{
-x:x.x,
-y:x.y
-}:x!=null?{
-x:x,
-y:y!=null?y:x
-}:base;// If y has no value, then x is used has its value
+             However all other Browsers do that */if(this instanceof SVG.Nested){var rect=this.rect(1,1);var m=rect.node.getScreenCTM();rect.remove();return new SVG.Matrix(m);}return new SVG.Matrix(this.node.getScreenCTM());}}});SVG.Point=SVG.invent({// Initialize
+create:function create(x,y){var source,base={x:0,y:0};// ensure source as object
+source=Array.isArray(x)?{x:x[0],y:x[1]}:_typeof(x)==='object'?{x:x.x,y:x.y}:x!=null?{x:x,y:y!=null?y:x}:base;// If y has no value, then x is used has its value
 // merge source
-
-this.x=source.x;
-this.y=source.y;
-},
-// Add methods
-extend:{
-// Clone point
-clone:function clone(){
-return new SVG.Point(this);
-},
-// Morph one point into another
-morph:function morph(x,y){
-// store new destination
-this.destination=new SVG.Point(x,y);
-return this;
-}
-}
-});
-SVG.extend(SVG.Element,{
-// Get point
-point:function point(x,y){
-return new SVG.Point(x,y).transform(this.screenCTM().inverse());
-}
-});
-SVG.extend(SVG.Element,{
-// Set svg element attribute
-attr:function attr(a,v,n){
-// act as full getter
-if(a==null){
-// get an object of attributes
-a={};
-v=this.node.attributes;
-
-for(var n=v.length-1;n>=0;n--){
-a[v[n].nodeName]=SVG.regex.isNumber.test(v[n].nodeValue)?parseFloat(v[n].nodeValue):v[n].nodeValue;
-}
-
-return a;
-}else if(_typeof(a)==='object'){
-// apply every attribute individually if an object is passed
-for(var v_ in a){
-this.attr(v_,a[v_]);
-}
-}else if(v===null){
-// remove value
-this.node.removeAttribute(a);
-}else if(v==null){
-// act as a getter if the first and only argument is not an object
-v=this.node.getAttribute(a);
-return v==null?SVG.defaults.attrs[a]:SVG.regex.isNumber.test(v)?parseFloat(v):v;
-}else{
-// BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
-if(a=='stroke-width'){
-this.attr('stroke',parseFloat(v)>0?this._stroke:null);
-}else if(a=='stroke'){
-this._stroke=v;
-}// convert image fill and stroke to patterns
-
-
-if(a=='fill'||a=='stroke'){
-if(SVG.regex.isImage.test(v)){
-v=this.doc().defs().image(v,0,0);
-}
-
-if(v instanceof SVG.Image){
-v=this.doc().defs().pattern(0,0,function(){
-this.add(v);
-});
-}
-}// ensure correct numeric values (also accepts NaN and Infinity)
-
-
-if(typeof v==='number'){
-v=new SVG.Number(v);
-}// ensure full hex color
-else if(SVG.Color.isColor(v)){
-v=new SVG.Color(v);
-}// parse array values
-else if(Array.isArray(v)){
-v=new SVG.Array(v);
-}// if the passed attribute is leading...
-
-
-if(a=='leading'){
-// ... call the leading method instead
-if(this.leading){
-this.leading(v);
-}
-}else{
-// set given attribute on node
-typeof n==='string'?this.node.setAttributeNS(n,a,v.toString()):this.node.setAttribute(a,v.toString());
-}// rebuild if required
-
-
-if(this.rebuild&&(a=='font-size'||a=='x')){
-this.rebuild(a,v);
-}
-}
-
-return this;
-}
-});
-SVG.extend(SVG.Element,{
-// Add transformations
-transform:function transform(o,relative){
-// get target in case of the fx module, otherwise reference this
-var target=this,
-matrix;
-// act as a getter
-
-if(_typeof(o)!=='object'){
-// get current matrix
-matrix=new SVG.Matrix(target).extract();
-return typeof o==='string'?matrix[o]:matrix;
-}// get current matrix
-
-
+this.x=source.x;this.y=source.y;},// Add methods
+extend:{// Clone point
+clone:function clone(){return new SVG.Point(this);},// Morph one point into another
+morph:function morph(x,y){// store new destination
+this.destination=new SVG.Point(x,y);return this;}}});SVG.extend(SVG.Element,{// Get point
+point:function point(x,y){return new SVG.Point(x,y).transform(this.screenCTM().inverse());}});SVG.extend(SVG.Element,{// Set svg element attribute
+attr:function attr(a,v,n){// act as full getter
+if(a==null){// get an object of attributes
+a={};v=this.node.attributes;for(var n=v.length-1;n>=0;n--){a[v[n].nodeName]=SVG.regex.isNumber.test(v[n].nodeValue)?parseFloat(v[n].nodeValue):v[n].nodeValue;}return a;}else if(_typeof(a)==='object'){// apply every attribute individually if an object is passed
+for(var v_ in a){this.attr(v_,a[v_]);}}else if(v===null){// remove value
+this.node.removeAttribute(a);}else if(v==null){// act as a getter if the first and only argument is not an object
+v=this.node.getAttribute(a);return v==null?SVG.defaults.attrs[a]:SVG.regex.isNumber.test(v)?parseFloat(v):v;}else{// BUG FIX: some browsers will render a stroke if a color is given even though stroke width is 0
+if(a=='stroke-width'){this.attr('stroke',parseFloat(v)>0?this._stroke:null);}else if(a=='stroke'){this._stroke=v;}// convert image fill and stroke to patterns
+if(a=='fill'||a=='stroke'){if(SVG.regex.isImage.test(v)){v=this.doc().defs().image(v,0,0);}if(v instanceof SVG.Image){v=this.doc().defs().pattern(0,0,function(){this.add(v);});}}// ensure correct numeric values (also accepts NaN and Infinity)
+if(typeof v==='number'){v=new SVG.Number(v);}// ensure full hex color
+else if(SVG.Color.isColor(v)){v=new SVG.Color(v);}// parse array values
+else if(Array.isArray(v)){v=new SVG.Array(v);}// if the passed attribute is leading...
+if(a=='leading'){// ... call the leading method instead
+if(this.leading){this.leading(v);}}else{// set given attribute on node
+typeof n==='string'?this.node.setAttributeNS(n,a,v.toString()):this.node.setAttribute(a,v.toString());}// rebuild if required
+if(this.rebuild&&(a=='font-size'||a=='x')){this.rebuild(a,v);}}return this;}});SVG.extend(SVG.Element,{// Add transformations
+transform:function transform(o,relative){// get target in case of the fx module, otherwise reference this
+var target=this,matrix;// act as a getter
+if(_typeof(o)!=='object'){// get current matrix
+matrix=new SVG.Matrix(target).extract();return typeof o==='string'?matrix[o]:matrix;}// get current matrix
 matrix=new SVG.Matrix(target);// ensure relative flag
-
 relative=!!relative||!!o.relative;// act on matrix
-
-if(o.a!=null){
-matrix=relative// relative
+if(o.a!=null){matrix=relative// relative
 ?matrix.multiply(new SVG.Matrix(o))// absolute
-:new SVG.Matrix(o);
-}
-
-return this.attr('transform',matrix);
-}
-});
-SVG.extend(SVG.Element,{
-// Reset all transformations
-untransform:function untransform(){
-return this.attr('transform',null);
-},
-// merge the whole transformation chain into one matrix and returns it
-matrixify:function matrixify(){
-var matrix=(this.attr('transform')||'').split(SVG.regex.transforms).slice(0,-1).map(function(str){
-// generate key => value pairs
-var kv=str.trim().split('(');
-return[kv[0],kv[1].split(SVG.regex.delimiter).map(function(str){
-return parseFloat(str);
-})];
-})// merge every transformation into one matrix
-.reduce(function(matrix,transform){
-if(transform[0]=='matrix')return matrix.multiply(arrayToMatrix(transform[1]));
-return matrix[transform[0]].apply(matrix,transform[1]);
-},new SVG.Matrix());
-return matrix;
-},
-// add an element to another parent without changing the visual representation on the screen
-toParent:function toParent(parent){
-if(this==parent)return this;
-var ctm=this.screenCTM();
-var pCtm=parent.screenCTM().inverse();
-this.addTo(parent).untransform().transform(pCtm.multiply(ctm));
-return this;
-},
-// same as above with parent equals root-svg
-toDoc:function toDoc(){
-return this.toParent(this.doc());
-}
-});
-SVG.Transformation=SVG.invent({
-create:function create(source,inversed){
-if(arguments.length>1&&typeof inversed!=='boolean'){
-return this.constructor.call(this,[].slice.call(arguments));
-}
-
-if(Array.isArray(source)){
-for(var i=0,len=this.arguments.length;i<len;++i){
-this[this.arguments[i]]=source[i];
-}
-}else if(source&&_typeof(source)==='object'){
-for(var i=0,len=this.arguments.length;i<len;++i){
-this[this.arguments[i]]=source[this.arguments[i]];
-}
-}
-
-this.inversed=false;
-
-if(inversed===true){
-this.inversed=true;
-}
-}
-});
-SVG.Translate=SVG.invent({
-parent:SVG.Matrix,
-inherit:SVG.Transformation,
-create:function create(source,inversed){
-this.constructor.apply(this,[].slice.call(arguments));
-},
-extend:{
-arguments:['transformedX','transformedY'],
-method:'translate'
-}
-});
-SVG.extend(SVG.Element,{
-// Dynamic style generator
-style:function style(s,v){
-if(arguments.length==0){
-// get full style
-return this.node.style.cssText||'';
-}else if(arguments.length<2){
-// apply every style individually if an object is passed
-if(_typeof(s)==='object'){
-for(var v_ in s){
-this.style(v_,s[v_]);
-}
-}else if(SVG.regex.isCss.test(s)){
-// parse css string
+:new SVG.Matrix(o);}return this.attr('transform',matrix);}});SVG.extend(SVG.Element,{// Reset all transformations
+untransform:function untransform(){return this.attr('transform',null);},// merge the whole transformation chain into one matrix and returns it
+matrixify:function matrixify(){var matrix=(this.attr('transform')||'').split(SVG.regex.transforms).slice(0,-1).map(function(str){// generate key => value pairs
+var kv=str.trim().split('(');return[kv[0],kv[1].split(SVG.regex.delimiter).map(function(str){return parseFloat(str);})];})// merge every transformation into one matrix
+.reduce(function(matrix,transform){if(transform[0]=='matrix')return matrix.multiply(arrayToMatrix(transform[1]));return matrix[transform[0]].apply(matrix,transform[1]);},new SVG.Matrix());return matrix;},// add an element to another parent without changing the visual representation on the screen
+toParent:function toParent(parent){if(this==parent)return this;var ctm=this.screenCTM();var pCtm=parent.screenCTM().inverse();this.addTo(parent).untransform().transform(pCtm.multiply(ctm));return this;},// same as above with parent equals root-svg
+toDoc:function toDoc(){return this.toParent(this.doc());}});SVG.Transformation=SVG.invent({create:function create(source,inversed){if(arguments.length>1&&typeof inversed!=='boolean'){return this.constructor.call(this,[].slice.call(arguments));}if(Array.isArray(source)){for(var i=0,len=this.arguments.length;i<len;++i){this[this.arguments[i]]=source[i];}}else if(source&&_typeof(source)==='object'){for(var i=0,len=this.arguments.length;i<len;++i){this[this.arguments[i]]=source[this.arguments[i]];}}this.inversed=false;if(inversed===true){this.inversed=true;}}});SVG.Translate=SVG.invent({parent:SVG.Matrix,inherit:SVG.Transformation,create:function create(source,inversed){this.constructor.apply(this,[].slice.call(arguments));},extend:{arguments:['transformedX','transformedY'],method:'translate'}});SVG.extend(SVG.Element,{// Dynamic style generator
+style:function style(s,v){if(arguments.length==0){// get full style
+return this.node.style.cssText||'';}else if(arguments.length<2){// apply every style individually if an object is passed
+if(_typeof(s)==='object'){for(var v_ in s){this.style(v_,s[v_]);}}else if(SVG.regex.isCss.test(s)){// parse css string
 s=s.split(/\s*;\s*/)// filter out suffix ; and stuff like ;;
-.filter(function(e){
-return!!e;
-}).map(function(e){
-return e.split(/\s*:\s*/);
-});// apply every definition individually
-
-while(v=s.pop()){
-this.style(v[0],v[1]);
-}
-}else{
-// act as a getter if the first and only argument is not an object
-return this.node.style[camelCase(s)];
-}
-}else{
-this.node.style[camelCase(s)]=v===null||SVG.regex.isBlank.test(v)?'':v;
-}
-
-return this;
-}
-});
-SVG.Parent=SVG.invent({
-// Initialize node
-create:function create(element){
-this.constructor.call(this,element);
-},
-// Inherit from
-inherit:SVG.Element,
-// Add class methods
-extend:{
-// Returns all child elements
-children:function children(){
-return SVG.utils.map(SVG.utils.filterSVGElements(this.node.childNodes),function(node){
-return SVG.adopt(node);
-});
-},
-// Add given element at a position
-add:function add(element,i){
-if(i==null){
-this.node.appendChild(element.node);
-}else if(element.node!=this.node.childNodes[i]){
-this.node.insertBefore(element.node,this.node.childNodes[i]);
-}
-
-return this;
-},
-// Basically does the same as `add()` but returns the added element instead
-put:function put(element,i){
-this.add(element,i);
-return element;
-},
-// Checks if the given element is a child
-has:function has(element){
-return this.index(element)>=0;
-},
-// Gets index of given element
-index:function index(element){
-return[].slice.call(this.node.childNodes).indexOf(element.node);
+.filter(function(e){return!!e;}).map(function(e){return e.split(/\s*:\s*/);});// apply every definition individually
+while(v=s.pop()){this.style(v[0],v[1]);}}else{// act as a getter if the first and only argument is not an object
+return this.node.style[camelCase(s)];}}else{this.node.style[camelCase(s)]=v===null||SVG.regex.isBlank.test(v)?'':v;}return this;}});SVG.Parent=SVG.invent({// Initialize node
+create:function create(element){this.constructor.call(this,element);},// Inherit from
+inherit:SVG.Element,// Add class methods
+extend:{// Returns all child elements
+children:function children(){return SVG.utils.map(SVG.utils.filterSVGElements(this.node.childNodes),function(node){return SVG.adopt(node);});},// Add given element at a position
+add:function add(element,i){if(i==null){this.node.appendChild(element.node);}else if(element.node!=this.node.childNodes[i]){this.node.insertBefore(element.node,this.node.childNodes[i]);}return this;},// Basically does the same as `add()` but returns the added element instead
+put:function put(element,i){this.add(element,i);return element;},// Checks if the given element is a child
+has:function has(element){return this.index(element)>=0;},// Gets index of given element
+index:function index(element){return[].slice.call(this.node.childNodes).indexOf(element.node);
 },
 // Get a element at the given index
 get:function get(i){
@@ -29971,6 +29971,90 @@ SVG.extend(SVG.Element,{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -29985,113 +30069,29 @@ fill:function fill(){return'url(#'+this.id()+')';},// Alias string convertion to
 toString:function toString(){return this.fill();},// custom attr to handle transform
 attr:function attr(a,b,c){if(a=='transform')a='gradientTransform';return SVG.Container.prototype.attr.call(this,a,b,c);}},// Add parent method
 construct:{// Create gradient element in defs
-gradient:function gradient(type,block){return this.defs().gradient(type,block);
-}
-}
-});// Add animatable methods to both gradient and fx module
-
-SVG.extend(SVG.Gradient,SVG.FX,{
-// From position
-from:function from(x,y){
-return(this._target||this).type=='radial'?this.attr({
-fx:new SVG.Number(x),
-fy:new SVG.Number(y)
-}):this.attr({
-x1:new SVG.Number(x),
-y1:new SVG.Number(y)
-});
-},
-// To position
-to:function to(x,y){
-return(this._target||this).type=='radial'?this.attr({
-cx:new SVG.Number(x),
-cy:new SVG.Number(y)
-}):this.attr({
-x2:new SVG.Number(x),
-y2:new SVG.Number(y)
-});
-}
-});// Base gradient generation
-
-SVG.extend(SVG.Defs,{
-// define gradient
-gradient:function gradient(type,block){
-return this.put(new SVG.Gradient(type)).update(block);
-}
-});
-SVG.Stop=SVG.invent({
-// Initialize node
-create:'stop',
-// Inherit from
-inherit:SVG.Element,
-// Add class methods
-extend:{
-// add color stops
-update:function update(o){
-if(typeof o==='number'||o instanceof SVG.Number){
-o={
-offset:arguments[0],
-color:arguments[1],
-opacity:arguments[2]
-};
-}// set attributes
-
-
-if(o.opacity!=null)this.attr('stop-opacity',o.opacity);
-if(o.color!=null)this.attr('stop-color',o.color);
-if(o.offset!=null)this.attr('offset',new SVG.Number(o.offset));
-return this;
-}
-}
-});
-SVG.Pattern=SVG.invent({
-// Initialize node
-create:'pattern',
-// Inherit from
-inherit:SVG.Container,
-// Add class methods
-extend:{
-// Return the fill id
-fill:function fill(){
-return'url(#'+this.id()+')';
-},
-// Update pattern by rebuilding
-update:function update(block){
-// remove content
+gradient:function gradient(type,block){return this.defs().gradient(type,block);}}});// Add animatable methods to both gradient and fx module
+SVG.extend(SVG.Gradient,SVG.FX,{// From position
+from:function from(x,y){return(this._target||this).type=='radial'?this.attr({fx:new SVG.Number(x),fy:new SVG.Number(y)}):this.attr({x1:new SVG.Number(x),y1:new SVG.Number(y)});},// To position
+to:function to(x,y){return(this._target||this).type=='radial'?this.attr({cx:new SVG.Number(x),cy:new SVG.Number(y)}):this.attr({x2:new SVG.Number(x),y2:new SVG.Number(y)});}});// Base gradient generation
+SVG.extend(SVG.Defs,{// define gradient
+gradient:function gradient(type,block){return this.put(new SVG.Gradient(type)).update(block);}});SVG.Stop=SVG.invent({// Initialize node
+create:'stop',// Inherit from
+inherit:SVG.Element,// Add class methods
+extend:{// add color stops
+update:function update(o){if(typeof o==='number'||o instanceof SVG.Number){o={offset:arguments[0],color:arguments[1],opacity:arguments[2]};}// set attributes
+if(o.opacity!=null)this.attr('stop-opacity',o.opacity);if(o.color!=null)this.attr('stop-color',o.color);if(o.offset!=null)this.attr('offset',new SVG.Number(o.offset));return this;}}});SVG.Pattern=SVG.invent({// Initialize node
+create:'pattern',// Inherit from
+inherit:SVG.Container,// Add class methods
+extend:{// Return the fill id
+fill:function fill(){return'url(#'+this.id()+')';},// Update pattern by rebuilding
+update:function update(block){// remove content
 this.clear();// invoke passed block
-
-if(typeof block==='function'){
-block.call(this,this);
-}
-
-return this;
-},
-// Alias string convertion to fill
-toString:function toString(){
-return this.fill();
-},
-// custom attr to handle transform
-attr:function attr(a,b,c){
-if(a=='transform')a='patternTransform';
-return SVG.Container.prototype.attr.call(this,a,b,c);
-}
-},
-// Add parent method
-construct:{
-// Create pattern element in defs
-pattern:function pattern(width,height,block){
-return this.defs().pattern(width,height,block);
-}
-}
-});
-SVG.extend(SVG.Defs,{
-// Define gradient
-pattern:function pattern(width,height,block){
-return this.put(new SVG.Pattern()).update(block).attr({
-x:0,
-y:0,
-width:width,
-height:height,
+if(typeof block==='function'){block.call(this,this);}return this;},// Alias string convertion to fill
+toString:function toString(){return this.fill();},// custom attr to handle transform
+attr:function attr(a,b,c){if(a=='transform')a='patternTransform';return SVG.Container.prototype.attr.call(this,a,b,c);}},// Add parent method
+construct:{// Create pattern element in defs
+pattern:function pattern(width,height,block){return this.defs().pattern(width,height,block);}}});SVG.extend(SVG.Defs,{// Define gradient
+pattern:function pattern(width,height,block){return this.put(new SVG.Pattern()).update(block).attr({x:0,y:0,width:width,height:height,
 patternUnits:'userSpaceOnUse'
 });
 }

@@ -1,0 +1,199 @@
+<!doctype html>
+<html data-theme="cupcake">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="./css/tailwind.css?v=1" rel="stylesheet">
+    <link async href="./css/fontawesome-all.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" href="../plugins/sweetalert2/dist/sweetalert2.min.css">
+
+    <script src="../flexvue/flexvue.js?v=1"></script>
+</head>
+
+<body>
+
+    <!--left-->
+    <div id="left" class="fvue--layout z-0 h-screen bg-base-content text-base-100 2xl:pb-1 overflow-x-auto">
+        <div class="fvue--layout--container">
+
+            <div class="fvue--layout--header py-3">
+                <div class="fvue--layout--header--row py-1 px-3">
+                    <div class="fvue--layout--icon">
+
+                    </div>
+                    <div class="fvue--layout--title">
+                        <a href="./#/" id="left_title"></a>
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation">
+                        <!-- <button type="button" class="text-gray-500 dark:text-gray-300" title="새소식" id="btn-alarm">
+                            <i class="far fa-bell"></i>
+                        </button> -->
+                        <button type="button" class="btn btn-xs ml-3" title="logout" id="btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="fvue--layout--main h-full">
+                <div class="flex flex-row h-full">
+                    <!--row 1-->
+                    <div id="left-col-1" class="flex-none bg-base-content overflow-y-auto">
+
+                    </div>
+
+                    <!--row 2-->
+                    <div id="left-col-2" class="flex-none w-60 overflow-y-auto">
+
+                    </div>
+
+                    <!--row 3-->
+                    <div id="left-col-3" class="flex-auto bg-base-100 text-base-content h-full">
+                        <div class="flex flex-col h-full px-5 pt-5 pb-5 rounded-l-3xl">
+                            <div class="flex-none">
+                                <button type="button" id="btn-close-window" class="btn btn-xs text-sm">
+                                    <i class="fa-solid fa-right-left"></i>
+                                </button>
+                                <button type="button" id="btn-open-window" class="btn btn-xs text-sm hidden">
+                                    <i class="fa-solid fa-right-left"></i>
+                                </button>
+                            </div>
+                            <div id="left_docs_contents" class="flex-1 pt-10 pb-3 h-full overflow-y-auto">
+                                <!-- Open the modal using ID.showModal() method -->
+                                <!-- You can open the modal using ID.showModal() method -->
+                                <button class="btn" onclick="my_modal_3.showModal()">open modal</button>
+                                <dialog id="my_modal_3" class="modal">
+                                <div class="modal-box">
+                                    <form method="dialog">
+                                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                                    </form>
+                                    <h3 class="font-bold text-lg">Hello!</h3>
+                                    <p class="py-4">Press ESC key or click on ✕ button to close</p>
+                                </div>
+                                </dialog>
+
+                                <ul class="steps steps-vertical lg:steps-horizontal">
+                                    <li class="step step-primary">Register</li>
+                                    <li class="step step-primary">Choose plan</li>
+                                    <li class="step">Purchase</li>
+                                    <li class="step">Receive Product</li>
+                                </ul>
+
+                                <div>
+                                    <label
+                                        for="Username"
+                                        class="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600"
+                                        >
+                                        <input
+                                            type="text"
+                                            id="Username"
+                                            class="peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
+                                            placeholder="Username"
+                                        />
+
+                                        <span
+                                            class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-base-100 p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
+                                        >
+                                            Username
+                                        </span>
+                                    </label>
+                                </div>
+
+
+                                <div class="avatar-group -space-x-6 rtl:space-x-reverse">
+                                    <div class="avatar">
+                                      <div class="w-12">
+                                        <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                      </div>
+                                    </div>
+                                    <div class="avatar">
+                                      <div class="w-12">
+                                        <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                      </div>
+                                    </div>
+                                    <div class="avatar">
+                                      <div class="w-12">
+                                        <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                      </div>
+                                    </div>
+                                    <div class="avatar">
+                                      <div class="w-12">
+                                        <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="container mx-auto py-4">
+                                    <div role="tablist" class="tabs tabs-lifted">
+                                        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 1" />
+                                        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded p-6">Tab content 1</div>
+                                    
+                                        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 2" checked />
+                                        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded p-6">Tab content 2</div>
+                                    
+                                        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
+                                        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded p-6">Tab content 3</div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900 bg-opacity-70">
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900 bg-opacity-70 flex content-center flex-wrap">
+    </div>
+
+    <!--tooltip-->
+    <div id="tooltip" class="py-4 absolute w-full left-0 top-0 lg:px-4 z-8 hidden">
+        <div class="p-2 bg-indigo-800 w-full rounded-lg text-center text-indigo-100 leading-none" role="alert">
+            <span class="font-semibold mr-2 text-left flex-auto">성공적으로 클립보드에 저장하였습니다.<br/><small>Ctrl+C 키를 불러 복사하세요</small></span>
+        </div>
+    </div>
+    <div class="none loading ck-editor__editable .ck.ck-toolbar ck-reset_all bottom_transitioned bottomside_transitioned bottomthird_transitioned"></div>
+
+    <dialog id="my_modal_2" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Hello!</h3>
+            <p class="py-4">Press ESC key or click outside to close</p>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+        </dialog>
+</body>
+
+<script defer type="module" src="js/index.js?v=1"></script>
+</html>

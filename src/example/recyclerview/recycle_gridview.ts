@@ -35,9 +35,9 @@ const onReady = () : void =>
         const adapter = new SimpleAdapter(gridData, gridView);
         const recyclerView = new RecyclerView('#gridview', adapter,
         {
-            itemCount : 0,
+            itemCount : 8,
             scrollCapture: '#fvue--layout--main', 
-            response: { 0: 1, 480:2, 768:3, 1024:4, 1280:4, 1536:6}
+            response: { 0: 1, 480:2, 768:3, 1024:4, 1280:5, 1536:6}
         });
         recyclerView.addEventListener('click', '.item', (el) =>
         {

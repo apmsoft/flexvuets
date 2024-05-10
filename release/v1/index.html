@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+
+    <link rel="stylesheet" href="./css/tailwind.css?v=1">
+    <link rel="stylesheet" href="./css/fontawesome-all.css">
+    <link rel="stylesheet" href="./css/animate.min.css">
+    <link rel="stylesheet" href="../plugins/swiper/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --swiper-navigation-color: #fff;
+            --swiper-navigation-size: 24px;
+        }
+
+        .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+            opacity: .06;
+        }
+
+        swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* .swiper-button-next, .swiper-button-prev {
+            top: 35%;
+            z-index: 1;
+        } */
+    </style>
+
+
+    
+    <script src="../flexvue/flexvue.js?v=1"></script>
+</head>
+<body>
+    <!--left-->
+    <div id="left" class="fvue--layout z-0">
+        <!--- container -->
+        <div id="fvue--layout--container" class="fvue--layout--container" data-scrollch="">
+            <!--header-->
+            <div id="left--layout--header" class="fvue--layout--header p-0 ease-in-out transition text-blue-lightd6">
+                <div class="fvue--layout--header--row xl:container xl:mx-auto pl-3 pr-0 lg:pr-3">
+                    <div class="fvue--layout--icon text-gray-400 flex items-center">
+                        <button type="button" id="btn-drawer-menu" class="block lg:hidden">
+                            <i class="fa-solid fa-bars fa-xl"></i>
+                        </button>
+                    </div>
+
+                    <div id="btn-home" class="fvue--layout--title text-gray-400 font-bold text-2xl pl-3 py-4 cursor-pointer">
+                        <img id="log-bi" src="images/logow.png" class="h-8">
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation flex items-center">
+                        <button type="button" data-navname="home" data-dwdid="#/" class="drawer-item hidden lg:inline-block btn border-0 rounded-none text-lg hover:border-blue-default hover:text-blue-default hover:border-b-2 px-6 py-1 h-full transition duration-300 ease-in-out transform hover:translate-y-0.5 hover:scale-115">
+                            HOME
+                        </button>
+                        <button type="button" data-navname="menu1" data-dwdid="#/menu1/greeting" class="drawer-item hidden lg:inline-block btn border-0 rounded-none text-lg hover:border-blue-default hover:text-blue-default hover:border-b-2 px-6 py-1 h-full transition duration-300 ease-in-out transform hover:translate-y-0.5 hover:scale-115">
+                            메뉴1
+                        </button>
+                        <button type="button" data-navname="menu2" data-dwdid="#/menu2" class="drawer-item hidden lg:inline-block btn border-0 rounded-none text-lg hover:border-blue-default hover:text-blue-default hover:border-b-2 px-6 py-1 h-full transition duration-300 ease-in-out transform hover:translate-y-0.5 hover:scale-115">
+                            메뉴2
+                        </button>
+                        <button type="button" data-navname="menu3" data-dwdid="#/menu3" class="drawer-item hidden lg:inline-block btn border-0 rounded-none text-lg hover:border-blue-default hover:text-blue-default hover:border-b-2 px-6 py-1 h-full transition duration-300 ease-in-out transform hover:translate-y-0.5 hover:scale-115">
+                            메뉴3
+                        </button>
+
+                        <div id="lay_top_search_container" class="absolute lg:relative left-0 top-0 right-[35px] py-1 bg-dark h-full w-full flex items-center hidden lg:hidden">
+                            <form id="theSearchFormTop" class="w-full">
+                                <div class="flex flex-row space-x-0">
+                                    <div class="flex-1">
+                                        <input type="text" id="topq" name="topq" class="form-input text-white rounded-none border-0 outline-0 bg-transparent" value="" placeholder="제품 찾기">
+                                    </div>
+                                    <div class="flex-none flex item-center">
+                                        <button type="submit" class="btn border-0 rounded-none text-gray-100 hover:text-warning px-3 py-1 h-full">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <button type="button" id="btn-top-search-open" class="btn border-0 rounded-none hover:bg-dark hover:text-white px-3 py-1 h-full transition duration-300 ease-in-out transform hover:translate-y-0.5 hover:scale-115">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                        <button type="button" id="btn-top-search-close" class="btn border-0 border-l border-l-gray-700 rounded-none bg-dark text-white px-3 py-1 h-full transition duration-300 ease-in-out transform hover:translate-x-0.5 hover:scale-115 hidden">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--main-->
+            <div id="left-layout--main" class="fvue--layout--main1">
+                <div id="left-content-container" class="flex-1 pb-8"></div>
+
+                <!--footer-->
+                <div class="text-white py-8 pl-8 lg:pl-4 bg-[#050F1F]">
+                    <div class="xl:container xl:mx-auto flex flex-col lg:flex-row">
+                        <div class="flex-1 md:flex-none w-48">
+                            <img src="images/logow.png" class="h-8" />
+                        </div>
+                        <div class="flex-1 flex flex-col space-y-0 lg:space-y-3 text-gray-500 text-sm lg:text-md">
+                            <div class="flex flex-col lg:flex-row lg:space-x-6">
+                                <div class="flex flex-row space-x-2 pr-6">
+                                    <span class="text-gray-300 w-32 lg:w-auto pr-2 mr-2">주소</span> 울산광역시 남구 ooo로 100
+                                </div>
+
+                                <div class="flex flex-row space-x-2 lg:pl-8">
+                                    <span class="text-gray-300 w-32 lg:w-auto pr-2 mr-2">대표번호</span> 000-123-4567
+                                </div>
+
+                                <div class="flex flex-row space-x-2 lg:pl-8 pr-6">
+                                    <span class="text-gray-300 w-32 lg:w-auto pr-2 mr-2">팩스</span> 000-123-4568
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col lg:flex-row lg:space-x-6">
+                                <div class="flex flex-row space-x-2 pr-6">
+                                    <span class="text-gray-300 w-32 lg:w-auto pr-2 mr-2">이메일</span> webmaster@test.com
+                                </div>
+
+                                <div class="flex flex-row space-x-2 lg:pl-8 pr-6">
+                                    <span class="text-gray-300 w-32 lg:w-auto pr-2 mr-2">사업자등록번호</span> 000-00-0000
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="drawer_menu" class="fvue--layout z-1 -left-full top-0">
+        <!--- container -->
+        <div class="fvue--layout--container w-72 bg-white">
+
+            <!--header-->
+            <div class="fvue--layout--header py-3">
+                <div class="fvue--layout--header--row px-3">
+                    <div class="fvue--layout--icon items-center">
+                        <img src="images/logoc.png" class="h-8" />
+                    </div>
+                    <div class="fvue--layout--title text-gray-400 font-bold text-2xl pl-3">
+
+                    </div>
+
+                    <div class="fvue--layout--spacer"> </div>
+
+                    <div class="fvue--layout--navigation flex item-center text-gray-400">
+                        <button type="button" id="btn-close-dw" class="ml-3  cursor-pointer">
+                            <i class="fas fa-times fa-2x"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--body-->
+            <div class="fvue--layout--main flex flex-col space-y-2">
+                <div class="drawer-item border-b px-2 py-2 flex flex-row justify-between space-x-2 font-bold text-md text-gray-800" data-navname="home" data-dwdid="#/">
+                    <div class="flex-none">
+                        HOME
+                    </div>
+                    <div class="flex-none px-2 text-gray-600">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="drawer-item border-b px-2 py-2 flex flex-row justify-between space-x-2 font-bold text-md text-gray-800" data-navname="menu1" data-dwdid="#/menu1/greeting">
+                    <div class="flex-none">
+                        메뉴1
+                    </div>
+                    <div class="flex-none px-2 text-gray-600">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="drawer-item border-b px-2 py-2 flex flex-row justify-between space-x-2 font-bold text-md text-gray-800" data-navname="menu2" data-dwdid="#/menu2">
+                    <div class="flex-none">
+                        메뉴2
+                    </div>
+                    <div class="flex-none px-2 text-gray-600">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <div class="drawer-item border-b px-2 py-2 flex flex-row justify-between space-x-2 font-bold text-md text-gray-800" data-navname="menu3" data-dwdid="#/menu3">
+                    <div class="flex-none">
+                        메뉴3
+                    </div>
+                    <div class="flex-none px-2 text-gray-600">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!--footer-->
+            <div class="fvue--layout--footer">
+                <div class="">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-gray-500/30 backdrop-blur">
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-gray-900/70 backdrop-blur">
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-gray-900/70 backdrop-blur">
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900/70 backdrop-blur">
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900/70 backdrop-blur">
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900/70 flex lg:content-center flex-wrap">
+    </div>
+
+    <div class="hidden transitioned drawer_transitioned drawer-item-active !justify-center text-lg bg-black/40 text-outline-white text-warning"></div>
+    <script defer type="module" src="js/index.js?v=1"></script>
+
+</body>
+</html>
