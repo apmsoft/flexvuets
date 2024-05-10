@@ -127,6 +127,7 @@
 
 
 
+
               // Autoclosed tag, ignore
             } else {// Opening tag
               openedTags.push({ tagName: stringifyToken(token.content[0].content[1]), openedBraces: 0 });}}} else if (openedTags.length > 0 && token.type === 'punctuation' && token.content === '{' && ( // Ignore `{{`
@@ -135,8 +136,7 @@
           openedTags[openedTags.length - 1].openedBraces--;} else if (token.type !== 'comment') {notTagNorBrace = true;}}if (notTagNorBrace || typeof token === 'string') {if (openedTags.length > 0 && openedTags[openedTags.length - 1].openedBraces === 0) {// Here we are inside a tag, and not inside an XQuery expression.
           // That's plain text: drop any tokens matched.
           var plainText = stringifyToken(token); // And merge text with adjacent text
-          if (i < tokens.length - 1 && (typeof tokens[i + 1] === 'string' || tokens[i + 1].type === 'plain-text')) {plainText += stringifyToken(tokens[i + 1]);tokens.splice(i + 1, 1);}if (i > 0 && (typeof tokens[i - 1] === 'string' || tokens[i - 1].type === 'plain-text')) {plainText = stringifyToken(tokens[i - 1]) + plainText;
-            tokens.splice(i - 1, 1);
+          if (i < tokens.length - 1 && (typeof tokens[i + 1] === 'string' || tokens[i + 1].type === 'plain-text')) {plainText += stringifyToken(tokens[i + 1]);tokens.splice(i + 1, 1);}if (i > 0 && (typeof tokens[i - 1] === 'string' || tokens[i - 1].type === 'plain-text')) {plainText = stringifyToken(tokens[i - 1]) + plainText;tokens.splice(i - 1, 1);
             i--;
           }
 

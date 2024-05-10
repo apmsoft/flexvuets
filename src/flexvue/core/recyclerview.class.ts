@@ -31,10 +31,6 @@ interface Adapter {
     doOnDataChanged(callback: () => void): void;
 }
 
-interface DataItem {
-    [key: string]: any;
-}
-
 export class SimpleAdapter implements Adapter {
     private data: any[];
     private template: Template;
@@ -122,6 +118,7 @@ export class RecyclerView {
     };
     private prevScrollPosition: number = 0;
     private scrollPositionCallback?: (scrollPosition: number, rendered_count: number) => void;
+    private pageSize: number = 50;
 
     constructor(
         container: string | HTMLElement,
@@ -193,7 +190,7 @@ export class RecyclerView {
 
     private handleScroll(): void {
         if (this.isHandlingScroll) {
-            return; // Ignore if already handling scroll
+            return; // 이미 스크롤을 처리하고 있으면 무시
         }
         this.isHandlingScroll = true;
 

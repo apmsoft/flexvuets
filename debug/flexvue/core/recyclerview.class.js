@@ -66,6 +66,7 @@ export class RecyclerView {
     this.isHandlingScroll = false;
     this.renderedItems = new Set();
     this.prevScrollPosition = 0;
+    this.pageSize = 50;
     if (typeof container === 'string') {
       const element = document.querySelector(container);
       if (!element) {
