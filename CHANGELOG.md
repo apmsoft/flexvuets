@@ -3,6 +3,7 @@
 ## [3.1.1]
 
 ### - 2024-05-11
+- RecyclerView class 성능 최적화 추가 작업
 - RecyclerView class 성능 최적화 추가 패치
 
 ### - 2024-05-10

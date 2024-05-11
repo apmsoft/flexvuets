@@ -4,7 +4,7 @@ const onReady = () => {
   ProgressBars.show();
   // 데이터
   const gridData = [];
-  for (let i = 0; i <= 100; i++) {
+  for (let i = 0; i <= 6000; i++) {
     gridData.push({ id: i, gid: 100, title: `Title ${i}` });
   }
   Promise.all([
@@ -22,7 +22,7 @@ const onReady = () => {
     // RecyclerView 인스턴스 생성 및 초기화
     const adapter = new SimpleAdapter(gridData, gridView);
     const recyclerView = new RecyclerView('#gridview', adapter, {
-      itemCount: 8,
+      itemCount: 4,
       scrollCapture: '#fvue--layout--main',
       response: { 0: 2, 640: 2, 768: 3, 1024: 4, 1280: 5, 1536: 6 }
     });

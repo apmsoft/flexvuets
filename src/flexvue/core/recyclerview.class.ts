@@ -28,14 +28,14 @@ interface Adapter {
     clearData(): void;
 
     // 데이터 변화 감지에 따른 콜백
-    doOnDataChanged(callback: () => void): void;
+    // doOnDataChanged(callback: () => void): void;
 }
 
 export class SimpleAdapter implements Adapter {
     private data: any[];
     private template: Template;
     public classlist: string | null;
-    private onDataChanged: () => void = () => {};
+    // private onDataChanged: () => void = () => {};
 
     constructor(data: any[], template: Template, classlist: string | null = null) {
         this.data = data;
@@ -54,7 +54,7 @@ export class SimpleAdapter implements Adapter {
         if (templateViewHolder) {
             view = templateViewHolder.view.cloneNode(true) as HTMLElement;
         } else {
-            const html = this.template.render(this.data[0]);
+            const html = this.template.render((typeof this.data[0] !==undefined) ? this.data[0] : {});
             view = document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
             view.innerHTML = html;
         }
@@ -83,13 +83,13 @@ export class SimpleAdapter implements Adapter {
         } else {
             this.data.push(data);
         }
-        this.onDataChanged();
+        // this.onDataChanged();
     }
 
     removeData(position: number): void {
         if (position >= 0 && position < this.data.length) {
             this.data.splice(position, 1);
-            this.onDataChanged();
+            // this.onDataChanged();
         } else {
             console.error('데이터 제거 위치가 잘못되었습니다.');
         }
@@ -99,9 +99,9 @@ export class SimpleAdapter implements Adapter {
         this.data = [];
     }
 
-    doOnDataChanged(callback: () => void): void {
-        this.onDataChanged = callback;
-    }
+    // doOnDataChanged(callback: () => void): void {
+    //     this.onDataChanged = callback;
+    // }
 }
 
 export class RecyclerView {
@@ -120,6 +120,7 @@ export class RecyclerView {
     };
     private responsive_cnt : number = 0;
     private prevScrollPosition: number = 0;
+    private firsted : boolean = false;
     private scrollPositionCallback?: (scrollPosition: number, rendered_count: number) => void;
 
     constructor(
@@ -155,7 +156,7 @@ export class RecyclerView {
         // 최초 한 번만 호출하여 ViewHolder 생성
         this.calculateInitialRenderItemCount();
         this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
-        this.templateHeight = (this.responsive_cnt > 1) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view);
+        this.templateHeight = Math.floor((this.responsive_cnt > 1) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
         Log.d('templateHeight',this.templateHeight);
         this.templateViewHolder.view.remove();
 
@@ -169,15 +170,14 @@ export class RecyclerView {
         this.onChangedScrollPosition((scrollPosition: number, render_count: number) => {});
     }
 
-    // style margin,padding,border 계산 포함한 높이 계산
+    // style margin,padding 계산 포함한 높이 계산
     private getTotalHeight(element: HTMLElement): number {
         const style = getComputedStyle(element);
         const marginTop = parseFloat(style.marginTop);
         const marginBottom = parseFloat(style.marginBottom);
         const paddingTop = parseFloat(style.paddingTop);
         const paddingBottom = parseFloat(style.paddingBottom);
-        const borderHeight = element.offsetHeight - element.clientHeight;
-        return element.clientHeight + marginTop + marginBottom + paddingTop + paddingBottom + borderHeight;
+        return (element.getBoundingClientRect().height + marginTop + marginBottom + paddingTop + paddingBottom);
     }
 
     private render(): void {
@@ -217,10 +217,10 @@ export class RecyclerView {
         const containerHeight = this.container.clientHeight;
         const itemCount = this.adapter.getItemCount();
         const totalItemsVisible = (this.responsive_cnt > 0) ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-        let startIndex = (this.responsive_cnt > 0) ? Math.floor(scrollPosition / totalItemsVisible) : Math.floor(scrollPosition / this.templateHeight);
-        let endIndex = (this.responsive_cnt > 0) ? Math.min(startIndex + totalItemsVisible, itemCount) : Math.min(startIndex + totalItemsVisible + this.options.itemCount, itemCount);
+        let startIndex = (this.renderedItems.size > 0) ? this.renderedItems.size + 1 : 0;
+        let endIndex = (this.responsive_cnt > 0) ? Math.min(startIndex + totalItemsVisible +this.options.itemCount + this.responsive_cnt, itemCount) : Math.min(startIndex + totalItemsVisible+this.options.itemCount, itemCount);
 
-        if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
+        if (this.firsted && scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
             endIndex = Math.min(endIndex + this.options.itemCount, itemCount);
         }else{
             endIndex = Math.min(endIndex, itemCount);
@@ -240,6 +240,7 @@ export class RecyclerView {
         }
 
         this.isHandlingScroll = false;
+        if(!this.firsted) this.firsted = true;
 
         // 스크롤 위치 콜백 호출
         if (this.scrollPositionCallback) {
