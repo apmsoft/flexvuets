@@ -2,7 +2,7 @@ import { SimpleAdapter, RecyclerView } from "../../flexvue/core/recyclerview.cla
 const onReady = () => {
   // 데이터
   const data = [];
-  for (let i = 0; i <= 100; i++) {
+  for (let i = 0; i <= 6000; i++) {
     data.push({ id: i, name: `Item ${i}` });
   }
   // 템플릿

@@ -61,7 +61,7 @@ class Layout {
 
                         
                         <div class="px-2" >
-                            <ul class="grid grid-cols-1 mt-12 md:grid-cols-3 lg:grid-cols-4 gap-4 h-[70vh]" id="gridview"></ul>
+                            <ul class="grid mt-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 h-[70vh]" id="gridview"></ul>
                         </div>
 
                     </div>

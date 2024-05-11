@@ -1687,41 +1687,41 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
-      dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};
-
-const ItemStatus = {
-  INIT: 1,
-  IDLE: 2,
-  PROCESSING_QUEUED: 9,
-  PROCESSING: 3,
-  PROCESSING_COMPLETE: 5,
-  PROCESSING_ERROR: 6,
-  PROCESSING_REVERT_ERROR: 10,
-  LOADING: 7,
-  LOAD_ERROR: 8
-};
-
-const FileOrigin = {
-  INPUT: 1,
-  LIMBO: 2,
-  LOCAL: 3
-};
-
-const getNonNumeric = (str) => /[^0-9]+/.exec(str);
-
-const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];
-
-const getThousandsSeparator = () => {
-  // Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
+      dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
   // We check against the normal toString output and if they're the same return a comma when decimal separator is a dot
-  const decimalSeparator = getDecimalSeparator();
-  const thousandsStringWithSeparator = 1000.0.toLocaleString();
-  const thousandsStringWithoutSeparator = 1000.0.toString();
-  if (thousandsStringWithSeparator !== thousandsStringWithoutSeparator) {
-    return getNonNumeric(thousandsStringWithSeparator)[0];
-  }
+  const decimalSeparator = getDecimalSeparator();const thousandsStringWithSeparator = 1000.0.toLocaleString();const thousandsStringWithoutSeparator = 1000.0.toString();if (thousandsStringWithSeparator !== thousandsStringWithoutSeparator) {return getNonNumeric(thousandsStringWithSeparator)[0];}
   return decimalSeparator === '.' ? ',' : '.';
 };
 
@@ -7525,6 +7525,36 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7535,40 +7565,10 @@ const getLinks = (dataTransfer) => {
         if (clients.length === 0) {dragNDropObservers.splice(dragNDropObservers.indexOf(observer), 1);forin(routes, (event) => {element.removeEventListener(event, handlers[event], false);});}};} };return observer;};const elementFromPoint = (root, point) => {if (!('elementFromPoint' in root)) {root = document;}return root.elementFromPoint(point.x, point.y);};const isEventTarget = (e, target) => {// get root
   const root = getRootNode(target); // get element at position
   // if root is not actual shadow DOM and does not have elementFromPoint method, use the one on document
-  const elementAtPosition = elementFromPoint(root, { x: e.pageX - window.pageXOffset, y: e.pageY - window.pageYOffset });
-  // test if target is the element or if one of its children is
-  return elementAtPosition === target || target.contains(elementAtPosition);
-};
-
-let initialTarget = null;
-
-const setDropEffect = (dataTransfer, effect) => {
-  // is in try catch as IE11 will throw error if not
-  try {
-    dataTransfer.dropEffect = effect;
-  } catch (e) {}
-};
-
-const dragenter = (root, clients) => (e) => {
-  e.preventDefault();
-
-  initialTarget = e.target;
-
-  clients.forEach((client) => {
-    const { element, onenter } = client;
-
-    if (isEventTarget(e, element)) {
-      client.state = 'enter';
-
-      // fire enter event
-      onenter(eventPosition(e));
-    }
-  });
-};
-
-const dragover = (root, clients) => (e) => {
-  e.preventDefault();
-
+  const elementAtPosition = elementFromPoint(root, { x: e.pageX - window.pageXOffset, y: e.pageY - window.pageYOffset }); // test if target is the element or if one of its children is
+  return elementAtPosition === target || target.contains(elementAtPosition);};let initialTarget = null;const setDropEffect = (dataTransfer, effect) => {// is in try catch as IE11 will throw error if not
+  try {dataTransfer.dropEffect = effect;} catch (e) {}};const dragenter = (root, clients) => (e) => {e.preventDefault();initialTarget = e.target;clients.forEach((client) => {const { element, onenter } = client;if (isEventTarget(e, element)) {client.state = 'enter'; // fire enter event
+        onenter(eventPosition(e));}});};const dragover = (root, clients) => (e) => {e.preventDefault();
   const dataTransfer = e.dataTransfer;
 
   requestDataTransferItems(dataTransfer).then((items) => {

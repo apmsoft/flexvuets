@@ -2,6 +2,9 @@
 
 ## [3.1.1]
 
+### - 2024-05-11
+- RecyclerView class 성능 최적화 추가 패치
+
 ### - 2024-05-10
 - RecyclerView class 메모리 누수 문제 해결 패치 + 리스트뷰 | 그리드뷰, tableview remove
 
