@@ -28983,6 +28983,18 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29089,23 +29101,11 @@ construct:{// Get fx module or create a new one, then animate with given duratio
 animate:function animate(o,ease,delay){return(this.fx||(this.fx=new SVG.FX(this))).animate(o,ease,delay);},delay:function delay(_delay){return(this.fx||(this.fx=new SVG.FX(this))).delay(_delay);},stop:function stop(jumpToEnd,clearQueue){if(this.fx){this.fx.stop(jumpToEnd,clearQueue);}return this;},finish:function finish(){if(this.fx){this.fx.finish();}return this;}}});// MorphObj is used whenever no morphable object is given
 SVG.MorphObj=SVG.invent({create:function create(from,to){// prepare color for morphing
 if(SVG.Color.isColor(to))return new SVG.Color(from).morph(to);// check if we have a list of values
-if(SVG.regex.delimiter.test(from)){
-// prepare path for morphing
+if(SVG.regex.delimiter.test(from)){// prepare path for morphing
 if(SVG.regex.pathLetters.test(from))return new SVG.PathArray(from).morph(to);// prepare value list for morphing
-else return new SVG.Array(from).morph(to);
-}// prepare number for morphing
-
-
+else return new SVG.Array(from).morph(to);}// prepare number for morphing
 if(SVG.regex.numberAndUnit.test(to))return new SVG.Number(from).morph(to);// prepare for plain morphing
-
-this.value=from;
-this.destination=to;
-},
-extend:{
-at:function at(pos,real){
-return real<1?this.value:this.destination;
-},
-valueOf:function valueOf(){
+this.value=from;this.destination=to;},extend:{at:function at(pos,real){return real<1?this.value:this.destination;},valueOf:function valueOf(){
 return this.value;
 }
 }
@@ -29169,6 +29169,24 @@ topParent=topParent.parentNode;
 
 if(topParent!=document)throw new Error('Element not in the dom');
 }else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -29859,30 +29877,12 @@ create:function create(element){if(element){// ensure the presence of a dom elem
 element=typeof element==='string'?document.getElementById(element):element;// If the target is an svg element, use that element as the main wrapper.
 // This allows svg.js to work with svg documents as well.
 if(element.nodeName=='svg'){this.constructor.call(this,element);}else{this.constructor.call(this,SVG.create('svg'));element.appendChild(this.node);this.size('100%','100%');}// set svg element attributes and ensure defs node
-
-this.namespace().defs();
-}
-},
-// Inherit from
-inherit:SVG.Container,
-// Add class methods
-extend:{
-// Add namespaces
-namespace:function namespace(){
-return this.attr({
-xmlns:SVG.ns,
-version:'1.1'
-}).attr('xmlns:xlink',SVG.xlink,SVG.xmlns).attr('xmlns:svgjs',SVG.svgjs,SVG.xmlns);
-},
-// Creates and returns defs element
-defs:function defs(){
-if(!this._defs){
-var defs;// Find or create a defs element in this instance
-
-if(defs=this.node.getElementsByTagName('defs')[0]){
-this._defs=SVG.adopt(defs);
-}else{
-this._defs=new SVG.Defs();
+this.namespace().defs();}},// Inherit from
+inherit:SVG.Container,// Add class methods
+extend:{// Add namespaces
+namespace:function namespace(){return this.attr({xmlns:SVG.ns,version:'1.1'}).attr('xmlns:xlink',SVG.xlink,SVG.xmlns).attr('xmlns:svgjs',SVG.svgjs,SVG.xmlns);},// Creates and returns defs element
+defs:function defs(){if(!this._defs){var defs;// Find or create a defs element in this instance
+if(defs=this.node.getElementsByTagName('defs')[0]){this._defs=SVG.adopt(defs);}else{this._defs=new SVG.Defs();
 }// Make sure the defs node is at the end of the stack
 
 
@@ -29940,6 +29940,12 @@ return clone;
 //
 
 SVG.extend(SVG.Element,{
+
+
+
+
+
+
 
 
 
@@ -30185,15 +30191,9 @@ ry:function ry(_ry){return this.rx(_ry);}});SVG.Ellipse=SVG.invent({// Initializ
 create:'ellipse',// Inherit from
 inherit:SVG.Shape,// Add parent method
 construct:{// Create an ellipse
-ellipse:function ellipse(width,height){return this.put(new SVG.Ellipse()).size(width,height).move(0,0);}}});
-SVG.extend(SVG.Ellipse,SVG.Rect,SVG.FX,{
-// Radius x value
-rx:function rx(_rx2){
-return this.attr('rx',_rx2);
-},
-// Radius y value
-ry:function ry(_ry2){
-return this.attr('ry',_ry2);
+ellipse:function ellipse(width,height){return this.put(new SVG.Ellipse()).size(width,height).move(0,0);}}});SVG.extend(SVG.Ellipse,SVG.Rect,SVG.FX,{// Radius x value
+rx:function rx(_rx2){return this.attr('rx',_rx2);},// Radius y value
+ry:function ry(_ry2){return this.attr('ry',_ry2);
 }
 });// Add common method
 

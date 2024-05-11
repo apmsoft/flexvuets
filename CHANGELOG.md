@@ -2,6 +2,9 @@
 
 ## [3.1.1]
 
+### - 2024-05-12
+- RecyclerView class 소스 코드 업데이트
+
 ### - 2024-05-11
 - RecyclerView class 성능 최적화 추가 작업
 - RecyclerView class 성능 최적화 추가 패치

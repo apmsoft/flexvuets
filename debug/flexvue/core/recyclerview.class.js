@@ -8,7 +8,7 @@ export class SimpleAdapter {
   getItemCount() {
     return this.data.length;
   }
-  onCreateViewHolder(parent, templateViewHolder) {
+  onCreateViewHolder(parent, templateViewHolder, prepend) {
     const htmlTagType = parent.tagName;
     let view;
     if (templateViewHolder) {
@@ -19,7 +19,12 @@ export class SimpleAdapter {
       view = document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
       view.innerHTML = html;
     }
-    parent.appendChild(view);
+    if (prepend) {
+      parent.prepend(view);
+    } else
+    {
+      parent.appendChild(view);
+    }
     return { view };
   }
   onBindViewHolder(holder, position) {
@@ -57,9 +62,9 @@ export class SimpleAdapter {
 }
 export class RecyclerView {
   constructor(container, adapter, options = {}) {
+    var _a;
     this.isHandlingScroll = false;
     this.renderedItems = new Set();
-    this.templateViewHolder = null;
     this.templateHeight = 0;
     this.responsive_cnt = 0;
     this.prevScrollPosition = 0;
@@ -84,7 +89,7 @@ export class RecyclerView {
     this.renderedItems.clear();
     // 최초 한 번만 호출하여 ViewHolder 생성
     this.calculateInitialRenderItemCount();
-    this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
+    this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null, (_a = this.options.prepend) !== null && _a !== void 0 ? _a : false);
     this.templateHeight = Math.floor(this.responsive_cnt > 1 ? this.getTotalHeight(this.templateViewHolder.view) / this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
     Log.d('templateHeight', this.templateHeight);
     this.templateViewHolder.view.remove();
@@ -126,6 +131,7 @@ export class RecyclerView {
     }
   }
   handleScroll() {
+    var _a;
     if (this.isHandlingScroll) {
       return; // 이미 스크롤을 처리 중이면 무시
     }
@@ -137,7 +143,6 @@ export class RecyclerView {
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
     const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-    // let startIndex = (this.responsive_cnt > 0) ? Math.floor(scrollPosition / totalItemsVisible) : Math.floor(scrollPosition / this.templateHeight);
     let startIndex = this.renderedItems.size > 0 ? this.renderedItems.size + 1 : 0;
     let endIndex = this.responsive_cnt > 0 ? Math.min(startIndex + totalItemsVisible + this.options.itemCount + this.responsive_cnt, itemCount) : Math.min(startIndex + totalItemsVisible + this.options.itemCount, itemCount);
     if (this.firsted && scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
@@ -148,14 +153,8 @@ export class RecyclerView {
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
-        const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder);
+        const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder, (_a = this.options.prepend) !== null && _a !== void 0 ? _a : false);
         this.adapter.onBindViewHolder(holder, i);
-        if (this.options.prepend) {
-          this.container.prepend(holder.view);
-        } else
-        {
-          this.container.appendChild(holder.view);
-        }
         this.renderedItems.add(i);
       }
     }
