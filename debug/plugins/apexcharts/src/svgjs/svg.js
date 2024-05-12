@@ -1447,6 +1447,62 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1569,42 +1625,17 @@
       attr: function (a, v, relative) {// apply attributes individually
         if (typeof a === 'object') {for (var key in a) {this.attr(key, a[key]);}} else {this.add(a, v, 'attrs');}return this;}, // Add animatable plot
       plot: function (a, b, c, d) {// Lines can be plotted with 4 arguments
-        if (arguments.length == 4) {return this.plot([a, b, c, d]);}return this.add('plot', new (this.target().morphArray)(a));} });SVG.Box = SVG.invent({
-    create: function (x, y, width, height) {
-      if (typeof x === 'object' && !(x instanceof SVG.Element)) {
-        // chromes getBoundingClientRect has no x and y property
-        return SVG.Box.call(this, x.left != null ? x.left : x.x, x.top != null ? x.top : x.y, x.width, x.height);
-      } else if (arguments.length == 4) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-      }
+        if (arguments.length == 4) {return this.plot([a, b, c, d]);}return this.add('plot', new (this.target().morphArray)(a));} });SVG.Box = SVG.invent({ create: function (x, y, width, height) {if (typeof x === 'object' && !(x instanceof SVG.Element)) {// chromes getBoundingClientRect has no x and y property
+          return SVG.Box.call(this, x.left != null ? x.left : x.x, x.top != null ? x.top : x.y, x.width, x.height);} else if (arguments.length == 4) {this.x = x;this.y = y;this.width = width;this.height = height;} // add center, right, bottom...
+        fullBox(this);} });SVG.BBox = SVG.invent({ // Initialize
+      create: function (element) {SVG.Box.apply(this, [].slice.call(arguments)); // get values if element is given
+        if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
+          try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
+              var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
 
-      // add center, right, bottom...
-      fullBox(this);
-    }
-  });
 
-  SVG.BBox = SVG.invent({
-    // Initialize
-    create: function (element) {
-      SVG.Box.apply(this, [].slice.call(arguments));
 
-      // get values if element is given
-      if (element instanceof SVG.Element) {
-        var box;
 
-        // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
-        try {
-          if (!document.documentElement.contains) {
-            // This is IE - it does not support contains() for top-level SVGs
-            var topParent = element.node;
-            while (topParent.parentNode) {
-              topParent = topParent.parentNode;
-            }
-            if (topParent != document) throw new Error('Element not in the dom');
-          } else {
 
 
 
@@ -2262,17 +2293,70 @@
 
 
 
-            // the element is NOT in the dom, throw error
-            // disabling the check below which fixes issue #76
-            // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
-          } // find native bbox
-          box = element.node.getBBox();} catch (e) {if (element instanceof SVG.Shape) {if (!SVG.parser.draw) {// fixes apexcharts/vue-apexcharts #14
-              SVG.prepare();}var clone = element.clone(SVG.parser.draw.instance).show();if (clone && clone.node && typeof clone.node.getBBox === 'function') {// this check fixes jest unit tests
-              box = clone.node.getBBox();}if (clone && typeof clone.remove === 'function') {clone.remove();}} else {box = { x: element.node.clientLeft, y: element.node.clientTop, width: element.node.clientWidth, height: element.node.clientHeight };}}SVG.Box.call(this, box);}}, // Define ancestor
-    inherit: SVG.Box, // Define Parent
-    parent: SVG.Element, // Constructor
-    construct: { // Get bounding box
-      bbox: function () {return new SVG.BBox(this);} } });SVG.BBox.prototype.constructor = SVG.BBox;SVG.Matrix = SVG.invent({ // Initialize
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              // the element is NOT in the dom, throw error
+              // disabling the check below which fixes issue #76
+              // if (!document.documentElement.contains(element.node)) throw new Exception('Element not in the dom')
+            } // find native bbox
+            box = element.node.getBBox();} catch (e) {if (element instanceof SVG.Shape) {if (!SVG.parser.draw) {// fixes apexcharts/vue-apexcharts #14
+                SVG.prepare();}var clone = element.clone(SVG.parser.draw.instance).show();if (clone && clone.node && typeof clone.node.getBBox === 'function') {// this check fixes jest unit tests
+                box = clone.node.getBBox();}if (clone && typeof clone.remove === 'function') {clone.remove();}} else {box = { x: element.node.clientLeft, y: element.node.clientTop, width: element.node.clientWidth, height: element.node.clientHeight };}}SVG.Box.call(this, box);}}, // Define ancestor
+      inherit: SVG.Box, // Define Parent
+      parent: SVG.Element, // Constructor
+      construct: { // Get bounding box
+        bbox: function () {return new SVG.BBox(this);} } });SVG.BBox.prototype.constructor = SVG.BBox;SVG.Matrix = SVG.invent({ // Initialize
       create: function (source) {var base = arrayToMatrix([1, 0, 0, 1, 0, 0]); // ensure source as object
         source = source === null ? base : source instanceof SVG.Element ? source.matrixify() : typeof source === 'string' ? arrayToMatrix(source.split(SVG.regex.delimiter).map(parseFloat)) : arguments.length == 6 ? arrayToMatrix([].slice.call(arguments)) : Array.isArray(source) ? arrayToMatrix(source) : source && typeof source === 'object' ? source : base; // merge source
         for (var i = abcdef.length - 1; i >= 0; --i) {this[abcdef[i]] = source[abcdef[i]] != null ? source[abcdef[i]] : base[abcdef[i]];}}, // Add methods
@@ -2410,45 +2494,14 @@
             if (defs = this.node.getElementsByTagName('defs')[0]) {this._defs = SVG.adopt(defs);} else {this._defs = new SVG.Defs();} // Make sure the defs node is at the end of the stack
             this.node.appendChild(this._defs.node);}return this._defs;}, // custom parent method
         parent: function () {if (!this.node.parentNode || this.node.parentNode.nodeName == '#document') return null;return this.node.parentNode;}, // Removes the doc from the DOM
-        remove: function () {if (this.parent()) {this.parent().removeChild(this.node);}return this;
-        },
-        clear: function () {
-          // remove children
-          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);}
-
-          // remove defs reference
-          delete this._defs;
-
-          // add back parser
-          if (SVG.parser.draw && !SVG.parser.draw.parentNode) {this.node.appendChild(SVG.parser.draw);}
-
-          return this;
-        },
-        clone: function (parent) {
-          // write dom data to the dom so the clone can pickup the data
-          this.writeDataToDom();
-
-          // get reference to node
-          var node = this.node;
-
-          // clone element and assign new id
-          var clone = assignNewId(node.cloneNode(true));
-
-          // insert the clone in the given parent or after myself
-          if (parent) {
-            (parent.node || parent).appendChild(clone.node);
-          } else {
-            node.parentNode.insertBefore(clone.node, node.nextSibling);
-          }
-
-          return clone;
-        }
-      }
-
-    });
-
-  // ### This module adds backward / forward functionality to elements.
-
+        remove: function () {if (this.parent()) {this.parent().removeChild(this.node);}return this;}, clear: function () {// remove children
+          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);} // remove defs reference
+          delete this._defs; // add back parser
+          if (SVG.parser.draw && !SVG.parser.draw.parentNode) {this.node.appendChild(SVG.parser.draw);}return this;}, clone: function (parent) {// write dom data to the dom so the clone can pickup the data
+          this.writeDataToDom(); // get reference to node
+          var node = this.node; // clone element and assign new id
+          var clone = assignNewId(node.cloneNode(true)); // insert the clone in the given parent or after myself
+          if (parent) {(parent.node || parent).appendChild(clone.node);} else {node.parentNode.insertBefore(clone.node, node.nextSibling);}return clone;} } }); // ### This module adds backward / forward functionality to elements.
   //
   SVG.extend(SVG.Element, {
 
@@ -2647,33 +2700,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Get all siblings, including myself
-  });SVG.Gradient = SVG.invent({ // Initialize node
+      // Get all siblings, including myself
+    });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
         this.type = type;}, // Inherit from
       inherit: SVG.Container, // Add class methods
@@ -2736,46 +2764,18 @@
       construct: { // Create an ellipse
         ellipse: function (width, height) {return this.put(new SVG.Ellipse()).size(width, height).move(0, 0);} } });SVG.extend(SVG.Ellipse, SVG.Rect, SVG.FX, { // Radius x value
       rx: function (rx) {return this.attr('rx', rx);}, // Radius y value
-      ry: function (ry) {
-        return this.attr('ry', ry);
+      ry: function (ry) {return this.attr('ry', ry);} }); // Add common method
+  SVG.extend(SVG.Circle, SVG.Ellipse, { // Move over x-axis
+      x: function (x) {return x == null ? this.cx() - this.rx() : this.cx(x + this.rx());}, // Move over y-axis
+      y: function (y) {return y == null ? this.cy() - this.ry() : this.cy(y + this.ry());}, // Move by center over x-axis
+      cx: function (x) {return x == null ? this.attr('cx') : this.attr('cx', x);}, // Move by center over y-axis
+      cy: function (y) {return y == null ? this.attr('cy') : this.attr('cy', y);}, // Set width of element
+      width: function (width) {return width == null ? this.rx() * 2 : this.rx(new SVG.Number(width).divide(2));}, // Set height of element
+      height: function (height) {return height == null ? this.ry() * 2 : this.ry(new SVG.Number(height).divide(2));}, // Custom size function
+      size: function (width, height) {var p = proportionalSize(this, width, height);return this.rx(new SVG.Number(p.width).divide(2)).
+        ry(new SVG.Number(p.height).divide(2));
       }
     });
-
-  // Add common method
-  SVG.extend(SVG.Circle, SVG.Ellipse, {
-    // Move over x-axis
-    x: function (x) {
-      return x == null ? this.cx() - this.rx() : this.cx(x + this.rx());
-    },
-    // Move over y-axis
-    y: function (y) {
-      return y == null ? this.cy() - this.ry() : this.cy(y + this.ry());
-    },
-    // Move by center over x-axis
-    cx: function (x) {
-      return x == null ? this.attr('cx') : this.attr('cx', x);
-    },
-    // Move by center over y-axis
-    cy: function (y) {
-      return y == null ? this.attr('cy') : this.attr('cy', y);
-    },
-    // Set width of element
-    width: function (width) {
-      return width == null ? this.rx() * 2 : this.rx(new SVG.Number(width).divide(2));
-    },
-    // Set height of element
-    height: function (height) {
-      return height == null ? this.ry() * 2 : this.ry(new SVG.Number(height).divide(2));
-    },
-    // Custom size function
-    size: function (width, height) {
-      var p = proportionalSize(this, width, height);
-
-      return this.
-      rx(new SVG.Number(p.width).divide(2)).
-      ry(new SVG.Number(p.height).divide(2));
-    }
-  });
   SVG.Line = SVG.invent({
     // Initialize node
     create: 'line',

@@ -29053,6 +29053,62 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29174,6 +29230,34 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30102,62 +30186,6 @@ SVG.extend(SVG.Element,{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30232,40 +30260,12 @@ width:function width(_width2){return _width2==null?this.rx()*2:this.rx(new SVG.N
 height:function height(_height2){return _height2==null?this.ry()*2:this.ry(new SVG.Number(_height2).divide(2));},// Custom size function
 size:function size(width,height){var p=proportionalSize(this,width,height);return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));}});SVG.Line=SVG.invent({// Initialize node
 create:'line',// Inherit from
-inherit:SVG.Shape,
-// Add class methods
-extend:{
-// Get array
-array:function array(){
-return new SVG.PointArray([[this.attr('x1'),this.attr('y1')],[this.attr('x2'),this.attr('y2')]]);
-},
-// Overwrite native plot() method
-plot:function plot(x1,y1,x2,y2){
-if(x1==null){
-return this.array();
-}else if(typeof y1!=='undefined'){
-x1={
-x1:x1,
-y1:y1,
-x2:x2,
-y2:y2
-};
-}else{
-x1=new SVG.PointArray(x1).toLine();
-}
-
-return this.attr(x1);
-},
-// Move by left top corner
-move:function move(x,y){
-return this.attr(this.array().move(x,y).toLine());
-},
-// Set element size to given width and height
-size:function size(width,height){
-var p=proportionalSize(this,width,height);
-return this.attr(this.array().size(p.width,p.height).toLine());
-}
-},
+inherit:SVG.Shape,// Add class methods
+extend:{// Get array
+array:function array(){return new SVG.PointArray([[this.attr('x1'),this.attr('y1')],[this.attr('x2'),this.attr('y2')]]);},// Overwrite native plot() method
+plot:function plot(x1,y1,x2,y2){if(x1==null){return this.array();}else if(typeof y1!=='undefined'){x1={x1:x1,y1:y1,x2:x2,y2:y2};}else{x1=new SVG.PointArray(x1).toLine();}return this.attr(x1);},// Move by left top corner
+move:function move(x,y){return this.attr(this.array().move(x,y).toLine());},// Set element size to given width and height
+size:function size(width,height){var p=proportionalSize(this,width,height);return this.attr(this.array().size(p.width,p.height).toLine());}},
 // Add parent method
 construct:{
 // Create a line element

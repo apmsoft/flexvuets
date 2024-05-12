@@ -1,12 +1,14 @@
 export class SimpleAdapter {
   constructor(data, template, classlist = null) {
     this.onDataChanged = () => {};
+    this.total = 0;
     this.data = data;
     this.template = template;
     this.classlist = classlist;
+    this.total = this.data.length;
   }
   getItemCount() {
-    return this.data.length;
+    return this.total;
   }
   onCreateViewHolder(parent, templateViewHolder) {
     const htmlTagType = parent.tagName;
@@ -35,16 +37,19 @@ export class SimpleAdapter {
   appendData(data) {
     if (Array.isArray(data)) {
       this.data.push(...data);
+      this.total = this.total + data.length;
     } else
     {
       this.data.push(data);
+      this.total = this.total + 1;
     }
-    // this.onDataChanged();
+    this.onDataChanged();
   }
   removeData(position) {
     if (position >= 0 && position < this.data.length) {
       this.data.splice(position, 1);
-      // this.onDataChanged();
+      this.total = this.total - 1;
+      this.onDataChanged();
     } else
     {
       console.error('데이터 제거 위치가 잘못되었습니다.');
@@ -52,6 +57,7 @@ export class SimpleAdapter {
   }
   clearData() {
     this.data = [];
+    this.total = 0;
   }
   doOnDataChanged(callback) {
     this.onDataChanged = callback;
@@ -87,7 +93,7 @@ export class RecyclerView {
     this.calculateInitialRenderItemCount();
     this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
     this.container.append(this.templateViewHolder.view);
-    this.templateHeight = Math.floor(this.responsive_cnt > 1 ? this.getTotalHeight(this.templateViewHolder.view) / this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
+    this.templateHeight = Math.floor(this.responsive_cnt > 0 ? this.getTotalHeight(this.templateViewHolder.view) / this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
     Log.d('templateHeight', this.templateHeight);
     this.templateViewHolder.view.remove();
     this.render();
@@ -150,7 +156,9 @@ export class RecyclerView {
     {
       const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
       Log.d('totalItemsVisible', totalItemsVisible);
-      endIndex = Math.min(startIndex + totalItemsVisible, itemCount);
+      const visibleHeight = totalItemsVisible * this.templateHeight;
+      endIndex = containerHeight <= visibleHeight ? Math.min(startIndex + totalItemsVisible + 2, itemCount) : Math.min(startIndex + totalItemsVisible, itemCount);
+      Log.d('endIndex', endIndex);
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {

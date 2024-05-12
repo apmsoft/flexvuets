@@ -9,7 +9,6 @@ interface Adapter {
     getItemCount(): number;
 
     // 새로운 ViewHolder를 생성하는 메서드.
-    // RecyclerView가 새로운 아이템을 표시할 때마다 호출.
     // @parent: ViewHolder의 부모 요소로 사용될 HTMLElement.
     onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder | null): ViewHolder;
 
@@ -36,15 +35,17 @@ export class SimpleAdapter implements Adapter {
     private template: Template;
     public classlist: string | null;
     private onDataChanged: () => void = () => {};
+    private total : number = 0;
 
     constructor(data: any[], template: Template, classlist: string | null = null) {
         this.data = data;
         this.template = template;
         this.classlist = classlist;
+        this.total = this.data.length;
     }
 
     getItemCount(): number {
-        return this.data.length;
+        return this.total;
     }
 
     onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder): ViewHolder {
@@ -78,16 +79,19 @@ export class SimpleAdapter implements Adapter {
     appendData(data: any | any[]): void {
         if (Array.isArray(data)) {
             this.data.push(...data);
+            this.total = this.total + data.length;
         } else {
             this.data.push(data);
+            this.total = this.total + 1;
         }
-        // this.onDataChanged();
+        this.onDataChanged();
     }
 
     removeData(position: number): void {
         if (position >= 0 && position < this.data.length) {
             this.data.splice(position, 1);
-            // this.onDataChanged();
+            this.total = this.total - 1;
+            this.onDataChanged();
         } else {
             console.error('데이터 제거 위치가 잘못되었습니다.');
         }
@@ -95,6 +99,7 @@ export class SimpleAdapter implements Adapter {
 
     clearData() : void{
         this.data = [];
+        this.total = 0;
     }
 
     doOnDataChanged(callback: () => void): void {
@@ -155,7 +160,7 @@ export class RecyclerView {
         this.calculateInitialRenderItemCount();
         this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
         this.container.append(this.templateViewHolder.view);
-        this.templateHeight = Math.floor((this.responsive_cnt > 1) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
+        this.templateHeight = Math.floor((this.responsive_cnt > 0) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
         Log.d('templateHeight',this.templateHeight);
         this.templateViewHolder.view.remove();
 
@@ -226,8 +231,10 @@ export class RecyclerView {
             }
         }else{
             const totalItemsVisible = (this.responsive_cnt > 0) ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-            Log.d('totalItemsVisible',totalItemsVisible);
-            endIndex = Math.min(startIndex + totalItemsVisible, itemCount);
+            // Log.d('totalItemsVisible',totalItemsVisible);
+            const visibleHeight : number = totalItemsVisible * this.templateHeight;
+            endIndex = (containerHeight <= visibleHeight) ? Math.min(startIndex + totalItemsVisible + 2, itemCount) : Math.min(startIndex + totalItemsVisible, itemCount);
+            // Log.d('endIndex',endIndex);
         }
 
         for (let i = startIndex; i < endIndex; i++)

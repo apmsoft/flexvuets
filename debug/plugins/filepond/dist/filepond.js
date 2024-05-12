@@ -10341,6 +10341,34 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10364,42 +10392,14 @@
                 if (filterElement && !allowsTransfer) {setDropEffect(dataTransfer, 'none');return;} // dragging
                 ondrag(eventPosition(e));} else {// should be over an element to drop
                 if (filterElement && !overDropTarget) {setDropEffect(dataTransfer, 'none');} // might have just left this client?
-                if (client.state) {client.state = null;onexit(eventPosition(e));}}});});};};var drop = function drop(root, clients) {return function (e) {e.preventDefault();var dataTransfer = e.dataTransfer;requestDataTransferItems(dataTransfer).then(function (items) {
-        clients.forEach(function (client) {
-          var filterElement = client.filterElement,
-            element = client.element,
-            ondrop = client.ondrop,
-            onexit = client.onexit,
-            allowdrop = client.allowdrop;
-
+                if (client.state) {client.state = null;onexit(eventPosition(e));}}});});};};var drop = function drop(root, clients) {return function (e) {e.preventDefault();var dataTransfer = e.dataTransfer;requestDataTransferItems(dataTransfer).then(function (items) {clients.forEach(function (client) {var filterElement = client.filterElement,element = client.element,ondrop = client.ondrop,onexit = client.onexit,allowdrop = client.allowdrop;client.state = null; // if we're filtering on element we need to be over the element to drop
+              if (filterElement && !isEventTarget(e, element)) return; // no transfer for this client
+              if (!allowdrop(items)) return onexit(eventPosition(e)); // we can drop these items on this client
+              ondrop(eventPosition(e), items);});});};};var dragleave = function dragleave(root, clients) {return function (e) {if (initialTarget !== e.target) {return;}clients.forEach(function (client) {var onexit = client.onexit;
           client.state = null;
 
-          // if we're filtering on element we need to be over the element to drop
-          if (filterElement && !isEventTarget(e, element)) return;
-
-          // no transfer for this client
-          if (!allowdrop(items)) return onexit(eventPosition(e));
-
-          // we can drop these items on this client
-          ondrop(eventPosition(e), items);
+          onexit(eventPosition(e));
         });
-      });
-    };
-  };
-
-  var dragleave = function dragleave(root, clients) {
-    return function (e) {
-      if (initialTarget !== e.target) {
-        return;
-      }
-
-      clients.forEach(function (client) {
-        var onexit = client.onexit;
-
-        client.state = null;
-
-        onexit(eventPosition(e));
-      });
     };
   };
 

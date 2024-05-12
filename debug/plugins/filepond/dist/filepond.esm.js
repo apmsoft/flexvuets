@@ -1790,6 +1790,34 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1811,17 +1839,12 @@ const defaultOptions = { // the id to add to the root element
   name: ['filepond', Type.STRING], // disable the field
   disabled: [false, Type.BOOLEAN], // classname to put on wrapper
   className: [null, Type.STRING], // is the field required
-  required: [false, Type.BOOLEAN],
-  // Allow media capture when value is set
-  captureMethod: [null, Type.STRING],
-  // - "camera", "microphone" or "camcorder",
+  required: [false, Type.BOOLEAN], // Allow media capture when value is set
+  captureMethod: [null, Type.STRING], // - "camera", "microphone" or "camcorder",
   // - Does not work with multiple on apple devices
   // - If set, acceptedFileTypes must be made to match with media wildcard "image/*", "audio/*" or "video/*"
-
   // sync `acceptedFileTypes` property with `accept` attribute
-  allowSyncAcceptAttribute: [true, Type.BOOLEAN],
-
-  // Feature toggles
+  allowSyncAcceptAttribute: [true, Type.BOOLEAN], // Feature toggles
   allowDrop: [true, Type.BOOLEAN], // Allow dropping of files
   allowBrowse: [true, Type.BOOLEAN], // Allow browsing the file system
   allowPaste: [true, Type.BOOLEAN], // Allow pasting files
@@ -1832,57 +1855,34 @@ const defaultOptions = { // the id to add to the root element
   allowProcess: [true, Type.BOOLEAN], // Allows user to process a file, when set to false, this removes the file upload button
   allowReorder: [false, Type.BOOLEAN], // Allow reordering of files
   allowDirectoriesOnly: [false, Type.BOOLEAN], // Allow only selecting directories with browse (no support for filtering dnd at this point)
-
   // Try store file if `server` not set
-  storeAsFile: [false, Type.BOOLEAN],
-
-  // Revert mode
+  storeAsFile: [false, Type.BOOLEAN], // Revert mode
   forceRevert: [false, Type.BOOLEAN], // Set to 'force' to require the file to be reverted before removal
-
   // Input requirements
   maxFiles: [null, Type.INT], // Max number of files
   checkValidity: [false, Type.BOOLEAN], // Enables custom validity messages
-
   // Where to put file
   itemInsertLocationFreedom: [true, Type.BOOLEAN], // Set to false to always add items to begin or end of list
   itemInsertLocation: ['before', Type.STRING], // Default index in list to add items that have been dropped at the top of the list
-  itemInsertInterval: [75, Type.INT],
-
-  // Drag 'n Drop related
+  itemInsertInterval: [75, Type.INT], // Drag 'n Drop related
   dropOnPage: [false, Type.BOOLEAN], // Allow dropping of files anywhere on page (prevents browser from opening file if dropped outside of Up)
   dropOnElement: [true, Type.BOOLEAN], // Drop needs to happen on element (set to false to also load drops outside of Up)
   dropValidation: [false, Type.BOOLEAN], // Enable or disable validating files on drop
-  ignoredFiles: [['.ds_store', 'thumbs.db', 'desktop.ini'], Type.ARRAY],
-
-  // Upload related
+  ignoredFiles: [['.ds_store', 'thumbs.db', 'desktop.ini'], Type.ARRAY], // Upload related
   instantUpload: [true, Type.BOOLEAN], // Should upload files immediately on drop
   maxParallelUploads: [2, Type.INT], // Maximum files to upload in parallel
   allowMinimumUploadDuration: [true, Type.BOOLEAN], // if true uploads take at least 750 ms, this ensures the user sees the upload progress giving trust the upload actually happened
-
   // Chunks
   chunkUploads: [false, Type.BOOLEAN], // Enable chunked uploads
   chunkForce: [false, Type.BOOLEAN], // Force use of chunk uploads even for files smaller than chunk size
   chunkSize: [5000000, Type.INT], // Size of chunks (5MB default)
   chunkRetryDelays: [[500, 1000, 3000], Type.ARRAY], // Amount of times to retry upload of a chunk when it fails
-
   // The server api end points to use for uploading (see docs)
-  server: [null, Type.SERVER_API],
-
-  // File size calculations, can set to 1024, this is only used for display, properties use file size base 1000
-  fileSizeBase: [1000, Type.INT],
-
-  // Labels and status messages
-  labelFileSizeBytes: ['bytes', Type.STRING],
-  labelFileSizeKilobytes: ['KB', Type.STRING],
-  labelFileSizeMegabytes: ['MB', Type.STRING],
-  labelFileSizeGigabytes: ['GB', Type.STRING],
-
-  labelDecimalSeparator: [getDecimalSeparator(), Type.STRING], // Default is locale separator
+  server: [null, Type.SERVER_API], // File size calculations, can set to 1024, this is only used for display, properties use file size base 1000
+  fileSizeBase: [1000, Type.INT], // Labels and status messages
+  labelFileSizeBytes: ['bytes', Type.STRING], labelFileSizeKilobytes: ['KB', Type.STRING], labelFileSizeMegabytes: ['MB', Type.STRING], labelFileSizeGigabytes: ['GB', Type.STRING], labelDecimalSeparator: [getDecimalSeparator(), Type.STRING], // Default is locale separator
   labelThousandsSeparator: [getThousandsSeparator(), Type.STRING], // Default is locale separator
-
-  labelIdle: [
-  'Drag & Drop your files or <span class="filepond--label-action">Browse</span>',
-  Type.STRING],
+  labelIdle: ['Drag & Drop your files or <span class="filepond--label-action">Browse</span>', Type.STRING],
 
   labelInvalidField: ['Field contains invalid files', Type.STRING],
   labelFileWaitingForSize: ['Waiting for size', Type.STRING],
@@ -7628,6 +7628,34 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7654,41 +7682,13 @@ const getLinks = (dataTransfer) => {
             if (client.state) {client.state = null;onexit(eventPosition(e));}}});});};const drop = (root, clients) => (e) => {e.preventDefault();const dataTransfer = e.dataTransfer;requestDataTransferItems(dataTransfer).then((items) => {clients.forEach((client) => {const { filterElement, element, ondrop, onexit, allowdrop } = client;client.state = null; // if we're filtering on element we need to be over the element to drop
           if (filterElement && !isEventTarget(e, element)) return; // no transfer for this client
           if (!allowdrop(items)) return onexit(eventPosition(e)); // we can drop these items on this client
-          ondrop(eventPosition(e), items);});});};const dragleave = (root, clients) => (e) => {if (initialTarget !== e.target) {return;}
-  clients.forEach((client) => {
-    const { onexit } = client;
-
-    client.state = null;
-
-    onexit(eventPosition(e));
-  });
-};
-
-const createHopper = (scope, validateItems, options) => {
-  // is now hopper scope
-  scope.classList.add('filepond--hopper');
-
-  // shortcuts
-  const { catchesDropsOnPage, requiresDropOnElement, filterItems = (items) => items } = options;
-
-  // create a dnd client
-  const client = createDragNDropClient(
-    scope,
-    catchesDropsOnPage ? document.documentElement : scope,
-    requiresDropOnElement
-  );
-
-  // current client state
-  let lastState = '';
-  let currentState = '';
-
-  // determines if a file may be dropped
-  client.allowdrop = (items) => {
-    // TODO: if we can, throw error to indicate the items cannot by dropped
-
-    return validateItems(filterItems(items));
-  };
-
+          ondrop(eventPosition(e), items);});});};const dragleave = (root, clients) => (e) => {if (initialTarget !== e.target) {return;}clients.forEach((client) => {const { onexit } = client;client.state = null;onexit(eventPosition(e));});};const createHopper = (scope, validateItems, options) => {// is now hopper scope
+  scope.classList.add('filepond--hopper'); // shortcuts
+  const { catchesDropsOnPage, requiresDropOnElement, filterItems = (items) => items } = options; // create a dnd client
+  const client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement); // current client state
+  let lastState = '';let currentState = ''; // determines if a file may be dropped
+  client.allowdrop = (items) => {// TODO: if we can, throw error to indicate the items cannot by dropped
+    return validateItems(filterItems(items));};
   client.ondrop = (position, items) => {
     const filteredItems = filterItems(items);
 
