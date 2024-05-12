@@ -103,12 +103,14 @@ export class RecyclerView {
   }
   // style margin,padding 계산 포함한 높이 계산
   getTotalHeight(element) {
+    var _a;
     const style = getComputedStyle(element);
+    const height = (_a = parseFloat(style.height)) !== null && _a !== void 0 ? _a : element.getBoundingClientRect().height;
     const marginTop = parseFloat(style.marginTop);
     const marginBottom = parseFloat(style.marginBottom);
     const paddingTop = parseFloat(style.paddingTop);
     const paddingBottom = parseFloat(style.paddingBottom);
-    return element.getBoundingClientRect().height + marginTop + marginBottom + paddingTop + paddingBottom;
+    return height + marginTop + marginBottom + paddingTop + paddingBottom;
   }
   render() {
     this.calculateInitialRenderItemCount();
@@ -142,14 +144,18 @@ export class RecyclerView {
     }
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
-    const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-    let startIndex = this.renderedItems.size > 0 ? this.renderedItems.size + 1 : 0;
-    let endIndex = this.responsive_cnt > 0 ? Math.min(startIndex + totalItemsVisible + this.options.itemCount + this.responsive_cnt, itemCount) : Math.min(startIndex + totalItemsVisible + this.options.itemCount, itemCount);
-    if (this.firsted && scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-      endIndex = Math.min(endIndex + this.options.itemCount, itemCount);
+    let startIndex = this.renderedItems.size > 0 ? this.renderedItems.size : 0;
+    let endIndex = 0;
+    if (this.firsted) {
+      if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
+        Log.d(this.isHandlingScroll);
+        endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
+      }
     } else
     {
-      endIndex = Math.min(endIndex, itemCount);
+      const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
+      Log.d('totalItemsVisible', totalItemsVisible);
+      endIndex = Math.min(startIndex + totalItemsVisible, itemCount);
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
@@ -159,6 +165,7 @@ export class RecyclerView {
       }
     }
     this.isHandlingScroll = false;
+    Log.d(this.isHandlingScroll);
     if (!this.firsted)
     this.firsted = true;
     // 스크롤 위치 콜백 호출

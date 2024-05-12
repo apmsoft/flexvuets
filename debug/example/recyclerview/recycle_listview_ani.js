@@ -18,7 +18,7 @@ const onReady = () => {
   const listView = new ListView();
   // RecyclerView 인스턴스 생성 및 초기화
   const adapter = new SimpleAdapter(data, listView, 'animate__animated animate__fadeInUp');
-  const recyclerView = new RecyclerView('#left', adapter, { itemCount: 3 });
+  const recyclerView = new RecyclerView('#left', adapter, { itemCount: 10 });
   recyclerView.addEventListener('click', '.item', (el) => {
     // 애니메이션 클래스 추가
     el.classList.add('animate__animated', 'animate__bounce');

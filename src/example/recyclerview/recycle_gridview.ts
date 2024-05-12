@@ -35,7 +35,7 @@ const onReady = () : void =>
         const adapter = new SimpleAdapter(gridData, gridView);
         const recyclerView = new RecyclerView('#gridview', adapter,
         {
-            itemCount : 4,
+            itemCount : 8,
             scrollCapture: '#fvue--layout--main', 
             response: { 0: 2, 640:2, 768:3, 1024:4, 1280:5, 1536:6}
         });

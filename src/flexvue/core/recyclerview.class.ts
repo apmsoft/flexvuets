@@ -11,7 +11,7 @@ interface Adapter {
     // 새로운 ViewHolder를 생성하는 메서드.
     // RecyclerView가 새로운 아이템을 표시할 때마다 호출.
     // @parent: ViewHolder의 부모 요소로 사용될 HTMLElement.
-    onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder | null, prepend : boolean): ViewHolder;
+    onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder | null): ViewHolder;
 
     // 지정된 위치의 데이터를 ViewHolder에 바인딩
     // @holder: 데이터를 표시할 ViewHolder 객체
@@ -47,7 +47,7 @@ export class SimpleAdapter implements Adapter {
         return this.data.length;
     }
 
-    onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder, prepend : boolean): ViewHolder {
+    onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder): ViewHolder {
         const htmlTagType = parent.tagName;
         let view: HTMLElement;
 
@@ -57,12 +57,6 @@ export class SimpleAdapter implements Adapter {
             const html = this.template.render((typeof this.data[0] !==undefined) ? this.data[0] : {});
             view = document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
             view.innerHTML = html;
-        }
-
-        if (prepend) {
-            parent.prepend(view);
-        } else {
-            parent.appendChild(view);
         }
         return { view };
     }
@@ -159,7 +153,7 @@ export class RecyclerView {
 
         // 최초 한 번만 호출하여 ViewHolder 생성
         this.calculateInitialRenderItemCount();
-        this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null, this.options.prepend ?? false);
+        this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
         this.templateHeight = Math.floor((this.responsive_cnt > 1) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
         Log.d('templateHeight',this.templateHeight);
         this.templateViewHolder.view.remove();
@@ -177,11 +171,12 @@ export class RecyclerView {
     // style margin,padding 계산 포함한 높이 계산
     private getTotalHeight(element: HTMLElement): number {
         const style = getComputedStyle(element);
+        const height = parseFloat(style.height) ?? element.getBoundingClientRect().height;
         const marginTop = parseFloat(style.marginTop);
         const marginBottom = parseFloat(style.marginBottom);
         const paddingTop = parseFloat(style.paddingTop);
         const paddingBottom = parseFloat(style.paddingBottom);
-        return (element.getBoundingClientRect().height + marginTop + marginBottom + paddingTop + paddingBottom);
+        return (height + marginTop + marginBottom + paddingTop + paddingBottom);
     }
 
     private render(): void {
@@ -220,20 +215,29 @@ export class RecyclerView {
 
         const containerHeight = this.container.clientHeight;
         const itemCount = this.adapter.getItemCount();
-        const totalItemsVisible = (this.responsive_cnt > 0) ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-        let startIndex = (this.renderedItems.size > 0) ? this.renderedItems.size + 1 : 0;
-        let endIndex = (this.responsive_cnt > 0) ? Math.min(startIndex + totalItemsVisible +this.options.itemCount + this.responsive_cnt, itemCount) : Math.min(startIndex + totalItemsVisible+this.options.itemCount, itemCount);
+        let startIndex = (this.renderedItems.size > 0) ? this.renderedItems.size : 0;
+        let endIndex = 0;
 
-        if (this.firsted && scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-            endIndex = Math.min(endIndex + this.options.itemCount, itemCount);
+        if (this.firsted) {
+            if(scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer){
+                endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
+            }
         }else{
-            endIndex = Math.min(endIndex, itemCount);
+            const totalItemsVisible = (this.responsive_cnt > 0) ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
+            // Log.d('totalItemsVisible',totalItemsVisible);
+            endIndex = Math.min(startIndex + totalItemsVisible, itemCount);
         }
 
-        for (let i = startIndex; i < endIndex; i++) {
+        for (let i = startIndex; i < endIndex; i++)
+        {
             if (!this.renderedItems.has(i)) {
-                const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder, this.options.prepend ?? false);
+                const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder);
                 this.adapter.onBindViewHolder(holder, i);
+                if (this.options.prepend) {
+                    this.container.prepend(holder.view);
+                } else {
+                    this.container.appendChild(holder.view);
+                }
                 this.renderedItems.add(i);
             }
         }

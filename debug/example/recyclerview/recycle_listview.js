@@ -23,7 +23,7 @@ const onReady = () => {
     then((listView) => {
       // RecyclerView 인스턴스 생성 및 초기화
       const adapter = new SimpleAdapter(data, listView);
-      const recyclerView = new RecyclerView('#listview', adapter, { itemCount: 2, scrollCapture: '#fvue--layout--main' });
+      const recyclerView = new RecyclerView('#listview', adapter, { itemCount: 10, scrollCapture: '#fvue--layout--main' });
       recyclerView.addEventListener('click', '.item', (el) => {
         const id = el.dataset.id;
         alert(id);

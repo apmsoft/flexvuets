@@ -1389,6 +1389,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1500,51 +1522,29 @@
             target.matrix(at);}return this;}, // adds an once-callback which is called at a specific position and never again
         once: function (pos, fn, isEased) {var c = this.last();if (!isEased) pos = c.ease(pos);c.once[pos] = fn;return this;}, _callStart: function () {setTimeout(function () {this.start();}.bind(this), 0);return this;} }, parent: SVG.Element, // Add method to parent elements
       construct: { // Get fx module or create a new one, then animate with given duration and ease
-        animate: function (o, ease, delay) {return (this.fx || (this.fx = new SVG.FX(this))).animate(o, ease, delay);}, delay: function (delay) {return (this.fx || (this.fx = new SVG.FX(this))).delay(delay);}, stop: function (jumpToEnd, clearQueue) {if (this.fx) {this.fx.stop(jumpToEnd, clearQueue);}
-          return this;
+        animate: function (o, ease, delay) {return (this.fx || (this.fx = new SVG.FX(this))).animate(o, ease, delay);}, delay: function (delay) {return (this.fx || (this.fx = new SVG.FX(this))).delay(delay);}, stop: function (jumpToEnd, clearQueue) {if (this.fx) {this.fx.stop(jumpToEnd, clearQueue);}return this;}, finish: function () {if (this.fx) {this.fx.finish();}return this;} } }); // MorphObj is used whenever no morphable object is given
+  SVG.MorphObj = SVG.invent({ create: function (from, to) {// prepare color for morphing
+        if (SVG.Color.isColor(to)) return new SVG.Color(from).morph(to); // check if we have a list of values
+        if (SVG.regex.delimiter.test(from)) {// prepare path for morphing
+          if (SVG.regex.pathLetters.test(from)) return new SVG.PathArray(from).morph(to); // prepare value list for morphing
+          else return new SVG.Array(from).morph(to);} // prepare number for morphing
+        if (SVG.regex.numberAndUnit.test(to)) return new SVG.Number(from).morph(to);
+        // prepare for plain morphing
+        this.value = from;
+        this.destination = to;
+      },
+
+      extend: {
+        at: function (pos, real) {
+          return real < 1 ? this.value : this.destination;
         },
-        finish: function () {
-          if (this.fx) {this.fx.finish();}
 
-          return this;
+        valueOf: function () {
+          return this.value;
         }
-
       }
 
     });
-
-  // MorphObj is used whenever no morphable object is given
-  SVG.MorphObj = SVG.invent({
-
-    create: function (from, to) {
-      // prepare color for morphing
-      if (SVG.Color.isColor(to)) return new SVG.Color(from).morph(to);
-      // check if we have a list of values
-      if (SVG.regex.delimiter.test(from)) {
-        // prepare path for morphing
-        if (SVG.regex.pathLetters.test(from)) return new SVG.PathArray(from).morph(to);
-        // prepare value list for morphing
-        else return new SVG.Array(from).morph(to);
-      }
-      // prepare number for morphing
-      if (SVG.regex.numberAndUnit.test(to)) return new SVG.Number(from).morph(to);
-
-      // prepare for plain morphing
-      this.value = from;
-      this.destination = to;
-    },
-
-    extend: {
-      at: function (pos, real) {
-        return real < 1 ? this.value : this.destination;
-      },
-
-      valueOf: function () {
-        return this.value;
-      }
-    }
-
-  });
 
   SVG.extend(SVG.FX, {
     // Add animatable attributes
@@ -1605,6 +1605,39 @@
             }
             if (topParent != document) throw new Error('Element not in the dom');
           } else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2302,50 +2335,17 @@
       on: function (event, listener, binding, options) {SVG.on(this.node, event, listener, binding, options);return this;}, // Unbind event from listener
       off: function (event, listener) {SVG.off(this.node, event, listener);return this;}, // Fire given event
       fire: function (event, data) {// Dispatch event
-        if (event instanceof window.Event) {this.node.dispatchEvent(event);
-        } else {
-          this.node.dispatchEvent(event = new SVG.CustomEvent(event, { detail: data, cancelable: true }));
-        }
-
-        this._event = event;
-        return this;
-      },
-      event: function () {
-        return this._event;
+        if (event instanceof window.Event) {this.node.dispatchEvent(event);} else {this.node.dispatchEvent(event = new SVG.CustomEvent(event, { detail: data, cancelable: true }));}this._event = event;return this;}, event: function () {return this._event;} });SVG.Defs = SVG.invent({ // Initialize node
+      create: 'defs', // Inherit from
+      inherit: SVG.Container });SVG.G = SVG.invent({ // Initialize node
+      create: 'g', // Inherit from
+      inherit: SVG.Container, // Add class methods
+      extend: { // Move over x-axis
+        x: function (x) {return x == null ? this.transform('x') : this.transform({ x: x - this.x() }, true);} }, // Add parent method
+      construct: { // Create a group element
+        group: function () {return this.put(new SVG.G());}
       }
     });
-
-  SVG.Defs = SVG.invent({
-    // Initialize node
-    create: 'defs',
-
-    // Inherit from
-    inherit: SVG.Container
-
-  });
-  SVG.G = SVG.invent({
-    // Initialize node
-    create: 'g',
-
-    // Inherit from
-    inherit: SVG.Container,
-
-    // Add class methods
-    extend: {
-      // Move over x-axis
-      x: function (x) {
-        return x == null ? this.transform('x') : this.transform({ x: x - this.x() }, true);
-      }
-    },
-
-    // Add parent method
-    construct: {
-      // Create a group element
-      group: function () {
-        return this.put(new SVG.G());
-      }
-    }
-  });
 
   SVG.Doc = SVG.invent({
     // Initialize node
@@ -2643,6 +2643,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     // Get all siblings, including myself
   });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2699,20 +2710,9 @@
       create: 'circle', // Inherit from
       inherit: SVG.Shape, // Add parent method
       construct: { // Create circle element, based on ellipse
-        circle: function (size) {return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0, 0);}
-      }
-    });
-
-  SVG.extend(SVG.Circle, SVG.FX, {
-    // Radius x value
-    rx: function (rx) {
-      return this.attr('r', rx);
-    },
-    // Alias radius x value
-    ry: function (ry) {
-      return this.rx(ry);
-    }
-  });
+        circle: function (size) {return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0, 0);} } });SVG.extend(SVG.Circle, SVG.FX, { // Radius x value
+      rx: function (rx) {return this.attr('r', rx);}, // Alias radius x value
+      ry: function (ry) {return this.rx(ry);} });
 
   SVG.Ellipse = SVG.invent({
     // Initialize node
