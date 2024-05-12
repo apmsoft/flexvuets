@@ -29051,6 +29051,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29172,6 +29174,7 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
 
 
 
@@ -30155,8 +30158,6 @@ SVG.extend(SVG.Element,{
 
 
 
-
-
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30230,8 +30231,7 @@ cy:function cy(y){return y==null?this.attr('cy'):this.attr('cy',y);},// Set widt
 width:function width(_width2){return _width2==null?this.rx()*2:this.rx(new SVG.Number(_width2).divide(2));},// Set height of element
 height:function height(_height2){return _height2==null?this.ry()*2:this.ry(new SVG.Number(_height2).divide(2));},// Custom size function
 size:function size(width,height){var p=proportionalSize(this,width,height);return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));}});SVG.Line=SVG.invent({// Initialize node
-create:'line',
-// Inherit from
+create:'line',// Inherit from
 inherit:SVG.Shape,
 // Add class methods
 extend:{

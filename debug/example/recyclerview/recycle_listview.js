@@ -36,8 +36,8 @@ const onReady = () => {
       const btnReset = document.querySelector('#reset');
       btnReset.addEventListener('click', () => {
         // 비우기
-        // adapter.clearData();
-        // recyclerView.clear();
+        adapter.clearData();
+        recyclerView.clear();
         // run
         doList(page + 1);
       });

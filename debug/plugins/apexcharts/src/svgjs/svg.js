@@ -1445,6 +1445,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1567,9 +1569,7 @@
       attr: function (a, v, relative) {// apply attributes individually
         if (typeof a === 'object') {for (var key in a) {this.attr(key, a[key]);}} else {this.add(a, v, 'attrs');}return this;}, // Add animatable plot
       plot: function (a, b, c, d) {// Lines can be plotted with 4 arguments
-        if (arguments.length == 4) {return this.plot([a, b, c, d]);}return this.add('plot', new (this.target().morphArray)(a));} });
-
-  SVG.Box = SVG.invent({
+        if (arguments.length == 4) {return this.plot([a, b, c, d]);}return this.add('plot', new (this.target().morphArray)(a));} });SVG.Box = SVG.invent({
     create: function (x, y, width, height) {
       if (typeof x === 'object' && !(x instanceof SVG.Element)) {
         // chromes getBoundingClientRect has no x and y property
@@ -1605,6 +1605,9 @@
             }
             if (topParent != document) throw new Error('Element not in the dom');
           } else {
+
+
+
 
 
 
@@ -2407,10 +2410,7 @@
             if (defs = this.node.getElementsByTagName('defs')[0]) {this._defs = SVG.adopt(defs);} else {this._defs = new SVG.Defs();} // Make sure the defs node is at the end of the stack
             this.node.appendChild(this._defs.node);}return this._defs;}, // custom parent method
         parent: function () {if (!this.node.parentNode || this.node.parentNode.nodeName == '#document') return null;return this.node.parentNode;}, // Removes the doc from the DOM
-        remove: function () {if (this.parent()) {this.parent().removeChild(this.node);
-          }
-
-          return this;
+        remove: function () {if (this.parent()) {this.parent().removeChild(this.node);}return this;
         },
         clear: function () {
           // remove children
@@ -2451,6 +2451,7 @@
 
   //
   SVG.extend(SVG.Element, {
+
 
 
 
@@ -2734,8 +2735,7 @@
       inherit: SVG.Shape, // Add parent method
       construct: { // Create an ellipse
         ellipse: function (width, height) {return this.put(new SVG.Ellipse()).size(width, height).move(0, 0);} } });SVG.extend(SVG.Ellipse, SVG.Rect, SVG.FX, { // Radius x value
-      rx: function (rx) {return this.attr('rx', rx);},
-      // Radius y value
+      rx: function (rx) {return this.attr('rx', rx);}, // Radius y value
       ry: function (ry) {
         return this.attr('ry', ry);
       }

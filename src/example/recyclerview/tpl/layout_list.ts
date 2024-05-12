@@ -67,7 +67,7 @@ class Layout implements Template
                         <div>
                             <button class="btn p-2" type="button" id="addButton">데이터 append</button>
                             <button class="btn p-2" type="button" id="removeButton">데이터 삭제 (1번)</button>
-                            <button class="btn p-2" type="button" id="reset">데이터 append</button>
+                            <button class="btn p-2" type="button" id="reset">데이터 reset</button>
                         </div>
 
                         <div class="px-2 h-[70vh]" id="listview">

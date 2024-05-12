@@ -54,8 +54,8 @@ const onReady = () : void =>
             const btnReset = document.querySelector<HTMLButtonElement>('#reset')!;
             btnReset.addEventListener('click', ()=>{
                 // 비우기
-                // adapter.clearData();
-                // recyclerView.clear();
+                adapter.clearData();
+                recyclerView.clear();
 
                 // run
                 doList(page + 1);
