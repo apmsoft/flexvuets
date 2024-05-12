@@ -1411,6 +1411,40 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1528,46 +1562,12 @@
         if (SVG.regex.delimiter.test(from)) {// prepare path for morphing
           if (SVG.regex.pathLetters.test(from)) return new SVG.PathArray(from).morph(to); // prepare value list for morphing
           else return new SVG.Array(from).morph(to);} // prepare number for morphing
-        if (SVG.regex.numberAndUnit.test(to)) return new SVG.Number(from).morph(to);
-        // prepare for plain morphing
-        this.value = from;
-        this.destination = to;
-      },
-
-      extend: {
-        at: function (pos, real) {
-          return real < 1 ? this.value : this.destination;
-        },
-
-        valueOf: function () {
-          return this.value;
-        }
-      }
-
-    });
-
-  SVG.extend(SVG.FX, {
-    // Add animatable attributes
-    attr: function (a, v, relative) {
-      // apply attributes individually
-      if (typeof a === 'object') {
-        for (var key in a) {this.attr(key, a[key]);}
-      } else {
-        this.add(a, v, 'attrs');
-      }
-
-      return this;
-    },
-    // Add animatable plot
-    plot: function (a, b, c, d) {
-      // Lines can be plotted with 4 arguments
-      if (arguments.length == 4) {
-        return this.plot([a, b, c, d]);
-      }
-
-      return this.add('plot', new (this.target().morphArray)(a));
-    }
-  });
+        if (SVG.regex.numberAndUnit.test(to)) return new SVG.Number(from).morph(to); // prepare for plain morphing
+        this.value = from;this.destination = to;}, extend: { at: function (pos, real) {return real < 1 ? this.value : this.destination;}, valueOf: function () {return this.value;} } });SVG.extend(SVG.FX, { // Add animatable attributes
+      attr: function (a, v, relative) {// apply attributes individually
+        if (typeof a === 'object') {for (var key in a) {this.attr(key, a[key]);}} else {this.add(a, v, 'attrs');}return this;}, // Add animatable plot
+      plot: function (a, b, c, d) {// Lines can be plotted with 4 arguments
+        if (arguments.length == 4) {return this.plot([a, b, c, d]);}return this.add('plot', new (this.target().morphArray)(a));} });
 
   SVG.Box = SVG.invent({
     create: function (x, y, width, height) {
@@ -1605,6 +1605,57 @@
             }
             if (topParent != document) throw new Error('Element not in the dom');
           } else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2343,114 +2394,80 @@
       extend: { // Move over x-axis
         x: function (x) {return x == null ? this.transform('x') : this.transform({ x: x - this.x() }, true);} }, // Add parent method
       construct: { // Create a group element
-        group: function () {return this.put(new SVG.G());}
+        group: function () {return this.put(new SVG.G());} } });SVG.Doc = SVG.invent({ // Initialize node
+      create: function (element) {if (element) {// ensure the presence of a dom element
+          element = typeof element === 'string' ? document.getElementById(element) : element; // If the target is an svg element, use that element as the main wrapper.
+          // This allows svg.js to work with svg documents as well.
+          if (element.nodeName == 'svg') {this.constructor.call(this, element);} else {this.constructor.call(this, SVG.create('svg'));element.appendChild(this.node);this.size('100%', '100%');} // set svg element attributes and ensure defs node
+          this.namespace().defs();}}, // Inherit from
+      inherit: SVG.Container, // Add class methods
+      extend: { // Add namespaces
+        namespace: function () {return this.attr({ xmlns: SVG.ns, version: '1.1' }).attr('xmlns:xlink', SVG.xlink, SVG.xmlns).attr('xmlns:svgjs', SVG.svgjs, SVG.xmlns);}, // Creates and returns defs element
+        defs: function () {if (!this._defs) {var defs; // Find or create a defs element in this instance
+            if (defs = this.node.getElementsByTagName('defs')[0]) {this._defs = SVG.adopt(defs);} else {this._defs = new SVG.Defs();} // Make sure the defs node is at the end of the stack
+            this.node.appendChild(this._defs.node);}return this._defs;}, // custom parent method
+        parent: function () {if (!this.node.parentNode || this.node.parentNode.nodeName == '#document') return null;return this.node.parentNode;}, // Removes the doc from the DOM
+        remove: function () {if (this.parent()) {this.parent().removeChild(this.node);
+          }
+
+          return this;
+        },
+        clear: function () {
+          // remove children
+          while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);}
+
+          // remove defs reference
+          delete this._defs;
+
+          // add back parser
+          if (SVG.parser.draw && !SVG.parser.draw.parentNode) {this.node.appendChild(SVG.parser.draw);}
+
+          return this;
+        },
+        clone: function (parent) {
+          // write dom data to the dom so the clone can pickup the data
+          this.writeDataToDom();
+
+          // get reference to node
+          var node = this.node;
+
+          // clone element and assign new id
+          var clone = assignNewId(node.cloneNode(true));
+
+          // insert the clone in the given parent or after myself
+          if (parent) {
+            (parent.node || parent).appendChild(clone.node);
+          } else {
+            node.parentNode.insertBefore(clone.node, node.nextSibling);
+          }
+
+          return clone;
+        }
       }
+
     });
-
-  SVG.Doc = SVG.invent({
-    // Initialize node
-    create: function (element) {
-      if (element) {
-        // ensure the presence of a dom element
-        element = typeof element === 'string' ?
-        document.getElementById(element) :
-        element;
-
-        // If the target is an svg element, use that element as the main wrapper.
-        // This allows svg.js to work with svg documents as well.
-        if (element.nodeName == 'svg') {
-          this.constructor.call(this, element);
-        } else {
-          this.constructor.call(this, SVG.create('svg'));
-          element.appendChild(this.node);
-          this.size('100%', '100%');
-        }
-
-        // set svg element attributes and ensure defs node
-        this.namespace().defs();
-      }
-    },
-
-    // Inherit from
-    inherit: SVG.Container,
-
-    // Add class methods
-    extend: {
-      // Add namespaces
-      namespace: function () {
-        return this.
-        attr({ xmlns: SVG.ns, version: '1.1' }).
-        attr('xmlns:xlink', SVG.xlink, SVG.xmlns).
-        attr('xmlns:svgjs', SVG.svgjs, SVG.xmlns);
-      },
-      // Creates and returns defs element
-      defs: function () {
-        if (!this._defs) {
-          var defs;
-
-          // Find or create a defs element in this instance
-          if (defs = this.node.getElementsByTagName('defs')[0]) {this._defs = SVG.adopt(defs);} else {this._defs = new SVG.Defs();}
-
-          // Make sure the defs node is at the end of the stack
-          this.node.appendChild(this._defs.node);
-        }
-
-        return this._defs;
-      },
-      // custom parent method
-      parent: function () {
-        if (!this.node.parentNode || this.node.parentNode.nodeName == '#document') return null;
-        return this.node.parentNode;
-      },
-
-
-      // Removes the doc from the DOM
-      remove: function () {
-        if (this.parent()) {
-          this.parent().removeChild(this.node);
-        }
-
-        return this;
-      },
-      clear: function () {
-        // remove children
-        while (this.node.hasChildNodes()) {this.node.removeChild(this.node.lastChild);}
-
-        // remove defs reference
-        delete this._defs;
-
-        // add back parser
-        if (SVG.parser.draw && !SVG.parser.draw.parentNode) {this.node.appendChild(SVG.parser.draw);}
-
-        return this;
-      },
-      clone: function (parent) {
-        // write dom data to the dom so the clone can pickup the data
-        this.writeDataToDom();
-
-        // get reference to node
-        var node = this.node;
-
-        // clone element and assign new id
-        var clone = assignNewId(node.cloneNode(true));
-
-        // insert the clone in the given parent or after myself
-        if (parent) {
-          (parent.node || parent).appendChild(clone.node);
-        } else {
-          node.parentNode.insertBefore(clone.node, node.nextSibling);
-        }
-
-        return clone;
-      }
-    }
-
-  });
 
   // ### This module adds backward / forward functionality to elements.
 
   //
   SVG.extend(SVG.Element, {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2712,34 +2729,17 @@
       construct: { // Create circle element, based on ellipse
         circle: function (size) {return this.put(new SVG.Circle()).rx(new SVG.Number(size).divide(2)).move(0, 0);} } });SVG.extend(SVG.Circle, SVG.FX, { // Radius x value
       rx: function (rx) {return this.attr('r', rx);}, // Alias radius x value
-      ry: function (ry) {return this.rx(ry);} });
-
-  SVG.Ellipse = SVG.invent({
-    // Initialize node
-    create: 'ellipse',
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add parent method
-    construct: {
-      // Create an ellipse
-      ellipse: function (width, height) {
-        return this.put(new SVG.Ellipse()).size(width, height).move(0, 0);
+      ry: function (ry) {return this.rx(ry);} });SVG.Ellipse = SVG.invent({ // Initialize node
+      create: 'ellipse', // Inherit from
+      inherit: SVG.Shape, // Add parent method
+      construct: { // Create an ellipse
+        ellipse: function (width, height) {return this.put(new SVG.Ellipse()).size(width, height).move(0, 0);} } });SVG.extend(SVG.Ellipse, SVG.Rect, SVG.FX, { // Radius x value
+      rx: function (rx) {return this.attr('rx', rx);},
+      // Radius y value
+      ry: function (ry) {
+        return this.attr('ry', ry);
       }
-    }
-  });
-
-  SVG.extend(SVG.Ellipse, SVG.Rect, SVG.FX, {
-    // Radius x value
-    rx: function (rx) {
-      return this.attr('rx', rx);
-    },
-    // Radius y value
-    ry: function (ry) {
-      return this.attr('ry', ry);
-    }
-  });
+    });
 
   // Add common method
   SVG.extend(SVG.Circle, SVG.Ellipse, {

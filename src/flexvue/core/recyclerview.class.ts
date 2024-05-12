@@ -28,14 +28,14 @@ interface Adapter {
     clearData(): void;
 
     // 데이터 변화 감지에 따른 콜백
-    // doOnDataChanged(callback: () => void): void;
+    doOnDataChanged(callback: () => void): void;
 }
 
 export class SimpleAdapter implements Adapter {
     private data: any[];
     private template: Template;
     public classlist: string | null;
-    // private onDataChanged: () => void = () => {};
+    private onDataChanged: () => void = () => {};
 
     constructor(data: any[], template: Template, classlist: string | null = null) {
         this.data = data;
@@ -97,9 +97,9 @@ export class SimpleAdapter implements Adapter {
         this.data = [];
     }
 
-    // doOnDataChanged(callback: () => void): void {
-    //     this.onDataChanged = callback;
-    // }
+    doOnDataChanged(callback: () => void): void {
+        this.onDataChanged = callback;
+    }
 }
 
 export class RecyclerView {
@@ -154,6 +154,7 @@ export class RecyclerView {
         // 최초 한 번만 호출하여 ViewHolder 생성
         this.calculateInitialRenderItemCount();
         this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
+        this.container.append(this.templateViewHolder.view);
         this.templateHeight = Math.floor((this.responsive_cnt > 1) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
         Log.d('templateHeight',this.templateHeight);
         this.templateViewHolder.view.remove();
@@ -162,16 +163,17 @@ export class RecyclerView {
         this.scrollCaptureElement.addEventListener('scroll', this.handleScroll.bind(this));
         window.addEventListener('resize', this.handleResize.bind(this));
 
-        // this.adapter.doOnDataChanged(() => {
-        //     this.render();
-        // });
+        this.adapter.doOnDataChanged(() => {
+            this.render();
+        });
         this.onChangedScrollPosition((scrollPosition: number, render_count: number) => {});
     }
 
     // style margin,padding 계산 포함한 높이 계산
     private getTotalHeight(element: HTMLElement): number {
         const style = getComputedStyle(element);
-        const height = parseFloat(style.height) ?? element.getBoundingClientRect().height;
+        const parsedHeight = parseFloat(style.height);
+        const height = (!isNaN(parsedHeight) && parsedHeight > 1) ? parsedHeight : element.getBoundingClientRect().height;
         const marginTop = parseFloat(style.marginTop);
         const marginBottom = parseFloat(style.marginBottom);
         const paddingTop = parseFloat(style.paddingTop);
@@ -224,7 +226,7 @@ export class RecyclerView {
             }
         }else{
             const totalItemsVisible = (this.responsive_cnt > 0) ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-            // Log.d('totalItemsVisible',totalItemsVisible);
+            Log.d('totalItemsVisible',totalItemsVisible);
             endIndex = Math.min(startIndex + totalItemsVisible, itemCount);
         }
 

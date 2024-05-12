@@ -1,6 +1,6 @@
 export class SimpleAdapter {
-  // private onDataChanged: () => void = () => {};
   constructor(data, template, classlist = null) {
+    this.onDataChanged = () => {};
     this.data = data;
     this.template = template;
     this.classlist = classlist;
@@ -8,7 +8,7 @@ export class SimpleAdapter {
   getItemCount() {
     return this.data.length;
   }
-  onCreateViewHolder(parent, templateViewHolder, prepend) {
+  onCreateViewHolder(parent, templateViewHolder) {
     const htmlTagType = parent.tagName;
     let view;
     if (templateViewHolder) {
@@ -18,12 +18,6 @@ export class SimpleAdapter {
       const html = this.template.render(typeof this.data[0] !== undefined ? this.data[0] : {});
       view = document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
       view.innerHTML = html;
-    }
-    if (prepend) {
-      parent.prepend(view);
-    } else
-    {
-      parent.appendChild(view);
     }
     return { view };
   }
@@ -59,10 +53,12 @@ export class SimpleAdapter {
   clearData() {
     this.data = [];
   }
+  doOnDataChanged(callback) {
+    this.onDataChanged = callback;
+  }
 }
 export class RecyclerView {
   constructor(container, adapter, options = {}) {
-    var _a;
     this.isHandlingScroll = false;
     this.renderedItems = new Set();
     this.templateHeight = 0;
@@ -89,23 +85,24 @@ export class RecyclerView {
     this.renderedItems.clear();
     // 최초 한 번만 호출하여 ViewHolder 생성
     this.calculateInitialRenderItemCount();
-    this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null, (_a = this.options.prepend) !== null && _a !== void 0 ? _a : false);
+    this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
+    this.container.append(this.templateViewHolder.view);
     this.templateHeight = Math.floor(this.responsive_cnt > 1 ? this.getTotalHeight(this.templateViewHolder.view) / this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
     Log.d('templateHeight', this.templateHeight);
     this.templateViewHolder.view.remove();
     this.render();
     this.scrollCaptureElement.addEventListener('scroll', this.handleScroll.bind(this));
     window.addEventListener('resize', this.handleResize.bind(this));
-    // this.adapter.doOnDataChanged(() => {
-    //     this.render();
-    // });
+    this.adapter.doOnDataChanged(() => {
+      this.render();
+    });
     this.onChangedScrollPosition((scrollPosition, render_count) => {});
   }
   // style margin,padding 계산 포함한 높이 계산
   getTotalHeight(element) {
-    var _a;
     const style = getComputedStyle(element);
-    const height = (_a = parseFloat(style.height)) !== null && _a !== void 0 ? _a : element.getBoundingClientRect().height;
+    const parsedHeight = parseFloat(style.height);
+    const height = !isNaN(parsedHeight) && parsedHeight > 1 ? parsedHeight : element.getBoundingClientRect().height;
     const marginTop = parseFloat(style.marginTop);
     const marginBottom = parseFloat(style.marginBottom);
     const paddingTop = parseFloat(style.paddingTop);
@@ -133,7 +130,6 @@ export class RecyclerView {
     }
   }
   handleScroll() {
-    var _a;
     if (this.isHandlingScroll) {
       return; // 이미 스크롤을 처리 중이면 무시
     }
@@ -148,7 +144,6 @@ export class RecyclerView {
     let endIndex = 0;
     if (this.firsted) {
       if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
-        Log.d(this.isHandlingScroll);
         endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
       }
     } else
@@ -159,13 +154,18 @@ export class RecyclerView {
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
-        const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder, (_a = this.options.prepend) !== null && _a !== void 0 ? _a : false);
+        const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder);
         this.adapter.onBindViewHolder(holder, i);
+        if (this.options.prepend) {
+          this.container.prepend(holder.view);
+        } else
+        {
+          this.container.appendChild(holder.view);
+        }
         this.renderedItems.add(i);
       }
     }
     this.isHandlingScroll = false;
-    Log.d(this.isHandlingScroll);
     if (!this.firsted)
     this.firsted = true;
     // 스크롤 위치 콜백 호출

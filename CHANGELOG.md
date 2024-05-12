@@ -3,7 +3,7 @@
 ## [3.1.1]
 
 ### - 2024-05-12
-- RecyclerView class 소스 및 출력 갯수 버그 패치 및 고도화 완성
+- RecyclerView class 소스 및 출력 갯수 버그 패치 및 고도화 완성, 스크롤 item 갯수 출력 고도화
 
 ### - 2024-05-11
 - RecyclerView class 성능 최적화 추가 작업

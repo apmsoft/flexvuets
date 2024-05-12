@@ -29017,6 +29017,40 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29131,44 +29165,61 @@ this.value=from;this.destination=to;},extend:{at:function at(pos,real){return re
 attr:function attr(a,v,relative){// apply attributes individually
 if(_typeof(a)==='object'){for(var key in a){this.attr(key,a[key]);}}else{this.add(a,v,'attrs');}return this;},// Add animatable plot
 plot:function plot(a,b,c,d){// Lines can be plotted with 4 arguments
-if(arguments.length==4){return this.plot([a,b,c,d]);}return this.add('plot',new(this.target().morphArray)(a));
-}
-});
-SVG.Box=SVG.invent({
-create:function create(x,y,width,height){
-if(_typeof(x)==='object'&&!(x instanceof SVG.Element)){
-// chromes getBoundingClientRect has no x and y property
-return SVG.Box.call(this,x.left!=null?x.left:x.x,x.top!=null?x.top:x.y,x.width,x.height);
-}else if(arguments.length==4){
-this.x=x;
-this.y=y;
-this.width=width;
-this.height=height;
-}// add center, right, bottom...
+if(arguments.length==4){return this.plot([a,b,c,d]);}return this.add('plot',new(this.target().morphArray)(a));}});SVG.Box=SVG.invent({create:function create(x,y,width,height){if(_typeof(x)==='object'&&!(x instanceof SVG.Element)){// chromes getBoundingClientRect has no x and y property
+return SVG.Box.call(this,x.left!=null?x.left:x.x,x.top!=null?x.top:x.y,x.width,x.height);}else if(arguments.length==4){this.x=x;this.y=y;this.width=width;this.height=height;}// add center, right, bottom...
+fullBox(this);}});SVG.BBox=SVG.invent({// Initialize
+create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// get values if element is given
+if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
+try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
+var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
 
 
-fullBox(this);
-}
-});
-SVG.BBox=SVG.invent({
-// Initialize
-create:function create(element){
-SVG.Box.apply(this,[].slice.call(arguments));// get values if element is given
 
-if(element instanceof SVG.Element){
-var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 
-try{
-if(!document.documentElement.contains){
-// This is IE - it does not support contains() for top-level SVGs
-var topParent=element.node;
 
-while(topParent.parentNode){
-topParent=topParent.parentNode;
-}
 
-if(topParent!=document)throw new Error('Element not in the dom');
-}else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -29924,44 +29975,10 @@ delete this._defs;// add back parser
 if(SVG.parser.draw&&!SVG.parser.draw.parentNode){this.node.appendChild(SVG.parser.draw);}return this;},clone:function clone(parent){// write dom data to the dom so the clone can pickup the data
 this.writeDataToDom();// get reference to node
 var node=this.node;// clone element and assign new id
-
 var clone=assignNewId(node.cloneNode(true));// insert the clone in the given parent or after myself
-
-if(parent){
-(parent.node||parent).appendChild(clone.node);
-}else{
-node.parentNode.insertBefore(clone.node,node.nextSibling);
-}
-
-return clone;
-}
-}
-});// ### This module adds backward / forward functionality to elements.
+if(parent){(parent.node||parent).appendChild(clone.node);}else{node.parentNode.insertBefore(clone.node,node.nextSibling);}return clone;}}});// ### This module adds backward / forward functionality to elements.
 //
-
 SVG.extend(SVG.Element,{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -30208,28 +30225,11 @@ ry:function ry(_ry2){return this.attr('ry',_ry2);}});// Add common method
 SVG.extend(SVG.Circle,SVG.Ellipse,{// Move over x-axis
 x:function x(_x3){return _x3==null?this.cx()-this.rx():this.cx(_x3+this.rx());},// Move over y-axis
 y:function y(_y2){return _y2==null?this.cy()-this.ry():this.cy(_y2+this.ry());},// Move by center over x-axis
-cx:function cx(x){return x==null?this.attr('cx'):this.attr('cx',x);
-},
-// Move by center over y-axis
-cy:function cy(y){
-return y==null?this.attr('cy'):this.attr('cy',y);
-},
-// Set width of element
-width:function width(_width2){
-return _width2==null?this.rx()*2:this.rx(new SVG.Number(_width2).divide(2));
-},
-// Set height of element
-height:function height(_height2){
-return _height2==null?this.ry()*2:this.ry(new SVG.Number(_height2).divide(2));
-},
-// Custom size function
-size:function size(width,height){
-var p=proportionalSize(this,width,height);
-return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));
-}
-});
-SVG.Line=SVG.invent({
-// Initialize node
+cx:function cx(x){return x==null?this.attr('cx'):this.attr('cx',x);},// Move by center over y-axis
+cy:function cy(y){return y==null?this.attr('cy'):this.attr('cy',y);},// Set width of element
+width:function width(_width2){return _width2==null?this.rx()*2:this.rx(new SVG.Number(_width2).divide(2));},// Set height of element
+height:function height(_height2){return _height2==null?this.ry()*2:this.ry(new SVG.Number(_height2).divide(2));},// Custom size function
+size:function size(width,height){var p=proportionalSize(this,width,height);return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));}});SVG.Line=SVG.invent({// Initialize node
 create:'line',
 // Inherit from
 inherit:SVG.Shape,
