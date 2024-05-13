@@ -46,7 +46,7 @@ class ComponentActivity
             // 체크박스 all
             document.querySelector<HTMLInputElement>('#chkall')!.addEventListener('click', function(){
                 let _checked = this.checked;
-                document.querySelectorAll<HTMLInputElement>('chkid').forEach((el) =>{
+                document.querySelectorAll<HTMLInputElement>('.chkid').forEach((el) =>{
                     if(_checked){
                         el.checked = true;
                     }else{
@@ -59,7 +59,7 @@ class ComponentActivity
             document.querySelector<HTMLInputElement>('#btn-remove-data')!.addEventListener('click', function()
             {
                 let chks : string[] = [];
-                document.querySelectorAll<HTMLInputElement>('chkid')!.forEach((el) =>{
+                document.querySelectorAll<HTMLInputElement>('.chkid')!.forEach((el) =>{
                     if(el.checked){
                         chks.push(el.value);
                     }

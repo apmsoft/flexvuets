@@ -29,7 +29,7 @@ class Template implements InterfaceTemplate
                             <tr>
                                 <th>
                                     <label>
-                                        <input type="checkbox" class="checkbox" name="chkall" id="chkall">
+                                        <input type="checkbox" class="checkbox chkid" name="chkall" id="chkall">
                                     </label>
                                 </th>
                                 <th>성명</th>

@@ -2,6 +2,9 @@
 
 ## [3.1.1]
 
+### - 2024-05-13
+- t1 example manager checkbox all bug 수정
+
 ### - 2024-05-12
 - RecyclerView 초기 데이터 갯수가 딱 맞게 떨어질 경우 스크롤발생하지 않는 문제 해결
 - RecyclerView 데이터 리셋 테스트 및 오타 수정

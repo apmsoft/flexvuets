@@ -34,7 +34,7 @@ class ComponentActivity {
       // 체크박스 all
       document.querySelector('#chkall').addEventListener('click', function () {
         let _checked = this.checked;
-        document.querySelectorAll('chkid').forEach((el) => {
+        document.querySelectorAll('.chkid').forEach((el) => {
           if (_checked) {
             el.checked = true;
           } else
@@ -46,7 +46,7 @@ class ComponentActivity {
       // 삭제
       document.querySelector('#btn-remove-data').addEventListener('click', function () {
         let chks = [];
-        document.querySelectorAll('chkid').forEach((el) => {
+        document.querySelectorAll('.chkid').forEach((el) => {
           if (el.checked) {
             chks.push(el.value);
           }

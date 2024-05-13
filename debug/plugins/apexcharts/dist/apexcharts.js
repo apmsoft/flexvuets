@@ -29113,6 +29113,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29234,6 +29236,7 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
 
 
 
@@ -30186,8 +30189,6 @@ SVG.extend(SVG.Element,{
 
 
 
-
-
 // Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
@@ -30269,8 +30270,7 @@ plot:function plot(x1,y1,x2,y2){if(x1==null){return this.array();}else if(typeof
 move:function move(x,y){return this.attr(this.array().move(x,y).toLine());},// Set element size to given width and height
 size:function size(width,height){var p=proportionalSize(this,width,height);return this.attr(this.array().size(p.width,p.height).toLine());}},// Add parent method
 construct:{// Create a line element
-line:function line(x1,y1,x2,y2){
-// make sure plot is called as a setter
+line:function line(x1,y1,x2,y2){// make sure plot is called as a setter
 // x1 is not necessarily a number, it can also be an array, a string and a SVG.PointArray
 return SVG.Line.prototype.plot.apply(this.put(new SVG.Line()),x1!=null?[x1,y1,x2,y2]:[0,0,0,0]);
 }
