@@ -155,10 +155,10 @@ export class RecyclerView {
     } else
     {
       const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
-      Log.d('totalItemsVisible', totalItemsVisible);
+      // Log.d('totalItemsVisible',totalItemsVisible);
       const visibleHeight = totalItemsVisible * this.templateHeight;
       endIndex = containerHeight <= visibleHeight ? Math.min(startIndex + totalItemsVisible + 2, itemCount) : Math.min(startIndex + totalItemsVisible, itemCount);
-      Log.d('endIndex', endIndex);
+      // Log.d('endIndex',endIndex);
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
