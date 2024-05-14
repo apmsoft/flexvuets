@@ -8,9 +8,11 @@
 
  
 # 특정 폴더안의 파일 전부 제외
-
+debug/plugins/*
  
 # 해당 확장자 파일 전체 제외
 .DS_Store
- 
+.AppleDouble
+.LSOverride
+
 # 예외
