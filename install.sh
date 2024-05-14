@@ -15,6 +15,7 @@ npm install --save-dev fs-extra
 # Tailwind CSS 설치
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
+npm install -D @tailwindcss/typography
 npm install -D @tailwindcss/forms --save-dev
 npm install -D @tailwindcss/aspect-ratio --save-dev
 npm install -D postcss --save-dev

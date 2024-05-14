@@ -2,6 +2,9 @@
 
 ## [3.1.1]
 
+### - 2024-05-14
+- @tailwindcss/typography install, tailwind.config.js plugins 설정
+
 ### - 2024-05-13
 - t1 example manager checkbox all bug 수정
 
