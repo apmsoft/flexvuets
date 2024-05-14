@@ -5,6 +5,7 @@
 ### - 2024-05-14
 - @tailwindcss/typography install, tailwind.config.js plugins 설정
 - gitignore 설정
+- RecyclerView item 높이 강제 지정 기능 추가, clientRectHeight = 59, 단위 픽셀
 
 ### - 2024-05-13
 - t1 example manager checkbox all bug 수정

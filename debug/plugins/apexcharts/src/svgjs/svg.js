@@ -1509,6 +1509,158 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1638,6 +1790,82 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2551,158 +2779,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       // Get all siblings, including myself
     });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
@@ -2775,118 +2851,42 @@
       cy: function (y) {return y == null ? this.attr('cy') : this.attr('cy', y);}, // Set width of element
       width: function (width) {return width == null ? this.rx() * 2 : this.rx(new SVG.Number(width).divide(2));}, // Set height of element
       height: function (height) {return height == null ? this.ry() * 2 : this.ry(new SVG.Number(height).divide(2));}, // Custom size function
-      size: function (width, height) {var p = proportionalSize(this, width, height);return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));} });
-  SVG.Line = SVG.invent({
-    // Initialize node
-    create: 'line',
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add class methods
-    extend: {
-      // Get array
-      array: function () {
-        return new SVG.PointArray([
-        [this.attr('x1'), this.attr('y1')],
-        [this.attr('x2'), this.attr('y2')]]
-        );
-      },
-      // Overwrite native plot() method
-      plot: function (x1, y1, x2, y2) {
-        if (x1 == null) {return this.array();} else if (typeof y1 !== 'undefined') {x1 = { x1: x1, y1: y1, x2: x2, y2: y2 };} else {x1 = new SVG.PointArray(x1).toLine();}
-
-        return this.attr(x1);
-      },
-      // Move by left top corner
-      move: function (x, y) {
-        return this.attr(this.array().move(x, y).toLine());
+      size: function (width, height) {var p = proportionalSize(this, width, height);return this.rx(new SVG.Number(p.width).divide(2)).ry(new SVG.Number(p.height).divide(2));} });SVG.Line = SVG.invent({ // Initialize node
+      create: 'line', // Inherit from
+      inherit: SVG.Shape, // Add class methods
+      extend: { // Get array
+        array: function () {return new SVG.PointArray([[this.attr('x1'), this.attr('y1')], [this.attr('x2'), this.attr('y2')]]);}, // Overwrite native plot() method
+        plot: function (x1, y1, x2, y2) {if (x1 == null) {return this.array();} else if (typeof y1 !== 'undefined') {x1 = { x1: x1, y1: y1, x2: x2, y2: y2 };} else {x1 = new SVG.PointArray(x1).toLine();}return this.attr(x1);}, // Move by left top corner
+        move: function (x, y) {return this.attr(this.array().move(x, y).toLine());}, // Set element size to given width and height
+        size: function (width, height) {var p = proportionalSize(this, width, height);return this.attr(this.array().size(p.width, p.height).toLine());} }, // Add parent method
+      construct: { // Create a line element
+        line: function (x1, y1, x2, y2) {// make sure plot is called as a setter
+          // x1 is not necessarily a number, it can also be an array, a string and a SVG.PointArray
+          return SVG.Line.prototype.plot.apply(this.put(new SVG.Line()), x1 != null ? [x1, y1, x2, y2] : [0, 0, 0, 0]);} } });SVG.Polyline = SVG.invent({ // Initialize node
+      create: 'polyline', // Inherit from
+      inherit: SVG.Shape, // Add parent method
+      construct: { // Create a wrapped polyline element
+        polyline: function (p) {// make sure plot is called as a setter
+          return this.put(new SVG.Polyline()).plot(p || new SVG.PointArray());} } });SVG.Polygon = SVG.invent({ // Initialize node
+      create: 'polygon', // Inherit from
+      inherit: SVG.Shape, // Add parent method
+      construct: { // Create a wrapped polygon element
+        polygon: function (p) {// make sure plot is called as a setter
+          return this.put(new SVG.Polygon()).plot(p || new SVG.PointArray());} } }); // Add polygon-specific functions
+  SVG.extend(SVG.Polyline, SVG.Polygon, { // Get array
+      array: function () {return this._array || (this._array = new SVG.PointArray(this.attr('points')));}, // Plot new path
+      plot: function (p) {return p == null ? this.array() : this.clear().attr('points', typeof p === 'string' ? p : this._array = new SVG.PointArray(p));}, // Clear array cache
+      clear: function () {delete this._array;return this;}, // Move by left top corner
+      move: function (x, y) {return this.attr('points', this.array().move(x, y));
       },
       // Set element size to given width and height
       size: function (width, height) {
         var p = proportionalSize(this, width, height);
 
-        return this.attr(this.array().size(p.width, p.height).toLine());
+        return this.attr('points', this.array().size(p.width, p.height));
       }
-    },
 
-    // Add parent method
-    construct: {
-      // Create a line element
-      line: function (x1, y1, x2, y2) {
-        // make sure plot is called as a setter
-        // x1 is not necessarily a number, it can also be an array, a string and a SVG.PointArray
-        return SVG.Line.prototype.plot.apply(
-          this.put(new SVG.Line()),
-          x1 != null ? [x1, y1, x2, y2] : [0, 0, 0, 0]
-        );
-      }
-    }
-  });
-
-  SVG.Polyline = SVG.invent({
-    // Initialize node
-    create: 'polyline',
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add parent method
-    construct: {
-      // Create a wrapped polyline element
-      polyline: function (p) {
-        // make sure plot is called as a setter
-        return this.put(new SVG.Polyline()).plot(p || new SVG.PointArray());
-      }
-    }
-  });
-
-  SVG.Polygon = SVG.invent({
-    // Initialize node
-    create: 'polygon',
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add parent method
-    construct: {
-      // Create a wrapped polygon element
-      polygon: function (p) {
-        // make sure plot is called as a setter
-        return this.put(new SVG.Polygon()).plot(p || new SVG.PointArray());
-      }
-    }
-  });
-
-  // Add polygon-specific functions
-  SVG.extend(SVG.Polyline, SVG.Polygon, {
-    // Get array
-    array: function () {
-      return this._array || (this._array = new SVG.PointArray(this.attr('points')));
-    },
-    // Plot new path
-    plot: function (p) {
-      return p == null ?
-      this.array() :
-      this.clear().attr('points', typeof p === 'string' ? p : this._array = new SVG.PointArray(p));
-    },
-    // Clear array cache
-    clear: function () {
-      delete this._array;
-      return this;
-    },
-    // Move by left top corner
-    move: function (x, y) {
-      return this.attr('points', this.array().move(x, y));
-    },
-    // Set element size to given width and height
-    size: function (width, height) {
-      var p = proportionalSize(this, width, height);
-
-      return this.attr('points', this.array().size(p.width, p.height));
-    }
-
-  });
+    });
 
   // unify all point to point elements
   SVG.extend(SVG.Line, SVG.Polyline, SVG.Polygon, {

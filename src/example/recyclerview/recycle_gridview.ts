@@ -36,6 +36,7 @@ const onReady = () : void =>
         const recyclerView = new RecyclerView('#gridview', adapter,
         {
             itemCount : 8,
+            clientRectHeight:256,
             scrollCapture: '#fvue--layout--main', 
             response: { 0: 2, 640:2, 768:3, 1024:4, 1280:5, 1536:6}
         });

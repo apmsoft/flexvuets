@@ -1821,6 +1821,82 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1885,91 +1961,15 @@ const defaultOptions = { // the id to add to the root element
   fileSizeBase: [1000, Type.INT], // Labels and status messages
   labelFileSizeBytes: ['bytes', Type.STRING], labelFileSizeKilobytes: ['KB', Type.STRING], labelFileSizeMegabytes: ['MB', Type.STRING], labelFileSizeGigabytes: ['GB', Type.STRING], labelDecimalSeparator: [getDecimalSeparator(), Type.STRING], // Default is locale separator
   labelThousandsSeparator: [getThousandsSeparator(), Type.STRING], // Default is locale separator
-  labelIdle: ['Drag & Drop your files or <span class="filepond--label-action">Browse</span>', Type.STRING], labelInvalidField: ['Field contains invalid files', Type.STRING], labelFileWaitingForSize: ['Waiting for size', Type.STRING],
-  labelFileSizeNotAvailable: ['Size not available', Type.STRING],
-  labelFileCountSingular: ['file in list', Type.STRING],
-  labelFileCountPlural: ['files in list', Type.STRING],
-  labelFileLoading: ['Loading', Type.STRING],
-  labelFileAdded: ['Added', Type.STRING], // assistive only
-  labelFileLoadError: ['Error during load', Type.STRING],
-  labelFileRemoved: ['Removed', Type.STRING], // assistive only
-  labelFileRemoveError: ['Error during remove', Type.STRING],
-  labelFileProcessing: ['Uploading', Type.STRING],
-  labelFileProcessingComplete: ['Upload complete', Type.STRING],
-  labelFileProcessingAborted: ['Upload cancelled', Type.STRING],
-  labelFileProcessingError: ['Error during upload', Type.STRING],
-  labelFileProcessingRevertError: ['Error during revert', Type.STRING],
-
-  labelTapToCancel: ['tap to cancel', Type.STRING],
-  labelTapToRetry: ['tap to retry', Type.STRING],
-  labelTapToUndo: ['tap to undo', Type.STRING],
-
-  labelButtonRemoveItem: ['Remove', Type.STRING],
-  labelButtonAbortItemLoad: ['Abort', Type.STRING],
-  labelButtonRetryItemLoad: ['Retry', Type.STRING],
-  labelButtonAbortItemProcessing: ['Cancel', Type.STRING],
-  labelButtonUndoItemProcessing: ['Undo', Type.STRING],
-  labelButtonRetryItemProcessing: ['Retry', Type.STRING],
-  labelButtonProcessItem: ['Upload', Type.STRING],
-
-  // make sure width and height plus viewpox are even numbers so icons are nicely centered
-  iconRemove: [
-  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>',
-  Type.STRING],
-
-  iconProcess: [
-  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>',
-  Type.STRING],
-
-  iconRetry: [
-  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>',
-  Type.STRING],
-
-  iconUndo: [
-  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>',
-  Type.STRING],
-
-  iconDone: [
-  '<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>',
-  Type.STRING],
-
-
-  // event handlers
-  oninit: [null, Type.FUNCTION],
-  onwarning: [null, Type.FUNCTION],
-  onerror: [null, Type.FUNCTION],
-  onactivatefile: [null, Type.FUNCTION],
-  oninitfile: [null, Type.FUNCTION],
-  onaddfilestart: [null, Type.FUNCTION],
-  onaddfileprogress: [null, Type.FUNCTION],
-  onaddfile: [null, Type.FUNCTION],
-  onprocessfilestart: [null, Type.FUNCTION],
-  onprocessfileprogress: [null, Type.FUNCTION],
-  onprocessfileabort: [null, Type.FUNCTION],
-  onprocessfilerevert: [null, Type.FUNCTION],
-  onprocessfile: [null, Type.FUNCTION],
-  onprocessfiles: [null, Type.FUNCTION],
-  onremovefile: [null, Type.FUNCTION],
-  onpreparefile: [null, Type.FUNCTION],
-  onupdatefiles: [null, Type.FUNCTION],
-  onreorderfiles: [null, Type.FUNCTION],
-
-  // hooks
-  beforeDropFile: [null, Type.FUNCTION],
-  beforeAddFile: [null, Type.FUNCTION],
-  beforeRemoveFile: [null, Type.FUNCTION],
-  beforePrepareFile: [null, Type.FUNCTION],
-
-  // styles
+  labelIdle: ['Drag & Drop your files or <span class="filepond--label-action">Browse</span>', Type.STRING], labelInvalidField: ['Field contains invalid files', Type.STRING], labelFileWaitingForSize: ['Waiting for size', Type.STRING], labelFileSizeNotAvailable: ['Size not available', Type.STRING], labelFileCountSingular: ['file in list', Type.STRING], labelFileCountPlural: ['files in list', Type.STRING], labelFileLoading: ['Loading', Type.STRING], labelFileAdded: ['Added', Type.STRING], // assistive only
+  labelFileLoadError: ['Error during load', Type.STRING], labelFileRemoved: ['Removed', Type.STRING], // assistive only
+  labelFileRemoveError: ['Error during remove', Type.STRING], labelFileProcessing: ['Uploading', Type.STRING], labelFileProcessingComplete: ['Upload complete', Type.STRING], labelFileProcessingAborted: ['Upload cancelled', Type.STRING], labelFileProcessingError: ['Error during upload', Type.STRING], labelFileProcessingRevertError: ['Error during revert', Type.STRING], labelTapToCancel: ['tap to cancel', Type.STRING], labelTapToRetry: ['tap to retry', Type.STRING], labelTapToUndo: ['tap to undo', Type.STRING], labelButtonRemoveItem: ['Remove', Type.STRING], labelButtonAbortItemLoad: ['Abort', Type.STRING], labelButtonRetryItemLoad: ['Retry', Type.STRING], labelButtonAbortItemProcessing: ['Cancel', Type.STRING], labelButtonUndoItemProcessing: ['Undo', Type.STRING], labelButtonRetryItemProcessing: ['Retry', Type.STRING], labelButtonProcessItem: ['Upload', Type.STRING], // make sure width and height plus viewpox are even numbers so icons are nicely centered
+  iconRemove: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING], iconProcess: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"/></svg>', Type.STRING], iconRetry: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M10.81 9.185l-.038.02A4.997 4.997 0 0 0 8 13.683a5 5 0 0 0 5 5 5 5 0 0 0 5-5 1 1 0 0 1 2 0A7 7 0 1 1 9.722 7.496l-.842-.21a.999.999 0 1 1 .484-1.94l3.23.806c.535.133.86.675.73 1.21l-.804 3.233a.997.997 0 0 1-1.21.73.997.997 0 0 1-.73-1.21l.23-.928v-.002z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING], iconUndo: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M9.185 10.81l.02-.038A4.997 4.997 0 0 1 13.683 8a5 5 0 0 1 5 5 5 5 0 0 1-5 5 1 1 0 0 0 0 2A7 7 0 1 0 7.496 9.722l-.21-.842a.999.999 0 1 0-1.94.484l.806 3.23c.133.535.675.86 1.21.73l3.233-.803a.997.997 0 0 0 .73-1.21.997.997 0 0 0-1.21-.73l-.928.23-.002-.001z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING], iconDone: ['<svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"/></svg>', Type.STRING], // event handlers
+  oninit: [null, Type.FUNCTION], onwarning: [null, Type.FUNCTION], onerror: [null, Type.FUNCTION], onactivatefile: [null, Type.FUNCTION], oninitfile: [null, Type.FUNCTION], onaddfilestart: [null, Type.FUNCTION], onaddfileprogress: [null, Type.FUNCTION], onaddfile: [null, Type.FUNCTION], onprocessfilestart: [null, Type.FUNCTION], onprocessfileprogress: [null, Type.FUNCTION], onprocessfileabort: [null, Type.FUNCTION], onprocessfilerevert: [null, Type.FUNCTION], onprocessfile: [null, Type.FUNCTION], onprocessfiles: [null, Type.FUNCTION], onremovefile: [null, Type.FUNCTION], onpreparefile: [null, Type.FUNCTION], onupdatefiles: [null, Type.FUNCTION], onreorderfiles: [null, Type.FUNCTION], // hooks
+  beforeDropFile: [null, Type.FUNCTION], beforeAddFile: [null, Type.FUNCTION], beforeRemoveFile: [null, Type.FUNCTION], beforePrepareFile: [null, Type.FUNCTION], // styles
   stylePanelLayout: [null, Type.STRING], // null 'integrated', 'compact', 'circle'
   stylePanelAspectRatio: [null, Type.STRING], // null or '3:2' or 1
-  styleItemPanelAspectRatio: [null, Type.STRING],
-  styleButtonRemoveItemPosition: ['left', Type.STRING],
-  styleButtonProcessItemPosition: ['right', Type.STRING],
-  styleLoadIndicatorPosition: ['right', Type.STRING],
-  styleProgressIndicatorPosition: ['right', Type.STRING],
-  styleButtonRemoveItemAlign: [false, Type.BOOLEAN],
-
+  styleItemPanelAspectRatio: [null, Type.STRING], styleButtonRemoveItemPosition: ['left', Type.STRING], styleButtonProcessItemPosition: ['right', Type.STRING], styleLoadIndicatorPosition: ['right', Type.STRING], styleProgressIndicatorPosition: ['right', Type.STRING], styleButtonRemoveItemAlign: [false, Type.BOOLEAN],
   // custom initial files array
   files: [[], Type.ARRAY],
 
@@ -7659,6 +7659,82 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7691,89 +7767,13 @@ const getLinks = (dataTransfer) => {
   const client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement); // current client state
   let lastState = '';let currentState = ''; // determines if a file may be dropped
   client.allowdrop = (items) => {// TODO: if we can, throw error to indicate the items cannot by dropped
-    return validateItems(filterItems(items));};client.ondrop = (position, items) => {const filteredItems = filterItems(items);
-    if (!validateItems(filteredItems)) {
-      api.ondragend(position);
-      return;
-    }
-
-    currentState = 'drag-drop';
-
-    api.onload(filteredItems, position);
-  };
-
-  client.ondrag = (position) => {
-    api.ondrag(position);
-  };
-
-  client.onenter = (position) => {
-    currentState = 'drag-over';
-
-    api.ondragstart(position);
-  };
-
-  client.onexit = (position) => {
-    currentState = 'drag-exit';
-
-    api.ondragend(position);
-  };
-
-  const api = {
-    updateHopperState: () => {
-      if (lastState !== currentState) {
-        scope.dataset.hopperState = currentState;
-        lastState = currentState;
-      }
-    },
-    onload: () => {},
-    ondragstart: () => {},
-    ondrag: () => {},
-    ondragend: () => {},
-    destroy: () => {
-      // destroy client
-      client.destroy();
-    }
-  };
-
-  return api;
-};
-
-let listening = false;
-const listeners$1 = [];
-
-const handlePaste = (e) => {
-  // if is pasting in input or textarea and the target is outside of a filepond scope, ignore
-  const activeEl = document.activeElement;
-  if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {
-    // test textarea or input is contained in filepond root
-    let inScope = false;
-    let element = activeEl;
-    while (element !== document.body) {
-      if (element.classList.contains('filepond--root')) {
-        inScope = true;
-        break;
-      }
-      element = element.parentNode;
-    }
-
-    if (!inScope) return;
-  }
-
-  requestDataTransferItems(e.clipboardData).then((files) => {
-    // no files received
-    if (!files.length) {
-      return;
-    }
-
-    // notify listeners of received files
-    listeners$1.forEach((listener) => listener(files));
-  });
-};
-
-const listen = (cb) => {
-  // can't add twice
-  if (listeners$1.includes(cb)) {
-    return;
+    return validateItems(filterItems(items));};client.ondrop = (position, items) => {const filteredItems = filterItems(items);if (!validateItems(filteredItems)) {api.ondragend(position);return;}currentState = 'drag-drop';api.onload(filteredItems, position);};client.ondrag = (position) => {api.ondrag(position);};client.onenter = (position) => {currentState = 'drag-over';api.ondragstart(position);};client.onexit = (position) => {currentState = 'drag-exit';api.ondragend(position);};const api = { updateHopperState: () => {if (lastState !== currentState) {scope.dataset.hopperState = currentState;lastState = currentState;}}, onload: () => {}, ondragstart: () => {}, ondrag: () => {}, ondragend: () => {}, destroy: () => {// destroy client
+      client.destroy();} };return api;};let listening = false;const listeners$1 = [];const handlePaste = (e) => {// if is pasting in input or textarea and the target is outside of a filepond scope, ignore
+  const activeEl = document.activeElement;if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {// test textarea or input is contained in filepond root
+    let inScope = false;let element = activeEl;while (element !== document.body) {if (element.classList.contains('filepond--root')) {inScope = true;break;}element = element.parentNode;}if (!inScope) return;}requestDataTransferItems(e.clipboardData).then((files) => {// no files received
+      if (!files.length) {return;} // notify listeners of received files
+      listeners$1.forEach((listener) => listener(files));});};const listen = (cb) => {// can't add twice
+  if (listeners$1.includes(cb)) {return;
   }
 
   // add initial listener

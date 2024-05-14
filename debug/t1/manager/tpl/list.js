@@ -48,7 +48,7 @@ class Template {
                                 <td>${item.level == '999' ? `최고관리자` : `일반관리자`}</td>
                                 <td>${item.recently_connect_date}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-default btn-edit data-id="${item.id}">
+                                    <button type="button" class="btn btn-sm btn-default btn-edit" data-id="${item.id}">
                                         <i class="far fa-edit"></i>
                                     </button>
                                 </td>

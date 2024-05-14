@@ -56,7 +56,7 @@ export class SimpleAdapter implements Adapter {
             view = templateViewHolder.view.cloneNode(true) as HTMLElement;
         } else {
             const html = this.template.render((typeof this.data[0] !==undefined) ? this.data[0] : {});
-            view = document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
+            view = (htmlTagType === 'TBODY' || htmlTagType === 'TABLE') ?  document.createElement('tr') : document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
             view.innerHTML = html;
         }
         return { view };
@@ -118,7 +118,9 @@ export class RecyclerView {
     private options: {
         itemCount: number;
         bottomBuffer: number;
+        clientRectHeight?:number;
         prepend?: boolean;
+        scrollCapture?: string | null;
         response?: { [key: string]: number };
     };
     private responsive_cnt : number = 0;
@@ -133,6 +135,7 @@ export class RecyclerView {
             itemCount?: number;
             bottomBuffer?: number;
             prepend?: boolean;
+            clientRectHeight?:number;
             scrollCapture?: string | null;
             response?: { [key: string]: number };
         } = {}
@@ -149,8 +152,8 @@ export class RecyclerView {
             throw new Error('컨테이너 유형이 잘못되었습니다. 문자열 또는 HTMLElement가 필요합니다.');
         }
 
-        const { itemCount = 10, bottomBuffer = 100, prepend = false, scrollCapture = null, response = {} } = options;
-        this.options = { itemCount, bottomBuffer, prepend, response };
+        const { itemCount = 10, bottomBuffer = 100, prepend = false, clientRectHeight=undefined,scrollCapture = null, response = {} } = options;
+        this.options = { itemCount, bottomBuffer, clientRectHeight, prepend, response };
 
         this.adapter = adapter;
         this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) as HTMLElement : this.container;
@@ -160,7 +163,9 @@ export class RecyclerView {
         this.calculateInitialRenderItemCount();
         this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
         this.container.append(this.templateViewHolder.view);
-        this.templateHeight = Math.floor((this.responsive_cnt > 0) ? this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
+        this.templateHeight = Math.floor((this.responsive_cnt > 0) ? 
+            ((this.options.clientRectHeight !==undefined) ? this.options.clientRectHeight : this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt) :
+                ((this.options.clientRectHeight !==undefined) ? this.options.clientRectHeight : this.getTotalHeight(this.templateViewHolder.view)));
         Log.d('templateHeight',this.templateHeight);
         this.templateViewHolder.view.remove();
 
@@ -216,10 +221,6 @@ export class RecyclerView {
         this.isHandlingScroll = true;
 
         const scrollPosition = this.scrollCaptureElement.scrollTop;
-        if (scrollPosition !== this.prevScrollPosition) {
-            this.prevScrollPosition = scrollPosition;
-        }
-
         const containerHeight = this.container.clientHeight;
         const itemCount = this.adapter.getItemCount();
         let startIndex = (this.renderedItems.size > 0) ? this.renderedItems.size : 0;
@@ -234,7 +235,7 @@ export class RecyclerView {
             // Log.d('totalItemsVisible',totalItemsVisible);
             const visibleHeight : number = totalItemsVisible * this.templateHeight;
             endIndex = (containerHeight <= visibleHeight) ? Math.min(startIndex + totalItemsVisible + 2, itemCount) : Math.min(startIndex + totalItemsVisible, itemCount);
-            // Log.d('endIndex',endIndex);
+            // Log.d('endIndex',(this.options.clientRectHeight !==undefined) ? this.options.clientRectHeight * endIndex : endIndex );
         }
 
         for (let i = startIndex; i < endIndex; i++)
@@ -256,7 +257,10 @@ export class RecyclerView {
 
         // 스크롤 위치 콜백 호출
         if (this.scrollPositionCallback) {
-            this.scrollPositionCallback(scrollPosition, this.renderedItems.size);
+            if (Math.floor(scrollPosition) != this.prevScrollPosition) { // 콜백 빈도수 줄이기
+                this.scrollPositionCallback(scrollPosition, this.renderedItems.size);
+                this.prevScrollPosition = Math.floor(scrollPosition);
+            }
         }
     }
 

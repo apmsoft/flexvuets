@@ -10372,6 +10372,82 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10398,90 +10474,14 @@
                 if (client.state) {client.state = null;onexit(eventPosition(e));}}});});};};var drop = function drop(root, clients) {return function (e) {e.preventDefault();var dataTransfer = e.dataTransfer;requestDataTransferItems(dataTransfer).then(function (items) {clients.forEach(function (client) {var filterElement = client.filterElement,element = client.element,ondrop = client.ondrop,onexit = client.onexit,allowdrop = client.allowdrop;client.state = null; // if we're filtering on element we need to be over the element to drop
               if (filterElement && !isEventTarget(e, element)) return; // no transfer for this client
               if (!allowdrop(items)) return onexit(eventPosition(e)); // we can drop these items on this client
-              ondrop(eventPosition(e), items);});});};};var dragleave = function dragleave(root, clients) {return function (e) {if (initialTarget !== e.target) {return;}clients.forEach(function (client) {var onexit = client.onexit;client.state = null;onexit(eventPosition(e));
-        });
-    };
-  };
-
-  var createHopper = function createHopper(scope, validateItems, options) {
-    // is now hopper scope
-    scope.classList.add('filepond--hopper');
-
-    // shortcuts
-    var catchesDropsOnPage = options.catchesDropsOnPage,
-      requiresDropOnElement = options.requiresDropOnElement,
-      _options$filterItems = options.filterItems,
-      filterItems =
-      _options$filterItems === void 0 ?
-      function (items) {
-        return items;
-      } :
-      _options$filterItems;
-
-    // create a dnd client
-    var client = createDragNDropClient(
-      scope,
-      catchesDropsOnPage ? document.documentElement : scope,
-      requiresDropOnElement
-    );
-
-    // current client state
-    var lastState = '';
-    var currentState = '';
-
-    // determines if a file may be dropped
-    client.allowdrop = function (items) {
-      // TODO: if we can, throw error to indicate the items cannot by dropped
-
-      return validateItems(filterItems(items));
-    };
-
-    client.ondrop = function (position, items) {
-      var filteredItems = filterItems(items);
-
-      if (!validateItems(filteredItems)) {
-        api.ondragend(position);
-        return;
-      }
-
-      currentState = 'drag-drop';
-
-      api.onload(filteredItems, position);
-    };
-
-    client.ondrag = function (position) {
-      api.ondrag(position);
-    };
-
-    client.onenter = function (position) {
-      currentState = 'drag-over';
-
-      api.ondragstart(position);
-    };
-
-    client.onexit = function (position) {
-      currentState = 'drag-exit';
-
-      api.ondragend(position);
-    };
-
-    var api = {
-      updateHopperState: function updateHopperState() {
-        if (lastState !== currentState) {
-          scope.dataset.hopperState = currentState;
-          lastState = currentState;
-        }
-      },
-      onload: function onload() {},
-      ondragstart: function ondragstart() {},
-      ondrag: function ondrag() {},
-      ondragend: function ondragend() {},
-      destroy: function destroy() {
-        // destroy client
-        client.destroy();
-      }
-    };
-
+              ondrop(eventPosition(e), items);});});};};var dragleave = function dragleave(root, clients) {return function (e) {if (initialTarget !== e.target) {return;}clients.forEach(function (client) {var onexit = client.onexit;client.state = null;onexit(eventPosition(e));});};};var createHopper = function createHopper(scope, validateItems, options) {// is now hopper scope
+    scope.classList.add('filepond--hopper'); // shortcuts
+    var catchesDropsOnPage = options.catchesDropsOnPage,requiresDropOnElement = options.requiresDropOnElement,_options$filterItems = options.filterItems,filterItems = _options$filterItems === void 0 ? function (items) {return items;} : _options$filterItems; // create a dnd client
+    var client = createDragNDropClient(scope, catchesDropsOnPage ? document.documentElement : scope, requiresDropOnElement); // current client state
+    var lastState = '';var currentState = ''; // determines if a file may be dropped
+    client.allowdrop = function (items) {// TODO: if we can, throw error to indicate the items cannot by dropped
+      return validateItems(filterItems(items));};client.ondrop = function (position, items) {var filteredItems = filterItems(items);if (!validateItems(filteredItems)) {api.ondragend(position);return;}currentState = 'drag-drop';api.onload(filteredItems, position);};client.ondrag = function (position) {api.ondrag(position);};client.onenter = function (position) {currentState = 'drag-over';api.ondragstart(position);};client.onexit = function (position) {currentState = 'drag-exit';api.ondragend(position);};var api = { updateHopperState: function updateHopperState() {if (lastState !== currentState) {scope.dataset.hopperState = currentState;lastState = currentState;}}, onload: function onload() {}, ondragstart: function ondragstart() {}, ondrag: function ondrag() {}, ondragend: function ondragend() {}, destroy: function destroy() {// destroy client
+        client.destroy();} };
     return api;
   };
 

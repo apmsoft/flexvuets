@@ -18,7 +18,7 @@ export class SimpleAdapter {
     } else
     {
       const html = this.template.render(typeof this.data[0] !== undefined ? this.data[0] : {});
-      view = document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
+      view = htmlTagType === 'TBODY' || htmlTagType === 'TABLE' ? document.createElement('tr') : document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
       view.innerHTML = html;
     }
     return { view };
@@ -84,8 +84,8 @@ export class RecyclerView {
     {
       throw new Error('컨테이너 유형이 잘못되었습니다. 문자열 또는 HTMLElement가 필요합니다.');
     }
-    const { itemCount = 10, bottomBuffer = 100, prepend = false, scrollCapture = null, response = {} } = options;
-    this.options = { itemCount, bottomBuffer, prepend, response };
+    const { itemCount = 10, bottomBuffer = 100, prepend = false, clientRectHeight = undefined, scrollCapture = null, response = {} } = options;
+    this.options = { itemCount, bottomBuffer, clientRectHeight, prepend, response };
     this.adapter = adapter;
     this.scrollCaptureElement = scrollCapture ? document.querySelector(scrollCapture) : this.container;
     this.renderedItems.clear();
@@ -93,7 +93,9 @@ export class RecyclerView {
     this.calculateInitialRenderItemCount();
     this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
     this.container.append(this.templateViewHolder.view);
-    this.templateHeight = Math.floor(this.responsive_cnt > 0 ? this.getTotalHeight(this.templateViewHolder.view) / this.responsive_cnt : this.getTotalHeight(this.templateViewHolder.view));
+    this.templateHeight = Math.floor(this.responsive_cnt > 0 ?
+    this.options.clientRectHeight !== undefined ? this.options.clientRectHeight : this.getTotalHeight(this.templateViewHolder.view) / this.responsive_cnt :
+    this.options.clientRectHeight !== undefined ? this.options.clientRectHeight : this.getTotalHeight(this.templateViewHolder.view));
     Log.d('templateHeight', this.templateHeight);
     this.templateViewHolder.view.remove();
     this.render();
@@ -141,24 +143,24 @@ export class RecyclerView {
     }
     this.isHandlingScroll = true;
     const scrollPosition = this.scrollCaptureElement.scrollTop;
-    if (scrollPosition !== this.prevScrollPosition) {
-      this.prevScrollPosition = scrollPosition;
-    }
     const containerHeight = this.container.clientHeight;
     const itemCount = this.adapter.getItemCount();
     let startIndex = this.renderedItems.size > 0 ? this.renderedItems.size : 0;
     let endIndex = 0;
     if (this.firsted) {
       if (scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer) {
+        this.isHandlingScroll = true;
+        Log.e('**** scroll print', scrollPosition + containerHeight, this.container.scrollHeight - this.options.bottomBuffer);
         endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
       }
     } else
     {
+      // Log.e('**** size');
       const totalItemsVisible = this.responsive_cnt > 0 ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
       // Log.d('totalItemsVisible',totalItemsVisible);
       const visibleHeight = totalItemsVisible * this.templateHeight;
       endIndex = containerHeight <= visibleHeight ? Math.min(startIndex + totalItemsVisible + 2, itemCount) : Math.min(startIndex + totalItemsVisible, itemCount);
-      // Log.d('endIndex',endIndex);
+      // Log.d('endIndex',(this.options.clientRectHeight !==undefined) ? this.options.clientRectHeight * endIndex : endIndex );
     }
     for (let i = startIndex; i < endIndex; i++) {
       if (!this.renderedItems.has(i)) {
@@ -178,7 +180,10 @@ export class RecyclerView {
     this.firsted = true;
     // 스크롤 위치 콜백 호출
     if (this.scrollPositionCallback) {
-      this.scrollPositionCallback(scrollPosition, this.renderedItems.size);
+      if (Math.floor(scrollPosition) != this.prevScrollPosition) {// 콜백 빈도수 줄이기
+        this.scrollPositionCallback(scrollPosition, this.renderedItems.size);
+        this.prevScrollPosition = Math.floor(scrollPosition);
+      }
     }
   }
   handleResize() {

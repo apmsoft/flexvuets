@@ -29115,6 +29115,158 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29236,6 +29388,82 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30074,122 +30302,7 @@ var node=this.node;// clone element and assign new id
 var clone=assignNewId(node.cloneNode(true));// insert the clone in the given parent or after myself
 if(parent){(parent.node||parent).appendChild(clone.node);}else{node.parentNode.insertBefore(clone.node,node.nextSibling);}return clone;}}});// ### This module adds backward / forward functionality to elements.
 //
-SVG.extend(SVG.Element,{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Get all siblings, including myself
+SVG.extend(SVG.Element,{// Get all siblings, including myself
 });SVG.Gradient=SVG.invent({// Initialize node
 create:function create(type){this.constructor.call(this,SVG.create(type+'Gradient'));// store type
 this.type=type;},// Inherit from
@@ -30272,160 +30385,47 @@ size:function size(width,height){var p=proportionalSize(this,width,height);retur
 construct:{// Create a line element
 line:function line(x1,y1,x2,y2){// make sure plot is called as a setter
 // x1 is not necessarily a number, it can also be an array, a string and a SVG.PointArray
-return SVG.Line.prototype.plot.apply(this.put(new SVG.Line()),x1!=null?[x1,y1,x2,y2]:[0,0,0,0]);
-}
-}
-});
-SVG.Polyline=SVG.invent({
-// Initialize node
-create:'polyline',
-// Inherit from
-inherit:SVG.Shape,
-// Add parent method
-construct:{
-// Create a wrapped polyline element
-polyline:function polyline(p){
-// make sure plot is called as a setter
-return this.put(new SVG.Polyline()).plot(p||new SVG.PointArray());
-}
-}
-});
-SVG.Polygon=SVG.invent({
-// Initialize node
-create:'polygon',
-// Inherit from
-inherit:SVG.Shape,
-// Add parent method
-construct:{
-// Create a wrapped polygon element
-polygon:function polygon(p){
-// make sure plot is called as a setter
-return this.put(new SVG.Polygon()).plot(p||new SVG.PointArray());
-}
-}
-});// Add polygon-specific functions
-
-SVG.extend(SVG.Polyline,SVG.Polygon,{
-// Get array
-array:function array(){
-return this._array||(this._array=new SVG.PointArray(this.attr('points')));
-},
-// Plot new path
-plot:function plot(p){
-return p==null?this.array():this.clear().attr('points',typeof p==='string'?p:this._array=new SVG.PointArray(p));
-},
-// Clear array cache
-clear:function clear(){
-delete this._array;
-return this;
-},
-// Move by left top corner
-move:function move(x,y){
-return this.attr('points',this.array().move(x,y));
-},
-// Set element size to given width and height
-size:function size(width,height){
-var p=proportionalSize(this,width,height);
-return this.attr('points',this.array().size(p.width,p.height));
-}
-});// unify all point to point elements
-
-SVG.extend(SVG.Line,SVG.Polyline,SVG.Polygon,{
-// Define morphable array
-morphArray:SVG.PointArray,
-// Move by left top corner over x-axis
-x:function x(_x4){
-return _x4==null?this.bbox().x:this.move(_x4,this.bbox().y);
-},
-// Move by left top corner over y-axis
-y:function y(_y3){
-return _y3==null?this.bbox().y:this.move(this.bbox().x,_y3);
-},
-// Set width of element
-width:function width(_width3){
-var b=this.bbox();
-return _width3==null?b.width:this.size(_width3,b.height);
-},
-// Set height of element
-height:function height(_height3){
-var b=this.bbox();
-return _height3==null?b.height:this.size(b.width,_height3);
-}
-});
-SVG.Path=SVG.invent({
-// Initialize node
-create:'path',
-// Inherit from
-inherit:SVG.Shape,
-// Add class methods
-extend:{
-// Define morphable array
-morphArray:SVG.PathArray,
-// Get array
-array:function array(){
-return this._array||(this._array=new SVG.PathArray(this.attr('d')));
-},
-// Plot new path
-plot:function plot(d){
-return d==null?this.array():this.clear().attr('d',typeof d==='string'?d:this._array=new SVG.PathArray(d));
-},
-// Clear array cache
-clear:function clear(){
-delete this._array;
-return this;
-}
-},
-// Add parent method
-construct:{
-// Create a wrapped path element
-path:function path(d){
-// make sure plot is called as a setter
-return this.put(new SVG.Path()).plot(d||new SVG.PathArray());
-}
-}
-});
-SVG.Image=SVG.invent({
-// Initialize node
-create:'image',
-// Inherit from
-inherit:SVG.Shape,
-// Add class methods
-extend:{
-// (re)load image	
-load:function load(url){
-if(!url)return this;
-var self=this,
-img=new window.Image();// preload image	
-
-SVG.on(img,'load',function(){
-SVG.off(img);
-var p=self.parent(SVG.Pattern);
-if(p===null)return;// ensure image size	
-
-if(self.width()==0&&self.height()==0){
-self.size(img.width,img.height);
-}// ensure pattern size if not set	
-
-
-if(p&&p.width()==0&&p.height()==0){
-p.size(self.width(),self.height());
-}// callback	
-
-
-if(typeof self._loaded==='function'){
-self._loaded.call(self,{
-width:img.width,
-height:img.height,
-ratio:img.width/img.height,
-url:url
-});
-}
-});
-SVG.on(img,'error',function(e){
-SVG.off(img);
-
-if(typeof self._error==='function'){
-self._error.call(self,e);
+return SVG.Line.prototype.plot.apply(this.put(new SVG.Line()),x1!=null?[x1,y1,x2,y2]:[0,0,0,0]);}}});SVG.Polyline=SVG.invent({// Initialize node
+create:'polyline',// Inherit from
+inherit:SVG.Shape,// Add parent method
+construct:{// Create a wrapped polyline element
+polyline:function polyline(p){// make sure plot is called as a setter
+return this.put(new SVG.Polyline()).plot(p||new SVG.PointArray());}}});SVG.Polygon=SVG.invent({// Initialize node
+create:'polygon',// Inherit from
+inherit:SVG.Shape,// Add parent method
+construct:{// Create a wrapped polygon element
+polygon:function polygon(p){// make sure plot is called as a setter
+return this.put(new SVG.Polygon()).plot(p||new SVG.PointArray());}}});// Add polygon-specific functions
+SVG.extend(SVG.Polyline,SVG.Polygon,{// Get array
+array:function array(){return this._array||(this._array=new SVG.PointArray(this.attr('points')));},// Plot new path
+plot:function plot(p){return p==null?this.array():this.clear().attr('points',typeof p==='string'?p:this._array=new SVG.PointArray(p));},// Clear array cache
+clear:function clear(){delete this._array;return this;},// Move by left top corner
+move:function move(x,y){return this.attr('points',this.array().move(x,y));},// Set element size to given width and height
+size:function size(width,height){var p=proportionalSize(this,width,height);return this.attr('points',this.array().size(p.width,p.height));}});// unify all point to point elements
+SVG.extend(SVG.Line,SVG.Polyline,SVG.Polygon,{// Define morphable array
+morphArray:SVG.PointArray,// Move by left top corner over x-axis
+x:function x(_x4){return _x4==null?this.bbox().x:this.move(_x4,this.bbox().y);},// Move by left top corner over y-axis
+y:function y(_y3){return _y3==null?this.bbox().y:this.move(this.bbox().x,_y3);},// Set width of element
+width:function width(_width3){var b=this.bbox();return _width3==null?b.width:this.size(_width3,b.height);},// Set height of element
+height:function height(_height3){var b=this.bbox();return _height3==null?b.height:this.size(b.width,_height3);}});SVG.Path=SVG.invent({// Initialize node
+create:'path',// Inherit from
+inherit:SVG.Shape,// Add class methods
+extend:{// Define morphable array
+morphArray:SVG.PathArray,// Get array
+array:function array(){return this._array||(this._array=new SVG.PathArray(this.attr('d')));},// Plot new path
+plot:function plot(d){return d==null?this.array():this.clear().attr('d',typeof d==='string'?d:this._array=new SVG.PathArray(d));},// Clear array cache
+clear:function clear(){delete this._array;return this;}},// Add parent method
+construct:{// Create a wrapped path element
+path:function path(d){// make sure plot is called as a setter
+return this.put(new SVG.Path()).plot(d||new SVG.PathArray());}}});SVG.Image=SVG.invent({// Initialize node
+create:'image',// Inherit from
+inherit:SVG.Shape,// Add class methods
+extend:{// (re)load image	
+load:function load(url){if(!url)return this;var self=this,img=new window.Image();// preload image	
+SVG.on(img,'load',function(){SVG.off(img);var p=self.parent(SVG.Pattern);if(p===null)return;// ensure image size	
+if(self.width()==0&&self.height()==0){self.size(img.width,img.height);}// ensure pattern size if not set	
+if(p&&p.width()==0&&p.height()==0){p.size(self.width(),self.height());}// callback	
+if(typeof self._loaded==='function'){self._loaded.call(self,{width:img.width,height:img.height,ratio:img.width/img.height,url:url});}});SVG.on(img,'error',function(e){SVG.off(img);if(typeof self._error==='function'){self._error.call(self,e);
 }
 });
 return this.attr('href',img.src=this.src=url,SVG.xlink);
