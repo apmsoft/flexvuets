@@ -2,6 +2,9 @@
 
 ## [3.1.1]
 
+### - 2024-05-15
+- RecyclerView TableView 기능 및 예제 추가
+
 ### - 2024-05-14
 - @tailwindcss/typography install, tailwind.config.js plugins 설정
 - gitignore 설정

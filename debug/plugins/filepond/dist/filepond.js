@@ -10448,6 +10448,53 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10481,61 +10528,14 @@
     var lastState = '';var currentState = ''; // determines if a file may be dropped
     client.allowdrop = function (items) {// TODO: if we can, throw error to indicate the items cannot by dropped
       return validateItems(filterItems(items));};client.ondrop = function (position, items) {var filteredItems = filterItems(items);if (!validateItems(filteredItems)) {api.ondragend(position);return;}currentState = 'drag-drop';api.onload(filteredItems, position);};client.ondrag = function (position) {api.ondrag(position);};client.onenter = function (position) {currentState = 'drag-over';api.ondragstart(position);};client.onexit = function (position) {currentState = 'drag-exit';api.ondragend(position);};var api = { updateHopperState: function updateHopperState() {if (lastState !== currentState) {scope.dataset.hopperState = currentState;lastState = currentState;}}, onload: function onload() {}, ondragstart: function ondragstart() {}, ondrag: function ondrag() {}, ondragend: function ondragend() {}, destroy: function destroy() {// destroy client
-        client.destroy();} };
-    return api;
-  };
-
-  var listening = false;
-  var listeners$1 = [];
-
-  var handlePaste = function handlePaste(e) {
-    // if is pasting in input or textarea and the target is outside of a filepond scope, ignore
-    var activeEl = document.activeElement;
-    if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {
-      // test textarea or input is contained in filepond root
-      var inScope = false;
-      var element = activeEl;
-      while (element !== document.body) {
-        if (element.classList.contains('filepond--root')) {
-          inScope = true;
-          break;
-        }
-        element = element.parentNode;
-      }
-
-      if (!inScope) return;
-    }
-
-    requestDataTransferItems(e.clipboardData).then(function (files) {
-      // no files received
-      if (!files.length) {
-        return;
-      }
-
-      // notify listeners of received files
-      listeners$1.forEach(function (listener) {
-        return listener(files);
-      });
-    });
-  };
-
-  var listen = function listen(cb) {
-    // can't add twice
-    if (listeners$1.includes(cb)) {
-      return;
-    }
-
-    // add initial listener
-    listeners$1.push(cb);
-
-    // setup paste listener for entire page
-    if (listening) {
-      return;
-    }
-
-    listening = true;
-    document.addEventListener('paste', handlePaste);
-  };
+        client.destroy();} };return api;};var listening = false;var listeners$1 = [];var handlePaste = function handlePaste(e) {// if is pasting in input or textarea and the target is outside of a filepond scope, ignore
+    var activeEl = document.activeElement;if (activeEl && /textarea|input/i.test(activeEl.nodeName)) {// test textarea or input is contained in filepond root
+      var inScope = false;var element = activeEl;while (element !== document.body) {if (element.classList.contains('filepond--root')) {inScope = true;break;}element = element.parentNode;}if (!inScope) return;}requestDataTransferItems(e.clipboardData).then(function (files) {// no files received
+        if (!files.length) {return;} // notify listeners of received files
+        listeners$1.forEach(function (listener) {return listener(files);});});};var listen = function listen(cb) {// can't add twice
+    if (listeners$1.includes(cb)) {return;} // add initial listener
+    listeners$1.push(cb); // setup paste listener for entire page
+    if (listening) {return;}listening = true;document.addEventListener('paste', handlePaste);};
 
   var unlisten = function unlisten(listener) {
     arrayRemove(listeners$1, listeners$1.indexOf(listener));

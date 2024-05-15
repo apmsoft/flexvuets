@@ -340,6 +340,53 @@ Prism.languages.elixir = {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // See interpolation below
     } }, { pattern: /("""|''')[\s\S]*?\1/, greedy: true, inside: {
 

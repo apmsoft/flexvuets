@@ -9,8 +9,8 @@ interface Adapter {
     getItemCount(): number;
 
     // 새로운 ViewHolder를 생성하는 메서드.
-    // @parent: ViewHolder의 부모 요소로 사용될 HTMLElement.
-    onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder | null): ViewHolder;
+    // @parent: ViewHolder의 부모 요소 태그명
+    onCreateViewHolder(parentTagName: string, templateViewHolder: ViewHolder | null): ViewHolder;
 
     // 지정된 위치의 데이터를 ViewHolder에 바인딩
     // @holder: 데이터를 표시할 ViewHolder 객체
@@ -48,15 +48,14 @@ export class SimpleAdapter implements Adapter {
         return this.total;
     }
 
-    onCreateViewHolder(parent: HTMLElement, templateViewHolder: ViewHolder): ViewHolder {
-        const htmlTagType = parent.tagName;
+    onCreateViewHolder(parentTagName: string, templateViewHolder: ViewHolder): ViewHolder {
         let view: HTMLElement;
 
         if (templateViewHolder) {
             view = templateViewHolder.view.cloneNode(true) as HTMLElement;
         } else {
             const html = this.template.render((typeof this.data[0] !==undefined) ? this.data[0] : {});
-            view = (htmlTagType === 'TBODY' || htmlTagType === 'TABLE') ?  document.createElement('tr') : document.createElement(htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div');
+            view = document.createElement(parentTagName);
             view.innerHTML = html;
         }
         return { view };
@@ -110,6 +109,7 @@ export class SimpleAdapter implements Adapter {
 export class RecyclerView {
     private adapter: Adapter;
     private container: HTMLElement;
+    private containerTagName : string;
     private scrollCaptureElement: HTMLElement;
     private isHandlingScroll: boolean = false;
     private renderedItems: Set<number> = new Set();
@@ -161,7 +161,9 @@ export class RecyclerView {
 
         // 최초 한 번만 호출하여 ViewHolder 생성
         this.calculateInitialRenderItemCount();
-        this.templateViewHolder = this.adapter.onCreateViewHolder(this.container, null);
+        const htmlTagType = this.container.tagName;
+        this.containerTagName = (htmlTagType === 'TBODY' || htmlTagType === 'TABLE') ?  'tr' : htmlTagType === 'UL' || htmlTagType === 'OL' ? 'li' : 'div';
+        this.templateViewHolder = this.adapter.onCreateViewHolder(this.containerTagName, null);
         this.container.append(this.templateViewHolder.view);
         this.templateHeight = Math.floor((this.responsive_cnt > 0) ? 
             ((this.options.clientRectHeight !==undefined) ? this.options.clientRectHeight : this.getTotalHeight(this.templateViewHolder.view) /this.responsive_cnt) :
@@ -227,8 +229,16 @@ export class RecyclerView {
         let endIndex = 0;
 
         if (this.firsted) {
-            if(scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer){
-                endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
+            if(this.containerTagName =='tr'){
+                // Log.d(scrollPosition, this.container.scrollHeight, containerHeight, scrollPosition + this.scrollCaptureElement.offsetHeight, ' >= ',this.container.scrollHeight - this.options.bottomBuffer);
+                if(scrollPosition + this.scrollCaptureElement.offsetHeight >= this.container.scrollHeight - this.options.bottomBuffer){
+                    endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
+                }
+            }else{
+                if(scrollPosition + containerHeight >= this.container.scrollHeight - this.options.bottomBuffer){
+                    // Log.d(this.containerTagName, scrollPosition, scrollPosition + containerHeight,' >= ',this.container.scrollHeight - this.options.bottomBuffer);
+                    endIndex = Math.min(startIndex + this.options.itemCount, itemCount);
+                }
             }
         }else{
             const totalItemsVisible = (this.responsive_cnt > 0) ? Math.ceil(containerHeight / (this.templateHeight / this.responsive_cnt)) : Math.ceil(containerHeight / this.templateHeight);
@@ -241,11 +251,12 @@ export class RecyclerView {
         for (let i = startIndex; i < endIndex; i++)
         {
             if (!this.renderedItems.has(i)) {
-                const holder = this.adapter.onCreateViewHolder(this.container, this.templateViewHolder);
+                const holder = this.adapter.onCreateViewHolder(this.containerTagName, this.templateViewHolder);
                 this.adapter.onBindViewHolder(holder, i);
                 if (this.options.prepend) {
                     this.container.prepend(holder.view);
                 } else {
+                    Log.d(holder.view);
                     this.container.appendChild(holder.view);
                 }
                 this.renderedItems.add(i);

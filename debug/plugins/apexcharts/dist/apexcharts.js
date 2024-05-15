@@ -29267,6 +29267,100 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29388,6 +29482,53 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30425,189 +30566,48 @@ load:function load(url){if(!url)return this;var self=this,img=new window.Image()
 SVG.on(img,'load',function(){SVG.off(img);var p=self.parent(SVG.Pattern);if(p===null)return;// ensure image size	
 if(self.width()==0&&self.height()==0){self.size(img.width,img.height);}// ensure pattern size if not set	
 if(p&&p.width()==0&&p.height()==0){p.size(self.width(),self.height());}// callback	
-if(typeof self._loaded==='function'){self._loaded.call(self,{width:img.width,height:img.height,ratio:img.width/img.height,url:url});}});SVG.on(img,'error',function(e){SVG.off(img);if(typeof self._error==='function'){self._error.call(self,e);
-}
-});
-return this.attr('href',img.src=this.src=url,SVG.xlink);
-},
-// Add loaded callback	
-loaded:function loaded(_loaded){
-this._loaded=_loaded;
-return this;
-},
-error:function error(_error){
-this._error=_error;
-return this;
-}
-},
-// Add parent method
-construct:{
-// create image element, load image and set its size	
-image:function image(source,width,height){
-return this.put(new SVG.Image()).load(source).size(width||0,height||width||0);
-}
-}
-});
-SVG.Text=SVG.invent({
-// Initialize node
-create:function create(){
-this.constructor.call(this,SVG.create('text'));
-this.dom.leading=new SVG.Number(1.3);// store leading value for rebuilding
-
+if(typeof self._loaded==='function'){self._loaded.call(self,{width:img.width,height:img.height,ratio:img.width/img.height,url:url});}});SVG.on(img,'error',function(e){SVG.off(img);if(typeof self._error==='function'){self._error.call(self,e);}});return this.attr('href',img.src=this.src=url,SVG.xlink);},// Add loaded callback	
+loaded:function loaded(_loaded){this._loaded=_loaded;return this;},error:function error(_error){this._error=_error;return this;}},// Add parent method
+construct:{// create image element, load image and set its size	
+image:function image(source,width,height){return this.put(new SVG.Image()).load(source).size(width||0,height||width||0);}}});SVG.Text=SVG.invent({// Initialize node
+create:function create(){this.constructor.call(this,SVG.create('text'));this.dom.leading=new SVG.Number(1.3);// store leading value for rebuilding
 this._rebuild=true;// enable automatic updating of dy values
-
 this._build=false;// disable build mode for adding multiple lines
 // set default font
-
-this.attr('font-family',SVG.defaults.attrs['font-family']);
-},
-// Inherit from
-inherit:SVG.Shape,
-// Add class methods
-extend:{
-// Move over x-axis
-x:function x(_x5){
-// act as getter
-if(_x5==null){
-return this.attr('x');
-}
-
-return this.attr('x',_x5);
-},
-// Set the text content
-text:function text(_text){
-// act as getter
-if(typeof _text==='undefined'){
-var _text='';
-var children=this.node.childNodes;
-
-for(var i=0,len=children.length;i<len;++i){
-// add newline if its not the first child and newLined is set to true
-if(i!=0&&children[i].nodeType!=3&&SVG.adopt(children[i]).dom.newLined==true){
-_text+='\n';
-}// add content of this node
-
-
-_text+=children[i].textContent;
-}
-
-return _text;
-}// remove existing content
-
-
-this.clear().build(true);
-
-if(typeof _text==='function'){
-// call block
-_text.call(this,this);
-}else{
-// store text and make sure text is not blank
+this.attr('font-family',SVG.defaults.attrs['font-family']);},// Inherit from
+inherit:SVG.Shape,// Add class methods
+extend:{// Move over x-axis
+x:function x(_x5){// act as getter
+if(_x5==null){return this.attr('x');}return this.attr('x',_x5);},// Set the text content
+text:function text(_text){// act as getter
+if(typeof _text==='undefined'){var _text='';var children=this.node.childNodes;for(var i=0,len=children.length;i<len;++i){// add newline if its not the first child and newLined is set to true
+if(i!=0&&children[i].nodeType!=3&&SVG.adopt(children[i]).dom.newLined==true){_text+='\n';}// add content of this node
+_text+=children[i].textContent;}return _text;}// remove existing content
+this.clear().build(true);if(typeof _text==='function'){// call block
+_text.call(this,this);}else{// store text and make sure text is not blank
 _text=_text.split('\n');// build new lines
-
-for(var i=0,il=_text.length;i<il;i++){
-this.tspan(_text[i]).newLine();
-}
-}// disable build mode and rebuild lines
-
-
-return this.build(false).rebuild();
-},
-// Set font size
-size:function size(_size){
-return this.attr('font-size',_size).rebuild();
-},
-// Set / get leading
-leading:function leading(value){
-// act as getter
-if(value==null){
-return this.dom.leading;
-}// act as setter
-
-
-this.dom.leading=new SVG.Number(value);
-return this.rebuild();
-},
-// Get all the first level lines
-lines:function lines(){
-var node=(this.textPath&&this.textPath()||this).node;// filter tspans and map them to SVG.js instances
-
-var lines=SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes),function(el){
-return SVG.adopt(el);
-});// return an instance of SVG.set
-
-return new SVG.Set(lines);
-},
-// Rebuild appearance type
-rebuild:function rebuild(_rebuild){
-// store new rebuild flag if given
-if(typeof _rebuild==='boolean'){
-this._rebuild=_rebuild;
-}// define position of all lines
-
-
-if(this._rebuild){
-var self=this,
-blankLineOffset=0,
-dy=this.dom.leading*new SVG.Number(this.attr('font-size'));
-this.lines().each(function(){
-if(this.dom.newLined){
-if(!self.textPath()){
-this.attr('x',self.attr('x'));
-}
-
-if(this.text()=='\n'){
-blankLineOffset+=dy;
-}else{
-this.attr('dy',dy+blankLineOffset);
-blankLineOffset=0;
-}
-}
-});
-this.fire('rebuild');
-}
-
-return this;
-},
-// Enable / disable build mode
-build:function build(_build){
-this._build=!!_build;
-return this;
-},
-// overwrite method from parent to set data properly
-setData:function setData(o){
-this.dom=o;
-this.dom.leading=new SVG.Number(o.leading||1.3);
-return this;
-}
-},
-// Add parent method
-construct:{
-// Create text element
-text:function text(_text2){
-return this.put(new SVG.Text()).text(_text2);
-},
-// Create plain text element
-plain:function plain(text){
-return this.put(new SVG.Text()).plain(text);
-}
-}
-});
-SVG.Tspan=SVG.invent({
-// Initialize node
-create:'tspan',
-// Inherit from
-inherit:SVG.Shape,
-// Add class methods
-extend:{
-// Set text content
-text:function text(_text3){
-if(_text3==null)return this.node.textContent+(this.dom.newLined?'\n':'');
-typeof _text3==='function'?_text3.call(this,this):this.plain(_text3);
-return this;
-},
-// Shortcut dx
-dx:function dx(_dx){
-return this.attr('dx',_dx);
+for(var i=0,il=_text.length;i<il;i++){this.tspan(_text[i]).newLine();}}// disable build mode and rebuild lines
+return this.build(false).rebuild();},// Set font size
+size:function size(_size){return this.attr('font-size',_size).rebuild();},// Set / get leading
+leading:function leading(value){// act as getter
+if(value==null){return this.dom.leading;}// act as setter
+this.dom.leading=new SVG.Number(value);return this.rebuild();},// Get all the first level lines
+lines:function lines(){var node=(this.textPath&&this.textPath()||this).node;// filter tspans and map them to SVG.js instances
+var lines=SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes),function(el){return SVG.adopt(el);});// return an instance of SVG.set
+return new SVG.Set(lines);},// Rebuild appearance type
+rebuild:function rebuild(_rebuild){// store new rebuild flag if given
+if(typeof _rebuild==='boolean'){this._rebuild=_rebuild;}// define position of all lines
+if(this._rebuild){var self=this,blankLineOffset=0,dy=this.dom.leading*new SVG.Number(this.attr('font-size'));this.lines().each(function(){if(this.dom.newLined){if(!self.textPath()){this.attr('x',self.attr('x'));}if(this.text()=='\n'){blankLineOffset+=dy;}else{this.attr('dy',dy+blankLineOffset);blankLineOffset=0;}}});this.fire('rebuild');}return this;},// Enable / disable build mode
+build:function build(_build){this._build=!!_build;return this;},// overwrite method from parent to set data properly
+setData:function setData(o){this.dom=o;this.dom.leading=new SVG.Number(o.leading||1.3);return this;}},// Add parent method
+construct:{// Create text element
+text:function text(_text2){return this.put(new SVG.Text()).text(_text2);},// Create plain text element
+plain:function plain(text){return this.put(new SVG.Text()).plain(text);}}});SVG.Tspan=SVG.invent({// Initialize node
+create:'tspan',// Inherit from
+inherit:SVG.Shape,// Add class methods
+extend:{// Set text content
+text:function text(_text3){if(_text3==null)return this.node.textContent+(this.dom.newLined?'\n':'');typeof _text3==='function'?_text3.call(this,this):this.plain(_text3);return this;},// Shortcut dx
+dx:function dx(_dx){return this.attr('dx',_dx);
 },
 // Shortcut dy
 dy:function dy(_dy){

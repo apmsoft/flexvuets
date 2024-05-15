@@ -1661,6 +1661,100 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1790,6 +1884,53 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2740,46 +2881,7 @@
           var clone = assignNewId(node.cloneNode(true)); // insert the clone in the given parent or after myself
           if (parent) {(parent.node || parent).appendChild(clone.node);} else {node.parentNode.insertBefore(clone.node, node.nextSibling);}return clone;} } }); // ### This module adds backward / forward functionality to elements.
   //
-  SVG.extend(SVG.Element, {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      // Get all siblings, including myself
+  SVG.extend(SVG.Element, {// Get all siblings, including myself
     });SVG.Gradient = SVG.invent({ // Initialize node
       create: function (type) {this.constructor.call(this, SVG.create(type + 'Gradient')); // store type
         this.type = type;}, // Inherit from
@@ -2877,153 +2979,51 @@
       array: function () {return this._array || (this._array = new SVG.PointArray(this.attr('points')));}, // Plot new path
       plot: function (p) {return p == null ? this.array() : this.clear().attr('points', typeof p === 'string' ? p : this._array = new SVG.PointArray(p));}, // Clear array cache
       clear: function () {delete this._array;return this;}, // Move by left top corner
-      move: function (x, y) {return this.attr('points', this.array().move(x, y));
-      },
-      // Set element size to given width and height
-      size: function (width, height) {
-        var p = proportionalSize(this, width, height);
+      move: function (x, y) {return this.attr('points', this.array().move(x, y));}, // Set element size to given width and height
+      size: function (width, height) {var p = proportionalSize(this, width, height);return this.attr('points', this.array().size(p.width, p.height));} }); // unify all point to point elements
+  SVG.extend(SVG.Line, SVG.Polyline, SVG.Polygon, { // Define morphable array
+      morphArray: SVG.PointArray, // Move by left top corner over x-axis
+      x: function (x) {return x == null ? this.bbox().x : this.move(x, this.bbox().y);}, // Move by left top corner over y-axis
+      y: function (y) {return y == null ? this.bbox().y : this.move(this.bbox().x, y);}, // Set width of element
+      width: function (width) {var b = this.bbox();return width == null ? b.width : this.size(width, b.height);}, // Set height of element
+      height: function (height) {var b = this.bbox();return height == null ? b.height : this.size(b.width, height);} });SVG.Path = SVG.invent({ // Initialize node
+      create: 'path', // Inherit from
+      inherit: SVG.Shape, // Add class methods
+      extend: { // Define morphable array
+        morphArray: SVG.PathArray, // Get array
+        array: function () {return this._array || (this._array = new SVG.PathArray(this.attr('d')));}, // Plot new path
+        plot: function (d) {return d == null ? this.array() : this.clear().attr('d', typeof d === 'string' ? d : this._array = new SVG.PathArray(d));}, // Clear array cache
+        clear: function () {delete this._array;return this;} }, // Add parent method
+      construct: { // Create a wrapped path element
+        path: function (d) {// make sure plot is called as a setter
+          return this.put(new SVG.Path()).plot(d || new SVG.PathArray());} } });SVG.Image = SVG.invent({ // Initialize node
+      create: 'image', // Inherit from
+      inherit: SVG.Shape, // Add class methods
+      extend: { // (re)load image	
+        load: function (url) {if (!url) return this;var self = this,img = new window.Image(); // preload image	
+          SVG.on(img, 'load', function () {SVG.off(img);var p = self.parent(SVG.Pattern);if (p === null) return; // ensure image size	
+              if (self.width() == 0 && self.height() == 0) {self.size(img.width, img.height);} // ensure pattern size if not set	
+              if (p && p.width() == 0 && p.height() == 0) {p.size(self.width(), self.height());} // callback	
+              if (typeof self._loaded === 'function') {self._loaded.call(self, { width: img.width, height: img.height, ratio: img.width / img.height, url: url });}});SVG.on(img, 'error', function (e) {SVG.off(img);if (typeof self._error === 'function') {self._error.call(self, e);}});return this.attr('href', img.src = this.src = url, SVG.xlink);}, // Add loaded callback	
+        loaded: function (loaded) {this._loaded = loaded;
+          return this;
+        },
 
-        return this.attr('points', this.array().size(p.width, p.height));
+        error: function (error) {
+          this._error = error;
+          return this;
+        }
+      },
+
+      // Add parent method
+      construct: {
+        // create image element, load image and set its size	
+        image: function (source, width, height) {
+          return this.put(new SVG.Image()).load(source).size(width || 0, height || width || 0);
+        }
       }
 
     });
-
-  // unify all point to point elements
-  SVG.extend(SVG.Line, SVG.Polyline, SVG.Polygon, {
-    // Define morphable array
-    morphArray: SVG.PointArray,
-    // Move by left top corner over x-axis
-    x: function (x) {
-      return x == null ? this.bbox().x : this.move(x, this.bbox().y);
-    },
-    // Move by left top corner over y-axis
-    y: function (y) {
-      return y == null ? this.bbox().y : this.move(this.bbox().x, y);
-    },
-    // Set width of element
-    width: function (width) {
-      var b = this.bbox();
-
-      return width == null ? b.width : this.size(width, b.height);
-    },
-    // Set height of element
-    height: function (height) {
-      var b = this.bbox();
-
-      return height == null ? b.height : this.size(b.width, height);
-    }
-  });
-  SVG.Path = SVG.invent({
-    // Initialize node
-    create: 'path',
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add class methods
-    extend: {
-      // Define morphable array
-      morphArray: SVG.PathArray,
-      // Get array
-      array: function () {
-        return this._array || (this._array = new SVG.PathArray(this.attr('d')));
-      },
-      // Plot new path
-      plot: function (d) {
-        return d == null ?
-        this.array() :
-        this.clear().attr('d', typeof d === 'string' ? d : this._array = new SVG.PathArray(d));
-      },
-      // Clear array cache
-      clear: function () {
-        delete this._array;
-        return this;
-      }
-
-    },
-
-    // Add parent method
-    construct: {
-      // Create a wrapped path element
-      path: function (d) {
-        // make sure plot is called as a setter
-        return this.put(new SVG.Path()).plot(d || new SVG.PathArray());
-      }
-    }
-  });
-
-  SVG.Image = SVG.invent({
-    // Initialize node
-    create: 'image',
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add class methods
-    extend: {
-      // (re)load image	
-      load: function (url) {
-        if (!url) return this;
-
-        var self = this,
-          img = new window.Image();
-
-        // preload image	
-        SVG.on(img, 'load', function () {
-          SVG.off(img);
-
-          var p = self.parent(SVG.Pattern);
-
-          if (p === null) return;
-
-          // ensure image size	
-          if (self.width() == 0 && self.height() == 0) {self.size(img.width, img.height);}
-
-          // ensure pattern size if not set	
-          if (p && p.width() == 0 && p.height() == 0) {p.size(self.width(), self.height());}
-
-          // callback	
-          if (typeof self._loaded === 'function') {
-            self._loaded.call(self, {
-              width: img.width,
-              height: img.height,
-              ratio: img.width / img.height,
-              url: url
-            });
-          }
-        });
-
-        SVG.on(img, 'error', function (e) {
-          SVG.off(img);
-
-          if (typeof self._error === 'function') {
-            self._error.call(self, e);
-          }
-        });
-
-        return this.attr('href', img.src = this.src = url, SVG.xlink);
-      },
-      // Add loaded callback	
-      loaded: function (loaded) {
-        this._loaded = loaded;
-        return this;
-      },
-
-      error: function (error) {
-        this._error = error;
-        return this;
-      }
-    },
-
-    // Add parent method
-    construct: {
-      // create image element, load image and set its size	
-      image: function (source, width, height) {
-        return this.put(new SVG.Image()).load(source).size(width || 0, height || width || 0);
-      }
-    }
-
-  });
   SVG.Text = SVG.invent({
     // Initialize node
     create: function () {

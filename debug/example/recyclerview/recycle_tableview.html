@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RecyclerView</title>
+
+    <link rel="stylesheet" href="../css/tailwind.css">
+    <link rel="stylesheet" href="../css/fontawesome-all.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <style>
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+    </style>
+
+    <script defer src="../../flexvue/flexvue.js"></script>
+
+</head>
+<body>
+    <!--left-->
+    <div id="left" class="fvue--layout z-0 bg-white">
+        
+    </div>
+
+    <!--right-->
+    <div id="right" class="fvue--layout z-3 bg-balck">
+
+    </div>
+
+    <!--rightside-->
+    <div id="rightside" class="fvue--layout z-4 bg-white">
+
+    </div>
+
+    <!--rightthird-->
+    <div id="rightthird" class="fvue--layout z-5 bg-white">
+
+    </div>
+
+    <!--bottom-->
+    <div id="bottom" class="fvue--layout z-6 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomside-->
+    <div id="bottomside" class="fvue--layout z-7 bg-gray-900 bg-opacity-70">
+
+    </div>
+
+    <!--bottomthird-->
+    <div id="bottomthird" class="fvue--layout z-8 bg-gray-900 bg-opacity-70 flex content-center flex-wrap">
+
+    </div>
+
+    <script defer type="module" src="./recycle_tableview.js?v=1"></script>
+</body>
+</html>

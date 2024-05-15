@@ -1897,6 +1897,53 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -1969,64 +2016,17 @@ const defaultOptions = { // the id to add to the root element
   beforeDropFile: [null, Type.FUNCTION], beforeAddFile: [null, Type.FUNCTION], beforeRemoveFile: [null, Type.FUNCTION], beforePrepareFile: [null, Type.FUNCTION], // styles
   stylePanelLayout: [null, Type.STRING], // null 'integrated', 'compact', 'circle'
   stylePanelAspectRatio: [null, Type.STRING], // null or '3:2' or 1
-  styleItemPanelAspectRatio: [null, Type.STRING], styleButtonRemoveItemPosition: ['left', Type.STRING], styleButtonProcessItemPosition: ['right', Type.STRING], styleLoadIndicatorPosition: ['right', Type.STRING], styleProgressIndicatorPosition: ['right', Type.STRING], styleButtonRemoveItemAlign: [false, Type.BOOLEAN],
-  // custom initial files array
-  files: [[], Type.ARRAY],
-
-  // show support by displaying credits
-  credits: [['https://pqina.nl/', 'Powered by PQINA'], Type.ARRAY]
-};
-
-const getItemByQuery = (items, query) => {
-  // just return first index
-  if (isEmpty(query)) {
-    return items[0] || null;
-  }
-
-  // query is index
-  if (isInt(query)) {
-    return items[query] || null;
-  }
-
-  // if query is item, get the id
-  if (typeof query === 'object') {
-    query = query.id;
-  }
-
-  // assume query is a string and return item by id
-  return items.find((item) => item.id === query) || null;
-};
-
-const getNumericAspectRatioFromString = (aspectRatio) => {
-  if (isEmpty(aspectRatio)) {
-    return aspectRatio;
-  }
-  if (/:/.test(aspectRatio)) {
-    const parts = aspectRatio.split(':');
-    return parts[1] / parts[0];
-  }
-  return parseFloat(aspectRatio);
-};
-
-const getActiveItems = (items) => items.filter((item) => !item.archived);
-
-const Status = {
-  EMPTY: 0,
-  IDLE: 1, // waiting
+  styleItemPanelAspectRatio: [null, Type.STRING], styleButtonRemoveItemPosition: ['left', Type.STRING], styleButtonProcessItemPosition: ['right', Type.STRING], styleLoadIndicatorPosition: ['right', Type.STRING], styleProgressIndicatorPosition: ['right', Type.STRING], styleButtonRemoveItemAlign: [false, Type.BOOLEAN], // custom initial files array
+  files: [[], Type.ARRAY], // show support by displaying credits
+  credits: [['https://pqina.nl/', 'Powered by PQINA'], Type.ARRAY] };const getItemByQuery = (items, query) => {// just return first index
+  if (isEmpty(query)) {return items[0] || null;} // query is index
+  if (isInt(query)) {return items[query] || null;} // if query is item, get the id
+  if (typeof query === 'object') {query = query.id;} // assume query is a string and return item by id
+  return items.find((item) => item.id === query) || null;};const getNumericAspectRatioFromString = (aspectRatio) => {if (isEmpty(aspectRatio)) {return aspectRatio;}if (/:/.test(aspectRatio)) {const parts = aspectRatio.split(':');return parts[1] / parts[0];}return parseFloat(aspectRatio);};const getActiveItems = (items) => items.filter((item) => !item.archived);const Status = { EMPTY: 0, IDLE: 1, // waiting
   ERROR: 2, // a file is in error state
   BUSY: 3, // busy processing or loading
   READY: 4 // all files uploaded
-};
-
-let res = null;
-const canUpdateFileInput = () => {
-  if (res === null) {
-    try {
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));
-      const el = document.createElement('input');
-      el.setAttribute('type', 'file');
-      el.files = dataTransfer.files;
+};let res = null;const canUpdateFileInput = () => {if (res === null) {try {const dataTransfer = new DataTransfer();dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));const el = document.createElement('input');el.setAttribute('type', 'file');el.files = dataTransfer.files;
       res = el.files.length === 1;
     } catch (err) {
       res = false;
@@ -7735,6 +7735,53 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7773,59 +7820,12 @@ const getLinks = (dataTransfer) => {
     let inScope = false;let element = activeEl;while (element !== document.body) {if (element.classList.contains('filepond--root')) {inScope = true;break;}element = element.parentNode;}if (!inScope) return;}requestDataTransferItems(e.clipboardData).then((files) => {// no files received
       if (!files.length) {return;} // notify listeners of received files
       listeners$1.forEach((listener) => listener(files));});};const listen = (cb) => {// can't add twice
-  if (listeners$1.includes(cb)) {return;
-  }
-
-  // add initial listener
-  listeners$1.push(cb);
-
-  // setup paste listener for entire page
-  if (listening) {
-    return;
-  }
-
-  listening = true;
-  document.addEventListener('paste', handlePaste);
-};
-
-const unlisten = (listener) => {
-  arrayRemove(listeners$1, listeners$1.indexOf(listener));
-
-  // clean up
-  if (listeners$1.length === 0) {
-    document.removeEventListener('paste', handlePaste);
-    listening = false;
-  }
-};
-
-const createPaster = () => {
-  const cb = (files) => {
-    api.onload(files);
-  };
-
-  const api = {
-    destroy: () => {
-      unlisten(cb);
-    },
-    onload: () => {}
-  };
-
-  listen(cb);
-
-  return api;
-};
-
-/**
- * Creates the file view
- */
-const create$d = ({ root, props }) => {
-  root.element.id = `filepond--assistant-${props.id}`;
-  attr(root.element, 'role', 'status');
-  attr(root.element, 'aria-live', 'polite');
-  attr(root.element, 'aria-relevant', 'additions');
-};
-
-let addFilesNotificationTimeout = null;
+  if (listeners$1.includes(cb)) {return;} // add initial listener
+  listeners$1.push(cb); // setup paste listener for entire page
+  if (listening) {return;}listening = true;document.addEventListener('paste', handlePaste);};const unlisten = (listener) => {arrayRemove(listeners$1, listeners$1.indexOf(listener)); // clean up
+  if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};const createPaster = () => {const cb = (files) => {api.onload(files);};const api = { destroy: () => {unlisten(cb);}, onload: () => {} };listen(cb);return api;}; /**
+* Creates the file view
+*/const create$d = ({ root, props }) => {root.element.id = `filepond--assistant-${props.id}`;attr(root.element, 'role', 'status');attr(root.element, 'aria-live', 'polite');attr(root.element, 'aria-relevant', 'additions');};let addFilesNotificationTimeout = null;
 let notificationClearTimeout = null;
 
 const filenames = [];
