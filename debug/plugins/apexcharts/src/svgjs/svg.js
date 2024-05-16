@@ -1755,6 +1755,8 @@
 
 
 
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1884,6 +1886,7 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
 
 
 
@@ -3005,10 +3008,7 @@
               if (self.width() == 0 && self.height() == 0) {self.size(img.width, img.height);} // ensure pattern size if not set	
               if (p && p.width() == 0 && p.height() == 0) {p.size(self.width(), self.height());} // callback	
               if (typeof self._loaded === 'function') {self._loaded.call(self, { width: img.width, height: img.height, ratio: img.width / img.height, url: url });}});SVG.on(img, 'error', function (e) {SVG.off(img);if (typeof self._error === 'function') {self._error.call(self, e);}});return this.attr('href', img.src = this.src = url, SVG.xlink);}, // Add loaded callback	
-        loaded: function (loaded) {this._loaded = loaded;
-          return this;
-        },
-
+        loaded: function (loaded) {this._loaded = loaded;return this;},
         error: function (error) {
           this._error = error;
           return this;

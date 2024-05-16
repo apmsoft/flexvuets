@@ -29361,6 +29361,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29482,6 +29484,7 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
 
 
 
@@ -30607,11 +30610,8 @@ create:'tspan',// Inherit from
 inherit:SVG.Shape,// Add class methods
 extend:{// Set text content
 text:function text(_text3){if(_text3==null)return this.node.textContent+(this.dom.newLined?'\n':'');typeof _text3==='function'?_text3.call(this,this):this.plain(_text3);return this;},// Shortcut dx
-dx:function dx(_dx){return this.attr('dx',_dx);
-},
-// Shortcut dy
-dy:function dy(_dy){
-return this.attr('dy',_dy);
+dx:function dx(_dx){return this.attr('dx',_dx);},// Shortcut dy
+dy:function dy(_dy){return this.attr('dy',_dy);
 },
 // Create new line
 newLine:function newLine(){

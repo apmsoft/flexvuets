@@ -17,9 +17,9 @@ const onReady = () : void =>
     function doList(page : number)
     {
         // 데이터
-        const data : DataItem[]= [];
+        const tableData : DataItem[]= [];
         for (let i = 0; i <= 6000; i++) {
-            data.push({ id: i, gid: ((i+1)/10), title: `Item${page} ${i}` });
+            tableData.push({ id: i, gid: ((i+1)/10), title: `Item${page} ${i}` });
         }
 
         Promise.all([
@@ -32,12 +32,15 @@ const onReady = () : void =>
 
             // 출력
             document.querySelector<HTMLDivElement>('#left')!.innerHTML = layout.render( {} );
-            return tableView;
+
+            // response
+            const reponse : { data : any[], view : Template} = {data: Array.isArray(tableData) ? tableData : [tableData], view : tableView};
+            return reponse;
         })
-        .then(tableView =>{
+        .then(reponse =>{
 
             // RecyclerView 인스턴스 생성 및 초기화
-            const adapter = new SimpleAdapter(data, tableView);
+            const adapter = new SimpleAdapter(reponse.data, reponse.view);
             const recyclerView = new RecyclerView('#tableview', adapter,{itemCount:10, clientRectHeight:50, scrollCapture: '#fvue--layout--main'});
             recyclerView.addEventListener('click', '.item', (el) =>
             {

@@ -27,12 +27,15 @@ const onReady = () : void =>
 
         // 출력
         document.querySelector<HTMLDivElement>('#left')!.innerHTML = layout.render( {} );
-        return gridView;
+
+        // response
+        const reponse : { data : any[], view : Template} = {data: Array.isArray(gridData) ? gridData : [gridData], view : gridView};
+        return reponse;
     })
-    .then(gridView =>{
+    .then(reponse =>{
 
         // RecyclerView 인스턴스 생성 및 초기화
-        const adapter = new SimpleAdapter(gridData, gridView);
+        const adapter = new SimpleAdapter(reponse.data, reponse.view);
         const recyclerView = new RecyclerView('#gridview', adapter,
         {
             itemCount : 8,

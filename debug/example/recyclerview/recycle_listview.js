@@ -5,9 +5,9 @@ const onReady = () => {
   let page = 1;
   function doList(page) {
     // 데이터
-    const data = [];
+    const listData = [];
     for (let i = 0; i <= 6000; i++) {
-      data.push({ id: i, gid: (i + 1) / 10, title: `Item${page} ${i}` });
+      listData.push({ id: i, gid: (i + 1) / 10, title: `Item${page} ${i}` });
     }
     Promise.all([
     new AsyncTask().doImport(new URL(`../recyclerview/tpl/layout_list.js`, import.meta.url).href),
@@ -18,11 +18,13 @@ const onReady = () => {
       const listView = new data[1].ListView();
       // 출력
       document.querySelector('#left').innerHTML = layout.render({});
-      return listView;
+      // response
+      const reponse = { data: Array.isArray(listData) ? listData : [listData], view: listView };
+      return reponse;
     }).
-    then((listView) => {
+    then((reponse) => {
       // RecyclerView 인스턴스 생성 및 초기화
-      const adapter = new SimpleAdapter(data, listView);
+      const adapter = new SimpleAdapter(reponse.data, reponse.view);
       const recyclerView = new RecyclerView('#listview', adapter, { itemCount: 10, scrollCapture: '#fvue--layout--main' });
       recyclerView.addEventListener('click', '.item', (el) => {
         const id = el.dataset.id;

@@ -4,6 +4,8 @@
 
 ### - 2024-05-15
 - RecyclerView TableView 기능 및 예제 추가
+- RecyclerView 데이터 타입과 템플릿 타입 지정 및 return 관련 예제 없데이트
+    -- const reponse : { data : any[], view : Template} = {data: Array.isArray(listData) ? listData : [listData], view : listView};
 
 ### - 2024-05-14
 - @tailwindcss/typography install, tailwind.config.js plugins 설정
