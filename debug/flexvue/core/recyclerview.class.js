@@ -167,6 +167,11 @@ export class RecyclerView {
       // Log.d('totalItemsVisible',totalItemsVisible);
       const visibleHeight = totalItemsVisible * this.templateHeight;
       endIndex = containerHeight <= visibleHeight ? Math.min(startIndex + totalItemsVisible + 2, itemCount) : Math.min(startIndex + totalItemsVisible, itemCount);
+      if (endIndex < containerHeight) {
+        if (this.containerTagName == 'tr') {
+          this.container.style.height = 'auto';
+        }
+      }
       // Log.d('endIndex',(this.options.clientRectHeight !==undefined) ? this.options.clientRectHeight * endIndex : endIndex );
     }
     for (let i = startIndex; i < endIndex; i++) {

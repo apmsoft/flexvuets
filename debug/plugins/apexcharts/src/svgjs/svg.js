@@ -1757,6 +1757,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1886,6 +1918,22 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3008,163 +3056,115 @@
               if (self.width() == 0 && self.height() == 0) {self.size(img.width, img.height);} // ensure pattern size if not set	
               if (p && p.width() == 0 && p.height() == 0) {p.size(self.width(), self.height());} // callback	
               if (typeof self._loaded === 'function') {self._loaded.call(self, { width: img.width, height: img.height, ratio: img.width / img.height, url: url });}});SVG.on(img, 'error', function (e) {SVG.off(img);if (typeof self._error === 'function') {self._error.call(self, e);}});return this.attr('href', img.src = this.src = url, SVG.xlink);}, // Add loaded callback	
-        loaded: function (loaded) {this._loaded = loaded;return this;},
-        error: function (error) {
-          this._error = error;
+        loaded: function (loaded) {this._loaded = loaded;return this;}, error: function (error) {this._error = error;return this;} }, // Add parent method
+      construct: { // create image element, load image and set its size	
+        image: function (source, width, height) {return this.put(new SVG.Image()).load(source).size(width || 0, height || width || 0);} } });SVG.Text = SVG.invent({ // Initialize node
+      create: function () {this.constructor.call(this, SVG.create('text'));this.dom.leading = new SVG.Number(1.3); // store leading value for rebuilding
+        this._rebuild = true; // enable automatic updating of dy values
+        this._build = false; // disable build mode for adding multiple lines
+        // set default font
+        this.attr('font-family', SVG.defaults.attrs['font-family']);}, // Inherit from
+      inherit: SVG.Shape, // Add class methods
+      extend: { // Move over x-axis
+        x: function (x) {// act as getter
+          if (x == null) {return this.attr('x');}return this.attr('x', x);}, // Set the text content
+        text: function (text) {// act as getter
+          if (typeof text === 'undefined') {var text = '';var children = this.node.childNodes;for (var i = 0, len = children.length; i < len; ++i) {// add newline if its not the first child and newLined is set to true
+              if (i != 0 && children[i].nodeType != 3 && SVG.adopt(children[i]).dom.newLined == true) {text += '\n';} // add content of this node
+              text += children[i].textContent;}return text;} // remove existing content
+          this.clear().build(true);if (typeof text === 'function') {// call block
+            text.call(this, this);
+          } else {
+            // store text and make sure text is not blank
+            text = text.split('\n');
+
+            // build new lines
+            for (var i = 0, il = text.length; i < il; i++) {this.tspan(text[i]).newLine();}
+          }
+
+          // disable build mode and rebuild lines
+          return this.build(false).rebuild();
+        },
+        // Set font size
+        size: function (size) {
+          return this.attr('font-size', size).rebuild();
+        },
+        // Set / get leading
+        leading: function (value) {
+          // act as getter
+          if (value == null) {return this.dom.leading;}
+
+          // act as setter
+          this.dom.leading = new SVG.Number(value);
+
+          return this.rebuild();
+        },
+        // Get all the first level lines
+        lines: function () {
+          var node = (this.textPath && this.textPath() || this).node;
+
+          // filter tspans and map them to SVG.js instances
+          var lines = SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes), function (el) {
+            return SVG.adopt(el);
+          });
+
+          // return an instance of SVG.set
+          return new SVG.Set(lines);
+        },
+        // Rebuild appearance type
+        rebuild: function (rebuild) {
+          // store new rebuild flag if given
+          if (typeof rebuild === 'boolean') {this._rebuild = rebuild;}
+
+          // define position of all lines
+          if (this._rebuild) {
+            var self = this,
+              blankLineOffset = 0,
+              dy = this.dom.leading * new SVG.Number(this.attr('font-size'));
+
+            this.lines().each(function () {
+              if (this.dom.newLined) {
+                if (!self.textPath()) {this.attr('x', self.attr('x'));}
+                if (this.text() == '\n') {
+                  blankLineOffset += dy;
+                } else {
+                  this.attr('dy', dy + blankLineOffset);
+                  blankLineOffset = 0;
+                }
+              }
+            });
+
+            this.fire('rebuild');
+          }
+
+          return this;
+        },
+        // Enable / disable build mode
+        build: function (build) {
+          this._build = !!build;
+          return this;
+        },
+        // overwrite method from parent to set data properly
+        setData: function (o) {
+          this.dom = o;
+          this.dom.leading = new SVG.Number(o.leading || 1.3);
           return this;
         }
       },
 
       // Add parent method
       construct: {
-        // create image element, load image and set its size	
-        image: function (source, width, height) {
-          return this.put(new SVG.Image()).load(source).size(width || 0, height || width || 0);
+        // Create text element
+        text: function (text) {
+          return this.put(new SVG.Text()).text(text);
+        },
+        // Create plain text element
+        plain: function (text) {
+          return this.put(new SVG.Text()).plain(text);
         }
       }
 
     });
-  SVG.Text = SVG.invent({
-    // Initialize node
-    create: function () {
-      this.constructor.call(this, SVG.create('text'));
-
-      this.dom.leading = new SVG.Number(1.3); // store leading value for rebuilding
-      this._rebuild = true; // enable automatic updating of dy values
-      this._build = false; // disable build mode for adding multiple lines
-
-      // set default font
-      this.attr('font-family', SVG.defaults.attrs['font-family']);
-    },
-
-    // Inherit from
-    inherit: SVG.Shape,
-
-    // Add class methods
-    extend: {
-      // Move over x-axis
-      x: function (x) {
-        // act as getter
-        if (x == null) {return this.attr('x');}
-
-        return this.attr('x', x);
-      },
-      // Set the text content
-      text: function (text) {
-        // act as getter
-        if (typeof text === 'undefined') {
-          var text = '';
-          var children = this.node.childNodes;
-          for (var i = 0, len = children.length; i < len; ++i) {
-            // add newline if its not the first child and newLined is set to true
-            if (i != 0 && children[i].nodeType != 3 && SVG.adopt(children[i]).dom.newLined == true) {
-              text += '\n';
-            }
-
-            // add content of this node
-            text += children[i].textContent;
-          }
-
-          return text;
-        }
-
-        // remove existing content
-        this.clear().build(true);
-
-        if (typeof text === 'function') {
-          // call block
-          text.call(this, this);
-        } else {
-          // store text and make sure text is not blank
-          text = text.split('\n');
-
-          // build new lines
-          for (var i = 0, il = text.length; i < il; i++) {this.tspan(text[i]).newLine();}
-        }
-
-        // disable build mode and rebuild lines
-        return this.build(false).rebuild();
-      },
-      // Set font size
-      size: function (size) {
-        return this.attr('font-size', size).rebuild();
-      },
-      // Set / get leading
-      leading: function (value) {
-        // act as getter
-        if (value == null) {return this.dom.leading;}
-
-        // act as setter
-        this.dom.leading = new SVG.Number(value);
-
-        return this.rebuild();
-      },
-      // Get all the first level lines
-      lines: function () {
-        var node = (this.textPath && this.textPath() || this).node;
-
-        // filter tspans and map them to SVG.js instances
-        var lines = SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes), function (el) {
-          return SVG.adopt(el);
-        });
-
-        // return an instance of SVG.set
-        return new SVG.Set(lines);
-      },
-      // Rebuild appearance type
-      rebuild: function (rebuild) {
-        // store new rebuild flag if given
-        if (typeof rebuild === 'boolean') {this._rebuild = rebuild;}
-
-        // define position of all lines
-        if (this._rebuild) {
-          var self = this,
-            blankLineOffset = 0,
-            dy = this.dom.leading * new SVG.Number(this.attr('font-size'));
-
-          this.lines().each(function () {
-            if (this.dom.newLined) {
-              if (!self.textPath()) {this.attr('x', self.attr('x'));}
-              if (this.text() == '\n') {
-                blankLineOffset += dy;
-              } else {
-                this.attr('dy', dy + blankLineOffset);
-                blankLineOffset = 0;
-              }
-            }
-          });
-
-          this.fire('rebuild');
-        }
-
-        return this;
-      },
-      // Enable / disable build mode
-      build: function (build) {
-        this._build = !!build;
-        return this;
-      },
-      // overwrite method from parent to set data properly
-      setData: function (o) {
-        this.dom = o;
-        this.dom.leading = new SVG.Number(o.leading || 1.3);
-        return this;
-      }
-    },
-
-    // Add parent method
-    construct: {
-      // Create text element
-      text: function (text) {
-        return this.put(new SVG.Text()).text(text);
-      },
-      // Create plain text element
-      plain: function (text) {
-        return this.put(new SVG.Text()).plain(text);
-      }
-    }
-
-  });
 
   SVG.Tspan = SVG.invent({
     // Initialize node

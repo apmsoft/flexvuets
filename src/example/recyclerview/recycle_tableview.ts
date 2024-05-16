@@ -18,7 +18,7 @@ const onReady = () : void =>
     {
         // 데이터
         const tableData : DataItem[]= [];
-        for (let i = 0; i <= 6000; i++) {
+        for (let i = 0; i <100; i++) {
             tableData.push({ id: i, gid: ((i+1)/10), title: `Item${page} ${i}` });
         }
 

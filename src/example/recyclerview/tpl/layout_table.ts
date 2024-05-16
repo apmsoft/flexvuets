@@ -55,7 +55,7 @@ class Layout implements Template
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody class="px-2 h-[70vh]" id="tableview">
+                            <tbody class="h-[70vh]" id="tableview">
 
                             </tbody>
                         </table>

@@ -29363,6 +29363,38 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29484,6 +29516,22 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30611,73 +30659,25 @@ inherit:SVG.Shape,// Add class methods
 extend:{// Set text content
 text:function text(_text3){if(_text3==null)return this.node.textContent+(this.dom.newLined?'\n':'');typeof _text3==='function'?_text3.call(this,this):this.plain(_text3);return this;},// Shortcut dx
 dx:function dx(_dx){return this.attr('dx',_dx);},// Shortcut dy
-dy:function dy(_dy){return this.attr('dy',_dy);
-},
-// Create new line
-newLine:function newLine(){
-// fetch text parent
+dy:function dy(_dy){return this.attr('dy',_dy);},// Create new line
+newLine:function newLine(){// fetch text parent
 var t=this.parent(SVG.Text);// mark new line
-
 this.dom.newLined=true;// apply new hy¡n
-
-return this.dy(t.dom.leading*t.attr('font-size')).attr('x',t.x());
-}
-}
-});
-SVG.extend(SVG.Text,SVG.Tspan,{
-// Create plain text node
-plain:function plain(text){
-// clear if build mode is disabled
-if(this._build===false){
-this.clear();
-}// create text node
-
-
-this.node.appendChild(document.createTextNode(text));
-return this;
-},
-// Create a tspan
-tspan:function tspan(text){
-var node=(this.textPath&&this.textPath()||this).node,
-tspan=new SVG.Tspan();// clear if build mode is disabled
-
-if(this._build===false){
-this.clear();
-}// add new tspan
-
-
-node.appendChild(tspan.node);
-return tspan.text(text);
-},
-// Clear all lines
-clear:function clear(){
-var node=(this.textPath&&this.textPath()||this).node;// remove existing child nodes
-
-while(node.hasChildNodes()){
-node.removeChild(node.lastChild);
-}
-
-return this;
-},
-// Get length of text element
-length:function length(){
-return this.node.getComputedTextLength();
-}
-});
-SVG.TextPath=SVG.invent({
-// Initialize node
-create:'textPath',
-// Inherit from
-inherit:SVG.Parent,
-// Define parent class
-parent:SVG.Text,
-// Add parent method
-construct:{
-morphArray:SVG.PathArray,
-// return the array of the path track element
-array:function array(){
-var track=this.track();
-return track?track.array():null;
+return this.dy(t.dom.leading*t.attr('font-size')).attr('x',t.x());}}});SVG.extend(SVG.Text,SVG.Tspan,{// Create plain text node
+plain:function plain(text){// clear if build mode is disabled
+if(this._build===false){this.clear();}// create text node
+this.node.appendChild(document.createTextNode(text));return this;},// Create a tspan
+tspan:function tspan(text){var node=(this.textPath&&this.textPath()||this).node,tspan=new SVG.Tspan();// clear if build mode is disabled
+if(this._build===false){this.clear();}// add new tspan
+node.appendChild(tspan.node);return tspan.text(text);},// Clear all lines
+clear:function clear(){var node=(this.textPath&&this.textPath()||this).node;// remove existing child nodes
+while(node.hasChildNodes()){node.removeChild(node.lastChild);}return this;},// Get length of text element
+length:function length(){return this.node.getComputedTextLength();}});SVG.TextPath=SVG.invent({// Initialize node
+create:'textPath',// Inherit from
+inherit:SVG.Parent,// Define parent class
+parent:SVG.Text,// Add parent method
+construct:{morphArray:SVG.PathArray,// return the array of the path track element
+array:function array(){var track=this.track();return track?track.array():null;
 },
 // Plot path if any
 plot:function plot(d){

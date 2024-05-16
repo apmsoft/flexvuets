@@ -2,6 +2,9 @@
 
 ## [3.1.1]
 
+### - 2024-05-16
+- RecyclerView TableView Tbody 높이 보다 출력해야할 tr 항목 총 높이가 작을 경우 tbody 높이 설정을 auto 로 자동으로 바꾸도록 업데이트
+
 ### - 2024-05-15
 - RecyclerView TableView 기능 및 예제 추가
 - RecyclerView 데이터 타입과 템플릿 타입 지정 및 return 관련 예제 없데이트
