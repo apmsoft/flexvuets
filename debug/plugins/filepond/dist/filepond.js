@@ -10512,6 +10512,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10553,18 +10564,7 @@
     if (listeners$1.includes(cb)) {return;} // add initial listener
     listeners$1.push(cb); // setup paste listener for entire page
     if (listening) {return;}listening = true;document.addEventListener('paste', handlePaste);};var unlisten = function unlisten(listener) {arrayRemove(listeners$1, listeners$1.indexOf(listener)); // clean up
-    if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};var createPaster = function createPaster() {var cb = function cb(files) {api.onload(files);};var api = { destroy: function destroy() {
-        unlisten(cb);
-      },
-      onload: function onload() {}
-    };
-
-    listen(cb);
-
-    return api;
-  };
-
-  /**
+    if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};var createPaster = function createPaster() {var cb = function cb(files) {api.onload(files);};var api = { destroy: function destroy() {unlisten(cb);}, onload: function onload() {} };listen(cb);return api;}; /**
    * Creates the file view
    */
   var create$d = function create(_ref) {

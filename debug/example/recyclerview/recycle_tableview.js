@@ -6,7 +6,7 @@ const onReady = () => {
   function doList(page) {
     // 데이터
     const tableData = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 9; i++) {
       tableData.push({ id: i, gid: (i + 1) / 10, title: `Item${page} ${i}` });
     }
     Promise.all([

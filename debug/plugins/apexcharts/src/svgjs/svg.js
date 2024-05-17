@@ -1789,6 +1789,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1918,6 +1940,17 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3073,53 +3106,20 @@
               if (i != 0 && children[i].nodeType != 3 && SVG.adopt(children[i]).dom.newLined == true) {text += '\n';} // add content of this node
               text += children[i].textContent;}return text;} // remove existing content
           this.clear().build(true);if (typeof text === 'function') {// call block
-            text.call(this, this);
-          } else {
-            // store text and make sure text is not blank
-            text = text.split('\n');
-
-            // build new lines
-            for (var i = 0, il = text.length; i < il; i++) {this.tspan(text[i]).newLine();}
-          }
-
-          // disable build mode and rebuild lines
-          return this.build(false).rebuild();
-        },
-        // Set font size
-        size: function (size) {
-          return this.attr('font-size', size).rebuild();
-        },
-        // Set / get leading
-        leading: function (value) {
-          // act as getter
-          if (value == null) {return this.dom.leading;}
-
-          // act as setter
-          this.dom.leading = new SVG.Number(value);
-
-          return this.rebuild();
-        },
-        // Get all the first level lines
-        lines: function () {
-          var node = (this.textPath && this.textPath() || this).node;
-
-          // filter tspans and map them to SVG.js instances
-          var lines = SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes), function (el) {
-            return SVG.adopt(el);
-          });
-
-          // return an instance of SVG.set
-          return new SVG.Set(lines);
-        },
-        // Rebuild appearance type
-        rebuild: function (rebuild) {
-          // store new rebuild flag if given
-          if (typeof rebuild === 'boolean') {this._rebuild = rebuild;}
-
-          // define position of all lines
-          if (this._rebuild) {
-            var self = this,
-              blankLineOffset = 0,
+            text.call(this, this);} else {// store text and make sure text is not blank
+            text = text.split('\n'); // build new lines
+            for (var i = 0, il = text.length; i < il; i++) {this.tspan(text[i]).newLine();}} // disable build mode and rebuild lines
+          return this.build(false).rebuild();}, // Set font size
+        size: function (size) {return this.attr('font-size', size).rebuild();}, // Set / get leading
+        leading: function (value) {// act as getter
+          if (value == null) {return this.dom.leading;} // act as setter
+          this.dom.leading = new SVG.Number(value);return this.rebuild();}, // Get all the first level lines
+        lines: function () {var node = (this.textPath && this.textPath() || this).node; // filter tspans and map them to SVG.js instances
+          var lines = SVG.utils.map(SVG.utils.filterSVGElements(node.childNodes), function (el) {return SVG.adopt(el);}); // return an instance of SVG.set
+          return new SVG.Set(lines);}, // Rebuild appearance type
+        rebuild: function (rebuild) {// store new rebuild flag if given
+          if (typeof rebuild === 'boolean') {this._rebuild = rebuild;} // define position of all lines
+          if (this._rebuild) {var self = this,blankLineOffset = 0,
               dy = this.dom.leading * new SVG.Number(this.attr('font-size'));
 
             this.lines().each(function () {
