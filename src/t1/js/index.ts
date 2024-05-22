@@ -5,8 +5,8 @@ import CryptoES from 'crypto-es';
 import {CacheLocalStorage} from '@flexvue/caches';
 import Swal from 'sweetalert2';
 
-import Navigation from '@t1/js/nav.class.js';
-import {MyException} from '@t1/js/exception.class.js';
+import Navigation from '@t1/js/Nav.class.js';
+import {MyException} from '@t1/js/Exception.class.js';
 
 // 이전 화면 패널 위치
 let pre_viewpage : string | null = null;

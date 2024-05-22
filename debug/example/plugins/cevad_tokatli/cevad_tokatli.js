@@ -1,5 +1,5 @@
 import DatePicker from "../../../plugins/@cevad-tokatli/date-picker/js/date-picker.esm.js";
-import Forms from "../../../flexvue/core/forms.class.js";
+import Forms from "../../../flexvue/core/Forms.class.js";
 const onReady = () => {
   DatePicker.createLanguage('ko', {
     DAYS_ABBR: ['', '월', '화', '수', '목', '금', '토', '일'],

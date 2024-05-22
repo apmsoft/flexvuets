@@ -1,14 +1,10 @@
-import {Template as InterfaceTemplate} from '@flexvue/types';
-
-class Template implements InterfaceTemplate
-{
-    constructor(){
-    }
-
-    render(message : Record<string,any>={}) {
-      const total_record = message.total_record;
-      const msg : { [key: string]: any } = message.msg;
-        return (`
+class ListView {
+  constructor() {
+  }
+  render(message = {}) {
+    const total_record = message.total_record;
+    const msg = message.msg;
+    return `
         <div class="flex flex-row justify-between mb-5">
             <div>
                 <h3>DB 전체사용비율</h3>
@@ -30,10 +26,9 @@ class Template implements InterfaceTemplate
                     </tr>
                 </thead>
                 <tbody class="text-sm divide-y divice-gray-100">
-                    ${
-                    Object.entries(msg).map( ([key,value])=>`
+                    ${Object.entries(msg).map(([key, value]) => `
                     <tr class="border-b border-gray-100 dark:border-gray-600 hover:bg-gray-light dark:hover:bg-gray-800 text-gray-default dark:text-gray-300 text-center">
-                        <td class="py-2 px-2">${value.tname.replace('flex_','')}</td>
+                        <td class="py-2 px-2">${value.tname.replace('flex_', '')}</td>
                         <td class="py-2 px-2">${value.table_comment}</td>
                         <td class="py-2 px-2">${value.engine}</td>
                         <td class="py-2 px-2">${value.update_time}</td>
@@ -47,22 +42,21 @@ class Template implements InterfaceTemplate
                                     </div>
                                     <div class="text-right">
                                         <span class="text-xs font-semibold inline-block text-gray-600 dark:text-gray-400">
-                                            ${ Math.ceil( (value.rows / total_record)*100 ) }%
+                                            ${Math.ceil(value.rows / total_record * 100)}%
                                         </span>
                                     </div>
                                 </div>
                                 <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200 dark:bg-gray-900">
-                                    <div style="width:${ Math.ceil( (value.rows / total_record)*100 ) }%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${ (Math.ceil( (value.rows / total_record)*100 ) > 50) ? `bg-red-500` : 'bg-gray-500 dark:bg-blue-500'}"></div>
+                                    <div style="width:${Math.ceil(value.rows / total_record * 100)}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${Math.ceil(value.rows / total_record * 100) > 50 ? `bg-red-500` : 'bg-gray-500 dark:bg-blue-500'}"></div>
                                 </div>
                             </div>
                         </td>
-                    </tr>`
-                    ).join('')}
+                    </tr>`).join('')}
                 </tbody>
             </table>
 
         </div>
-        `);
-    }
+        `;
+  }
 }
-export {Template};
+export { ListView };

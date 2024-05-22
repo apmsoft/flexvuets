@@ -1,5 +1,5 @@
-import UrlManager from "../../flexvue/core/urlmanager.class.js";
-import FastRouter from "../../flexvue/core/fastrouter.class.js";
+import UrlManager from "../../flexvue/core/UrlManager.class.js";
+import FastRouter from "../../flexvue/core/FastRouter.class.js";
 const onReady = () => {
   // 기본 클래스 선언
   new App();

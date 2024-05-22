@@ -1,5 +1,5 @@
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
-import ScrollAgent from "../../flexvue/core/scrollagent.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
+import ScrollAgent from "../../flexvue/core/ScrollAgent.class.js";
 class ComponentActivity {
   constructor() {
     this.TAG = 'Menu2Activity';
@@ -14,10 +14,10 @@ class ComponentActivity {
     Activity.onStart('#left');
     // multiout
     Promise.all([
-    new AsyncTask().doImport(new URL(`../menu2/tpl/list${App.getLocale()}.js`, import.meta.url).href)]
+    new AsyncTask().doImport(new URL(`../menu2/tpl/List.template${App.getLocale()}.js`, import.meta.url).href)]
     ).then((data) => {
-      const template = new data[0].Template();
-      document.querySelector('#left-content-container').innerHTML = template.render({});
+      const listView = new data[0].ListView();
+      document.querySelector('#left-content-container').innerHTML = listView.render({});
       return 'ok';
     }).
     then((resp) => {

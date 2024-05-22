@@ -1,4 +1,4 @@
-import ScrollAgent from "../../flexvue/core/scrollagent.class.js";
+import ScrollAgent from "../../flexvue/core/ScrollAgent.class.js";
 const onReady = () => {
   var _a, _b, _c, _d, _e, _f, _g, _h;
   // 채널 등록

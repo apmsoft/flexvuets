@@ -1811,6 +1811,14 @@
 
 
 
+
+
+
+
+
+
+
+
         // functionToCall: [list of morphable objects]
         // e.g. move: [SVG.Number, SVG.Number]
       };this.attrs = {
@@ -1940,6 +1948,10 @@
         if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
           try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
               var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
 
 
 
@@ -3119,20 +3131,8 @@
           return new SVG.Set(lines);}, // Rebuild appearance type
         rebuild: function (rebuild) {// store new rebuild flag if given
           if (typeof rebuild === 'boolean') {this._rebuild = rebuild;} // define position of all lines
-          if (this._rebuild) {var self = this,blankLineOffset = 0,
-              dy = this.dom.leading * new SVG.Number(this.attr('font-size'));
-
-            this.lines().each(function () {
-              if (this.dom.newLined) {
-                if (!self.textPath()) {this.attr('x', self.attr('x'));}
-                if (this.text() == '\n') {
-                  blankLineOffset += dy;
-                } else {
-                  this.attr('dy', dy + blankLineOffset);
-                  blankLineOffset = 0;
-                }
-              }
-            });
+          if (this._rebuild) {var self = this,blankLineOffset = 0,dy = this.dom.leading * new SVG.Number(this.attr('font-size'));this.lines().each(function () {if (this.dom.newLined) {if (!self.textPath()) {this.attr('x', self.attr('x'));}if (this.text() == '\n') {blankLineOffset += dy;} else {this.attr('dy', dy + blankLineOffset);blankLineOffset = 0;}}
+              });
 
             this.fire('rebuild');
           }

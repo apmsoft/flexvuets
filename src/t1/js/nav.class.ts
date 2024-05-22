@@ -11,16 +11,16 @@ export default class Navigation {
     onCreateView ()
     {
         // Promise all
-        new AsyncTask().doImport( new URL(`../nav/tpl/nav1${App.getLocale()}.js`, import.meta.url).href )
+        new AsyncTask().doImport( new URL(`../nav/tpl/Nav1.template${App.getLocale()}.js`, import.meta.url).href )
         .then( data =>
         {
-            const template : Template = new data.Template();
+            const nav1View : Template = new data.Nav1View();
 
             // set title
             document.querySelector<HTMLElement>('#left_title')!.innerText = R.strings.app_name;
 
             // 네비게이션
-            document.querySelector<HTMLElement>('#left-col-1')!.innerHTML = template.render( R.arrays );
+            document.querySelector<HTMLElement>('#left-col-1')!.innerHTML = nav1View.render( R.arrays );
 
             // resolve
             return 'ok';
@@ -71,14 +71,14 @@ export default class Navigation {
     selectNav2 (menu : object = {})
     {
         // config
-        new AsyncTask().doImport( new URL(`../nav/tpl/nav2${App.getLocale()}.js`, import.meta.url).href )
+        new AsyncTask().doImport( new URL(`../nav/tpl/Nav2.template${App.getLocale()}.js`, import.meta.url).href )
         .then( data =>
         {
-            const template : Template = new data.Template();
+            const nav2View : Template = new data.Nav2View();
 
             // 네비게이션 서브
             const outhtml_el = document.querySelector<HTMLElement>('#left-col-2')!;
-            outhtml_el.innerHTML = template.render( menu );
+            outhtml_el.innerHTML = nav2View.render( menu );
 
             // resolve
             return menu;

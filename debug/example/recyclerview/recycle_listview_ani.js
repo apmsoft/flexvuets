@@ -1,4 +1,4 @@
-import { SimpleAdapter, RecyclerView } from "../../flexvue/core/recyclerview.class.js";
+import { SimpleAdapter, RecyclerView } from "../../flexvue/core/RecyclerView.class.js";
 const onReady = () => {
   // 데이터
   const data = [];

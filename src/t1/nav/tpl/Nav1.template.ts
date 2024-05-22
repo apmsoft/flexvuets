@@ -1,6 +1,6 @@
-import {Template as InterfaceTemplate} from '@flexvue/types';
+import {Template} from '@flexvue/types';
 
-class Template implements InterfaceTemplate
+class Nav1View implements Template
 {
     constructor(){
     }
@@ -61,4 +61,4 @@ class Template implements InterfaceTemplate
         `);
     }
 }
-export {Template};
+export {Nav1View};

@@ -1,18 +1,18 @@
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
-import UrlManager from "../../flexvue/core/urlmanager.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
+import UrlManager from "../../flexvue/core/UrlManager.class.js";
 export default class Navigation {
   constructor() {
     this.preNavigation = null;
   }
   onCreateView() {
     // Promise all
-    new AsyncTask().doImport(new URL(`../nav/tpl/nav1${App.getLocale()}.js`, import.meta.url).href).
+    new AsyncTask().doImport(new URL(`../nav/tpl/Nav1.template${App.getLocale()}.js`, import.meta.url).href).
     then((data) => {
-      const template = new data.Template();
+      const nav1View = new data.Nav1View();
       // set title
       document.querySelector('#left_title').innerText = R.strings.app_name;
       // 네비게이션
-      document.querySelector('#left-col-1').innerHTML = template.render(R.arrays);
+      document.querySelector('#left-col-1').innerHTML = nav1View.render(R.arrays);
       // resolve
       return 'ok';
     }).
@@ -52,12 +52,12 @@ export default class Navigation {
   // 2차 메뉴 (모듈별 메뉴 출력)
   selectNav2(menu = {}) {
     // config
-    new AsyncTask().doImport(new URL(`../nav/tpl/nav2${App.getLocale()}.js`, import.meta.url).href).
+    new AsyncTask().doImport(new URL(`../nav/tpl/Nav2.template${App.getLocale()}.js`, import.meta.url).href).
     then((data) => {
-      const template = new data.Template();
+      const nav2View = new data.Nav2View();
       // 네비게이션 서브
       const outhtml_el = document.querySelector('#left-col-2');
-      outhtml_el.innerHTML = template.render(menu);
+      outhtml_el.innerHTML = nav2View.render(menu);
       // resolve
       return menu;
     }).

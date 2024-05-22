@@ -23,11 +23,11 @@ class ComponentActivity {
 
         // multiout
         Promise.all([
-            new AsyncTask().doImport( new URL(`../main/tpl/main${App.getLocale()}.js`, import.meta.url).href )
+            new AsyncTask().doImport( new URL(`../main/tpl/Main.template${App.getLocale()}.js`, import.meta.url).href )
         ]).then((data) => {
-            const template : Template = new data[0].Template();
+            const mainView : Template = new data[0].MainView();
 
-            document.querySelector<HTMLDivElement>('#left-content-container')!.innerHTML = template.render({});
+            document.querySelector<HTMLDivElement>('#left-content-container')!.innerHTML = mainView.render({});
             return 'ok';
         })
         .then(ok=>

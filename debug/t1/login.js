@@ -1,7 +1,7 @@
-import Forms from "../flexvue/core/forms.class.js";
-import AsyncTask from "../flexvue/core/asynctask.class.js";
+import Forms from "../flexvue/core/Forms.class.js";
+import AsyncTask from "../flexvue/core/AsyncTask.class.js";
 import CryptoES from "../plugins/crypto-es/lib/index.js";
-import { CacheLocalStorage } from "../flexvue/core/caches.class.js";
+import { CacheLocalStorage } from "../flexvue/core/Caches.class.js";
 const onReady = () => {
   var _a;
   // config

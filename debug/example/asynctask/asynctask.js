@@ -1,4 +1,4 @@
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 const onReady = () => {
   // application/json
   const json_params = JSON.stringify({

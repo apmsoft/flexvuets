@@ -1,5 +1,5 @@
 import Prism from "../../../plugins/prism-es6/prism.js";
-import AsyncTask from "../../../flexvue/core/asynctask.class.js";
+import AsyncTask from "../../../flexvue/core/AsyncTask.class.js";
 const onReady = () => {
   // 프리즘 기능을 수동으로 사용하려는 경우 다음을 설정해야 합니다.
   Prism.manual = true;

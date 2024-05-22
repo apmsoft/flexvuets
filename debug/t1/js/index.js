@@ -1,10 +1,10 @@
-import UrlManager from "../../flexvue/core/urlmanager.class.js";
-import FastRouter from "../../flexvue/core/fastrouter.class.js";
+import UrlManager from "../../flexvue/core/UrlManager.class.js";
+import FastRouter from "../../flexvue/core/FastRouter.class.js";
 import CryptoES from "../../plugins/crypto-es/lib/index.js";
-import { CacheLocalStorage } from "../../flexvue/core/caches.class.js";
+import { CacheLocalStorage } from "../../flexvue/core/Caches.class.js";
 import Swal from "../../plugins/sweetalert2/src/sweetalert2.js";
-import Navigation from "./nav.class.js";
-import { MyException } from "./exception.class.js";
+import Navigation from "./Nav.class.js";
+import { MyException } from "./Exception.class.js";
 // 이전 화면 패널 위치
 let pre_viewpage = null;
 const onReady = () => {

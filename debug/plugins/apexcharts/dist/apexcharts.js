@@ -29417,6 +29417,14 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29538,6 +29546,10 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
 
 
 
@@ -30717,21 +30729,9 @@ textPath:function textPath(){if(this.node.firstChild&&this.node.firstChild.nodeN
 create:function create(){this.constructor.call(this,SVG.create('svg'));this.style('overflow','visible');},// Inherit from
 inherit:SVG.Container,// Add parent method
 construct:{// Create nested svg document
-nested:function nested(){
-return this.put(new SVG.Nested());
-}
-}
-});// Define list of available attributes for stroke and fill
-
-var sugar={
-stroke:['color','width','opacity','linecap','linejoin','miterlimit','dasharray','dashoffset'],
-fill:['color','opacity','rule'],
-prefix:function prefix(t,a){
-return a=='color'?t:t+'-'+a;
-}
-}// Add sugar for fill and stroke
-;
-['fill','stroke'].forEach(function(m){
+nested:function nested(){return this.put(new SVG.Nested());}}});// Define list of available attributes for stroke and fill
+var sugar={stroke:['color','width','opacity','linecap','linejoin','miterlimit','dasharray','dashoffset'],fill:['color','opacity','rule'],prefix:function prefix(t,a){return a=='color'?t:t+'-'+a;}}// Add sugar for fill and stroke
+;['fill','stroke'].forEach(function(m){
 var extension={};
 
 extension[m]=function(o){

@@ -1,5 +1,5 @@
 import VanillaCalendar from "../../../plugins/vanilla-calendar-pro/build/vanilla-calendar.min.js";
-import Forms from "../../../flexvue/core/forms.class.js";
+import Forms from "../../../flexvue/core/Forms.class.js";
 const onReady = () => {
   // date picker ==========================================
   const dateOptions = {

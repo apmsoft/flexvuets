@@ -1,5 +1,5 @@
-import { SimpleAdapter, RecyclerView } from "../../flexvue/core/recyclerview.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import { SimpleAdapter, RecyclerView } from "../../flexvue/core/RecyclerView.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 const onReady = () => {
   ProgressBars.show();
   // 데이터

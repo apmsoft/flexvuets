@@ -1,7 +1,7 @@
-import UrlManager from "../../flexvue/core/urlmanager.class.js";
-import FastRouter from "../../flexvue/core/fastrouter.class.js";
-import { CacheMemory } from "../../flexvue/core/caches.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import UrlManager from "../../flexvue/core/UrlManager.class.js";
+import FastRouter from "../../flexvue/core/FastRouter.class.js";
+import { CacheMemory } from "../../flexvue/core/Caches.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 const onReady = () => {
   new App();
   Log.i(App.browser, App.version, App.os, App.lang);

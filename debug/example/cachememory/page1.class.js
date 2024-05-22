@@ -1,4 +1,4 @@
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 class ComponentActivity {
   constructor() {
     this.TAG = 'page1';

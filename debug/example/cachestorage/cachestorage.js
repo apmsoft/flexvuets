@@ -1,5 +1,5 @@
-import { CacheLocalStorage } from "../../flexvue/core/caches.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import { CacheLocalStorage } from "../../flexvue/core/Caches.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 const onReady = () => {
   var _a, _b, _c;
   new App();

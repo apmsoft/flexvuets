@@ -1,6 +1,6 @@
-import {Template as InterfaceTemplate} from '@flexvue/types';
+import {Template} from '@flexvue/types';
 
-class Template implements InterfaceTemplate
+class MainView implements Template
 {
     constructor(){
     }
@@ -80,4 +80,4 @@ class Template implements InterfaceTemplate
         );
     }
 }
-export {Template};
+export {MainView};

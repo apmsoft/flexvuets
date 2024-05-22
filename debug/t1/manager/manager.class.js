@@ -1,5 +1,5 @@
-import Forms from "../../flexvue/core/forms.class.js";
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import Forms from "../../flexvue/core/Forms.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 // class
 class ComponentActivity {
   constructor() {
@@ -15,9 +15,9 @@ class ComponentActivity {
     // multiout
     Promise.all([
     new AsyncTask().execute('POST', `${config.src}/manager/list`, send_params, config._options_, config._headers_),
-    new AsyncTask().doImport(new URL(`../manager/tpl/list${App.getLocale()}.js`, import.meta.url).href)]
+    new AsyncTask().doImport(new URL(`../manager/tpl/List.template${App.getLocale()}.js`, import.meta.url).href)]
     ).then((data) => {
-      const template = new data[1].Template();
+      const listView = new data[1].ListView();
       const resp = data[0];
       // Log.d(resp);
       // reject
@@ -25,7 +25,7 @@ class ComponentActivity {
         throw resp;
       }
       // result
-      document.querySelector('#left_docs_contents').innerHTML = template.render(resp);
+      document.querySelector('#left_docs_contents').innerHTML = listView.render(resp);
       return resp;
     }).
     then((resp) => {
@@ -101,10 +101,10 @@ class ComponentActivity {
     // panel
     Activity.onStart('#left');
     // multiout
-    new AsyncTask().doImport(new URL(`../manager/tpl/post${App.getLocale()}.js`, import.meta.url).href).
+    new AsyncTask().doImport(new URL(`../manager/tpl/Post.template${App.getLocale()}.js`, import.meta.url).href).
     then((Module) => {
-      const template = new Module.Template();
-      document.querySelector('#left_docs_contents').innerHTML = template.render({});
+      const postView = new Module.PostView();
+      document.querySelector('#left_docs_contents').innerHTML = postView.render({});
       // submit
       new Forms('#theManagerPostForm').doSubmit((form_params) => {
         ProgressBars.show();
@@ -145,15 +145,15 @@ class ComponentActivity {
     Activity.onStart('#left');
     Promise.all([
     new AsyncTask().execute('PATCH', `${config.src}/manager/edit/${params.id}`, send_params, config._options_, config._headers_),
-    new AsyncTask().doImport(new URL(`../manager/tpl/edit${App.getLocale()}.js`, import.meta.url).href)]
+    new AsyncTask().doImport(new URL(`../manager/tpl/Edit.template${App.getLocale()}.js`, import.meta.url).href)]
     ).then((data) => {
-      const template = new data[1].Template();
+      const editView = new data[1].EditView();
       const resp = data[0];
       // reject
       if (resp.result == 'false') {
         throw resp;
       }
-      document.querySelector('#left_docs_contents').innerHTML = template.render(resp);
+      document.querySelector('#left_docs_contents').innerHTML = editView.render(resp);
       return resp;
     }).
     then((resp) => {

@@ -1,4 +1,4 @@
-import AsyncTask from "../../flexvue/core/asynctask.class.js";
+import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 class ComponentActivity {
   constructor() {
   }
@@ -8,10 +8,10 @@ class ComponentActivity {
     // panel
     Activity.onStart('#left');
     // multiout
-    new AsyncTask().doImport(new URL(`../menu1/tpl/greeting${App.getLocale()}.js`, import.meta.url).href).
+    new AsyncTask().doImport(new URL(`../menu1/tpl/Greeting.template${App.getLocale()}.js`, import.meta.url).href).
     then((Module) => {
-      const template = new Module.Template();
-      document.querySelector('#left-content-container').innerHTML = template.render({});
+      const greetingView = new Module.GreetingView();
+      document.querySelector('#left-content-container').innerHTML = greetingView.render({});
       return 'ok';
     }).
     then((resp) => {
@@ -28,10 +28,10 @@ class ComponentActivity {
     // panel
     Activity.onStart('#left');
     // multiout
-    new AsyncTask().doImport(new URL(`../menu1/tpl/location${App.getLocale()}.js`, import.meta.url).href).
+    new AsyncTask().doImport(new URL(`../menu1/tpl/Location.template${App.getLocale()}.js`, import.meta.url).href).
     then((Module) => {
-      const template = new Module.Template();
-      document.querySelector('#left-content-container').innerHTML = template.render({});
+      const locationView = new Module.LocationView();
+      document.querySelector('#left-content-container').innerHTML = locationView.render({});
       return 'ok';
     }).
     then((resp) => {

@@ -18,10 +18,10 @@ class ComponentActivity {
         // multiout
         Promise.all([
             new AsyncTask().execute('POST',`${config.src}/analysis/tables`,{},config._options_,config._headers_), 
-            new AsyncTask().doImport( new URL(`../tables/tpl/list${App.getLocale()}.js`, import.meta.url).href )
+            new AsyncTask().doImport( new URL(`../tables/tpl/List.template${App.getLocale()}.js`, import.meta.url).href )
         ])
         .then((data) => {
-            const template : Template = new data[1].Template();
+            const listView : Template = new data[1].ListView();
             const resp : Response= data[0];
 
             // reject
@@ -29,7 +29,7 @@ class ComponentActivity {
                 throw resp;
             }
 
-            document.querySelector<HTMLDivElement>('#left_docs_contents')!.innerHTML = template.render(resp);
+            document.querySelector<HTMLDivElement>('#left_docs_contents')!.innerHTML = listView.render(resp);
             return resp;
         })
         .then(resp=>{

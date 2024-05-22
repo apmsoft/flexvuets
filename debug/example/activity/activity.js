@@ -1,4 +1,4 @@
-import UrlManager from "../../flexvue/core/urlmanager.class.js";
+import UrlManager from "../../flexvue/core/UrlManager.class.js";
 const onReady = () => {
   new App();
   Log.i(App.browser, App.version, App.os, App.lang);

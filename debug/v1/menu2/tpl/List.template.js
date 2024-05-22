@@ -1,13 +1,8 @@
-import {Template as InterfaceTemplate} from '@flexvue/types';
-
-class Template implements InterfaceTemplate
-{
-    constructor(){
-    }
-
-    render(message : Record<string,any> = {}) {
-
-        return (String.raw`
+class ListView {
+  constructor() {
+  }
+  render(message = {}) {
+    return String.raw`
         <div class="flex flex-col">
             <div class="relative bg-dark">
                 <div class="h-[200px] lg:h-[300px] bg-no-repeat bg-[length:120%_auto] relative ani-slide-bg" style="background-image:url(images/item/bg_item.jpg);">
@@ -97,8 +92,7 @@ class Template implements InterfaceTemplate
 
             </div>
 
-        </div>`
-        );
-    }
+        </div>`;
+  }
 }
-export {Template};
+export { ListView };
