@@ -1976,6 +1976,255 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -2058,275 +2307,26 @@ const defaultOptions = { // the id to add to the root element
   ERROR: 2, // a file is in error state
   BUSY: 3, // busy processing or loading
   READY: 4 // all files uploaded
-};let res = null;const canUpdateFileInput = () => {if (res === null) {try {const dataTransfer = new DataTransfer();dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));const el = document.createElement('input');el.setAttribute('type', 'file');el.files = dataTransfer.files;res = el.files.length === 1;} catch (err) {res = false;}}return res;};const ITEM_ERROR = [ItemStatus.LOAD_ERROR, ItemStatus.PROCESSING_ERROR, ItemStatus.PROCESSING_REVERT_ERROR];const ITEM_BUSY = [ItemStatus.LOADING, ItemStatus.PROCESSING, ItemStatus.PROCESSING_QUEUED, ItemStatus.INIT];const ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];const isItemInErrorState = (item) => ITEM_ERROR.includes(item.status);const isItemInBusyState = (item) => ITEM_BUSY.includes(item.status);const isItemInReadyState = (item) => ITEM_READY.includes(item.status);const isAsync = (state) => isObject(state.options.server) && (isObject(state.options.server.process) || isFunction(state.options.server.process));const queries = (state) => ({ GET_STATUS: () => {const items = getActiveItems(state.items);
-
-    const { EMPTY, ERROR, BUSY, IDLE, READY } = Status;
-
-    if (items.length === 0) return EMPTY;
-
-    if (items.some(isItemInErrorState)) return ERROR;
-
-    if (items.some(isItemInBusyState)) return BUSY;
-
-    if (items.some(isItemInReadyState)) return READY;
-
-    return IDLE;
-  },
-
-  GET_ITEM: (query) => getItemByQuery(state.items, query),
-
-  GET_ACTIVE_ITEM: (query) => getItemByQuery(getActiveItems(state.items), query),
-
-  GET_ACTIVE_ITEMS: () => getActiveItems(state.items),
-
-  GET_ITEMS: () => state.items,
-
-  GET_ITEM_NAME: (query) => {
-    const item = getItemByQuery(state.items, query);
-    return item ? item.filename : null;
-  },
-
-  GET_ITEM_SIZE: (query) => {
-    const item = getItemByQuery(state.items, query);
-    return item ? item.fileSize : null;
-  },
-
-  GET_STYLES: () =>
-  Object.keys(state.options).
-  filter((key) => /^style/.test(key)).
-  map((option) => ({
-    name: option,
-    value: state.options[option]
-  })),
-
-  GET_PANEL_ASPECT_RATIO: () => {
-    const isShapeCircle = /circle/.test(state.options.stylePanelLayout);
-    const aspectRatio = isShapeCircle ?
-    1 :
-    getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);
-    return aspectRatio;
-  },
-
-  GET_ITEM_PANEL_ASPECT_RATIO: () => state.options.styleItemPanelAspectRatio,
-
-  GET_ITEMS_BY_STATUS: (status) =>
-  getActiveItems(state.items).filter((item) => item.status === status),
-
-  GET_TOTAL_ITEMS: () => getActiveItems(state.items).length,
-
-  SHOULD_UPDATE_FILE_INPUT: () =>
-  state.options.storeAsFile && canUpdateFileInput() && !isAsync(state),
-
-  IS_ASYNC: () => isAsync(state),
-
-  GET_FILE_SIZE_LABELS: (query) => ({
-    labelBytes: query('GET_LABEL_FILE_SIZE_BYTES') || undefined,
-    labelKilobytes: query('GET_LABEL_FILE_SIZE_KILOBYTES') || undefined,
-    labelMegabytes: query('GET_LABEL_FILE_SIZE_MEGABYTES') || undefined,
-    labelGigabytes: query('GET_LABEL_FILE_SIZE_GIGABYTES') || undefined
-  })
-});
-
-const hasRoomForItem = (state) => {
-  const count = getActiveItems(state.items).length;
-
-  // if cannot have multiple items, to add one item it should currently not contain items
-  if (!state.options.allowMultiple) {
-    return count === 0;
-  }
-
-  // if allows multiple items, we check if a max item count has been set, if not, there's no limit
-  const maxFileCount = state.options.maxFiles;
-  if (maxFileCount === null) {
-    return true;
-  }
-
-  // we check if the current count is smaller than the max count, if so, another file can still be added
-  if (count < maxFileCount) {
-    return true;
-  }
-
-  // no more room for another file
-  return false;
-};
-
-const limit = (value, min, max) => Math.max(Math.min(max, value), min);
-
-const arrayInsert = (arr, index, item) => arr.splice(index, 0, item);
-
-const insertItem = (items, item, index) => {
-  if (isEmpty(item)) {
-    return null;
-  }
-
-  // if index is undefined, append
-  if (typeof index === 'undefined') {
-    items.push(item);
-    return item;
-  }
-
-  // limit the index to the size of the items array
-  index = limit(index, 0, items.length);
-
-  // add item to array
-  arrayInsert(items, index, item);
-
-  // expose
-  return item;
-};
-
-const isBase64DataURI = (str) =>
-/^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(
-  str
-);
-
-const getFilenameFromURL = (url) =>
-`${url}`.
-split('/').
-pop().
-split('?').
-shift();
-
-const getExtensionFromFilename = (name) => name.split('.').pop();
-
-const guesstimateExtension = (type) => {
-  // if no extension supplied, exit here
-  if (typeof type !== 'string') {
-    return '';
-  }
-
-  // get subtype
-  const subtype = type.split('/').pop();
-
-  // is svg subtype
-  if (/svg/.test(subtype)) {
-    return 'svg';
-  }
-
-  if (/zip|compressed/.test(subtype)) {
-    return 'zip';
-  }
-
-  if (/plain/.test(subtype)) {
-    return 'txt';
-  }
-
-  if (/msword/.test(subtype)) {
-    return 'doc';
-  }
-
-  // if is valid subtype
-  if (/[a-z]+/.test(subtype)) {
-    // always use jpg extension
-    if (subtype === 'jpeg') {
-      return 'jpg';
-    }
-
-    // return subtype
-    return subtype;
-  }
-
-  return '';
-};
-
-const leftPad = (value, padding = '') => (padding + value).slice(-padding.length);
-
-const getDateString = (date = new Date()) =>
-`${date.getFullYear()}-${leftPad(date.getMonth() + 1, '00')}-${leftPad(
-  date.getDate(),
-  '00'
-)}_${leftPad(date.getHours(), '00')}-${leftPad(date.getMinutes(), '00')}-${leftPad(
-  date.getSeconds(),
-  '00'
-)}`;
-
-const getFileFromBlob = (blob, filename, type = null, extension = null) => {
-  const file =
-  typeof type === 'string' ?
-  blob.slice(0, blob.size, type) :
-  blob.slice(0, blob.size, blob.type);
-  file.lastModifiedDate = new Date();
-
-  // copy relative path
-  if (blob._relativePath) file._relativePath = blob._relativePath;
-
-  // if blob has name property, use as filename if no filename supplied
-  if (!isString(filename)) {
-    filename = getDateString();
-  }
-
-  // if filename supplied but no extension and filename has extension
-  if (filename && extension === null && getExtensionFromFilename(filename)) {
-    file.name = filename;
-  } else {
-    extension = extension || guesstimateExtension(file.type);
-    file.name = filename + (extension ? '.' + extension : '');
-  }
-
-  return file;
-};
-
-const getBlobBuilder = () => {
-  return window.BlobBuilder =
-  window.BlobBuilder ||
-  window.WebKitBlobBuilder ||
-  window.MozBlobBuilder ||
-  window.MSBlobBuilder;
-};
-
-const createBlob = (arrayBuffer, mimeType) => {
-  const BB = getBlobBuilder();
-
-  if (BB) {
-    const bb = new BB();
-    bb.append(arrayBuffer);
-    return bb.getBlob(mimeType);
-  }
-
-  return new Blob([arrayBuffer], {
-    type: mimeType
-  });
-};
-
-const getBlobFromByteStringWithMimeType = (byteString, mimeType) => {
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-
-  return createBlob(ab, mimeType);
-};
-
-const getMimeTypeFromBase64DataURI = (dataURI) => {
-  return (/^data:(.+);/.exec(dataURI) || [])[1] || null;
-};
-
-const getBase64DataFromBase64DataURI = (dataURI) => {
-  // get data part of string (remove data:image/jpeg...,)
-  const data = dataURI.split(',')[1];
-
-  // remove any whitespace as that causes InvalidCharacterError in IE
-  return data.replace(/\s/g, '');
-};
-
-const getByteStringFromBase64DataURI = (dataURI) => {
-  return atob(getBase64DataFromBase64DataURI(dataURI));
-};
-
-const getBlobFromBase64DataURI = (dataURI) => {
-  const mimeType = getMimeTypeFromBase64DataURI(dataURI);
-  const byteString = getByteStringFromBase64DataURI(dataURI);
-
-  return getBlobFromByteStringWithMimeType(byteString, mimeType);
-};
-
-const getFileFromBase64DataURI = (dataURI, filename, extension) => {
-  return getFileFromBlob(getBlobFromBase64DataURI(dataURI), filename, null, extension);
-};
-
-const getFileNameFromHeader = (header) => {
+};let res = null;const canUpdateFileInput = () => {if (res === null) {try {const dataTransfer = new DataTransfer();dataTransfer.items.add(new File(['hello world'], 'This_Works.txt'));const el = document.createElement('input');el.setAttribute('type', 'file');el.files = dataTransfer.files;res = el.files.length === 1;} catch (err) {res = false;}}return res;};const ITEM_ERROR = [ItemStatus.LOAD_ERROR, ItemStatus.PROCESSING_ERROR, ItemStatus.PROCESSING_REVERT_ERROR];const ITEM_BUSY = [ItemStatus.LOADING, ItemStatus.PROCESSING, ItemStatus.PROCESSING_QUEUED, ItemStatus.INIT];const ITEM_READY = [ItemStatus.PROCESSING_COMPLETE];const isItemInErrorState = (item) => ITEM_ERROR.includes(item.status);const isItemInBusyState = (item) => ITEM_BUSY.includes(item.status);const isItemInReadyState = (item) => ITEM_READY.includes(item.status);const isAsync = (state) => isObject(state.options.server) && (isObject(state.options.server.process) || isFunction(state.options.server.process));const queries = (state) => ({ GET_STATUS: () => {const items = getActiveItems(state.items);const { EMPTY, ERROR, BUSY, IDLE, READY } = Status;if (items.length === 0) return EMPTY;if (items.some(isItemInErrorState)) return ERROR;if (items.some(isItemInBusyState)) return BUSY;if (items.some(isItemInReadyState)) return READY;return IDLE;}, GET_ITEM: (query) => getItemByQuery(state.items, query), GET_ACTIVE_ITEM: (query) => getItemByQuery(getActiveItems(state.items), query), GET_ACTIVE_ITEMS: () => getActiveItems(state.items), GET_ITEMS: () => state.items, GET_ITEM_NAME: (query) => {const item = getItemByQuery(state.items, query);return item ? item.filename : null;}, GET_ITEM_SIZE: (query) => {const item = getItemByQuery(state.items, query);return item ? item.fileSize : null;}, GET_STYLES: () => Object.keys(state.options).filter((key) => /^style/.test(key)).map((option) => ({ name: option, value: state.options[option] })), GET_PANEL_ASPECT_RATIO: () => {const isShapeCircle = /circle/.test(state.options.stylePanelLayout);const aspectRatio = isShapeCircle ? 1 : getNumericAspectRatioFromString(state.options.stylePanelAspectRatio);return aspectRatio;}, GET_ITEM_PANEL_ASPECT_RATIO: () => state.options.styleItemPanelAspectRatio, GET_ITEMS_BY_STATUS: (status) => getActiveItems(state.items).filter((item) => item.status === status), GET_TOTAL_ITEMS: () => getActiveItems(state.items).length, SHOULD_UPDATE_FILE_INPUT: () => state.options.storeAsFile && canUpdateFileInput() && !isAsync(state), IS_ASYNC: () => isAsync(state), GET_FILE_SIZE_LABELS: (query) => ({ labelBytes: query('GET_LABEL_FILE_SIZE_BYTES') || undefined, labelKilobytes: query('GET_LABEL_FILE_SIZE_KILOBYTES') || undefined, labelMegabytes: query('GET_LABEL_FILE_SIZE_MEGABYTES') || undefined, labelGigabytes: query('GET_LABEL_FILE_SIZE_GIGABYTES') || undefined }) });const hasRoomForItem = (state) => {const count = getActiveItems(state.items).length; // if cannot have multiple items, to add one item it should currently not contain items
+  if (!state.options.allowMultiple) {return count === 0;} // if allows multiple items, we check if a max item count has been set, if not, there's no limit
+  const maxFileCount = state.options.maxFiles;if (maxFileCount === null) {return true;} // we check if the current count is smaller than the max count, if so, another file can still be added
+  if (count < maxFileCount) {return true;} // no more room for another file
+  return false;};const limit = (value, min, max) => Math.max(Math.min(max, value), min);const arrayInsert = (arr, index, item) => arr.splice(index, 0, item);const insertItem = (items, item, index) => {if (isEmpty(item)) {return null;} // if index is undefined, append
+  if (typeof index === 'undefined') {items.push(item);return item;} // limit the index to the size of the items array
+  index = limit(index, 0, items.length); // add item to array
+  arrayInsert(items, index, item); // expose
+  return item;};const isBase64DataURI = (str) => /^\s*data:([a-z]+\/[a-z0-9-+.]+(;[a-z-]+=[a-z0-9-]+)?)?(;base64)?,([a-z0-9!$&',()*+;=\-._~:@\/?%\s]*)\s*$/i.test(str);const getFilenameFromURL = (url) => `${url}`.split('/').pop().split('?').shift();const getExtensionFromFilename = (name) => name.split('.').pop();const guesstimateExtension = (type) => {// if no extension supplied, exit here
+  if (typeof type !== 'string') {return '';} // get subtype
+  const subtype = type.split('/').pop(); // is svg subtype
+  if (/svg/.test(subtype)) {return 'svg';}if (/zip|compressed/.test(subtype)) {return 'zip';}if (/plain/.test(subtype)) {return 'txt';}if (/msword/.test(subtype)) {return 'doc';} // if is valid subtype
+  if (/[a-z]+/.test(subtype)) {// always use jpg extension
+    if (subtype === 'jpeg') {return 'jpg';} // return subtype
+    return subtype;}return '';};const leftPad = (value, padding = '') => (padding + value).slice(-padding.length);const getDateString = (date = new Date()) => `${date.getFullYear()}-${leftPad(date.getMonth() + 1, '00')}-${leftPad(date.getDate(), '00')}_${leftPad(date.getHours(), '00')}-${leftPad(date.getMinutes(), '00')}-${leftPad(date.getSeconds(), '00')}`;const getFileFromBlob = (blob, filename, type = null, extension = null) => {const file = typeof type === 'string' ? blob.slice(0, blob.size, type) : blob.slice(0, blob.size, blob.type);file.lastModifiedDate = new Date(); // copy relative path
+  if (blob._relativePath) file._relativePath = blob._relativePath; // if blob has name property, use as filename if no filename supplied
+  if (!isString(filename)) {filename = getDateString();} // if filename supplied but no extension and filename has extension
+  if (filename && extension === null && getExtensionFromFilename(filename)) {file.name = filename;} else {extension = extension || guesstimateExtension(file.type);file.name = filename + (extension ? '.' + extension : '');}return file;};const getBlobBuilder = () => {return window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;};const createBlob = (arrayBuffer, mimeType) => {const BB = getBlobBuilder();if (BB) {const bb = new BB();bb.append(arrayBuffer);return bb.getBlob(mimeType);}return new Blob([arrayBuffer], { type: mimeType });};const getBlobFromByteStringWithMimeType = (byteString, mimeType) => {const ab = new ArrayBuffer(byteString.length);const ia = new Uint8Array(ab);for (let i = 0; i < byteString.length; i++) {ia[i] = byteString.charCodeAt(i);}return createBlob(ab, mimeType);};const getMimeTypeFromBase64DataURI = (dataURI) => {return (/^data:(.+);/.exec(dataURI) || [])[1] || null;};const getBase64DataFromBase64DataURI = (dataURI) => {// get data part of string (remove data:image/jpeg...,)
+  const data = dataURI.split(',')[1]; // remove any whitespace as that causes InvalidCharacterError in IE
+  return data.replace(/\s/g, '');};const getByteStringFromBase64DataURI = (dataURI) => {return atob(getBase64DataFromBase64DataURI(dataURI));};const getBlobFromBase64DataURI = (dataURI) => {const mimeType = getMimeTypeFromBase64DataURI(dataURI);const byteString = getByteStringFromBase64DataURI(dataURI);return getBlobFromByteStringWithMimeType(byteString, mimeType);};const getFileFromBase64DataURI = (dataURI, filename, extension) => {return getFileFromBlob(getBlobFromBase64DataURI(dataURI), filename, null, extension);};const getFileNameFromHeader = (header) => {
   // test if is content disposition header, if not exit
   if (!/^content-disposition:/i.test(header)) return null;
 
@@ -7814,6 +7814,255 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -7858,288 +8107,39 @@ const getLinks = (dataTransfer) => {
   if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};const createPaster = () => {const cb = (files) => {api.onload(files);};const api = { destroy: () => {unlisten(cb);}, onload: () => {} };listen(cb);return api;}; /**
 * Creates the file view
 */const create$d = ({ root, props }) => {root.element.id = `filepond--assistant-${props.id}`;attr(root.element, 'role', 'status');attr(root.element, 'aria-live', 'polite');attr(root.element, 'aria-relevant', 'additions');};let addFilesNotificationTimeout = null;let notificationClearTimeout = null;const filenames = [];const assist = (root, message) => {root.element.textContent = message;};const clear$1 = (root) => {root.element.textContent = '';};const listModified = (root, filename, label) => {const total = root.query('GET_TOTAL_ITEMS');assist(root, `${label} ${filename}, ${total} ${total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL')}`); // clear group after set amount of time so the status is not read twice
-  clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(() => {clear$1(root);}, 1500);};const isUsingFilePond = (root) => root.element.parentNode.contains(document.activeElement);const itemAdded = ({ root, action }) => {
-  if (!isUsingFilePond(root)) {
-    return;
-  }
-
-  root.element.textContent = '';
-  const item = root.query('GET_ITEM', action.id);
-  filenames.push(item.filename);
-
-  clearTimeout(addFilesNotificationTimeout);
-  addFilesNotificationTimeout = setTimeout(() => {
-    listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));
-    filenames.length = 0;
-  }, 750);
-};
-
-const itemRemoved = ({ root, action }) => {
-  if (!isUsingFilePond(root)) {
-    return;
-  }
-
-  const item = action.item;
-  listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));
-};
-
-const itemProcessed = ({ root, action }) => {
-  // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-  const item = root.query('GET_ITEM', action.id);
-  const filename = item.filename;
-  const label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');
-
-  assist(root, `${filename} ${label}`);
-};
-
-const itemProcessedUndo = ({ root, action }) => {
-  const item = root.query('GET_ITEM', action.id);
-  const filename = item.filename;
-  const label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');
-
-  assist(root, `${filename} ${label}`);
-};
-
-const itemError = ({ root, action }) => {
-  const item = root.query('GET_ITEM', action.id);
-  const filename = item.filename;
-
-  // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-  assist(root, `${action.status.main} ${filename} ${action.status.sub}`);
-};
-
-const assistant = createView({
-  create: create$d,
-  ignoreRect: true,
-  ignoreRectUpdate: true,
-  write: createRoute({
-    DID_LOAD_ITEM: itemAdded,
-    DID_REMOVE_ITEM: itemRemoved,
-    DID_COMPLETE_ITEM_PROCESSING: itemProcessed,
-
-    DID_ABORT_ITEM_PROCESSING: itemProcessedUndo,
-    DID_REVERT_ITEM_PROCESSING: itemProcessedUndo,
-
-    DID_THROW_ITEM_REMOVE_ERROR: itemError,
-    DID_THROW_ITEM_LOAD_ERROR: itemError,
-    DID_THROW_ITEM_INVALID: itemError,
-    DID_THROW_ITEM_PROCESSING_ERROR: itemError
-  }),
-  tag: 'span',
-  name: 'assistant'
-});
-
-const toCamels = (string, separator = '-') =>
-string.replace(new RegExp(`${separator}.`, 'g'), (sub) => sub.charAt(1).toUpperCase());
-
-const debounce = (func, interval = 16, immidiateOnly = true) => {
-  let last = Date.now();
-  let timeout = null;
-
-  return (...args) => {
-    clearTimeout(timeout);
-
-    const dist = Date.now() - last;
-
-    const fn = () => {
-      last = Date.now();
-      func(...args);
-    };
-
-    if (dist < interval) {
-      // we need to delay by the difference between interval and dist
+  clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(() => {clear$1(root);}, 1500);};const isUsingFilePond = (root) => root.element.parentNode.contains(document.activeElement);const itemAdded = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}root.element.textContent = '';const item = root.query('GET_ITEM', action.id);filenames.push(item.filename);clearTimeout(addFilesNotificationTimeout);addFilesNotificationTimeout = setTimeout(() => {listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));filenames.length = 0;}, 750);};const itemRemoved = ({ root, action }) => {if (!isUsingFilePond(root)) {return;}const item = action.item;listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));};const itemProcessed = ({ root, action }) => {// will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
+  const item = root.query('GET_ITEM', action.id);const filename = item.filename;const label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');assist(root, `${filename} ${label}`);};const itemProcessedUndo = ({ root, action }) => {const item = root.query('GET_ITEM', action.id);const filename = item.filename;const label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');assist(root, `${filename} ${label}`);};const itemError = ({ root, action }) => {const item = root.query('GET_ITEM', action.id);const filename = item.filename; // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
+  assist(root, `${action.status.main} ${filename} ${action.status.sub}`);};const assistant = createView({ create: create$d, ignoreRect: true, ignoreRectUpdate: true, write: createRoute({ DID_LOAD_ITEM: itemAdded, DID_REMOVE_ITEM: itemRemoved, DID_COMPLETE_ITEM_PROCESSING: itemProcessed, DID_ABORT_ITEM_PROCESSING: itemProcessedUndo, DID_REVERT_ITEM_PROCESSING: itemProcessedUndo, DID_THROW_ITEM_REMOVE_ERROR: itemError, DID_THROW_ITEM_LOAD_ERROR: itemError, DID_THROW_ITEM_INVALID: itemError, DID_THROW_ITEM_PROCESSING_ERROR: itemError }), tag: 'span', name: 'assistant' });const toCamels = (string, separator = '-') => string.replace(new RegExp(`${separator}.`, 'g'), (sub) => sub.charAt(1).toUpperCase());const debounce = (func, interval = 16, immidiateOnly = true) => {let last = Date.now();let timeout = null;return (...args) => {clearTimeout(timeout);const dist = Date.now() - last;const fn = () => {last = Date.now();func(...args);};if (dist < interval) {// we need to delay by the difference between interval and dist
       // for example: if distance is 10 ms and interval is 16 ms,
       // we need to wait an additional 6ms before calling the function)
-      if (!immidiateOnly) {
-        timeout = setTimeout(fn, interval - dist);
-      }
-    } else {
-      // go!
-      fn();
-    }
-  };
-};
-
-const MAX_FILES_LIMIT = 1000000;
-
-const prevent = (e) => e.preventDefault();
-
-const create$e = ({ root, props }) => {
-  // Add id
-  const id = root.query('GET_ID');
-  if (id) {
-    root.element.id = id;
-  }
-
-  // Add className
-  const className = root.query('GET_CLASS_NAME');
-  if (className) {
-    className.
-    split(' ').
-    filter((name) => name.length).
-    forEach((name) => {
-      root.element.classList.add(name);
-    });
-  }
-
-  // Field label
-  root.ref.label = root.appendChildView(
-    root.createChildView(dropLabel, {
-      ...props,
-      translateY: null,
-      caption: root.query('GET_LABEL_IDLE')
-    })
-  );
-
-  // List of items
-  root.ref.list = root.appendChildView(root.createChildView(listScroller, { translateY: null }));
-
-  // Background panel
-  root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' }));
-
-  // Assistant notifies assistive tech when content changes
-  root.ref.assistant = root.appendChildView(root.createChildView(assistant, { ...props }));
-
-  // Data
-  root.ref.data = root.appendChildView(root.createChildView(data, { ...props }));
-
-  // Measure (tests if fixed height was set)
+      if (!immidiateOnly) {timeout = setTimeout(fn, interval - dist);}} else {// go!
+      fn();}};};const MAX_FILES_LIMIT = 1000000;const prevent = (e) => e.preventDefault();const create$e = ({ root, props }) => {// Add id
+  const id = root.query('GET_ID');if (id) {root.element.id = id;} // Add className
+  const className = root.query('GET_CLASS_NAME');if (className) {className.split(' ').filter((name) => name.length).forEach((name) => {root.element.classList.add(name);});} // Field label
+  root.ref.label = root.appendChildView(root.createChildView(dropLabel, { ...props, translateY: null, caption: root.query('GET_LABEL_IDLE') })); // List of items
+  root.ref.list = root.appendChildView(root.createChildView(listScroller, { translateY: null })); // Background panel
+  root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' })); // Assistant notifies assistive tech when content changes
+  root.ref.assistant = root.appendChildView(root.createChildView(assistant, { ...props })); // Data
+  root.ref.data = root.appendChildView(root.createChildView(data, { ...props })); // Measure (tests if fixed height was set)
   // DOCTYPE needs to be set for this to work
-  root.ref.measure = createElement$1('div');
-  root.ref.measure.style.height = '100%';
-  root.element.appendChild(root.ref.measure);
-
-  // information on the root height or fixed height status
-  root.ref.bounds = null;
-
-  // apply initial style properties
-  root.query('GET_STYLES').
-  filter((style) => !isEmpty(style.value)).
-  map(({ name, value }) => {
-    root.element.dataset[name] = value;
-  });
-
-  // determine if width changed
-  root.ref.widthPrevious = null;
-  root.ref.widthUpdated = debounce(() => {
-    root.ref.updateHistory = [];
-    root.dispatch('DID_RESIZE_ROOT');
-  }, 250);
-
-  // history of updates
-  root.ref.previousAspectRatio = null;
-  root.ref.updateHistory = [];
-
-  // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
-  const canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;
-  const hasPointerEvents = ('PointerEvent' in window);
-  if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {
-    root.element.addEventListener('touchmove', prevent, { passive: false });
-    root.element.addEventListener('gesturestart', prevent);
-  }
-
-  // add credits
-  const credits = root.query('GET_CREDITS');
-  const hasCredits = credits.length === 2;
-  if (hasCredits) {
-    const frag = document.createElement('a');
-    frag.className = 'filepond--credits';
-    frag.setAttribute('aria-hidden', 'true');
-    frag.href = credits[0];
-    frag.tabindex = -1;
-    frag.target = '_blank';
-    frag.rel = 'noopener noreferrer';
-    frag.textContent = credits[1];
-    root.element.appendChild(frag);
-    root.ref.credits = frag;
-  }
-};
-
-const write$9 = ({ root, props, actions }) => {
-  // route actions
-  route$5({ root, props, actions });
-
-  // apply style properties
-  actions.
-  filter((action) => /^DID_SET_STYLE_/.test(action.type)).
-  filter((action) => !isEmpty(action.data.value)).
-  map(({ type, data }) => {
-    const name = toCamels(type.substring(8).toLowerCase(), '_');
-    root.element.dataset[name] = data.value;
-    root.invalidateLayout();
-  });
-
-  if (root.rect.element.hidden) return;
-
-  if (root.rect.element.width !== root.ref.widthPrevious) {
-    root.ref.widthPrevious = root.rect.element.width;
-    root.ref.widthUpdated();
-  }
-
-  // get box bounds, we do this only once
-  let bounds = root.ref.bounds;
-  if (!bounds) {
-    bounds = root.ref.bounds = calculateRootBoundingBoxHeight(root);
-
-    // destroy measure element
-    root.element.removeChild(root.ref.measure);
-    root.ref.measure = null;
-  }
-
-  // get quick references to various high level parts of the upload tool
-  const { hopper, label, list, panel } = root.ref;
-
-  // sets correct state to hopper scope
-  if (hopper) {
-    hopper.updateHopperState();
-  }
-
-  // bool to indicate if we're full or not
-  const aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');
-  const isMultiItem = root.query('GET_ALLOW_MULTIPLE');
-  const totalItems = root.query('GET_TOTAL_ITEMS');
-  const maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;
-  const atMaxCapacity = totalItems === maxItems;
-
-  // action used to add item
-  const addAction = actions.find((action) => action.type === 'DID_ADD_ITEM');
-
-  // if reached max capacity and we've just reached it
-  if (atMaxCapacity && addAction) {
-    // get interaction type
-    const interactionMethod = addAction.data.interactionMethod;
-
-    // hide label
-    label.opacity = 0;
-
-    if (isMultiItem) {
-      label.translateY = -40;
-    } else {
-      if (interactionMethod === InteractionMethod.API) {
-        label.translateX = 40;
-      } else if (interactionMethod === InteractionMethod.BROWSE) {
-        label.translateY = 40;
-      } else {
-        label.translateY = 30;
-      }
-    }
-  } else if (!atMaxCapacity) {
-    label.opacity = 1;
-    label.translateX = 0;
-    label.translateY = 0;
-  }
-
-  const listItemMargin = calculateListItemMargin(root);
-
-  const listHeight = calculateListHeight(root);
-
-  const labelHeight = label.rect.element.height;
-  const currentLabelHeight = !isMultiItem || atMaxCapacity ? 0 : labelHeight;
-
-  const listMarginTop = atMaxCapacity ? list.rect.element.marginTop : 0;
-  const listMarginBottom = totalItems === 0 ? 0 : list.rect.element.marginBottom;
+  root.ref.measure = createElement$1('div');root.ref.measure.style.height = '100%';root.element.appendChild(root.ref.measure); // information on the root height or fixed height status
+  root.ref.bounds = null; // apply initial style properties
+  root.query('GET_STYLES').filter((style) => !isEmpty(style.value)).map(({ name, value }) => {root.element.dataset[name] = value;}); // determine if width changed
+  root.ref.widthPrevious = null;root.ref.widthUpdated = debounce(() => {root.ref.updateHistory = [];root.dispatch('DID_RESIZE_ROOT');}, 250); // history of updates
+  root.ref.previousAspectRatio = null;root.ref.updateHistory = []; // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
+  const canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;const hasPointerEvents = ('PointerEvent' in window);if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {root.element.addEventListener('touchmove', prevent, { passive: false });root.element.addEventListener('gesturestart', prevent);} // add credits
+  const credits = root.query('GET_CREDITS');const hasCredits = credits.length === 2;if (hasCredits) {const frag = document.createElement('a');frag.className = 'filepond--credits';frag.setAttribute('aria-hidden', 'true');frag.href = credits[0];frag.tabindex = -1;frag.target = '_blank';frag.rel = 'noopener noreferrer';frag.textContent = credits[1];root.element.appendChild(frag);root.ref.credits = frag;}};const write$9 = ({ root, props, actions }) => {// route actions
+  route$5({ root, props, actions }); // apply style properties
+  actions.filter((action) => /^DID_SET_STYLE_/.test(action.type)).filter((action) => !isEmpty(action.data.value)).map(({ type, data }) => {const name = toCamels(type.substring(8).toLowerCase(), '_');root.element.dataset[name] = data.value;root.invalidateLayout();});if (root.rect.element.hidden) return;if (root.rect.element.width !== root.ref.widthPrevious) {root.ref.widthPrevious = root.rect.element.width;root.ref.widthUpdated();} // get box bounds, we do this only once
+  let bounds = root.ref.bounds;if (!bounds) {bounds = root.ref.bounds = calculateRootBoundingBoxHeight(root); // destroy measure element
+    root.element.removeChild(root.ref.measure);root.ref.measure = null;} // get quick references to various high level parts of the upload tool
+  const { hopper, label, list, panel } = root.ref; // sets correct state to hopper scope
+  if (hopper) {hopper.updateHopperState();} // bool to indicate if we're full or not
+  const aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');const isMultiItem = root.query('GET_ALLOW_MULTIPLE');const totalItems = root.query('GET_TOTAL_ITEMS');const maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;const atMaxCapacity = totalItems === maxItems; // action used to add item
+  const addAction = actions.find((action) => action.type === 'DID_ADD_ITEM'); // if reached max capacity and we've just reached it
+  if (atMaxCapacity && addAction) {// get interaction type
+    const interactionMethod = addAction.data.interactionMethod; // hide label
+    label.opacity = 0;if (isMultiItem) {label.translateY = -40;} else {if (interactionMethod === InteractionMethod.API) {label.translateX = 40;} else if (interactionMethod === InteractionMethod.BROWSE) {label.translateY = 40;} else {label.translateY = 30;}}} else if (!atMaxCapacity) {label.opacity = 1;label.translateX = 0;label.translateY = 0;}const listItemMargin = calculateListItemMargin(root);const listHeight = calculateListHeight(root);const labelHeight = label.rect.element.height;const currentLabelHeight = !isMultiItem || atMaxCapacity ? 0 : labelHeight;const listMarginTop = atMaxCapacity ? list.rect.element.marginTop : 0;const listMarginBottom = totalItems === 0 ? 0 : list.rect.element.marginBottom;
 
   const visualHeight = currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;
   const boundsHeight = currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom;

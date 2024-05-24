@@ -29425,6 +29425,504 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -29546,6 +30044,255 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30731,885 +31478,138 @@ inherit:SVG.Container,// Add parent method
 construct:{// Create nested svg document
 nested:function nested(){return this.put(new SVG.Nested());}}});// Define list of available attributes for stroke and fill
 var sugar={stroke:['color','width','opacity','linecap','linejoin','miterlimit','dasharray','dashoffset'],fill:['color','opacity','rule'],prefix:function prefix(t,a){return a=='color'?t:t+'-'+a;}}// Add sugar for fill and stroke
-;['fill','stroke'].forEach(function(m){
-var extension={};
-
-extension[m]=function(o){
-if(typeof o==='undefined'){
-return this;
-}
-
-if(typeof o==='string'||SVG.Color.isRgb(o)||o&&typeof o.fill==='function'){
-this.attr(m,o);
-}else// set all attributes from sugar.fill and sugar.stroke list
-{
-for(var i=sugar[m].length-1;i>=0;i--){
-if(o[sugar[m][i]]!=null){
-this.attr(sugar.prefix(m,sugar[m][i]),o[sugar[m][i]]);
-}
-}
-}
-
-return this;
-};
-
-SVG.extend(SVG.Element,SVG.FX,extension);
-});
-SVG.extend(SVG.Element,SVG.FX,{
-// Map translate to transform
-translate:function translate(x,y){
-return this.transform({
-x:x,
-y:y
-});
-},
-// Map matrix to transform
-matrix:function matrix(m){
-return this.attr('transform',new SVG.Matrix(arguments.length==6?[].slice.call(arguments):m));
-},
-// Opacity
-opacity:function opacity(value){
-return this.attr('opacity',value);
-},
-// Relative move over x axis
-dx:function dx(x){
-return this.x(new SVG.Number(x).plus(this instanceof SVG.FX?0:this.x()),true);
-},
-// Relative move over y axis
-dy:function dy(y){
-return this.y(new SVG.Number(y).plus(this instanceof SVG.FX?0:this.y()),true);
-}
-});
-SVG.extend(SVG.Path,{
-// Get path length
-length:function length(){
-return this.node.getTotalLength();
-},
-// Get point at length
-pointAt:function pointAt(length){
-return this.node.getPointAtLength(length);
-}
-});
-SVG.Set=SVG.invent({
-// Initialize
-create:function create(members){
-// Set initial state
-Array.isArray(members)?this.members=members:this.clear();
-},
-// Add class methods
-extend:{
-// Add element to set
-add:function add(){
-var il,
-elements=[].slice.call(arguments);
-
-for(var i=0,il=elements.length;i<il;i++){
-this.members.push(elements[i]);
-}
-
-return this;
-},
-// Remove element from set
-remove:function remove(element){
-var i=this.index(element);// remove given child
-
-if(i>-1){
-this.members.splice(i,1);
-}
-
-return this;
-},
-// Iterate over all members
-each:function each(block){
-for(var i=0,il=this.members.length;i<il;i++){
-block.apply(this.members[i],[i,this.members]);
-}
-
-return this;
-},
-// Restore to defaults
-clear:function clear(){
-// initialize store
-this.members=[];
-return this;
-},
-// Get the length of a set
-length:function length(){
-return this.members.length;
-},
-// Checks if a given element is present in set
-has:function has(element){
-return this.index(element)>=0;
-},
-// retuns index of given element in set
-index:function index(element){
-return this.members.indexOf(element);
-},
-// Get member at given index
-get:function get(i){
-return this.members[i];
-},
-// Get first member
-first:function first(){
-return this.get(0);
-},
-// Get last member
-last:function last(){
-return this.get(this.members.length-1);
-},
-// Default value
-valueOf:function valueOf(){
-return this.members;
-}
-},
-// Add parent method
-construct:{
-// Create a new set
-set:function set(members){
-return new SVG.Set(members);
-}
-}
-});
-SVG.FX.Set=SVG.invent({
-// Initialize node
-create:function create(set){
-// store reference to set
-this.set=set;
-}
-});// Alias methods
-
-SVG.Set.inherit=function(){
-var methods=[];// gather shape methods
-
-for(var m in SVG.Shape.prototype){
-if(typeof SVG.Shape.prototype[m]==='function'&&typeof SVG.Set.prototype[m]!=='function'){
-methods.push(m);
-}
-}// apply shape aliasses
-
-
-methods.forEach(function(method){
-SVG.Set.prototype[method]=function(){
-for(var i=0,il=this.members.length;i<il;i++){
-if(this.members[i]&&typeof this.members[i][method]==='function'){
-this.members[i][method].apply(this.members[i],arguments);
-}
-}
-
-return method=='animate'?this.fx||(this.fx=new SVG.FX.Set(this)):this;
-};
-});// clear methods for the next round
-
+;['fill','stroke'].forEach(function(m){var extension={};extension[m]=function(o){if(typeof o==='undefined'){return this;}if(typeof o==='string'||SVG.Color.isRgb(o)||o&&typeof o.fill==='function'){this.attr(m,o);}else// set all attributes from sugar.fill and sugar.stroke list
+{for(var i=sugar[m].length-1;i>=0;i--){if(o[sugar[m][i]]!=null){this.attr(sugar.prefix(m,sugar[m][i]),o[sugar[m][i]]);}}}return this;};SVG.extend(SVG.Element,SVG.FX,extension);});SVG.extend(SVG.Element,SVG.FX,{// Map translate to transform
+translate:function translate(x,y){return this.transform({x:x,y:y});},// Map matrix to transform
+matrix:function matrix(m){return this.attr('transform',new SVG.Matrix(arguments.length==6?[].slice.call(arguments):m));},// Opacity
+opacity:function opacity(value){return this.attr('opacity',value);},// Relative move over x axis
+dx:function dx(x){return this.x(new SVG.Number(x).plus(this instanceof SVG.FX?0:this.x()),true);},// Relative move over y axis
+dy:function dy(y){return this.y(new SVG.Number(y).plus(this instanceof SVG.FX?0:this.y()),true);}});SVG.extend(SVG.Path,{// Get path length
+length:function length(){return this.node.getTotalLength();},// Get point at length
+pointAt:function pointAt(length){return this.node.getPointAtLength(length);}});SVG.Set=SVG.invent({// Initialize
+create:function create(members){// Set initial state
+Array.isArray(members)?this.members=members:this.clear();},// Add class methods
+extend:{// Add element to set
+add:function add(){var il,elements=[].slice.call(arguments);for(var i=0,il=elements.length;i<il;i++){this.members.push(elements[i]);}return this;},// Remove element from set
+remove:function remove(element){var i=this.index(element);// remove given child
+if(i>-1){this.members.splice(i,1);}return this;},// Iterate over all members
+each:function each(block){for(var i=0,il=this.members.length;i<il;i++){block.apply(this.members[i],[i,this.members]);}return this;},// Restore to defaults
+clear:function clear(){// initialize store
+this.members=[];return this;},// Get the length of a set
+length:function length(){return this.members.length;},// Checks if a given element is present in set
+has:function has(element){return this.index(element)>=0;},// retuns index of given element in set
+index:function index(element){return this.members.indexOf(element);},// Get member at given index
+get:function get(i){return this.members[i];},// Get first member
+first:function first(){return this.get(0);},// Get last member
+last:function last(){return this.get(this.members.length-1);},// Default value
+valueOf:function valueOf(){return this.members;}},// Add parent method
+construct:{// Create a new set
+set:function set(members){return new SVG.Set(members);}}});SVG.FX.Set=SVG.invent({// Initialize node
+create:function create(set){// store reference to set
+this.set=set;}});// Alias methods
+SVG.Set.inherit=function(){var methods=[];// gather shape methods
+for(var m in SVG.Shape.prototype){if(typeof SVG.Shape.prototype[m]==='function'&&typeof SVG.Set.prototype[m]!=='function'){methods.push(m);}}// apply shape aliasses
+methods.forEach(function(method){SVG.Set.prototype[method]=function(){for(var i=0,il=this.members.length;i<il;i++){if(this.members[i]&&typeof this.members[i][method]==='function'){this.members[i][method].apply(this.members[i],arguments);}}return method=='animate'?this.fx||(this.fx=new SVG.FX.Set(this)):this;};});// clear methods for the next round
 methods=[];// gather fx methods
-
-for(var m in SVG.FX.prototype){
-if(typeof SVG.FX.prototype[m]==='function'&&typeof SVG.FX.Set.prototype[m]!=='function'){
-methods.push(m);
-}
-}// apply fx aliasses
-
-
-methods.forEach(function(method){
-SVG.FX.Set.prototype[method]=function(){
-for(var i=0,il=this.set.members.length;i<il;i++){
-this.set.members[i].fx[method].apply(this.set.members[i].fx,arguments);
-}
-
-return this;
-};
-});
-};
-
-SVG.extend(SVG.Element,{});
-SVG.extend(SVG.Element,{
-// Remember arbitrary data
-remember:function remember(k,v){
-// remember every item in an object individually
-if(_typeof(arguments[0])==='object'){
-for(var v_ in k){
-this.remember(v_,k[v_]);
-}
-}// retrieve memory
-else if(arguments.length==1){
-return this.memory()[k];
-}// store memory
-else{
-this.memory()[k]=v;
-}
-
-return this;
-},
-// Erase a given memory
-forget:function forget(){
-if(arguments.length==0){
-this._memory={};
-}else{
-for(var i=arguments.length-1;i>=0;i--){
-delete this.memory()[arguments[i]];
-}
-}
-
-return this;
-},
-// Initialize or return local memory object
-memory:function memory(){
-return this._memory||(this._memory={});
-}
-});// Method for getting an element by id
-
-SVG.get=function(id){
-var node=document.getElementById(idFromReference(id)||id);
-return SVG.adopt(node);
-};// Select elements by query string
-
-
-SVG.select=function(query,parent){
-return new SVG.Set(SVG.utils.map((parent||document).querySelectorAll(query),function(node){
-return SVG.adopt(node);
-}));
-};
-
-SVG.extend(SVG.Parent,{
-// Scoped select method
-select:function select(query){
-return SVG.select(query,this.node);
-}
-});
-
-function pathRegReplace(a,b,c,d){
-return c+d.replace(SVG.regex.dots,' .');
-}// creates deep clone of array
-
-
-function _is(el,obj){
-return el instanceof obj;
-}// tests if a given selector matches an element
-
-
-function _matches(el,selector){
-return(el.matches||el.matchesSelector||el.msMatchesSelector||el.mozMatchesSelector||el.webkitMatchesSelector||el.oMatchesSelector).call(el,selector);
-}// Convert dash-separated-string to camelCase
-
-
-function camelCase(s){
-return s.toLowerCase().replace(/-(.)/g,function(m,g){
-return g.toUpperCase();
-});
-}// Capitalize first letter of a string
-
-
-function capitalize(s){
-return s.charAt(0).toUpperCase()+s.slice(1);
-}// Ensure to six-based hex
-
-
-function fullHex(hex){
-return hex.length==4?['#',hex.substring(1,2),hex.substring(1,2),hex.substring(2,3),hex.substring(2,3),hex.substring(3,4),hex.substring(3,4)].join(''):hex;
-}// Component to hex value
-
-
-function compToHex(comp){
-var hex=comp.toString(16);
-return hex.length==1?'0'+hex:hex;
-}// Calculate proportional width and height values when necessary
-
-
-function proportionalSize(element,width,height){
-if(width==null||height==null){
-var box=element.bbox();
-
-if(width==null){
-width=box.width/box.height*height;
-}else if(height==null){
-height=box.height/box.width*width;
-}
-}
-
-return{
-width:width,
-height:height
-};
-}// Delta transform point
-
-
-function deltaTransformPoint(matrix,x,y){
-return{
-x:x*matrix.a+y*matrix.c+0,
-y:x*matrix.b+y*matrix.d+0
-};
-}// Map matrix array to object
-
-
-function arrayToMatrix(a){
-return{
-a:a[0],
-b:a[1],
-c:a[2],
-d:a[3],
-e:a[4],
-f:a[5]
-};
-}// Parse matrix if required
-
-
-function parseMatrix(matrix){
-if(!(matrix instanceof SVG.Matrix)){
-matrix=new SVG.Matrix(matrix);
-}
-
-return matrix;
-}// Add centre point to transform object
-
-
-function arrayToString(a){
-for(var i=0,il=a.length,s='';i<il;i++){
-s+=a[i][0];
-
-if(a[i][1]!=null){
-s+=a[i][1];
-
-if(a[i][2]!=null){
-s+=' ';
-s+=a[i][2];
-
-if(a[i][3]!=null){
-s+=' ';
-s+=a[i][3];
-s+=' ';
-s+=a[i][4];
-
-if(a[i][5]!=null){
-s+=' ';
-s+=a[i][5];
-s+=' ';
-s+=a[i][6];
-
-if(a[i][7]!=null){
-s+=' ';
-s+=a[i][7];
-}
-}
-}
-}
-}
-}
-
-return s+' ';
-}// Deep new id assignment
-
-
-function assignNewId(node){
-// do the same for SVG child nodes as well
-for(var i=node.childNodes.length-1;i>=0;i--){
-if(node.childNodes[i]instanceof window.SVGElement){
-assignNewId(node.childNodes[i]);
-}
-}
-
-return SVG.adopt(node).id(SVG.eid(node.nodeName));
-}// Add more bounding box properties
-
-
-function fullBox(b){
-if(b.x==null){
-b.x=0;
-b.y=0;
-b.width=0;
-b.height=0;
-}
-
-b.w=b.width;
-b.h=b.height;
-b.x2=b.x+b.width;
-b.y2=b.y+b.height;
-b.cx=b.x+b.width/2;
-b.cy=b.y+b.height/2;
-return b;
-}// Get id from reference string
-
-
-function idFromReference(url){
-var m=(url||'').toString().match(SVG.regex.reference);
-if(m)return m[1];
-}// If values like 1e-88 are passed, this is not a valid 32 bit float,
+for(var m in SVG.FX.prototype){if(typeof SVG.FX.prototype[m]==='function'&&typeof SVG.FX.Set.prototype[m]!=='function'){methods.push(m);}}// apply fx aliasses
+methods.forEach(function(method){SVG.FX.Set.prototype[method]=function(){for(var i=0,il=this.set.members.length;i<il;i++){this.set.members[i].fx[method].apply(this.set.members[i].fx,arguments);}return this;};});};SVG.extend(SVG.Element,{});SVG.extend(SVG.Element,{// Remember arbitrary data
+remember:function remember(k,v){// remember every item in an object individually
+if(_typeof(arguments[0])==='object'){for(var v_ in k){this.remember(v_,k[v_]);}}// retrieve memory
+else if(arguments.length==1){return this.memory()[k];}// store memory
+else{this.memory()[k]=v;}return this;},// Erase a given memory
+forget:function forget(){if(arguments.length==0){this._memory={};}else{for(var i=arguments.length-1;i>=0;i--){delete this.memory()[arguments[i]];}}return this;},// Initialize or return local memory object
+memory:function memory(){return this._memory||(this._memory={});}});// Method for getting an element by id
+SVG.get=function(id){var node=document.getElementById(idFromReference(id)||id);return SVG.adopt(node);};// Select elements by query string
+SVG.select=function(query,parent){return new SVG.Set(SVG.utils.map((parent||document).querySelectorAll(query),function(node){return SVG.adopt(node);}));};SVG.extend(SVG.Parent,{// Scoped select method
+select:function select(query){return SVG.select(query,this.node);}});function pathRegReplace(a,b,c,d){return c+d.replace(SVG.regex.dots,' .');}// creates deep clone of array
+function _is(el,obj){return el instanceof obj;}// tests if a given selector matches an element
+function _matches(el,selector){return(el.matches||el.matchesSelector||el.msMatchesSelector||el.mozMatchesSelector||el.webkitMatchesSelector||el.oMatchesSelector).call(el,selector);}// Convert dash-separated-string to camelCase
+function camelCase(s){return s.toLowerCase().replace(/-(.)/g,function(m,g){return g.toUpperCase();});}// Capitalize first letter of a string
+function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1);}// Ensure to six-based hex
+function fullHex(hex){return hex.length==4?['#',hex.substring(1,2),hex.substring(1,2),hex.substring(2,3),hex.substring(2,3),hex.substring(3,4),hex.substring(3,4)].join(''):hex;}// Component to hex value
+function compToHex(comp){var hex=comp.toString(16);return hex.length==1?'0'+hex:hex;}// Calculate proportional width and height values when necessary
+function proportionalSize(element,width,height){if(width==null||height==null){var box=element.bbox();if(width==null){width=box.width/box.height*height;}else if(height==null){height=box.height/box.width*width;}}return{width:width,height:height};}// Delta transform point
+function deltaTransformPoint(matrix,x,y){return{x:x*matrix.a+y*matrix.c+0,y:x*matrix.b+y*matrix.d+0};}// Map matrix array to object
+function arrayToMatrix(a){return{a:a[0],b:a[1],c:a[2],d:a[3],e:a[4],f:a[5]};}// Parse matrix if required
+function parseMatrix(matrix){if(!(matrix instanceof SVG.Matrix)){matrix=new SVG.Matrix(matrix);}return matrix;}// Add centre point to transform object
+function arrayToString(a){for(var i=0,il=a.length,s='';i<il;i++){s+=a[i][0];if(a[i][1]!=null){s+=a[i][1];if(a[i][2]!=null){s+=' ';s+=a[i][2];if(a[i][3]!=null){s+=' ';s+=a[i][3];s+=' ';s+=a[i][4];if(a[i][5]!=null){s+=' ';s+=a[i][5];s+=' ';s+=a[i][6];if(a[i][7]!=null){s+=' ';s+=a[i][7];}}}}}}return s+' ';}// Deep new id assignment
+function assignNewId(node){// do the same for SVG child nodes as well
+for(var i=node.childNodes.length-1;i>=0;i--){if(node.childNodes[i]instanceof window.SVGElement){assignNewId(node.childNodes[i]);}}return SVG.adopt(node).id(SVG.eid(node.nodeName));}// Add more bounding box properties
+function fullBox(b){if(b.x==null){b.x=0;b.y=0;b.width=0;b.height=0;}b.w=b.width;b.h=b.height;b.x2=b.x+b.width;b.y2=b.y+b.height;b.cx=b.x+b.width/2;b.cy=b.y+b.height/2;return b;}// Get id from reference string
+function idFromReference(url){var m=(url||'').toString().match(SVG.regex.reference);if(m)return m[1];}// If values like 1e-88 are passed, this is not a valid 32 bit float,
 // but in those cases, we are so close to 0 that 0 works well!
-
-
-function float32String(v){
-return Math.abs(v)>1e-37?v:0;
-}// Create matrix array for looping
-
-
+function float32String(v){return Math.abs(v)>1e-37?v:0;}// Create matrix array for looping
 var abcdef='abcdef'.split('');// Add CustomEvent to IE9 and IE10	
-
-if(typeof window.CustomEvent!=='function'){
-// Code from: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent	
-var CustomEventPoly=function CustomEventPoly(event,options){
-options=options||{
-bubbles:false,
-cancelable:false,
-detail:undefined
-};
-var e=document.createEvent('CustomEvent');
-e.initCustomEvent(event,options.bubbles,options.cancelable,options.detail);
-return e;
-};
-
-CustomEventPoly.prototype=window.Event.prototype;
-SVG.CustomEvent=CustomEventPoly;
-}else{
-SVG.CustomEvent=window.CustomEvent;
-}
-
-return SVG;
-});
-
-/*! svg.filter.js - v2.0.2 - 2016-02-24
+if(typeof window.CustomEvent!=='function'){// Code from: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent	
+var CustomEventPoly=function CustomEventPoly(event,options){options=options||{bubbles:false,cancelable:false,detail:undefined};var e=document.createEvent('CustomEvent');e.initCustomEvent(event,options.bubbles,options.cancelable,options.detail);return e;};CustomEventPoly.prototype=window.Event.prototype;SVG.CustomEvent=CustomEventPoly;}else{SVG.CustomEvent=window.CustomEvent;}return SVG;});/*! svg.filter.js - v2.0.2 - 2016-02-24
   * https://github.com/wout/svg.filter.js
-  * Copyright (c) 2016 Wout Fierens; Licensed MIT */
-(function(){
-
-// Main filter class
-SVG.Filter=SVG.invent({
-create:'filter',
-inherit:SVG.Parent,
-extend:{
-// Static strings
-source:'SourceGraphic',
-sourceAlpha:'SourceAlpha',
-background:'BackgroundImage',
-backgroundAlpha:'BackgroundAlpha',
-fill:'FillPaint',
-stroke:'StrokePaint',
-
-autoSetIn:true,
-// Custom put method for leaner code
-put:function(element,i){
-this.add(element,i);
-
-if(!element.attr('in')&&this.autoSetIn){
-element.attr('in',this.source);
-}
-if(!element.attr('result')){
-element.attr('result',element);
-}
-
-return element;
-},
-// Blend effect
-blend:function(in1,in2,mode){
-return this.put(new SVG.BlendEffect(in1,in2,mode));
-},
-// ColorMatrix effect
-colorMatrix:function(type,values){
-return this.put(new SVG.ColorMatrixEffect(type,values));
-},
-// ConvolveMatrix effect
-convolveMatrix:function(matrix){
-return this.put(new SVG.ConvolveMatrixEffect(matrix));
-},
-// ComponentTransfer effect
-componentTransfer:function(components){
-return this.put(new SVG.ComponentTransferEffect(components));
-},
-// Composite effect
-composite:function(in1,in2,operator){
-return this.put(new SVG.CompositeEffect(in1,in2,operator));
-},
-// Flood effect
-flood:function(color,opacity){
-return this.put(new SVG.FloodEffect(color,opacity));
-},
-// Offset effect
-offset:function(x,y){
-return this.put(new SVG.OffsetEffect(x,y));
-},
-// Image effect
-image:function(src){
-return this.put(new SVG.ImageEffect(src));
-},
-// Merge effect
-merge:function(){
-//pass the array of arguments to the constructor because we dont know if the user gave us an array as the first arguemnt or wether they listed the effects in the arguments
-var args=[undefined];
-for(var i in arguments)args.push(arguments[i]);
-return this.put(new(SVG.MergeEffect.bind.apply(SVG.MergeEffect,args))());
-},
-// Gaussian Blur effect
-gaussianBlur:function(x,y){
-return this.put(new SVG.GaussianBlurEffect(x,y));
-},
-// Morphology effect
-morphology:function(operator,radius){
-return this.put(new SVG.MorphologyEffect(operator,radius));
-},
-// DiffuseLighting effect
-diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){
-return this.put(new SVG.DiffuseLightingEffect(surfaceScale,diffuseConstant,kernelUnitLength));
-},
-// DisplacementMap effect
-displacementMap:function(in1,in2,scale,xChannelSelector,yChannelSelector){
-return this.put(new SVG.DisplacementMapEffect(in1,in2,scale,xChannelSelector,yChannelSelector));
-},
-// SpecularLighting effect
-specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){
-return this.put(new SVG.SpecularLightingEffect(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength));
-},
-// Tile effect
-tile:function(){
-return this.put(new SVG.TileEffect());
-},
-// Turbulence effect
-turbulence:function(baseFrequency,numOctaves,seed,stitchTiles,type){
-return this.put(new SVG.TurbulenceEffect(baseFrequency,numOctaves,seed,stitchTiles,type));
-},
-// Default string value
-toString:function(){
-return'url(#'+this.attr('id')+')';
-}
-}
-});
-
-//add .filter function
-SVG.extend(SVG.Defs,{
-// Define filter
-filter:function(block){
-var filter=this.put(new SVG.Filter());
-
-/* invoke passed block */
-if(typeof block==='function')
-block.call(filter,filter);
-
-return filter;
-}
-});
-SVG.extend(SVG.Container,{
-// Define filter on defs
-filter:function(block){
-return this.defs().filter(block);
-}
-});
-SVG.extend(SVG.Element,SVG.G,SVG.Nested,{
-// Create filter element in defs and store reference
-filter:function(block){
-this.filterer=block instanceof SVG.Element?
-block:this.doc().filter(block);
-
-if(this.doc()&&this.filterer.doc()!==this.doc()){
-this.doc().defs().add(this.filterer);
-}
-
-this.attr('filter',this.filterer);
-
-return this.filterer;
-},
-// Remove filter
-unfilter:function(remove){
-/* also remove the filter node */
-if(this.filterer&&remove===true)
-this.filterer.remove();
-
-/* delete reference to filterer */
-delete this.filterer;
-
-/* remove filter attribute */
-return this.attr('filter',null);
-}
-});
-
-// Create SVG.Effect class
-SVG.Effect=SVG.invent({
-create:function(){
-this.constructor.call(this);
-},
-inherit:SVG.Element,
-extend:{
-// Set in attribute
-in:function(effect){
-return effect==null?this.parent()&&this.parent().select('[result="'+this.attr('in')+'"]').get(0)||this.attr('in'):this.attr('in',effect);
-},
-// Named result
-result:function(result){
-return result==null?this.attr('result'):this.attr('result',result);
-},
-// Stringification
-toString:function(){
-return this.result();
-}
-}
-});
-
-// create class for parent effects like merge
+  * Copyright (c) 2016 Wout Fierens; Licensed MIT */(function(){// Main filter class
+SVG.Filter=SVG.invent({create:'filter',inherit:SVG.Parent,extend:{// Static strings
+source:'SourceGraphic',sourceAlpha:'SourceAlpha',background:'BackgroundImage',backgroundAlpha:'BackgroundAlpha',fill:'FillPaint',stroke:'StrokePaint',autoSetIn:true,// Custom put method for leaner code
+put:function(element,i){this.add(element,i);if(!element.attr('in')&&this.autoSetIn){element.attr('in',this.source);}if(!element.attr('result')){element.attr('result',element);}return element;},// Blend effect
+blend:function(in1,in2,mode){return this.put(new SVG.BlendEffect(in1,in2,mode));},// ColorMatrix effect
+colorMatrix:function(type,values){return this.put(new SVG.ColorMatrixEffect(type,values));},// ConvolveMatrix effect
+convolveMatrix:function(matrix){return this.put(new SVG.ConvolveMatrixEffect(matrix));},// ComponentTransfer effect
+componentTransfer:function(components){return this.put(new SVG.ComponentTransferEffect(components));},// Composite effect
+composite:function(in1,in2,operator){return this.put(new SVG.CompositeEffect(in1,in2,operator));},// Flood effect
+flood:function(color,opacity){return this.put(new SVG.FloodEffect(color,opacity));},// Offset effect
+offset:function(x,y){return this.put(new SVG.OffsetEffect(x,y));},// Image effect
+image:function(src){return this.put(new SVG.ImageEffect(src));},// Merge effect
+merge:function(){//pass the array of arguments to the constructor because we dont know if the user gave us an array as the first arguemnt or wether they listed the effects in the arguments
+var args=[undefined];for(var i in arguments)args.push(arguments[i]);return this.put(new(SVG.MergeEffect.bind.apply(SVG.MergeEffect,args))());},// Gaussian Blur effect
+gaussianBlur:function(x,y){return this.put(new SVG.GaussianBlurEffect(x,y));},// Morphology effect
+morphology:function(operator,radius){return this.put(new SVG.MorphologyEffect(operator,radius));},// DiffuseLighting effect
+diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){return this.put(new SVG.DiffuseLightingEffect(surfaceScale,diffuseConstant,kernelUnitLength));},// DisplacementMap effect
+displacementMap:function(in1,in2,scale,xChannelSelector,yChannelSelector){return this.put(new SVG.DisplacementMapEffect(in1,in2,scale,xChannelSelector,yChannelSelector));},// SpecularLighting effect
+specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){return this.put(new SVG.SpecularLightingEffect(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength));},// Tile effect
+tile:function(){return this.put(new SVG.TileEffect());},// Turbulence effect
+turbulence:function(baseFrequency,numOctaves,seed,stitchTiles,type){return this.put(new SVG.TurbulenceEffect(baseFrequency,numOctaves,seed,stitchTiles,type));},// Default string value
+toString:function(){return'url(#'+this.attr('id')+')';}}});//add .filter function
+SVG.extend(SVG.Defs,{// Define filter
+filter:function(block){var filter=this.put(new SVG.Filter());/* invoke passed block */if(typeof block==='function')block.call(filter,filter);return filter;}});SVG.extend(SVG.Container,{// Define filter on defs
+filter:function(block){return this.defs().filter(block);}});SVG.extend(SVG.Element,SVG.G,SVG.Nested,{// Create filter element in defs and store reference
+filter:function(block){this.filterer=block instanceof SVG.Element?block:this.doc().filter(block);if(this.doc()&&this.filterer.doc()!==this.doc()){this.doc().defs().add(this.filterer);}this.attr('filter',this.filterer);return this.filterer;},// Remove filter
+unfilter:function(remove){/* also remove the filter node */if(this.filterer&&remove===true)this.filterer.remove();/* delete reference to filterer */delete this.filterer;/* remove filter attribute */return this.attr('filter',null);}});// Create SVG.Effect class
+SVG.Effect=SVG.invent({create:function(){this.constructor.call(this);},inherit:SVG.Element,extend:{// Set in attribute
+in:function(effect){return effect==null?this.parent()&&this.parent().select('[result="'+this.attr('in')+'"]').get(0)||this.attr('in'):this.attr('in',effect);},// Named result
+result:function(result){return result==null?this.attr('result'):this.attr('result',result);},// Stringification
+toString:function(){return this.result();}}});// create class for parent effects like merge
 // Inherit from SVG.Parent
-SVG.ParentEffect=SVG.invent({
-create:function(){
-this.constructor.call(this);
-},
-inherit:SVG.Parent,
-extend:{
-// Set in attribute
-in:function(effect){
-return effect==null?this.parent()&&this.parent().select('[result="'+this.attr('in')+'"]').get(0)||this.attr('in'):this.attr('in',effect);
-},
-// Named result
-result:function(result){
-return result==null?this.attr('result'):this.attr('result',result);
-},
-// Stringification
-toString:function(){
-return this.result();
-}
-}
-});
-
-//chaining
-var chainingEffects={
-// Blend effect
-blend:function(in2,mode){
-return this.parent()&&this.parent().blend(this,in2,mode);//pass this as the first input
-},
-// ColorMatrix effect
-colorMatrix:function(type,values){
-return this.parent()&&this.parent().colorMatrix(type,values).in(this);
-},
-// ConvolveMatrix effect
-convolveMatrix:function(matrix){
-return this.parent()&&this.parent().convolveMatrix(matrix).in(this);
-},
-// ComponentTransfer effect
-componentTransfer:function(components){
-return this.parent()&&this.parent().componentTransfer(components).in(this);
-},
-// Composite effect
-composite:function(in2,operator){
-return this.parent()&&this.parent().composite(this,in2,operator);//pass this as the first input
-},
-// Flood effect
-flood:function(color,opacity){
-return this.parent()&&this.parent().flood(color,opacity);//this effect dont have inputs
-},
-// Offset effect
-offset:function(x,y){
-return this.parent()&&this.parent().offset(x,y).in(this);
-},
-// Image effect
-image:function(src){
-return this.parent()&&this.parent().image(src);//this effect dont have inputs
-},
-// Merge effect
-merge:function(){
-return this.parent()&&this.parent().merge.apply(this.parent(),[this].concat(arguments));//pass this as the first argument
-},
-// Gaussian Blur effect
-gaussianBlur:function(x,y){
-return this.parent()&&this.parent().gaussianBlur(x,y).in(this);
-},
-// Morphology effect
-morphology:function(operator,radius){
-return this.parent()&&this.parent().morphology(operator,radius).in(this);
-},
-// DiffuseLighting effect
-diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){
-return this.parent()&&this.parent().diffuseLighting(surfaceScale,diffuseConstant,kernelUnitLength).in(this);
-},
-// DisplacementMap effect
-displacementMap:function(in2,scale,xChannelSelector,yChannelSelector){
-return this.parent()&&this.parent().displacementMap(this,in2,scale,xChannelSelector,yChannelSelector);//pass this as the first input
-},
-// SpecularLighting effect
-specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){
-return this.parent()&&this.parent().specularLighting(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength).in(this);
-},
-// Tile effect
-tile:function(){
-return this.parent()&&this.parent().tile().in(this);
-},
-// Turbulence effect
-turbulence:function(baseFrequency,numOctaves,seed,stitchTiles,type){
-return this.parent()&&this.parent().turbulence(baseFrequency,numOctaves,seed,stitchTiles,type).in(this);
-}
-};
-SVG.extend(SVG.Effect,chainingEffects);
-SVG.extend(SVG.ParentEffect,chainingEffects);
-
-//crea class for child effects, like MergeNode, FuncR and lights
-SVG.ChildEffect=SVG.invent({
-create:function(){
-this.constructor.call(this);
-},
-inherit:SVG.Element,
-extend:{
-in:function(effect){
-this.attr('in',effect);
-}
-//dont include any "result" functions because these types of nodes dont have them
-}
-});
-
-// Create all different effects
-var effects={
-blend:function(in1,in2,mode){
-this.attr({
-in:in1,
-in2:in2,
-mode:mode||'normal'
-});
-},
-colorMatrix:function(type,values){
-if(type=='matrix')
-values=normaliseMatrix(values);
-
-this.attr({
-type:type,
-values:typeof values=='undefined'?null:values
-});
-},
-convolveMatrix:function(matrix){
-matrix=normaliseMatrix(matrix);
-
-this.attr({
-order:Math.sqrt(matrix.split(' ').length),
-kernelMatrix:matrix
-});
-},
-composite:function(in1,in2,operator){
-this.attr({
-in:in1,
-in2:in2,
-operator:operator
-});
-},
-flood:function(color,opacity){
-this.attr('flood-color',color);
-if(opacity!=null)this.attr('flood-opacity',opacity);
-},
-offset:function(x,y){
-this.attr({
-dx:x,
-dy:y
-});
-},
-image:function(src){
-this.attr('href',src,SVG.xlink);
-},
-displacementMap:function(in1,in2,scale,xChannelSelector,yChannelSelector){
-this.attr({
-in:in1,
-in2:in2,
-scale:scale,
-xChannelSelector:xChannelSelector,
-yChannelSelector:yChannelSelector
-});
-},
-gaussianBlur:function(x,y){
-if(x!=null||y!=null)
-this.attr('stdDeviation',listString(Array.prototype.slice.call(arguments)));else
-
-this.attr('stdDeviation','0 0');
-},
-morphology:function(operator,radius){
-this.attr({
-operator:operator,
-radius:radius
-});
-},
-tile:function(){
-
-},
-turbulence:function(baseFrequency,numOctaves,seed,stitchTiles,type){
-this.attr({
-numOctaves:numOctaves,
-seed:seed,
-stitchTiles:stitchTiles,
-baseFrequency:baseFrequency,
-type:type
-});
-}
-};
-
-// Create all parent effects
-var parentEffects={
-merge:function(){
-var children;
-
-//test to see if we have a set
-if(arguments[0]instanceof SVG.Set){
-var that=this;
-arguments[0].each(function(i){
-if(this instanceof SVG.MergeNode)
-that.put(this);else
-if(this instanceof SVG.Effect||this instanceof SVG.ParentEffect)
-that.put(new SVG.MergeNode(this));
-});
-}else
-{
-//if the first argument is an array use it
-if(Array.isArray(arguments[0]))
-children=arguments[0];else
-
-children=arguments;
-
-for(var i=0;i<children.length;i++){
-if(children[i]instanceof SVG.MergeNode){
-this.put(children[i]);
-}else
-this.put(new SVG.MergeNode(children[i]));
-}
-}
-},
-componentTransfer:function(compontents){
-/* create rgb set */
-this.rgb=new SVG.Set()
-
-/* create components */;
-['r','g','b','a'].forEach(function(c){
-/* create component */
-this[c]=new SVG['Func'+c.toUpperCase()]('identity');
-
-/* store component in set */
-this.rgb.add(this[c]);
-
-/* add component node */
-this.node.appendChild(this[c].node);
-}.bind(this));//lost context in foreach
-
-/* set components */
-if(compontents){
-if(compontents.rgb){
-['r','g','b'].forEach(function(c){
-this[c].attr(compontents.rgb);
-}.bind(this));
-
-delete compontents.rgb;
-}
-
-/* set individual components */
-for(var c in compontents)
-this[c].attr(compontents[c]);
-}
-},
-diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){
-this.attr({
-surfaceScale:surfaceScale,
-diffuseConstant:diffuseConstant,
-kernelUnitLength:kernelUnitLength
-});
-},
-specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){
-this.attr({
-surfaceScale:surfaceScale,
-diffuseConstant:diffuseConstant,
-specularExponent:specularExponent,
-kernelUnitLength:kernelUnitLength
-});
-}
-};
-
-// Create child effects like PointLight and MergeNode
-var childEffects={
-distantLight:function(azimuth,elevation){
-this.attr({
-azimuth:azimuth,
+SVG.ParentEffect=SVG.invent({create:function(){this.constructor.call(this);},inherit:SVG.Parent,extend:{// Set in attribute
+in:function(effect){return effect==null?this.parent()&&this.parent().select('[result="'+this.attr('in')+'"]').get(0)||this.attr('in'):this.attr('in',effect);},// Named result
+result:function(result){return result==null?this.attr('result'):this.attr('result',result);},// Stringification
+toString:function(){return this.result();}}});//chaining
+var chainingEffects={// Blend effect
+blend:function(in2,mode){return this.parent()&&this.parent().blend(this,in2,mode);//pass this as the first input
+},// ColorMatrix effect
+colorMatrix:function(type,values){return this.parent()&&this.parent().colorMatrix(type,values).in(this);},// ConvolveMatrix effect
+convolveMatrix:function(matrix){return this.parent()&&this.parent().convolveMatrix(matrix).in(this);},// ComponentTransfer effect
+componentTransfer:function(components){return this.parent()&&this.parent().componentTransfer(components).in(this);},// Composite effect
+composite:function(in2,operator){return this.parent()&&this.parent().composite(this,in2,operator);//pass this as the first input
+},// Flood effect
+flood:function(color,opacity){return this.parent()&&this.parent().flood(color,opacity);//this effect dont have inputs
+},// Offset effect
+offset:function(x,y){return this.parent()&&this.parent().offset(x,y).in(this);},// Image effect
+image:function(src){return this.parent()&&this.parent().image(src);//this effect dont have inputs
+},// Merge effect
+merge:function(){return this.parent()&&this.parent().merge.apply(this.parent(),[this].concat(arguments));//pass this as the first argument
+},// Gaussian Blur effect
+gaussianBlur:function(x,y){return this.parent()&&this.parent().gaussianBlur(x,y).in(this);},// Morphology effect
+morphology:function(operator,radius){return this.parent()&&this.parent().morphology(operator,radius).in(this);},// DiffuseLighting effect
+diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){return this.parent()&&this.parent().diffuseLighting(surfaceScale,diffuseConstant,kernelUnitLength).in(this);},// DisplacementMap effect
+displacementMap:function(in2,scale,xChannelSelector,yChannelSelector){return this.parent()&&this.parent().displacementMap(this,in2,scale,xChannelSelector,yChannelSelector);//pass this as the first input
+},// SpecularLighting effect
+specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){return this.parent()&&this.parent().specularLighting(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength).in(this);},// Tile effect
+tile:function(){return this.parent()&&this.parent().tile().in(this);},// Turbulence effect
+turbulence:function(baseFrequency,numOctaves,seed,stitchTiles,type){return this.parent()&&this.parent().turbulence(baseFrequency,numOctaves,seed,stitchTiles,type).in(this);}};SVG.extend(SVG.Effect,chainingEffects);SVG.extend(SVG.ParentEffect,chainingEffects);//crea class for child effects, like MergeNode, FuncR and lights
+SVG.ChildEffect=SVG.invent({create:function(){this.constructor.call(this);},inherit:SVG.Element,extend:{in:function(effect){this.attr('in',effect);}//dont include any "result" functions because these types of nodes dont have them
+}});// Create all different effects
+var effects={blend:function(in1,in2,mode){this.attr({in:in1,in2:in2,mode:mode||'normal'});},colorMatrix:function(type,values){if(type=='matrix')values=normaliseMatrix(values);this.attr({type:type,values:typeof values=='undefined'?null:values});},convolveMatrix:function(matrix){matrix=normaliseMatrix(matrix);this.attr({order:Math.sqrt(matrix.split(' ').length),kernelMatrix:matrix});},composite:function(in1,in2,operator){this.attr({in:in1,in2:in2,operator:operator});},flood:function(color,opacity){this.attr('flood-color',color);if(opacity!=null)this.attr('flood-opacity',opacity);},offset:function(x,y){this.attr({dx:x,dy:y});},image:function(src){this.attr('href',src,SVG.xlink);},displacementMap:function(in1,in2,scale,xChannelSelector,yChannelSelector){this.attr({in:in1,in2:in2,scale:scale,xChannelSelector:xChannelSelector,yChannelSelector:yChannelSelector});},gaussianBlur:function(x,y){if(x!=null||y!=null)this.attr('stdDeviation',listString(Array.prototype.slice.call(arguments)));else this.attr('stdDeviation','0 0');},morphology:function(operator,radius){this.attr({operator:operator,radius:radius});},tile:function(){},turbulence:function(baseFrequency,numOctaves,seed,stitchTiles,type){this.attr({numOctaves:numOctaves,seed:seed,stitchTiles:stitchTiles,baseFrequency:baseFrequency,type:type});}};// Create all parent effects
+var parentEffects={merge:function(){var children;//test to see if we have a set
+if(arguments[0]instanceof SVG.Set){var that=this;arguments[0].each(function(i){if(this instanceof SVG.MergeNode)that.put(this);else if(this instanceof SVG.Effect||this instanceof SVG.ParentEffect)that.put(new SVG.MergeNode(this));});}else{//if the first argument is an array use it
+if(Array.isArray(arguments[0]))children=arguments[0];else children=arguments;for(var i=0;i<children.length;i++){if(children[i]instanceof SVG.MergeNode){this.put(children[i]);}else this.put(new SVG.MergeNode(children[i]));}}},componentTransfer:function(compontents){/* create rgb set */this.rgb=new SVG.Set()/* create components */;['r','g','b','a'].forEach(function(c){/* create component */this[c]=new SVG['Func'+c.toUpperCase()]('identity');/* store component in set */this.rgb.add(this[c]);/* add component node */this.node.appendChild(this[c].node);}.bind(this));//lost context in foreach
+/* set components */if(compontents){if(compontents.rgb){['r','g','b'].forEach(function(c){this[c].attr(compontents.rgb);}.bind(this));delete compontents.rgb;}/* set individual components */for(var c in compontents)this[c].attr(compontents[c]);}},diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){this.attr({surfaceScale:surfaceScale,diffuseConstant:diffuseConstant,kernelUnitLength:kernelUnitLength});},specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){this.attr({surfaceScale:surfaceScale,diffuseConstant:diffuseConstant,specularExponent:specularExponent,kernelUnitLength:kernelUnitLength});}};// Create child effects like PointLight and MergeNode
+var childEffects={distantLight:function(azimuth,elevation){this.attr({azimuth:azimuth,
 elevation:elevation
 });
 },

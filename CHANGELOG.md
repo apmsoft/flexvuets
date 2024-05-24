@@ -1,6 +1,12 @@
 # Changelog
 
-## [3.1.2]
+## [3.2]
+
+### - 2024-05-24
+- ElementsHtml.class, ElementsTypes.interface new add
+- HTMLElement 생성 및 이벤트 설정 가능
+- 지원 Elements : ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox,ElementUL,ElementLi
+- Elements Components 예제 작성
 
 ### - 2024-05-22
 - v3.1.1 -> v3.1.2 업데이트

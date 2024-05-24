@@ -10527,6 +10527,255 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10570,278 +10819,29 @@
     if (listening) {return;}listening = true;document.addEventListener('paste', handlePaste);};var unlisten = function unlisten(listener) {arrayRemove(listeners$1, listeners$1.indexOf(listener)); // clean up
     if (listeners$1.length === 0) {document.removeEventListener('paste', handlePaste);listening = false;}};var createPaster = function createPaster() {var cb = function cb(files) {api.onload(files);};var api = { destroy: function destroy() {unlisten(cb);}, onload: function onload() {} };listen(cb);return api;}; /**
   * Creates the file view
-  */var create$d = function create(_ref) {var root = _ref.root,props = _ref.props;root.element.id = 'filepond--assistant-' + props.id;
-    attr(root.element, 'role', 'status');
-    attr(root.element, 'aria-live', 'polite');
-    attr(root.element, 'aria-relevant', 'additions');
-  };
-
-  var addFilesNotificationTimeout = null;
-  var notificationClearTimeout = null;
-
-  var filenames = [];
-
-  var assist = function assist(root, message) {
-    root.element.textContent = message;
-  };
-
-  var clear$1 = function clear(root) {
-    root.element.textContent = '';
-  };
-
-  var listModified = function listModified(root, filename, label) {
-    var total = root.query('GET_TOTAL_ITEMS');
-    assist(
-      root,
-      label +
-      ' ' +
-      filename +
-      ', ' +
-      total +
-      ' ' + (
-      total === 1 ?
-      root.query('GET_LABEL_FILE_COUNT_SINGULAR') :
-      root.query('GET_LABEL_FILE_COUNT_PLURAL'))
-    );
-
-    // clear group after set amount of time so the status is not read twice
-    clearTimeout(notificationClearTimeout);
-    notificationClearTimeout = setTimeout(function () {
-      clear$1(root);
-    }, 1500);
-  };
-
-  var isUsingFilePond = function isUsingFilePond(root) {
-    return root.element.parentNode.contains(document.activeElement);
-  };
-
-  var itemAdded = function itemAdded(_ref2) {
-    var root = _ref2.root,
-      action = _ref2.action;
-    if (!isUsingFilePond(root)) {
-      return;
-    }
-
-    root.element.textContent = '';
-    var item = root.query('GET_ITEM', action.id);
-    filenames.push(item.filename);
-
-    clearTimeout(addFilesNotificationTimeout);
-    addFilesNotificationTimeout = setTimeout(function () {
-      listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));
-
-      filenames.length = 0;
-    }, 750);
-  };
-
-  var itemRemoved = function itemRemoved(_ref3) {
-    var root = _ref3.root,
-      action = _ref3.action;
-    if (!isUsingFilePond(root)) {
-      return;
-    }
-
-    var item = action.item;
-    listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));
-  };
-
-  var itemProcessed = function itemProcessed(_ref4) {
-    var root = _ref4.root,
-      action = _ref4.action;
-    // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-    var item = root.query('GET_ITEM', action.id);
-    var filename = item.filename;
-    var label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');
-
-    assist(root, filename + ' ' + label);
-  };
-
-  var itemProcessedUndo = function itemProcessedUndo(_ref5) {
-    var root = _ref5.root,
-      action = _ref5.action;
-    var item = root.query('GET_ITEM', action.id);
-    var filename = item.filename;
-    var label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');
-
-    assist(root, filename + ' ' + label);
-  };
-
-  var itemError = function itemError(_ref6) {
-    var root = _ref6.root,
-      action = _ref6.action;
-    var item = root.query('GET_ITEM', action.id);
-    var filename = item.filename;
-
-    // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
-
-    assist(root, action.status.main + ' ' + filename + ' ' + action.status.sub);
-  };
-
-  var assistant = createView({
-    create: create$d,
-    ignoreRect: true,
-    ignoreRectUpdate: true,
-    write: createRoute({
-      DID_LOAD_ITEM: itemAdded,
-      DID_REMOVE_ITEM: itemRemoved,
-      DID_COMPLETE_ITEM_PROCESSING: itemProcessed,
-
-      DID_ABORT_ITEM_PROCESSING: itemProcessedUndo,
-      DID_REVERT_ITEM_PROCESSING: itemProcessedUndo,
-
-      DID_THROW_ITEM_REMOVE_ERROR: itemError,
-      DID_THROW_ITEM_LOAD_ERROR: itemError,
-      DID_THROW_ITEM_INVALID: itemError,
-      DID_THROW_ITEM_PROCESSING_ERROR: itemError
-    }),
-
-    tag: 'span',
-    name: 'assistant'
-  });
-
-  var toCamels = function toCamels(string) {
-    var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';
-    return string.replace(new RegExp(separator + '.', 'g'), function (sub) {
-      return sub.charAt(1).toUpperCase();
-    });
-  };
-
-  var debounce = function debounce(func) {
-    var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 16;
-    var immidiateOnly =
-    arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    var last = Date.now();
-    var timeout = null;
-
-    return function () {
-      for (
-      var _len = arguments.length, args = new Array(_len), _key = 0;
-      _key < _len;
-      _key++)
-      {
-        args[_key] = arguments[_key];
-      }
-      clearTimeout(timeout);
-
-      var dist = Date.now() - last;
-
-      var fn = function fn() {
-        last = Date.now();
-        func.apply(void 0, args);
-      };
-
-      if (dist < interval) {
-        // we need to delay by the difference between interval and dist
+  */var create$d = function create(_ref) {var root = _ref.root,props = _ref.props;root.element.id = 'filepond--assistant-' + props.id;attr(root.element, 'role', 'status');attr(root.element, 'aria-live', 'polite');attr(root.element, 'aria-relevant', 'additions');};var addFilesNotificationTimeout = null;var notificationClearTimeout = null;var filenames = [];var assist = function assist(root, message) {root.element.textContent = message;};var clear$1 = function clear(root) {root.element.textContent = '';};var listModified = function listModified(root, filename, label) {var total = root.query('GET_TOTAL_ITEMS');assist(root, label + ' ' + filename + ', ' + total + ' ' + (total === 1 ? root.query('GET_LABEL_FILE_COUNT_SINGULAR') : root.query('GET_LABEL_FILE_COUNT_PLURAL'))); // clear group after set amount of time so the status is not read twice
+    clearTimeout(notificationClearTimeout);notificationClearTimeout = setTimeout(function () {clear$1(root);}, 1500);};var isUsingFilePond = function isUsingFilePond(root) {return root.element.parentNode.contains(document.activeElement);};var itemAdded = function itemAdded(_ref2) {var root = _ref2.root,action = _ref2.action;if (!isUsingFilePond(root)) {return;}root.element.textContent = '';var item = root.query('GET_ITEM', action.id);filenames.push(item.filename);clearTimeout(addFilesNotificationTimeout);addFilesNotificationTimeout = setTimeout(function () {listModified(root, filenames.join(', '), root.query('GET_LABEL_FILE_ADDED'));filenames.length = 0;}, 750);};var itemRemoved = function itemRemoved(_ref3) {var root = _ref3.root,action = _ref3.action;if (!isUsingFilePond(root)) {return;}var item = action.item;listModified(root, item.filename, root.query('GET_LABEL_FILE_REMOVED'));};var itemProcessed = function itemProcessed(_ref4) {var root = _ref4.root,action = _ref4.action; // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
+    var item = root.query('GET_ITEM', action.id);var filename = item.filename;var label = root.query('GET_LABEL_FILE_PROCESSING_COMPLETE');assist(root, filename + ' ' + label);};var itemProcessedUndo = function itemProcessedUndo(_ref5) {var root = _ref5.root,action = _ref5.action;var item = root.query('GET_ITEM', action.id);var filename = item.filename;var label = root.query('GET_LABEL_FILE_PROCESSING_ABORTED');assist(root, filename + ' ' + label);};var itemError = function itemError(_ref6) {var root = _ref6.root,action = _ref6.action;var item = root.query('GET_ITEM', action.id);var filename = item.filename; // will also notify the user when FilePond is not being used, as the user might be occupied with other activities while uploading a file
+    assist(root, action.status.main + ' ' + filename + ' ' + action.status.sub);};var assistant = createView({ create: create$d, ignoreRect: true, ignoreRectUpdate: true, write: createRoute({ DID_LOAD_ITEM: itemAdded, DID_REMOVE_ITEM: itemRemoved, DID_COMPLETE_ITEM_PROCESSING: itemProcessed, DID_ABORT_ITEM_PROCESSING: itemProcessedUndo, DID_REVERT_ITEM_PROCESSING: itemProcessedUndo, DID_THROW_ITEM_REMOVE_ERROR: itemError, DID_THROW_ITEM_LOAD_ERROR: itemError, DID_THROW_ITEM_INVALID: itemError, DID_THROW_ITEM_PROCESSING_ERROR: itemError }), tag: 'span', name: 'assistant' });var toCamels = function toCamels(string) {var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '-';return string.replace(new RegExp(separator + '.', 'g'), function (sub) {return sub.charAt(1).toUpperCase();});};var debounce = function debounce(func) {var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 16;var immidiateOnly = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;var last = Date.now();var timeout = null;return function () {for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {args[_key] = arguments[_key];}clearTimeout(timeout);var dist = Date.now() - last;var fn = function fn() {last = Date.now();func.apply(void 0, args);};if (dist < interval) {// we need to delay by the difference between interval and dist
         // for example: if distance is 10 ms and interval is 16 ms,
         // we need to wait an additional 6ms before calling the function)
-        if (!immidiateOnly) {
-          timeout = setTimeout(fn, interval - dist);
-        }
-      } else {
-        // go!
-        fn();
-      }
-    };
-  };
-
-  var MAX_FILES_LIMIT = 1000000;
-
-  var prevent = function prevent(e) {
-    return e.preventDefault();
-  };
-
-  var create$e = function create(_ref) {
-    var root = _ref.root,
-      props = _ref.props;
-    // Add id
-    var id = root.query('GET_ID');
-    if (id) {
-      root.element.id = id;
-    }
-
-    // Add className
-    var className = root.query('GET_CLASS_NAME');
-    if (className) {
-      className.
-      split(' ').
-      filter(function (name) {
-        return name.length;
-      }).
-      forEach(function (name) {
-        root.element.classList.add(name);
-      });
-    }
-
-    // Field label
-    root.ref.label = root.appendChildView(
-      root.createChildView(
-        dropLabel,
-        Object.assign({}, props, {
-          translateY: null,
-          caption: root.query('GET_LABEL_IDLE')
-        })
-      )
-    );
-
-    // List of items
-    root.ref.list = root.appendChildView(
-      root.createChildView(listScroller, { translateY: null })
-    );
-
-    // Background panel
-    root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' }));
-
-    // Assistant notifies assistive tech when content changes
-    root.ref.assistant = root.appendChildView(
-      root.createChildView(assistant, Object.assign({}, props))
-    );
-
-    // Data
-    root.ref.data = root.appendChildView(root.createChildView(data, Object.assign({}, props)));
-
-    // Measure (tests if fixed height was set)
+        if (!immidiateOnly) {timeout = setTimeout(fn, interval - dist);}} else {// go!
+        fn();}};};var MAX_FILES_LIMIT = 1000000;var prevent = function prevent(e) {return e.preventDefault();};var create$e = function create(_ref) {var root = _ref.root,props = _ref.props; // Add id
+    var id = root.query('GET_ID');if (id) {root.element.id = id;} // Add className
+    var className = root.query('GET_CLASS_NAME');if (className) {className.split(' ').filter(function (name) {return name.length;}).forEach(function (name) {root.element.classList.add(name);});} // Field label
+    root.ref.label = root.appendChildView(root.createChildView(dropLabel, Object.assign({}, props, { translateY: null, caption: root.query('GET_LABEL_IDLE') }))); // List of items
+    root.ref.list = root.appendChildView(root.createChildView(listScroller, { translateY: null })); // Background panel
+    root.ref.panel = root.appendChildView(root.createChildView(panel, { name: 'panel-root' })); // Assistant notifies assistive tech when content changes
+    root.ref.assistant = root.appendChildView(root.createChildView(assistant, Object.assign({}, props))); // Data
+    root.ref.data = root.appendChildView(root.createChildView(data, Object.assign({}, props))); // Measure (tests if fixed height was set)
     // DOCTYPE needs to be set for this to work
-    root.ref.measure = createElement$1('div');
-    root.ref.measure.style.height = '100%';
-    root.element.appendChild(root.ref.measure);
-
-    // information on the root height or fixed height status
-    root.ref.bounds = null;
-
-    // apply initial style properties
-    root.query('GET_STYLES').
-    filter(function (style) {
-      return !isEmpty(style.value);
-    }).
-    map(function (_ref2) {
-      var name = _ref2.name,
-        value = _ref2.value;
-      root.element.dataset[name] = value;
-    });
-
-    // determine if width changed
-    root.ref.widthPrevious = null;
-    root.ref.widthUpdated = debounce(function () {
-      root.ref.updateHistory = [];
-      root.dispatch('DID_RESIZE_ROOT');
-    }, 250);
-
-    // history of updates
-    root.ref.previousAspectRatio = null;
-    root.ref.updateHistory = [];
-
-    // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
-    var canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;
-    var hasPointerEvents = ('PointerEvent' in window);
-    if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {
-      root.element.addEventListener('touchmove', prevent, { passive: false });
-      root.element.addEventListener('gesturestart', prevent);
-    }
-
-    // add credits
-    var credits = root.query('GET_CREDITS');
-    var hasCredits = credits.length === 2;
+    root.ref.measure = createElement$1('div');root.ref.measure.style.height = '100%';root.element.appendChild(root.ref.measure); // information on the root height or fixed height status
+    root.ref.bounds = null; // apply initial style properties
+    root.query('GET_STYLES').filter(function (style) {return !isEmpty(style.value);}).map(function (_ref2) {var name = _ref2.name,value = _ref2.value;root.element.dataset[name] = value;}); // determine if width changed
+    root.ref.widthPrevious = null;root.ref.widthUpdated = debounce(function () {root.ref.updateHistory = [];root.dispatch('DID_RESIZE_ROOT');}, 250); // history of updates
+    root.ref.previousAspectRatio = null;root.ref.updateHistory = []; // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
+    var canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;var hasPointerEvents = ('PointerEvent' in window);if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {root.element.addEventListener('touchmove', prevent, { passive: false });root.element.addEventListener('gesturestart', prevent);} // add credits
+    var credits = root.query('GET_CREDITS');var hasCredits = credits.length === 2;
     if (hasCredits) {
       var frag = document.createElement('a');
       frag.className = 'filepond--credits';
