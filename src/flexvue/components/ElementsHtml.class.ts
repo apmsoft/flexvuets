@@ -59,16 +59,6 @@ class ElementsComponents {
         return this;
     }
 
-    min(min : string | number) : this {
-        this.options.min = `min="${min}"`;
-        return this;
-    }
-
-    max(max : string | number) : this {
-        this.options.max = `max="${max}"`;
-        return this;
-    }
-
     readonly () : this{
         this.options.readonly = 'readonly';
         return this;
@@ -434,6 +424,16 @@ class ElementInput extends ElementsComponents implements ElementsHTML, InputType
     placeholder (comment : string) : this 
     {
         this.options.placeholder = `placeholder="${comment}"`;
+        return this;
+    }
+
+    min(min : string | number) : this {
+        this.options.min = `min="${min}"`;
+        return this;
+    }
+
+    max(max : string | number) : this {
+        this.options.max = `max="${max}"`;
         return this;
     }
 

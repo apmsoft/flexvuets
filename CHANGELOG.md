@@ -5,6 +5,9 @@
 ### - 2024-05-25
 - ElementsTypes.interface InputTypeTypes,ButtonTypeTypes 항목 추가
 - example/components/components_template 예제 업데이트
+- ElementsTypes.interface update
+- ElementsComponents min max remove
+- ElementInput min max add
 
 ### - 2024-05-24
 - ElementsHtml.class, ElementsTypes.interface new add

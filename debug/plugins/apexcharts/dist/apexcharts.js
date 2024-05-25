@@ -29947,6 +29947,8 @@ this.animations={
 
 
 
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -30068,6 +30070,7 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
 
 
 
@@ -31647,10 +31650,7 @@ if(Array.isArray(arguments[0]))children=arguments[0];else children=arguments;for
 /* set components */if(compontents){if(compontents.rgb){['r','g','b'].forEach(function(c){this[c].attr(compontents.rgb);}.bind(this));delete compontents.rgb;}/* set individual components */for(var c in compontents)this[c].attr(compontents[c]);}},diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){this.attr({surfaceScale:surfaceScale,diffuseConstant:diffuseConstant,kernelUnitLength:kernelUnitLength});},specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){this.attr({surfaceScale:surfaceScale,diffuseConstant:diffuseConstant,specularExponent:specularExponent,kernelUnitLength:kernelUnitLength});}};// Create child effects like PointLight and MergeNode
 var childEffects={distantLight:function(azimuth,elevation){this.attr({azimuth:azimuth,elevation:elevation});},pointLight:function(x,y,z){this.attr({x:x,y:y,z:z});},spotLight:function(x,y,z,pointsAtX,pointsAtY,pointsAtZ){this.attr({x:x,y:y,z:z,pointsAtX:pointsAtX,pointsAtY:pointsAtY,pointsAtZ:pointsAtZ});},mergeNode:function(in1){this.attr('in',in1);}}// Create compontent functions
 ;['r','g','b','a'].forEach(function(c){/* create class */childEffects['Func'+c.toUpperCase()]=function(type){this.attr('type',type);// take diffent arguments based on the type
-switch(type){case'table':this.attr('tableValues',arguments[1]);break;case'linear':this.attr('slope',arguments[1]);
-this.attr('intercept',arguments[2]);
-break;
-case'gamma':
+switch(type){case'table':this.attr('tableValues',arguments[1]);break;case'linear':this.attr('slope',arguments[1]);this.attr('intercept',arguments[2]);break;case'gamma':
 this.attr('amplitude',arguments[1]);
 this.attr('exponent',arguments[2]);
 this.attr('offset',arguments[2]);

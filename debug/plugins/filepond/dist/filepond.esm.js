@@ -2237,6 +2237,7 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -2340,8 +2341,7 @@ const defaultOptions = { // the id to add to the root element
   const data = dataURI.split(',')[1]; // remove any whitespace as that causes InvalidCharacterError in IE
   return data.replace(/\s/g, '');};const getByteStringFromBase64DataURI = (dataURI) => {return atob(getBase64DataFromBase64DataURI(dataURI));};const getBlobFromBase64DataURI = (dataURI) => {const mimeType = getMimeTypeFromBase64DataURI(dataURI);const byteString = getByteStringFromBase64DataURI(dataURI);return getBlobFromByteStringWithMimeType(byteString, mimeType);};const getFileFromBase64DataURI = (dataURI, filename, extension) => {return getFileFromBlob(getBlobFromBase64DataURI(dataURI), filename, null, extension);};const getFileNameFromHeader = (header) => {// test if is content disposition header, if not exit
   if (!/^content-disposition:/i.test(header)) return null; // get filename parts
-  const matches = header.split(/filename=|filename\*=.+''/).splice(1).map((name) => name.trim().replace(/^["']|[;"']{0,2}$/g, '')).filter((name) => name.length);return matches.length ? decodeURI(matches[matches.length - 1]) : null;};const getFileSizeFromHeader = (header) => {
-  if (/content-length:/i.test(header)) {
+  const matches = header.split(/filename=|filename\*=.+''/).splice(1).map((name) => name.trim().replace(/^["']|[;"']{0,2}$/g, '')).filter((name) => name.length);return matches.length ? decodeURI(matches[matches.length - 1]) : null;};const getFileSizeFromHeader = (header) => {if (/content-length:/i.test(header)) {
     const size = header.match(/[0-9]+/)[0];
     return size ? parseInt(size, 10) : null;
   }
@@ -8075,6 +8075,7 @@ const getLinks = (dataTransfer) => {
 
 
 
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -8154,8 +8155,7 @@ const getLinks = (dataTransfer) => {
     label.opacity = 0;if (isMultiItem) {label.translateY = -40;} else {if (interactionMethod === InteractionMethod.API) {label.translateX = 40;} else if (interactionMethod === InteractionMethod.BROWSE) {label.translateY = 40;} else {label.translateY = 30;}}} else if (!atMaxCapacity) {label.opacity = 1;label.translateX = 0;label.translateY = 0;}const listItemMargin = calculateListItemMargin(root);const listHeight = calculateListHeight(root);const labelHeight = label.rect.element.height;const currentLabelHeight = !isMultiItem || atMaxCapacity ? 0 : labelHeight;const listMarginTop = atMaxCapacity ? list.rect.element.marginTop : 0;const listMarginBottom = totalItems === 0 ? 0 : list.rect.element.marginBottom;const visualHeight = currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;const boundsHeight = currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom; // link list to label bottom position
   list.translateY = Math.max(0, currentLabelHeight - list.rect.element.marginTop) - listItemMargin.top;if (aspectRatio) {// fixed aspect ratio
     // calculate height based on width
-    const width = root.rect.element.width;const height = width * aspectRatio;
-    // clear history if aspect ratio has changed
+    const width = root.rect.element.width;const height = width * aspectRatio; // clear history if aspect ratio has changed
     if (aspectRatio !== root.ref.previousAspectRatio) {
       root.ref.previousAspectRatio = aspectRatio;
       root.ref.updateHistory = [];

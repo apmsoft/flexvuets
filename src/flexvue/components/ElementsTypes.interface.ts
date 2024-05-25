@@ -35,15 +35,18 @@ interface ListDataTypes {
 type InputTypeTypes = 'text'|'password'|'range'|'email'|'tel'|'search'|'number'|'color'|'date'|'datetime-local'|'week'|'time'|'hidden'|'url'|'file';
 type ButtonTypeTypes = 'submit'|'button'|'reset';
 
-interface InputHtmlTypes {
-    type? : string;
+interface DefaultTypes {
     className? : string;
-    placeholder? : string;
     id? : string;
     name? : string;
     disabled? : string;
     readonly? : string;
     datasets? : string;
+}
+
+interface InputHtmlTypes extends DefaultTypes {
+    type? : string;
+    placeholder? : string;
     min? : string;
     max? : string;
 }

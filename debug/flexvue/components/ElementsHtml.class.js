@@ -33,14 +33,6 @@ class ElementsComponents {
     this.options.className = `class="${className}"`;
     return this;
   }
-  min(min) {
-    this.options.min = `min="${min}"`;
-    return this;
-  }
-  max(max) {
-    this.options.max = `max="${max}"`;
-    return this;
-  }
   readonly() {
     this.options.readonly = 'readonly';
     return this;
@@ -346,6 +338,14 @@ class ElementInput extends ElementsComponents {
   }
   placeholder(comment) {
     this.options.placeholder = `placeholder="${comment}"`;
+    return this;
+  }
+  min(min) {
+    this.options.min = `min="${min}"`;
+    return this;
+  }
+  max(max) {
+    this.options.max = `max="${max}"`;
     return this;
   }
   addEventListener(eventName, callback) {
