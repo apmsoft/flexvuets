@@ -2,6 +2,10 @@
 
 ## [3.2]
 
+### - 2024-05-25
+- ElementsTypes.interface InputTypeTypes,ButtonTypeTypes 항목 추가
+- example/components/components_template 예제 업데이트
+
 ### - 2024-05-24
 - ElementsHtml.class, ElementsTypes.interface new add
 - HTMLElement 생성 및 이벤트 설정 가능

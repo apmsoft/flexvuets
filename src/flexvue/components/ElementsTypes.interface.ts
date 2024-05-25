@@ -32,8 +32,8 @@ interface ListDataTypes {
     label : string;
 }
 
-type InputTypeTypes = 'text'|'password'|'range'|'email'|'phone'|'file';
-type ButtonTypeTypes = 'submit'|'button';
+type InputTypeTypes = 'text'|'password'|'range'|'email'|'tel'|'search'|'number'|'color'|'date'|'datetime-local'|'week'|'time'|'hidden'|'url'|'file';
+type ButtonTypeTypes = 'submit'|'button'|'reset';
 
 interface InputHtmlTypes {
     type? : string;

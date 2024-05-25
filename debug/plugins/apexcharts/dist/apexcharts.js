@@ -29923,6 +29923,30 @@ this.animations={
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // functionToCall: [list of morphable objects]
 // e.g. move: [SVG.Number, SVG.Number]
 };this.attrs={
@@ -30044,6 +30068,18 @@ create:function create(element){SVG.Box.apply(this,[].slice.call(arguments));// 
 if(element instanceof SVG.Element){var box;// yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
 try{if(!document.documentElement.contains){// This is IE - it does not support contains() for top-level SVGs
 var topParent=element.node;while(topParent.parentNode){topParent=topParent.parentNode;}if(topParent!=document)throw new Error('Element not in the dom');}else{
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -31609,45 +31645,9 @@ var parentEffects={merge:function(){var children;//test to see if we have a set
 if(arguments[0]instanceof SVG.Set){var that=this;arguments[0].each(function(i){if(this instanceof SVG.MergeNode)that.put(this);else if(this instanceof SVG.Effect||this instanceof SVG.ParentEffect)that.put(new SVG.MergeNode(this));});}else{//if the first argument is an array use it
 if(Array.isArray(arguments[0]))children=arguments[0];else children=arguments;for(var i=0;i<children.length;i++){if(children[i]instanceof SVG.MergeNode){this.put(children[i]);}else this.put(new SVG.MergeNode(children[i]));}}},componentTransfer:function(compontents){/* create rgb set */this.rgb=new SVG.Set()/* create components */;['r','g','b','a'].forEach(function(c){/* create component */this[c]=new SVG['Func'+c.toUpperCase()]('identity');/* store component in set */this.rgb.add(this[c]);/* add component node */this.node.appendChild(this[c].node);}.bind(this));//lost context in foreach
 /* set components */if(compontents){if(compontents.rgb){['r','g','b'].forEach(function(c){this[c].attr(compontents.rgb);}.bind(this));delete compontents.rgb;}/* set individual components */for(var c in compontents)this[c].attr(compontents[c]);}},diffuseLighting:function(surfaceScale,diffuseConstant,kernelUnitLength){this.attr({surfaceScale:surfaceScale,diffuseConstant:diffuseConstant,kernelUnitLength:kernelUnitLength});},specularLighting:function(surfaceScale,diffuseConstant,specularExponent,kernelUnitLength){this.attr({surfaceScale:surfaceScale,diffuseConstant:diffuseConstant,specularExponent:specularExponent,kernelUnitLength:kernelUnitLength});}};// Create child effects like PointLight and MergeNode
-var childEffects={distantLight:function(azimuth,elevation){this.attr({azimuth:azimuth,
-elevation:elevation
-});
-},
-pointLight:function(x,y,z){
-this.attr({
-x:x,
-y:y,
-z:z
-});
-},
-spotLight:function(x,y,z,pointsAtX,pointsAtY,pointsAtZ){
-this.attr({
-x:x,
-y:y,
-z:z,
-pointsAtX:pointsAtX,
-pointsAtY:pointsAtY,
-pointsAtZ:pointsAtZ
-});
-},
-mergeNode:function(in1){
-this.attr('in',in1);
-}
-}
-
-// Create compontent functions
-;['r','g','b','a'].forEach(function(c){
-/* create class */
-childEffects['Func'+c.toUpperCase()]=function(type){
-this.attr('type',type);
-
-// take diffent arguments based on the type
-switch(type){
-case'table':
-this.attr('tableValues',arguments[1]);
-break;
-case'linear':
-this.attr('slope',arguments[1]);
+var childEffects={distantLight:function(azimuth,elevation){this.attr({azimuth:azimuth,elevation:elevation});},pointLight:function(x,y,z){this.attr({x:x,y:y,z:z});},spotLight:function(x,y,z,pointsAtX,pointsAtY,pointsAtZ){this.attr({x:x,y:y,z:z,pointsAtX:pointsAtX,pointsAtY:pointsAtY,pointsAtZ:pointsAtZ});},mergeNode:function(in1){this.attr('in',in1);}}// Create compontent functions
+;['r','g','b','a'].forEach(function(c){/* create class */childEffects['Func'+c.toUpperCase()]=function(type){this.attr('type',type);// take diffent arguments based on the type
+switch(type){case'table':this.attr('tableValues',arguments[1]);break;case'linear':this.attr('slope',arguments[1]);
 this.attr('intercept',arguments[2]);
 break;
 case'gamma':

@@ -12,8 +12,8 @@ class ElementsComponents {
       disabled: '',
       readonly: '',
       datasets: '',
-      min: '0',
-      max: '100'
+      min: '',
+      max: ''
     };
     this.selectorAttr = {};
     this.datasets = [{}];

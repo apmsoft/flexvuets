@@ -10776,6 +10776,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10841,19 +10853,7 @@
     root.ref.widthPrevious = null;root.ref.widthUpdated = debounce(function () {root.ref.updateHistory = [];root.dispatch('DID_RESIZE_ROOT');}, 250); // history of updates
     root.ref.previousAspectRatio = null;root.ref.updateHistory = []; // prevent scrolling and zooming on iOS (only if supports pointer events, for then we can enable reorder)
     var canHover = window.matchMedia('(pointer: fine) and (hover: hover)').matches;var hasPointerEvents = ('PointerEvent' in window);if (root.query('GET_ALLOW_REORDER') && hasPointerEvents && !canHover) {root.element.addEventListener('touchmove', prevent, { passive: false });root.element.addEventListener('gesturestart', prevent);} // add credits
-    var credits = root.query('GET_CREDITS');var hasCredits = credits.length === 2;
-    if (hasCredits) {
-      var frag = document.createElement('a');
-      frag.className = 'filepond--credits';
-      frag.setAttribute('aria-hidden', 'true');
-      frag.href = credits[0];
-      frag.tabindex = -1;
-      frag.target = '_blank';
-      frag.rel = 'noopener noreferrer';
-      frag.textContent = credits[1];
-      root.element.appendChild(frag);
-      root.ref.credits = frag;
-    }
+    var credits = root.query('GET_CREDITS');var hasCredits = credits.length === 2;if (hasCredits) {var frag = document.createElement('a');frag.className = 'filepond--credits';frag.setAttribute('aria-hidden', 'true');frag.href = credits[0];frag.tabindex = -1;frag.target = '_blank';frag.rel = 'noopener noreferrer';frag.textContent = credits[1];root.element.appendChild(frag);root.ref.credits = frag;}
   };
 
   var write$9 = function write(_ref3) {
