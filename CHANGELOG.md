@@ -9,6 +9,7 @@
 - ElementsHtml attr, rmAttr 기능 추가
 - Elements Components 예제 업데이트
 - ElementsHtml.class 에서 ElementsManager.class 으로 클래스 네이밍 변경
+- 불필요한 파일 제거
 
 ### - 2024-05-25
 - ElementsTypes.interface InputTypeTypes,ButtonTypeTypes 항목 추가

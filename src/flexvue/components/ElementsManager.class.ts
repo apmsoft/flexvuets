@@ -305,12 +305,6 @@ class ElementTextArea extends ElementsComponents<TextAreaHtmlTypes> implements A
         this.target = document.querySelector<HTMLTextAreaElement>(target)!;
     }
 
-    attrPlaceholder (comment : string) : this 
-    {
-        this.options.placeholder = `placeholder="${comment}"`;
-        return this;
-    }
-
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
         this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLTextAreaElement;

@@ -238,10 +238,6 @@ class ElementTextArea extends ElementsComponents {
     });
     this.target = document.querySelector(target);
   }
-  attrPlaceholder(comment) {
-    this.options.placeholder = `placeholder="${comment}"`;
-    return this;
-  }
   addEventListener(eventName, callback) {
     var _a;
     (_a = this.target) === null || _a === void 0 ? void 0 : _a.addEventListener(eventName, (event) => {
