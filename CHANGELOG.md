@@ -2,6 +2,13 @@
 
 ## [3.2]
 
+### - 2024-05-26
+- ElementsOptions 클래스 추가 엘레렌트 타입에 따라 options 항목을 지정 할 수 있도록 업데이트
+- ElementsAttributeOptions 클래스 추가
+- ElementsCreate 와 ElementsHtml 역할 분리
+- ElementsHtml attr, rmAttr 기능 추가
+- Elements Components 예제 업데이트
+
 ### - 2024-05-25
 - ElementsTypes.interface InputTypeTypes,ButtonTypeTypes 항목 추가
 - example/components/components_template 예제 업데이트

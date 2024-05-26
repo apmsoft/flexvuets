@@ -1,4 +1,4 @@
-import { ElementTextArea, ElementInput, ElementButton, ElementSelect } from "../../../flexvue/components/ElementsHtml.class.js";
+import { CreateElTextArea, CreateElInput, CreateElButton, CreateElSelect } from "../../../flexvue/components/ElementsCreate.class.js";
 class EditView {
   constructor() {
   }
@@ -24,7 +24,7 @@ class EditView {
                         <label class="input input-bordered rounded text-xs flex flex-row space-x-2 items-center gap-2">
                             <div class="flex-none w-20">*성명</div>
                             <div class="flex-1">
-                                ${new ElementInput().
+                                ${new CreateElInput().
     id('#name').
     name('name').
     classList('border-0 w-full').
@@ -38,7 +38,7 @@ class EditView {
                         <label class="input input-bordered rounded text-xs flex flex-row space-x-2 items-center gap-2">
                             <div class="flex-none w-20">*아이디</div>
                             <div class="flex-1">
-                                ${new ElementInput().
+                                ${new CreateElInput().
     id('#userid').
     name('userid').
     type('email').
@@ -54,7 +54,7 @@ class EditView {
                         <label class="input input-bordered rounded text-xs flex flex-row space-x-2 items-center gap-2">
                             <div class="flex-none w-20">*관리자 등급</div>
                             <div class="flex-1">
-                                ${new ElementSelect().
+                                ${new CreateElSelect().
     id('#level').
     name('level').
     readonly().
@@ -76,7 +76,7 @@ class EditView {
                                         <span class="label-text text-xs">*프로젝트</span>
                                         <span class="label-text-alt"></span>
                                     </div>
-                                        ${new ElementTextArea().
+                                        ${new CreateElTextArea().
     id('#mymodules').
     name('mymodules').
     classList('textarea textarea-bordered rounded h-[100px] w-full').
@@ -91,7 +91,7 @@ class EditView {
                                         <span class="label-text text-xs">*공유 프로젝트</span>
                                         <span class="label-text-alt"></span>
                                     </div>
-                                        ${new ElementTextArea().
+                                        ${new CreateElTextArea().
     id('#sharemodules').
     name('sharemodules').
     classList('textarea textarea-bordered rounded h-[100px] w-full').
@@ -109,7 +109,7 @@ class EditView {
                                 <label class="input input-bordered w-full rounded text-xs flex flex-row space-x-2 items-center gap-2">
                                     <div class="flex-none w-20">새비밀번호</div>
                                     <div class="flex-1">
-                                        ${new ElementInput().
+                                        ${new CreateElInput().
     type('password').
     id('#passwd').
     name('passwd').
@@ -123,7 +123,7 @@ class EditView {
                                 <label class="input input-bordered w-full rounded text-xs flex flex-row space-x-2 items-center gap-2">
                                     <div class="flex-none w-20">새비밀번호 확인</div>
                                     <div class="flex-1">
-                                        ${new ElementInput().
+                                        ${new CreateElInput().
     type('password').
     id('#re_passwd').
     name('re_passwd').
@@ -137,9 +137,10 @@ class EditView {
                     </div>
 
                     <div class="mt-4">
-                        ${new ElementButton().
+                        ${new CreateElButton().
     type('submit').
     classList('btn btn-active btn-neutral rounded py-3 w-full').
+    dataset([{ id: "button" }]).
     render('권한 적용하기')}
                     </div>
                 </form>

@@ -1,103 +1,27 @@
-import {Template} from '@flexvue/types';
-
+import {ElementsAttributeOptions} from '@flexvue/elements/attrs';
 import {
-    DatasetTypes,
+    DefaultTypes,CheckboxRadioHtmlTypes,ButtonHtmlTypes,TextAreaHtmlTypes,
+    DatasetTypes,Attribute,
     HtmlPrintTypes,
-    ButtonTypeTypes,
-    InputTypeTypes,
     InputTypes,
     InputHtmlTypes,
-    ElementsHTML,
+    EventListeners,
     RadioTypes,
     CheckboxTypes,
-    ListDataTypes,
     SelectTypes,
     SelectorAttrTypes
-} from '@flexvue/elementstypes';
+} from '@flexvue/elements/types';
 
-class ElementsComponents {
-    protected target: HTMLElement | null;
-    protected options : InputHtmlTypes;
+class ElementsComponents <T extends DefaultTypes> extends ElementsAttributeOptions<T>{
     protected insertMode : string = 'inner';
     protected attributeTemplate = '';
     protected datasets : [DatasetTypes];
     protected selectorAttr : SelectorAttrTypes;
 
-    constructor(target: string | null) {
-        this.target = target ? document.querySelector(target) as HTMLElement : null;
-        this.options = {
-            type       : '',
-            className  : '',
-            placeholder: '',
-            id         : '',
-            name       : '',
-            disabled   : '',
-            readonly   : '',
-            datasets   : '',
-            min : '',
-            max : ''
-        };
+    constructor(data: T = {} as T) {
+        super(data)
         this.selectorAttr = {};
         this.datasets = [{}];
-    }
-
-    id (id : string) : this {
-        const _id = id.replace('#','');
-        this.options.id = `id="${_id}"`;
-        this.selectorAttr.id = id;
-        return this;
-    }
-
-    name (name : string) : this {
-        this.options.name = `name="${name}"`;
-        this.selectorAttr.name = name;
-        return this;
-    }
-
-    classList(className : string) : this {
-        this.options.className = `class="${className}"`;
-        return this;
-    }
-
-    readonly () : this{
-        this.options.readonly = 'readonly';
-        return this;
-    }
-
-    disabled () : this{
-        this.options.readonly = 'disabled';
-        return this;
-    }
-
-    dataset (value : [DatasetTypes]) : this {
-        let dataset_data : string = '';
-        value.forEach((v,k) => {
-            dataset_data += `dataset-${k}="${v}" `;
-        });
-        this.options.datasets = dataset_data;
-        return this;
-    }
-
-    insert (type : HtmlPrintTypes = 'inner') : this{
-        this.insertMode = type;
-        return this;
-    }
-
-    protected selector() : HTMLElement{
-        const selector = (this.selectorAttr.id) ? this.selectorAttr.id : this.selectorAttr.name?? '';
-        let el : HTMLElement;
-        if(this.insertMode  == 'inner' && selector){
-            el = this.target?.querySelector(selector) as HTMLElement;
-        }else {
-            el = (this.selectorAttr.id) ? document.querySelector(selector) as HTMLElement : this.target as HTMLElement;
-        }
-
-    return el;
-    }
-
-    protected createAttribute () : string {
-        const attr = String.raw`${this.options.type} ${this.options.id} ${this.options.name} ${this.options.min} ${this.options.max} ${this.options.datasets} ${this.options.readonly} ${this.options.disabled} ${this.options.className}`;
-        return attr.replace(/\s+/g,' ');
     }
 
     protected printHTML (target : HTMLElement, type : string, tpl : string) : void {
@@ -111,43 +35,26 @@ class ElementsComponents {
     }
 }
 
-class ElementCheckbox extends ElementsComponents implements ElementsHTML,InputTypes,CheckboxTypes
+class ElementCheckbox extends ElementsComponents<CheckboxRadioHtmlTypes> implements EventListeners,InputTypes,CheckboxTypes
 {
-    constructor(target: string | null = null) {
-        super(target);
-    }
+    private target : HTMLInputElement[];
 
-    private getElementTemplate(value : string | null): string {
-        const attr = this.createAttribute();
-        return String.raw`<input type="checkbox" ${attr} value="${value ?? ''}" />`;
-    }
-
-    render(value : ListDataTypes[], template : Template | null) : string
-    {
-        const self = this;
-        value.forEach(item => {
-            item.value = self.getElementTemplate(item.value);
+    constructor(target: string) {
+        super({
+            type: 'type="checkbox"',
+            className: '',
+            placeholder: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
         });
-        const tpl = String.raw`
-        ${value.map(item => `
-            ${template ? template.render(item) : `${item.value}`}
-        `).join('')}`;
-
-    return tpl;
-    }
-
-    html(value : ListDataTypes[], template : Template | null): this{
-        const self = this;
-        if(value != null && Array.isArray(value)){
-            this.printHTML(this.target!, this.insertMode, self.render(value, template));
-            return this;
-        }
-    return this;
+        this.target = Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${target}"]`));
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selectorAll('.') as HTMLInputElement[];
-        el.forEach(ele=>
+        this.target.forEach(ele=>
             ele.addEventListener(eventName, (event) => {
                 const _el = event.target as HTMLInputElement;
                 callback(_el,_el.value);
@@ -156,87 +63,48 @@ class ElementCheckbox extends ElementsComponents implements ElementsHTML,InputTy
     return this;
     }
 
-    val () : any[]
+    val () : string[]
     {
-        const data : any[] = [];
-        const el = this.selectorAll('.') as HTMLInputElement[];
-        for (let i = 0; i < el.length; i++) {
-            if (el[i].checked) {
-                data.push(el[i].value);
+        const data : string[] = [];
+        for (let i = 0; i < this.target.length; i++) {
+            if (this.target[i].checked) {
+                data.push(this.target[i].value);
             }
         }
     return data;
     }
 
-    protected selectorAll( select_idname : string): HTMLInputElement | HTMLInputElement[] | null {
-        let el: HTMLInputElement | HTMLInputElement[] | null = null;
-
-        if (this.insertMode === 'inner') {
-            if (select_idname == '#' && this.selectorAttr.id) {
-                el = this.target?.querySelector(this.selectorAttr.id) as HTMLInputElement | null;
-            } else if (this.selectorAttr.name) {
-                el = Array.from(this.target!.querySelectorAll(`[name="${this.selectorAttr.name}"]`)) as HTMLInputElement[];
-            }
-        } else {
-            if (select_idname == '#' && this.selectorAttr.id) {
-                el = document.querySelector(this.selectorAttr.id) as HTMLInputElement | null;
-            } else if (this.selectorAttr.name) {
-                el = Array.from(this.target!.querySelectorAll(`[name="${this.selectorAttr.name}"]`)) as HTMLInputElement[];
-            }
-        }
-
-        return el;
-    }
-
     checked(value: any[]): this {
-        const el = this.selectorAll('.') as HTMLInputElement[];
-        for (let i = 0; i < el.length; i++) {
-            const found = value.find((element) => element == el[i].value);
+        for (let i = 0; i < this.target.length; i++) {
+            const found = value.find((element) => element == this.target[i].value);
             if (found !== 'undefined') {
-                el[i].checked = true;
+                this.target[i].checked = true;
             }
         }
     return this;
     }
 }
 
-class ElementRadio extends ElementsComponents implements ElementsHTML,InputTypes,RadioTypes 
+class ElementRadio extends ElementsComponents<CheckboxRadioHtmlTypes> implements EventListeners,InputTypes,RadioTypes 
 {
-    constructor(target: string | null = null) {
-        super(target);
-    }
+    private target : HTMLInputElement[];
 
-    private getElementTemplate(value : string | null): string {
-        const attr = this.createAttribute();
-        return String.raw`<input type="radio" ${attr} value="${value ?? ''}" />`;
-    }
-
-    render(value : ListDataTypes[], template : Template | null) : string 
-    {
-        const self = this;
-        value.forEach(item => {
-            item.value = self.getElementTemplate(item.value);
+    constructor(target: string ) {
+        super({
+            type: 'type="radio"',
+            className: '',
+            placeholder: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
         });
-        const tpl = String.raw`
-        ${value.map(item => `
-            ${template ? template.render(item) : `${item.value}`}
-        `).join('')}`;
-
-    return tpl;
-    }
-
-    html(value : ListDataTypes[], template : Template | null): this{
-        const self = this;
-        if(value != null && Array.isArray(value)){
-            this.printHTML(this.target!, this.insertMode, self.render(value, template));
-            return this;
-        }
-    return this;
+        this.target = Array.from(document.querySelectorAll<HTMLInputElement>(`input[name="${target}"]`));
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selectorAll('.') as HTMLInputElement[];
-        el.forEach(ele=>
+        this.target.forEach(ele=>
             ele.addEventListener(eventName, (event) => {
                 const _el = event.target as HTMLInputElement;
                 callback(_el,_el.value);
@@ -247,35 +115,20 @@ class ElementRadio extends ElementsComponents implements ElementsHTML,InputTypes
 
     val () : string
     {
-        const el = this.selectorAll('#') as HTMLInputElement;
-        return el ? el.value : '';
-    }
-
-    protected selectorAll( select_idname : string): HTMLInputElement | HTMLInputElement[] | null {
-        let el: HTMLInputElement | HTMLInputElement[] | null = null;
-
-        if (this.insertMode === 'inner') {
-            if (select_idname == '#' && this.selectorAttr.id) {
-                el = this.target?.querySelector(this.selectorAttr.id) as HTMLInputElement | null;
-            } else if (this.selectorAttr.name) {
-                el = Array.from(this.target!.querySelectorAll(`[name="${this.selectorAttr.name}"]`)) as HTMLInputElement[];
-            }
-        } else {
-            if (select_idname == '#' && this.selectorAttr.id) {
-                el = document.querySelector(this.selectorAttr.id) as HTMLInputElement | null;
-            } else if (this.selectorAttr.name) {
-                el = Array.from(this.target!.querySelectorAll(`[name="${this.selectorAttr.name}"]`)) as HTMLInputElement[];
+        let result : string = '';
+        for (let i = 0; i < this.target.length; i++) {
+            if (this.target[i].checked) {
+                result = this.target[i].value;
+                break;
             }
         }
-
-        return el;
+        return result;
     }
 
     checked(value: any): this {
-        const el = this.selectorAll('.') as HTMLInputElement[];
-        for (let i = 0; i < el.length; i++) {
-            if (el[i].value == value) {
-                el[i].checked = true;
+        for (let i = 0; i < this.target.length; i++) {
+            if (this.target[i].value == value) {
+                this.target[i].checked = true;
                 break;
             }
         }
@@ -283,48 +136,24 @@ class ElementRadio extends ElementsComponents implements ElementsHTML,InputTypes
     }
 }
 
-class ElementSelect extends ElementsComponents implements ElementsHTML,InputTypes,SelectTypes 
+class ElementSelect extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners,InputTypes,SelectTypes 
 {
+    private target : HTMLSelectElement;
 
-    constructor(target: string | null = null) {
-        super(target);
-    }
-
-    private getElementOptions (value : ListDataTypes[]) : string{
-        let result : string = '';
-        if(Array.isArray(value))
-        {
-            result = `${value.map(item => `
-                <option value="${item.value}">${item.label}</option>
-            `).join('')}`;
-        }
-    return result;
-    }
-
-    render(value : ListDataTypes[]) : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`
-        <select ${attr}>
-            ${(Array.isArray(value)) ? this.getElementOptions(value) : ''}
-        </select>`;
-
-    return tpl;
-    }
-
-    html(value : ListDataTypes[]): this
-    {
-        if(value != null && Array.isArray(value))
-        {
-            this.printHTML(this.target!, this.insertMode, this.render(value));
-            return this;
-        }
-    return this;
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
+        });
+        this.target = document.querySelector<HTMLSelectElement>(target)!;
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLSelectElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLSelectElement;
             callback(el, el.value);
         });
@@ -333,13 +162,11 @@ class ElementSelect extends ElementsComponents implements ElementsHTML,InputType
 
     val () : string
     {
-        const el = this.selector() as HTMLSelectElement;
-        return el ? el.value : '';
+        return this.target.value;
     }
 
     selected(value: string): this {
-        const el = this.selector() as HTMLSelectElement;
-        const selectEl = el.options;
+        const selectEl = this.target.options;
         for (let i = 0; i < selectEl.length; i++) {
             if (selectEl[i].value == value) {
                 selectEl[i].selected = true;
@@ -348,36 +175,42 @@ class ElementSelect extends ElementsComponents implements ElementsHTML,InputType
         }
     return this;
     }
-}
 
-class ElementButton extends ElementsComponents implements ElementsHTML, InputTypes
-{
-    constructor(target: string | null = null) {
-        super(target);
-        this.type('button');
-    }
-
-    render(value : string='') : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`<button ${attr}>${value}</button>`;
-
-    return tpl;
-    }
-
-    html(value : string =''): this{
-        this.printHTML(this.target!, this.insertMode, this.render(value));
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
     return this;
     }
 
-    type (type : ButtonTypeTypes) : this {
-        this.options.type = `type="${type}"`;
-        return this;
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
+    }
+}
+
+class ElementButton extends ElementsComponents<ButtonHtmlTypes> implements Attribute,EventListeners, InputTypes
+{
+    private target : HTMLButtonElement;
+
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
+        });
+
+        this.target = document.querySelector<HTMLButtonElement>(target)!;
+    }
+
+    html(data : string): this{
+        this.printHTML(this.target!, this.insertMode, data);
+    return this;
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLInputElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLInputElement;
             callback(el, el.value);
         });
@@ -386,60 +219,47 @@ class ElementButton extends ElementsComponents implements ElementsHTML, InputTyp
 
     val (data : string | null = null) : string | void
     {
-        const el = this.selector() as HTMLInputElement;
         if (data == null){
-            return el ? el.innerHTML : '';
+            return this.target.innerHTML;
         }else if(typeof data ==='string'){
-            el!.innerHTML = data;
+            this.target.innerHTML = data;
             return;
         }
     }
-}
 
-class ElementInput extends ElementsComponents implements ElementsHTML, InputTypes
-{
-    constructor(target: string | null = null) {
-        super(target);
-        this.type('text');
-    }
-
-    render(value : string = '') : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`<input ${attr} value="${value}" />`;
-
-    return tpl;
-    }
-
-    html(value : string = ''): this{
-        this.printHTML(this.target!, this.insertMode, this.render(value));
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
     return this;
     }
 
-    type (type : InputTypeTypes) : this {
-        this.options.type = `type="${type}"`;
-        return this;
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
     }
+}
 
-    placeholder (comment : string) : this 
-    {
-        this.options.placeholder = `placeholder="${comment}"`;
-        return this;
-    }
+class ElementInput extends ElementsComponents<InputHtmlTypes> implements Attribute,EventListeners, InputTypes
+{
+    private target : HTMLInputElement;
 
-    min(min : string | number) : this {
-        this.options.min = `min="${min}"`;
-        return this;
-    }
+    constructor(target: string) {
+        super({
+            className: '',
+            placeholder: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: '',
+            min: '',
+            max: ''
+        });
 
-    max(max : string | number) : this {
-        this.options.max = `max="${max}"`;
-        return this;
+        this.target = document.querySelector<HTMLInputElement>(target)!;
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLInputElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLInputElement;
             callback(el, el.value);
         });
@@ -448,44 +268,51 @@ class ElementInput extends ElementsComponents implements ElementsHTML, InputType
 
     val (data : string | null = null) : string | void
     {
-        const el = this.selector() as HTMLInputElement;
         if (data == null){
-            return el ? el.value : '';
+            return this.target.value;
         }else if(typeof data ==='string'){
-            el!.value = data;
+            this.target.value = data;
             return;
         }
     }
+
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
+    return this;
+    }
+
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
+    }
 }
 
-class ElementTextArea extends ElementsComponents implements ElementsHTML, InputTypes
+class ElementTextArea extends ElementsComponents<TextAreaHtmlTypes> implements Attribute,EventListeners, InputTypes
 {
-    constructor(target: string | null = null) {
-        super(target)
+    private target : HTMLTextAreaElement;
+
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: '',
+            placeholder : ''
+        });
+
+        this.target = document.querySelector<HTMLTextAreaElement>(target)!;
     }
 
-    render(value : string = '') : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`<textarea ${attr}>${value?? ''}</textarea>`;
-
-    return tpl;
-    }
-
-    placeholder (comment : string) : this 
+    attrPlaceholder (comment : string) : this 
     {
         this.options.placeholder = `placeholder="${comment}"`;
         return this;
     }
 
-    html(value : string =''): this{
-        this.printHTML(this.target!, this.insertMode, this.render(value));
-    return this;
-    }
-
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLTextAreaElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLTextAreaElement;
             callback(el, el.value);
         });
@@ -494,38 +321,49 @@ class ElementTextArea extends ElementsComponents implements ElementsHTML, InputT
 
     val (data : string | null = null) : string | void
     {
-        const el = this.selector() as HTMLTextAreaElement;
         if (data == null){
-            return el ? el.value : '';
+            return this.target.value;
         }else if(typeof data ==='string'){
-            el!.value = data;
+            this.target.value = data;
             return;
         }
     }
+
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
+    return this;
+    }
+
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
+    }
 }
 
-class ElementDiv extends ElementsComponents implements ElementsHTML
+class ElementDiv extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners
 {
-    constructor(target: string | null = null) {
-        super(target)
+    private target : HTMLDivElement;
+
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
+        });
+
+        this.target = document.querySelector<HTMLDivElement>(target)!;
     }
 
-    render(value : string = '') : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`<div ${attr}>${value}</div>`;
-
-    return tpl;
-    }
-
-    html(value : string = ''): this{
-        this.printHTML(this.target!, this.insertMode, this.render(value));
+    html(data : string): this{
+        this.printHTML(this.target!, this.insertMode, data);
     return this;
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLDivElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLDivElement;
             callback(el, el.innerHTML);
         });
@@ -534,38 +372,54 @@ class ElementDiv extends ElementsComponents implements ElementsHTML
 
     val (data : string | null = null) : string | void
     {
-        const el = this.target as HTMLDivElement;
         if (data == null){
-            return el ? el.innerHTML : '';
+            return this.target.innerHTML;
         }else if(typeof data ==='string'){
-            el!.innerHTML = data;
+            this.target.innerHTML = data;
             return;
         }
     }
+
+    insert (type : HtmlPrintTypes = 'inner') : this{
+        this.insertMode = type;
+        return this;
+    }
+
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
+    return this;
+    }
+
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
+    }
 }
 
-class ElementUL extends ElementsComponents implements ElementsHTML 
+class ElementUL extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners 
 {
-    constructor(target: string | null = null) {
-        super(target)
+    private target : HTMLUListElement;
+
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
+        });
+
+        this.target = document.querySelector<HTMLUListElement>(target)!;
     }
 
-    render(value : string = '') : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`<ul ${attr}>${value}</ul>`;
-
-    return tpl;
-    }
-
-    html(value : string = ''): this{
-        this.printHTML(this.target!, this.insertMode, this.render(value));
+    html(data : string): this{
+        this.printHTML(this.target!, this.insertMode, data);
     return this;
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLUListElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLUListElement;
             callback(el, el.innerHTML);
         });
@@ -574,41 +428,54 @@ class ElementUL extends ElementsComponents implements ElementsHTML
 
     val (data : string | null = null) : string | void
     {
-        const el = this.target as HTMLUListElement;
         if (data == null){
-            return el ? el.innerHTML : '';
+            return this.target.innerHTML;
         }else if(typeof data ==='string'){
-            el!.innerHTML = data;
+            this.target.innerHTML = data;
             return;
         }
     }
+
+    insert (type : HtmlPrintTypes = 'inner') : this{
+        this.insertMode = type;
+        return this;
+    }
+
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
+    return this;
+    }
+
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
+    }
 }
 
-class ElementLi extends ElementsComponents implements ElementsHTML 
+class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners 
 {
-    constructor(target: string | null = null) {
-        super(target)
+    private target : HTMLLIElement;
+
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
+        });
+
+        this.target = document.querySelector<HTMLLIElement>(target)!;
     }
 
-    render(value : string = '') : string 
-    {
-        const attr = this.createAttribute();
-        const tpl = String.raw`<li ${attr}>${value}</li>`;
-
-    return tpl;
-    }
-
-    html(value : string = ''): this{
-        if(this.target == null){
-            throw new Error('target is null');
-        }
-        this.printHTML(this.target!, this.insertMode, this.render(value));
+    html(data : string): this{
+        this.printHTML(this.target!, this.insertMode, data);
     return this;
     }
 
     addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
-        const el = this.selector() as HTMLLIElement;
-        el?.addEventListener(eventName, (event) => {
+        this.target?.addEventListener(eventName, (event) => {
             const el = event.target as HTMLLIElement;
             callback(el, el.innerHTML);
         });
@@ -617,13 +484,27 @@ class ElementLi extends ElementsComponents implements ElementsHTML
 
     val (data : string | null = null) : string | void
     {
-        const el = this.target as HTMLLIElement;
         if (data == null){
-            return el ? el.innerHTML : '';
+            return this.target.innerHTML;
         }else if(typeof data ==='string'){
-            el!.innerHTML = data;
+            this.target.innerHTML = data;
             return;
         }
+    }
+
+    insert (type : HtmlPrintTypes = 'inner') : this{
+        this.insertMode = type;
+        return this;
+    }
+
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
+    return this;
+    }
+
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
     }
 }
 

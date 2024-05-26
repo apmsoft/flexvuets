@@ -1,9 +1,13 @@
 import {Template} from '@flexvue/types';
 type HtmlPrintTypes = 'inner' | 'prepend' | 'append';
 
-interface ElementsHTML{
+interface EventListeners{
     addEventListener (eventName : string, callback: (element: HTMLElement, value : any) => void) : this;
-    html(value : any, template : Template | null): this;
+}
+
+interface Attribute {
+    attr(name:string, value:string): this;
+    rmAttr(name:string): this;
 }
 
 interface InputTypes {
@@ -51,21 +55,34 @@ interface InputHtmlTypes extends DefaultTypes {
     max? : string;
 }
 
+interface CheckboxRadioHtmlTypes extends DefaultTypes {
+    type? : string;
+    placeholder? : string;
+}
+interface ButtonHtmlTypes extends DefaultTypes {
+    type? : string;
+}
+
+interface TextAreaHtmlTypes extends DefaultTypes {
+    placeholder? : string;
+}
+
 interface DatasetTypes {
     [key : string] : any
 }
 
 export {
-    DatasetTypes,
+    DefaultTypes,CheckboxRadioHtmlTypes,ButtonHtmlTypes,TextAreaHtmlTypes,
+    DatasetTypes,Attribute,
     HtmlPrintTypes,
-    ButtonTypeTypes,
-    InputTypeTypes,
     InputTypes,
     InputHtmlTypes,
-    ElementsHTML,
+    EventListeners,
     RadioTypes,
     CheckboxTypes,
-    ListDataTypes,
     SelectTypes,
-    SelectorAttrTypes
+    SelectorAttrTypes,
+    ButtonTypeTypes,
+    InputTypeTypes,
+    ListDataTypes
 };
