@@ -108,7 +108,7 @@ const onReady = () : void =>
                 ${
                     new CreateElCheckbox()
                     .name('food')
-                    .classList('radio radio-primary')
+                    .classList('checkbox checkbox-primary')
                     .render([
                         {value : 'c', label : '치킨'},
                         {value : 'm', label : '마라탕'}
