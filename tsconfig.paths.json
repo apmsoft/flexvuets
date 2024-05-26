@@ -16,7 +16,7 @@
             "@flexvue/recyclerview": ["src/flexvue/core/RecyclerView.class.ts"],
             "@flexvue/caches": ["src/flexvue/core/Caches.class.ts"],
             "@flexvue/elements/types": ["src/flexvue/components/ElementsTypes.interface.ts"],
-            "@flexvue/elements/html": ["src/flexvue/components/ElementsHtml.class.ts"],
+            "@flexvue/elements/manager": ["src/flexvue/components/ElementsManager.class.ts"],
             "@flexvue/elements/attrs": ["src/flexvue/components/ElementsAttributeOptions.class.ts"],
             "@flexvue/elements/create": ["src/flexvue/components/ElementsCreate.class.ts"],
             "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],

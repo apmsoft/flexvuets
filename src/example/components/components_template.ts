@@ -1,7 +1,7 @@
 import {Template} from '@flexvue/types';
 import AsyncTask from '@flexvue/asynctask';
 import Forms from '@flexvue/forms';
-import {ElementDiv, ElementInput, ElementSelect} from '@flexvue/elements/html';
+import {ElementDiv, ElementInput, ElementSelect} from '@flexvue/elements/manager';
 const onReady = () : void =>
 {
     new AsyncTask().doImport(new URL(`../components/tpl/form.template.js`, import.meta.url).href )

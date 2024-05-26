@@ -20,7 +20,7 @@ module.exports = {
             ,"@flexvue/recyclerview":`./${debugPath}/flexvue/core/RecyclerView.class.js`
             ,"@flexvue/caches":`./${debugPath}/flexvue/core/Caches.class.js`
             ,"@flexvue/elements/types":`./${debugPath}/flexvue/components/ElementsTypes.interface.js`
-            ,"@flexvue/elements/html":`./${debugPath}/flexvue/components/ElementsHtml.class.js`
+            ,"@flexvue/elements/manager":`./${debugPath}/flexvue/components/ElementsManager.class.js`
             ,"@flexvue/elements/attrs":`./${debugPath}/flexvue/components/ElementsAttributeOptions.class.js`
             ,"@flexvue/elements/create":`./${debugPath}/flexvue/components/ElementsCreate.class.js`
             ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.js`

@@ -1,6 +1,6 @@
 import Forms from '@flexvue/forms';
 import {CreateElDiv, CreateElTextArea,CreateElInput, CreateElButton, CreateElSelect, CreateElRadio,CreateElCheckbox,CreateElUL,CreateElLi} from '@flexvue/elements/create';
-import {ElementDiv, ElementTextArea,ElementInput, ElementButton, ElementSelect, ElementRadio,ElementCheckbox,ElementUL,ElementLi} from '@flexvue/elements/html';
+import {ElementDiv, ElementTextArea,ElementInput, ElementButton, ElementSelect, ElementRadio,ElementCheckbox,ElementUL,ElementLi} from '@flexvue/elements/manager';
 import {Template} from '@flexvue/types';
 const onReady = () : void =>
 {

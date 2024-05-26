@@ -1,6 +1,6 @@
 import Forms from "../../flexvue/core/Forms.class.js";
 import { CreateElDiv, CreateElTextArea, CreateElInput, CreateElButton, CreateElSelect, CreateElRadio, CreateElCheckbox, CreateElUL, CreateElLi } from "../../flexvue/components/ElementsCreate.class.js";
-import { ElementDiv, ElementInput, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi } from "../../flexvue/components/ElementsHtml.class.js";
+import { ElementDiv, ElementInput, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi } from "../../flexvue/components/ElementsManager.class.js";
 const onReady = () => {
   class RadioView {
     // interface
