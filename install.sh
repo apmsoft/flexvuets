@@ -103,8 +103,10 @@ module.exports = {
             ,"@flexvue/fastrouter":`./${debugPath}/flexvue/core/fastrouter.class.js`
             ,"@flexvue/recyclerview":`./${debugPath}/flexvue/core/recyclerview.class.js`
             ,"@flexvue/caches":`./${debugPath}/flexvue/core/caches.class.js`
-            ,"@flexvue/elementstypes":`./${debugPath}/flexvue/components/ElementsTypes.interface.js`
-            ,"@flexvue/elementshtml":`./${debugPath}/flexvue/components/ElementsHtml.class.js`
+            ,"@flexvue/elements/types":`./${debugPath}/flexvue/components/ElementsTypes.interface.js`
+            ,"@flexvue/elements/html":`./${debugPath}/flexvue/components/ElementsHtml.class.js`
+            ,"@flexvue/elements/attrs":`./${debugPath}/flexvue/components/ElementsAttributeOptions.class.js`
+            ,"@flexvue/elements/create":`./${debugPath}/flexvue/components/ElementsCreate.class.js`
             ,"@editorjs/editorjs": `./${debugPath}/plugins/@editorjs/editorjs/dist/editorjs.js`
             ,"@editorjs/simple-image": `./${debugPath}/plugins/@editorjs/simple-image/dist/simple-image.js`
             ,"@editorjs/header": `./${debugPath}/plugins/@editorjs/header/dist/header.js`
@@ -178,8 +180,10 @@ echo '{
           "@flexvue/fastrouter": ["src/flexvue/core/fastrouter.class.ts"],
           "@flexvue/recyclerview": ["src/flexvue/core/recyclerview.class.ts"],
           "@flexvue/caches": ["src/flexvue/core/caches.class.ts"],
-          "@flexvue/elementstypes": ["src/flexvue/components/ElementsTypes.interface.ts"],
-          "@flexvue/elementshtml": ["src/flexvue/components/ElementsHtml.class.ts"],
+          "@flexvue/elements/types": ["src/flexvue/components/ElementsTypes.interface.ts"],
+          "@flexvue/elements/html": ["src/flexvue/components/ElementsHtml.class.ts"],
+          "@flexvue/elements/attrs": ["src/flexvue/components/ElementsAttributeOptions.class.ts"],
+          "@flexvue/elements/create": ["src/flexvue/components/ElementsCreate.class.ts"],
           "@editorjs/editorjs": ["node_modules/@editorjs/editorjs"],
           "@editorjs/simple-image": ["node_modules/@editorjs/simple-image"],
           "@editorjs/header": ["node_modules/@editorjs/header"],
