@@ -2,6 +2,9 @@
 
 ## [3.2]
 
+### - 2024-05-27
+- 리터럴 템플릿 HTML 하이라이트 볼 수 있도록 추가 (https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html)
+
 ### - 2024-05-26
 - ElementsOptions 클래스 추가 엘레렌트 타입에 따라 options 항목을 지정 할 수 있도록 업데이트
 - ElementsAttributeOptions 클래스 추가

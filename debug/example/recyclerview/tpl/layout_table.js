@@ -2,7 +2,7 @@ class Layout {
   constructor() {
   }
   render(message = {}) {
-    return String.raw`
+    return String.raw/*HTML*/`
         <div class="fvue--layout--container">
 
             <div class="fvue--layout--header py-3">

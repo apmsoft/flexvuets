@@ -2,7 +2,7 @@ class GreetingView {
   constructor() {
   }
   render(message = {}) {
-    return String.raw`
+    return String.raw/*HTML*/`
         <div class="flex flex-col">
             <div class="relative bg-dark">
                 <div class="h-[200px] lg:h-[300px] bg-no-repeat bg-[length:120%_auto] relative ani-slide-bg" style="background-image:url(images/bg/bg1.jpg);">

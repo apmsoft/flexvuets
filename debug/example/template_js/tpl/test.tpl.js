@@ -4,7 +4,7 @@ class Template {
   }
   render(message = {}) {
     var _a;
-    return `
+    return /*HTML*/`
             <h3 class="mt-4 text-red-800"><IMPORT 동기 템플릿 클래스></h3>
             <p>${fn(message.name)}</p>
             <p>${message.age}</p>
