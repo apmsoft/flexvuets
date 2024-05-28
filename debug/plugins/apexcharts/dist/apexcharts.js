@@ -30033,6 +30033,8 @@
 
 
 
+
+
           // functionToCall: [list of morphable objects]
           // e.g. move: [SVG.Number, SVG.Number]
         };this.attrs = {
@@ -30154,6 +30156,7 @@
           if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
             try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
                 var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
 
 
 
@@ -31791,10 +31794,7 @@
     SVG.extend(SVG.MergeEffect, { in: function (effect) {if (effect instanceof SVG.MergeNode) this.add(effect, 0);else this.add(new SVG.MergeNode(effect), 0);return this;} });SVG.extend(SVG.CompositeEffect, SVG.BlendEffect, SVG.DisplacementMapEffect, { in2: function (effect) {return effect == null ? this.parent() && this.parent().select('[result="' + this.attr('in2') + '"]').get(0) || this.attr('in2') : this.attr('in2', effect);} }); // Presets
     SVG.filter = { sepiatone: [.343, .669, .119, 0, 0, .249, .626, .130, 0, 0, .172, .334, .111, 0, 0, .000, .000, .000, 1, 0] }; // Helpers
     function normaliseMatrix(matrix) {/* convert possible array value to string */if (Array.isArray(matrix)) matrix = new SVG.Array(matrix); /* ensure there are no leading, tailing or double spaces */return matrix.toString().replace(/^\s+/, '').replace(/\s+$/, '').replace(/\s+/g, ' ');}function listString(list) {if (!Array.isArray(list)) return list;for (var i = 0, l = list.length, s = []; i < l; i++) s.push(list[i]);return s.join(' ');}function foreach() {//loops through mutiple objects
-      var fn = function () {};if (typeof arguments[arguments.length - 1] == 'function') {fn = arguments[arguments.length - 1];Array.prototype.splice.call(arguments, arguments.length - 1, 1);}for (var k in arguments) {for (var i in arguments[k]) {fn(arguments[k][i], i, arguments[k]);}}}}).call(undefined);(function () {SVG.extend(SVG.PathArray, { morph: function (array) {
-
-          var startArr = this.value,
-            destArr = this.parse(array);
+      var fn = function () {};if (typeof arguments[arguments.length - 1] == 'function') {fn = arguments[arguments.length - 1];Array.prototype.splice.call(arguments, arguments.length - 1, 1);}for (var k in arguments) {for (var i in arguments[k]) {fn(arguments[k][i], i, arguments[k]);}}}}).call(undefined);(function () {SVG.extend(SVG.PathArray, { morph: function (array) {var startArr = this.value,destArr = this.parse(array);
 
           var startOffsetM = 0,
             destOffsetM = 0;

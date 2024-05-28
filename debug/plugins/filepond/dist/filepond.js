@@ -10831,6 +10831,7 @@
 
 
 
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10902,7 +10903,6 @@
     var bounds = root.ref.bounds;if (!bounds) {bounds = root.ref.bounds = calculateRootBoundingBoxHeight(root); // destroy measure element
       root.element.removeChild(root.ref.measure);root.ref.measure = null;} // get quick references to various high level parts of the upload tool
     var _root$ref = root.ref,hopper = _root$ref.hopper,label = _root$ref.label,list = _root$ref.list,panel = _root$ref.panel;
-
     // sets correct state to hopper scope
     if (hopper) {
       hopper.updateHopperState();

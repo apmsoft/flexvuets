@@ -6,7 +6,7 @@ class Nav2View {
     const menus = message.menus;
     const acts = message.acts;
     const gid = message.gid;
-    return /*HTML*/`
+    return `
         <div class="rounded-l-3xl bg-base-200 text-base-content h-full px-3 pt-1 pb-3">
             <div class="flex flex-col pt-5">
                 <!--펼침메뉴-->

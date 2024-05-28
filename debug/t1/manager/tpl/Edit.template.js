@@ -3,7 +3,7 @@ class EditView {
   }
   render(message = {}) {
     const msg = message.msg;
-    return /*HTML*/`
+    return `
         <div class="flex flex-row px-3 mb-3">
             <div class="flex-none text-gray-400 cursor-pointer" onclick="history.go(-1);">
                 <i class="fas fa-arrow-left fa-2x"></i>

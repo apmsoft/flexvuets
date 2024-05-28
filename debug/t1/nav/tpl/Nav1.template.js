@@ -4,7 +4,7 @@ class Nav1View {
   render(message = {}) {
     const general = message.general;
     const superadm = message.superadm;
-    return /*HTML*/`
+    return `
         <div class="pt-2 rounded-l-3xl h-full">
             <div class="flex flex-row px-3 py-3 justify-between h-full">
                 <!--top-->

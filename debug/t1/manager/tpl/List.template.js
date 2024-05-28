@@ -2,7 +2,7 @@ class ListView {
   constructor() {
   }
   render(message = {}) {
-    return /*HTML*/`
+    return `
         <div class="flex flex-row justify-between mb-5">
             <div>
                 <h3>관리자 목록</h3>

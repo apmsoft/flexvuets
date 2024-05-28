@@ -4,7 +4,7 @@ class ListView {
   render(message = {}) {
     const total_record = message.total_record;
     const msg = message.msg;
-    return /*HTML*/`
+    return `
         <div class="flex flex-row justify-between mb-5">
             <div>
                 <h3>DB 전체사용비율</h3>

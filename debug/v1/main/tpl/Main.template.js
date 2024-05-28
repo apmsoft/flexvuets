@@ -2,7 +2,7 @@ class MainView {
   constructor() {
   }
   render(message = {}) {
-    return /*HTML*/`
+    return `
         <div class="flex flex-col">
             <div class="relative bg-dark pb-5">
                 <div class="swiper mySwiper h-[300px] lg:h-[700px]">
