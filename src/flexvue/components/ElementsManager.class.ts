@@ -502,6 +502,25 @@ class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,Ev
     }
 }
 
+class ElementQuery {
+    private target : HTMLElement | null;
+
+    constructor(target: string | null = null) {
+        this.target = target ? document.querySelector<HTMLElement>(target)! : null;
+    }
+
+    each(selector: string, callback: (element: HTMLElement) => void): this {
+        if (this.target) {
+            const elements = this.target.querySelectorAll<HTMLElement>(selector);
+            elements.forEach(callback);
+        }else{
+            const elements = document.querySelectorAll<HTMLElement>(selector);
+            elements.forEach(callback);
+        }
+        return this;
+    }
+}
 
 
-export {ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox,ElementUL,ElementLi};
+
+export {ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox,ElementUL,ElementLi,ElementQuery};

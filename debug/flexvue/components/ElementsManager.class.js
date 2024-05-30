@@ -402,4 +402,20 @@ class ElementLi extends ElementsComponents {
     return this;
   }
 }
-export { ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi };
+class ElementQuery {
+  constructor(target = null) {
+    this.target = target ? document.querySelector(target) : null;
+  }
+  each(selector, callback) {
+    if (this.target) {
+      const elements = this.target.querySelectorAll(selector);
+      elements.forEach(callback);
+    } else
+    {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(callback);
+    }
+    return this;
+  }
+}
+export { ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi, ElementQuery };

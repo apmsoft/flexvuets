@@ -1,6 +1,6 @@
 import Forms from "../../flexvue/core/Forms.class.js";
 import { CreateElDiv, CreateElTextArea, CreateElInput, CreateElButton, CreateElSelect, CreateElRadio, CreateElCheckbox, CreateElUL, CreateElLi } from "../../flexvue/components/ElementsCreate.class.js";
-import { ElementDiv, ElementInput, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi } from "../../flexvue/components/ElementsManager.class.js";
+import { ElementDiv, ElementInput, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi, ElementQuery } from "../../flexvue/components/ElementsManager.class.js";
 const onReady = () => {
   class RadioView {
     // interface
@@ -119,6 +119,12 @@ const onReady = () => {
   type('submit').
   classList('btn btn-primary w-full mt-4').
   render('전송'));
+  new ElementQuery('#layout').each('button[type="submit"]', function (el) {
+    console.log('ElementQuery >>> button each ', el);
+  });
+  new ElementQuery().each('input', function (el) {
+    console.log('ElementQuery >>> type text each ', el);
+  });
   // event
   new ElementInput('#name').
   attr('dateset-id', "1").

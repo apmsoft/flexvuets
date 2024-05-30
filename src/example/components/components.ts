@@ -1,6 +1,6 @@
 import Forms from '@flexvue/forms';
 import {CreateElDiv, CreateElTextArea,CreateElInput, CreateElButton, CreateElSelect, CreateElRadio,CreateElCheckbox,CreateElUL,CreateElLi} from '@flexvue/elements/create';
-import {ElementDiv, ElementTextArea,ElementInput, ElementButton, ElementSelect, ElementRadio,ElementCheckbox,ElementUL,ElementLi} from '@flexvue/elements/manager';
+import {ElementDiv, ElementTextArea,ElementInput, ElementButton, ElementSelect, ElementRadio,ElementCheckbox,ElementUL,ElementLi,ElementQuery} from '@flexvue/elements/manager';
 import {Template} from '@flexvue/types';
 const onReady = () : void =>
 {
@@ -173,6 +173,14 @@ const onReady = () : void =>
         .classList('btn btn-primary w-full mt-4')
         .render('전송')
     );
+
+    new ElementQuery('#layout').each('button[type="submit"]', function(el){
+        console.log('ElementQuery >>> button each ',el);
+    });
+
+    new ElementQuery().each('input', function(el){
+        console.log('ElementQuery >>> type text each ',el);
+    });
 
     // event
     new ElementInput('#name')

@@ -2,6 +2,9 @@
 
 ## [3.2]
 
+### - 2024-05-30
+- ElementQuery class new add each 함수 기능 추가
+
 ### - 2024-05-27
 - 리터럴 템플릿 HTML 하이라이트 볼 수 있도록 추가 (https://marketplace.visualstudio.com/items?itemName=Tobermory.es6-string-html)
 
