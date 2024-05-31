@@ -97,21 +97,5 @@ const onReady = () : void =>
     }
 };
 
-// document ready
-// document ready
-document.addEventListener("DOMContentLoaded", () => {
-    // 지원언어 설정
-    // config.surport_langs = ['en'];
-
-    // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
-    R.__init({
-        sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
-        arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
-        strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href,
-        // numbers: new URL(`../js/values/numbers${App.getLocale()}.js`, import.meta.url).href
-    }).then(() => {
-        onReady();
-    }).catch(err => {
-        console.error("Error initializing R:", err);
-    });
-});
+//setLanguages = ['en','ja','ko'];
+(new App()).setLanguages([]).setResoures(import.meta.url).run(onReady);

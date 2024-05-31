@@ -95,5 +95,5 @@ const onReady = () : void =>
     doList(page);
 };
 
-// document ready
-document.addEventListener("DOMContentLoaded",onReady);
+//setLanguages = ['en','ja','ko'];
+(new App()).setLanguages([]).setResoures(import.meta.url).run(onReady);

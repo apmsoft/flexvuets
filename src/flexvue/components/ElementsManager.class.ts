@@ -388,6 +388,11 @@ class ElementDiv extends ElementsComponents<DefaultTypes> implements Attribute,E
         this.target.removeAttribute(name);
     return this;
     }
+
+    style(property: string, value: string): this {
+        (this.target.style as any)[property] = value;
+        return this;
+    }
 }
 
 class ElementUL extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners 
@@ -444,6 +449,11 @@ class ElementUL extends ElementsComponents<DefaultTypes> implements Attribute,Ev
         this.target.removeAttribute(name);
     return this;
     }
+
+    style(property: string, value: string): this {
+        (this.target.style as any)[property] = value;
+        return this;
+    }
 }
 
 class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners 
@@ -499,6 +509,11 @@ class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,Ev
     rmAttr(name:string) : this {
         this.target.removeAttribute(name);
     return this;
+    }
+
+    style(property: string, value: string): this {
+        (this.target.style as any)[property] = value;
+        return this;
     }
 }
 

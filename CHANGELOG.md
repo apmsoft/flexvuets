@@ -2,6 +2,11 @@
 
 ## [3.2]
 
+### - 2024-05-31
+- ElementDiv,ElementUL,ElementLi style 메소드 기능 추가
+- App class 에 setLanguages,setResoures,run 메소드 기능 추가 (초기 document.addEventListener("DOMContentLoaded") 작업 및 적용언어,리소스등록 기능)
+- 예제 전체 수정
+
 ### - 2024-05-30
 - ElementQuery class new add each 함수 기능 추가
 - CreateComponents,ElementsComponents class export 시킴

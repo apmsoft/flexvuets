@@ -212,6 +212,7 @@ const browsers = [
 // application
 class App {
   constructor() {
+    this.resources = {};
     this.versionSearchString = '';
     App.browser = this.findPlatform(browsers) || "unknown";
     App.version = this.getPlatformVersion(navigator.userAgent) ||
@@ -219,6 +220,27 @@ class App {
     "unknown";
     App.os = this.findPlatform(OS) || "unknown";
     App.lang = this.getLanguage() || '';
+  }
+  // 지원언어 설정
+  setLanguages(langs) {
+    config.surport_langs = langs;
+    return this;
+  }
+  setResoures(import_url, resources = ['sysmsg', 'arrays', 'strings', 'numbers']) {
+    resources.forEach((name) => {
+      this.resources[name] = new URL(`../js/values/${name}${App.getLocale()}.js`, import_url).href;
+    });
+    return this;
+  }
+  // DOMContentLoaded
+  run(callback) {
+    document.addEventListener("DOMContentLoaded", () => {
+      R.__init(this.resources).then(() => {
+        callback();
+      }).catch((err) => {
+        console.error("Error initializing R:", err);
+      });
+    });
   }
   static getLocale() {
     let language = '';
@@ -259,7 +281,6 @@ class App {
     return language;
   }
 }
-new App();
 // console.log
 class Log {
   static d(...args) {
@@ -527,20 +548,6 @@ class Activity {
         callback(config_history_state);
       }
     };
-  }
-  static onBackButtonEvent(id, callback) {
-    const btn_backey = document.querySelector(id);
-    if (btn_backey) {
-      btn_backey.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (callback) {
-          callback(new URL(window.location.href));
-        } else
-        {
-          history.go(-1);
-        }
-      });
-    }
   }
 }
 Activity.push_state = '';

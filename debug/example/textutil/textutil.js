@@ -27,5 +27,5 @@ const onReady = () => {
   Log.d('change_icons : ', change_icons !== null && change_icons !== void 0 ? change_icons : '-');
   $el.insertAdjacentHTML('afterend', `change_icons : ${change_icons !== null && change_icons !== void 0 ? change_icons : '-'}<br>`);
 };
-// document ready
-document.addEventListener("DOMContentLoaded", onReady);
+//setLanguages = ['en','ja','ko'];
+new App().setLanguages([]).setResoures(import.meta.url).run(onReady);

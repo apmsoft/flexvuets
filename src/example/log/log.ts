@@ -1,7 +1,5 @@
-{const onReady = () : void =>
-{
-    new App();
-
+// document ready
+(new App()).setLanguages([]).setResoures(import.meta.url).run(()=>{
     const fn = (debug : string[]) :void => {
         console.log(debug);
         config.debug = debug;
@@ -35,8 +33,4 @@
     Handler.post(()=>{
         fn(['e']);
     },5000);
-};
-
-// document ready
-document.addEventListener("DOMContentLoaded",onReady);
-}
+});

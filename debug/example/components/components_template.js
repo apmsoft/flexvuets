@@ -31,4 +31,4 @@ const onReady = () => {
   });
 };
 // document ready
-document.addEventListener("DOMContentLoaded", onReady);
+new App().setLanguages([]).setResoures(import.meta.url).run(onReady);

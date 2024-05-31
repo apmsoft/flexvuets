@@ -309,6 +309,10 @@ class ElementDiv extends ElementsComponents {
     this.target.removeAttribute(name);
     return this;
   }
+  style(property, value) {
+    this.target.style[property] = value;
+    return this;
+  }
 }
 class ElementUL extends ElementsComponents {
   constructor(target) {
@@ -418,4 +422,4 @@ class ElementQuery {
     return this;
   }
 }
-export { ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi, ElementQuery };
+export { ElementsComponents, ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox, ElementUL, ElementLi, ElementQuery };

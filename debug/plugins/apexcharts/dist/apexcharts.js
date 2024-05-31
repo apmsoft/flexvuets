@@ -30045,6 +30045,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
           // functionToCall: [list of morphable objects]
           // e.g. move: [SVG.Number, SVG.Number]
         };this.attrs = {
@@ -30166,6 +30176,11 @@
           if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
             try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
                 var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
 
 
 
@@ -31812,25 +31827,10 @@
       var fn = function () {};if (typeof arguments[arguments.length - 1] == 'function') {fn = arguments[arguments.length - 1];Array.prototype.splice.call(arguments, arguments.length - 1, 1);}for (var k in arguments) {for (var i in arguments[k]) {fn(arguments[k][i], i, arguments[k]);}}}}).call(undefined);(function () {SVG.extend(SVG.PathArray, { morph: function (array) {var startArr = this.value,destArr = this.parse(array);var startOffsetM = 0,destOffsetM = 0;var startOffsetNextM = false,destOffsetNextM = false;while (true) {// stop if there is no M anymore
             if (startOffsetM === false && destOffsetM === false) break; // find the next M in path array
             startOffsetNextM = findNextM(startArr, startOffsetM === false ? false : startOffsetM + 1);destOffsetNextM = findNextM(destArr, destOffsetM === false ? false : destOffsetM + 1); // We have to add one M to the startArray
-            if (startOffsetM === false) {var bbox = new SVG.PathArray(result.start).bbox();
-
-              // when the last block had no bounding box we simply take the first M we got
-              if (bbox.height == 0 || bbox.width == 0) {
-                startOffsetM = startArr.push(startArr[0]) - 1;
-              } else {
-                // we take the middle of the bbox instead when we got one
-                startOffsetM = startArr.push(['M', bbox.x + bbox.width / 2, bbox.y + bbox.height / 2]) - 1;
-              }
-            }
-
-            // We have to add one M to the destArray
-            if (destOffsetM === false) {
-              var bbox = new SVG.PathArray(result.dest).bbox();
-
-              if (bbox.height == 0 || bbox.width == 0) {
-                destOffsetM = destArr.push(destArr[0]) - 1;
-              } else {
-                destOffsetM = destArr.push(['M', bbox.x + bbox.width / 2, bbox.y + bbox.height / 2]) - 1;
+            if (startOffsetM === false) {var bbox = new SVG.PathArray(result.start).bbox(); // when the last block had no bounding box we simply take the first M we got
+              if (bbox.height == 0 || bbox.width == 0) {startOffsetM = startArr.push(startArr[0]) - 1;} else {// we take the middle of the bbox instead when we got one
+                startOffsetM = startArr.push(['M', bbox.x + bbox.width / 2, bbox.y + bbox.height / 2]) - 1;}} // We have to add one M to the destArray
+            if (destOffsetM === false) {var bbox = new SVG.PathArray(result.dest).bbox();if (bbox.height == 0 || bbox.width == 0) {destOffsetM = destArr.push(destArr[0]) - 1;} else {destOffsetM = destArr.push(['M', bbox.x + bbox.width / 2, bbox.y + bbox.height / 2]) - 1;
               }
             }
 

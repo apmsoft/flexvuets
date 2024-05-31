@@ -48,4 +48,4 @@ const onReady = () => {
   Log.d('사용량(%)', cachedUsage);
 };
 // document ready
-document.addEventListener("DOMContentLoaded", onReady);
+new App().setLanguages([]).setResoures(import.meta.url).run(onReady);

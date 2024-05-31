@@ -39,5 +39,5 @@ const onReady = () : void =>
     $el!.insertAdjacentHTML('afterend', `change_icons : ${change_icons ?? '-'}<br>`);
 }
 
-// document ready
-document.addEventListener("DOMContentLoaded",onReady);
+//setLanguages = ['en','ja','ko'];
+(new App()).setLanguages([]).setResoures(import.meta.url).run(onReady);

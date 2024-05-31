@@ -18,5 +18,5 @@ const onReady = () => {
     // window.observable.notify('public', form_params.message?? '-' ).then(()=> Log.d('모든 update 완료'));
   });
 };
-// document ready
-document.addEventListener("DOMContentLoaded", onReady);
+//setLanguages = ['en','ja','ko'];
+new App().setLanguages([]).setResoures(import.meta.url).run(onReady);

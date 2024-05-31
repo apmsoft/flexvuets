@@ -271,6 +271,7 @@ class App {
     static os: string;
     static lang: string;
     private versionSearchString: string;
+    private resources : {[key:string] : string} = {};
 
     constructor() {
         this.versionSearchString = ''
@@ -280,6 +281,30 @@ class App {
             || "unknown";
         App.os = this.findPlatform(OS) || "unknown";
         App.lang = this.getLanguage() || '';
+    }
+
+    // 지원언어 설정
+    setLanguages (langs : string[]) : this {
+        config.surport_langs = langs;
+    return this;
+    }
+
+    setResoures (import_url : string, resources : string[] = ['sysmsg','arrays','strings','numbers']) : this {
+        resources.forEach(name => {
+            this.resources[name] = new URL(`../js/values/${name}${App.getLocale()}.js`, import_url).href
+        });
+        return this;
+    }
+
+    // DOMContentLoaded
+    run (callback : Function ) : void {
+        document.addEventListener("DOMContentLoaded", () => {
+            R.__init(this.resources).then(() => {
+                callback();
+            }).catch(err => {
+                console.error("Error initializing R:", err);
+            });
+        });
     }
 
     static getLocale(): string {
@@ -323,8 +348,6 @@ class App {
         return language;
     }
 }
-
-new App();
 
 // console.log
 class Log {
@@ -638,21 +661,6 @@ class Activity {
                 callback(config_history_state);
             }
         };
-    }
-
-    static onBackButtonEvent(id: string, callback?: (url: URL) => void) {
-        const btn_backey: HTMLElement | null = document.querySelector(id);
-        if (btn_backey) {
-            btn_backey.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                if (callback) {
-                    callback(new URL(window.location.href));
-                } else {
-                    history.go(-1);
-                }
-            });
-        }
     }
 }
 

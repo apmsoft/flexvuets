@@ -1,6 +1,6 @@
 import AsyncTask from '@flexvue/asynctask';
 import {Template} from '@flexvue/types';
-
+import {ElementDiv} from '@flexvue/elements/manager';
 const onReady = () : void =>
 {
     ProgressBars.show();
@@ -11,7 +11,7 @@ const onReady = () : void =>
         const template : Template = new data.Template();
 
         // 출력
-        const outhtml_el = document.querySelector<HTMLDivElement>('#echo_contents')!.innerHTML = template.render( {
+        new ElementDiv('#echo_contents').html(template.render( {
             name : "홍길동",
             age : 17,
             msg : [
@@ -19,7 +19,7 @@ const onReady = () : void =>
                     name : "유관순"
                 }
             ]
-        } );
+        } ));
 
     })
     .finally(()=>{
@@ -28,5 +28,5 @@ const onReady = () : void =>
     });
 };
 
-// document ready
-document.addEventListener("DOMContentLoaded",onReady);
+//setLanguages = ['en','ja','ko'];
+(new App()).setLanguages([]).setResoures(import.meta.url).run(onReady);

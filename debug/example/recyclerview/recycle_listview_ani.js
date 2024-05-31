@@ -26,5 +26,5 @@ const onReady = () => {
     alert(el.id + ' ' + el.dataset.name);
   });
 };
-// document ready
-document.addEventListener("DOMContentLoaded", onReady);
+//setLanguages = ['en','ja','ko'];
+new App().setLanguages([]).setResoures(import.meta.url).run(onReady);
