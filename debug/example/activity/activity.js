@@ -8,7 +8,7 @@ const onReady = () => {
   // #docs/start : hash 경로가 바뀔때 마다 호출 됩니다
   const urlManager = new UrlManager(document.location.toString());
   new ElementButton('#go_right').addEventListener('click', function () {
-    const activityId = Activity.onStart('fvueSlideFromRight', 'top-[200px] fvueSlideToLeft');
+    const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
     history.pushState('#slideR2L', 'right', `#${activityId}/`);
   });
   new ElementButton('#go_bottom').addEventListener('click', function () {

@@ -13,7 +13,7 @@ const onReady = () : void =>
     const urlManager = new UrlManager(document.location.toString());
 
     new ElementButton('#go_right')!.addEventListener('click', function(){
-        const activityId = Activity.onStart('fvueSlideFromRight', 'top-[200px] fvueSlideToLeft');
+        const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
         history.pushState('#slideR2L', 'right', `#${activityId}/`);
     });
 

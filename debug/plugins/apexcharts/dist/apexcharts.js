@@ -30301,6 +30301,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           // functionToCall: [list of morphable objects]
           // e.g. move: [SVG.Number, SVG.Number]
         };this.attrs = {
@@ -30422,6 +30440,15 @@
           if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
             try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
                 var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32294,37 +32321,10 @@
       this.parent = this.parent || this.el.parent(SVG.Nested) || this.el.parent(SVG.Doc);this.p = this.parent.node.createSVGPoint(); // save current transformation matrix
       this.m = this.el.node.getScreenCTM().inverse();var box = this.getBBox();var anchorOffset; // fix text-anchor in text-element (#37)
       if (this.el instanceof SVG.Text) {anchorOffset = this.el.node.getComputedTextLength();switch (this.el.attr('text-anchor')) {case 'middle':anchorOffset /= 2;break;case 'start':anchorOffset = 0;break;}}this.startPoints = { // We take absolute coordinates since we are just using a delta here
-        point: this.transformPoint(e, anchorOffset), box: box, transform: this.el.transform() };
-      // add drag and end events to window
-      SVG.on(window, 'mousemove.drag', function (e) {_this.drag(e);});
-      SVG.on(window, 'touchmove.drag', function (e) {_this.drag(e);});
-      SVG.on(window, 'mouseup.drag', function (e) {_this.end(e);});
-      SVG.on(window, 'touchend.drag', function (e) {_this.end(e);});
-
-      // fire dragstart event
-      this.el.fire('dragstart', { event: e, p: this.startPoints.point, m: this.m, handler: this });
-    };
-
-    // while dragging
-    DragHandler.prototype.drag = function (e) {
-
-      var box = this.getBBox(),
-        p = this.transformPoint(e),
-        x = this.startPoints.box.x + p.x - this.startPoints.point.x,
-        y = this.startPoints.box.y + p.y - this.startPoints.point.y,
-        c = this.constraint,
-        gx = p.x - this.startPoints.point.x,
-        gy = p.y - this.startPoints.point.y;
-
-      this.el.fire('dragmove', {
-        event: e,
-        p: p,
-        m: this.m,
-        handler: this
-      });
-
-      if (this.el.event().defaultPrevented) return p;
-
+        point: this.transformPoint(e, anchorOffset), box: box, transform: this.el.transform() }; // add drag and end events to window
+      SVG.on(window, 'mousemove.drag', function (e) {_this.drag(e);});SVG.on(window, 'touchmove.drag', function (e) {_this.drag(e);});SVG.on(window, 'mouseup.drag', function (e) {_this.end(e);});SVG.on(window, 'touchend.drag', function (e) {_this.end(e);}); // fire dragstart event
+      this.el.fire('dragstart', { event: e, p: this.startPoints.point, m: this.m, handler: this });}; // while dragging
+    DragHandler.prototype.drag = function (e) {var box = this.getBBox(),p = this.transformPoint(e),x = this.startPoints.box.x + p.x - this.startPoints.point.x,y = this.startPoints.box.y + p.y - this.startPoints.point.y,c = this.constraint,gx = p.x - this.startPoints.point.x,gy = p.y - this.startPoints.point.y;this.el.fire('dragmove', { event: e, p: p, m: this.m, handler: this });if (this.el.event().defaultPrevented) return p;
       // move the element to its new position, if possible by constraint
       if (typeof c == 'function') {
 

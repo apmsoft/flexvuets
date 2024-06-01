@@ -377,7 +377,7 @@ const Handler = {
 class Activity {
   static createPanel() {
     const div = document.createElement('div');
-    div.classList.add('fvue--layout', 'panel', 'transition');
+    div.classList.add('panel', 'fvue--layout', 'transition');
     const zIndex = ++this.zIndexCounter;
     div.style.zIndex = `${zIndex}`;
     div.setAttribute('id', `panelId${zIndex}`);
@@ -408,24 +408,37 @@ class Activity {
     }
     return panel.id;
   }
+  static transClassList(mode, element, userClass) {
+    if (userClass.trim()) {
+      const hasWhitespace = /\s/.test(userClass);
+      if (hasWhitespace) {
+        userClass.split(' ').forEach((cls) => {
+          Log.d(cls);
+          if (mode == 'add')
+          element.classList.add(cls.trim());else
+
+          element.classList.remove(cls.trim());
+        });
+      } else
+      {
+        if (mode == 'add')
+        element.classList.add(userClass.trim());else
+
+        element.classList.remove(userClass.trim());
+      }
+    }
+  }
   static doTransition(element, className, fromClassList, toClassList) {
     if (!this.transitioned.includes(element)) {
       element.classList.remove('hidden');
       element.classList.add(className);
       this.transitioned.push(element);
-      const userClass = fromClassList + ' ' + toClassList;
+      const userClass = toClassList + ',' + fromClassList;
       this.transitionedUserClass.push(userClass);
-      if (userClass.trim()) {
-        const hasWhitespace = /\s/.test(userClass);
-        if (hasWhitespace) {
-          userClass.split(' ').forEach((cls) => {
-            element.classList.add(cls.trim());
-          });
-        } else
-        {
-          element.classList.add(userClass.trim());
-        }
-      }
+      this.transClassList('add', element, fromClassList);
+      Handler.post(() => {
+        this.transClassList('add', element, toClassList);
+      }, 50);
     } else
     {
       const index = this.transitioned.indexOf(element);
@@ -433,6 +446,23 @@ class Activity {
         this.transitioned.splice(index, 1);
       }
     }
+  }
+  static getQueryParams(url) {
+    const queryParams = {};
+    const urlObj = new URL(url);
+    const params = new URLSearchParams(urlObj.search);
+    params.forEach((value, key) => {
+      queryParams[key] = value;
+    });
+    // 해시 부분도 파싱
+    if (urlObj.hash) {
+      const hash = urlObj.hash.substring(1); // #을 제거
+      const hashParams = new URLSearchParams(hash);
+      hashParams.forEach((value, key) => {
+        queryParams[key] = value;
+      });
+    }
+    return queryParams;
   }
   static onBackPressed(callback) {
     window.onpopstate = function (event) {
@@ -449,24 +479,18 @@ class Activity {
           const lastUserClassList = Activity.transitionedUserClass.pop();
           for (const type in Activity.animations) {
             lastTransitioned.classList.remove('fvue-slide');
-            if (lastUserClassList.trim()) {
-              const hasWhitespace = /\s/.test(lastUserClassList);
-              if (hasWhitespace) {
-                lastUserClassList.split(' ').forEach((cls) => {
-                  lastTransitioned.classList.remove(cls.trim());
-                });
-              } else
-              {
-                lastTransitioned.classList.remove(lastUserClassList.trim());
-              }
-            }
-            lastTransitioned.classList.add('hidden');
+            const userClass = lastUserClassList.split(',');
+            Activity.transClassList('remove', lastTransitioned, userClass[0]);
+            Handler.post(() => {
+              Activity.transClassList('remove', lastTransitioned, userClass[1]);
+              lastTransitioned.classList.add('hidden');
+            }, 50);
           }
           // 이전 URL 경로를 얻음
           const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
           callback({
             id: lastTransitioned.id,
-            state: previousUrl
+            state: Activity.getQueryParams(previousUrl)
           });
         } else
         {
@@ -474,7 +498,7 @@ class Activity {
           const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
           callback({
             id: '',
-            state: previousUrl
+            state: Activity.getQueryParams(previousUrl)
           });
         }
       }
@@ -488,192 +512,6 @@ Activity.transitionedUserClass = [];
 Activity.animations = {
   'fvue-slide': { className: 'fvue-slide' }
 };
-// class Activity {
-//     static bottomthird: HTMLElement | null;
-//     static bottomside: HTMLElement | null;
-//     static bottom: HTMLElement | null;
-//     static rightthird: HTMLElement | null;
-//     static rightside: HTMLElement | null;
-//     static right: HTMLElement | null;
-//     static drawer_menu: HTMLElement | null;
-//     static layout_panel: Record<string, { id: string; target: string | null; toggle: string }>;
-//     static push_state: string = '';
-//     static history_state: Record<string, string> = {
-//         'left': '',
-//         'right': '',
-//         'rightside': '',
-//         'rightthird': '',
-//         'bottom': '',
-//         'bottomside': '',
-//         'bottomthird': '',
-//         'drawer_menu': '',
-//     };
-//     constructor() {
-//         Activity.bottomthird = document.querySelector("#bottomthird");
-//         Activity.bottomside = document.querySelector("#bottomside");
-//         Activity.bottom = document.querySelector("#bottom");
-//         Activity.rightthird = document.querySelector("#rightthird");
-//         Activity.rightside = document.querySelector("#rightside");
-//         Activity.right = document.querySelector("#right");
-//         Activity.drawer_menu = document.querySelector("#drawer_menu");
-//         Activity.layout_panel = {
-//             left: {
-//                 id: '#left',
-//                 target: null,
-//                 toggle: '',
-//             },
-//             right: {
-//                 id: '#right',
-//                 target: '#right',
-//                 toggle: 'transitioned',
-//             },
-//             rightside: {
-//                 id: '#rightside',
-//                 target: '#rightside',
-//                 toggle: 'rightside_transitioned',
-//             },
-//             rightthird: {
-//                 id: '#rightthird',
-//                 target: '#rightthird',
-//                 toggle: 'rightthird_transitioned',
-//             },
-//             bottom: {
-//                 id: '#bottom',
-//                 target: '#bottom',
-//                 toggle: 'bottom_transitioned',
-//             },
-//             bottomside: {
-//                 id: '#bottomside',
-//                 target: '#bottomside',
-//                 toggle: 'bottomside_transitioned',
-//             },
-//             bottomthird: {
-//                 id: '#bottomthird',
-//                 target: '#bottomthird',
-//                 toggle: 'bottomthird_transitioned',
-//             },
-//             drawer_menu: {
-//                 id: '#drawer_menu',
-//                 target: '#drawer_menu',
-//                 toggle: 'drawer_transitioned',
-//             },
-//         };
-//     }
-//     public onCreateView() {
-//         // Implement this method
-//     }
-//     static inentView(url: string, delaytime: number = 0) {
-//         Handler.post(() => {
-//             window.location.href = url;
-//         }, delaytime);
-//     }
-//     static onStart(panel_id: string) {
-//         if (panel_id !== null) {
-//             Activity.push_state = panel_id ? panel_id.replace('#', '') : '';
-//             if (typeof window.location.hash !== 'undefined') {
-//                 Activity.history_state[Activity.push_state] = window.location.hash;
-//             }
-//             let panel = Activity.layout_panel[Activity.push_state];
-//             if (panel.target !== null) {
-//                 let classname = panel.toggle;
-//                 if (!document.querySelector(panel.id)!.classList.contains(classname)) {
-//                     Handler.post(() => {
-//                         document.querySelector(panel.target??panel_id)!.classList.toggle(classname);
-//                     }, 10);
-//                 }
-//             }
-//         }
-//     }
-//     static onStop(panel_id: string) {
-//         panel_id = panel_id ? panel_id.replace('#', '') : '';
-//         switch (panel_id) {
-//             case 'bottomthird':
-//                 if (Activity.bottomthird && Activity.bottomthird.classList.contains('bottomthird_transitioned')) {
-//                     Activity.bottomthird.classList.toggle('bottomthird_transitioned');
-//                 }
-//                 break;
-//             case 'bottomside':
-//                 if (Activity.bottomside && Activity.bottomside.classList.contains('bottomside_transitioned')) {
-//                     Activity.bottomside.classList.toggle('bottomside_transitioned');
-//                 }
-//                 break;
-//             case 'bottom':
-//                 if (Activity.bottom && Activity.bottom.classList.contains('bottom_transitioned')) {
-//                     Activity.bottom.classList.toggle('bottom_transitioned');
-//                 }
-//                 break;
-//             case 'rightthird':
-//                 if (Activity.rightthird && Activity.rightthird.classList.contains('rightthird_transitioned')) {
-//                     Activity.rightthird.classList.toggle('rightthird_transitioned');
-//                 }
-//                 break;
-//             case 'rightside':
-//                 if (Activity.rightside && Activity.rightside.classList.contains('rightside_transitioned')) {
-//                     Activity.rightside.classList.toggle('rightside_transitioned');
-//                 }
-//                 break;
-//             case 'right':
-//                 if (Activity.right && Activity.right.classList.contains('transitioned')) {
-//                     Activity.right.classList.toggle('transitioned');
-//                 }
-//                 break;
-//             case 'drawer_menu':
-//                 if (Activity.drawer_menu && Activity.drawer_menu.classList.contains('drawer_transitioned')) {
-//                     Activity.drawer_menu.classList.toggle('drawer_transitioned');
-//                 }
-//                 break;
-//         }
-//     }
-//     public onBackPressed(callback: (state: { id: string, state: string }) => void): void {
-//         window.onpopstate = function (event) {
-//             let is_Trusted = false;
-//             if (typeof event.isTrusted !== 'undefined' && event.isTrusted) {
-//                 is_Trusted = true;
-//             } else if (typeof event.state !== 'undefined' && event.state !== 'null') {
-//                 is_Trusted = true;
-//             }
-//             if (is_Trusted) {
-//                 let config_history_state = {
-//                     id: '#left',
-//                     state: '',
-//                 };
-//                 if (Activity.bottomthird && Activity.bottomthird.classList.contains('bottomthird_transitioned')) {
-//                     config_history_state.id = '#bottomthird';
-//                     config_history_state.state = Activity.history_state.bottomthird ? Activity.history_state.bottomthird : Activity.history_state[Activity.push_state];
-//                     Activity.bottomthird.classList.toggle('bottomthird_transitioned');
-//                 } else if (Activity.bottomside && Activity.bottomside.classList.contains('bottomside_transitioned')) {
-//                     config_history_state.id = '#bottomside';
-//                     config_history_state.state = Activity.history_state.bottomside ? Activity.history_state.bottomside : Activity.history_state[Activity.push_state];
-//                     Activity.bottomside.classList.toggle('bottomside_transitioned');
-//                 } else if (Activity.bottom && Activity.bottom.classList.contains('bottom_transitioned')) {
-//                     config_history_state.id = '#bottom';
-//                     config_history_state.state = Activity.history_state.bottom ? Activity.history_state.bottom : Activity.history_state[Activity.push_state];
-//                     Activity.bottom.classList.toggle('bottom_transitioned');
-//                 } else if (Activity.rightthird && Activity.rightthird.classList.contains('rightthird_transitioned')) {
-//                     config_history_state.id = '#rightthird';
-//                     config_history_state.state = Activity.history_state.rightthird ? Activity.history_state.rightthird : Activity.history_state[Activity.push_state];
-//                     Activity.rightthird.classList.toggle('rightthird_transitioned');
-//                 } else if (Activity.rightside && Activity.rightside.classList.contains('rightside_transitioned')) {
-//                     config_history_state.id = '#rightside';
-//                     config_history_state.state = Activity.history_state.rightside ? Activity.history_state.rightside : Activity.history_state[Activity.push_state];
-//                     Activity.rightside.classList.toggle('rightside_transitioned');
-//                 } else if (Activity.right && Activity.right.classList.contains('transitioned')) {
-//                     config_history_state.id = '#right';
-//                     config_history_state.state = Activity.history_state.right ? Activity.history_state.right : Activity.history_state[Activity.push_state];
-//                     Activity.right.classList.toggle('transitioned');
-//                 } else if (Activity.drawer_menu && Activity.drawer_menu.classList.contains('drawer_transitioned')) {
-//                     config_history_state.id = '#drawer_menu';
-//                     config_history_state.state = Activity.history_state.drawer_menu ? Activity.history_state.drawer_menu : Activity.history_state[Activity.push_state];
-//                     Activity.drawer_menu.classList.toggle('drawer_transitioned');
-//                 } else {
-//                     config_history_state.id = '#left';
-//                     config_history_state.state = Activity.history_state.left ? Activity.history_state.left : Activity.history_state[Activity.push_state];
-//                 }
-//                 callback(config_history_state);
-//             }
-//         };
-//     }
-// }
 class R {
   static __init(resources) {
     return __awaiter(this, void 0, void 0, function* () {

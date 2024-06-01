@@ -477,7 +477,7 @@ class Activity {
     static createPanel(): HTMLDivElement {
         const div = document.createElement('div');
 
-        div.classList.add('fvue--layout', 'panel', 'transition');
+        div.classList.add('panel','fvue--layout','transition');
         const zIndex = ++this.zIndexCounter;
         div.style.zIndex = `${zIndex}`;
         div.setAttribute('id', `panelId${zIndex}`);
@@ -515,23 +515,33 @@ class Activity {
     return panel.id;
     }
 
+    static transClassList(mode : string, element, userClass) : void {
+        if (userClass.trim()) {
+            const hasWhitespace = /\s/.test(userClass);
+            if(hasWhitespace){
+                userClass.split(' ').forEach(cls => {
+                    Log.d(cls);
+                    if(mode == 'add') element.classList.add(cls.trim());
+                    else element.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') element.classList.add(userClass.trim());
+                    else element.classList.remove(userClass.trim());
+            }
+        }
+    }
+
     static doTransition(element: HTMLDivElement, className: string, fromClassList : string, toClassList : string): void {
         if (!this.transitioned.includes(element)) {
             element.classList.remove('hidden');
             element.classList.add(className);
             this.transitioned.push(element);
-            const userClass : string = fromClassList+' '+toClassList;
+            const userClass : string = toClassList+','+fromClassList;
             this.transitionedUserClass.push(userClass);
-            if (userClass.trim()) {
-                const hasWhitespace = /\s/.test(userClass);
-                if(hasWhitespace){
-                    userClass.split(' ').forEach(cls => {
-                        element.classList.add(cls.trim());
-                    });
-                }else{
-                    element.classList.add(userClass.trim());
-                }
-            }
+            this.transClassList('add', element, fromClassList);
+            Handler.post(() => {
+                this.transClassList('add', element, toClassList);
+            },50);
         } else {
             const index = this.transitioned.indexOf(element);
             if (index > -1) {
@@ -578,17 +588,12 @@ class Activity {
                     const lastUserClassList = Activity.transitionedUserClass.pop()!;
                     for (const type in Activity.animations) {
                         lastTransitioned.classList.remove('fvue-slide');
-                        if (lastUserClassList.trim()) {
-                            const hasWhitespace = /\s/.test(lastUserClassList);
-                            if(hasWhitespace){
-                                lastUserClassList.split(' ').forEach(cls => {
-                                    lastTransitioned.classList.remove(cls.trim());
-                                });
-                            }else{
-                                lastTransitioned.classList.remove(lastUserClassList.trim());
-                            }
-                        }
-                        lastTransitioned.classList.add('hidden');
+                        const userClass = lastUserClassList.split(',');
+                        Activity.transClassList('remove', lastTransitioned, userClass[0]);
+                        Handler.post(() => {
+                            Activity.transClassList('remove', lastTransitioned, userClass[1]);
+                            lastTransitioned.classList.add('hidden');
+                        },50);
                     }
 
                     // 이전 URL 경로를 얻음
