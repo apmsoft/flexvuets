@@ -540,7 +540,29 @@ class Activity {
         }
     }
 
-    static onBackPressed(callback: (state: { id: string, state: string }) => void): void {
+    static getQueryParams(url : string) {
+        const queryParams = {};
+        const urlObj = new URL(url);
+        const params = new URLSearchParams(urlObj.search);
+
+        params.forEach((value, key) => {
+            queryParams[key] = value;
+        });
+
+        // 해시 부분도 파싱
+        if (urlObj.hash) {
+            const hash = urlObj.hash.substring(1); // #을 제거
+            const hashParams = new URLSearchParams(hash);
+
+            hashParams.forEach((value, key) => {
+                queryParams[key] = value;
+            });
+        }
+
+        return queryParams;
+    }
+
+    static onBackPressed(callback: (state: { id: string, state: {} }) => void): void {
         window.onpopstate = function(event) {
             let isTrusted = false;
 
@@ -574,7 +596,7 @@ class Activity {
 
                     callback({
                         id: lastTransitioned.id,
-                        state: previousUrl
+                        state: Activity.getQueryParams(previousUrl)
                     });
                 } else {
                     // 이전 URL 경로를 얻음
@@ -582,7 +604,7 @@ class Activity {
 
                     callback({
                         id: '',
-                        state: previousUrl
+                        state: Activity.getQueryParams(previousUrl)
                     });
                 }
             }
