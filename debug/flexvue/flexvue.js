@@ -406,6 +406,9 @@ class Activity {
       }
       this.doTransition(panel, animation.className, fromClassList, toClassList);
     }
+    Log.d(document.location.toString());
+    this.history_state[panel.id] = document.location.toString() ? Activity.getQueryParams(document.location.toString()) : {};
+    Log.d('this.history_state', this.history_state);
     return panel.id;
   }
   static transClassList(mode, element, userClass) {
@@ -451,16 +454,25 @@ class Activity {
     const queryParams = {};
     const urlObj = new URL(url);
     const params = new URLSearchParams(urlObj.search);
+    // 쿼리 파라미터 파싱
     params.forEach((value, key) => {
       queryParams[key] = value;
     });
     // 해시 부분도 파싱
     if (urlObj.hash) {
+      // #을 제거한 후, 실제로 URLSearchParams를 사용할 수 있도록 처리
       const hash = urlObj.hash.substring(1); // #을 제거
-      const hashParams = new URLSearchParams(hash);
-      hashParams.forEach((value, key) => {
-        queryParams[key] = value;
-      });
+      // 해시가 "panelId1/" 같은 경로인 경우, 해시 부분을 분리하여 처리
+      const hashParts = hash.split('?');
+      if (hashParts.length > 0) {
+        queryParams["hashPath"] = hashParts[0];
+      }
+      if (hashParts.length > 1) {
+        const hashParams = new URLSearchParams(hashParts[1]);
+        hashParams.forEach((value, key) => {
+          queryParams[key] = value;
+        });
+      }
     }
     return queryParams;
   }
@@ -486,11 +498,9 @@ class Activity {
               lastTransitioned.classList.add('hidden');
             }, 50);
           }
-          // 이전 URL 경로를 얻음
-          const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
           callback({
             id: lastTransitioned.id,
-            state: Activity.getQueryParams(previousUrl)
+            state: Activity.history_state[lastTransitioned.id]
           });
         } else
         {
@@ -512,6 +522,7 @@ Activity.transitionedUserClass = [];
 Activity.animations = {
   'fvue-slide': { className: 'fvue-slide' }
 };
+Activity.history_state = {};
 class R {
   static __init(resources) {
     return __awaiter(this, void 0, void 0, function* () {

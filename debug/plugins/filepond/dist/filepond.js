@@ -10974,6 +10974,13 @@
 
 
 
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -11079,16 +11086,9 @@
       atMaxCapacity ? listMarginTop : 0); // set list height (if is overflowing)
       if (visualHeight > bounds.cappedHeight && listHeight.visual > _listAvailableHeight2) {list.overflow = _listAvailableHeight2;} else {list.overflow = null;} // set container bounds (so pushes siblings downwards)
       root.height = Math.min(bounds.cappedHeight, boundsHeight - listItemMargin.top - listItemMargin.bottom);} else {// flexible height
-
       // not a fixed height panel
-      var itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;
-      panel.scalable = true;
-      panel.height = Math.max(labelHeight, visualHeight - itemMargin);
-
-      // set container bounds (so pushes siblings downwards)
-      root.height = Math.max(labelHeight, boundsHeight - itemMargin);
-    }
-
+      var itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;panel.scalable = true;panel.height = Math.max(labelHeight, visualHeight - itemMargin); // set container bounds (so pushes siblings downwards)
+      root.height = Math.max(labelHeight, boundsHeight - itemMargin);}
     // move credits to bottom
     if (root.ref.credits && panel.heightCurrent)
     root.ref.credits.style.transform = 'translateY(' + panel.heightCurrent + 'px)';

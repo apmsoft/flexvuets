@@ -14,12 +14,12 @@ const onReady = () : void =>
 
     new ElementButton('#go_right')!.addEventListener('click', function(){
         const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
-        history.pushState('#slideR2L', 'right', `#${activityId}/`);
+        history.pushState('#slideR2L', 'right', `?a=b#/${activityId}`);
     });
 
     new ElementButton('#go_bottom')!.addEventListener('click', function(){
         const activityId = Activity.onStart('fvueSlideFromBottom top-[140%]', 'fvueSlideToTop');
-        history.pushState('#slideB2T', 'bottom', `#${activityId}/`);
+        history.pushState('#slideB2T', 'bottom', `#/${activityId}`);
     });
 };
 

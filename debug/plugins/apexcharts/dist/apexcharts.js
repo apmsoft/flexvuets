@@ -30319,6 +30319,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           // functionToCall: [list of morphable objects]
           // e.g. move: [SVG.Number, SVG.Number]
         };this.attrs = {
@@ -30440,6 +30454,13 @@
           if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
             try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
                 var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
+
+
+
+
 
 
 
@@ -32324,31 +32345,10 @@
         point: this.transformPoint(e, anchorOffset), box: box, transform: this.el.transform() }; // add drag and end events to window
       SVG.on(window, 'mousemove.drag', function (e) {_this.drag(e);});SVG.on(window, 'touchmove.drag', function (e) {_this.drag(e);});SVG.on(window, 'mouseup.drag', function (e) {_this.end(e);});SVG.on(window, 'touchend.drag', function (e) {_this.end(e);}); // fire dragstart event
       this.el.fire('dragstart', { event: e, p: this.startPoints.point, m: this.m, handler: this });}; // while dragging
-    DragHandler.prototype.drag = function (e) {var box = this.getBBox(),p = this.transformPoint(e),x = this.startPoints.box.x + p.x - this.startPoints.point.x,y = this.startPoints.box.y + p.y - this.startPoints.point.y,c = this.constraint,gx = p.x - this.startPoints.point.x,gy = p.y - this.startPoints.point.y;this.el.fire('dragmove', { event: e, p: p, m: this.m, handler: this });if (this.el.event().defaultPrevented) return p;
-      // move the element to its new position, if possible by constraint
-      if (typeof c == 'function') {
-
-        var coord = c.call(this.el, x, y, this.m);
-
-        // bool, just show us if movement is allowed or not
-        if (typeof coord == 'boolean') {
-          coord = {
-            x: coord,
-            y: coord
-          };
-        }
-
-        // if true, we just move. If !false its a number and we move it there
-        if (coord.x === true) {
-          this.el.x(x);
-        } else if (coord.x !== false) {
-          this.el.x(coord.x);
-        }
-
-        if (coord.y === true) {
-          this.el.y(y);
-        } else if (coord.y !== false) {
-          this.el.y(coord.y);
+    DragHandler.prototype.drag = function (e) {var box = this.getBBox(),p = this.transformPoint(e),x = this.startPoints.box.x + p.x - this.startPoints.point.x,y = this.startPoints.box.y + p.y - this.startPoints.point.y,c = this.constraint,gx = p.x - this.startPoints.point.x,gy = p.y - this.startPoints.point.y;this.el.fire('dragmove', { event: e, p: p, m: this.m, handler: this });if (this.el.event().defaultPrevented) return p; // move the element to its new position, if possible by constraint
+      if (typeof c == 'function') {var coord = c.call(this.el, x, y, this.m); // bool, just show us if movement is allowed or not
+        if (typeof coord == 'boolean') {coord = { x: coord, y: coord };} // if true, we just move. If !false its a number and we move it there
+        if (coord.x === true) {this.el.x(x);} else if (coord.x !== false) {this.el.x(coord.x);}if (coord.y === true) {this.el.y(y);} else if (coord.y !== false) {this.el.y(coord.y);
         }
 
       } else if (typeof c == 'object') {
