@@ -66,18 +66,34 @@
 
 }
 @layer components {
-    #left {
-        @apply left-0 top-0
+    .panel {
+        @apply absolute w-full h-full
     }
 
-    #right, #rightside, #rightthird{
-        left: 100%;
-        @apply top-0
+    .fvueSlideFromRight {
+        left : 100%;
+        top : 0;
+        @apply  bg-black/70
+    }
+    .fvueSlideToLeft {
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        transform: translateX(-100%);
+        -o-transform: translateX(-100%);
     }
 
-    #bottom, #bottomside, #bottomthird {
-        top: 100%;
-        @apply left-0
+    .fvueSlideFromBottom {
+        left : 0;
+        top : 100%;
+        @apply  bg-black/70
+    }
+    .fvueSlideToTop {
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        transform: translateY(-100%);
+        -o-transform: translateY(-100%);
     }
 
     .fvue--layout {
@@ -135,54 +151,6 @@
         -ms-animation: colorchange 10ms;
         -ms-animation-delay: .3s;
         -ms-animation-fill-mode: forwards
-    }
-
-    .transitioned {
-        -webkit-transform: translateX(-100%);
-        -moz-transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-        transform: translateX(-100%)    ;
-        -o-transform: translateX(-100%);
-    }
-
-    .rightside_transitioned {
-        -webkit-transform: translateX(-100%);
-        -moz-transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-        transform: translateX(-100%)    ;
-        -o-transform: translateX(-100%);
-    }
-
-    .rightthird_transitioned {
-        -webkit-transform: translateX(-100%);
-        -moz-transform: translateX(-100%);
-        -ms-transform: translateX(-100%);
-        transform: translateX(-100%)    ;
-        -o-transform: translateX(-100%);
-    }
-
-    .bottom_transitioned {
-        -webkit-transform: translateY(-100%);
-        -moz-transform: translateY(-100%);
-        -ms-transform: translateY(-100%);
-        transform: translateY(-100%)    ;
-        -o-transform: translateY(-100%);
-    }
-
-    .bottomside_transitioned {
-        -webkit-transform: translateY(-100%);
-        -moz-transform: translateY(-100%);
-        -ms-transform: translateY(-100%);
-        transform: translateY(-100%)    ;
-        -o-transform: translateY(-100%);
-    }
-
-    .bottomthird_transitioned {
-        -webkit-transform: translateY(-100%);
-        -moz-transform: translateY(-100%);
-        -ms-transform: translateY(-100%);
-        transform: translateY(-100%)    ;
-        -o-transform: translateY(-100%);
     }
 
     @keyframes colorchange {
