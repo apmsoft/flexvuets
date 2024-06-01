@@ -364,6 +364,10 @@ class ElementDiv extends ElementsComponents<DefaultTypes> implements Attribute,E
     return this;
     }
 
+    get () : HTMLDivElement {
+        return this.target;
+    }
+
     val (data : string | null = null) : string | void
     {
         if (data == null){
@@ -454,6 +458,10 @@ class ElementUL extends ElementsComponents<DefaultTypes> implements Attribute,Ev
         (this.target.style as any)[property] = value;
         return this;
     }
+
+    get () : HTMLUListElement {
+        return this.target;
+    }
 }
 
 class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners 
@@ -515,6 +523,10 @@ class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,Ev
         (this.target.style as any)[property] = value;
         return this;
     }
+
+    get () : HTMLLIElement {
+        return this.target;
+    }
 }
 
 class ElementQuery {
@@ -522,6 +534,10 @@ class ElementQuery {
 
     constructor(target: string | null = null) {
         this.target = target ? document.querySelector<HTMLElement>(target)! : null;
+    }
+
+    get () : HTMLElement | null {
+        return this.target;
     }
 
     each(selector: string, callback: (element: HTMLElement) => void): this {
