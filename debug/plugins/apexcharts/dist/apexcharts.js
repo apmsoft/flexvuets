@@ -30341,6 +30341,8 @@
 
 
 
+
+
           // functionToCall: [list of morphable objects]
           // e.g. move: [SVG.Number, SVG.Number]
         };this.attrs = {
@@ -30462,6 +30464,7 @@
           if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
             try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
                 var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
 
 
 
@@ -32361,10 +32364,7 @@
       if (typeof c == 'function') {var coord = c.call(this.el, x, y, this.m); // bool, just show us if movement is allowed or not
         if (typeof coord == 'boolean') {coord = { x: coord, y: coord };} // if true, we just move. If !false its a number and we move it there
         if (coord.x === true) {this.el.x(x);} else if (coord.x !== false) {this.el.x(coord.x);}if (coord.y === true) {this.el.y(y);} else if (coord.y !== false) {this.el.y(coord.y);}} else if (typeof c == 'object') {// keep element within constrained box
-        if (c.minX != null && x < c.minX) {x = c.minX;gx = x - this.startPoints.box.x;} else if (c.maxX != null && x > c.maxX - box.width) {x = c.maxX - box.width;gx = x - this.startPoints.box.x;}if (c.minY != null && y < c.minY) {y = c.minY;
-          gy = y - this.startPoints.box.y;
-        } else if (c.maxY != null && y > c.maxY - box.height) {
-          y = c.maxY - box.height;
+        if (c.minX != null && x < c.minX) {x = c.minX;gx = x - this.startPoints.box.x;} else if (c.maxX != null && x > c.maxX - box.width) {x = c.maxX - box.width;gx = x - this.startPoints.box.x;}if (c.minY != null && y < c.minY) {y = c.minY;gy = y - this.startPoints.box.y;} else if (c.maxY != null && y > c.maxY - box.height) {y = c.maxY - box.height;
           gy = y - this.startPoints.box.y;
         }
 

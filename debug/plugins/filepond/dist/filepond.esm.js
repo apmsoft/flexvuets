@@ -2434,6 +2434,7 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -2565,8 +2566,7 @@ const defaultOptions = { // the id to add to the root element
   url = encodeURI(url); // if method is GET, add any received data to url
   if (isGet(options.method) && data) {url = `${url}${encodeURIComponent(typeof data === 'string' ? data : JSON.stringify(data))}`;} // create request
   const xhr = new XMLHttpRequest(); // progress of load
-  const process = isGet(options.method) ? xhr : xhr.upload;process.onprogress = (e) => {
-    // no progress event when aborted ( onprogress is called once after abort() )
+  const process = isGet(options.method) ? xhr : xhr.upload;process.onprogress = (e) => {// no progress event when aborted ( onprogress is called once after abort() )
     if (aborted) {
       return;
     }
@@ -8272,6 +8272,7 @@ const getLinks = (dataTransfer) => {
 
 
 
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -8389,8 +8390,7 @@ const getLinks = (dataTransfer) => {
   if (!allowMultiple && totalBrowseItems > 1) {root.dispatch('DID_THROW_MAX_FILES', { source: items, error: createResponse('warning', 0, 'Max files') });return true;} // limit max items to one if not allowed to drop multiple items
   maxItems = allowMultiple ? maxItems : 1;if (!allowMultiple && allowReplace) {// There is only one item, so there is room to replace or add an item
     return false;} // no more room?
-  const hasMaxItems = isInt(maxItems);if (hasMaxItems && totalItems + totalBrowseItems > maxItems) {root.dispatch('DID_THROW_MAX_FILES', { source: items, error: createResponse('warning', 0, 'Max files') });return true;}return false;
-};
+  const hasMaxItems = isInt(maxItems);if (hasMaxItems && totalItems + totalBrowseItems > maxItems) {root.dispatch('DID_THROW_MAX_FILES', { source: items, error: createResponse('warning', 0, 'Max files') });return true;}return false;};
 
 const getDragIndex = (list, children, position) => {
   const itemList = list.childViews[0];
