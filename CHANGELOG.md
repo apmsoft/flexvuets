@@ -9,7 +9,7 @@
 - Activity.clas url object type 으로 업데이트
 - Activity.class animation time 설정
 - Activity.class back key 이전 url 주소 캡쳐
-- Element Div,UL,Li,Query get() 함수 추가 기능 : target Object HTMLElement 받기
+- ElementManager * get() 함수 추가 기능 : target Object HTMLElement 받기
 
 ### - 2024-05-31
 - ElementDiv,ElementUL,ElementLi style 메소드 기능 추가

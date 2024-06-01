@@ -83,6 +83,10 @@ class ElementCheckbox extends ElementsComponents<CheckboxRadioHtmlTypes> impleme
         }
     return this;
     }
+
+    get () : HTMLInputElement[] {
+        return this.target;
+    }
 }
 
 class ElementRadio extends ElementsComponents<CheckboxRadioHtmlTypes> implements EventListeners,InputTypes,RadioTypes 
@@ -133,6 +137,10 @@ class ElementRadio extends ElementsComponents<CheckboxRadioHtmlTypes> implements
             }
         }
     return this;
+    }
+
+    get () : HTMLInputElement[] {
+        return this.target;
     }
 }
 
@@ -185,6 +193,10 @@ class ElementSelect extends ElementsComponents<DefaultTypes> implements Attribut
         this.target.removeAttribute(name);
     return this;
     }
+
+    get () : HTMLSelectElement {
+        return this.target;
+    }
 }
 
 class ElementButton extends ElementsComponents<ButtonHtmlTypes> implements Attribute,EventListeners, InputTypes
@@ -236,6 +248,10 @@ class ElementButton extends ElementsComponents<ButtonHtmlTypes> implements Attri
         this.target.removeAttribute(name);
     return this;
     }
+
+    get () : HTMLButtonElement {
+        return this.target;
+    }
 }
 
 class ElementInput extends ElementsComponents<InputHtmlTypes> implements Attribute,EventListeners, InputTypes
@@ -285,6 +301,10 @@ class ElementInput extends ElementsComponents<InputHtmlTypes> implements Attribu
         this.target.removeAttribute(name);
     return this;
     }
+
+    get () : HTMLInputElement {
+        return this.target;
+    }
 }
 
 class ElementTextArea extends ElementsComponents<TextAreaHtmlTypes> implements Attribute,EventListeners, InputTypes
@@ -331,6 +351,10 @@ class ElementTextArea extends ElementsComponents<TextAreaHtmlTypes> implements A
     rmAttr(name:string) : this {
         this.target.removeAttribute(name);
     return this;
+    }
+
+    get () : HTMLTextAreaElement {
+        return this.target;
     }
 }
 
