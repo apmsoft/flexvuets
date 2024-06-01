@@ -481,8 +481,8 @@ class Activity {
         div.classList.add('panel','fvue--layout','transition');
         const zIndex = ++this.zIndexCounter;
         div.style.zIndex = `${zIndex}`;
-        div.setAttribute('id', `panelId${zIndex}`);
-        div.innerHTML = `<p>Panel ${this.zIndexCounter}</p>`;
+        div.setAttribute('id', `activityId${zIndex}`);
+        div.innerHTML = `<p>Activity ${this.zIndexCounter}</p>`;
         this.panels.push(div);
 
         return div;
@@ -496,7 +496,6 @@ class Activity {
         let panel = this.panels.find(div =>
             !div.classList.contains(animation.className)
         );
-        console.log(panel);
 
         // 패널이 없으면 새로 생성
         if (!panel) {
@@ -512,9 +511,7 @@ class Activity {
             this.doTransition(panel, animation.className,fromClassList, toClassList);
         }
 
-        Log.d(document.location.toString());
         this.history_state[panel.id] = (document.location.toString()) ? Activity.getQueryParams(document.location.toString()) : {};
-        Log.d('this.history_state',this.history_state);
 
     return panel.id;
     }
@@ -524,7 +521,6 @@ class Activity {
             const hasWhitespace = /\s/.test(userClass);
             if(hasWhitespace){
                 userClass.split(' ').forEach(cls => {
-                    Log.d(cls);
                     if(mode == 'add') element.classList.add(cls.trim());
                     else element.classList.remove(cls.trim());
                 });

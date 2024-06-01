@@ -8,6 +8,7 @@
 - 전쳬 예제 업데이트
 - Activity.clas url object type 으로 업데이트
 - Activity.class animation time 설정
+- Activity.class back key 이전 url 주소 캡쳐
 
 ### - 2024-05-31
 - ElementDiv,ElementUL,ElementLi style 메소드 기능 추가
