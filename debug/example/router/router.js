@@ -1,10 +1,8 @@
 import UrlManager from "../../flexvue/core/UrlManager.class.js";
 import FastRouter from "../../flexvue/core/FastRouter.class.js";
 const onReady = () => {
-  // 기본 클래스 선언
-  new App();
   // 뒤로 가기 시 실행
-  new Activity().onBackPressed((state) => {
+  Activity.onBackPressed((state) => {
     Log.clear();
     Log.i('onBackPressed : ', state);
   });

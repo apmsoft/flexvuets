@@ -6,7 +6,7 @@ class ComponentActivity {
     ProgressBars.show();
     const self = this;
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     // multiout
     new AsyncTask().doImport(new URL(`../menu1/tpl/Greeting.template${App.getLocale()}.js`, import.meta.url).href).
     then((Module) => {
@@ -26,7 +26,7 @@ class ComponentActivity {
     ProgressBars.show();
     const self = this;
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     // multiout
     new AsyncTask().doImport(new URL(`../menu1/tpl/Location.template${App.getLocale()}.js`, import.meta.url).href).
     then((Module) => {

@@ -466,201 +466,127 @@ const Handler = {
 };
 
 class Activity {
-    static bottomthird: HTMLElement | null;
-    static bottomside: HTMLElement | null;
-    static bottom: HTMLElement | null;
-    static rightthird: HTMLElement | null;
-    static rightside: HTMLElement | null;
-    static right: HTMLElement | null;
-    static drawer_menu: HTMLElement | null;
-    static layout_panel: Record<string, { id: string; target: string | null; toggle: string }>;
-    static push_state: string = '';
-    static history_state: Record<string, string> = {
-        'left': '',
-        'right': '',
-        'rightside': '',
-        'rightthird': '',
-        'bottom': '',
-        'bottomside': '',
-        'bottomthird': '',
-        'drawer_menu': '',
+    static zIndexCounter: number = 0;
+    static panels: HTMLDivElement[] = [];
+    static transitioned: HTMLDivElement[] = [];
+    static transitionedUserClass: string[] = [];
+    static animations = {
+        'fvue-slide': { className: 'fvue-slide'}
     };
 
-    constructor() {
-        Activity.bottomthird = document.querySelector("#bottomthird");
-        Activity.bottomside = document.querySelector("#bottomside");
-        Activity.bottom = document.querySelector("#bottom");
-        Activity.rightthird = document.querySelector("#rightthird");
-        Activity.rightside = document.querySelector("#rightside");
-        Activity.right = document.querySelector("#right");
-        Activity.drawer_menu = document.querySelector("#drawer_menu");
+    static createPanel(): HTMLDivElement {
+        const div = document.createElement('div');
 
-        Activity.layout_panel = {
-            left: {
-                id: '#left',
-                target: null,
-                toggle: '',
-            },
-            right: {
-                id: '#right',
-                target: '#right',
-                toggle: 'transitioned',
-            },
-            rightside: {
-                id: '#rightside',
-                target: '#rightside',
-                toggle: 'rightside_transitioned',
-            },
-            rightthird: {
-                id: '#rightthird',
-                target: '#rightthird',
-                toggle: 'rightthird_transitioned',
-            },
-            bottom: {
-                id: '#bottom',
-                target: '#bottom',
-                toggle: 'bottom_transitioned',
-            },
-            bottomside: {
-                id: '#bottomside',
-                target: '#bottomside',
-                toggle: 'bottomside_transitioned',
-            },
-            bottomthird: {
-                id: '#bottomthird',
-                target: '#bottomthird',
-                toggle: 'bottomthird_transitioned',
-            },
-            drawer_menu: {
-                id: '#drawer_menu',
-                target: '#drawer_menu',
-                toggle: 'drawer_transitioned',
-            },
-        };
+        div.classList.add('fvue--layout', 'panel', 'transition');
+        const zIndex = ++this.zIndexCounter;
+        div.style.zIndex = `${zIndex}`;
+        div.setAttribute('id', `panelId${zIndex}`);
+        div.innerHTML = `<p>Panel ${this.zIndexCounter}</p>`;
+        this.panels.push(div);
+
+        return div;
     }
 
-    public onCreateView() {
-        // Implement this method
-    }
+    static onStart(fromClassList:string, toClassList : string): string | void {
+        const animation = this.animations['fvue-slide'];
+        if (!animation) return;
 
-    static inentView(url: string, delaytime: number = 0) {
-        Handler.post(() => {
-            window.location.href = url;
-        }, delaytime);
-    }
+        // 사용 중이지 않은 패널 찾기
+        let panel = this.panels.find(div => 
+            !div.classList.contains(animation.className)
+        );
+        console.log(panel);
 
-    static onStart(panel_id: string) {
-        if (panel_id !== null) {
-            Activity.push_state = panel_id ? panel_id.replace('#', '') : '';
-            if (typeof window.location.hash !== 'undefined') {
-                Activity.history_state[Activity.push_state] = window.location.hash;
+        // 패널이 없으면 새로 생성
+        if (!panel) {
+            panel = this.createPanel();
+            document.body.appendChild(panel);
+            this.doTransition(panel, animation.className, fromClassList, toClassList);
+        } else {
+            // 패널 재사용 시 기존 애니메이션 클래스 제거 후 새 애니메이션 클래스 추가
+            for (const animType in this.animations) {
+                const anim = this.animations[animType];
+                panel.classList.remove(anim.className);
             }
+            this.doTransition(panel, animation.className,fromClassList, toClassList);
+        }
 
-            let panel = Activity.layout_panel[Activity.push_state];
-            if (panel.target !== null) {
-                let classname = panel.toggle;
-                if (!document.querySelector(panel.id)!.classList.contains(classname)) {
-                    Handler.post(() => {
-                        document.querySelector(panel.target??panel_id)!.classList.toggle(classname);
-                    }, 10);
+
+    return panel.id;
+    }
+
+    static doTransition(element: HTMLDivElement, className: string, fromClassList : string, toClassList : string): void {
+        if (!this.transitioned.includes(element)) {
+            element.classList.remove('hidden');
+            element.classList.add(className);
+            this.transitioned.push(element);
+            const userClass : string = fromClassList+' '+toClassList;
+            this.transitionedUserClass.push(userClass);
+            if (userClass.trim()) {
+                const hasWhitespace = /\s/.test(userClass);
+                if(hasWhitespace){
+                    userClass.split(' ').forEach(cls => {
+                        element.classList.add(cls.trim());
+                    });
+                }else{
+                    element.classList.add(userClass.trim());
                 }
+            }
+        } else {
+            const index = this.transitioned.indexOf(element);
+            if (index > -1) {
+                this.transitioned.splice(index, 1);
             }
         }
     }
 
-    static onStop(panel_id: string) {
-        panel_id = panel_id ? panel_id.replace('#', '') : '';
+    static onBackPressed(callback: (state: { id: string, state: string }) => void): void {
+        window.onpopstate = function(event) {
+            let isTrusted = false;
 
-        switch (panel_id) {
-            case 'bottomthird':
-                if (Activity.bottomthird && Activity.bottomthird.classList.contains('bottomthird_transitioned')) {
-                    Activity.bottomthird.classList.toggle('bottomthird_transitioned');
-                }
-                break;
-            case 'bottomside':
-                if (Activity.bottomside && Activity.bottomside.classList.contains('bottomside_transitioned')) {
-                    Activity.bottomside.classList.toggle('bottomside_transitioned');
-                }
-                break;
-            case 'bottom':
-                if (Activity.bottom && Activity.bottom.classList.contains('bottom_transitioned')) {
-                    Activity.bottom.classList.toggle('bottom_transitioned');
-                }
-                break;
-            case 'rightthird':
-                if (Activity.rightthird && Activity.rightthird.classList.contains('rightthird_transitioned')) {
-                    Activity.rightthird.classList.toggle('rightthird_transitioned');
-                }
-                break;
-            case 'rightside':
-                if (Activity.rightside && Activity.rightside.classList.contains('rightside_transitioned')) {
-                    Activity.rightside.classList.toggle('rightside_transitioned');
-                }
-                break;
-            case 'right':
-                if (Activity.right && Activity.right.classList.contains('transitioned')) {
-                    Activity.right.classList.toggle('transitioned');
-                }
-                break;
-            case 'drawer_menu':
-                if (Activity.drawer_menu && Activity.drawer_menu.classList.contains('drawer_transitioned')) {
-                    Activity.drawer_menu.classList.toggle('drawer_transitioned');
-                }
-                break;
-        }
-    }
-
-    public onBackPressed(callback: (state: { id: string, state: string }) => void): void {
-        window.onpopstate = function (event) {
-            let is_Trusted = false;
             if (typeof event.isTrusted !== 'undefined' && event.isTrusted) {
-                is_Trusted = true;
-            } else if (typeof event.state !== 'undefined' && event.state !== 'null') {
-                is_Trusted = true;
+                isTrusted = true;
+            } else if (typeof event.state !== 'undefined' && event.state !== null) {
+                isTrusted = true;
             }
 
-            if (is_Trusted) {
-                let config_history_state = {
-                    id: '#left',
-                    state: '',
-                };
+            if (isTrusted) {
+                if (Activity.transitioned.length > 0) {
+                    const lastTransitioned = Activity.transitioned.pop()!;
+                    const lastUserClassList = Activity.transitionedUserClass.pop()!;
+                    for (const type in Activity.animations) {
+                        lastTransitioned.classList.remove('fvue-slide');
+                        if (lastUserClassList.trim()) {
+                            const hasWhitespace = /\s/.test(lastUserClassList);
+                            if(hasWhitespace){
+                                lastUserClassList.split(' ').forEach(cls => {
+                                    lastTransitioned.classList.remove(cls.trim());
+                                });
+                            }else{
+                                lastTransitioned.classList.remove(lastUserClassList.trim());
+                            }
+                        }
+                        lastTransitioned.classList.add('hidden');
+                    }
 
-                if (Activity.bottomthird && Activity.bottomthird.classList.contains('bottomthird_transitioned')) {
-                    config_history_state.id = '#bottomthird';
-                    config_history_state.state = Activity.history_state.bottomthird ? Activity.history_state.bottomthird : Activity.history_state[Activity.push_state];
-                    Activity.bottomthird.classList.toggle('bottomthird_transitioned');
-                } else if (Activity.bottomside && Activity.bottomside.classList.contains('bottomside_transitioned')) {
-                    config_history_state.id = '#bottomside';
-                    config_history_state.state = Activity.history_state.bottomside ? Activity.history_state.bottomside : Activity.history_state[Activity.push_state];
-                    Activity.bottomside.classList.toggle('bottomside_transitioned');
-                } else if (Activity.bottom && Activity.bottom.classList.contains('bottom_transitioned')) {
-                    config_history_state.id = '#bottom';
-                    config_history_state.state = Activity.history_state.bottom ? Activity.history_state.bottom : Activity.history_state[Activity.push_state];
-                    Activity.bottom.classList.toggle('bottom_transitioned');
-                } else if (Activity.rightthird && Activity.rightthird.classList.contains('rightthird_transitioned')) {
-                    config_history_state.id = '#rightthird';
-                    config_history_state.state = Activity.history_state.rightthird ? Activity.history_state.rightthird : Activity.history_state[Activity.push_state];
-                    Activity.rightthird.classList.toggle('rightthird_transitioned');
-                } else if (Activity.rightside && Activity.rightside.classList.contains('rightside_transitioned')) {
-                    config_history_state.id = '#rightside';
-                    config_history_state.state = Activity.history_state.rightside ? Activity.history_state.rightside : Activity.history_state[Activity.push_state];
-                    Activity.rightside.classList.toggle('rightside_transitioned');
-                } else if (Activity.right && Activity.right.classList.contains('transitioned')) {
-                    config_history_state.id = '#right';
-                    config_history_state.state = Activity.history_state.right ? Activity.history_state.right : Activity.history_state[Activity.push_state];
-                    Activity.right.classList.toggle('transitioned');
-                } else if (Activity.drawer_menu && Activity.drawer_menu.classList.contains('drawer_transitioned')) {
-                    config_history_state.id = '#drawer_menu';
-                    config_history_state.state = Activity.history_state.drawer_menu ? Activity.history_state.drawer_menu : Activity.history_state[Activity.push_state];
-                    Activity.drawer_menu.classList.toggle('drawer_transitioned');
+                    // 이전 URL 경로를 얻음
+                    const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
+
+                    callback({
+                        id: lastTransitioned.id,
+                        state: previousUrl
+                    });
                 } else {
-                    config_history_state.id = '#left';
-                    config_history_state.state = Activity.history_state.left ? Activity.history_state.left : Activity.history_state[Activity.push_state];
-                }
+                    // 이전 URL 경로를 얻음
+                    const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
 
-                callback(config_history_state);
+                    callback({
+                        id: '',
+                        state: previousUrl
+                    });
+                }
             }
-        };
+        }
     }
 }
 

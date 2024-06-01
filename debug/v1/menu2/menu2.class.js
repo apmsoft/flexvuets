@@ -11,7 +11,7 @@ class ComponentActivity {
     let send_params = {};
     send_params = Object.assign(send_params, params);
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     // multiout
     Promise.all([
     new AsyncTask().doImport(new URL(`../menu2/tpl/List.template${App.getLocale()}.js`, import.meta.url).href)]

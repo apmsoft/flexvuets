@@ -20,7 +20,7 @@ const onReady = () : void =>
     Log.i(App.browser, App.version, App.os, App.lang);
 
     // onBackPressed
-    new Activity().onBackPressed( state =>{
+    Activity.onBackPressed( state =>{
         Log.d('onBackPressed : ------>',state);
     });
 

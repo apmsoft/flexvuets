@@ -359,6 +359,10 @@ class ElementUL extends ElementsComponents {
     this.target.removeAttribute(name);
     return this;
   }
+  style(property, value) {
+    this.target.style[property] = value;
+    return this;
+  }
 }
 class ElementLi extends ElementsComponents {
   constructor(target) {
@@ -403,6 +407,10 @@ class ElementLi extends ElementsComponents {
   }
   rmAttr(name) {
     this.target.removeAttribute(name);
+    return this;
+  }
+  style(property, value) {
+    this.target.style[property] = value;
     return this;
   }
 }

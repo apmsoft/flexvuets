@@ -2291,6 +2291,129 @@ const createOptionActions = (options) => (dispatch, query, state) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // nope, failed
       } // we successfully set the value of this option
       dispatch(`DID_SET_${name}`, { value: state.options[key] });};});return obj;};const createOptionQueries = (options) => (state) => {const obj = {};forin(options, (key) => {obj[`GET_${fromCamels(key, '_').toUpperCase()}`] = (action) => state.options[key];});return obj;};const InteractionMethod = { API: 1, DROP: 2, BROWSE: 3, PASTE: 4, NONE: 5 };const getUniqueId = () => Math.random().toString(36).substring(2, 11);const arrayRemove = (arr, index) => arr.splice(index, 1);const run = (cb, sync) => {if (sync) {cb();} else if (document.hidden) {Promise.resolve(1).then(cb);} else {setTimeout(cb, 0);}};const on = () => {const listeners = [];const off = (event, cb) => {arrayRemove(listeners, listeners.findIndex((listener) => listener.event === event && (listener.cb === cb || !cb)));};const fire = (event, args, sync) => {listeners.filter((listener) => listener.event === event).map((listener) => listener.cb).forEach((cb) => run(() => cb(...args), sync));};return { fireSync: (event, ...args) => {fire(event, args, true);}, fire: (event, ...args) => {fire(event, args, false);}, on: (event, cb) => {listeners.push({ event, cb });}, onOnce: (event, cb) => {listeners.push({ event, cb: (...args) => {off(event, cb);cb(...args);} });}, off };};const copyObjectPropertiesToObject = (src, target, excluded) => {Object.getOwnPropertyNames(src).filter((property) => !excluded.includes(property)).forEach((key) => Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(src, key)));};const PRIVATE = ['fire', 'process', 'revert', 'load', 'on', 'off', 'onOnce', 'retryLoad', 'extend', 'archive', 'archived', 'release', 'released', 'requestProcessing', 'freeze'];const createItemAPI = (item) => {const api = {};copyObjectPropertiesToObject(item, api, PRIVATE);return api;};const removeReleasedItems = (items) => {items.forEach((item, index) => {if (item.released) {arrayRemove(items, index);}});};const ItemStatus = { INIT: 1, IDLE: 2, PROCESSING_QUEUED: 9, PROCESSING: 3, PROCESSING_COMPLETE: 5, PROCESSING_ERROR: 6, PROCESSING_REVERT_ERROR: 10, LOADING: 7, LOAD_ERROR: 8 };const FileOrigin = { INPUT: 1, LIMBO: 2, LOCAL: 3 };const getNonNumeric = (str) => /[^0-9]+/.exec(str);const getDecimalSeparator = () => getNonNumeric(1.1.toLocaleString())[0];const getThousandsSeparator = () => {// Added for browsers that do not return the thousands separator (happend on native browser Android 4.4.4)
@@ -2394,152 +2517,29 @@ const defaultOptions = { // the id to add to the root element
   const data = dataURI.split(',')[1]; // remove any whitespace as that causes InvalidCharacterError in IE
   return data.replace(/\s/g, '');};const getByteStringFromBase64DataURI = (dataURI) => {return atob(getBase64DataFromBase64DataURI(dataURI));};const getBlobFromBase64DataURI = (dataURI) => {const mimeType = getMimeTypeFromBase64DataURI(dataURI);const byteString = getByteStringFromBase64DataURI(dataURI);return getBlobFromByteStringWithMimeType(byteString, mimeType);};const getFileFromBase64DataURI = (dataURI, filename, extension) => {return getFileFromBlob(getBlobFromBase64DataURI(dataURI), filename, null, extension);};const getFileNameFromHeader = (header) => {// test if is content disposition header, if not exit
   if (!/^content-disposition:/i.test(header)) return null; // get filename parts
-  const matches = header.split(/filename=|filename\*=.+''/).splice(1).map((name) => name.trim().replace(/^["']|[;"']{0,2}$/g, '')).filter((name) => name.length);return matches.length ? decodeURI(matches[matches.length - 1]) : null;};const getFileSizeFromHeader = (header) => {if (/content-length:/i.test(header)) {const size = header.match(/[0-9]+/)[0];return size ? parseInt(size, 10) : null;}return null;};const getTranfserIdFromHeader = (header) => {if (/x-content-transfer-id:/i.test(header)) {const id = (header.split(':')[1] || '').trim();return id || null;}return null;};const getFileInfoFromHeaders = (headers) => {const info = { source: null, name: null, size: null };const rows = headers.split('\n');for (let header of rows) {const name = getFileNameFromHeader(header);if (name) {info.name = name;continue;}const size = getFileSizeFromHeader(header);if (size) {info.size = size;continue;}const source = getTranfserIdFromHeader(header);if (source) {info.source = source;continue;}}return info;};const createFileLoader = (fetchFn) => {const state = { source: null, complete: false, progress: 0, size: null, timestamp: null, duration: 0,
-    request: null
-  };
-
-  const getProgress = () => state.progress;
-  const abort = () => {
-    if (state.request && state.request.abort) {
-      state.request.abort();
-    }
-  };
-
-  // load source
-  const load = () => {
-    // get quick reference
-    const source = state.source;
-
-    api.fire('init', source);
-
-    // Load Files
-    if (source instanceof File) {
-      api.fire('load', source);
-    } else if (source instanceof Blob) {
-      // Load blobs, set default name to current date
-      api.fire('load', getFileFromBlob(source, source.name));
-    } else if (isBase64DataURI(source)) {
-      // Load base 64, set default name to current date
-      api.fire('load', getFileFromBase64DataURI(source));
-    } else {
-      // Deal as if is external URL, let's load it!
-      loadURL(source);
-    }
-  };
-
-  // loads a url
-  const loadURL = (url) => {
-    // is remote url and no fetch method supplied
-    if (!fetchFn) {
-      api.fire('error', {
-        type: 'error',
-        body: "Can't load URL",
-        code: 400
-      });
-      return;
-    }
-
-    // set request start
-    state.timestamp = Date.now();
-
-    // load file
-    state.request = fetchFn(
-      url,
-      (response) => {
-        // update duration
-        state.duration = Date.now() - state.timestamp;
-
-        // done!
-        state.complete = true;
-
-        // turn blob response into a file
-        if (response instanceof Blob) {
-          response = getFileFromBlob(response, response.name || getFilenameFromURL(url));
-        }
-
-        api.fire(
-          'load',
-          // if has received blob, we go with blob, if no response, we return null
-          response instanceof Blob ? response : response ? response.body : null
-        );
-      },
-      (error) => {
-        api.fire(
-          'error',
-          typeof error === 'string' ?
-          {
-            type: 'error',
-            code: 0,
-            body: error
-          } :
-          error
-        );
-      },
-      (computable, current, total) => {
-        // collected some meta data already
-        if (total) {
-          state.size = total;
-        }
-
-        // update duration
-        state.duration = Date.now() - state.timestamp;
-
-        // if we can't compute progress, we're not going to fire progress events
-        if (!computable) {
-          state.progress = null;
-          return;
-        }
-
-        // update progress percentage
-        state.progress = current / total;
-
-        // expose
-        api.fire('progress', state.progress);
-      },
-      () => {
-        api.fire('abort');
-      },
-      (response) => {
-        const fileinfo = getFileInfoFromHeaders(
-          typeof response === 'string' ? response : response.headers
-        );
-        api.fire('meta', {
-          size: state.size || fileinfo.size,
-          filename: fileinfo.name,
-          source: fileinfo.source
-        });
-      }
-    );
-  };
-
-  const api = {
-    ...on(),
-    setSource: (source) => state.source = source,
-    getProgress, // file load progress
+  const matches = header.split(/filename=|filename\*=.+''/).splice(1).map((name) => name.trim().replace(/^["']|[;"']{0,2}$/g, '')).filter((name) => name.length);return matches.length ? decodeURI(matches[matches.length - 1]) : null;};const getFileSizeFromHeader = (header) => {if (/content-length:/i.test(header)) {const size = header.match(/[0-9]+/)[0];return size ? parseInt(size, 10) : null;}return null;};const getTranfserIdFromHeader = (header) => {if (/x-content-transfer-id:/i.test(header)) {const id = (header.split(':')[1] || '').trim();return id || null;}return null;};const getFileInfoFromHeaders = (headers) => {const info = { source: null, name: null, size: null };const rows = headers.split('\n');for (let header of rows) {const name = getFileNameFromHeader(header);if (name) {info.name = name;continue;}const size = getFileSizeFromHeader(header);if (size) {info.size = size;continue;}const source = getTranfserIdFromHeader(header);if (source) {info.source = source;continue;}}return info;};const createFileLoader = (fetchFn) => {const state = { source: null, complete: false, progress: 0, size: null, timestamp: null, duration: 0, request: null };const getProgress = () => state.progress;const abort = () => {if (state.request && state.request.abort) {state.request.abort();}}; // load source
+  const load = () => {// get quick reference
+    const source = state.source;api.fire('init', source); // Load Files
+    if (source instanceof File) {api.fire('load', source);} else if (source instanceof Blob) {// Load blobs, set default name to current date
+      api.fire('load', getFileFromBlob(source, source.name));} else if (isBase64DataURI(source)) {// Load base 64, set default name to current date
+      api.fire('load', getFileFromBase64DataURI(source));} else {// Deal as if is external URL, let's load it!
+      loadURL(source);}}; // loads a url
+  const loadURL = (url) => {// is remote url and no fetch method supplied
+    if (!fetchFn) {api.fire('error', { type: 'error', body: "Can't load URL", code: 400 });return;} // set request start
+    state.timestamp = Date.now(); // load file
+    state.request = fetchFn(url, (response) => {// update duration
+        state.duration = Date.now() - state.timestamp; // done!
+        state.complete = true; // turn blob response into a file
+        if (response instanceof Blob) {response = getFileFromBlob(response, response.name || getFilenameFromURL(url));}api.fire('load', // if has received blob, we go with blob, if no response, we return null
+          response instanceof Blob ? response : response ? response.body : null);}, (error) => {api.fire('error', typeof error === 'string' ? { type: 'error', code: 0, body: error } : error);}, (computable, current, total) => {// collected some meta data already
+        if (total) {state.size = total;} // update duration
+        state.duration = Date.now() - state.timestamp; // if we can't compute progress, we're not going to fire progress events
+        if (!computable) {state.progress = null;return;} // update progress percentage
+        state.progress = current / total; // expose
+        api.fire('progress', state.progress);}, () => {api.fire('abort');}, (response) => {const fileinfo = getFileInfoFromHeaders(typeof response === 'string' ? response : response.headers);api.fire('meta', { size: state.size || fileinfo.size, filename: fileinfo.name, source: fileinfo.source });});};const api = { ...on(), setSource: (source) => state.source = source, getProgress, // file load progress
     abort, // abort file load
     load // start load
-  };
-
-  return api;
-};
-
-const isGet = (method) => /GET|HEAD/.test(method);
-
-const sendRequest = (data, url, options) => {
-  const api = {
-    onheaders: () => {},
-    onprogress: () => {},
-    onload: () => {},
-    ontimeout: () => {},
-    onerror: () => {},
-    onabort: () => {},
-    abort: () => {
-      aborted = true;
-      xhr.abort();
-    }
-  };
-
-  // timeout identifier, only used when timeout is defined
+  };return api;};const isGet = (method) => /GET|HEAD/.test(method);const sendRequest = (data, url, options) => {const api = { onheaders: () => {}, onprogress: () => {}, onload: () => {}, ontimeout: () => {}, onerror: () => {}, onabort: () => {}, abort: () => {aborted = true;xhr.abort();} }; // timeout identifier, only used when timeout is defined
   let aborted = false;
   let headersReceived = false;
 
@@ -8129,6 +8129,129 @@ const getLinks = (dataTransfer) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // nope nope nope (probably IE trouble)
   }return links;};const getLinksFromTransferURLData = (dataTransfer) => {let data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};const getLinksFromTransferMetaData = (dataTransfer) => {let data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {const matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};const dragNDropObservers = [];const eventPosition = (e) => ({ pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY });const createDragNDropClient = (element, scopeToObserve, filterElement) => {const observer = getDragNDropObserver(scopeToObserve);const client = { element, filterElement, state: null, ondrop: () => {}, onenter: () => {}, ondrag: () => {}, onexit: () => {}, onload: () => {}, allowdrop: () => {} };client.destroy = observer.addListener(client);return client;};const getDragNDropObserver = (element) => {// see if already exists, if so, return
   const observer = dragNDropObservers.find((item) => item.element === element);if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -8224,150 +8347,27 @@ const getLinks = (dataTransfer) => {
     bounds.fixedHeight - currentLabelHeight - ( // the room we leave open between the end of the list and the panel bottom
     listMarginBottom - listItemMargin.bottom) - ( // if we're full we need to leave some room between the top of the panel and the list
     atMaxCapacity ? listMarginTop : 0); // set list height
-    if (listHeight.visual > listAvailableHeight) {list.overflow = listAvailableHeight;} else {list.overflow = null;
-    }
-
-    // no need to set container bounds as these are handles by CSS fixed height
-  } else if (bounds.cappedHeight) {
-    // max-height
-
+    if (listHeight.visual > listAvailableHeight) {list.overflow = listAvailableHeight;} else {list.overflow = null;} // no need to set container bounds as these are handles by CSS fixed height
+  } else if (bounds.cappedHeight) {// max-height
     // not a fixed height panel
-    const isCappedHeight = visualHeight >= bounds.cappedHeight;
-    const panelHeight = Math.min(bounds.cappedHeight, visualHeight);
-    panel.scalable = true;
-    panel.height = isCappedHeight ?
-    panelHeight :
-    panelHeight - listItemMargin.top - listItemMargin.bottom;
-
-    // available height for list
-    const listAvailableHeight =
-    // the height of the panel minus the label height
-    panelHeight -
-    currentLabelHeight - (
-    // the room we leave open between the end of the list and the panel bottom
-    listMarginBottom - listItemMargin.bottom) - (
-    // if we're full we need to leave some room between the top of the panel and the list
-    atMaxCapacity ? listMarginTop : 0);
-
-    // set list height (if is overflowing)
-    if (visualHeight > bounds.cappedHeight && listHeight.visual > listAvailableHeight) {
-      list.overflow = listAvailableHeight;
-    } else {
-      list.overflow = null;
-    }
-
-    // set container bounds (so pushes siblings downwards)
-    root.height = Math.min(
-      bounds.cappedHeight,
-      boundsHeight - listItemMargin.top - listItemMargin.bottom
-    );
-  } else {
-    // flexible height
-
+    const isCappedHeight = visualHeight >= bounds.cappedHeight;const panelHeight = Math.min(bounds.cappedHeight, visualHeight);panel.scalable = true;panel.height = isCappedHeight ? panelHeight : panelHeight - listItemMargin.top - listItemMargin.bottom; // available height for list
+    const listAvailableHeight = // the height of the panel minus the label height
+    panelHeight - currentLabelHeight - ( // the room we leave open between the end of the list and the panel bottom
+    listMarginBottom - listItemMargin.bottom) - ( // if we're full we need to leave some room between the top of the panel and the list
+    atMaxCapacity ? listMarginTop : 0); // set list height (if is overflowing)
+    if (visualHeight > bounds.cappedHeight && listHeight.visual > listAvailableHeight) {list.overflow = listAvailableHeight;} else {list.overflow = null;} // set container bounds (so pushes siblings downwards)
+    root.height = Math.min(bounds.cappedHeight, boundsHeight - listItemMargin.top - listItemMargin.bottom);} else {// flexible height
     // not a fixed height panel
-    const itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;
-    panel.scalable = true;
-    panel.height = Math.max(labelHeight, visualHeight - itemMargin);
-
-    // set container bounds (so pushes siblings downwards)
-    root.height = Math.max(labelHeight, boundsHeight - itemMargin);
-  }
-
-  // move credits to bottom
-  if (root.ref.credits && panel.heightCurrent)
-  root.ref.credits.style.transform = `translateY(${panel.heightCurrent}px)`;
-};
-
-const calculateListItemMargin = (root) => {
-  const item = root.ref.list.childViews[0].childViews[0];
-  return item ?
-  {
-    top: item.rect.element.marginTop,
-    bottom: item.rect.element.marginBottom
-  } :
-  {
-    top: 0,
-    bottom: 0
-  };
-};
-
-const calculateListHeight = (root) => {
-  let visual = 0;
-  let bounds = 0;
-
-  // get file list reference
-  const scrollList = root.ref.list;
-  const itemList = scrollList.childViews[0];
-  const visibleChildren = itemList.childViews.filter((child) => child.rect.element.height);
-  const children = root.
-  query('GET_ACTIVE_ITEMS').
-  map((item) => visibleChildren.find((child) => child.id === item.id)).
-  filter((item) => item);
-
-  // no children, done!
-  if (children.length === 0) return { visual, bounds };
-
-  const horizontalSpace = itemList.rect.element.width;
-  const dragIndex = getItemIndexByPosition(itemList, children, scrollList.dragCoordinates);
-
-  const childRect = children[0].rect.element;
-
-  const itemVerticalMargin = childRect.marginTop + childRect.marginBottom;
-  const itemHorizontalMargin = childRect.marginLeft + childRect.marginRight;
-
-  const itemWidth = childRect.width + itemHorizontalMargin;
-  const itemHeight = childRect.height + itemVerticalMargin;
-
-  const newItem = typeof dragIndex !== 'undefined' && dragIndex >= 0 ? 1 : 0;
-  const removedItem = children.find((child) => child.markedForRemoval && child.opacity < 0.45) ?
-  -1 :
-  0;
-  const verticalItemCount = children.length + newItem + removedItem;
-  const itemsPerRow = getItemsPerRow(horizontalSpace, itemWidth);
-
-  // stack
-  if (itemsPerRow === 1) {
-    children.forEach((item) => {
-      const height = item.rect.element.height + itemVerticalMargin;
-      bounds += height;
-      visual += height * item.opacity;
-    });
-  }
-  // grid
-  else {
-    bounds = Math.ceil(verticalItemCount / itemsPerRow) * itemHeight;
-    visual = bounds;
-  }
-
-  return { visual, bounds };
-};
-
-const calculateRootBoundingBoxHeight = (root) => {
-  const height = root.ref.measureHeight || null;
-  const cappedHeight = parseInt(root.style.maxHeight, 10) || null;
-  const fixedHeight = height === 0 ? null : height;
-
-  return {
-    cappedHeight,
-    fixedHeight
-  };
-};
-
-const exceedsMaxFiles = (root, items) => {
-  const allowReplace = root.query('GET_ALLOW_REPLACE');
-  const allowMultiple = root.query('GET_ALLOW_MULTIPLE');
-  const totalItems = root.query('GET_TOTAL_ITEMS');
-  let maxItems = root.query('GET_MAX_FILES');
-
-  // total amount of items being dragged
-  const totalBrowseItems = items.length;
-
-  // if does not allow multiple items and dragging more than one item
-  if (!allowMultiple && totalBrowseItems > 1) {
-    root.dispatch('DID_THROW_MAX_FILES', {
-      source: items,
-      error: createResponse('warning', 0, 'Max files')
-    });
+    const itemMargin = totalItems > 0 ? listItemMargin.top + listItemMargin.bottom : 0;panel.scalable = true;panel.height = Math.max(labelHeight, visualHeight - itemMargin); // set container bounds (so pushes siblings downwards)
+    root.height = Math.max(labelHeight, boundsHeight - itemMargin);} // move credits to bottom
+  if (root.ref.credits && panel.heightCurrent) root.ref.credits.style.transform = `translateY(${panel.heightCurrent}px)`;};const calculateListItemMargin = (root) => {const item = root.ref.list.childViews[0].childViews[0];return item ? { top: item.rect.element.marginTop, bottom: item.rect.element.marginBottom } : { top: 0, bottom: 0 };};const calculateListHeight = (root) => {let visual = 0;let bounds = 0; // get file list reference
+  const scrollList = root.ref.list;const itemList = scrollList.childViews[0];const visibleChildren = itemList.childViews.filter((child) => child.rect.element.height);const children = root.query('GET_ACTIVE_ITEMS').map((item) => visibleChildren.find((child) => child.id === item.id)).filter((item) => item); // no children, done!
+  if (children.length === 0) return { visual, bounds };const horizontalSpace = itemList.rect.element.width;const dragIndex = getItemIndexByPosition(itemList, children, scrollList.dragCoordinates);const childRect = children[0].rect.element;const itemVerticalMargin = childRect.marginTop + childRect.marginBottom;const itemHorizontalMargin = childRect.marginLeft + childRect.marginRight;const itemWidth = childRect.width + itemHorizontalMargin;const itemHeight = childRect.height + itemVerticalMargin;const newItem = typeof dragIndex !== 'undefined' && dragIndex >= 0 ? 1 : 0;const removedItem = children.find((child) => child.markedForRemoval && child.opacity < 0.45) ? -1 : 0;const verticalItemCount = children.length + newItem + removedItem;const itemsPerRow = getItemsPerRow(horizontalSpace, itemWidth); // stack
+  if (itemsPerRow === 1) {children.forEach((item) => {const height = item.rect.element.height + itemVerticalMargin;bounds += height;visual += height * item.opacity;});} // grid
+  else {bounds = Math.ceil(verticalItemCount / itemsPerRow) * itemHeight;visual = bounds;}return { visual, bounds };};const calculateRootBoundingBoxHeight = (root) => {const height = root.ref.measureHeight || null;const cappedHeight = parseInt(root.style.maxHeight, 10) || null;const fixedHeight = height === 0 ? null : height;return { cappedHeight, fixedHeight };};const exceedsMaxFiles = (root, items) => {const allowReplace = root.query('GET_ALLOW_REPLACE');const allowMultiple = root.query('GET_ALLOW_MULTIPLE');const totalItems = root.query('GET_TOTAL_ITEMS');let maxItems = root.query('GET_MAX_FILES'); // total amount of items being dragged
+  const totalBrowseItems = items.length; // if does not allow multiple items and dragging more than one item
+  if (!allowMultiple && totalBrowseItems > 1) {root.dispatch('DID_THROW_MAX_FILES', { source: items, error: createResponse('warning', 0, 'Max files')
+      });
     return true;
   }
 

@@ -19,7 +19,7 @@ class ComponentActivity {
         send_params = Object.assign(send_params, params);
 
         // panel
-        Activity.onStart('#left');
+        // Activity.onStart('#left');
 
         // multiout
         Promise.all([

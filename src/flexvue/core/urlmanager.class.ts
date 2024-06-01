@@ -58,11 +58,6 @@ export default class UrlManager extends URL {
 
     // Activity class 레이아웃 패널 확인 및 현재 주소 등록
     public pushState(id: any, title: string, url: string): void {
-        if (Activity.push_state != '' && Activity.push_state !== null) {
-            let cur_state = Activity.push_state;
-            Activity.history_state[cur_state] = id;
-        }
-
         window.history.pushState(id, title, url);
     }
 }

@@ -8,7 +8,7 @@ class ComponentActivity {
     let send_params = {};
     send_params = Object.assign(send_params, params);
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     // multiout
     Promise.all([
     new AsyncTask().execute('POST', `${config.src}/analysis/tables`, {}, config._options_, config._headers_),

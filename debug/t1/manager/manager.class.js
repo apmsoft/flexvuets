@@ -11,7 +11,7 @@ class ComponentActivity {
     let send_params = {};
     send_params = Object.assign(send_params, params);
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     // multiout
     Promise.all([
     new AsyncTask().execute('POST', `${config.src}/manager/list`, send_params, config._options_, config._headers_),
@@ -99,7 +99,7 @@ class ComponentActivity {
     let send_params = {};
     send_params = Object.assign({}, send_params);
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     // multiout
     new AsyncTask().doImport(new URL(`../manager/tpl/Post.template${App.getLocale()}.js`, import.meta.url).href).
     then((Module) => {
@@ -142,7 +142,7 @@ class ComponentActivity {
     let send_params = {};
     send_params = Object.assign(send_params, params);
     // panel
-    Activity.onStart('#left');
+    // Activity.onStart('#left');
     Promise.all([
     new AsyncTask().execute('PATCH', `${config.src}/manager/edit/${params.id}`, send_params, config._options_, config._headers_),
     new AsyncTask().doImport(new URL(`../manager/tpl/Edit.template${App.getLocale()}.js`, import.meta.url).href)]

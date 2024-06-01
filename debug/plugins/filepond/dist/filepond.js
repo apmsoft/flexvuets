@@ -10842,6 +10842,129 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       // nope nope nope (probably IE trouble)
     }return links;};var getLinksFromTransferURLData = function getLinksFromTransferURLData(dataTransfer) {var data = dataTransfer.getData('url');if (typeof data === 'string' && data.length) {return [data];}return [];};var getLinksFromTransferMetaData = function getLinksFromTransferMetaData(dataTransfer) {var data = dataTransfer.getData('text/html');if (typeof data === 'string' && data.length) {var matches = data.match(/src\s*=\s*"(.+?)"/);if (matches) {return [matches[1]];}}return [];};var dragNDropObservers = [];var eventPosition = function eventPosition(e) {return { pageLeft: e.pageX, pageTop: e.pageY, scopeLeft: e.offsetX || e.layerX, scopeTop: e.offsetY || e.layerY };};var createDragNDropClient = function createDragNDropClient(element, scopeToObserve, filterElement) {var observer = getDragNDropObserver(scopeToObserve);var client = { element: element, filterElement: filterElement, state: null, ondrop: function ondrop() {}, onenter: function onenter() {}, ondrag: function ondrag() {}, onexit: function onexit() {}, onload: function onload() {}, allowdrop: function allowdrop() {} };client.destroy = observer.addListener(client);return client;};var getDragNDropObserver = function getDragNDropObserver(element) {// see if already exists, if so, return
     var observer = dragNDropObservers.find(function (item) {return item.element === element;});if (observer) {return observer;} // create new observer, does not yet exist for this element
@@ -10914,161 +11037,38 @@
       root.element.removeChild(root.ref.measure);root.ref.measure = null;} // get quick references to various high level parts of the upload tool
     var _root$ref = root.ref,hopper = _root$ref.hopper,label = _root$ref.label,list = _root$ref.list,panel = _root$ref.panel; // sets correct state to hopper scope
     if (hopper) {hopper.updateHopperState();} // bool to indicate if we're full or not
-    var aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');var isMultiItem = root.query('GET_ALLOW_MULTIPLE');var totalItems = root.query('GET_TOTAL_ITEMS');var maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;var atMaxCapacity = totalItems === maxItems;
-    // action used to add item
-    var addAction = actions.find(function (action) {
-      return action.type === 'DID_ADD_ITEM';
-    });
-
-    // if reached max capacity and we've just reached it
-    if (atMaxCapacity && addAction) {
-      // get interaction type
-      var interactionMethod = addAction.data.interactionMethod;
-
-      // hide label
-      label.opacity = 0;
-
-      if (isMultiItem) {
-        label.translateY = -40;
-      } else {
-        if (interactionMethod === InteractionMethod.API) {
-          label.translateX = 40;
-        } else if (interactionMethod === InteractionMethod.BROWSE) {
-          label.translateY = 40;
-        } else {
-          label.translateY = 30;
-        }
-      }
-    } else if (!atMaxCapacity) {
-      label.opacity = 1;
-      label.translateX = 0;
-      label.translateY = 0;
-    }
-
-    var listItemMargin = calculateListItemMargin(root);
-
-    var listHeight = calculateListHeight(root);
-
-    var labelHeight = label.rect.element.height;
-    var currentLabelHeight = !isMultiItem || atMaxCapacity ? 0 : labelHeight;
-
-    var listMarginTop = atMaxCapacity ? list.rect.element.marginTop : 0;
-    var listMarginBottom = totalItems === 0 ? 0 : list.rect.element.marginBottom;
-
-    var visualHeight =
-    currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;
-    var boundsHeight =
-    currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom;
-
-    // link list to label bottom position
-    list.translateY =
-    Math.max(0, currentLabelHeight - list.rect.element.marginTop) - listItemMargin.top;
-
-    if (aspectRatio) {
-      // fixed aspect ratio
-
+    var aspectRatio = root.query('GET_PANEL_ASPECT_RATIO');var isMultiItem = root.query('GET_ALLOW_MULTIPLE');var totalItems = root.query('GET_TOTAL_ITEMS');var maxItems = isMultiItem ? root.query('GET_MAX_FILES') || MAX_FILES_LIMIT : 1;var atMaxCapacity = totalItems === maxItems; // action used to add item
+    var addAction = actions.find(function (action) {return action.type === 'DID_ADD_ITEM';}); // if reached max capacity and we've just reached it
+    if (atMaxCapacity && addAction) {// get interaction type
+      var interactionMethod = addAction.data.interactionMethod; // hide label
+      label.opacity = 0;if (isMultiItem) {label.translateY = -40;} else {if (interactionMethod === InteractionMethod.API) {label.translateX = 40;} else if (interactionMethod === InteractionMethod.BROWSE) {label.translateY = 40;} else {label.translateY = 30;}}} else if (!atMaxCapacity) {label.opacity = 1;label.translateX = 0;label.translateY = 0;}var listItemMargin = calculateListItemMargin(root);var listHeight = calculateListHeight(root);var labelHeight = label.rect.element.height;var currentLabelHeight = !isMultiItem || atMaxCapacity ? 0 : labelHeight;var listMarginTop = atMaxCapacity ? list.rect.element.marginTop : 0;var listMarginBottom = totalItems === 0 ? 0 : list.rect.element.marginBottom;var visualHeight = currentLabelHeight + listMarginTop + listHeight.visual + listMarginBottom;var boundsHeight = currentLabelHeight + listMarginTop + listHeight.bounds + listMarginBottom; // link list to label bottom position
+    list.translateY = Math.max(0, currentLabelHeight - list.rect.element.marginTop) - listItemMargin.top;if (aspectRatio) {// fixed aspect ratio
       // calculate height based on width
-      var width = root.rect.element.width;
-      var height = width * aspectRatio;
-
-      // clear history if aspect ratio has changed
-      if (aspectRatio !== root.ref.previousAspectRatio) {
-        root.ref.previousAspectRatio = aspectRatio;
-        root.ref.updateHistory = [];
-      }
-
-      // remember this width
-      var history = root.ref.updateHistory;
-      history.push(width);
-
-      var MAX_BOUNCES = 2;
-      if (history.length > MAX_BOUNCES * 2) {
-        var l = history.length;
-        var bottom = l - 10;
-        var bounces = 0;
-        for (var i = l; i >= bottom; i--) {
-          if (history[i] === history[i - 2]) {
-            bounces++;
-          }
-
-          if (bounces >= MAX_BOUNCES) {
-            // dont adjust height
-            return;
-          }
-        }
-      }
-
-      // fix height of panel so it adheres to aspect ratio
-      panel.scalable = false;
-      panel.height = height;
-
-      // available height for list
-      var listAvailableHeight =
-      // the height of the panel minus the label height
-      height -
-      currentLabelHeight - (
-      // the room we leave open between the end of the list and the panel bottom
-      listMarginBottom - listItemMargin.bottom) - (
-      // if we're full we need to leave some room between the top of the panel and the list
-      atMaxCapacity ? listMarginTop : 0);
-
-      if (listHeight.visual > listAvailableHeight) {
-        list.overflow = listAvailableHeight;
-      } else {
-        list.overflow = null;
-      }
-
-      // set container bounds (so pushes siblings downwards)
-      root.height = height;
-    } else if (bounds.fixedHeight) {
-      // fixed height
-
+      var width = root.rect.element.width;var height = width * aspectRatio; // clear history if aspect ratio has changed
+      if (aspectRatio !== root.ref.previousAspectRatio) {root.ref.previousAspectRatio = aspectRatio;root.ref.updateHistory = [];} // remember this width
+      var history = root.ref.updateHistory;history.push(width);var MAX_BOUNCES = 2;if (history.length > MAX_BOUNCES * 2) {var l = history.length;var bottom = l - 10;var bounces = 0;for (var i = l; i >= bottom; i--) {if (history[i] === history[i - 2]) {bounces++;}if (bounces >= MAX_BOUNCES) {// dont adjust height
+            return;}}} // fix height of panel so it adheres to aspect ratio
+      panel.scalable = false;panel.height = height; // available height for list
+      var listAvailableHeight = // the height of the panel minus the label height
+      height - currentLabelHeight - ( // the room we leave open between the end of the list and the panel bottom
+      listMarginBottom - listItemMargin.bottom) - ( // if we're full we need to leave some room between the top of the panel and the list
+      atMaxCapacity ? listMarginTop : 0);if (listHeight.visual > listAvailableHeight) {list.overflow = listAvailableHeight;} else {list.overflow = null;} // set container bounds (so pushes siblings downwards)
+      root.height = height;} else if (bounds.fixedHeight) {// fixed height
       // fix height of panel
-      panel.scalable = false;
-
-      // available height for list
-      var _listAvailableHeight =
-      // the height of the panel minus the label height
-      bounds.fixedHeight -
-      currentLabelHeight - (
-      // the room we leave open between the end of the list and the panel bottom
-      listMarginBottom - listItemMargin.bottom) - (
-      // if we're full we need to leave some room between the top of the panel and the list
-      atMaxCapacity ? listMarginTop : 0);
-
-      // set list height
-      if (listHeight.visual > _listAvailableHeight) {
-        list.overflow = _listAvailableHeight;
-      } else {
-        list.overflow = null;
-      }
-
-      // no need to set container bounds as these are handles by CSS fixed height
-    } else if (bounds.cappedHeight) {
-      // max-height
-
+      panel.scalable = false; // available height for list
+      var _listAvailableHeight = // the height of the panel minus the label height
+      bounds.fixedHeight - currentLabelHeight - ( // the room we leave open between the end of the list and the panel bottom
+      listMarginBottom - listItemMargin.bottom) - ( // if we're full we need to leave some room between the top of the panel and the list
+      atMaxCapacity ? listMarginTop : 0); // set list height
+      if (listHeight.visual > _listAvailableHeight) {list.overflow = _listAvailableHeight;} else {list.overflow = null;} // no need to set container bounds as these are handles by CSS fixed height
+    } else if (bounds.cappedHeight) {// max-height
       // not a fixed height panel
-      var isCappedHeight = visualHeight >= bounds.cappedHeight;
-      var panelHeight = Math.min(bounds.cappedHeight, visualHeight);
-      panel.scalable = true;
-      panel.height = isCappedHeight ?
-      panelHeight :
-      panelHeight - listItemMargin.top - listItemMargin.bottom;
-
-      // available height for list
-      var _listAvailableHeight2 =
-      // the height of the panel minus the label height
-      panelHeight -
-      currentLabelHeight - (
-      // the room we leave open between the end of the list and the panel bottom
-      listMarginBottom - listItemMargin.bottom) - (
-      // if we're full we need to leave some room between the top of the panel and the list
-      atMaxCapacity ? listMarginTop : 0);
-
-      // set list height (if is overflowing)
-      if (visualHeight > bounds.cappedHeight && listHeight.visual > _listAvailableHeight2) {
-        list.overflow = _listAvailableHeight2;
-      } else {
+      var isCappedHeight = visualHeight >= bounds.cappedHeight;var panelHeight = Math.min(bounds.cappedHeight, visualHeight);panel.scalable = true;panel.height = isCappedHeight ? panelHeight : panelHeight - listItemMargin.top - listItemMargin.bottom; // available height for list
+      var _listAvailableHeight2 = // the height of the panel minus the label height
+      panelHeight - currentLabelHeight - ( // the room we leave open between the end of the list and the panel bottom
+      listMarginBottom - listItemMargin.bottom) - ( // if we're full we need to leave some room between the top of the panel and the list
+      atMaxCapacity ? listMarginTop : 0); // set list height (if is overflowing)
+      if (visualHeight > bounds.cappedHeight && listHeight.visual > _listAvailableHeight2) {list.overflow = _listAvailableHeight2;} else {
         list.overflow = null;
       }
 
