@@ -9,7 +9,7 @@ import {
     RadioTypes,
     CheckboxTypes,
     SelectTypes,
-    SelectorAttrTypes
+    SelectorAttrTypes,ClassListTypes
 } from '@flexvue/elements/types';
 
 class ElementsComponents <T extends DefaultTypes> extends ElementsAttributeOptions<T>{
@@ -87,6 +87,66 @@ class ElementCheckbox extends ElementsComponents<CheckboxRadioHtmlTypes> impleme
     get () : HTMLInputElement[] {
         return this.target;
     }
+
+    classList(mode:ClassListTypes, classNames:string, value : string | null = null) : this {
+        if (classNames.trim()) 
+        {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace)
+            {
+                for (let i = 0; i < this.target.length; i++) 
+                {
+                    if(value != null && value == this.target[i].value){
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(cls.trim());
+                            else this.target[i].classList.remove(cls.trim());
+                        });
+                        break;
+                    }else{
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(cls.trim());
+                            else this.target[i].classList.remove(cls.trim());
+                        });
+                    }
+                }
+            }else{
+                for (let i = 0; i < this.target.length; i++) 
+                {
+                    if(value != null && value == this.target[i].value){
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(classNames.trim());
+                            else this.target[i].classList.remove(classNames.trim());
+                        });
+                        break;
+                    }else{
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(classNames.trim());
+                            else this.target[i].classList.remove(classNames.trim());
+                        });
+                    }
+                }
+            }
+        }
+    return this;
+    }
+
+    contains(className: string, value: string | null = null) : boolean {
+        let result = false;
+        for (let i = 0; i < this.target.length; i++) {
+            if(value != null && this.target[i].value == value){
+                if(this.target[i].classList.contains(className)){
+                    result = true;
+                    break;
+                }
+            }else {
+                if(this.target[i].classList.contains(className)){
+                    result = true;
+                    break;
+                }
+            }
+        }
+    return result;
+    }
 }
 
 class ElementRadio extends ElementsComponents<CheckboxRadioHtmlTypes> implements EventListeners,InputTypes,RadioTypes 
@@ -141,6 +201,66 @@ class ElementRadio extends ElementsComponents<CheckboxRadioHtmlTypes> implements
 
     get () : HTMLInputElement[] {
         return this.target;
+    }
+
+    classList(mode:ClassListTypes, classNames:string, value : string | null = null) : this {
+        if (classNames.trim()) 
+        {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace)
+            {
+                for (let i = 0; i < this.target.length; i++) 
+                {
+                    if(value != null && value == this.target[i].value){
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(cls.trim());
+                            else this.target[i].classList.remove(cls.trim());
+                        });
+                        break;
+                    }else{
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(cls.trim());
+                            else this.target[i].classList.remove(cls.trim());
+                        });
+                    }
+                }
+            }else{
+                for (let i = 0; i < this.target.length; i++) 
+                {
+                    if(value != null && value == this.target[i].value){
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(classNames.trim());
+                            else this.target[i].classList.remove(classNames.trim());
+                        });
+                        break;
+                    }else{
+                        classNames.split(' ').forEach(cls => {
+                            if(mode == 'add') this.target[i].classList.add(classNames.trim());
+                            else this.target[i].classList.remove(classNames.trim());
+                        });
+                    }
+                }
+            }
+        }
+    return this;
+    }
+
+    contains(className: string, value: string | null = null) : boolean {
+        let result = false;
+        for (let i = 0; i < this.target.length; i++) {
+            if(value != null && this.target[i].value == value){
+                if(this.target[i].classList.contains(className)){
+                    result = true;
+                    break;
+                }
+            }else {
+                if(this.target[i].classList.contains(className)){
+                    result = true;
+                    break;
+                }
+            }
+        }
+    return result;
     }
 }
 
@@ -197,6 +317,26 @@ class ElementSelect extends ElementsComponents<DefaultTypes> implements Attribut
     get () : HTMLSelectElement {
         return this.target;
     }
+
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
 }
 
 class ElementButton extends ElementsComponents<ButtonHtmlTypes> implements Attribute,EventListeners, InputTypes
@@ -252,6 +392,96 @@ class ElementButton extends ElementsComponents<ButtonHtmlTypes> implements Attri
     get () : HTMLButtonElement {
         return this.target;
     }
+
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
+}
+
+class ElementImage extends ElementsComponents<ButtonHtmlTypes> implements Attribute,EventListeners, InputTypes
+{
+    private target : HTMLImageElement;
+
+    constructor(target: string) {
+        super({
+            className: '',
+            id: '',
+            name: '',
+            disabled: '',
+            readonly: '',
+            datasets: ''
+        });
+
+        this.target = document.querySelector<HTMLImageElement>(target)!;
+    }
+
+    addEventListener(eventName: string, callback: (element: HTMLElement, value: any) => void): this {
+        this.target?.addEventListener(eventName, (event) => {
+            const el = event.target as HTMLImageElement;
+            callback(el, el.src);
+        });
+    return this;
+    }
+
+    val (data : string | null = null) : string | void
+    {
+        if (data == null){
+            return this.target.src;
+        }else if(typeof data ==='string'){
+            this.target.src = data;
+            return;
+        }
+    }
+
+    attr(name:string, value:string) : this {
+        this.target.setAttribute(name, value);
+    return this;
+    }
+
+    rmAttr(name:string) : this {
+        this.target.removeAttribute(name);
+    return this;
+    }
+
+    get () : HTMLImageElement {
+        return this.target;
+    }
+
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
 }
 
 class ElementInput extends ElementsComponents<InputHtmlTypes> implements Attribute,EventListeners, InputTypes
@@ -305,6 +535,26 @@ class ElementInput extends ElementsComponents<InputHtmlTypes> implements Attribu
     get () : HTMLInputElement {
         return this.target;
     }
+
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
 }
 
 class ElementTextArea extends ElementsComponents<TextAreaHtmlTypes> implements Attribute,EventListeners, InputTypes
@@ -355,6 +605,26 @@ class ElementTextArea extends ElementsComponents<TextAreaHtmlTypes> implements A
 
     get () : HTMLTextAreaElement {
         return this.target;
+    }
+
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
     }
 }
 
@@ -421,6 +691,26 @@ class ElementDiv extends ElementsComponents<DefaultTypes> implements Attribute,E
         (this.target.style as any)[property] = value;
         return this;
     }
+
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
 }
 
 class ElementUL extends ElementsComponents<DefaultTypes> implements Attribute,EventListeners 
@@ -483,6 +773,26 @@ class ElementUL extends ElementsComponents<DefaultTypes> implements Attribute,Ev
         return this;
     }
 
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
+
     get () : HTMLUListElement {
         return this.target;
     }
@@ -543,6 +853,26 @@ class ElementLi extends ElementsComponents<DefaultTypes> implements Attribute,Ev
     return this;
     }
 
+    classList(mode:ClassListTypes, classNames:string) : this {
+        if (classNames.trim()) {
+            const hasWhitespace = /\s/.test(classNames);
+            if(hasWhitespace){
+                classNames.split(' ').forEach(cls => {
+                    if(mode == 'add') this.target.classList.add(cls.trim());
+                    else this.target.classList.remove(cls.trim());
+                });
+            }else{
+                if(mode == 'add') this.target.classList.add(classNames.trim());
+                else this.target.classList.remove(classNames.trim());
+            }
+        }
+    return this;
+    }
+
+    contains(className: string) : boolean {
+        return this.target.classList.contains(className);
+    }
+
     style(property: string, value: string): this {
         (this.target.style as any)[property] = value;
         return this;
@@ -576,6 +906,9 @@ class ElementQuery {
     }
 }
 
-
-
-export {ElementsComponents,ElementInput, ElementTextArea, ElementDiv, ElementButton, ElementSelect, ElementRadio, ElementCheckbox,ElementUL,ElementLi,ElementQuery};
+export {
+    ElementsComponents,ElementInput, ElementTextArea, 
+    ElementDiv, ElementButton, ElementSelect, 
+    ElementRadio, ElementCheckbox,ElementUL,
+    ElementLi,ElementQuery,ElementImage
+};

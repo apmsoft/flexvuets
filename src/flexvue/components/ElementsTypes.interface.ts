@@ -1,6 +1,6 @@
 import {Template} from '@flexvue/types';
 type HtmlPrintTypes = 'inner' | 'prepend' | 'append';
-
+type ClassListTypes = 'add' | 'remove';
 interface EventListeners{
     addEventListener (eventName : string, callback: (element: HTMLElement, value : any) => void) : this;
 }
@@ -84,5 +84,5 @@ export {
     SelectorAttrTypes,
     ButtonTypeTypes,
     InputTypeTypes,
-    ListDataTypes
+    ListDataTypes,ClassListTypes
 };
