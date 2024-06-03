@@ -30357,6 +30357,12 @@
 
 
 
+
+
+
+
+
+
           // functionToCall: [list of morphable objects]
           // e.g. move: [SVG.Number, SVG.Number]
         };this.attrs = {
@@ -30478,6 +30484,9 @@
           if (element instanceof SVG.Element) {var box; // yes this is ugly, but Firefox can be a pain when it comes to elements that are not yet rendered
             try {if (!document.documentElement.contains) {// This is IE - it does not support contains() for top-level SVGs
                 var topParent = element.node;while (topParent.parentNode) {topParent = topParent.parentNode;}if (topParent != document) throw new Error('Element not in the dom');} else {
+
+
+
 
 
 
@@ -32386,19 +32395,10 @@
         if (typeof coord == 'boolean') {coord = { x: coord, y: coord };} // if true, we just move. If !false its a number and we move it there
         if (coord.x === true) {this.el.x(x);} else if (coord.x !== false) {this.el.x(coord.x);}if (coord.y === true) {this.el.y(y);} else if (coord.y !== false) {this.el.y(coord.y);}} else if (typeof c == 'object') {// keep element within constrained box
         if (c.minX != null && x < c.minX) {x = c.minX;gx = x - this.startPoints.box.x;} else if (c.maxX != null && x > c.maxX - box.width) {x = c.maxX - box.width;gx = x - this.startPoints.box.x;}if (c.minY != null && y < c.minY) {y = c.minY;gy = y - this.startPoints.box.y;} else if (c.maxY != null && y > c.maxY - box.height) {y = c.maxY - box.height;gy = y - this.startPoints.box.y;}if (c.snapToGrid != null) {x = x - x % c.snapToGrid;y = y - y % c.snapToGrid;gx = gx - gx % c.snapToGrid;gy = gy - gy % c.snapToGrid;}if (this.el instanceof SVG.G) this.el.matrix(this.startPoints.transform).transform({ x: gx, y: gy }, true);else this.el.move(x, y);} // so we can use it in the end-method, too
-      return p;};DragHandler.prototype.end = function (e) {
-      // final drag
-      var p = this.drag(e);
-
-      // fire dragend event
-      this.el.fire('dragend', { event: e, p: p, m: this.m, handler: this });
-
-      // unbind events
-      SVG.off(window, 'mousemove.drag');
-      SVG.off(window, 'touchmove.drag');
-      SVG.off(window, 'mouseup.drag');
-      SVG.off(window, 'touchend.drag');
-
+      return p;};DragHandler.prototype.end = function (e) {// final drag
+      var p = this.drag(e); // fire dragend event
+      this.el.fire('dragend', { event: e, p: p, m: this.m, handler: this }); // unbind events
+      SVG.off(window, 'mousemove.drag');SVG.off(window, 'touchmove.drag');SVG.off(window, 'mouseup.drag');SVG.off(window, 'touchend.drag');
     };
 
     SVG.extend(SVG.Element, {

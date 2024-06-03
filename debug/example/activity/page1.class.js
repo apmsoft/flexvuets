@@ -25,6 +25,7 @@ class ComponentActivity {
   }
   doPost(params = {}) {
     Log.v(this.TAG, 'doPost >>>>>>>', params);
+    alert('call me by history');
   }
   doEdit(params = {}) {
     Log.v(this.TAG, 'doEdit', params);

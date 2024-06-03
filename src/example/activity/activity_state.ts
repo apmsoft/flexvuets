@@ -9,9 +9,9 @@ const onReady = () : void =>
     Activity.onBackPressed( state =>{
         Log.d('onBackPressed : ------>',state);
 
-        if(state.activity != null){
-            state.activity['doPost']({d : 'dddd'});
-        }
+        // if(state.id=='fvue--activity-1' && state.activity != null){
+        //     state.activity['doPost']({d : 'dddd'});
+        // }
     });
 
 
