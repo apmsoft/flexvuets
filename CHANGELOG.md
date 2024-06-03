@@ -2,6 +2,11 @@
 
 ## [3.3]
 
+### - 2024-06-03
+- Activity.class setStateHistory, setStateActivity 함수 추가
+    - setStateHistory : 현재 경로를 등록
+    - setStateActivity :  현재 클래스를 등록
+
 ### - 2024-06-01
 - v3.2 -> v3.3 업그레이드
 - Activity.class new version 패널 액티비티 뷰 무한 생성 및 재활용, 에니메이션 등록 기능

@@ -58,6 +58,9 @@ class ElementCheckbox extends ElementsComponents {
     }
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementRadio extends ElementsComponents {
   constructor(target) {
@@ -98,6 +101,9 @@ class ElementRadio extends ElementsComponents {
       }
     }
     return this;
+  }
+  get() {
+    return this.target;
   }
 }
 class ElementSelect extends ElementsComponents {
@@ -141,6 +147,9 @@ class ElementSelect extends ElementsComponents {
     this.target.removeAttribute(name);
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementButton extends ElementsComponents {
   constructor(target) {
@@ -183,6 +192,9 @@ class ElementButton extends ElementsComponents {
     this.target.removeAttribute(name);
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementInput extends ElementsComponents {
   constructor(target) {
@@ -224,6 +236,9 @@ class ElementInput extends ElementsComponents {
     this.target.removeAttribute(name);
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementTextArea extends ElementsComponents {
   constructor(target) {
@@ -263,6 +278,9 @@ class ElementTextArea extends ElementsComponents {
     this.target.removeAttribute(name);
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementDiv extends ElementsComponents {
   constructor(target) {
@@ -287,6 +305,9 @@ class ElementDiv extends ElementsComponents {
       callback(el, el.innerHTML);
     });
     return this;
+  }
+  get() {
+    return this.target;
   }
   val(data = null) {
     if (data == null) {
@@ -363,6 +384,9 @@ class ElementUL extends ElementsComponents {
     this.target.style[property] = value;
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementLi extends ElementsComponents {
   constructor(target) {
@@ -413,10 +437,16 @@ class ElementLi extends ElementsComponents {
     this.target.style[property] = value;
     return this;
   }
+  get() {
+    return this.target;
+  }
 }
 class ElementQuery {
   constructor(target = null) {
     this.target = target ? document.querySelector(target) : null;
+  }
+  get() {
+    return this.target;
   }
   each(selector, callback) {
     if (this.target) {

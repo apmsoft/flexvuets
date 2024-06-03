@@ -424,9 +424,9 @@ function echoNowDate(): string {
     const day: string = dayNames[today.getDay()];
 
     const year: number = today.getFullYear();
-    let month: string | number = today.getMonth() + 1;
+    let month : string | number = today.getMonth() + 1;
     const date: number = today.getDate();
-    let hour: number = today.getHours();
+    let hour  : number = today.getHours();
     let minute: any = today.getMinutes();
     let second: any = today.getSeconds();
     const ampm: string = hour >= 12 ? 'PM' : 'AM';
@@ -466,14 +466,15 @@ const Handler = {
 };
 
 class Activity {
-    static zIndexCounter: number = 0;
-    static panels: HTMLDivElement[] = [];
-    static transitioned: HTMLDivElement[] = [];
+    static zIndexCounter        : number = 0;
+    static panels               : HTMLDivElement[] = [];
+    static transitioned         : HTMLDivElement[] = [];
     static transitionedUserClass: string[] = [];
     static animations = {
         'fvue-slide': { className: 'fvue-slide'}
     };
-    static history_state = {};
+    static historyState  = {};
+    static activityState = {};
 
     static createPanel(): HTMLDivElement {
         const div = document.createElement('div');
@@ -481,16 +482,23 @@ class Activity {
         div.classList.add('panel','fvue--layout','transition');
         const zIndex = ++this.zIndexCounter;
         div.style.zIndex = `${zIndex}`;
-        div.setAttribute('id', `activityId${zIndex}`);
+        div.setAttribute('id', `fvue--activity-${zIndex}`);
         div.innerHTML = `<p>Activity ${this.zIndexCounter}</p>`;
         this.panels.push(div);
 
         return div;
     }
 
-    static onStart(fromClassList:string, toClassList : string): string | void {
+    static setStateHistory(panelid : string) : void {
+        this.historyState[panelid] = (document.location.toString()) ? Activity.getQueryParams(document.location.toString()) : {};
+    }
+
+    static setStateActivity(panelid : string, activity : object | null) : void {
+        this.activityState[panelid] = activity;
+    }
+
+    static onStart(fromClassList:string, toClassList : string): string{
         const animation = this.animations['fvue-slide'];
-        if (!animation) return;
 
         // 사용 중이지 않은 패널 찾기
         let panel = this.panels.find(div =>
@@ -511,7 +519,7 @@ class Activity {
             this.doTransition(panel, animation.className,fromClassList, toClassList);
         }
 
-        this.history_state[panel.id] = (document.location.toString()) ? Activity.getQueryParams(document.location.toString()) : {};
+        this.setStateHistory(panel.id);
 
     return panel.id;
     }
@@ -531,8 +539,10 @@ class Activity {
         }
     }
 
-    static doTransition(element: HTMLDivElement, className: string, fromClassList : string, toClassList : string): void {
-        if (!this.transitioned.includes(element)) {
+    static doTransition(element: HTMLDivElement, className: string, fromClassList : string, toClassList : string): void 
+    {
+        if (!this.transitioned.includes(element)) 
+        {
             element.classList.remove('hidden');
             element.classList.add(className);
             this.transitioned.push(element);
@@ -581,7 +591,8 @@ class Activity {
         return queryParams;
     }
 
-    static onBackPressed(callback: (state: { id: string, state: {} }) => void): void {
+    static onBackPressed(callback: (state: { id: string, history: {}, activity : object | null }) => void): void {
+        const self = this;
         window.onpopstate = function(event) {
             let isTrusted = false;
 
@@ -592,22 +603,23 @@ class Activity {
             }
 
             if (isTrusted) {
-                if (Activity.transitioned.length > 0) {
-                    const lastTransitioned = Activity.transitioned.pop()!;
-                    const lastUserClassList = Activity.transitionedUserClass.pop()!;
-                    for (const type in Activity.animations) {
+                if (self.transitioned.length > 0) {
+                    const lastTransitioned = self.transitioned.pop()!;
+                    const lastUserClassList = self.transitionedUserClass.pop()!;
+                    for (const type in self.animations) {
                         lastTransitioned.classList.remove('fvue-slide');
                         const userClass = lastUserClassList.split(',');
-                        Activity.transClassList('remove', lastTransitioned, userClass[0]);
+                        self.transClassList('remove', lastTransitioned, userClass[0]);
                         Handler.post(() => {
-                            Activity.transClassList('remove', lastTransitioned, userClass[1]);
+                            self.transClassList('remove', lastTransitioned, userClass[1]);
                             lastTransitioned.classList.add('hidden');
                         },50);
                     }
 
                     callback({
                         id: lastTransitioned.id,
-                        state: Activity.history_state[lastTransitioned.id]
+                        history: self.historyState[lastTransitioned.id],
+                        activity : self.activityState[lastTransitioned.id] ?? null
                     });
                 } else {
                     // 이전 URL 경로를 얻음
@@ -615,7 +627,8 @@ class Activity {
 
                     callback({
                         id: '',
-                        state: Activity.getQueryParams(previousUrl)
+                        history : self.getQueryParams(previousUrl),
+                        activity : null
                     });
                 }
             }

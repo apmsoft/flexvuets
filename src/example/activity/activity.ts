@@ -15,11 +15,17 @@ const onReady = () : void =>
     new ElementButton('#go_right')!.addEventListener('click', function(){
         history.pushState('#slideR2L', 'right', `?a=b`);
         const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
+
+        // url 히스토리 남기기
+        Activity.setStateHistory(activityId);
     });
 
     new ElementButton('#go_bottom')!.addEventListener('click', function(){
         history.pushState('#slideB2T', 'bottom', `?b=c`);
         const activityId = Activity.onStart('fvueSlideFromBottom top-[140%]', 'fvueSlideToTop');
+
+        // url 히스토리 남기기
+        Activity.setStateHistory(activityId);
     });
 };
 
