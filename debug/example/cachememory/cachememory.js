@@ -3,7 +3,6 @@ import FastRouter from "../../flexvue/core/FastRouter.class.js";
 import { CacheMemory } from "../../flexvue/core/Caches.class.js";
 import AsyncTask from "../../flexvue/core/AsyncTask.class.js";
 const onReady = () => {
-  new App();
   Log.i(App.browser, App.version, App.os, App.lang);
   // 캐시 클래스 선언
   window.cacheMemory = new CacheMemory();

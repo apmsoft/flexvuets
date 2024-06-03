@@ -5,7 +5,6 @@ import AsyncTask from '@flexvue/asynctask';
 
 const onReady = () : void =>
 {
-    new App();
     Log.i(App.browser, App.version, App.os, App.lang);
 
     // 캐시 클래스 선언

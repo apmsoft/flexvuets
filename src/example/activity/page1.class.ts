@@ -1,20 +1,29 @@
 import AsyncTask from '@flexvue/asynctask';
+import {ElementDiv} from '@flexvue/elements/manager';
 
 class ComponentActivity{
     private TAG : string;
     constructor(){
         this.TAG = 'page1';
     }
-    doList (params : any | object = {}) {
+    doList (params : any | object = {}) 
+    {
 
         Log.v(this.TAG, 'doList', params);
 
+        // Slide
+        const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
+        Activity.setStateHistory(activityId);
+        Activity.setStateActivity(activityId, this);
+
         // promise.all 사용
         Promise.all([
+            new AsyncTask().doImport(new URL('../js/values/arrays.js', import.meta.url).href),
             new AsyncTask().doImport(new URL('../js/values/strings.js', import.meta.url).href)
         ])
         .then(data=>
         {
+            new ElementDiv('#'+activityId).html( JSON.stringify(data[0], null, 2));
             Log.v('Promise.all', data);
         })
         .catch( e =>{
@@ -22,7 +31,7 @@ class ComponentActivity{
         });
     }
     doPost (params : any | object = {}) {
-        Log.v(this.TAG, 'doPost', params);
+        Log.v(this.TAG, 'doPost >>>>>>>', params);
     }
     doEdit (params : any | object = {}) {
         Log.v(this.TAG, 'doEdit', params);
