@@ -2,6 +2,9 @@
 
 ## [3.3.1]
 
+### - 2024-06-04
+- App setResoures 풀경로 입력으로 변경 (다양한 경로에 따른 변화대응)
+
 ### - 2024-06-03
 - Activity.class setStateHistory, setStateActivity 함수 추가
     - setStateHistory : 현재 경로를 등록

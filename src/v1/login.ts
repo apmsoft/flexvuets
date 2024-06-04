@@ -4,7 +4,7 @@ import {Response} from '@flexvue/types';
 import CryptoES from 'crypto-es';
 import {CacheLocalStorage} from '@flexvue/caches';
 
-const onReady = () : void =>
+const main = () : void =>
 {
     // config
     config.src8 = '';
@@ -128,18 +128,8 @@ const onReady = () : void =>
 };
 
 // document ready
-document.addEventListener("DOMContentLoaded", () => {
-    // 지원언어 설정
-    // config.surport_langs = ['en'];
-
-    // R 클래스 초기화 후에 DOMContentLoaded 이벤트 발생
-    R.__init({
-        sysmsg : new URL(`./js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
-        arrays : new URL(`./js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
-        strings: new URL(`./js/values/strings${App.getLocale()}.js`, import.meta.url).href
-    }).then(() => {
-        onReady();
-    }).catch(err => {
-        Log.e("Error initializing R:", err);
-    });
-});
+(new App()).setLanguages([]).setResoures({
+    sysmsg : new URL(`./js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
+    arrays : new URL(`./js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
+    strings: new URL(`./js/values/strings${App.getLocale()}.js`, import.meta.url).href
+}).run(main);

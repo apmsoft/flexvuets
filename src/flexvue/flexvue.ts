@@ -289,10 +289,8 @@ class App {
     return this;
     }
 
-    setResoures (import_url : string, resources : string[] = ['sysmsg','arrays','strings','numbers']) : this {
-        resources.forEach(name => {
-            this.resources[name] = new URL(`../js/values/${name}${App.getLocale()}.js`, import_url).href
-        });
+    setResoures (resources : {[key:string] : string}) : this {
+        this.resources = resources;
         return this;
     }
 

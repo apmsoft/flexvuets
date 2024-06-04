@@ -11,7 +11,7 @@ import { DrawerMenu } from "@v1/js/DrawerMenu.class.js";
 // 이전 화면 패널 위치
 let pre_viewpage : string | null = null;
 
-const onReady = () : void =>
+const main = () : void =>
 {
     // config
     config.src8 = 'server_8000.php';
@@ -98,4 +98,8 @@ const onReady = () : void =>
 };
 
 //setLanguages = ['en','ja','ko'];
-(new App()).setLanguages([]).setResoures(import.meta.url).run(onReady);
+(new App()).setLanguages([]).setResoures({
+    sysmsg : new URL(`./js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
+    arrays : new URL(`./js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
+    strings: new URL(`./js/values/strings${App.getLocale()}.js`, import.meta.url).href
+}).run(main);
