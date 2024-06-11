@@ -26,11 +26,16 @@ class ElementsComponents <T extends DefaultTypes> extends ElementsAttributeOptio
 
     protected printHTML (target : HTMLElement, type : string, tpl : string) : void {
         if(type == 'prepend'){
-            target.insertAdjacentHTML('beforebegin',tpl);
+            type = 'beforebegin';
         }else if(type == 'append'){
-            target.insertAdjacentHTML('beforeend',tpl);
-        }else{
+            type = 'beforeend';
+        }
+
+        let _type : InsertPosition = type as InsertPosition;
+        if(type == 'inner'){
             target.innerHTML = tpl;
+        }else{
+            target.insertAdjacentHTML(_type,tpl);
         }
     }
 }

@@ -1,4 +1,4 @@
 const Strings = {
-  "app_name": "flexvuets"
+    "app_name": "flexvuets"
 };
 export default Strings;

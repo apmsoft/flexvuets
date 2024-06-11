@@ -1,8 +1,8 @@
 class PostView {
-  constructor() {
-  }
-  render(message = {}) {
-    return `
+    constructor() {
+    }
+    render(message = {}) {
+        return (`
         <div class="flex flex-row px-3 mb-3">
             <div class="flex-none text-gray-400 cursor-pointer" onclick="history.go(-1);return false;">
                 <i class="fas fa-arrow-left fa-2x"></i>
@@ -74,7 +74,7 @@ class PostView {
                 </form>
             </div>
         </div>
-        `;
-  }
+        `);
+    }
 }
 export { PostView };

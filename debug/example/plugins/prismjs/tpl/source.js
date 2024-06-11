@@ -1,8 +1,8 @@
 class SourceView {
-  constructor() {
-  }
-  render(message = {}) {
-    return String.raw`
+    constructor() {
+    }
+    render(message = {}) {
+        return (String.raw `
     <div class="item border" data-id="1">
         <span>1</span>: <span class="item-text"> 비동기 템플릿 prism test</span>
     </div>
@@ -19,7 +19,7 @@ class SourceView {
         </code>
         </pre>
     </section>
-    `;
-  }
+    `);
+    }
 }
 export { SourceView };

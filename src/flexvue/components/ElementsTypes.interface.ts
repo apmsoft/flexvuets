@@ -1,5 +1,5 @@
 import {Template} from '@flexvue/types';
-type HtmlPrintTypes = 'inner' | 'prepend' | 'append';
+type HtmlPrintTypes = 'inner' | 'prepend' | 'append' | 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend';
 type ClassListTypes = 'add' | 'remove';
 interface EventListeners{
     addEventListener (eventName : string, callback: (element: HTMLElement, value : any) => void) : this;

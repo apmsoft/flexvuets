@@ -1,4 +1,4 @@
 const Sysmsg = {
-  "i_delete": "삭제 하시겠습니까?"
+    "i_delete": "삭제 하시겠습니까?"
 };
 export default Sysmsg;

@@ -1,6 +1,6 @@
 class ElementsAttributeOptions {
-  constructor(data = {}) {
-    this.options = data;
-  }
+    constructor(data = {}) {
+        this.options = data;
+    }
 }
 export { ElementsAttributeOptions };

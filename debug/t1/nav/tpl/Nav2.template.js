@@ -1,12 +1,12 @@
 class Nav2View {
-  constructor() {
-  }
-  render(message = {}) {
-    const title = message.title;
-    const menus = message.menus;
-    const acts = message.acts;
-    const gid = message.gid;
-    return `
+    constructor() {
+    }
+    render(message = {}) {
+        const title = message.title;
+        const menus = message.menus;
+        const acts = message.acts;
+        const gid = message.gid;
+        return (`
         <div class="rounded-l-3xl bg-base-200 text-base-content h-full px-3 pt-1 pb-3">
             <div class="flex flex-col pt-5">
                 <!--펼침메뉴-->
@@ -26,9 +26,9 @@ class Nav2View {
                 <!--메뉴-->
                 <div id="config">
                     <ul class="list-disc">
-                    ${menus.map((menu) => `
+                    ${menus.map(menu => `
                         <a href="${menu.action}" class="">
-                            <li class="flex flex-row rounded-lg justify-between cursor-pointer py-2 px-3 ${menu.id == gid ? `btn-active` : `btn-outline`} mb-3">
+                            <li class="flex flex-row rounded-lg justify-between cursor-pointer py-2 px-3 ${(menu.id == gid) ? `btn-active` : `btn-outline`} mb-3">
                                 <div>${menu.title}</div>
                                 <div>${menu.icon}</div>
                             </li>
@@ -39,11 +39,11 @@ class Nav2View {
                 <!--activity menu-->
                 <div class="mt-5">
                     <ul>
-                        ${acts.map((act) => `
+                        ${acts.map(act => `
                         <a href="${act.action}">
-                            <li class="flex flex-row rounded-lg px-3 py-4 ${act.id == gid ? `btn-active` : 'btn-outline'} mb-3">
+                            <li class="flex flex-row rounded-lg px-3 py-4 ${(act.id == gid) ? `btn-active` : 'btn-outline'} mb-3">
                                 <div class="flex item-center"><span class="py-2 px-3 w-10 h-10 text-center">${act.icon}</span></div>
-                                <div class="pl-3 ${act.id == gid ? `` : ``}">
+                                <div class="pl-3 ${(act.id == gid) ? `` : ``}">
                                     ${act.title}
                                     <p class="text-sm ">${act.comment}</p>
                                 </div>
@@ -53,7 +53,7 @@ class Nav2View {
                 </div>
             </div>
         </div>
-        `;
-  }
+        `);
+    }
 }
 export { Nav2View };

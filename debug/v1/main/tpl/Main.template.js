@@ -1,8 +1,8 @@
 class MainView {
-  constructor() {
-  }
-  render(message = {}) {
-    return `
+    constructor() {
+    }
+    render(message = {}) {
+        return (`
         <div class="flex flex-col">
             <div class="relative bg-dark pb-5">
                 <div class="swiper mySwiper h-[300px] lg:h-[700px]">
@@ -72,7 +72,7 @@ class MainView {
 
             </div>
 
-        </div>`;
-  }
+        </div>`);
+    }
 }
 export { MainView };

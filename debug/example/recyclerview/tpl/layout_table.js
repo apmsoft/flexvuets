@@ -1,8 +1,8 @@
 class Layout {
-  constructor() {
-  }
-  render(message = {}) {
-    return String.raw`
+    constructor() {
+    }
+    render(message = {}) {
+        return (String.raw `
         <div class="fvue--layout--container">
 
             <div class="fvue--layout--header py-3">
@@ -63,7 +63,7 @@ class Layout {
 
             </div>
 
-        </div>`;
-  }
+        </div>`);
+    }
 }
 export { Layout };
