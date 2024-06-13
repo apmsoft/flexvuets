@@ -1,9 +1,9 @@
 class EditView {
-    constructor() {
-    }
-    render(message = {}) {
-        const msg = message.msg;
-        return (`
+  constructor() {
+  }
+  render(message = {}) {
+    const msg = message.msg;
+    return `
         <div class="flex flex-row px-3 mb-3">
             <div class="flex-none text-gray-400 cursor-pointer" onclick="history.go(-1);">
                 <i class="fas fa-arrow-left fa-2x"></i>
@@ -44,8 +44,8 @@ class EditView {
                         <div class="flex-1">
                             <select name="level" id="level" class="form-select">
                                 <option value="">관리자 등급</option>
-                                <option value="100" ${(msg.level == '100') ? `selected` : ``}>일반관리자</option>
-                                <option value="999" ${(msg.level == '999') ? `selected` : ``}>최고관리자</option>
+                                <option value="100" ${msg.level == '100' ? `selected` : ``}>일반관리자</option>
+                                <option value="999" ${msg.level == '999' ? `selected` : ``}>최고관리자</option>
                             </select>
                         </div>
                     </div>
@@ -59,13 +59,13 @@ class EditView {
                             <div class="flex">
                                 <div class="flex-initial">
                                     <label class="flex items-center space-x-3 mr-5">
-                                        <input type="radio" name="allow_ipall" value="y" class="form-radio" ${(msg.allow_ipall == 'y') ? `checked` : ``}>
+                                        <input type="radio" name="allow_ipall" value="y" class="form-radio" ${msg.allow_ipall == 'y' ? `checked` : ``}>
                                         <span class="text-gray-900 font-medium">허용</span>
                                     </label>
                                 </div>
                                 <div class="flex-initial">
                                     <label class="flex items-center space-x-3 mr-5">
-                                        <input type="radio" name="allow_ipall" value="n" class="form-radio" ${(msg.allow_ipall == 'n') ? `checked` : ``}>
+                                        <input type="radio" name="allow_ipall" value="n" class="form-radio" ${msg.allow_ipall == 'n' ? `checked` : ``}>
                                         <span class="text-gray-900 font-medium">제한 허용</span>
                                     </label>
                                 </div>
@@ -110,7 +110,7 @@ class EditView {
                 </form>
             </div>
         </div>
-        `);
-    }
+        `;
+  }
 }
 export { EditView };

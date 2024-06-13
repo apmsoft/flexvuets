@@ -1,7 +1,3 @@
-interface FastRouteMapping {
-    [key: string]: string | FastRouteMapping;
-}
-
 interface PathInfo {
     url: string;
     path: string;
@@ -11,7 +7,7 @@ interface PathInfo {
 }
 
 export default class FastRouter {
-    private routerAddresses: { [key: string]: string | FastRouteMapping } = {};
+    private routerAddresses: { [key: string]: string | object } = {};
     private dispatch: Record<string, string | null> = {};
     private importCache: { [key: string]: any } = {};
     private init: boolean;
@@ -22,34 +18,38 @@ export default class FastRouter {
         this.hash = hash;
     }
 
-    public addRoute(route: string, method: string | null, classpath: string | null = null): void {
+    public addRoute(route: string, method: string | null, classpath: object | string | null = null): void {
         if (classpath) {
             const existingRoute = this.routerAddresses[route];
-            if (existingRoute === undefined) {
+            if (typeof existingRoute === 'undefined') {
                 this.routerAddresses[route] = classpath;
-            } else {
-                throw new Error(`Route '${route}' is already defined.`);
             }
         }
-        const mymodule_path = this.routerAddresses[route] as string | undefined;
-        if (mymodule_path !== undefined) {
+        const mymodule_path = this.routerAddresses[route];
+        if (typeof mymodule_path !== 'undefined') {
             this.dispatch[route] = method;
         }
     }
 
     public async dispatcher(route: string, params: null | string | object = {}): Promise<void> {
-        const mymodule_path = this.routerAddresses[route] as string | undefined;
-        if (mymodule_path) {
+        const mymodule_path = this.routerAddresses[route];
+        if (typeof mymodule_path !== 'undefined') {
             try {
-                let module = this.importCache[mymodule_path];
-                if (!module) {
-                    module = await import(mymodule_path);
-                    this.importCache[mymodule_path] = module;
+                let activity : object | null  = null;
+                if(typeof mymodule_path === "object"){
+                    activity = mymodule_path;
+                }else{
+                    let module = this.importCache[mymodule_path];
+                    if (!module) {
+                        module = await import(mymodule_path);
+                        this.importCache[mymodule_path] = module;
+                    }
+                    activity = new module.ComponentActivity();
                 }
-                const activity = new module.ComponentActivity();
+
                 const method = this.dispatch[route];
-                if (method != null && typeof activity[method] === 'function') {
-                    activity[method](params);
+                if (method != null && typeof activity![method] === 'function') {
+                    activity![method](params);
                 } else {
                     throw new Error(`Method '${method}' not found in module '${mymodule_path}'`);
                 }

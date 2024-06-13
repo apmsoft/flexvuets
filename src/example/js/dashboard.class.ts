@@ -1,4 +1,4 @@
-class ComponentActivity {
+class Dashboard {
     private TAG : string;
     constructor(){
         this.TAG = 'dashboard';
@@ -14,4 +14,4 @@ class ComponentActivity {
     }
 };
 
-export {ComponentActivity};
+export {Dashboard};

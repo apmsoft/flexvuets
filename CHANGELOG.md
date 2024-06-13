@@ -2,6 +2,9 @@
 
 ## [3.3.1]
 
+### - 2024-06-13
+- fastRouter new 선언된 객체도 등록할 수 있도록 업데이트
+
 ### - 2024-06-11
 - HtmlPrintTypes = 'inner' | 'prepend' | 'append' | 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend' 타입 설정 추가
 

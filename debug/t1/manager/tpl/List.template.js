@@ -1,8 +1,8 @@
 class ListView {
-    constructor() {
-    }
-    render(message = {}) {
-        return (`
+  constructor() {
+  }
+  render(message = {}) {
+    return `
         <div class="flex flex-row justify-between mb-5">
             <div>
                 <h3>관리자 목록</h3>
@@ -59,7 +59,7 @@ class ListView {
                 </div>
             </div>
         </div>
-        `);
-    }
+        `;
+  }
 }
 export { ListView };

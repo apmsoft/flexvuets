@@ -1,10 +1,10 @@
 class ListView {
-    constructor() {
-    }
-    render(message = {}) {
-        const total_record = message.total_record;
-        const msg = message.msg;
-        return (`
+  constructor() {
+  }
+  render(message = {}) {
+    const total_record = message.total_record;
+    const msg = message.msg;
+    return `
         <div class="flex flex-row justify-between mb-5">
             <div>
                 <h3>DB 전체사용비율</h3>
@@ -42,12 +42,12 @@ class ListView {
                                     </div>
                                     <div class="text-right">
                                         <span class="text-xs font-semibold inline-block text-gray-600 dark:text-gray-400">
-                                            ${Math.ceil((value.rows / total_record) * 100)}%
+                                            ${Math.ceil(value.rows / total_record * 100)}%
                                         </span>
                                     </div>
                                 </div>
                                 <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200 dark:bg-gray-900">
-                                    <div style="width:${Math.ceil((value.rows / total_record) * 100)}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${(Math.ceil((value.rows / total_record) * 100) > 50) ? `bg-red-500` : 'bg-gray-500 dark:bg-blue-500'}"></div>
+                                    <div style="width:${Math.ceil(value.rows / total_record * 100)}%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center ${Math.ceil(value.rows / total_record * 100) > 50 ? `bg-red-500` : 'bg-gray-500 dark:bg-blue-500'}"></div>
                                 </div>
                             </div>
                         </td>
@@ -56,7 +56,7 @@ class ListView {
             </table>
 
         </div>
-        `);
-    }
+        `;
+  }
 }
 export { ListView };

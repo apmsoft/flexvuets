@@ -1,7 +1,7 @@
 import UrlManager from '@flexvue/urlmanager';
 import AsyncTask from '@flexvue/asynctask';
 import FastRouter from '@flexvue/fastrouter';
-
+import {Dashboard} from '../js/dashboard.class.js';
 
 const onReady = () : void =>
 {
@@ -20,6 +20,8 @@ const onReady = () : void =>
         });
     });
 
+    const dashboard = new Dashboard();
+
     const urlManager = new UrlManager(document.location.toString());
 
     /**
@@ -28,7 +30,7 @@ const onReady = () : void =>
     try{
         // FastRouter
         const fastRouter = new FastRouter(urlManager.hash);
-        fastRouter.addRoute('/', null, null);
+        fastRouter.addRoute('/', 'doList', dashboard);
         fastRouter.addRoute('/bbs/notice/list', 'doList', new URL('../js/notice.class.js', import.meta.url).href);
         fastRouter.addRoute('/bbs/notice/edit', 'doEdit', new URL('../js/notice.class.js', import.meta.url).href);
         fastRouter.addRoute('/bbs/faq/list', 'doList', new URL('../js/faq.class.js', import.meta.url).href);
@@ -48,4 +50,4 @@ const onReady = () : void =>
 };
 
 //setLanguages = ['en','ja','ko'];
-(new App()).setLanguages([]).setResoures(import.meta.url).run(onReady);
+(new App()).setLanguages([]).setResoures({}).run(onReady);
