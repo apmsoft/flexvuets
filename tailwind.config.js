@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin');
 module.exports = {
   darkMode: 'media',
   content: [
     "./debug/**/*.{html,js}"
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake","aqua"],
+    themes: ["light", "dark", "cupcake","dim"],
   },
   theme: {
     extend: {
@@ -42,10 +44,19 @@ module.exports = {
     }
   },
   plugins: [
+    plugin(function({ addBase, theme }) {
+      addBase({
+        'h1': { fontSize: theme('fontSize.2xl') },
+        'h2': { fontSize: theme('fontSize.xl') },
+        'h3': { fontSize: theme('fontSize.lg') },
+        'h4': { fontSize: theme('fontSize.md') },
+        'h5': { fontSize: theme('fontSize.sm') },
+        'h6': { fontSize: theme('fontSize.xs') },
+      })
+    }),
     // require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require("@tailwindcss/typography"),
     require('daisyui'),
   ]
 }
-
