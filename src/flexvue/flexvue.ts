@@ -471,8 +471,8 @@ class Activity {
     static animations = {
         'fvue-slide': { className: 'fvue-slide'}
     };
-    static historyState  = {};
-    static activityState = {};
+    static historyState : {[key: string]: any} = [];
+    static activityState : {[key: string]: any} = [];
 
     static createPanel(): HTMLDivElement {
         const div = document.createElement('div');
@@ -488,11 +488,14 @@ class Activity {
     }
 
     static setStateHistory(panelid : string) : void {
-        this.historyState[panelid] = (document.location.toString()) ? Activity.getQueryParams(document.location.toString()) : {};
+        const queryParams = document.location.toString() 
+            ? Activity.getQueryParams(document.location.toString()) 
+            : {};
+        this.historyState.push({[panelid] : queryParams});
     }
 
     static setStateActivity(panelid : string, activity : object | null) : void {
-        this.activityState[panelid] = activity;
+        this.activityState.push({[panelid] : activity});
     }
 
     static onStart(fromClassList:string, toClassList : string): string{
@@ -508,7 +511,8 @@ class Activity {
             panel = this.createPanel();
             document.body.appendChild(panel);
             this.doTransition(panel, animation.className, fromClassList, toClassList);
-        } else {
+        } 
+        else {
             // 패널 재사용 시 기존 애니메이션 클래스 제거 후 새 애니메이션 클래스 추가
             for (const animType in this.animations) {
                 const anim = this.animations[animType];
@@ -614,19 +618,30 @@ class Activity {
                         },50);
                     }
 
-                    callback({
-                        id: lastTransitioned.id,
-                        history: self.historyState[lastTransitioned.id],
-                        activity : self.activityState[lastTransitioned.id] ?? null
-                    });
-                } else {
-                    // 이전 URL 경로를 얻음
-                    const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
+                    const historyObj = self.historyState.find(obj => lastTransitioned.id in obj);
+                    const activityObj = self.activityState.find(obj => lastTransitioned.id in obj);
 
                     callback({
-                        id: '',
-                        history : self.getQueryParams(previousUrl),
-                        activity : null
+                        id: lastTransitioned.id,
+                        history: historyObj ? historyObj[lastTransitioned.id] : null,
+                        activity : activityObj ? activityObj[lastTransitioned.id] : null
+                    });
+                } else {
+                    const historyObj = self.historyState.pop();
+                    let panelId = "";
+                    let panelData = {};
+
+                    if (historyObj && typeof historyObj === 'object') {
+                        panelId = Object.keys(historyObj)[0] || "";
+                        if (panelId && historyObj[panelId] && typeof historyObj[panelId] === 'object') {
+                            panelData = historyObj[panelId];
+                        }
+                    }
+
+                    callback({
+                        id: panelId,
+                        history: panelData,
+                        activity: null
                     });
                 }
             }

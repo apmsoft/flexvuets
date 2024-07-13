@@ -4,6 +4,7 @@
 
 ### - 2024-07-13
 - Activity onStart createPanel() 에 flex css className 추가
+- Activity.setStateHistory 관련 기능 업데이트
 
 ### - 2024-06-25
 - tailwindcss config.js h1 ~ h6 크기 정의 추가

@@ -384,10 +384,13 @@ class Activity {
     return div;
   }
   static setStateHistory(panelid) {
-    this.historyState[panelid] = document.location.toString() ? Activity.getQueryParams(document.location.toString()) : {};
+    const queryParams = document.location.toString() ?
+    Activity.getQueryParams(document.location.toString()) :
+    {};
+    this.historyState.push({ [panelid]: queryParams });
   }
   static setStateActivity(panelid, activity) {
-    this.activityState[panelid] = activity;
+    this.activityState.push({ [panelid]: activity });
   }
   static onStart(fromClassList, toClassList) {
     const animation = this.animations['fvue-slide'];
@@ -477,7 +480,6 @@ class Activity {
   static onBackPressed(callback) {
     const self = this;
     window.onpopstate = function (event) {
-      var _a;
       let isTrusted = false;
       if (typeof event.isTrusted !== 'undefined' && event.isTrusted) {
         isTrusted = true;
@@ -498,18 +500,27 @@ class Activity {
               lastTransitioned.classList.add('hidden');
             }, 50);
           }
+          const historyObj = self.historyState.find((obj) => lastTransitioned.id in obj);
+          const activityObj = self.activityState.find((obj) => lastTransitioned.id in obj);
           callback({
             id: lastTransitioned.id,
-            history: self.historyState[lastTransitioned.id],
-            activity: (_a = self.activityState[lastTransitioned.id]) !== null && _a !== void 0 ? _a : null
+            history: historyObj ? historyObj[lastTransitioned.id] : null,
+            activity: activityObj ? activityObj[lastTransitioned.id] : null
           });
         } else
         {
-          // 이전 URL 경로를 얻음
-          const previousUrl = event.state && event.state.previousUrl ? event.state.previousUrl : document.referrer;
+          const historyObj = self.historyState.pop();
+          let panelId = "";
+          let panelData = {};
+          if (historyObj && typeof historyObj === 'object') {
+            panelId = Object.keys(historyObj)[0] || "";
+            if (panelId && historyObj[panelId] && typeof historyObj[panelId] === 'object') {
+              panelData = historyObj[panelId];
+            }
+          }
           callback({
-            id: '',
-            history: self.getQueryParams(previousUrl),
+            id: panelId,
+            history: panelData,
             activity: null
           });
         }
@@ -524,8 +535,8 @@ Activity.transitionedUserClass = [];
 Activity.animations = {
   'fvue-slide': { className: 'fvue-slide' }
 };
-Activity.historyState = {};
-Activity.activityState = {};
+Activity.historyState = [];
+Activity.activityState = [];
 class R {
   static __init(resources) {
     return __awaiter(this, void 0, void 0, function* () {
