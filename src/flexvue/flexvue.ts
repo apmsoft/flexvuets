@@ -477,7 +477,7 @@ class Activity {
     static createPanel(): HTMLDivElement {
         const div = document.createElement('div');
 
-        div.classList.add('panel','fvue--layout','transition');
+        div.classList.add('panel','fvue--layout','flex','transition');
         const zIndex = ++this.zIndexCounter;
         div.style.zIndex = `${zIndex}`;
         div.setAttribute('id', `fvue--activity-${zIndex}`);
