@@ -27,7 +27,7 @@ interface Config {
 
 const config: Config = {
     app_name: 'flexvue',
-    version: '3.0',
+    version: '3.4',
     int_version: 15,
     debug: ['d', 'i', 'v', 'w', 'e'],
     debug_colors : {
@@ -466,21 +466,20 @@ const Handler = {
 class Activity {
     static zIndexCounter        : number = 0;
     static panels               : HTMLDivElement[] = [];
-    static transitioned         : HTMLDivElement[] = [];
-    static transitionedUserClass: string[] = [];
+    static transitioned         : {}  = {};
     static animations = {
         'fvue-slide': { className: 'fvue-slide'}
     };
     static historyState : {[key: string]: any} = [];
     static activityState : {[key: string]: any} = [];
 
-    static createPanel(): HTMLDivElement {
+    static createPanel(panelid : string): HTMLDivElement {
         const div = document.createElement('div');
 
         div.classList.add('panel','fvue--layout','flex','transition');
         const zIndex = ++this.zIndexCounter;
         div.style.zIndex = `${zIndex}`;
-        div.setAttribute('id', `fvue--activity-${zIndex}`);
+        div.setAttribute('id', panelid);
         div.innerHTML = `<p>Activity ${this.zIndexCounter}</p>`;
         this.panels.push(div);
 
@@ -491,39 +490,49 @@ class Activity {
         const queryParams = document.location.toString() 
             ? Activity.getQueryParams(document.location.toString()) 
             : {};
-        this.historyState.push({[panelid] : queryParams});
+        if(this.historyState.length > 0){
+            this.historyState[0]= {[panelid] : queryParams};
+        }else{
+            this.historyState.push({[panelid] : queryParams});
+        }
     }
 
     static setStateActivity(panelid : string, activity : object | null) : void {
         this.activityState.push({[panelid] : activity});
     }
 
-    static onStart(fromClassList:string, toClassList : string): string{
+    static onStart(fvue_id : string ,fromClassList:string, toClassList : string): string{
         const animation = this.animations['fvue-slide'];
+        const panelId = `fvue--activity-${fvue_id}`;
 
         // 사용 중이지 않은 패널 찾기
-        let panel = this.panels.find(div =>
-            !div.classList.contains(animation.className)
-        );
+        let panel = document.querySelector<HTMLDivElement>('#'+panelId)!;
 
         // 패널이 없으면 새로 생성
         if (!panel) {
-            panel = this.createPanel();
+            panel = this.createPanel(panelId);
             document.body.appendChild(panel);
             this.doTransition(panel, animation.className, fromClassList, toClassList);
-        } 
+            this.transitioned[panelId] = toClassList;
+            console.log('transitioned',this.transitioned);
+        }
         else {
-            // 패널 재사용 시 기존 애니메이션 클래스 제거 후 새 애니메이션 클래스 추가
-            for (const animType in this.animations) {
-                const anim = this.animations[animType];
-                panel.classList.remove(anim.className);
-            }
-            this.doTransition(panel, animation.className,fromClassList, toClassList);
+            this.doTransition(panel, "","", toClassList);
         }
 
-        this.setStateHistory(panel.id);
+        this.setStateHistory(panelId);
 
-    return panel.id;
+    return panelId;
+    }
+
+    static onClose(fvue_id : string) : void {
+        const panelWindow = document.querySelector<HTMLDivElement>(`#${fvue_id}`)!;
+        if(panelWindow){
+            panelWindow.classList.add('hidden');
+            if (this.transitioned[fvue_id]) {
+                this.transClassList('remove', panelWindow, this.transitioned[fvue_id]);
+            }
+        }
     }
 
     static transClassList(mode : string, element, userClass) : void {
@@ -536,30 +545,19 @@ class Activity {
                 });
             }else{
                 if(mode == 'add') element.classList.add(userClass.trim());
-                    else element.classList.remove(userClass.trim());
+                else element.classList.remove(userClass.trim());
             }
         }
     }
 
     static doTransition(element: HTMLDivElement, className: string, fromClassList : string, toClassList : string): void 
     {
-        if (!this.transitioned.includes(element)) 
-        {
-            element.classList.remove('hidden');
-            element.classList.add(className);
-            this.transitioned.push(element);
-            const userClass : string = toClassList+','+fromClassList;
-            this.transitionedUserClass.push(userClass);
-            this.transClassList('add', element, fromClassList);
-            Handler.post(() => {
-                this.transClassList('add', element, toClassList);
-            },50);
-        } else {
-            const index = this.transitioned.indexOf(element);
-            if (index > -1) {
-                this.transitioned.splice(index, 1);
-            }
-        }
+        element.classList.remove('hidden');
+        if(className){element.classList.add(className);}
+        if(fromClassList) { this.transClassList('add', element, fromClassList); }
+        Handler.post(() => {
+            this.transClassList('add', element, toClassList);
+        },50);
     }
 
     static getQueryParams(url) {
@@ -605,45 +603,22 @@ class Activity {
             }
 
             if (isTrusted) {
-                if (self.transitioned.length > 0) {
-                    const lastTransitioned = self.transitioned.pop()!;
-                    const lastUserClassList = self.transitionedUserClass.pop()!;
-                    for (const type in self.animations) {
-                        lastTransitioned.classList.remove('fvue-slide');
-                        const userClass = lastUserClassList.split(',');
-                        self.transClassList('remove', lastTransitioned, userClass[0]);
-                        Handler.post(() => {
-                            self.transClassList('remove', lastTransitioned, userClass[1]);
-                            lastTransitioned.classList.add('hidden');
-                        },50);
+                const historyObj = self.historyState.pop();
+                let panelId = "";
+                let panelData = {};
+
+                if (historyObj && typeof historyObj === 'object') {
+                    panelId = Object.keys(historyObj)[0] || "";
+                    if (panelId && historyObj[panelId] && typeof historyObj[panelId] === 'object') {
+                        panelData = historyObj[panelId];
                     }
-
-                    const historyObj = self.historyState.find(obj => lastTransitioned.id in obj);
-                    const activityObj = self.activityState.find(obj => lastTransitioned.id in obj);
-
-                    callback({
-                        id: lastTransitioned.id,
-                        history: historyObj ? historyObj[lastTransitioned.id] : null,
-                        activity : activityObj ? activityObj[lastTransitioned.id] : null
-                    });
-                } else {
-                    const historyObj = self.historyState.pop();
-                    let panelId = "";
-                    let panelData = {};
-
-                    if (historyObj && typeof historyObj === 'object') {
-                        panelId = Object.keys(historyObj)[0] || "";
-                        if (panelId && historyObj[panelId] && typeof historyObj[panelId] === 'object') {
-                            panelData = historyObj[panelId];
-                        }
-                    }
-
-                    callback({
-                        id: panelId,
-                        history: panelData,
-                        activity: null
-                    });
                 }
+
+                callback({
+                    id: panelId,
+                    history: panelData,
+                    activity: null
+                });
             }
         }
     }

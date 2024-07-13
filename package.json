@@ -1,6 +1,6 @@
 {
   "name": "flexvuets",
-  "version": "3.3",
+  "version": "3.4",
   "description": "",
   "scripts": {
     "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug",
