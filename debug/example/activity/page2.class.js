@@ -6,9 +6,10 @@ class ComponentActivity {
   doList(params = {}) {
     Log.v(this.TAG, 'doList', params);
     // Slide
-    const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
+    const activityId = Activity.onStart('f' + Math.random(), 'fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
     Activity.setStateHistory(activityId);
     Activity.setStateActivity(activityId, this);
+    https: //swiperjs.com/demos/images/nature-1.jpg
     new ElementDiv('#' + activityId).html('page 2 ');
   }
   doPost(params = {}) {

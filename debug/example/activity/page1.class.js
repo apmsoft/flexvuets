@@ -7,7 +7,7 @@ class ComponentActivity {
   doList(params = {}) {
     Log.v(this.TAG, 'doList', params);
     // Slide
-    const activityId = Activity.onStart('fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
+    const activityId = Activity.onStart('f' + Math.random(), 'fvueSlideFromRight top-[200px]', 'fvueSlideToLeft');
     Activity.setStateHistory(activityId);
     Activity.setStateActivity(activityId, this);
     // promise.all 사용
