@@ -131,7 +131,7 @@ const onReady = () : void =>
 };
 
 (new App()).setLanguages([]).setResoures({
-    sysmsg : new URL(`./js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
-    arrays : new URL(`./js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
-    strings: new URL(`./js/values/strings${App.getLocale()}.js`, import.meta.url).href
+    sysmsg : new URL(`../js/values/sysmsg${App.getLocale()}.js`, import.meta.url).href,
+    arrays : new URL(`../js/values/arrays${App.getLocale()}.js`, import.meta.url).href,
+    strings: new URL(`../js/values/strings${App.getLocale()}.js`, import.meta.url).href
 }).run(onReady);
