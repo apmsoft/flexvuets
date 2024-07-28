@@ -30,7 +30,7 @@
             "@editorjs/embed": ["node_modules/@editorjs/embed"],
             "@editorjs/checklist": ["node_modules/@editorjs/checklist"],
             "@editorjs/quote": ["node_modules/@editorjs/quote"],
-            "swiper/bundle": ["node_modules/swiper"],
+            "swiper/bundle": ["node_modules/swiper"]
         }
     }
 }
