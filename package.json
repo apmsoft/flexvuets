@@ -64,6 +64,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "daisyui": "^4.10.2",
     "fs-extra": "^11.2.0",
+    "nodemon": "^3.1.4",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",

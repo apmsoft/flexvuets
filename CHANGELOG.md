@@ -1,6 +1,9 @@
 # Changelog
 
-## [3.4]
+## [3.4.1]
+
+### - 2024-08-10
+- src 파일수정 체크 및 자동 빌드 설정 : nodemon.json, npm install --save-dev nodemon@latest, npm run debug:watch 추가
 
 ### - 2024-07-13
 - Activity onStart createPanel() 에 flex css className 추가

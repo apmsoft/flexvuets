@@ -8,6 +8,7 @@ npm install --save-dev @types/node
 npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
 npm install concurrently --save-dev
+npm install --save-dev nodemon@latest
 
 # fs-extra 설치
 npm install --save-dev fs-extra
@@ -207,7 +208,7 @@ echo '{
   "description": "",
   "scripts": {
     "debug": "DEBUG_PATH=./debug tsc -p ./tsconfig.json --watch && babel --config-file ./babel.config.js debug -d debug --watch",
-    "debug-start": "DEBUG_PATH=./debug concurrently \"tsc -p ./tsconfig.json --watch\" \"babel --config-file ./babel.config.js debug -d debug --watch\"",
+    "debug:watch": "nodemon --exec \"npm run debug\" --watch src",
     "build": "DEBUG_PATH=./debug tsc -P ./tsconfig.json && babel --config-file ./babel.config.js debug -d debug && npm run export-plugins",
     "export-plugins": "node export-plugins.js",
     "release": "cp -fr ./debug/* ./release && rm -fr ./release/example",
@@ -321,6 +322,13 @@ directories.forEach(subDir => {
     const directoryPath = path.join(parentDirectory, subDir);
     minifyJsFiles(directoryPath);
 });' > release_minify.js
+
+# nodemon.json 파일 생성
+echo '{
+    "watch": ["src"],
+    "ext": "js,ts",
+    "exec": "npm run debug"
+}' > nodemon.json
 
 # src, debug, release 디렉토리 생성
 mkdir -p src debug release
