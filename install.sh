@@ -8,6 +8,8 @@ npm install --save-dev @types/node
 npm install --save-dev babel-plugin-module-resolver
 npm install --save-dev @babel/cli
 npm install concurrently --save-dev
+
+# debub watch
 npm install --save-dev nodemon@latest
 
 # fs-extra 설치
@@ -136,11 +138,12 @@ module.exports = {
             ,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.js`
             ,"vanilla-lazyload": `./${debugPath}/plugins/vanilla-lazyload/dist/esm/lazyload.js`
             ,"countup.js": `./${debugPath}/plugins/countup.js/dist/countup.js`
+            ,"typed.js": `./${debugPath}/plugins/typed.js/dist/typed.module.js`
           }
         }
       ]
     ]
-  }
+  }' > babel.config.js
 
 # .hintrc 파일 생성
 echo '{

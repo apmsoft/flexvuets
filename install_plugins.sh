@@ -64,3 +64,7 @@ npm install vanilla-lazyload --save
 # CountUP
 echo "install CountUP"
 npm i countup.js --save
+
+# typed.js
+echo "install Typed.js"
+npm install typed.js --save

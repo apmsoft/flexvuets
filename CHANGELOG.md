@@ -2,6 +2,10 @@
 
 ## [3.4.1]
 
+### - 2024-08-17
+- 외부 플러그인 typed.js 추가(타이핑 효과)
+- install.sh 버그 수정
+
 ### - 2024-08-10
 - src 파일수정 체크 및 자동 빌드 설정 : nodemon.json, npm install --save-dev nodemon@latest, npm run debug:watch 추가
 

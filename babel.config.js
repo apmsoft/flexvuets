@@ -51,6 +51,7 @@ module.exports = {
             ,"nouislider": `./${debugPath}/plugins/nouislider/dist/nouislider.js`
             ,"vanilla-lazyload": `./${debugPath}/plugins/vanilla-lazyload/dist/esm/lazyload.js`
             ,"countup.js": `./${debugPath}/plugins/countup.js/dist/countup.js`
+            ,"typed.js": `./${debugPath}/plugins/typed.js/dist/typed.module.js`
           }
         }
       ]
