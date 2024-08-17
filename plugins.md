@@ -154,3 +154,8 @@ npm i countup.js --save
 
 >> babel.config.js
 ,"countup.js": `./${debugPath}/plugins/countup.js/dist/countup.js`
+
+### typed.js : https://github.com/mattboldt/typed.js
+## demo : https://mattboldt.github.io/typed.js/
+>> babel.config.js
+,"typed.js": `./${debugPath}/plugins/typed.js/dist/typed.module.js`
