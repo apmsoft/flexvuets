@@ -2,6 +2,9 @@
 
 ## [3.4.1]
 
+### - 2024-08-18
+- flexvue.ts onBackPressed 메소드 Activit::setStateActivity 관련 업데이트
+
 ### - 2024-08-17
 - 외부 플러그인 typed.js 추가(타이핑 효과)
 - install.sh 버그 수정

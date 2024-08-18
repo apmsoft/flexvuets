@@ -604,20 +604,28 @@ class Activity {
 
             if (isTrusted) {
                 const historyObj = self.historyState.pop();
+                const activityStateObj = self.activityState.length > 0 ? self.activityState.pop() : {};
                 let panelId = "";
                 let panelData = {};
+                let activity = null;
 
                 if (historyObj && typeof historyObj === 'object') {
                     panelId = Object.keys(historyObj)[0] || "";
                     if (panelId && historyObj[panelId] && typeof historyObj[panelId] === 'object') {
                         panelData = historyObj[panelId];
                     }
+
+                    if(panelId && typeof activityStateObj[panelId] !=='undefined'){
+                        activity = activityStateObj[panelId];
+                    }
                 }
+
+                console.log(self.activityState);
 
                 callback({
                     id: panelId,
                     history: panelData,
-                    activity: null
+                    activity: activity
                 });
             }
         }
