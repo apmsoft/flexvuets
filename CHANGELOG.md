@@ -1,9 +1,10 @@
 # Changelog
 
-## [3.4.1]
+## [3.4.2]
 
 ### - 2024-08-18
 - flexvue.ts onBackPressed 메소드 Activit::setStateActivity 관련 업데이트
+- core/Form.class::getTargetFromDatas 메소드 추가
 
 ### - 2024-08-17
 - 외부 플러그인 typed.js 추가(타이핑 효과)
