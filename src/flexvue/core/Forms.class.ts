@@ -29,7 +29,7 @@ export default class Forms {
 
     getTargetFromDatas(formElem? : HTMLFormElement) : { [key: string]: string }
     {
-        if(typeof formElem === null){
+        if(typeof formElem === 'undefined'){
             formElem = document.querySelector<HTMLFormElement>(this.targetId)!;
         }
         if (!formElem) return {};
