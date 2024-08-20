@@ -16,19 +16,22 @@ const onReady = () : void =>
         }
     });
 
-    // #docs/start : hash 경로가 바뀔때 마다 호출 됩니다
-    const urlManager = new UrlManager(document.location.toString());
+    // 패널 미리 생성하기
+    Activity.createPanels("view1","view2","view3");
+
+    // // #docs/start : hash 경로가 바뀔때 마다 호출 됩니다
+    // const urlManager = new UrlManager(document.location.toString());
 
     new ElementButton('#go_right')!.addEventListener('click', function(){
-        history.pushState('#slideR2L', 'right', `?a=b`);
-        const activityId = Activity.onStart('edit','fvueSlideFromRight top-[10%]', 'fvueSlideToLeft');
+        history.pushState('#view1', 'right', `?a=b`);
+        const activityId = Activity.onStart('view1','fvueSlideFromRight top-[10%]', 'fvueSlideToLeft');
         Activity.setStateHistory(activityId);
     });
 
     new ElementButton('#go_bottom')!.addEventListener('click', function(){
-        history.pushState('#slideB2T', 'bottom', `?b=c`);
+        history.pushState('#view2', 'bottom', `?b=c`);
 
-        const activityId = Activity.onStart('edit2','fvueSlideFromBottom top-[140%]', 'fvueSlideToTop');
+        const activityId = Activity.onStart('view2','fvueSlideFromBottom top-[140%]', 'fvueSlideToTop');
         Activity.setStateHistory(activityId);
     });
 };

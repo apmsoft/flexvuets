@@ -486,19 +486,41 @@ class Activity {
         return div;
     }
 
+    // 패널만 미리 생성하기
+    static createPanels(...panels : string[]) : void {
+        const self = this;
+        panels.forEach(panel_id => {
+            const panel = self.createPanel(`fvue--activity-${panel_id}`);
+            document.body.appendChild(panel);
+            panel.classList.add('hidden');
+        });
+    }
+
     static setStateHistory(panelid : string) : void {
-        const queryParams = document.location.toString() 
-            ? Activity.getQueryParams(document.location.toString()) 
-            : {};
-        if(this.historyState.length > 0){
-            this.historyState[0]= {[panelid] : queryParams};
-        }else{
-            this.historyState.push({[panelid] : queryParams});
+        const found = this.historyState.find((element) => {
+            if(typeof element[panelid] !=='undefined'){
+                return element;
+            }
+        });
+
+        if(typeof found === 'undefined'){
+            this.historyState.push({[panelid] : Activity.getQueryParams(document.location.toString())});
+            this.activityState.push({[panelid] : null});
+            Log.d('setStateHistory >>',this.historyState);
         }
     }
 
     static setStateActivity(panelid : string, activity : object | null) : void {
-        this.activityState.push({[panelid] : activity});
+        const found = this.historyState.find((element) => {
+            if(typeof element[panelid] !=='undefined'){
+                return element;
+            }
+        });
+        if(typeof found === 'undefined'){
+            this.activityState.push({[panelid] : activity});
+            this.historyState.push({[panelid] : Activity.getQueryParams(document.location.toString())});
+            Log.d('setStateActivity >>',this.activityState);
+        }
     }
 
     static onStart(fvue_id : string ,fromClassList:string, toClassList : string): string{
@@ -517,10 +539,11 @@ class Activity {
             console.log('transitioned',this.transitioned);
         }
         else {
-            this.doTransition(panel, "","", toClassList);
+            if(toClassList.trim()){
+                this.transitioned[panelId] = toClassList;
+            }
+            this.doTransition(panel, animation.className,fromClassList, toClassList);
         }
-
-        this.setStateHistory(panelId);
 
     return panelId;
     }
@@ -531,6 +554,9 @@ class Activity {
             panelWindow.classList.add('hidden');
             if (this.transitioned[fvue_id]) {
                 this.transClassList('remove', panelWindow, this.transitioned[fvue_id]);
+                this.activityState = (this.activityState.length > 0) ? this.activityState.pop() : [];
+                this.historyState = (this.historyState.length > 0) ? this.historyState.pop() : [];
+                Log.d('onClose >>',this.activityState);
             }
         }
     }
@@ -560,7 +586,7 @@ class Activity {
         },50);
     }
 
-    static getQueryParams(url) {
+    static getQueryParams(url : string) {
         const queryParams = {};
         const urlObj = new URL(url);
         const params = new URLSearchParams(urlObj.search);
@@ -603,8 +629,8 @@ class Activity {
             }
 
             if (isTrusted) {
-                const historyObj = self.historyState.pop();
-                const activityStateObj = self.activityState.length > 0 ? self.activityState.pop() : {};
+                const historyObj = (self.historyState.length > 0) ? self.historyState.pop() : self.historyState;
+                const activityStateObj = self.activityState.length > 0 ? self.activityState.pop() : self.activityState;
                 let panelId = "";
                 let panelData = {};
                 let activity = null;
@@ -615,12 +641,10 @@ class Activity {
                         panelData = historyObj[panelId];
                     }
 
-                    if(panelId && typeof activityStateObj[panelId] !=='undefined'){
+                    if(panelId && activityStateObj !==null && typeof activityStateObj[panelId] !=='undefined'){
                         activity = activityStateObj[panelId];
                     }
                 }
-
-                console.log(self.activityState);
 
                 callback({
                     id: panelId,

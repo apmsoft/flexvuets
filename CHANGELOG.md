@@ -2,6 +2,9 @@
 
 ## [3.4.2]
 
+### - 2024-08-20
+- flexvue.ts Activity class 전체 패치
+
 ### - 2024-08-18
 - flexvue.ts onBackPressed 메소드 Activit::setStateActivity 관련 업데이트
 - core/Form.class::getTargetFromDatas 메소드 추가
