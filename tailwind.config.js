@@ -4,7 +4,8 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   darkMode: 'media',
   content: [
-    "./debug/**/*.{html,js}"
+    "./debug/**/*.{html,js}",
+    '!**/node_modules/**'
   ],
   daisyui: {
     themes: ["light", "dark", "cupcake","dim"],

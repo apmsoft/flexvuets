@@ -2,6 +2,9 @@
 
 ## [3.4.2]
 
+### - 2024-08-22
+- tailwind.config.js 모니터링 node_modules 디렉토리 탐색 제외
+
 ### - 2024-08-20
 - flexvue.ts Activity class 전체 패치
 
