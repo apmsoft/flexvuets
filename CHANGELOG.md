@@ -2,6 +2,9 @@
 
 ## [3.4.2]
 
+### - 2024-09-04
+- vscode sftp.json ignore 설정 및 watcher 설정 정보 옵션 추가
+
 ### - 2024-08-22
 - tailwind.config.js 모니터링 node_modules 디렉토리 탐색 제외
 
