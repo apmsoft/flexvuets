@@ -3,6 +3,9 @@
 ## [3.4.2]
 
 ### - 2024-09-04
+- vscode sftp.json 업데이트된 파일만 서버 전송 하도록 하는 옵션 "syncMode": "update"
+
+### - 2024-09-04
 - vscode sftp.json ignore 설정 및 watcher 설정 정보 옵션 추가
 
 ### - 2024-08-22
