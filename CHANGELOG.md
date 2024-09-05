@@ -4,6 +4,7 @@
 
 ### - 2024-09-05
 - vscode sftp.json 업데이트된 파일만 서버 전송 하도록 하는 옵션 "syncMode": "update"
+- debug_colors : { 'd' : '#868686' } #868686 으로 디버그 컬러 변경
 
 ### - 2024-09-04
 - vscode sftp.json ignore 설정 및 watcher 설정 정보 옵션 추가

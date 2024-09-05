@@ -31,7 +31,7 @@ const config: Config = {
     int_version: 15,
     debug: ['d', 'i', 'v', 'w', 'e'],
     debug_colors : {
-        'd' : '#333333',
+        'd' : '#868686',
         'v' : '#5A8BE3',
         'i' : '#1B963A',
         'w' : '#d05b13',
