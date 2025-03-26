@@ -1,4 +1,4 @@
-import EditorJS from '@editorjs/editorjs';
+import EditorJS,{ToolConstructable} from '@editorjs/editorjs';
 import SimpleImage from '@editorjs/simple-image';
 import ImageTool from '@editorjs/image';
 import Header from '@editorjs/header';
@@ -23,7 +23,7 @@ const onReady = () : void =>
       quote: Quote,
       code: CodeTool,
       linkTool: LinkTool,
-      embed: Embed,
+      embed: Embed as ToolConstructable,
       table: Table
     },
     holder: 'editorjs',

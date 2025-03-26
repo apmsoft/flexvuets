@@ -47,6 +47,8 @@ var editor = EditorJS({
       config: {
         rows: 2,
         cols: 3,
+        maxRows: 5,
+        maxCols: 5,
       },
     },
   },
@@ -57,9 +59,12 @@ var editor = EditorJS({
 
 | Field              | Type     | Description          |
 | ------------------ | -------- | ---------------------------------------- |
-| `rows`             | `number` | initial number of rows. `2`  by default |
+| `rows`             | `number` | initial number of rows. `2` by default |
 | `cols`             | `number` | initial number of columns. `2` by default |
-| `withHeadings`             | `boolean` | toggle table headings. `false` by default |
+| `maxRows`          | `number` | maximum number of rows. `5` by params |
+| `maxCols`          | `number` | maximum number of columns. `5` by params |
+| `withHeadings`     | `boolean` | toggle table headings. `false` by default |
+| `stretched`        | `boolean` | whether the table is stretched to fill the full width of the container |
 
 ## Output data
 
@@ -68,6 +73,7 @@ This Tool returns `data` in the following format
 | Field          | Type         | Description           |
 | -------------- | ------------ | ----------------------------------------- |
 | `withHeadings` | `boolean`    | Uses the first line as headings |
+| `stretched`    | `boolean`    | whether the table is stretched to fill the full width of the container |
 | `content`      | `string[][]` | two-dimensional array with table contents |
 
 ```json
@@ -75,10 +81,15 @@ This Tool returns `data` in the following format
   "type" : "table",
   "data" : {
     "withHeadings": true,
+    "stretched": false,
     "content" : [ [ "Kine", "Pigs", "Chicken" ], [ "1 pcs", "3 pcs", "12 pcs" ], [ "100$", "200$", "150$" ] ]
   }
 }
 ```
+
+## CSP support
+
+If you're using Content Security Policy (CSP) pass a `nonce` via [`<meta property="csp-nonce" content={{ nonce }} />`](https://github.com/marco-prontera/vite-plugin-css-injected-by-js#usestrictcsp-boolean) in your document head.
 
 # Support maintenance 🎖
 

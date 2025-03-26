@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.4.3]
+
+### - 2025-03-26
+- install.sh, install_plugins.sh 설치 버그 패치
+- plugins / editjs Embed 타입관련 업데이트
+
 ## [3.4.2]
 
 ### - 2024-09-05
